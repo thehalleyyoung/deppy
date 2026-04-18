@@ -2432,6 +2432,115 @@ def _simplify_ground(term: OTerm) -> OTerm | None:
     return None
 
 
+def _propagate_guard_constraints(term: OTerm,
+                                  known_true: set,
+                                  known_false: set,
+                                  depth: int = 0) -> OTerm:
+    """Simplify a term given known-true and known-false guard canons.
+
+    When a case guard is known True, the case reduces to its true branch.
+    When known False, it reduces to its false branch.
+    This is stalk evaluation: restricting a section to a specific fiber
+    eliminates branching on predicates that are constant on that fiber.
+
+    Also handles:
+      - or(G1,...,Gk) is True when any Gi is known True
+      - and(G1,...,Gk) is False when any Gi is known False
+    """
+    if depth > 20 or (not known_true and not known_false):
+        return term
+    if isinstance(term, OCase):
+        tc = term.test.canon()
+        # Direct guard match
+        if tc in known_true:
+            return _propagate_guard_constraints(
+                term.true_branch, known_true, known_false, depth + 1)
+        if tc in known_false:
+            return _propagate_guard_constraints(
+                term.false_branch, known_true, known_false, depth + 1)
+        # or(G1,...) is True if any Gi is known True
+        if isinstance(term.test, OOp) and term.test.name == 'or':
+            if any(a.canon() in known_true for a in term.test.args):
+                return _propagate_guard_constraints(
+                    term.true_branch, known_true, known_false, depth + 1)
+        # and(G1,...) is False if any Gi is known False
+        if isinstance(term.test, OOp) and term.test.name == 'and':
+            if any(a.canon() in known_false for a in term.test.args):
+                return _propagate_guard_constraints(
+                    term.false_branch, known_true, known_false, depth + 1)
+        # or(G1,...) is False if ALL Gi are known False
+        if isinstance(term.test, OOp) and term.test.name == 'or':
+            if all(a.canon() in known_false for a in term.test.args):
+                return _propagate_guard_constraints(
+                    term.false_branch, known_true, known_false, depth + 1)
+        # and(G1,...) is True if ALL Gi are known True
+        if isinstance(term.test, OOp) and term.test.name == 'and':
+            if all(a.canon() in known_true for a in term.test.args):
+                return _propagate_guard_constraints(
+                    term.true_branch, known_true, known_false, depth + 1)
+        # Recurse into branches
+        t2 = _propagate_guard_constraints(
+            term.true_branch, known_true, known_false, depth + 1)
+        f2 = _propagate_guard_constraints(
+            term.false_branch, known_true, known_false, depth + 1)
+        if t2 is not term.true_branch or f2 is not term.false_branch:
+            return OCase(term.test, t2, f2)
+        return term
+
+    if isinstance(term, OOp):
+        new_args = []
+        changed = False
+        for a in term.args:
+            a2 = _propagate_guard_constraints(a, known_true, known_false, depth + 1)
+            new_args.append(a2)
+            if a2 is not a:
+                changed = True
+        if changed:
+            result = OOp(term.name, tuple(new_args))
+            # Constant-fold eq(X, X) → True after propagation
+            if term.name == 'eq' and len(new_args) == 2:
+                if new_args[0].canon() == new_args[1].canon():
+                    return OLit(True)
+            # or(..., True, ...) → True
+            if term.name == 'or':
+                if any(isinstance(a, OLit) and a.value is True for a in new_args):
+                    return OLit(True)
+            # and(..., False, ...) → False
+            if term.name == 'and':
+                if any(isinstance(a, OLit) and a.value is False for a in new_args):
+                    return OLit(False)
+            # and(True, True, ...) → True; or(False, False, ...) → False
+            if term.name == 'and' and all(isinstance(a, OLit) and a.value is True for a in new_args):
+                return OLit(True)
+            if term.name == 'or' and all(isinstance(a, OLit) and a.value is False for a in new_args):
+                return OLit(False)
+            return result
+        return term
+
+    if isinstance(term, OFold):
+        i2 = _propagate_guard_constraints(term.init, known_true, known_false, depth + 1)
+        c2 = _propagate_guard_constraints(term.collection, known_true, known_false, depth + 1)
+        bfn = None
+        if term.body_fn:
+            bfn = _propagate_guard_constraints(term.body_fn, known_true, known_false, depth + 1)
+        if i2 is not term.init or c2 is not term.collection or bfn is not term.body_fn:
+            r = OFold(term.op_name, i2, c2, body_fn=bfn)
+            return r
+        return term
+
+    if isinstance(term, OSeq):
+        new_elems = []
+        changed = False
+        for e in term.elements:
+            e2 = _propagate_guard_constraints(e, known_true, known_false, depth + 1)
+            new_elems.append(e2)
+            if e2 is not e:
+                changed = True
+        return OSeq(tuple(new_elems)) if changed else term
+
+    return term
+
+
 def _phase1_beta(term: OTerm) -> OTerm:
     """Phase 1: β-reduction and trivial simplification."""
     if isinstance(term, OCase):
@@ -2622,6 +2731,33 @@ def _phase1_beta(term: OTerm) -> OTerm:
                 combined = OOp('and', (neg_g1, f.test))
                 return OCase(combined, f.true_branch, t)
 
+        # ── Guard constraint propagation (stalk simplification) ──
+        # When evaluating case(G, T, F):
+        #   - In the T branch, G is known True — inner case(G,...) → true_branch
+        #   - In the F branch, G is known False — inner case(G,...) → false_branch
+        # Also decomposes conjunctions/disjunctions:
+        #   - G = and(G1,G2,...): G1,G2,... all True in T branch
+        #   - G = or(G1,G2,...): G1,G2,... all False in F branch
+        # This is stalk computation: the section restricted to a fiber
+        # simplifies because guard predicates have known truth values.
+        true_guards = {test.canon()}
+        false_guards = {test.canon()}
+        if isinstance(test, OOp) and test.name == 'and':
+            for conj in test.args:
+                true_guards.add(conj.canon())
+        if isinstance(test, OOp) and test.name == 'or':
+            for disj in test.args:
+                false_guards.add(disj.canon())
+        t2 = _propagate_guard_constraints(t, true_guards, set())
+        f2 = _propagate_guard_constraints(f, set(), false_guards)
+        if t2.canon() != t.canon() or f2.canon() != f.canon():
+            t, f = t2, f2
+            # Re-check collapse after propagation
+            if isinstance(t, OLit) and t.value is True and isinstance(f, OLit) and f.value is True:
+                return OLit(True)
+            if t.canon() == f.canon():
+                return t
+
         # ── Case factoring (anti-distribution) ──
         # case(C, f(A1,...), f(B1,...)) → f(case(C, A1, B1), ...) when
         # both branches share the same structure and differ only in OLit
@@ -2653,6 +2789,35 @@ def _phase1_beta(term: OTerm) -> OTerm:
                 if (isinstance(start, OLit) and start.value == 0
                         and isinstance(step, OLit) and step.value == 1):
                     return OOp('range', (stop,))
+
+        # range(N) where N <= 0 → [] (empty range)
+        # range(a, b) where a >= b → [] (empty range)
+        # range(a, b, step) where step > 0 and a >= b → [] (empty range)
+        # range(a, b, step) where step < 0 and a <= b → [] (empty range)
+        if term.name == 'range':
+            if len(args) == 1:
+                n = args[0]
+                if isinstance(n, OLit) and isinstance(n.value, (int, float)) and n.value <= 0:
+                    return OSeq(())
+            elif len(args) == 2:
+                start, stop = args
+                if (isinstance(start, OLit) and isinstance(stop, OLit)
+                        and isinstance(start.value, (int, float))
+                        and isinstance(stop.value, (int, float))):
+                    if start.value >= stop.value:
+                        return OSeq(())
+            elif len(args) == 3:
+                start, stop, step = args
+                if (isinstance(start, OLit) and isinstance(stop, OLit)
+                        and isinstance(step, OLit)
+                        and isinstance(start.value, (int, float))
+                        and isinstance(stop.value, (int, float))
+                        and isinstance(step.value, (int, float))
+                        and step.value != 0):
+                    if step.value > 0 and start.value >= stop.value:
+                        return OSeq(())
+                    if step.value < 0 and start.value <= stop.value:
+                        return OSeq(())
 
         # getitem([a, b, ...], literal_idx) → direct element
         if term.name == 'getitem' and len(args) == 2:
@@ -2701,6 +2866,54 @@ def _phase1_beta(term: OTerm) -> OTerm:
             # len(range(n)) → n
             if term.name == 'len' and isinstance(a0, OOp) and a0.name == 'range' and len(a0.args) == 1:
                 return a0.args[0]
+
+        # ── Eq over sequence distribution ──
+        # eq([a1,...,an], [b1,...,bn]) → and(eq(a1,b1), ..., eq(an,bn))
+        # List/tuple equality is element-wise in Python. This enables
+        # Z3 to check each element independently (e.g., algebraic identities).
+        if term.name == 'eq' and len(args) == 2:
+            a, b = args
+            if (isinstance(a, OSeq) and isinstance(b, OSeq)
+                    and len(a.elements) == len(b.elements)
+                    and len(a.elements) > 0):
+                conjuncts = tuple(
+                    OOp('eq', (ai, bi))
+                    for ai, bi in zip(a.elements, b.elements))
+                if len(conjuncts) == 1:
+                    return conjuncts[0]
+                return OOp('and', conjuncts)
+
+        # ── Eq over case distribution (Čech descent) ──
+        # Distributes equality checking across regions of a piecewise
+        # decomposition. Only applied when at least one branch immediately
+        # simplifies (canon match), preventing infinite loops with case factoring.
+        if term.name == 'eq' and len(args) == 2:
+            a, b = args
+            # eq(case(G, A, B), case(G, C, D)) → case(G, eq(A,C), eq(B,D))
+            if isinstance(a, OCase) and isinstance(b, OCase):
+                if a.test.canon() == b.test.canon():
+                    t_match = a.true_branch.canon() == b.true_branch.canon()
+                    f_match = a.false_branch.canon() == b.false_branch.canon()
+                    if t_match or f_match:
+                        eq_t = OLit(True) if t_match else OOp('eq', (a.true_branch, b.true_branch))
+                        eq_f = OLit(True) if f_match else OOp('eq', (a.false_branch, b.false_branch))
+                        return OCase(a.test, eq_t, eq_f)
+            # eq(case(G, A, B), V) → case(G, eq(A,V), eq(B,V)) when a branch matches V
+            # eq(V, case(G, A, B)) → case(G, eq(V,A), eq(V,B)) when a branch matches V
+            for case_arg, other_arg, swap in [(a, b, False), (b, a, True)]:
+                if isinstance(case_arg, OCase) and not isinstance(other_arg, OCase):
+                    oc = other_arg.canon()
+                    t_match = case_arg.true_branch.canon() == oc
+                    f_match = case_arg.false_branch.canon() == oc
+                    if t_match or f_match:
+                        if swap:
+                            eq_t = OLit(True) if t_match else OOp('eq', (other_arg, case_arg.true_branch))
+                            eq_f = OLit(True) if f_match else OOp('eq', (other_arg, case_arg.false_branch))
+                        else:
+                            eq_t = OLit(True) if t_match else OOp('eq', (case_arg.true_branch, other_arg))
+                            eq_f = OLit(True) if f_match else OOp('eq', (case_arg.false_branch, other_arg))
+                        return OCase(case_arg.test, eq_t, eq_f)
+
         return OOp(term.name, args)
 
     if isinstance(term, OFold):
@@ -2746,6 +2959,9 @@ def _phase1_beta(term: OTerm) -> OTerm:
             if isinstance(t.body, OVar) and t.body.name == t.params[0]:
                 if f is None:
                     return c  # map(id, xs) → xs
+        # map(f, []) → [] (mapping over empty collection)
+        if isinstance(c, OSeq) and len(c.elements) == 0:
+            return OSeq(())
         return OMap(t, c, f)
 
     if isinstance(term, OCatch):
@@ -2984,6 +3200,32 @@ def _phase2_ring(term: OTerm) -> OTerm:
                 elif len(inner.args) == 3:
                     # len(range(a, b, step)) — not simplified (step-dependent)
                     pass
+
+        # R10g: gcd(x, 0) → abs(x), gcd(0, x) → abs(x) (GCD identity)
+        # gcd(x, x) → abs(x) (self-GCD)
+        if name == 'gcd' and len(args) == 2:
+            if isinstance(args[1], OLit) and args[1].value == 0:
+                return OOp('abs', (args[0],))
+            if isinstance(args[0], OLit) and args[0].value == 0:
+                return OOp('abs', (args[1],))
+            if args[0].canon() == args[1].canon():
+                return OOp('abs', (args[0],))
+
+        # R10h: abs(abs(x)) → abs(x) (idempotent)
+        # abs(neg(x)) → abs(x), abs(u_usub(x)) → abs(x)
+        if name == 'abs' and len(args) == 1:
+            inner = args[0]
+            if isinstance(inner, OOp):
+                if inner.name == 'abs':
+                    return inner
+                if inner.name in ('neg', 'u_usub') and len(inner.args) == 1:
+                    return OOp('abs', inner.args)
+
+        # R10i: sorted(sorted(x)) → sorted(x) (idempotent)
+        if name == 'sorted' and len(args) == 1:
+            inner = args[0]
+            if isinstance(inner, OOp) and inner.name == 'sorted':
+                return inner
 
         # R12: -(-x) → x
         if name == 'u_usub' and len(args) == 1:
@@ -3239,7 +3481,13 @@ def _phase2_ring(term: OTerm) -> OTerm:
             if args[0].canon() == args[1].canon():
                 return OLit(False)
         # NOTE: is(x, x) is NOT always True in Python (e.g., NaN is NaN → True,
-        # but [] is [] → False for distinct objects). Don't reduce it.
+        # but [] is [] → False for distinct objects). Don't reduce it in general.
+        # BUT: is(None, None) → True, is(True, True) → True, is(False, False) → True
+        # These are Python singletons — identity is always reflexive for them.
+        if name == 'is' and len(args) == 2:
+            if isinstance(args[0], OLit) and isinstance(args[1], OLit):
+                if args[0].value is args[1].value and args[0].value in (None, True, False):
+                    return OLit(True)
 
         # I1: sorted(sorted(x)) already handled above
         # I2: set(set(x)) → set(x)
@@ -3316,6 +3564,19 @@ def _phase2_ring(term: OTerm) -> OTerm:
                 if (isinstance(fb, OOp) and fb.name == 'sub'
                         and fb.args[0].canon() == n_arg.canon()):
                     return OOp('comb', (n_arg, fb.args[1]))
+            # comb(n, min(k, n-k)) → comb(n, k) by symmetry C(n,k)=C(n,n-k)
+            if isinstance(k_arg, OOp) and k_arg.name == 'min' and len(k_arg.args) == 2:
+                ma, mb = k_arg.args
+                # min(k, sub(n, k)) or min(sub(n, k), k)
+                for a, b in [(ma, mb), (mb, ma)]:
+                    if (isinstance(b, OOp) and b.name == 'sub'
+                            and len(b.args) == 2
+                            and b.args[0].canon() == n_arg.canon()):
+                        return OOp('comb', (n_arg, a))
+                    if (isinstance(a, OOp) and a.name == 'sub'
+                            and len(a.args) == 2
+                            and a.args[0].canon() == n_arg.canon()):
+                        return OOp('comb', (n_arg, b))
 
         return OOp(name, args)
 
@@ -4730,13 +4991,10 @@ def _phase4_hof(term: OTerm) -> OTerm:
         # because abs() handles complex numbers (returns magnitude) while
         # manual piecewise only handles real numbers.
 
-        # max(a, b) → case(gte(a, b), a, b)
-        if name == 'max' and len(args) == 2:
-            return OCase(OOp('gte', (args[0], args[1])), args[0], args[1])
-
-        # min(a, b) → case(lte(a, b), a, b)
-        if name == 'min' and len(args) == 2:
-            return OCase(OOp('lte', (args[0], args[1])), args[0], args[1])
+        # max/min are commutative operations with canonical arg ordering.
+        # Do NOT expand to case(gte/lte, ...) — that creates an oscillation
+        # with Phase 1's R16b (case→max/min contraction).
+        # Keep as OOp('max'/min') so commutative canon() handles arg ordering.
 
         # ── Euler's formula: exp(i*θ) → complex(cos(θ), sin(θ)) ──
         # e^(iθ) = cos(θ) + i·sin(θ) is a mathematical identity.
@@ -5057,6 +5315,24 @@ def _phase4_hof(term: OTerm) -> OTerm:
         # when the collection represents characters of a string (reversed, map, etc.)
         if term.op_name == 'str_concat' and isinstance(init, OLit) and init.value == '':
             return coll
+
+        # ── Fold ordering absorption for commutative+associative ops ──
+        # fold(op, init, reversed(xs)) → fold(op, init, xs)
+        # fold(op, init, sorted(xs))   → fold(op, init, xs)
+        # fold(op, init, Q[perm](xs))  → fold(op, init, xs)
+        # Sound because for C+A operators, element ordering doesn't
+        # affect the aggregate result.  Only applies to simple folds
+        # (body_fn is None), since custom body_fns may use the
+        # accumulator in order-dependent ways.
+        _CA_OPS = frozenset({
+            'add', 'mult', 'max', 'min', 'bitand', 'bitor', 'bitxor',
+            'and', 'or', 'gcd',
+        })
+        if term.op_name in _CA_OPS and term.body_fn is None:
+            if isinstance(coll, OOp) and coll.name in ('reversed', 'sorted') and len(coll.args) == 1:
+                return OFold(term.op_name, init, coll.args[0], body_fn=None)
+            if isinstance(coll, OQuotient) and coll.equiv_class == 'perm':
+                return OFold(term.op_name, init, coll.inner, body_fn=None)
 
         return OFold(term.op_name, init, coll, body_fn=term.body_fn)
     if isinstance(term, OFix):
@@ -5660,7 +5936,15 @@ def _rehash_folds(term: OTerm) -> OTerm:
     _HEX_KEY = _re.compile(r'^[0-9a-f]{8}$')
 
     def _is_source_hash(key: str) -> bool:
-        return bool(_HEX_KEY.match(key)) or key.startswith('coupled_fold|')
+        if bool(_HEX_KEY.match(key)) or key.startswith('coupled_fold|'):
+            return True
+        # OFix names have _fix_ prefix followed by a hex hash
+        if key.startswith('_fix_') and bool(_HEX_KEY.match(key[5:])):
+            return True
+        # Search/coupled prefixes
+        if key.startswith('search_') and bool(_HEX_KEY.match(key[7:])):
+            return True
+        return False
 
     if isinstance(term, OFold):
         init = _rehash_folds(term.init)
@@ -5683,6 +5967,9 @@ def _rehash_folds(term: OTerm) -> OTerm:
         new_body = _rehash_folds(term.body)
         if _is_source_hash(term.name):
             new_hash = _hash(new_body.canon())
+            # Preserve _fix_ prefix for OFix names
+            if term.name.startswith('_fix_'):
+                new_hash = f'_fix_{new_hash}'
             return OFix(new_hash, new_body)
         return OFix(term.name, new_body)
     if isinstance(term, OSeq):
