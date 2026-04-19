@@ -325,6 +325,234 @@ def _compositional_cohomology_check(source_f: str, source_g: str) -> Optional['R
     return None
 
 
+def _branch_equiv_check(
+    branch_f: 'OTerm', branch_g: 'OTerm',
+    params: list, deadline: float,
+    guard: 'OTerm' = None, guard_holds: bool = True
+) -> Optional[bool]:
+    """Check branch equivalence using Čech + Z3 + fold body congruence.
+
+    Used by case congruence when path search fails on a differing branch.
+    Returns True if proven, None otherwise. Sound: uses only proof tools.
+
+    When guard is provided, the Z3 check constrains the domain:
+    - guard_holds=True  → assert guard (true-fiber stalk)
+    - guard_holds=False → assert ¬guard (false-fiber stalk)
+    This is genuinely cohomological: we prove section agreement
+    on the stalk, not the entire space.
+    """
+    if time.monotonic() > deadline:
+        return None
+
+    from .denotation import OFold, OLam, OOp, OLit, OSeq, normalize
+
+    cf = branch_f.canon()
+    cg = branch_g.canon()
+    if cf == cg:
+        return True
+
+    # Fold body congruence: if both branches are folds with same init/coll
+    if (isinstance(branch_f, OFold) and isinstance(branch_g, OFold)
+            and branch_f.init.canon() == branch_g.init.canon()
+            and branch_f.collection.canon() == branch_g.collection.canon()
+            and branch_f.body_fn is not None
+            and branch_g.body_fn is not None
+            and isinstance(branch_f.body_fn, OLam)
+            and isinstance(branch_g.body_fn, OLam)):
+        bf_norm = normalize(branch_f.body_fn)
+        bg_norm = normalize(branch_g.body_fn)
+        if bf_norm.canon() == bg_norm.canon():
+            return True
+
+    # Čech input cohomology on the branches
+    try:
+        from .compositional_cohomology import cech_input_cohomology
+        remaining_ms = max(500, int((deadline - time.monotonic()) * 1000))
+        cech_timeout = min(remaining_ms, 2000)
+        cech_r = cech_input_cohomology(
+            branch_f, branch_g, params=params,
+            timeout_ms=cech_timeout)
+        if cech_r.equivalent is True and cech_r.h1_rank == 0:
+            return True
+    except Exception:
+        pass
+
+    # Z3 direct comparison with guard-constrained domain
+    if time.monotonic() < deadline:
+        try:
+            from .denotation import _contains_fold_or_fix
+            from .compositional_cohomology import (
+                _value_to_z3, _guard_to_z3, _collect_free_vars,
+                _add_type_axioms)
+
+            if not _contains_fold_or_fix(branch_f) and not _contains_fold_or_fix(branch_g):
+                if _HAS_Z3:
+                    # Detect Real mode: if branches or guard contain div/truediv
+                    # or non-integral float literals, use Real Z3 variables.
+                    terms_to_scan = [branch_f, branch_g]
+                    if guard is not None:
+                        terms_to_scan.append(guard)
+                    use_real = any(_contains_real_arith(t) for t in terms_to_scan)
+
+                    # Bail out if Real mode but branches contain floordiv/mod/bitwise
+                    # (these have no sound Real semantics)
+                    if use_real and (_contains_int_only_ops(branch_f)
+                                    or _contains_int_only_ops(branch_g)):
+                        pass  # skip Z3
+                    else:
+                        # Collect free vars from branches + guard
+                        free_vars = (_collect_free_vars(branch_f)
+                                     | _collect_free_vars(branch_g))
+                        if guard is not None:
+                            free_vars |= _collect_free_vars(guard)
+
+                        z3_vars = {'_use_real': use_real}
+                        for v in free_vars:
+                            z3_vars[v] = (z3.Real(v) if use_real
+                                          else z3.Int(v))
+
+                        # Compile guard constraint if provided
+                        guard_z3 = None
+                        if guard is not None:
+                            guard_z3 = _guard_to_z3(guard, z3_vars)
+                            if guard_z3 is None:
+                                # Guard required but un-compilable → abort Z3 path
+                                # (reasoning without the guard is unsound when
+                                # the branch depends on guard constraints, e.g.
+                                # division by a value the guard asserts non-zero)
+                                raise ValueError("guard not Z3-compilable")
+
+                        # Handle OSeq element-wise (tuple branches)
+                        if (isinstance(branch_f, OSeq)
+                                and isinstance(branch_g, OSeq)):
+                            if (len(branch_f.elements)
+                                    != len(branch_g.elements)):
+                                raise ValueError("seq length mismatch")
+                            z3_pairs = []
+                            for ef, eg in zip(branch_f.elements,
+                                              branch_g.elements):
+                                zf = _value_to_z3(ef, z3_vars)
+                                zg = _value_to_z3(eg, z3_vars)
+                                if zf is None or zg is None:
+                                    raise ValueError("elem compile fail")
+                                z3_pairs.append((zf, zg))
+                            s = z3.Solver()
+                            s.set('timeout', 2000)
+                            _add_type_axioms(s, z3_vars)
+                            if guard_z3 is not None:
+                                s.add(guard_z3 if guard_holds
+                                      else z3.Not(guard_z3))
+                            s.add(z3.Or(*[f != g for f, g in z3_pairs]))
+                            if s.check() == z3.unsat:
+                                return True
+                        else:
+                            zf = _value_to_z3(branch_f, z3_vars)
+                            zg = _value_to_z3(branch_g, z3_vars)
+                            if zf is not None and zg is not None:
+                                s = z3.Solver()
+                                s.set('timeout', 2000)
+                                _add_type_axioms(s, z3_vars)
+                                if guard_z3 is not None:
+                                    s.add(guard_z3 if guard_holds
+                                          else z3.Not(guard_z3))
+                                s.add(zf != zg)
+                                if s.check() == z3.unsat:
+                                    return True
+        except Exception:
+            pass
+
+    return None
+
+
+def _contains_real_arith(term, depth: int = 0) -> bool:
+    """Check if an OTerm tree contains div/truediv or non-integral floats.
+
+    Used to decide whether Z3 should use Real variables for sound
+    reasoning about floating-point division and fractional values.
+    """
+    if depth > 20:
+        return False
+    from .denotation import OOp, OLit, OCase, OSeq, OLam, OFold, OFix, OMap
+    if isinstance(term, OOp):
+        if term.name in ('div', 'truediv', 'Div'):
+            return True
+        return any(_contains_real_arith(a, depth + 1) for a in term.args)
+    if isinstance(term, OLit):
+        if isinstance(term.value, float) and term.value != int(term.value):
+            return True
+        return False
+    if isinstance(term, OCase):
+        return (_contains_real_arith(term.test, depth + 1)
+                or _contains_real_arith(term.true_branch, depth + 1)
+                or _contains_real_arith(term.false_branch, depth + 1))
+    if isinstance(term, OSeq):
+        return any(_contains_real_arith(e, depth + 1) for e in term.elements)
+    if isinstance(term, OLam):
+        return _contains_real_arith(term.body, depth + 1)
+    if isinstance(term, OFold):
+        return (_contains_real_arith(term.init, depth + 1)
+                or _contains_real_arith(term.collection, depth + 1)
+                or (term.body_fn is not None
+                    and _contains_real_arith(term.body_fn, depth + 1)))
+    if isinstance(term, OFix):
+        return _contains_real_arith(term.body, depth + 1)
+    if isinstance(term, OMap):
+        return (_contains_real_arith(term.collection, depth + 1)
+                or (term.transform is not None
+                    and _contains_real_arith(term.transform, depth + 1)))
+    return False
+
+
+def _contains_int_only_ops(term, depth: int = 0) -> bool:
+    """Check if an OTerm uses integer-only operations (floordiv, mod, bitwise).
+
+    These have no sound semantics over Z3 Reals, so we bail out of
+    Real-mode Z3 checking when they're present.
+    """
+    if depth > 20:
+        return False
+    from .denotation import OOp, OCase, OSeq, OLam
+    _INT_OPS = frozenset({
+        'floordiv', 'FloorDiv', 'mod', 'Mod',
+        'lshift', 'rshift', 'bitand', 'bitor', 'bitxor',
+        'u_invert',
+    })
+    if isinstance(term, OOp):
+        if term.name in _INT_OPS:
+            return True
+        return any(_contains_int_only_ops(a, depth + 1) for a in term.args)
+    if isinstance(term, OCase):
+        return (_contains_int_only_ops(term.test, depth + 1)
+                or _contains_int_only_ops(term.true_branch, depth + 1)
+                or _contains_int_only_ops(term.false_branch, depth + 1))
+    if isinstance(term, OSeq):
+        return any(_contains_int_only_ops(e, depth + 1) for e in term.elements)
+    if isinstance(term, OLam):
+        return _contains_int_only_ops(term.body, depth + 1)
+    return False
+
+
+def _contains_fold_or_fix(term) -> bool:
+    """Check if an OTerm contains OFold or OFix nodes."""
+    from .denotation import OFold, OFix, OCase, OOp, OSeq, OLam, OMap
+    if isinstance(term, (OFold, OFix)):
+        return True
+    if isinstance(term, OCase):
+        return (_contains_fold_or_fix(term.test) or
+                _contains_fold_or_fix(term.true_branch) or
+                _contains_fold_or_fix(term.false_branch))
+    if isinstance(term, OOp):
+        return any(_contains_fold_or_fix(a) for a in term.args)
+    if isinstance(term, OSeq):
+        return any(_contains_fold_or_fix(e) for e in term.elements)
+    if isinstance(term, OLam):
+        return _contains_fold_or_fix(term.body)
+    if isinstance(term, OMap):
+        return (_contains_fold_or_fix(term.collection) or
+                (term.transform and _contains_fold_or_fix(term.transform)))
+    return False
+
+
 def _fold_body_congruence_check(
     source_f: str, source_g: str, deadline: float
 ) -> Optional['Result']:
@@ -431,23 +659,19 @@ def _fold_body_congruence_check(
                     if depth > 15:
                         return term
                     if term is old_fold:
-                        new_fold = OFold(term.op_name, term.init,
-                                         term.collection)
-                        new_fold.body_fn = new_body_fn
-                        return new_fold
+                        return OFold(term.op_name, term.init,
+                                     term.collection, new_body_fn)
                     n = type(term).__name__
                     if n == 'OFold':
                         ni = _replace_fold_body(term.init, old_fold,
                                                  new_body_fn, depth + 1)
                         nc = _replace_fold_body(term.collection, old_fold,
                                                  new_body_fn, depth + 1)
-                        nb = None
-                        if term.body_fn:
-                            nb = _replace_fold_body(term.body_fn, old_fold,
+                        nb = term.body_fn
+                        if nb:
+                            nb = _replace_fold_body(nb, old_fold,
                                                      new_body_fn, depth + 1)
-                        nf = OFold(term.op_name, ni, nc)
-                        nf.body_fn = nb if nb is not None else term.body_fn
-                        return nf
+                        return OFold(term.op_name, ni, nc, nb)
                     if n == 'OCase':
                         nt = _replace_fold_body(term.test, old_fold,
                                                  new_body_fn, depth + 1)
@@ -479,47 +703,9 @@ def _fold_body_congruence_check(
                 from .path_search import search_path
                 path = search_path(bf_f_norm, bf_g_norm,
                                     max_depth=2, max_frontier=40)
-                if path is not None and path.found is True:
+                if path.found is True:
                     # Path found — body functions are equivalent
-                    # Same fold replacement logic
-                    def _replace_fold_body_2(term, old_fold, new_body_fn, depth=0):
-                        if depth > 15:
-                            return term
-                        if term is old_fold:
-                            nf = OFold(term.op_name, term.init,
-                                        term.collection)
-                            nf.body_fn = new_body_fn
-                            return nf
-                        n = type(term).__name__
-                        if n == 'OFold':
-                            ni = _replace_fold_body_2(term.init, old_fold,
-                                                       new_body_fn, depth + 1)
-                            nc = _replace_fold_body_2(term.collection, old_fold,
-                                                       new_body_fn, depth + 1)
-                            nb = None
-                            if term.body_fn:
-                                nb = _replace_fold_body_2(
-                                    term.body_fn, old_fold,
-                                    new_body_fn, depth + 1)
-                            result = OFold(term.op_name, ni, nc)
-                            result.body_fn = nb if nb else term.body_fn
-                            return result
-                        if n == 'OCase':
-                            return OCase(
-                                _replace_fold_body_2(term.test, old_fold,
-                                                      new_body_fn, depth + 1),
-                                _replace_fold_body_2(term.true_branch, old_fold,
-                                                      new_body_fn, depth + 1),
-                                _replace_fold_body_2(term.false_branch, old_fold,
-                                                      new_body_fn, depth + 1))
-                        if n == 'OOp':
-                            return OOp(term.name, tuple(
-                                _replace_fold_body_2(a, old_fold,
-                                                      new_body_fn, depth + 1)
-                                for a in term.args))
-                        return term
-
-                    unified = _replace_fold_body_2(nf_f, ff, bf_g_norm)
+                    unified = _replace_fold_body(nf_f, ff, bf_g_norm)
                     unified = normalize(unified)
                     if unified.canon() == nf_g.canon():
                         return Result(True,
@@ -531,6 +717,270 @@ def _fold_body_congruence_check(
 
             if time.monotonic() > deadline:
                 return None
+
+    return None
+
+
+def _case_congruence_check(
+    source_f: str, source_g: str, deadline: float
+) -> Optional['Result']:
+    """Case congruence via Čech descent through guards.
+
+    When both programs compile to case(G, A, B) and case(G', A', B')
+    with G.canon() == G'.canon() (strictly), equivalence reduces to:
+      - A ≡ A' on the True-fiber (where G holds)
+      - B ≡ B' on the False-fiber (where ¬G holds)
+
+    This is genuine Čech descent: the guard G defines a cover
+    {U_true, U_false} of the input space, and we verify section
+    agreement on each stalk independently.
+
+    Sound: same partition ⟹ stalk-wise EQ ⟹ H¹=0 ⟹ global EQ.
+
+    Recurses up to 2 levels deep to handle nested case structures.
+    """
+    from .denotation import _rename_params, OCase, OOp, OFold, OLam, OVar, OLit, OSeq
+
+    if time.monotonic() > deadline:
+        return None
+
+    rf = compile_to_oterm(source_f)
+    rg = compile_to_oterm(source_g)
+    if rf is None or rg is None:
+        return None
+    ot_f, pf = rf
+    ot_g, pg = rg
+    if len(pf) != len(pg):
+        return None
+
+    ot_f = _rename_params(ot_f, pf)
+    ot_g = _rename_params(ot_g, pg)
+    nf_f = _denot_normalize(ot_f)
+    nf_g = _denot_normalize(ot_g)
+
+    if not (isinstance(nf_f, OCase) and isinstance(nf_g, OCase)):
+        return None
+
+    # Strict guard canon match — no flexible matching (soundness)
+    guards_match = nf_f.test.canon() == nf_g.test.canon()
+
+    # Complement guard detection (syntactic complements only):
+    # gt↔lte, lt↔gte, eq↔noteq — when guards are complements,
+    # true-branch of F matches false-branch of G and vice versa.
+    # This is sound: complement guards define the same cover {U, U^c}
+    # but with swapped labeling.
+    _COMP_PAIRS = {
+        'gt': 'lte', 'lte': 'gt', 'lt': 'gte', 'gte': 'lt',
+        'eq': 'noteq', 'noteq': 'eq',
+    }
+    guards_complement = False
+    if (not guards_match
+            and isinstance(nf_f.test, OOp) and isinstance(nf_g.test, OOp)
+            and nf_f.test.name in _COMP_PAIRS
+            and nf_g.test.name == _COMP_PAIRS[nf_f.test.name]
+            and len(nf_f.test.args) == len(nf_g.test.args)):
+        # Check that complement guards have the same arguments
+        if all(a.canon() == b.canon()
+               for a, b in zip(nf_f.test.args, nf_g.test.args)):
+            guards_complement = True
+
+    # Also handle not/u_not complement:
+    # case(not(G), A, B) vs case(G, C, D) → A↔D, B↔C
+    if (not guards_match and not guards_complement
+            and isinstance(nf_f.test, OOp)
+            and nf_f.test.name in ('not', 'u_not')
+            and len(nf_f.test.args) == 1):
+        if nf_f.test.args[0].canon() == nf_g.test.canon():
+            guards_complement = True
+    if (not guards_match and not guards_complement
+            and isinstance(nf_g.test, OOp)
+            and nf_g.test.name in ('not', 'u_not')
+            and len(nf_g.test.args) == 1):
+        if nf_g.test.args[0].canon() == nf_f.test.canon():
+            guards_complement = True
+
+    if not guards_match and not guards_complement:
+        return None
+
+    # Check both branches recursively with reduced timeout
+    remaining = deadline - time.monotonic()
+    if remaining < 0.5:
+        return None
+    branch_timeout = min(int(remaining * 400), 2000)  # ms, per branch
+
+    # Wrap branches as synthetic functions for recursive checking
+    param_str = ', '.join([f'p{i}' for i in range(len(pf))])
+
+    def _branch_to_source(branch_term, params):
+        """Convert an OTerm branch to a synthetic function source string."""
+        # We can't easily convert OTerm back to Python source.
+        # Instead, check denotational canon match directly.
+        return None
+
+    # Direct OTerm-level branch comparison (no source round-trip)
+    # For complement guards, branches are swapped: F.true↔G.false, F.false↔G.true
+    if guards_complement:
+        # Swapped: F.true_branch should match G.false_branch, and vice versa
+        tb_f_canon = nf_f.true_branch.canon()
+        tb_g_canon = nf_g.false_branch.canon()  # swapped
+        fb_f_canon = nf_f.false_branch.canon()
+        fb_g_canon = nf_g.true_branch.canon()   # swapped
+        # For guard-aware simplification, get the "true-fiber" branches
+        # from each side (these are opposite branches due to complement)
+        _tb_f_for_guard = nf_f.true_branch
+        _tb_g_for_guard = nf_g.false_branch
+        _fb_f_for_guard = nf_f.false_branch
+        _fb_g_for_guard = nf_g.true_branch
+    else:
+        tb_f_canon = nf_f.true_branch.canon()
+        tb_g_canon = nf_g.true_branch.canon()
+        fb_f_canon = nf_f.false_branch.canon()
+        fb_g_canon = nf_g.false_branch.canon()
+        _tb_f_for_guard = nf_f.true_branch
+        _tb_g_for_guard = nf_g.true_branch
+        _fb_f_for_guard = nf_f.false_branch
+        _fb_g_for_guard = nf_g.false_branch
+
+    tb_match = tb_f_canon == tb_g_canon
+    fb_match = fb_f_canon == fb_g_canon
+
+    # Guard-aware branch simplification (stalk evaluation):
+    # Apply guard constraints to simplify branches before comparison.
+    # On the True-fiber, the guard holds → substitute guard constraints.
+    # On the False-fiber, the guard fails → substitute negated constraints.
+    if not tb_match or not fb_match:
+        try:
+            from .denotation import _propagate_guard_constraints
+            guard_substs = _extract_guard_substitutions(nf_f.test)
+            _CMP_COMP = {'lt': 'gte', 'gte': 'lt', 'gt': 'lte', 'lte': 'gt',
+                         'eq': 'noteq', 'noteq': 'eq'}
+
+            if not tb_match and guard_substs:
+                # Simplify true-fiber branches under guard constraints
+                tb_f_simpl = _apply_guard_subst(_tb_f_for_guard, guard_substs)
+                tb_g_simpl = _apply_guard_subst(_tb_g_for_guard, guard_substs)
+                tb_f_simpl = _denot_normalize(tb_f_simpl)
+                tb_g_simpl = _denot_normalize(tb_g_simpl)
+                if tb_f_simpl.canon() == tb_g_simpl.canon():
+                    tb_match = True
+
+            if not tb_match:
+                # Use guard constraint propagation on true-fiber branches
+                test_canon = nf_f.test.canon()
+                known_true = {test_canon}
+                known_false = set()
+                if isinstance(nf_f.test, OOp) and nf_f.test.name in _CMP_COMP:
+                    comp = OOp(_CMP_COMP[nf_f.test.name], nf_f.test.args)
+                    known_false.add(comp.canon())
+                if isinstance(nf_f.test, OOp) and nf_f.test.name == 'and':
+                    for conj in nf_f.test.args:
+                        known_true.add(conj.canon())
+                tb_f_prop = _propagate_guard_constraints(
+                    _tb_f_for_guard, known_true, known_false)
+                tb_g_prop = _propagate_guard_constraints(
+                    _tb_g_for_guard, known_true, known_false)
+                tb_f_prop = _denot_normalize(tb_f_prop)
+                tb_g_prop = _denot_normalize(tb_g_prop)
+                if tb_f_prop.canon() == tb_g_prop.canon():
+                    tb_match = True
+
+            if not fb_match:
+                # Use negated guard constraint propagation on false-fiber branches
+                test_canon = nf_f.test.canon()
+                known_false_neg = {test_canon}
+                known_true_neg = set()
+                if isinstance(nf_f.test, OOp) and nf_f.test.name in _CMP_COMP:
+                    comp = OOp(_CMP_COMP[nf_f.test.name], nf_f.test.args)
+                    known_true_neg.add(comp.canon())
+                if isinstance(nf_f.test, OOp) and nf_f.test.name == 'or':
+                    for disj in nf_f.test.args:
+                        known_false_neg.add(disj.canon())
+                fb_f_prop = _propagate_guard_constraints(
+                    _fb_f_for_guard, known_true_neg, known_false_neg)
+                fb_g_prop = _propagate_guard_constraints(
+                    _fb_g_for_guard, known_true_neg, known_false_neg)
+                fb_f_prop = _denot_normalize(fb_f_prop)
+                fb_g_prop = _denot_normalize(fb_g_prop)
+                if fb_f_prop.canon() == fb_g_prop.canon():
+                    fb_match = True
+        except Exception:
+            pass
+
+    if tb_match and fb_match:
+        # Both branches match — full equivalence proven
+        _label = 'complement' if guards_complement else 'same'
+        return Result(True,
+            f'case congruence: {_label} guard, both branches equivalent',
+            h0=1, confidence=0.95, method='proof')
+
+    # If one branch matches, try proof tools on the other
+    if tb_match and not fb_match:
+        # Try path search on false-fiber branch
+        try:
+            from .path_search import search_path
+            path = search_path(_fb_f_for_guard, _fb_g_for_guard,
+                             max_depth=3, max_frontier=100)
+            if path.found:
+                return Result(True,
+                    'case congruence: false-branch path found',
+                    h0=1, confidence=0.90, method='proof')
+        except Exception:
+            pass
+        # Try Čech input cohomology on false-fiber branch
+        _br_eq = _branch_equiv_check(
+            _fb_f_for_guard, _fb_g_for_guard, pf, deadline,
+            guard=nf_f.test, guard_holds=False)
+        if _br_eq is True:
+            return Result(True,
+                'case congruence: false-branch Čech/Z3 proved',
+                h0=1, confidence=0.95, method='proof')
+
+    if fb_match and not tb_match:
+        # Try path search on true-fiber branch
+        try:
+            from .path_search import search_path
+            path = search_path(_tb_f_for_guard, _tb_g_for_guard,
+                             max_depth=3, max_frontier=100)
+            if path.found:
+                return Result(True,
+                    'case congruence: true-branch path found',
+                    h0=1, confidence=0.90, method='proof')
+        except Exception:
+            pass
+        # Try Čech input cohomology on true-fiber branch
+        _br_eq = _branch_equiv_check(
+            _tb_f_for_guard, _tb_g_for_guard, pf, deadline,
+            guard=nf_f.test, guard_holds=True)
+        if _br_eq is True:
+            return Result(True,
+                'case congruence: true-branch Čech/Z3 proved',
+                h0=1, confidence=0.95, method='proof')
+
+    # Neither branch matches directly — try nested case congruence
+    # (one level of recursion for nested case structures)
+    if (isinstance(_tb_f_for_guard, OCase) and isinstance(_tb_g_for_guard, OCase)
+            and _tb_f_for_guard.test.canon() == _tb_g_for_guard.test.canon()
+            and tb_match is False):
+        inner_tb = (_tb_f_for_guard.true_branch.canon() ==
+                    _tb_g_for_guard.true_branch.canon())
+        inner_fb = (_tb_f_for_guard.false_branch.canon() ==
+                    _tb_g_for_guard.false_branch.canon())
+        if inner_tb and inner_fb and fb_match:
+            return Result(True,
+                'case congruence: nested case descent, all stalks match',
+                h0=1, confidence=0.90, method='proof')
+
+    if (isinstance(_fb_f_for_guard, OCase) and isinstance(_fb_g_for_guard, OCase)
+            and _fb_f_for_guard.test.canon() == _fb_g_for_guard.test.canon()
+            and fb_match is False):
+        inner_tb = (_fb_f_for_guard.true_branch.canon() ==
+                    _fb_g_for_guard.true_branch.canon())
+        inner_fb = (_fb_f_for_guard.false_branch.canon() ==
+                    _fb_g_for_guard.false_branch.canon())
+        if inner_tb and inner_fb and tb_match:
+            return Result(True,
+                'case congruence: nested case descent, all stalks match',
+                h0=1, confidence=0.90, method='proof')
 
     return None
 
@@ -1896,22 +2346,15 @@ def composed_fn({param_str}):
             if rc is not None:
                 ot_c, _ = rc
                 nf_c = normalize(ot_c)
-                # case(guard, body, True) → guard-constrained Čech descent
-                if isinstance(nf_c, OCase):
-                    result = _guard_constrained_reduce_to_true(nf_c)
+                # Unified recursive prover: handles case, or, eq, and
+                # Only applies to structured terms (not bare True)
+                if not (isinstance(nf_c, OLit) and nf_c.value is True):
+                    result = _prove_formally_true(nf_c)
                     if result is True:
                         return Result(True,
-                            'spec satisfied: guard-constrained composition reduces to True',
+                            'spec satisfied: recursive Čech descent proof',
                             h0=1, h1=0, confidence=0.95,
-                            method='composition:guard-constrained')
-                # or(A, B) → Čech descent over disjunctive cover
-                if isinstance(nf_c, OOp) and nf_c.name == 'or':
-                    result = _or_to_cech_descent(nf_c)
-                    if result is True:
-                        return Result(True,
-                            'spec satisfied: or-disjunct Čech descent',
-                            h0=1, h1=0, confidence=0.95,
-                            method='composition:or-cech-descent')
+                            method='composition:recursive-proof')
                 # Direct composition: normalized to True. Validate with
                 # bounded spec testing AND custom BT inputs to guard
                 # against compiler information loss.
@@ -2100,106 +2543,1017 @@ print(json.dumps({"valid": True}))
     return False
 
 
+def _is_filter_partition_of(whole, parts_concat) -> bool:
+    """Check if parts_concat is a filter-partition concatenation of whole.
+
+    Returns True when parts_concat = add(map(id, whole, p1), ..., map(id, whole, pk))
+    and the predicates {p1,...,pk} form a recognized partition family over
+    a total order (trichotomy, binary complement, etc.).
+
+    This is a genuine cohomological argument: the predicates define a cover
+    of the element space, and the concatenation of filtered sections
+    reconstructs the original presheaf section (the multiset).
+    """
+    from .denotation import OOp, OMap, OLam, OVar
+
+    # Decompose parts_concat into a flat list of addends
+    parts = _decompose_add(parts_concat)
+    if len(parts) < 2:
+        return False
+
+    # Each part must be OMap(id, whole, filter_pred) with the same collection
+    whole_canon = whole.canon()
+    predicates = []
+    for part in parts:
+        if not isinstance(part, OMap):
+            return False
+        # Transform must be identity: λx.x
+        if not isinstance(part.transform, OLam):
+            return False
+        if len(part.transform.params) != 1:
+            return False
+        if not (isinstance(part.transform.body, OVar)
+                and part.transform.body.name == part.transform.params[0]):
+            return False
+        # Collection must match whole
+        if part.collection.canon() != whole_canon:
+            return False
+        # Must have a filter predicate
+        if part.filter_pred is None:
+            return False
+        predicates.append(part.filter_pred)
+
+    # Check that predicates form a recognized partition family
+    return _predicates_form_partition(predicates)
+
+
+def _decompose_add(term, depth=0):
+    """Flatten nested add(A, add(B, C)) into [A, B, C]."""
+    from .denotation import OOp
+    if depth > 10:
+        return [term]
+    if isinstance(term, OOp) and term.name == 'add':
+        result = []
+        for arg in term.args:
+            result.extend(_decompose_add(arg, depth + 1))
+        return result
+    return [term]
+
+
+def _predicates_form_partition(predicates) -> bool:
+    """Check if a list of filter predicates forms a total-order partition.
+
+    Recognized partition families (all assume total order / trichotomy):
+    - {lt(x,y), eq(x,y), gt(x,y)}  — trichotomy (3-partition)
+    - {lt(x,y), eq(y,x), lt(y,x)}  — trichotomy (normalized)
+    - {lt(x,y), gte(x,y)}          — binary complement
+    - {lte(x,y), gt(x,y)}          — binary complement
+    - {eq(x,y), noteq(x,y)}        — equality complement
+    """
+    from .denotation import OLam, OOp, OVar
+
+    if len(predicates) < 2:
+        return False
+
+    # Extract (op_name, arg_canons) for each predicate
+    pred_infos = []
+    for pred in predicates:
+        if not isinstance(pred, OLam) or len(pred.params) != 1:
+            return False
+        body = pred.body
+        if not isinstance(body, OOp) or len(body.args) != 2:
+            return False
+        # Normalize: represent each predicate as (op, left_canon, right_canon)
+        # where the filter variable is the lambda param
+        pred_infos.append((body.name, body.args[0].canon(), body.args[1].canon()))
+
+    if len(pred_infos) < 2:
+        return False
+
+    # Extract the lambda parameter name (should be the same for all)
+    param = predicates[0].params[0]
+
+    # Normalize comparison directions: express each as (relation, elem_side, other_side)
+    # where elem_side is the filtered element (lambda param)
+    normalized = []
+    for op, lc, rc in pred_infos:
+        p_canon = f"${param}"
+        if lc == p_canon:
+            normalized.append((op, 'left', rc))
+        elif rc == p_canon:
+            normalized.append((op, 'right', lc))
+        else:
+            return False  # param not involved in comparison
+
+    # All predicates must compare against the same "other" value
+    others = set(info[2] for info in normalized)
+    if len(others) != 1:
+        return False
+    # all comparison same pivot
+
+    # Normalize all predicates to element-on-left form
+    # lt(elem, pivot) stays as 'lt'
+    # lt(pivot, elem) becomes 'gt' (from element's perspective)
+    _FLIP = {'lt': 'gt', 'gt': 'lt', 'lte': 'gte', 'gte': 'lte', 'eq': 'eq', 'noteq': 'noteq'}
+    elem_left_ops = set()
+    for op, side, _ in normalized:
+        if side == 'left':
+            elem_left_ops.add(op)
+        else:  # side == 'right'
+            flipped = _FLIP.get(op)
+            if flipped is None:
+                return False
+            elem_left_ops.add(flipped)
+
+    # Check against known partition families
+    _PARTITIONS = [
+        frozenset({'lt', 'eq', 'gt'}),       # trichotomy
+        frozenset({'lt', 'gte'}),             # binary complement
+        frozenset({'lte', 'gt'}),             # binary complement
+        frozenset({'eq', 'noteq'}),           # equality complement
+    ]
+
+    return elem_left_ops in _PARTITIONS
+
+
+def _subst_in_body(lam, cparams):
+    """Alpha-normalize a lambda body by substituting its params with cparams."""
+    from .denotation import OVar
+    from .compositional_cohomology import _subst_in_oterm
+    var_map = {p: OVar(c) for p, c in zip(lam.params, cparams)}
+    return _subst_in_oterm(lam.body, var_map)
+
+
+def _constant_fold_for_proof(term):
+    """Aggressive constant folding for proof-context stalk evaluation.
+
+    Applied after guard substitutions create concrete values.
+    Evaluates bottom-up: range(N)→[0..N-1], fold over concrete seq→step,
+    map over concrete seq→apply. NOT used in the global normalizer to
+    avoid interfering with algebraic range/fold rules.
+
+    Soundness: all transformations are definitional equalities
+    (beta reduction / partial evaluation).
+    """
+    from .denotation import (OOp, OLit, OCase, OFold, OSeq, OLam, OMap,
+                             OVar, OFix, ODict, OQuotient, OAbstract,
+                             OUnknown, normalize, _subst_term)
+
+    def _cf(t):
+        # Recurse into children first (bottom-up)
+        if isinstance(t, OOp):
+            t = OOp(t.name, tuple(_cf(a) for a in t.args))
+        elif isinstance(t, OCase):
+            t = OCase(_cf(t.test), _cf(t.true_branch), _cf(t.false_branch))
+        elif isinstance(t, OFold):
+            bfn = _cf(t.body_fn) if t.body_fn else None
+            t = OFold(t.op_name, _cf(t.init), _cf(t.collection), body_fn=bfn)
+        elif isinstance(t, OSeq):
+            t = OSeq(tuple(_cf(e) for e in t.elements))
+        elif isinstance(t, OMap):
+            new_coll = _cf(t.collection)
+            new_tr = _cf(t.transform) if t.transform else None
+            new_fp = _cf(t.filter_pred) if t.filter_pred else None
+            t = OMap(new_tr, new_coll, filter_pred=new_fp)
+        elif isinstance(t, OLam):
+            t = OLam(t.params, _cf(t.body))
+
+        # ── range(N) expansion for small concrete N ──
+        if isinstance(t, OOp) and t.name == 'range':
+            args = t.args
+            try:
+                if len(args) == 1 and isinstance(args[0], OLit):
+                    n = args[0].value
+                    if isinstance(n, int) and 0 < n <= 6:
+                        return OSeq(tuple(OLit(i) for i in range(n)))
+                elif len(args) == 2:
+                    s, e = args
+                    if (isinstance(s, OLit) and isinstance(e, OLit)
+                            and isinstance(s.value, int)
+                            and isinstance(e.value, int)):
+                        r = list(range(s.value, e.value))
+                        if 0 < len(r) <= 6:
+                            return OSeq(tuple(OLit(i) for i in r))
+                elif len(args) == 3:
+                    s, e, st = args
+                    if (isinstance(s, OLit) and isinstance(e, OLit)
+                            and isinstance(st, OLit)
+                            and isinstance(s.value, int)
+                            and isinstance(e.value, int)
+                            and isinstance(st.value, int) and st.value != 0):
+                        r = list(range(s.value, e.value, st.value))
+                        if 0 <= len(r) <= 6:
+                            return OSeq(tuple(OLit(i) for i in r))
+            except (OverflowError, ValueError):
+                pass
+
+        # ── Fold stepping over small concrete sequence ──
+        if isinstance(t, OFold) and isinstance(t.collection, OSeq):
+            elems = t.collection.elements
+            if 0 < len(elems) <= 4:
+                # Case A: body_fn (lambda) fold
+                if t.body_fn is not None and isinstance(t.body_fn, OLam):
+                    params = t.body_fn.params
+                    body = t.body_fn.body
+                    acc = t.init
+                    ok = True
+                    for elem in elems:
+                        if len(params) == 2:
+                            nb = _subst_term(body, params[0], acc)
+                            nb = _subst_term(nb, params[1], elem)
+                        elif (len(params) >= 3 and isinstance(acc, OSeq)
+                              and len(acc.elements) == len(params) - 1):
+                            # Tuple-unpacked accumulator
+                            nb = body
+                            for i, p in enumerate(params[:-1]):
+                                nb = _subst_term(nb, p, acc.elements[i])
+                            nb = _subst_term(nb, params[-1], elem)
+                        else:
+                            ok = False
+                            break
+                        acc = normalize(nb)
+                    if ok:
+                        return acc
+
+                # Case B: named-op fold (add, mul, and, or, bitxor, etc.)
+                elif t.body_fn is None and t.op_name.isalpha():
+                    _NAMED_OPS = {
+                        'add': lambda a, b: OOp('add', (a, b)),
+                        'mul': lambda a, b: OOp('mult', (a, b)),
+                        'sub': lambda a, b: OOp('sub', (a, b)),
+                        'and': lambda a, b: OOp('and', (a, b)),
+                        'or': lambda a, b: OOp('or', (a, b)),
+                        'bitxor': lambda a, b: OOp('bitxor', (a, b)),
+                        'bitor': lambda a, b: OOp('bitor', (a, b)),
+                        'bitand': lambda a, b: OOp('bitand', (a, b)),
+                        'min': lambda a, b: OOp('min', (a, b)),
+                        'max': lambda a, b: OOp('max', (a, b)),
+                    }
+                    if t.op_name in _NAMED_OPS:
+                        op_fn = _NAMED_OPS[t.op_name]
+                        acc = t.init
+                        for elem in elems:
+                            acc = normalize(op_fn(acc, elem))
+                        return acc
+
+        # ── Map evaluation over small concrete sequence ──
+        if (isinstance(t, OMap) and isinstance(t.collection, OSeq)
+                and t.transform is not None and isinstance(t.transform, OLam)
+                and len(t.transform.params) == 1
+                and t.filter_pred is None):
+            elems = t.collection.elements
+            if 0 < len(elems) <= 6:
+                param = t.transform.params[0]
+                body = t.transform.body
+                results = []
+                for elem in elems:
+                    nb = _subst_term(body, param, elem)
+                    results.append(normalize(nb))
+                return OSeq(tuple(results))
+
+        return t
+
+    # Iterate until fixpoint (transformations may enable further simplification)
+    prev = None
+    current = term
+    for _ in range(3):
+        current = _cf(current)
+        current = normalize(current)
+        c = current.canon()
+        if c == prev:
+            break
+        prev = c
+    return current
+
+
+def _prove_formally_false(term, substs=None, depth=0) -> Optional[bool]:
+    """Prove an OTerm is always False.
+
+    Dual of _prove_formally_true. Used for not(X) and is(X, False).
+    Only handles boolean-valued terms (safe under zero-FP constraint).
+
+    Patterns:
+    - OLit(False) → True (False is False)
+    - OLit(0) → True (0 is falsy, only for explicitly boolean contexts)
+    - and(A, B) → True if any conjunct is False
+    - or(A, B) → True if all disjuncts are False
+    - not(X) / u_not(X) → True if X is provably True
+    - eq(A, B) → True if A and B have provably different canons (NEQ)
+    - lt(X, 0) where X = len(...) → True (length is non-negative)
+
+    Returns True if proven False, None otherwise.
+    """
+    from .denotation import OCase, OLit, OOp, normalize
+
+    if depth > 6:
+        return None
+    if substs is None:
+        substs = {}
+
+    if substs:
+        term = _apply_guard_subst(term, substs)
+        term = normalize(term)
+        term = _constant_fold_for_proof(term)
+    if isinstance(term, OLit) and term.value is False:
+        return True
+
+    # and(A, B) is False if any conjunct is False
+    if isinstance(term, OOp) and term.name == 'and':
+        for arg in term.args:
+            if _prove_formally_false(arg, substs, depth + 1) is True:
+                return True
+
+    # or(A, B) is False only if ALL disjuncts are False
+    if isinstance(term, OOp) and term.name == 'or':
+        all_false = True
+        for arg in term.args:
+            if _prove_formally_false(arg, substs, depth + 1) is not True:
+                all_false = False
+                break
+        if all_false:
+            return True
+
+    # not(X) is False if X is True
+    if isinstance(term, OOp) and term.name in ('not', 'u_not') and len(term.args) == 1:
+        if _prove_formally_true(term.args[0], substs, depth + 1) is True:
+            return True
+
+    # lt(len(X), 0) is always False (length >= 0)
+    if isinstance(term, OOp) and term.name == 'lt' and len(term.args) == 2:
+        a, b = term.args
+        if isinstance(a, OOp) and a.name == 'len' and isinstance(b, OLit) and b.value == 0:
+            return True
+    # gt(0, len(X)) is always False
+    if isinstance(term, OOp) and term.name == 'gt' and len(term.args) == 2:
+        a, b = term.args
+        if isinstance(a, OLit) and a.value == 0 and isinstance(b, OOp) and b.name == 'len':
+            return True
+
+    # OCase descent: case(G, A, B) is False if both branches are False
+    # This is the Čech condition: falsity on every open set implies global falsity.
+    if isinstance(term, OCase):
+        tb_false = _prove_formally_false(term.true_branch, substs, depth + 1)
+        fb_false = _prove_formally_false(term.false_branch, substs, depth + 1)
+        if tb_false is True and fb_false is True:
+            return True
+
+    # is(X, True) is False if X is provably False
+    if isinstance(term, OOp) and term.name == 'is' and len(term.args) == 2:
+        if isinstance(term.args[1], OLit) and term.args[1].value is True:
+            return _prove_formally_false(term.args[0], substs, depth + 1)
+        # is(X, False) is False if X is provably True
+        if isinstance(term.args[1], OLit) and term.args[1].value is False:
+            return True if _prove_formally_true(term.args[0], substs, depth + 1) is True else None
+        # is(X, None) is False if X is provably not None
+        # (only when X is a known non-None type like a bool literal)
+        if isinstance(term.args[1], OLit) and term.args[1].value is None:
+            if isinstance(term.args[0], OLit) and term.args[0].value is not None:
+                return True
+
+    # eq(A, B) is False when A and B are distinct literals
+    if isinstance(term, OOp) and term.name == 'eq' and len(term.args) == 2:
+        a, b = term.args
+        if isinstance(a, OLit) and isinstance(b, OLit) and a.value != b.value:
+            return True
+
+    return None
+
+
+def _prove_formally_true(term, substs=None, depth=0) -> Optional[bool]:
+    """Recursively prove an OTerm is always True via Čech descent.
+
+    This is the core recursive prover for the composition fast path.
+    It handles nested case/or/eq/and patterns by accumulating guard
+    substitutions through nesting levels.
+
+    Supported patterns:
+    - OLit(True) under accumulated substitutions → True
+    - case(guard, body, True) → prove body under guard constraints
+    - case(guard, True, body) → prove body under ¬guard constraints
+    - or(A, B, ...) → Čech descent over disjunctive cover
+    - eq(A, B) → refl (canon match after substitution + normalization)
+    - and(A, B) → prove both conjuncts
+
+    Guard substitutions are propagated through nesting levels, so
+    case(g1, case(g2, body, True), True) accumulates g1's and g2's
+    substitutions before trying body.
+
+    Returns True if proven, None otherwise.
+    """
+    from .denotation import OCase, OLit, OOp, OSeq, OVar, normalize
+
+    if depth > 8:
+        return None
+    if substs is None:
+        substs = {}
+
+    # Apply accumulated substitutions and normalize
+    if substs:
+        term = _apply_guard_subst(term, substs)
+        term = normalize(term)
+        # Aggressive constant folding: expand range(N) for small N,
+        # step folds over concrete sequences, evaluate maps.
+        # This completes stalk evaluation when guard substitution
+        # creates concrete values.
+        term = _constant_fold_for_proof(term)
+
+    # Base case: True (only trusted when reached via guard descent,
+    # not at the top level — caller ensures this)
+    if isinstance(term, OLit) and term.value is True:
+        return True
+
+    # case(guard, body, True) → guard-constrained Čech descent
+    if isinstance(term, OCase):
+        fb = term.false_branch
+        tb = term.true_branch
+
+        # case(guard, True, True) → True trivially
+        if (isinstance(tb, OLit) and tb.value is True
+                and isinstance(fb, OLit) and fb.value is True):
+            return True
+
+        # case(guard, body, True) → prove body under guard
+        if isinstance(fb, OLit) and fb.value is True:
+            guard_substs = _extract_guard_substitutions(term.test)
+            merged = {**substs, **guard_substs}
+            result = _prove_formally_true(tb, merged, depth + 1)
+            if result is True:
+                return True
+            # Guard truth propagation: use _propagate_guard_constraints
+            # to simplify inner case expressions sharing the same guard.
+            # This is stalk evaluation: restricting to the fiber where
+            # the guard holds collapses matching inner cases.
+            try:
+                from .denotation import _propagate_guard_constraints
+                test_canon = term.test.canon()
+                known_true = {test_canon}
+                known_false = set()
+                # Add complement guards
+                _CMP_COMP = {'lt': 'gte', 'gte': 'lt', 'gt': 'lte', 'lte': 'gt',
+                             'eq': 'noteq', 'noteq': 'eq'}
+                if isinstance(term.test, OOp) and term.test.name in _CMP_COMP:
+                    comp = OOp(_CMP_COMP[term.test.name], term.test.args)
+                    known_false.add(comp.canon())
+                if isinstance(term.test, OOp) and term.test.name == 'and':
+                    for conj in term.test.args:
+                        known_true.add(conj.canon())
+                propagated = _propagate_guard_constraints(tb, known_true, known_false)
+                propagated = normalize(propagated)
+                if propagated.canon() != tb.canon():
+                    result = _prove_formally_true(propagated, merged, depth + 1)
+                    if result is True:
+                        return True
+            except Exception:
+                pass
+            # Even without substitutions, try direct descent
+            if not guard_substs:
+                result = _prove_formally_true(tb, substs, depth + 1)
+                if result is True:
+                    return True
+
+        # case(guard, True, body) → prove body under ¬guard
+        if isinstance(tb, OLit) and tb.value is True:
+            guard_substs = _extract_guard_substitutions_negated(term.test)
+            merged = {**substs, **guard_substs}
+            result = _prove_formally_true(fb, merged, depth + 1)
+            if result is True:
+                return True
+            # Guard falsehood propagation: complement of guard is True
+            try:
+                from .denotation import _propagate_guard_constraints
+                test_canon = term.test.canon()
+                known_false = {test_canon}
+                known_true = set()
+                _CMP_COMP = {'lt': 'gte', 'gte': 'lt', 'gt': 'lte', 'lte': 'gt',
+                             'eq': 'noteq', 'noteq': 'eq'}
+                if isinstance(term.test, OOp) and term.test.name in _CMP_COMP:
+                    comp = OOp(_CMP_COMP[term.test.name], term.test.args)
+                    known_true.add(comp.canon())
+                if isinstance(term.test, OOp) and term.test.name == 'or':
+                    for disj in term.test.args:
+                        known_false.add(disj.canon())
+                propagated = _propagate_guard_constraints(fb, known_true, known_false)
+                propagated = normalize(propagated)
+                if propagated.canon() != fb.canon():
+                    result = _prove_formally_true(propagated, merged, depth + 1)
+                    if result is True:
+                        return True
+            except Exception:
+                pass
+            if not guard_substs:
+                result = _prove_formally_true(fb, substs, depth + 1)
+                if result is True:
+                    return True
+
+        # ── Full case Čech descent: case(guard, A, B) ──
+        # When neither A nor B is OLit(True), prove by Čech descent:
+        # 1. Prove A under guard constraints (fiber where guard holds)
+        # 2. Prove B under ¬guard constraints (fiber where guard fails)
+        # This is sound: guard partitions input space into two open sets,
+        # and we verify the presheaf section is True on both.
+        if not (isinstance(tb, OLit) and tb.value is True) and not (isinstance(fb, OLit) and fb.value is True):
+            # Region 1: guard holds → prove true_branch
+            guard_substs_pos = _extract_guard_substitutions(term.test)
+            merged_pos = {**substs, **guard_substs_pos}
+            tb_result = _prove_formally_true(tb, merged_pos, depth + 1)
+            # If Region 1 fails with just substitutions, try guard
+            # constraint propagation: replace guard sub-expressions with
+            # their truth values in and()/or() contexts.
+            if tb_result is not True:
+                try:
+                    from .denotation import _propagate_guard_constraints
+                    test_canon = term.test.canon()
+                    kt_pos = {test_canon}
+                    kf_pos = set()
+                    _CMP_COMP2 = {'lt': 'gte', 'gte': 'lt', 'gt': 'lte',
+                                  'lte': 'gt', 'eq': 'noteq', 'noteq': 'eq'}
+                    if isinstance(term.test, OOp) and term.test.name in _CMP_COMP2:
+                        comp = OOp(_CMP_COMP2[term.test.name], term.test.args)
+                        kf_pos.add(comp.canon())
+                    if isinstance(term.test, OOp) and term.test.name == 'and':
+                        for conj in term.test.args:
+                            kt_pos.add(conj.canon())
+                    propagated_tb = _propagate_guard_constraints(
+                        tb, kt_pos, kf_pos)
+                    propagated_tb = normalize(propagated_tb)
+                    if propagated_tb.canon() != tb.canon():
+                        tb_result = _prove_formally_true(
+                            propagated_tb, merged_pos, depth + 1)
+                except Exception:
+                    pass
+            if tb_result is True:
+                # Region 2: guard fails → prove false_branch
+                guard_substs_neg = _extract_guard_substitutions_negated(term.test)
+                merged_neg = {**substs, **guard_substs_neg}
+                fb_result = _prove_formally_true(fb, merged_neg, depth + 1)
+                if fb_result is True:
+                    return True
+                # Try with guard constraint propagation for false branch
+                try:
+                    from .denotation import _propagate_guard_constraints
+                    test_canon = term.test.canon()
+                    known_false = {test_canon}
+                    known_true = set()
+                    _CMP_COMP = {'lt': 'gte', 'gte': 'lt', 'gt': 'lte', 'lte': 'gt',
+                                 'eq': 'noteq', 'noteq': 'eq'}
+                    if isinstance(term.test, OOp) and term.test.name in _CMP_COMP:
+                        comp = OOp(_CMP_COMP[term.test.name], term.test.args)
+                        known_true.add(comp.canon())
+                    if isinstance(term.test, OOp) and term.test.name == 'or':
+                        for disj in term.test.args:
+                            known_false.add(disj.canon())
+                    propagated = _propagate_guard_constraints(fb, known_true, known_false)
+                    propagated = normalize(propagated)
+                    if propagated.canon() != fb.canon():
+                        if _prove_formally_true(propagated, merged_neg, depth + 1) is True:
+                            return True
+                except Exception:
+                    pass
+
+        return None
+
+    # or(A, B, ...) → if any disjunct is universally True, the whole or is True
+    # Then try Čech descent over disjunctive cover
+    if isinstance(term, OOp) and term.name == 'or':
+        args = list(term.args)
+        if len(args) >= 2:
+            # First: check if any single disjunct is provably True
+            # This is sound: True ∨ X ≡ True
+            for arg in args:
+                if _prove_formally_true(arg, substs, depth + 1) is True:
+                    return True
+            # Second: Čech descent — use each disjunct as a guard
+            for i, guard_candidate in enumerate(args):
+                remaining = [a for j, a in enumerate(args) if j != i]
+                body = remaining[0] if len(remaining) == 1 else OOp('or', tuple(remaining))
+                case_term = OCase(guard_candidate, OLit(True), body)
+                result = _prove_formally_true(case_term, substs, depth + 1)
+                if result is True:
+                    return True
+        return None
+
+    # eq(A, B) → refl (canon match) or path search
+    if isinstance(term, OOp) and term.name == 'eq' and len(term.args) == 2:
+        a, b = term.args
+        if a.canon() == b.canon():
+            return True
+
+        # Sorted permutation invariance:
+        # eq(sorted(X), sorted(Y)) → True when Y is a filter partition
+        # concatenation of X (or vice versa).
+        # Algebraic identity: sorted is a multiset homomorphism, so
+        # sorted(X) = sorted(Y) whenever multiset(X) = multiset(Y).
+        # Filter partition: add(filter(p1,Z), ..., filter(pk,Z)) has the
+        # same multiset as Z when {p1,...,pk} partition the predicate space
+        # (disjoint + exhaustive) under a total order.
+        if (isinstance(a, OOp) and a.name == 'sorted' and len(a.args) == 1
+                and isinstance(b, OOp) and b.name == 'sorted'
+                and len(b.args) == 1):
+            inner_a, inner_b = a.args[0], b.args[0]
+            if _is_filter_partition_of(inner_a, inner_b):
+                return True
+            if _is_filter_partition_of(inner_b, inner_a):
+                return True
+            # If inner expressions are provably equal, sorted values are equal
+            # sorted is a function: A == B ⟹ sorted(A) == sorted(B)
+            if inner_a.canon() == inner_b.canon():
+                return True
+            inner_eq = _prove_formally_true(
+                OOp('eq', (inner_a, inner_b)), substs, depth + 1)
+            if inner_eq is True:
+                return True
+
+        # Observer congruence (functoriality):
+        # eq(obs(A), obs(B)) → True when A == B and obs is a function.
+        # Supported observers: len, set, sorted, list, tuple, abs, str.
+        # This is the sheaf-theoretic observation tower: if two presheaf
+        # sections agree, any observation (natural transformation) of
+        # them also agrees.
+        _OBSERVERS = {'len', 'set', 'sorted', 'list', 'tuple', 'abs',
+                       'str', 'frozenset', 'sum', 'min', 'max'}
+        if (isinstance(a, OOp) and isinstance(b, OOp)
+                and a.name == b.name and a.name in _OBSERVERS
+                and len(a.args) == 1 and len(b.args) == 1
+                and a.args[0].canon() != b.args[0].canon()):
+            inner_eq = _prove_formally_true(
+                OOp('eq', (a.args[0], b.args[0])), substs, depth + 1)
+            if inner_eq is True:
+                return True
+
+        # Try cohomological path search between A and B
+        # This is the proper CCTT approach: find a path in the
+        # OTerm presheaf connecting A to B via axiom rewrites
+        if depth <= 4:  # only try at shallow depths to avoid blowup
+            try:
+                from .path_search import search_path
+                path_result = search_path(a, b, max_depth=3, max_frontier=100)
+                if path_result.found:
+                    return True
+            except Exception:
+                pass
+
+        # Fold body congruence: eq(fold(f,i,xs), fold(g,i,xs))
+        # when init and collection match, body equivalence ⟹ fold equivalence
+        from .denotation import OFold, OLam, OVar
+        if (isinstance(a, OFold) and isinstance(b, OFold)
+                and a.body_fn is not None and b.body_fn is not None
+                and isinstance(a.body_fn, OLam) and isinstance(b.body_fn, OLam)
+                and len(a.body_fn.params) == len(b.body_fn.params)):
+            init_match = a.init.canon() == b.init.canon()
+            col_match = a.collection.canon() == b.collection.canon()
+
+            # Try Z3 for init/collection equality when canon differs
+            if not init_match and depth <= 3:
+                try:
+                    from .compositional_cohomology import (
+                        _value_to_z3, _add_type_axioms, _HAS_Z3
+                    )
+                    if _HAS_Z3:
+                        from z3 import Solver, Not, unsat, Int
+                        from .denotation import _collect_vars
+                        free = (_collect_vars(a.init) | _collect_vars(b.init)) & {
+                            f'p{i}' for i in range(10)}
+                        z3v = {v: Int(v) for v in sorted(free)}
+                        zi = _value_to_z3(a.init, z3v)
+                        zj = _value_to_z3(b.init, z3v)
+                        if zi is not None and zj is not None:
+                            s = Solver()
+                            s.set('timeout', 200)
+                            _add_type_axioms(s, z3v)
+                            s.add(Not(zi == zj))
+                            if s.check() == unsat:
+                                init_match = True
+                except Exception:
+                    pass
+
+            if init_match and col_match:
+                # Alpha-normalize body params and compare
+                cparams = [f'$_cong{i}' for i in range(len(a.body_fn.params))]
+                b_a = _subst_in_body(a.body_fn, cparams)
+                b_b = _subst_in_body(b.body_fn, cparams)
+                na = normalize(b_a)
+                nb = normalize(b_b)
+                if na.canon() == nb.canon():
+                    return True
+                # Z3 on alpha-normalized bodies
+                if depth <= 3:
+                    try:
+                        from .compositional_cohomology import (
+                            _values_agree_on_region_z3, _HAS_Z3
+                        )
+                        if _HAS_Z3:
+                            from z3 import Int
+                            from .denotation import _collect_vars, OLit as _OLit
+                            body_vars = _collect_vars(na) | _collect_vars(nb)
+                            z3v = {v: Int(v) for v in sorted(body_vars)}
+                            r = _values_agree_on_region_z3(
+                                _OLit(True), na, nb, z3v, 300)
+                            if r is True:
+                                return True
+                    except Exception:
+                        pass
+                # Path search on normalized bodies
+                if depth <= 3:
+                    try:
+                        from .path_search import search_path
+                        pr = search_path(na, nb, max_depth=2,
+                                         timeout_ms=300)
+                        if pr is not None and pr.found is True:
+                            return True
+                    except Exception:
+                        pass
+
+        # Fold congruence with Z3-provable collection equality:
+        # eq(fold_op(init, col_A), fold_op(init, col_B)) when fold ops
+        # match (same op_name/body_fn) and init matches, but collections
+        # differ. If Z3 proves col_A == col_B, the folds are equal.
+        if (isinstance(a, OFold) and isinstance(b, OFold)
+                and a.init.canon() == b.init.canon()
+                and a.collection.canon() != b.collection.canon()
+                and a.op_name == b.op_name
+                and depth <= 3):
+            try:
+                from .compositional_cohomology import (
+                    _values_agree_on_region_z3, _HAS_Z3
+                )
+                if _HAS_Z3:
+                    from z3 import Int
+                    from .denotation import _collect_vars, OLit as _OLit
+                    free = (_collect_vars(a.collection) | _collect_vars(b.collection)) & {
+                        f'p{i}' for i in range(10)}
+                    if free:
+                        z3v = {v: Int(v) for v in sorted(free)}
+                        r = _values_agree_on_region_z3(
+                            _OLit(True), a.collection, b.collection, z3v, 300)
+                        if r is True:
+                            return True
+            except Exception:
+                pass
+
+        # Čech input cohomology: fiber-level proof for eq(A, B)
+        # Only at shallow depth, only for terms with guard/fold structure
+        if depth <= 2 and len(a.canon()) + len(b.canon()) > 30:
+            if (_contains_fold_or_fix(a) or _contains_fold_or_fix(b)
+                    or isinstance(a, OCase) or isinstance(b, OCase)):
+                try:
+                    from .compositional_cohomology import cech_input_cohomology
+                    from .denotation import _collect_vars
+                    params = sorted(
+                        (_collect_vars(a) | _collect_vars(b))
+                        & {f'p{i}' for i in range(10)})
+                    if params:
+                        cech_r = cech_input_cohomology(
+                            a, b, params=params, timeout_ms=1500)
+                        if cech_r.equivalent is True and cech_r.h1_rank == 0:
+                            return True
+                except Exception:
+                    pass
+
+        # ── Z3 value equality proof ──
+        # When A and B are Z3-compilable arithmetic/boolean expressions,
+        # prove A == B by checking that A != B is unsat. This catches
+        # algebraically equivalent expressions (e.g., a+b vs b+a,
+        # min(a,b)+max(a,b) vs a+b) that differ syntactically but are
+        # provably equal over all integer/real inputs.
+        #
+        # The _value_to_z3 compiler handles arithmetic, comparisons-as-
+        # values, and/or/not, and creates opaque Z3 vars for folds/fixes.
+        # Opaque vars from matching sub-expressions get the SAME Z3 var
+        # (keyed by canonical form), so algebraic context reasoning works
+        # even with opaque sub-terms.
+        if depth <= 4:
+            try:
+                from .compositional_cohomology import (
+                    _value_to_z3, _add_type_axioms, _collect_free_vars,
+                    _HAS_Z3
+                )
+                if _HAS_Z3:
+                    from z3 import Solver, Not, unsat, Int, IntVal
+                    from .denotation import _collect_vars
+                    free = (_collect_vars(a) | _collect_vars(b)) & {
+                        f'p{i}' for i in range(10)}
+                    if free or (not _collect_vars(a) and not _collect_vars(b)):
+                        z3v = {v: Int(v) for v in sorted(free)}
+                        a_z3 = _value_to_z3(a, z3v)
+                        b_z3 = _value_to_z3(b, z3v)
+                        if a_z3 is not None and b_z3 is not None:
+                            s = Solver()
+                            s.set('timeout', 300)
+                            _add_type_axioms(s, z3v)
+                            # Add guard constraints from accumulated substs
+                            if substs:
+                                for canon_key, lit_val in substs.items():
+                                    lit_z3 = _value_to_z3(lit_val, z3v)
+                                    # Find matching var
+                                    for v in free:
+                                        vt = OOp('__dummy', ()) if False else OVar(v)
+                                        if vt.canon() == canon_key:
+                                            if lit_z3 is not None:
+                                                s.add(z3v[v] == lit_z3)
+                                            break
+                            s.add(Not(a_z3 == b_z3))
+                            if s.check() == unsat:
+                                return True
+            except Exception:
+                pass
+
+        return None
+
+    # and(A, B) → prove both conjuncts with guard propagation
+    # When proving and(A, B), A's truth provides constraints for B.
+    # This is Čech stalk evaluation: on the fiber where A holds,
+    # simplify B before proving it.
+    if isinstance(term, OOp) and term.name == 'and':
+        args = list(term.args)
+        if len(args) >= 2:
+            # Try proving with guard propagation from first to rest
+            first = args[0]
+            rest = args[1] if len(args) == 2 else OOp('and', tuple(args[1:]))
+            if _prove_formally_true(first, substs, depth + 1) is True:
+                # Propagate first's constraints into rest
+                guard_substs = _extract_guard_substitutions(first)
+                merged = {**substs, **guard_substs}
+                if _prove_formally_true(rest, merged, depth + 1) is True:
+                    return True
+                # Also try with guard constraint propagation
+                try:
+                    from .denotation import _propagate_guard_constraints
+                    first_canon = first.canon()
+                    known_true = {first_canon}
+                    known_false = set()
+                    _CMP_COMP = {'lt': 'gte', 'gte': 'lt', 'gt': 'lte', 'lte': 'gt',
+                                 'eq': 'noteq', 'noteq': 'eq'}
+                    if isinstance(first, OOp) and first.name in _CMP_COMP:
+                        comp = OOp(_CMP_COMP[first.name], first.args)
+                        known_false.add(comp.canon())
+                    if isinstance(first, OOp) and first.name == 'and':
+                        for conj in first.args:
+                            known_true.add(conj.canon())
+                    propagated = _propagate_guard_constraints(rest, known_true, known_false)
+                    propagated = normalize(propagated)
+                    if propagated.canon() != rest.canon():
+                        if _prove_formally_true(propagated, merged, depth + 1) is True:
+                            return True
+                except Exception:
+                    pass
+            # Try reverse direction: propagate from rest conjuncts to first
+            if len(args) == 2:
+                second = args[1]
+                if _prove_formally_true(second, substs, depth + 1) is True:
+                    guard_substs = _extract_guard_substitutions(second)
+                    merged = {**substs, **guard_substs}
+                    if _prove_formally_true(first, merged, depth + 1) is True:
+                        return True
+            # Fallback: try independent proving (original logic)
+            all_proved = True
+            for arg in args:
+                if _prove_formally_true(arg, substs, depth + 1) is not True:
+                    all_proved = False
+                    break
+            if all_proved:
+                return True
+        return None
+
+    # Comparison reflexivity: lte(X,X) → True, gte(X,X) → True, eq(X,X) → True
+    if isinstance(term, OOp) and term.name in ('lte', 'gte') and len(term.args) == 2:
+        if term.args[0].canon() == term.args[1].canon():
+            return True
+
+    # Tautological comparisons with len():
+    # lte(0, len(X)) → True (length is non-negative)
+    # gte(len(X), 0) → True
+    # lt(len(X), 0) is False → u_not(lt(len(X), 0)) → True
+    if isinstance(term, OOp) and len(term.args) == 2:
+        a, b = term.args
+        if term.name == 'lte' and isinstance(a, OLit) and a.value == 0:
+            if isinstance(b, OOp) and b.name == 'len':
+                return True
+        if term.name == 'gte' and isinstance(b, OLit) and b.value == 0:
+            if isinstance(a, OOp) and a.name == 'len':
+                return True
+
+    # not(X) / u_not(X):
+    # - not(False) → True
+    # - not(X) → True if X is provably False
+    if isinstance(term, OOp) and term.name in ('not', 'u_not') and len(term.args) == 1:
+        inner = term.args[0]
+        if isinstance(inner, OLit) and inner.value is False:
+            return True
+        # Try to prove inner is always False
+        if _prove_formally_false(inner, substs, depth + 1) is True:
+            return True
+
+    # is(X, True) → only if X is provably True
+    if isinstance(term, OOp) and term.name == 'is' and len(term.args) == 2:
+        a_is, b_is = term.args
+        if isinstance(b_is, OLit) and b_is.value is True:
+            return _prove_formally_true(a_is, substs, depth + 1)
+        # is(X, False) → only if X is provably False
+        if isinstance(b_is, OLit) and b_is.value is False:
+            return _prove_formally_false(a_is, substs, depth + 1)
+        # is(X, None) → True when X normalizes to OLit(None)
+        if isinstance(b_is, OLit) and b_is.value is None:
+            if isinstance(a_is, OLit) and a_is.value is None:
+                return True
+        # Symmetric: is(None, X) etc.
+        if isinstance(a_is, OLit) and isinstance(b_is, OLit):
+            if a_is.value is b_is.value:
+                return True
+        # is(True, X) → X is provably True (symmetric)
+        if isinstance(a_is, OLit) and a_is.value is True:
+            return _prove_formally_true(b_is, substs, depth + 1)
+        if isinstance(a_is, OLit) and a_is.value is False:
+            return _prove_formally_false(b_is, substs, depth + 1)
+        if isinstance(a_is, OLit) and a_is.value is None:
+            if isinstance(b_is, OLit) and b_is.value is None:
+                return True
+
+    # notin(X, []) → True (nothing is in an empty collection)
+    if isinstance(term, OOp) and term.name == 'notin' and len(term.args) == 2:
+        coll = term.args[1]
+        if isinstance(coll, OSeq) and len(coll.elements) == 0:
+            return True
+
+    # ── Fold universal/existential quantifier ──
+    # fold[and](True, map(λ(x) P(x), C)) = ∀x∈C. P(x)
+    # If P(x) is provably True for a fresh symbolic x, the fold is True.
+    # fold[or](False, map(λ(x) P(x), C)) = ∃x∈C. P(x) — NOT handled here
+    #   (existential would require witnessing, not universal proof).
+    #
+    # Also handles fold[and](True, C) directly when C is a map producing
+    # boolean values.
+    #
+    # Soundness: P(x) is proved with x as a fresh free variable (universally
+    # quantified). The proof is valid regardless of collection contents.
+    # Empty collection edge case: fold[and](True, []) = True (vacuously),
+    # so universally-proven P doesn't require nonemptiness.
+    from .denotation import OFold, OLam, OMap
+    if isinstance(term, OFold) and depth <= 4:
+        is_and_fold = (term.op_name in ('and', 'And')
+                       and isinstance(term.init, OLit)
+                       and term.init.value is True)
+        if is_and_fold:
+            # Extract the predicate from map(λ(x)P(x), C)
+            coll = term.collection
+            if isinstance(coll, OMap) and coll.transform is not None:
+                lam = coll.transform
+                if isinstance(lam, OLam) and len(lam.params) == 1:
+                    body = normalize(lam.body)
+                    # Prove P(x) for all x: treat lam param as free
+                    # Since x is free and unconstrained, this is ∀x.P(x)
+                    result = _prove_formally_true(body, substs, depth + 1)
+                    if result is True:
+                        return True
+
+    # ── Z3 arithmetic validity ──
+    # For terms that compile cleanly to Z3, check if ¬term is unsat
+    # (i.e., term is universally True). This catches arithmetic
+    # tautologies like lte(min(a,b), a), eq(add(a,b), add(b,a)), etc.
+    # Only at shallow depth to avoid performance blowup.
+    if depth <= 3 and isinstance(term, OOp):
+        try:
+            from .compositional_cohomology import (
+                _guard_to_z3, _value_to_z3, _add_type_axioms, _HAS_Z3
+            )
+            if _HAS_Z3:
+                from z3 import Solver, Not, unsat, Int
+                from .denotation import _collect_vars
+                free = _collect_vars(term) & {f'p{i}' for i in range(10)}
+                if free:
+                    z3v = {v: Int(v) for v in sorted(free)}
+                    # Try as guard (boolean) first
+                    z3_expr = _guard_to_z3(term, z3v)
+                    if z3_expr is not None:
+                        s = Solver()
+                        s.set('timeout', 200)
+                        _add_type_axioms(s, z3v)
+                        s.add(Not(z3_expr))
+                        if s.check() == unsat:
+                            return True
+        except Exception:
+            pass
+
+    return None
+
+
 def _guard_constrained_reduce_to_true(term) -> Optional[bool]:
     """Check if a conditional OTerm reduces to True under guard constraints.
 
-    Handles patterns like:
-      case(eq(0, len(X)), eq([], fold(map(1,range(len(X))), ...)), True)
+    Delegates to _prove_formally_true which handles the full recursive
+    proof structure (nested cases, or, eq, and).
 
-    By propagating guard constraints into the body:
-      Under eq(0, len(X)): len(X) → 0, range(0) → [], map(f,[]) → [],
-      fold(init, []) → init, eq([], []) → True.
-
-    This is genuine Čech descent on the guard cover:
-    - Fiber 1 (guard=True): body reduces to True under constraint
-    - Fiber 2 (guard=False): already True (vacuous)
-    - H¹ = 0 → spec satisfied globally.
-
-    Returns True if reduces to True, None otherwise.
+    Returns True if proven, None otherwise.
     """
-    from .denotation import OCase, OLit, OOp, OVar, OFold, OSeq, OMap, normalize
-
-    # Only handle case structures — bare OLit(True) is not trusted here
-    # because the compiler may lose semantic distinctions.
-    if not isinstance(term, OCase):
-        return None
-
-    # Check for case(guard, body, True) pattern
-    fb = term.false_branch
-    if isinstance(fb, OLit) and fb.value is True:
-        # False branch is True — only need guard-true fiber
-        substs = _extract_guard_substitutions(term.test)
-        if substs:
-            body = _apply_guard_subst(term.true_branch, substs)
-            body = normalize(body)
-            if isinstance(body, OLit) and body.value is True:
-                return True
-        # Even without substitutions, check if body is trivially True
-        if isinstance(term.true_branch, OLit) and term.true_branch.value is True:
-            return True
-
-    # Check for case(guard, True, body) pattern (negated guard)
-    tb = term.true_branch
-    if isinstance(tb, OLit) and tb.value is True:
-        substs = _extract_guard_substitutions_negated(term.test)
-        if substs:
-            body = _apply_guard_subst(term.false_branch, substs)
-            body = normalize(body)
-            if isinstance(body, OLit) and body.value is True:
-                return True
-        if isinstance(term.false_branch, OLit) and term.false_branch.value is True:
-            return True
-
-    # Nested: case(g1, case(g2, ..., True), True) — both fibers
-    if isinstance(term.true_branch, OCase):
-        inner_result = _guard_constrained_reduce_to_true(term.true_branch)
-        if inner_result is True:
-            if isinstance(fb, OLit) and fb.value is True:
-                return True
-
-    # case(guard, True, True) → True
-    if (isinstance(tb, OLit) and tb.value is True
-            and isinstance(fb, OLit) and fb.value is True):
-        return True
-
-    return None
+    return _prove_formally_true(term)
 
 
 def _or_to_cech_descent(term) -> Optional[bool]:
     """Check if or(A, B, ...) is always True via Čech descent.
 
-    or(body, guard) ≡ case(guard, True, body).
-    If the guard is a "simple" predicate that yields substitutions
-    under negation, we can prove body under ¬guard.
-
-    This is genuine Čech cohomology: the or-disjuncts form an open
-    cover, and we verify that Truth extends across each fiber.
+    Delegates to _prove_formally_true which handles or-patterns
+    as part of its recursive proof structure.
     """
-    from .denotation import OOp, OLit, OCase, normalize
-
-    if not isinstance(term, OOp) or term.name != 'or':
-        return None
-
-    args = list(term.args)
-    if len(args) < 2:
-        return None
-
-    # Try each argument as the guard, check if rest reduces to True
-    for i, guard_candidate in enumerate(args):
-        # Build body = or(remaining args) or just the remaining arg
-        remaining = [a for j, a in enumerate(args) if j != i]
-        if len(remaining) == 1:
-            body = remaining[0]
-        else:
-            body = OOp('or', tuple(remaining))
-
-        # Convert to case(guard, True, body) and check
-        case_term = OCase(guard_candidate, OLit(True), body)
-        result = _guard_constrained_reduce_to_true(case_term)
-        if result is True:
-            return True
-
-    return None
+    return _prove_formally_true(term)
 
 
 def _extract_guard_substitutions(guard) -> dict:
@@ -2218,6 +3572,13 @@ def _extract_guard_substitutions(guard) -> dict:
             if isinstance(b, OLit):
                 substs[a.canon()] = b
             elif isinstance(a, OLit):
+                substs[b.canon()] = a
+        elif guard.name == 'is' and len(guard.args) == 2:
+            a, b = guard.args
+            # is(X, None) → X = None (singleton identity)
+            if isinstance(b, OLit) and b.value is None:
+                substs[a.canon()] = b
+            elif isinstance(a, OLit) and a.value is None:
                 substs[b.canon()] = a
         elif guard.name == 'and':
             for arg in guard.args:
@@ -2480,6 +3841,23 @@ def _check(source_f: str, source_g: str, timeout_ms: int) -> Result:
             source_f, source_g, deadline)
         if _fold_cong is not None:
             return _fold_cong
+    except Exception:
+        pass
+
+    # ══════════════════════════════════════════════════════════
+    # Strategy 1b2: Case congruence (Čech descent through guards)
+    # When both programs compile to case(G, A, B) and case(G, A', B')
+    # with the SAME guard G, equivalence reduces to proving
+    # A ≡ A' and B ≡ B' on the respective fibers.
+    # This is genuine Čech descent: G partitions the input space
+    # into two open sets (stalk over True, stalk over False),
+    # and we verify section agreement on each stalk.
+    # Sound: same partition ⟹ stalk-wise EQ ⟹ global EQ.
+    # ══════════════════════════════════════════════════════════
+    try:
+        _case_cong = _case_congruence_check(source_f, source_g, deadline)
+        if _case_cong is not None:
+            return _case_cong
     except Exception:
         pass
 
@@ -4062,6 +5440,11 @@ def _infer_param_fibers(source: str, param_names: List[str],
                                 tgt = node.target if isinstance(node, ast.For) else node.target
                                 if isinstance(tgt, ast.Name):
                                     loop_var = tgt.id
+                                    _char_method_names = {
+                                        'isalpha', 'isdigit', 'isalnum',
+                                        'isupper', 'islower', 'isspace',
+                                        'upper', 'lower', 'swapcase',
+                                    }
                                     for inner in ast.walk(func_node):
                                         if (isinstance(inner, ast.Compare)
                                             and isinstance(inner.left, ast.Name)
@@ -4071,6 +5454,21 @@ def _infer_param_fibers(source: str, param_names: List[str],
                                                     and isinstance(comp.value, str)
                                                     and len(comp.value) == 1):
                                                     builtin_hints.add('__char_iter__')
+                                        # Loop var calls char methods → iterable is string
+                                        if (isinstance(inner, ast.Call)
+                                            and isinstance(inner.func, ast.Attribute)
+                                            and isinstance(inner.func.value, ast.Name)
+                                            and inner.func.value.id == loop_var
+                                            and inner.func.attr in _char_method_names):
+                                            builtin_hints.add('__char_iter__')
+                                        # ord(loop_var) → iterable is string
+                                        if (isinstance(inner, ast.Call)
+                                            and isinstance(inner.func, ast.Name)
+                                            and inner.func.id == 'ord'
+                                            and inner.args
+                                            and isinstance(inner.args[0], ast.Name)
+                                            and inner.args[0].id == loop_var):
+                                            builtin_hints.add('__char_iter__')
                             # for x, y in zip(p, ...): the iter is zip(p,...)
                             if (isinstance(iter_node, ast.Call)
                                 and isinstance(iter_node.func, ast.Name)
@@ -4078,6 +5476,17 @@ def _infer_param_fibers(source: str, param_names: List[str],
                                 for a in iter_node.args:
                                     if isinstance(a, ast.Name) and a.id == p:
                                         builtin_hints.add(iter_node.func.id)
+                    # Detect str.join returns on params iterated with for-loop.
+                    # Pattern: `"X".join(...)` in a function that iterates `p`
+                    # implies `p` yields characters → p is a string.
+                    if '__iter__' in builtin_hints:
+                        for node3 in ast.walk(func_node):
+                            if (isinstance(node3, ast.Call)
+                                and isinstance(node3.func, ast.Attribute)
+                                and node3.func.attr == 'join'
+                                and isinstance(node3.func.value, ast.Constant)
+                                and isinstance(node3.func.value.value, str)):
+                                builtin_hints.add('__char_iter__')
                 except Exception:
                     pass
             

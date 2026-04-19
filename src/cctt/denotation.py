@@ -2495,7 +2495,38 @@ def _propagate_guard_constraints(term: OTerm,
             new_args.append(a2)
             if a2 is not a:
                 changed = True
+
+        # ── Boolean guard substitution in and()/or() ──
+        # After recursion, check if any conjunct/disjunct matches
+        # a known-true or known-false guard expression.  This enables
+        # simplifications like and(A, lt(0,n)) → A under guard lt(0,n).
+        if term.name in ('and', 'or'):
+            filtered = []
+            did_filter = False
+            for a2 in new_args:
+                ac = a2.canon()
+                if ac in known_true:
+                    if term.name == 'or':
+                        return OLit(True)   # or(..., True, ...) → True
+                    # and: drop this True conjunct
+                    did_filter = True
+                    continue
+                if ac in known_false:
+                    if term.name == 'and':
+                        return OLit(False)  # and(..., False, ...) → False
+                    # or: drop this False disjunct
+                    did_filter = True
+                    continue
+                filtered.append(a2)
+            if did_filter:
+                changed = True
+                if len(filtered) == 0:
+                    return OLit(True) if term.name == 'and' else OLit(False)
+                new_args = filtered
+
         if changed:
+            if len(new_args) == 1 and term.name in ('and', 'or'):
+                return new_args[0]
             result = OOp(term.name, tuple(new_args))
             # Constant-fold eq(X, X) → True after propagation
             if term.name == 'eq' and len(new_args) == 2:
@@ -2631,13 +2662,16 @@ def _phase1_beta(term: OTerm) -> OTerm:
         #   case(lte(a,b), X, Y) → case(gt(a,b), Y, X)   [prefer gt over lte]
         #   case(ge(a,b), X, Y) → case(lt(a,b), Y, X)    [prefer lt over ge]
         # This ensures the same partition is expressed the same way.
+        # NOTE: Do NOT return early — fall through to guard propagation
+        # which needs to simplify inner guards that may have been flipped
+        # by recursive _phase1_beta calls on branches.
         if isinstance(test, OOp) and len(test.args) == 2:
             _FLIP_CMP = {'lte': 'gt', 'LtE': 'gt', '<=': 'gt',
                          'ge': 'lt', 'GtE': 'lt', '>=': 'lt',
                          'gte': 'lt'}
             if test.name in _FLIP_CMP:
-                flipped = OOp(_FLIP_CMP[test.name], test.args)
-                return OCase(flipped, f, t)
+                test = OOp(_FLIP_CMP[test.name], test.args)
+                t, f = f, t
 
         # ── R16: Redundant guard elimination ──
         # case(lt(len(X), K), [], map/filter_map(λ, range(sub(len(X), M))))
@@ -2738,18 +2772,37 @@ def _phase1_beta(term: OTerm) -> OTerm:
         # Also decomposes conjunctions/disjunctions:
         #   - G = and(G1,G2,...): G1,G2,... all True in T branch
         #   - G = or(G1,G2,...): G1,G2,... all False in F branch
+        # Complement awareness: if G=lte(a,b), then gt(a,b) is False in T branch
+        # and True in F branch.  This handles the case where recursive phase1
+        # has already flipped inner guards to the complementary comparison.
         # This is stalk computation: the section restricted to a fiber
         # simplifies because guard predicates have known truth values.
+        _CMP_COMPLEMENT = {'lte': 'gt', 'gt': 'lte', 'lt': 'gte', 'gte': 'lt',
+                           'eq': 'noteq', 'noteq': 'eq',
+                           'LtE': 'gt', 'GtE': 'lt'}
         true_guards = {test.canon()}
         false_guards = {test.canon()}
+        # Complements: if G is true, complement(G) is false and vice versa
+        complement_true = set()  # known False in T branch
+        complement_false = set()  # known True in F branch
+        if isinstance(test, OOp) and test.name in _CMP_COMPLEMENT:
+            comp = OOp(_CMP_COMPLEMENT[test.name], test.args)
+            complement_true.add(comp.canon())  # complement is False when guard is True
+            complement_false.add(comp.canon())  # complement is True when guard is False
         if isinstance(test, OOp) and test.name == 'and':
             for conj in test.args:
                 true_guards.add(conj.canon())
+                if isinstance(conj, OOp) and conj.name in _CMP_COMPLEMENT:
+                    comp = OOp(_CMP_COMPLEMENT[conj.name], conj.args)
+                    complement_true.add(comp.canon())
         if isinstance(test, OOp) and test.name == 'or':
             for disj in test.args:
                 false_guards.add(disj.canon())
-        t2 = _propagate_guard_constraints(t, true_guards, set())
-        f2 = _propagate_guard_constraints(f, set(), false_guards)
+                if isinstance(disj, OOp) and disj.name in _CMP_COMPLEMENT:
+                    comp = OOp(_CMP_COMPLEMENT[disj.name], disj.args)
+                    complement_false.add(comp.canon())
+        t2 = _propagate_guard_constraints(t, true_guards, complement_true)
+        f2 = _propagate_guard_constraints(f, complement_false, false_guards)
         if t2.canon() != t.canon() or f2.canon() != f.canon():
             t, f = t2, f2
             # Re-check collapse after propagation
@@ -2914,6 +2967,28 @@ def _phase1_beta(term: OTerm) -> OTerm:
                             eq_f = OLit(True) if f_match else OOp('eq', (case_arg.false_branch, other_arg))
                         return OCase(case_arg.test, eq_t, eq_f)
 
+        # ── Identity (is) over case distribution for singletons ──
+        # is(case(G, A, B), S) → case(G, is(A,S), is(B,S)) for S ∈ {None, True, False}
+        # These are Python language-level singletons where identity ≡ equality.
+        # Only applied when at least one branch immediately simplifies.
+        if term.name == 'is' and len(args) == 2:
+            _SINGLETONS = (None, True, False)
+            for case_idx, other_idx, swap in [(0, 1, False), (1, 0, True)]:
+                case_arg, other_arg = args[case_idx], args[other_idx]
+                if (isinstance(case_arg, OCase) and isinstance(other_arg, OLit)
+                        and other_arg.value in _SINGLETONS):
+                    oc = other_arg.canon()
+                    t_match = case_arg.true_branch.canon() == oc
+                    f_match = case_arg.false_branch.canon() == oc
+                    if t_match or f_match:
+                        if swap:
+                            is_t = OLit(True) if t_match else OOp('is', (other_arg, case_arg.true_branch))
+                            is_f = OLit(True) if f_match else OOp('is', (other_arg, case_arg.false_branch))
+                        else:
+                            is_t = OLit(True) if t_match else OOp('is', (case_arg.true_branch, other_arg))
+                            is_f = OLit(True) if f_match else OOp('is', (case_arg.false_branch, other_arg))
+                        return OCase(case_arg.test, is_t, is_f)
+
         return OOp(term.name, args)
 
     if isinstance(term, OFold):
@@ -3049,6 +3124,11 @@ def _phase2_ring(term: OTerm) -> OTerm:
                 return args[0]
             if isinstance(args[0], OLit) and args[0].value == 0:
                 return args[1]
+            # add(X, []) → X and add([], X) → X  (list concat identity)
+            if isinstance(args[1], OSeq) and len(args[1].elements) == 0:
+                return args[0]
+            if isinstance(args[0], OSeq) and len(args[0].elements) == 0:
+                return args[1]
 
         # R5: (x + c1) - c1 → x, (x - c1) + c1 → x (add-sub cancellation)
         if name in ('sub', 'isub') and len(args) == 2:
@@ -3125,6 +3205,11 @@ def _phase2_ring(term: OTerm) -> OTerm:
             if isinstance(args[0], OLit) and args[0].value == 0:
                 return args[1]
             if isinstance(args[1], OLit) and args[1].value == 0:
+                return args[0]
+
+        # max/min idempotency: max(X, X) → X, min(X, X) → X
+        if name in ('max', 'min') and len(args) == 2:
+            if args[0].canon() == args[1].canon():
                 return args[0]
 
         # ── Sum linearity: sub(fold[add](0, map(f, xs)), fold[add](0, map(g, xs)))
@@ -3424,9 +3509,9 @@ def _phase2_ring(term: OTerm) -> OTerm:
             if isinstance(ctor, OOp) and ctor.name.startswith('hashlib.') and len(ctor.args) == 0:
                 return OOp(ctor.name, (args[1],))
 
-        # S1: not(not(x)) → x
+        # S1: not(not(x)) → x (handles u_not(u_not(x)) and u_not(not(x)))
         if name == 'u_not' and len(args) == 1:
-            if isinstance(args[0], OOp) and args[0].name == 'u_not':
+            if isinstance(args[0], OOp) and args[0].name in ('u_not', 'not'):
                 return args[0].args[0]
 
         # B3: not(a < b) → a >= b
@@ -3449,6 +3534,19 @@ def _phase2_ring(term: OTerm) -> OTerm:
                 negated_coll = _negate_map_pred(inner_fold.collection)
                 if negated_coll is not None:
                     return OFold('or', OLit(False), negated_coll)
+
+        # De Morgan on and/or: not(and(A, B)) → or(not(A), not(B))
+        #                       not(or(A, B))  → and(not(A), not(B))
+        if name == 'u_not' and len(args) == 1 and isinstance(args[0], OOp):
+            if args[0].name == 'and':
+                return OOp('or', tuple(OOp('u_not', (a,)) for a in args[0].args))
+            if args[0].name == 'or':
+                return OOp('and', tuple(OOp('u_not', (a,)) for a in args[0].args))
+
+        # not(not(X)) for 'not' name (Python-level not)
+        if name == 'not' and len(args) == 1:
+            if isinstance(args[0], OOp) and args[0].name in ('not', 'u_not'):
+                return args[0].args[0]
 
         # L1: x and True → x, L2: x and False → False
         if name == 'and' and len(args) == 2:
@@ -3613,7 +3711,11 @@ def _phase2_ring(term: OTerm) -> OTerm:
         # ── Comparison direction normalization ──
         # case(noteq(a,b), x, y) → case(eq(a,b), y, x)
         # Normalize to positive comparisons in guards
-        _flip = {'noteq': 'eq', 'gte': 'lt', 'gt': 'lte'}
+        # Phase 1 already normalizes lte→gt and gte→lt (prefer strict
+        # comparisons lt/gt in guards). We only flip noteq→eq here.
+        # IMPORTANT: do NOT flip gt→lte — that creates an oscillation
+        # with Phase 1's lte→gt, preventing guard propagation convergence.
+        _flip = {'noteq': 'eq'}
         if isinstance(test, OOp) and test.name in _flip:
             return OCase(OOp(_flip[test.name], test.args), f, t)
 
