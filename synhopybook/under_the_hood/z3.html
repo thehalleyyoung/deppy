@@ -1049,7 +1049,8 @@ result = solver.check()  <span class="cm"># → unsat</span>
 
 <pre><code><span class="cm"># PathEncoder: encode a path as a Z3 function</span>
 
-<span class="kw">from</span> z3 <span class="kw">import</span> Function, RealSort, IntSort, ForAll, Real
+<span class="kw">import</span> z3
+<span class="kw">from</span> z3 <span class="kw">import</span> Function, RealSort, IntSort, ForAll, Real, Implies, And
 
 <span class="kw">class</span> <span class="ty">PathEncoder</span>:
     <span class="kw">def</span> <span class="fn">encode_path</span>(
@@ -1093,7 +1094,9 @@ result = solver.check()  <span class="cm"># → unsat</span>
   a function composition:
 </p>
 
-<pre><code><span class="kw">class</span> <span class="ty">TransportEncoder</span>:
+<pre><code><span class="kw">import</span> z3
+
+<span class="kw">class</span> <span class="ty">TransportEncoder</span>:
     <span class="kw">def</span> <span class="fn">encode_transport</span>(
         <span class="kw">self</span>,
         type_path: <span class="ty">PathEncoder</span>,
@@ -1124,7 +1127,11 @@ result = solver.check()  <span class="cm"># → unsat</span>
   and the covering condition becomes an array partition property:
 </p>
 
-<pre><code><span class="kw">class</span> <span class="ty">CechEncoder</span>:
+<pre><code><span class="kw">import</span> z3
+<span class="kw">from</span> z3 <span class="kw">import</span> Int, Or, And, ForAll, Implies
+<span class="kw">from</span> itertools <span class="kw">import</span> combinations
+
+<span class="kw">class</span> <span class="ty">CechEncoder</span>:
     <span class="kw">def</span> <span class="fn">encode_cover</span>(
         <span class="kw">self</span>,
         domain_size: <span class="ty">z3.ExprRef</span>,
