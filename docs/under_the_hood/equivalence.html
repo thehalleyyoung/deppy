@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equivalence Checking — Deppy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .verdict { display: inline-block; padding: 0.15em 0.6em; border-radius: 4px; font-weight: 600; font-family: var(--font-mono); font-size: 0.88em; }
+    .verdict-eq  { background: #dcfce7; color: #166534; }
+    .verdict-neq { background: #fee2e2; color: #991b1b; }
+    .verdict-unk { background: #fef9c3; color: #854d0e; }
+    .tier { border-left: 4px solid var(--primary); padding: 1rem 1.25rem; margin: 1.5rem 0; background: var(--bg-alt); border-radius: 0 8px 8px 0; }
+    .tier h3 { margin-top: 0; }
+    .tier-auto { border-left-color: #16a34a; }
+    .tier-anno { border-left-color: #d97706; }
+    .tier-manual { border-left-color: #dc2626; }
+    table.matrix { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.92rem; }
+    table.matrix th, table.matrix td { padding: 0.5rem 0.75rem; border: 1px solid var(--border); text-align: left; }
+    table.matrix th { background: var(--bg-alt); font-weight: 600; }
+    table.matrix code { font-size: 0.85em; }
+  </style>
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header"><h1>Deppy</h1><div class="subtitle">Python with Dependent Types — Tutorial Book</div></div>
+  <nav><ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../structure.html">Structure of this Book</a></li>
+    <li><a href="../intro.html">Introduction</a></li>
+    <li><span class="section-title">Part 1 — Pure Python</span></li>
+    <li><a href="../part1/index.html">Overview</a></li>
+    <li><a href="../part1/getting_started.html">Getting Started</a></li>
+    <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+    <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+    <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+    <li><a href="../part1/data_structures.html">Data Structures</a></li>
+    <li><a href="../part1/termination.html">Termination</a></li>
+    <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+    <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+    <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+    <li><a href="../part2/index.html">Overview</a></li>
+    <li><a href="../part2/generics.html">Generic Types</a></li>
+    <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+    <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+    <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+    <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+    <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+    <li><span class="section-title">Part 3 — Python Specifics</span></li>
+    <li><a href="../part3/index.html">Overview</a></li>
+    <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+    <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+    <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+    <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+    <li><a href="../part4/index.html">Overview</a></li>
+    <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+    <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+    <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+    <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+    <li><a href="../part5/index.html">Overview</a></li>
+    <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+    <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+    <li><a href="../part5/fibrations.html">Fibrations</a></li>
+    <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+    <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+    <li><a href="../part6/index.html">Overview</a></li>
+    <li><a href="../part6/separation.html">Separation Logic</a></li>
+    <li><a href="../part6/references.html">Mutable References</a></li>
+    <li><a href="../part6/arrays.html">Arrays</a></li>
+    <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+    <li><a href="../part6/async.html">Async / Await</a></li>
+    <li><span class="section-title">Under the Hood</span></li>
+    <li><a href="../under_the_hood/index.html">Overview</a></li>
+    <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    <li><a href="../under_the_hood/equivalence.html" class="active">Equivalence Checking</a></li>
+  </ul></nav>
+</aside>
+
+<main class="content">
+<article>
+
+<h1>Equivalence Checking</h1>
+<p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:1.5rem;">
+  Automatically proving two functions equivalent, finding counterexamples when they differ,
+  and checking that implementations adhere to specifications.
+</p>
+
+<p>
+  One of Deppy's most practical features is <strong>automatic equivalence checking</strong>:
+  given two Python functions with the same signature, Deppy can determine whether they
+  always produce the same output — and if not, give you a concrete counterexample.
+  No annotations, no proof terms, no decorators. Just two functions.
+</p>
+
+<pre><code class="language-python">from deppy import check_equiv
+
+def f(x: int) -> int:
+    return x * 2
+
+def g(x: int) -> int:
+    return x + x
+
+result = check_equiv(f, g)
+print(result)
+# EquivResult(EQUIVALENT, method='z3')</code></pre>
+
+<p>
+  Deppy proved these functions identical <em>for all integers</em> — not by testing a
+  handful of inputs, but by compiling both bodies to Z3 symbolic expressions and
+  asking the SMT solver to find any input where they differ. Z3 reports <code>UNSAT</code>:
+  no such input exists.
+</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="how">How It Works</h2>
+
+<p>
+  Deppy's equivalence engine uses three strategies, tried in order:
+</p>
+
+<ol>
+  <li><strong>Z3 symbolic</strong> — Compile both function bodies to Z3 expressions.
+    Check <code>∃x. f(x) ≠ g(x)</code>. If UNSAT → equivalent (proven). If SAT →
+    counterexample (proven). If UNKNOWN → fall through.</li>
+  <li><strong>Property-based testing</strong> — Generate 1,000 random inputs (seeded
+    for reproducibility), run both functions, compare outputs. High confidence but
+    not a proof.</li>
+  <li><strong>Specification comparison</strong> — If both functions have
+    <code>@guarantee</code> specs, compare the specs structurally.</li>
+</ol>
+
+<p>
+  The result always tells you <em>which method</em> was used and at <em>what
+  confidence level</em>:
+</p>
+
+<pre><code class="language-python">result = check_equiv(f, g)
+result.equivalent   # True, False, or None (inconclusive)
+result.method       # 'z3', 'testing', 'spec', 'inconclusive'
+result.confidence   # 1.0 for z3, &lt;1 for testing
+result.counterexample  # dict of {param: value} when inequivalent</code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="fully-automatic">Tier 1: Fully Automatic, Annotation-Free</h2>
+
+<div class="tier tier-auto">
+<h3>🟢 Zero annotations needed — just pass two functions</h3>
+<p>
+  For functions over <code>int</code>, <code>float</code>, and <code>bool</code>
+  that use arithmetic, comparisons, branching, <code>abs</code>/<code>min</code>/<code>max</code>,
+  and simple assignments, Deppy handles everything automatically via Z3.
+  You write no decorators, no specs, no proof terms.
+</p>
+</div>
+
+<h3>Example 1: Algebraic identity</h3>
+
+<pre><code class="language-python">def square_diff(a: int, b: int) -> int:
+    return (a + b) * (a - b)
+
+def explicit_diff(a: int, b: int) -> int:
+    return a * a - b * b
+
+result = check_equiv(square_diff, explicit_diff)
+# EquivResult(EQUIVALENT, method='z3') ✓</code></pre>
+
+<p>
+  Z3 proves <code>(a+b)·(a−b) = a²−b²</code> for all integers.
+  No annotations needed.
+</p>
+
+<h3>Example 2: Branching refactors</h3>
+
+<pre><code class="language-python">def clamp_v1(x: int) -> int:
+    if x < 0:
+        return 0
+    if x > 100:
+        return 100
+    return x
+
+def clamp_v2(x: int) -> int:
+    return max(0, min(x, 100))
+
+result = check_equiv(clamp_v1, clamp_v2)
+# EquivResult(EQUIVALENT, method='z3') ✓</code></pre>
+
+<p>
+  The if-chain and the <code>max</code>/<code>min</code> expression are compiled to
+  nested <code>z3.If</code> trees. Z3 proves they produce the same value for every
+  integer <code>x</code>.
+</p>
+
+<h3>Example 3: Detecting a bug — counterexample</h3>
+
+<pre><code class="language-python">def safe_div(a: int, b: int) -> int:
+    if b == 0:
+        return 0
+    return a // b
+
+def unsafe_div(a: int, b: int) -> int:
+    return a // b if b != 0 else a  # bug: returns a, not 0
+
+result = check_equiv(safe_div, unsafe_div)
+print(result)
+# EquivResult(INEQUIVALENT, method='z3',
+#   counterexample={'a': 7, 'b': 0})</code></pre>
+
+<p>
+  Z3 found that when <code>a=7, b=0</code>, <code>safe_div</code> returns <code>0</code>
+  but <code>unsafe_div</code> returns <code>7</code>. The counterexample is concrete —
+  you can replay it yourself.
+</p>
+
+<h3>Example 4: Conditional assignment patterns</h3>
+
+<pre><code class="language-python">def relu_v1(x: int) -> int:
+    if x < 0:
+        x = 0
+    return x
+
+def relu_v2(x: int) -> int:
+    return x if x >= 0 else 0
+
+result = check_equiv(relu_v1, relu_v2)
+# EquivResult(EQUIVALENT, method='z3') ✓</code></pre>
+
+<p>
+  The "mutating if" pattern (<code>if x &lt; 0: x = 0</code> with no return and
+  no else) is compiled to <code>x = z3.If(x &lt; 0, 0, x)</code> — a conditional
+  assignment. Deppy recognizes this Pythonic pattern automatically.
+</p>
+
+<h3>Example 5: Multi-parameter polynomial</h3>
+
+<pre><code class="language-python">def poly_factored(x: int, y: int) -> int:
+    return (x + y) ** 2
+
+def poly_expanded(x: int, y: int) -> int:
+    return x * x + 2 * x * y + y * y
+
+result = check_equiv(poly_factored, poly_expanded)
+# EquivResult(EQUIVALENT, method='z3') ✓</code></pre>
+
+<p>
+  Small-exponent <code>**</code> (up to 6) is expanded to repeated multiplication,
+  so <code>(x+y)**2</code> becomes <code>(x+y)*(x+y)</code> in Z3.
+</p>
+
+<h3>Example 6: Augmented assignment</h3>
+
+<pre><code class="language-python">def accumulate(x: int, y: int) -> int:
+    result = x
+    result += y
+    result += y
+    return result
+
+def direct(x: int, y: int) -> int:
+    return x + 2 * y
+
+result = check_equiv(accumulate, direct)
+# EquivResult(EQUIVALENT, method='z3') ✓</code></pre>
+
+<h3>What's covered automatically</h3>
+
+<table class="matrix">
+  <tr>
+    <th>Construct</th>
+    <th>Handled by Z3?</th>
+    <th>Example</th>
+  </tr>
+  <tr><td>Arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, <code>//</code>, <code>%</code>)</td><td>✅ Yes</td><td><code>x * 2</code> vs <code>x + x</code></td></tr>
+  <tr><td>Comparisons (<code>&lt;</code>, <code>&lt;=</code>, <code>==</code>, <code>!=</code>, etc.)</td><td>✅ Yes</td><td><code>x &gt;= 0</code></td></tr>
+  <tr><td>Boolean ops (<code>and</code>, <code>or</code>, <code>not</code>)</td><td>✅ Yes</td><td><code>x &gt; 0 and x &lt; 100</code></td></tr>
+  <tr><td><code>if</code>/<code>elif</code>/<code>else</code></td><td>✅ Yes</td><td>branching → <code>z3.If</code></td></tr>
+  <tr><td>Ternary (<code>x if c else y</code>)</td><td>✅ Yes</td><td><code>x if x &gt; 0 else -x</code></td></tr>
+  <tr><td>Conditional assignment (<code>if c: x = v</code>)</td><td>✅ Yes</td><td>mutating-if pattern</td></tr>
+  <tr><td><code>abs</code>, <code>min</code>, <code>max</code></td><td>✅ Yes</td><td><code>abs(x)</code> → <code>If(x≥0, x, -x)</code></td></tr>
+  <tr><td>Small powers (<code>x**2</code> through <code>x**6</code>)</td><td>✅ Yes</td><td>expanded to multiplication</td></tr>
+  <tr><td><code>+=</code>, <code>-=</code>, <code>*=</code></td><td>✅ Yes</td><td>augmented assignment</td></tr>
+  <tr><td>Local variables (<code>r = x + 1</code>)</td><td>✅ Yes</td><td>tracked in symbolic env</td></tr>
+  <tr><td>List/string operations</td><td>❌ → testing</td><td><code>xs.append(x)</code></td></tr>
+  <tr><td>Loops (<code>for</code>, <code>while</code>)</td><td>❌ → testing</td><td><code>for x in xs:</code></td></tr>
+  <tr><td>Function calls (non-builtin)</td><td>❌ → testing</td><td><code>helper(x)</code></td></tr>
+  <tr><td>Classes / method calls</td><td>❌ → testing</td><td><code>obj.method()</code></td></tr>
+</table>
+
+<div class="note">
+  When Z3 can't handle a construct, Deppy falls back to <strong>property-based testing</strong>
+  with 1,000 random samples. The result has <code>method='testing'</code> and
+  <code>confidence=0.95</code>. It's a strong signal, but not a proof.
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="spec-adherence">Specification Adherence (Also Automatic)</h2>
+
+<p>
+  Beyond comparing two functions, Deppy can check whether a function
+  <em>adheres to its specification</em> — fully automatically for arithmetic specs.
+</p>
+
+<pre><code class="language-python">from deppy import check_adherence, guarantee
+
+@guarantee("result >= 0")
+def abs_val(x: int) -> int:
+    if x >= 0:
+        return x
+    return -x
+
+result = check_adherence(abs_val)
+print(result)
+# AdherenceResult(adheres=True, method='z3')</code></pre>
+
+<p>
+  Deppy symbolically executes the body, extracts the result expression per path,
+  and checks that the specification holds on every path. If it finds a violation:
+</p>
+
+<pre><code class="language-python">@guarantee("result > 0")   # wrong! fails at x=0
+def abs_val_buggy(x: int) -> int:
+    if x >= 0:
+        return x
+    return -x
+
+result = check_adherence(abs_val_buggy)
+print(result)
+# AdherenceResult(adheres=False, method='z3',
+#   counterexample={'x': 0})</code></pre>
+
+<p>
+  The counterexample tells you exactly <em>which input</em> violates the spec:
+  <code>x=0</code> gives <code>result=0</code>, which does not satisfy <code>result &gt; 0</code>.
+</p>
+
+<h3>Preconditions narrow the domain</h3>
+
+<pre><code class="language-python">from deppy import guarantee, requires
+
+@requires("n > 0")
+@guarantee("result > 0")
+def double_pos(n: int) -> int:
+    return n * 2
+
+result = check_adherence(double_pos)
+# AdherenceResult(adheres=True, method='z3')
+# Z3 checks: ∀n. (n > 0) → (n * 2 > 0)  ✓</code></pre>
+
+<p>
+  The precondition <code>n &gt; 0</code> is added as a Z3 hypothesis, so Deppy only
+  checks the guarantee for valid inputs.
+</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="annotations">Tier 2: Annotation-Guided Equivalence</h2>
+
+<div class="tier tier-anno">
+<h3>🟡 Some annotations needed — specs help Deppy decide</h3>
+<p>
+  When the function body is too complex for Z3 (lists, loops, higher-order
+  functions), but you have specifications, Deppy can compare the <em>specs</em>
+  to determine equivalence.
+</p>
+</div>
+
+<h3>Example: Sorting implementations</h3>
+
+<pre><code class="language-python">from deppy import guarantee, check_equiv
+
+@guarantee("result is sorted and is a permutation of input")
+def my_sort_a(xs: list[int]) -> list[int]:
+    # bubble sort
+    xs = list(xs)
+    for i in range(len(xs)):
+        for j in range(len(xs) - 1):
+            if xs[j] > xs[j+1]:
+                xs[j], xs[j+1] = xs[j+1], xs[j]
+    return xs
+
+@guarantee("result is sorted and is a permutation of input")
+def my_sort_b(xs: list[int]) -> list[int]:
+    return sorted(xs)
+
+result = check_equiv(my_sort_a, my_sort_b)
+print(result)
+# EquivResult(EQUIVALENT, method='testing', confidence=0.95)</code></pre>
+
+<p>
+  Z3 can't handle the nested loops, so Deppy falls back to testing. Both functions
+  produce the same output on all 1,000 random test inputs. The result has
+  <code>confidence=0.95</code> — a strong signal, but not a formal proof.
+</p>
+
+<p>
+  However, if you want a <em>proven</em> result, you can tell Deppy that the
+  functions satisfy the same spec, and use a proof term:
+</p>
+
+<pre><code class="language-python">from deppy import Proof, by_ext
+
+# Prove equivalence via shared spec
+proof = (Proof("my_sort_a(xs) == my_sort_b(xs)")
+    .by_ext("xs",
+        lambda xs: by_axiom("sorted_unique",
+            "a sorted permutation of a list is unique"))
+    .qed())</code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="manual">Tier 3: Manual Proof Terms</h2>
+
+<div class="tier tier-manual">
+<h3>🔴 Full proof terms — for properties beyond automation</h3>
+<p>
+  Some equivalences require genuine mathematical reasoning: induction over
+  data structures, appeal to domain-specific lemmas, or transport across
+  type equivalences.
+</p>
+</div>
+
+<h3>Example: Proving a recursive identity by induction</h3>
+
+<pre><code class="language-python">from deppy import guarantee, lemma, induction, Proof
+
+@guarantee("result == n * (n + 1) // 2")
+def sum_to_loop(n: int) -> int:
+    total = 0
+    for i in range(n + 1):
+        total += i
+    return total
+
+@guarantee("result == n * (n + 1) // 2")
+def sum_to_formula(n: int) -> int:
+    return n * (n + 1) // 2
+
+# Z3 can prove the formula satisfies the spec:
+from deppy import check_adherence
+check_adherence(sum_to_formula)
+# AdherenceResult(adheres=True, method='z3')
+
+# But the loop version needs induction:
+@lemma
+@induction("n")
+def sum_loop_correct(n: int):
+    """sum_to_loop(n) == n * (n + 1) // 2"""
+    # Base case: sum_to_loop(0) = 0 = 0 * 1 // 2  ✓
+    # Inductive step: assume sum_to_loop(k) = k*(k+1)//2
+    #   then sum_to_loop(k+1) = sum_to_loop(k) + (k+1)
+    #                         = k*(k+1)//2 + (k+1)
+    #                         = (k+1)*(k+2)//2  ✓
+    pass</code></pre>
+
+<h3>Example: Transport across duck-type equivalence</h3>
+
+<pre><code class="language-python">from deppy import path, by_duck_type, transport_proof, guarantee
+
+class ArrayStack:
+    @guarantee("result >= 0")
+    def size(self) -> int: ...
+    def push(self, item): ...
+    def pop(self): ...
+
+class LinkedStack:
+    @guarantee("result >= 0")
+    def size(self) -> int: ...
+    def push(self, item): ...
+    def pop(self): ...
+
+# Build a path: ArrayStack ≃ LinkedStack (same Stack protocol)
+@path(ArrayStack, LinkedStack)
+def stack_path():
+    return by_duck_type("Stack", evidence={
+        "size": "same signature and guarantee",
+        "push": "same signature",
+        "pop": "same signature",
+    })
+
+# Transport: any proof about ArrayStack.size
+# transfers to LinkedStack.size
+@transport_proof(stack_path, "size returns non-negative")
+def linked_size_nonneg():
+    pass  # proof transferred automatically</code></pre>
+
+<p>
+  This is <strong>not</strong> just testing — it's a genuine proof that any property
+  proved about one implementation applies to the other, by virtue of their shared
+  protocol structure.
+</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="inequiv">Proving Inequivalence with Counterexamples</h2>
+
+<p>
+  When Z3 finds that two functions are <em>not</em> equivalent, it provides a
+  <strong>concrete counterexample</strong> — specific input values where the functions
+  diverge. Deppy replays the counterexample to confirm:
+</p>
+
+<pre><code class="language-python">def triple(x: int) -> int:
+    return x * 3
+
+def triple_approx(x: int) -> int:
+    return x * 3 + 1
+
+result = check_equiv(triple, triple_approx)
+print(result.equivalent)       # False
+print(result.method)           # 'z3'
+print(result.counterexample)   # {'x': 0}
+# triple(0) = 0, triple_approx(0) = 1 — different!</code></pre>
+
+<p>
+  The counterexample is always <strong>replayed</strong> — Deppy executes both
+  functions with the Z3-provided inputs and verifies the outputs really differ.
+  This guards against Z3 model artifacts.
+</p>
+
+<h3>More counterexample examples</h3>
+
+<pre><code class="language-python"># Off-by-one
+def f(x: int) -> int:
+    return x + 1
+
+def g(x: int) -> int:
+    return x + 2
+
+check_equiv(f, g)
+# INEQUIVALENT, counterexample={'x': 0}
+# f(0)=1, g(0)=2</code></pre>
+
+<pre><code class="language-python"># Branch difference
+def sign_a(x: int) -> int:
+    if x > 0: return 1
+    if x < 0: return -1
+    return 0
+
+def sign_b(x: int) -> int:
+    if x >= 0: return 1   # bug: 0 → 1 instead of 0
+    return -1
+
+check_equiv(sign_a, sign_b)
+# INEQUIVALENT, counterexample={'x': 0}
+# sign_a(0)=0, sign_b(0)=1</code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="ad-hoc">Ad-Hoc Spec Checking</h2>
+
+<p>
+  You don't even need <code>@guarantee</code> — pass a spec string directly:
+</p>
+
+<pre><code class="language-python">from deppy import check_adherence
+
+def clamp(x: int) -> int:
+    if x < 0: return 0
+    if x > 100: return 100
+    return x
+
+# Check any property you like, without decorating:
+check_adherence(clamp, spec="result >= 0")
+# AdherenceResult(adheres=True, method='z3')
+
+check_adherence(clamp, spec="result <= 100")
+# AdherenceResult(adheres=True, method='z3')
+
+check_adherence(clamp, spec="result >= 0 and result <= 100")
+# AdherenceResult(adheres=True, method='z3')
+
+# Try a false property:
+check_adherence(clamp, spec="result == x")
+# AdherenceResult(adheres=False, method='z3',
+#   counterexample={'x': -1})  — clamp(-1)=0 ≠ -1</code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="summary">Summary: The Three Tiers</h2>
+
+<table class="matrix">
+  <tr>
+    <th>Tier</th>
+    <th>What you write</th>
+    <th>What Deppy does</th>
+    <th>Guarantee</th>
+  </tr>
+  <tr>
+    <td><span class="verdict verdict-eq">Tier 1</span></td>
+    <td>Two functions — nothing else</td>
+    <td>Z3 symbolic execution</td>
+    <td>Mathematical proof or counterexample. <code>confidence=1.0</code></td>
+  </tr>
+  <tr>
+    <td><span class="verdict verdict-unk">Tier 2</span></td>
+    <td>Functions + <code>@guarantee</code> specs</td>
+    <td>Spec comparison + testing</td>
+    <td>High-confidence testing. <code>confidence=0.95</code></td>
+  </tr>
+  <tr>
+    <td><span class="verdict verdict-neq">Tier 3</span></td>
+    <td>Functions + specs + proof terms</td>
+    <td>Kernel-checked proof</td>
+    <td>Machine-checked, exportable to Lean. <code>KERNEL</code> trust</td>
+  </tr>
+</table>
+
+<p>
+  The key insight: <strong>Tier 1 requires zero annotations</strong>.
+  For the decidable fragment (integer/float arithmetic with branching),
+  Deppy is a fully automatic equivalence prover — you just hand it two functions
+  and get a proven verdict.
+</p>
+
+<div class="note">
+  <strong>Try it now:</strong>
+  <pre style="background:var(--bg-code); color:#e2e8f0; padding:0.75rem; border-radius:6px; margin-top:0.5rem;"><code>pip install git+https://github.com/thehalleyyoung/deppy.git
+pip install z3-solver
+python3 -c "
+from deppy import check_equiv
+
+def f(x: int) -> int: return x * x - 1
+def g(x: int) -> int: return (x - 1) * (x + 1)
+
+print(check_equiv(f, g))
+"</code></pre>
+</div>
+
+</article>
+</main>
+
+<script src="../js/sidebar.js"></script>
+</article>
+</main>
+</body>
+</html>
