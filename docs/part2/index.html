@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 2 — Advanced Proofs · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Part 2 — Advanced Proofs</h1>
+    <p class="subtitle" style="color:var(--text-muted);font-size:1.1rem;margin-bottom:2rem;">
+      Inductive types, dependent data structures, and the foundations of homotopy verification in Python.
+    </p>
+
+    <h2>What You'll Learn</h2>
+    <p>
+      Part&nbsp;1 gave you the tools to write verified Python with refinement types and Z3.
+      In Part&nbsp;2, we go deeper: you'll use Python's <code>Generic</code> type system,
+      <code>dataclass</code>-based inductive types, and Deppy's homotopy constructs to
+      build programs whose correctness is guaranteed at a much richer level.
+    </p>
+    <p>
+      Where F*'s Part&nbsp;2 introduces inductive types and dependent pattern matching,
+      Deppy maps those ideas onto Python idioms — generics, dataclasses, protocols —
+      and extends them with <strong>path types</strong> and <strong>cubical constructions</strong>
+      that let you reason about <em>equality of behaviour</em>, not just equality of values.
+    </p>
+
+    <h2>Chapters at a Glance</h2>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Chapter</th><th>Key ideas</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><a href="generics.html">Generic Types</a></td>
+          <td><code>Generic[T]</code>, TypeVar bounds, covariance proofs, universe polymorphism</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><a href="vectors.html">Length-Indexed Lists</a></td>
+          <td><code>Vec[T, N]</code>, safe head/tail, append proofs, map-preserves-length</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><a href="merkle.html">Merkle Trees</a></td>
+          <td>Hash integrity, membership proofs, tamper detection, path-type chains</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><a href="equality_types.html">Equality &amp; Path Types</a></td>
+          <td>Identity types, reflexivity, transport, function extensionality, univalence</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><a href="connectives.html">Logical Connectives</a></td>
+          <td>Curry-Howard, ∧ / ∨ / → / ¬ / ∀ / ∃, classical vs constructive</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><a href="stlc.html">Simply Typed λ-Calculus</a></td>
+          <td>STLC in Python, substitution, progress + preservation, full soundness proof</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Prerequisites</h2>
+    <ul>
+      <li>Comfortable with all Part&nbsp;1 chapters (refinement types, Z3, lemmas).</li>
+      <li>Familiarity with Python generics (<code>typing.Generic</code>, <code>TypeVar</code>).</li>
+      <li>Basic understanding of algebraic data types (tagged unions / sum types).</li>
+    </ul>
+
+    <div class="note">
+      Several chapters reference <strong>path types</strong> from homotopy type theory.
+      The key chapter is <a href="equality_types.html">Equality &amp; Path Types</a> — if
+      you find path-based reasoning unfamiliar, read that chapter first and return to
+      Merkle Trees and STLC afterwards.
+    </div>
+
+    <h2>How This Differs from F*</h2>
+    <p>
+      F*'s Part&nbsp;2 introduces inductive types with ML-style <code>type</code> declarations
+      and dependent pattern matching. Deppy achieves the same expressive power through:
+    </p>
+    <ul>
+      <li><strong>Dataclasses as constructors</strong> — each <code>@dataclass</code> variant
+          is an inductive constructor; <code>match</code> statements provide exhaustive
+          pattern matching.</li>
+      <li><strong>Generics as universe-polymorphic types</strong> — Python's
+          <code>Generic[T]</code> corresponds to F*'s implicit type parameters.</li>
+      <li><strong>Path types for equality</strong> — where F* uses propositional equality
+          (<code>==</code>), Deppy can additionally use path types to prove behavioural
+          equivalence of Python objects that may have different internal representations.</li>
+      <li><strong>Z3 + sidecar proofs</strong> — arithmetic obligations are discharged to
+          Z3 automatically; complex domain proofs live in sidecar <code>.proof</code> files.</li>
+    </ul>
+
+    <div class="compare">
+      <div>
+        <h4>F*</h4>
+<pre><code><span class="kw">type</span> <span class="ty">vec</span> (<span class="ty">a</span>:<span class="ty">Type</span>) : <span class="ty">nat</span> -&gt; <span class="ty">Type</span> =
+  | <span class="fn">Nil</span>  : <span class="ty">vec</span> <span class="ty">a</span> <span class="nb">0</span>
+  | <span class="fn">Cons</span> : <span class="ty">a</span> -&gt; <span class="ty">vec</span> <span class="ty">a</span> <span class="ty">n</span>
+          -&gt; <span class="ty">vec</span> <span class="ty">a</span> (<span class="ty">n</span><span class="op">+</span><span class="nb">1</span>)</code></pre>
+      </div>
+      <div>
+        <h4>Deppy</h4>
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Vec</span>(<span class="ty">Generic</span>[<span class="ty">T</span>, <span class="ty">N</span>]):
+    <span class="cm"># length encoded at the type level</span>
+    items: <span class="ty">tuple</span>[<span class="ty">T</span>, ...]
+    <span class="cm"># refined: len(items) == N</span></code></pre>
+      </div>
+    </div>
+
+    <h2>Running the Examples</h2>
+    <p>Every code snippet in Part&nbsp;2 can be verified with:</p>
+<pre><code><span class="cm"># Verify a single file</span>
+$ deppy verify part2/vectors_example.py
+
+<span class="cm"># Run the test suite for this part</span>
+$ python -m pytest tests/test_part2/ -v</code></pre>
+
+    <div class="tip">
+      All source files are in the <code>examples/part2/</code> directory of the repository.
+      Each chapter section has a corresponding <code>.py</code> file you can edit and re-verify.
+    </div>
+
+    <h2>Inductive Types in Python</h2>
+    <p>
+      In F*, inductive types are declared with the <code>type</code> keyword. In Python,
+      we build the same structures from <code>@dataclass</code> and <code>Union</code>:
+    </p>
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">Union</span>, <span class="ty">Generic</span>, <span class="ty">TypeVar</span>
+
+<span class="ty">T</span> = <span class="ty">TypeVar</span>(<span class="st">'T'</span>)
+
+<span class="cm"># An inductive list: either Nil or Cons(head, tail)</span>
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Nil</span>(<span class="ty">Generic</span>[<span class="ty">T</span>]):
+    <span class="kw">pass</span>
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Cons</span>(<span class="ty">Generic</span>[<span class="ty">T</span>]):
+    head: <span class="ty">T</span>
+    tail: <span class="ty">List</span>[<span class="ty">T</span>]
+
+<span class="ty">List</span> = <span class="ty">Union</span>[<span class="ty">Nil</span>[<span class="ty">T</span>], <span class="ty">Cons</span>[<span class="ty">T</span>]]
+
+<span class="cm"># Pattern matching with Python 3.10+ match/case</span>
+<span class="kw">def</span> <span class="fn">length</span>(lst: <span class="ty">List</span>[<span class="ty">T</span>]) -> <span class="ty">int</span>:
+    <span class="kw">match</span> lst:
+        <span class="kw">case</span> <span class="ty">Nil</span>():       <span class="kw">return</span> <span class="nb">0</span>
+        <span class="kw">case</span> <span class="ty">Cons</span>(_, tl): <span class="kw">return</span> <span class="nb">1</span> <span class="op">+</span> <span class="fn">length</span>(tl)</code></pre>
+
+    <p>
+      Each <code>@dataclass</code> variant acts as a constructor; Python's <code>match</code>
+      statement gives exhaustive pattern matching. Deppy verifies that all cases are
+      covered and that recursive calls terminate.
+    </p>
+
+    <div class="tip">
+      Frozen dataclasses (<code>frozen=True</code>) ensure immutability — just like
+      algebraic data types in ML or Haskell. Deppy requires frozen dataclasses for
+      inductive types so that structural proofs remain valid.
+    </div>
+
+    <h2>Verification Levels in Part 2</h2>
+    <p>
+      Different chapters exercise different verification strategies:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Chapter</th><th>Primary verifier</th><th>Level</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Generic Types</td><td>Z3 (subtyping constraints)</td><td><span class="verified">Z3_PROVEN</span></td></tr>
+        <tr><td>Vectors</td><td>Z3 (linear arithmetic)</td><td><span class="verified">Z3_PROVEN</span></td></tr>
+        <tr><td>Merkle Trees</td><td>Z3 + sidecar (hash axioms)</td><td><span class="verified">Z3_PROVEN</span></td></tr>
+        <tr><td>Equality Types</td><td>Path-type checker (cubical)</td><td><span class="verified">Z3_PROVEN</span></td></tr>
+        <tr><td>Connectives</td><td>Structural (Curry-Howard)</td><td><span class="verified">Z3_PROVEN</span></td></tr>
+        <tr><td>STLC</td><td>Z3 + structural induction</td><td><span class="verified">Z3_PROVEN</span></td></tr>
+      </tbody>
+    </table>
+
+    <h2>A Roadmap</h2>
+    <p>
+      The chapters are designed to be read in order, but you can skip ahead if a topic
+      interests you. The dependency graph is:
+    </p>
+<pre><code>generics ──→ vectors ──→ merkle
+                            │
+          equality_types ◄──┘
+               │
+          connectives ──→ stlc</code></pre>
+    <p>
+      <strong>Equality &amp; Path Types</strong> is the conceptual centrepiece — it connects
+      the purely Pythonic material (generics, vectors, Merkle trees) with the homotopy
+      foundations (connectives, STLC) that make Deppy unique.
+    </p>
+
+    <nav class="page-nav">
+      <a href="../part1/quicksort.html">
+        <span class="label">← Previous</span>
+        <span class="title">Case Study: Quicksort</span>
+      </a>
+      <a href="generics.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Generic Types</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

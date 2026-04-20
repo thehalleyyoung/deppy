@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lean Export &amp; CIC Interpretation — Deppy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header"><h1>Deppy</h1><div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div></div>
+  <nav><ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../structure.html">Structure of this Book</a></li>
+    <li><a href="../intro.html">Introduction</a></li>
+    <li><span class="section-title">Part 1 — Pure Python</span></li>
+    <li><a href="../part1/index.html">Overview</a></li>
+    <li><a href="../part1/getting_started.html">Getting Started</a></li>
+    <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+    <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+    <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+    <li><a href="../part1/data_structures.html">Data Structures</a></li>
+    <li><a href="../part1/termination.html">Termination</a></li>
+    <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+    <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+    <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+    <li><a href="../part2/index.html">Overview</a></li>
+    <li><a href="../part2/generics.html">Generic Types</a></li>
+    <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+    <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+    <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+    <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+    <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+    <li><span class="section-title">Part 3 — Python Specifics</span></li>
+    <li><a href="../part3/index.html">Overview</a></li>
+    <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+    <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+    <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+    <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+    <li><a href="../part4/index.html">Overview</a></li>
+    <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+    <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+    <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+    <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+    <li><a href="../part5/index.html">Overview</a></li>
+    <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+    <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+    <li><a href="../part5/fibrations.html">Fibrations</a></li>
+    <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+    <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+    <li><a href="../part6/index.html">Overview</a></li>
+    <li><a href="../part6/separation.html">Separation Logic</a></li>
+    <li><a href="../part6/references.html">Mutable References</a></li>
+    <li><a href="../part6/arrays.html">Arrays</a></li>
+    <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+    <li><a href="../part6/async.html">Async / Await</a></li>
+    <li><span class="section-title">Under the Hood</span></li>
+    <li><a href="../under_the_hood/index.html">Overview</a></li>
+    <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+  </ul></nav>
+</aside>
+
+<main class="content">
+<article>
+
+<h1>Lean Export &amp; CIC Interpretation</h1>
+<p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:1.5rem;">
+  Machine-checked certificates for Python programs
+</p>
+
+<p>
+  Deppy can construct proofs about your Python code — but how do you know
+  <em>Deppy itself</em> isn't wrong? The answer is <strong>independent
+  verification</strong>: export the proof to Lean 4, whose tiny trusted kernel
+  re-checks everything from scratch. If Lean accepts the proof, correctness
+  depends only on Lean's kernel — not on Deppy, not on Z3, not on any LLM.
+</p>
+
+<p>
+  This chapter explains how Deppy proofs map to Lean 4's Calculus of Inductive
+  Constructions (CIC), what the generated files look like, and what remains out
+  of reach.
+</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="why-lean">Why Lean?</h2>
+
+<p>
+  Deppy's trust hierarchy has three levels, in ascending order of assurance:
+</p>
+
+<pre><code class="notation"><span class="cm">  🟠 LLM_JUDGED   — oracle says correct (confidence ≥ threshold)</span>
+<span class="cm">  🟡 Z3_PROVEN    — proved by Z3 SMT solver</span>
+<span class="cm">  🟢 LEAN_VERIFIED — machine-checked by Lean's kernel</span></code></pre>
+
+<p>
+  <strong>Why is Lean at the top?</strong> Because Lean 4's kernel is a small,
+  carefully audited type checker implementing the Calculus of Inductive
+  Constructions. It is roughly 5,000 lines of C++ — small enough to be
+  meaningfully reviewed. Every proof accepted by the kernel has been
+  independently re-derived from axioms; the kernel trusts nothing outside
+  itself.
+</p>
+
+<p>
+  By contrast, Deppy's proof engine is tens of thousands of lines of Python,
+  wrapping Z3 bindings, homotopy search, and LLM calls. Any bug in that code
+  could cause a false positive. Exporting to Lean gives an <strong>independent
+  second opinion</strong>: if Lean accepts the proof, correctness doesn't
+  depend on Deppy being bug-free.
+</p>
+
+<div class="note">
+  This is the same strategy used by proof-carrying code, CompCert, and other
+  high-assurance systems: generate the proof however you like, then let a
+  small trusted checker verify it.
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="deppy-in-cic">Deppy in CIC</h2>
+
+<p>
+  Deppy's proof terms are built from homotopy-flavored constructors —
+  <code class="ty">Refl</code>, <code class="ty">Trans</code>,
+  <code class="ty">Cong</code>, and so on. Each constructor has a natural
+  interpretation in Lean 4's type theory. The following table shows the
+  mapping:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Deppy</th><th>CIC / Lean 4</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="dc">@guarantee("P")</code></td>
+      <td><code class="kw">theorem</code> <code class="fn">fn_P</code> : <code class="ty">P</code></td>
+      <td>Postcondition becomes a theorem statement</td>
+    </tr>
+    <tr>
+      <td><code class="dc">@requires("Q")</code></td>
+      <td><code>(h : Q) →</code></td>
+      <td>Precondition becomes a hypothesis parameter</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Refl</code></td>
+      <td><code class="fn">rfl</code> / <code class="fn">Eq.refl</code></td>
+      <td>Reflexivity of equality</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Trans</code>(<code class="nb">p</code>, <code class="nb">q</code>)</td>
+      <td><code class="fn">Eq.trans</code> <code class="nb">p</code> <code class="nb">q</code></td>
+      <td>Transitivity: <code>a = b → b = c → a = c</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">Sym</code>(<code class="nb">p</code>)</td>
+      <td><code class="fn">Eq.symm</code> <code class="nb">p</code></td>
+      <td>Symmetry: <code>a = b → b = a</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">Cong</code>(<code class="nb">f</code>, <code class="nb">p</code>)</td>
+      <td><code class="fn">congrArg</code> <code class="nb">f</code> <code class="nb">p</code></td>
+      <td>Congruence: <code>a = b → f a = f b</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">NatInduction</code></td>
+      <td><code class="fn">Nat.rec</code> / <code class="kw">by induction</code></td>
+      <td>Structural induction on natural numbers</td>
+    </tr>
+    <tr>
+      <td><code class="ty">ListInduction</code></td>
+      <td><code class="fn">List.rec</code> / <code class="kw">by induction</code></td>
+      <td>Structural induction on lists</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Z3Proof</code></td>
+      <td><code class="kw">by omega</code> / <code class="kw">by decide</code></td>
+      <td>Arithmetic decided by Lean's <code>omega</code> tactic</td>
+    </tr>
+    <tr>
+      <td><code class="ty">FunExt</code></td>
+      <td><code class="fn">funext</code></td>
+      <td>Function extensionality</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Cases</code></td>
+      <td><code class="kw">by cases</code> / <code class="kw">match</code></td>
+      <td>Case analysis on constructors</td>
+    </tr>
+    <tr>
+      <td><code class="ty">DuckPath</code></td>
+      <td><em>(axiom)</em></td>
+      <td>Structural subtyping — modeled as a postulated axiom</td>
+    </tr>
+    <tr>
+      <td><code class="ty">CechGlue</code></td>
+      <td><code class="kw">sorry</code> <span class="cm">-- Čech gluing</span></td>
+      <td>No CIC analog — exported with explanation comment</td>
+    </tr>
+    <tr>
+      <td><code class="ty">PathType</code></td>
+      <td><code class="ty">Eq</code></td>
+      <td>Propositional equality</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Transport</code></td>
+      <td><code class="fn">Eq.subst</code> / <code>▸</code></td>
+      <td>Substitution along an equality proof</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="mapping-examples">Mapping Examples</h3>
+
+<p>
+  A Deppy reflexivity proof:
+</p>
+
+<pre><code><span class="cm"># Deppy proof term</span>
+<span class="nb">proof</span> = <span class="ty">Refl</span>(<span class="nb">term</span>=<span class="fn">square</span>(<span class="nb">x</span>))</code></pre>
+
+<p>becomes in Lean:</p>
+
+<pre><code class="lean"><span class="cm">-- Lean 4</span>
+<span class="kw">theorem</span> <span class="fn">square_eq</span> : <span class="fn">square</span> <span class="nb">x</span> = <span class="fn">square</span> <span class="nb">x</span> := <span class="fn">rfl</span></code></pre>
+
+<p>
+  A transitive chain:
+</p>
+
+<pre><code><span class="cm"># Deppy</span>
+<span class="nb">proof</span> = <span class="ty">Trans</span>(
+    <span class="ty">Cong</span>(<span class="fn">f</span>, <span class="nb">p</span>),   <span class="cm"># f(a) = f(b)  from  a = b</span>
+    <span class="ty">Sym</span>(<span class="nb">q</span>)         <span class="cm"># f(b) = c     from  c = f(b)</span>
+)</code></pre>
+
+<pre><code class="lean"><span class="cm">-- Lean 4</span>
+<span class="kw">theorem</span> <span class="fn">chain</span> (<span class="nb">p</span> : <span class="nb">a</span> = <span class="nb">b</span>) (<span class="nb">q</span> : <span class="nb">c</span> = <span class="fn">f</span> <span class="nb">b</span>) :
+    <span class="fn">f</span> <span class="nb">a</span> = <span class="nb">c</span> :=
+  <span class="fn">Eq.trans</span> (<span class="fn">congrArg</span> <span class="fn">f</span> <span class="nb">p</span>) (<span class="fn">Eq.symm</span> <span class="nb">q</span>)</code></pre>
+
+<p>
+  A Z3 leaf proof is translated to Lean's <code>omega</code> tactic, which
+  handles linear arithmetic natively:
+</p>
+
+<pre><code><span class="cm"># Deppy</span>
+<span class="nb">proof</span> = <span class="ty">Z3Proof</span>(<span class="st">"x + 1 > x"</span>)</code></pre>
+
+<pre><code class="lean"><span class="cm">-- Lean 4</span>
+<span class="kw">theorem</span> <span class="fn">succ_gt</span> (<span class="nb">x</span> : <span class="ty">Int</span>) : <span class="nb">x</span> + 1 > <span class="nb">x</span> := <span class="kw">by</span> omega</code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="type-translation">Type Translation</h2>
+
+<p>
+  Python types are mapped to Lean types following a simple, conservative scheme.
+  The goal is not to model every quirk of CPython semantics but to provide a
+  faithful <em>mathematical</em> model of what the Python code intends.
+</p>
+
+<table>
+  <thead>
+    <tr><th>Python Type</th><th>Lean 4 Type</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="ty">int</code></td>
+      <td><code class="ty">Int</code></td>
+      <td>Arbitrary-precision integers (matches Python semantics)</td>
+    </tr>
+    <tr>
+      <td><code class="ty">bool</code></td>
+      <td><code class="ty">Bool</code></td>
+      <td><code class="kw">True</code> → <code class="nb">true</code>, <code class="kw">False</code> → <code class="nb">false</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">str</code></td>
+      <td><code class="ty">String</code></td>
+      <td>Unicode strings</td>
+    </tr>
+    <tr>
+      <td><code class="ty">list[int]</code></td>
+      <td><code class="ty">List Int</code></td>
+      <td>Immutable in proofs (functional model)</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Optional[T]</code></td>
+      <td><code class="ty">Option T</code></td>
+      <td><code class="kw">None</code> → <code class="fn">Option.none</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">dict[K, V]</code></td>
+      <td><code class="ty">K → V</code></td>
+      <td>Partial function model (total with default)</td>
+    </tr>
+    <tr>
+      <td><code class="ty">set[T]</code></td>
+      <td><code class="ty">Finset T</code></td>
+      <td>Requires <code class="kw">import</code> Mathlib</td>
+    </tr>
+    <tr>
+      <td><code class="ty">tuple[A, B]</code></td>
+      <td><code class="ty">A × B</code></td>
+      <td>Product type (Prod)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example translation of a function signature:</p>
+
+<pre><code><span class="kw">def</span> <span class="fn">lookup</span>(<span class="nb">d</span>: <span class="ty">dict</span>[<span class="ty">str</span>, <span class="ty">int</span>], <span class="nb">key</span>: <span class="ty">str</span>) -> <span class="ty">Optional</span>[<span class="ty">int</span>]:
+    ...</code></pre>
+
+<pre><code class="lean"><span class="kw">def</span> <span class="fn">lookup</span> (<span class="nb">d</span> : <span class="ty">String</span> → <span class="ty">Int</span>) (<span class="nb">key</span> : <span class="ty">String</span>) : <span class="ty">Option</span> <span class="ty">Int</span> :=
+  <span class="fn">sorry</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="certificate">What a Certificate Looks Like</h2>
+
+<p>
+  Let's walk through a complete example. Here is a Python function with two
+  guarantees:
+</p>
+
+<pre><code><span class="kw">from</span> <span class="nb">deppy.hybrid</span> <span class="kw">import</span> <span class="fn">guarantee</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= 0"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"result * result <= x"</span>)
+<span class="kw">def</span> <span class="fn">isqrt</span>(<span class="nb">x</span>: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> <span class="nb">x</span> <= <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">0</span>
+    <span class="nb">r</span> = <span class="nb">0</span>
+    <span class="kw">while</span> (<span class="nb">r</span> + <span class="nb">1</span>) * (<span class="nb">r</span> + <span class="nb">1</span>) <= <span class="nb">x</span>:
+        <span class="nb">r</span> += <span class="nb">1</span>
+    <span class="kw">return</span> <span class="nb">r</span></code></pre>
+
+<p>
+  Deppy generates the following Lean 4 file:
+</p>
+
+<pre><code class="lean"><span class="cm">/-
+  Generated by Deppy v0.1.0
+  Source: math_utils.py
+  Guarantees: 2 exported, 1 fully proved, 1 sorry
+-/</span>
+<span class="kw">import</span> Mathlib.Tactic.Omega
+<span class="kw">import</span> Mathlib.Data.Int.Basic
+
+<span class="cm">/-- Integer square root -/</span>
+<span class="kw">def</span> <span class="fn">isqrt</span> (<span class="nb">x</span> : <span class="ty">Int</span>) : <span class="ty">Int</span> :=
+  <span class="kw">if</span> <span class="nb">x</span> ≤ 0 <span class="kw">then</span> 0
+  <span class="kw">else</span>
+    <span class="cm">-- body translated from Python</span>
+    <span class="fn">sorry</span>  <span class="cm">-- loop translation not yet supported</span>
+
+<span class="kw">theorem</span> <span class="fn">isqrt_nonneg</span> (<span class="nb">x</span> : <span class="ty">Int</span>) : 0 ≤ <span class="fn">isqrt</span> <span class="nb">x</span> := <span class="kw">by</span>
+  <span class="fn">unfold</span> <span class="fn">isqrt</span>
+  <span class="fn">split</span>
+  · omega
+  · <span class="fn">sorry</span>  <span class="cm">-- requires loop invariant</span>
+
+<span class="kw">theorem</span> <span class="fn">isqrt_squared</span> (<span class="nb">x</span> : <span class="ty">Int</span>) (<span class="nb">h</span> : 0 ≤ <span class="nb">x</span>) :
+    <span class="fn">isqrt</span> <span class="nb">x</span> * <span class="fn">isqrt</span> <span class="nb">x</span> ≤ <span class="nb">x</span> := <span class="kw">by</span>
+  <span class="fn">sorry</span>  <span class="cm">-- requires loop invariant reasoning</span></code></pre>
+
+<h3 id="cert-anatomy">Anatomy of the Certificate</h3>
+
+<ol>
+  <li>
+    <strong>Header comment</strong> — records the Deppy version, source file,
+    and a summary of how many guarantees were exported and how many were fully
+    proved. This is metadata for human readers; Lean ignores it.
+  </li>
+  <li>
+    <strong>Imports</strong> — <code>Mathlib.Tactic.Omega</code> provides the
+    <code>omega</code> tactic for linear arithmetic.
+    <code>Mathlib.Data.Int.Basic</code> gives basic integer lemmas.
+  </li>
+  <li>
+    <strong>Function definition</strong> — the Python function is translated to a
+    Lean <code class="kw">def</code>. The <code>if</code> branch translates
+    directly. The <code>while</code> loop body is replaced with
+    <code>sorry</code> because Lean requires termination proofs for recursive
+    definitions, and arbitrary <code>while</code> loops don't map cleanly to
+    structural recursion.
+  </li>
+  <li>
+    <strong>Theorem statements</strong> — each <code>@guarantee</code> becomes
+    a <code class="kw">theorem</code>. The name is derived from the function
+    name and guarantee text. The statement is a direct formalization of the
+    guarantee's meaning.
+  </li>
+  <li>
+    <strong>Proof bodies</strong> — where Deppy has a complete proof, the
+    tactic script is emitted. Where the proof depends on parts Deppy can't
+    translate (like loop invariants), <code>sorry</code> is used with a comment
+    explaining what's missing.
+  </li>
+</ol>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="fully-verified">A Fully Verified Example</h2>
+
+<p>
+  Not every export contains <code>sorry</code>. For functions with simple
+  structure, Deppy can produce a <em>complete</em> Lean proof. Here is
+  the simplest case:
+</p>
+
+<pre><code><span class="kw">from</span> <span class="nb">deppy.hybrid</span> <span class="kw">import</span> <span class="fn">guarantee</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= 0"</span>)
+<span class="kw">def</span> <span class="fn">square</span>(<span class="nb">x</span>: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">return</span> <span class="nb">x</span> * <span class="nb">x</span></code></pre>
+
+<p>The generated Lean file — with zero <code>sorry</code>:</p>
+
+<pre><code class="lean"><span class="kw">def</span> <span class="fn">square</span> (<span class="nb">x</span> : <span class="ty">Int</span>) : <span class="ty">Int</span> := <span class="nb">x</span> * <span class="nb">x</span>
+
+<span class="kw">theorem</span> <span class="fn">square_nonneg</span> (<span class="nb">x</span> : <span class="ty">Int</span>) : 0 ≤ <span class="fn">square</span> <span class="nb">x</span> := <span class="kw">by</span>
+  <span class="fn">unfold</span> <span class="fn">square</span>
+  <span class="fn">exact</span> <span class="fn">mul_self_nonneg</span> <span class="nb">x</span></code></pre>
+
+<p>
+  When Lean processes this file with <code>lake build</code>, it type-checks
+  every definition and theorem. The <code>mul_self_nonneg</code> lemma is
+  provided by Mathlib and states exactly what we need: for any integer
+  <code>x</code>, <code>x * x ≥ 0</code>. No trust in Deppy is required —
+  Lean has independently verified the claim.
+</p>
+
+<div class="tip">
+  The key insight: Deppy doesn't need to be <em>correct</em> — it only
+  needs to produce output that Lean can <em>check</em>. This is why proof
+  generation (hard, complex, potentially buggy) is separated from proof
+  verification (small, trusted, audited).
+</div>
+
+<p>
+  A slightly more involved example with a precondition:
+</p>
+
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"result > 0"</span>)
+<span class="kw">def</span> <span class="fn">abs_plus_one</span>(<span class="nb">x</span>: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">return</span> <span class="fn">abs</span>(<span class="nb">x</span>) + <span class="nb">1</span></code></pre>
+
+<pre><code class="lean"><span class="kw">def</span> <span class="fn">abs_plus_one</span> (<span class="nb">x</span> : <span class="ty">Int</span>) : <span class="ty">Int</span> := <span class="fn">Int.natAbs</span> <span class="nb">x</span> + 1
+
+<span class="kw">theorem</span> <span class="fn">abs_plus_one_pos</span> (<span class="nb">x</span> : <span class="ty">Int</span>) : 0 &lt; <span class="fn">abs_plus_one</span> <span class="nb">x</span> := <span class="kw">by</span>
+  <span class="fn">unfold</span> <span class="fn">abs_plus_one</span>
+  omega</code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="trust-levels">Trust Levels in Detail</h2>
+
+<p>
+  Every Lean export carries a trust level that summarizes how much of the
+  proof Lean can independently verify:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Trust Level</th><th>Meaning</th><th>sorry?</th><th>Custom Axioms?</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong style="color: var(--green);">LEAN_VERIFIED</strong></td>
+      <td>Lean kernel fully checked every step</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td><strong style="color: var(--yellow);">LEAN_EXPORTED</strong></td>
+      <td>Generated but contains <code>sorry</code> gaps</td>
+      <td>≥ 1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td><strong style="color: var(--orange);">ASSUMPTION_DEPENDENT</strong></td>
+      <td>Uses axioms for library/duck-typing assumptions</td>
+      <td>Any</td>
+      <td>≥ 1</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>
+    <strong>LEAN_VERIFIED</strong> is the gold standard. Zero <code>sorry</code>,
+    zero custom axioms. The proof is fully machine-checked. If Lean's kernel
+    has no bugs, the theorem holds.
+  </li>
+  <li>
+    <strong>LEAN_EXPORTED</strong> means the proof structure is documented in
+    Lean, but some steps are marked <code>sorry</code>. This is still useful:
+    the theorem <em>statements</em> are precise, and you can fill in the
+    <code>sorry</code>s manually in Lean if desired.
+  </li>
+  <li>
+    <strong>ASSUMPTION_DEPENDENT</strong> means the proof relies on axioms that
+    model Python-specific features (like duck typing paths) that have no native
+    CIC equivalent. The proof is correct <em>if</em> the axioms hold.
+  </li>
+</ul>
+
+<p>
+  You can inspect the trust level programmatically:
+</p>
+
+<pre><code><span class="kw">from</span> <span class="nb">deppy.lean</span> <span class="kw">import</span> <span class="fn">compile_to_lean</span>
+
+<span class="nb">cert</span> = <span class="fn">compile_to_lean</span>(<span class="nb">my_function</span>)
+<span class="fn">print</span>(<span class="nb">cert</span>.<span class="fn">summary</span>())
+<span class="cm"># ╭─────────────────────────────────╮</span>
+<span class="cm"># │ Lean Export: my_function        │</span>
+<span class="cm"># │ Theorems: 3                     │</span>
+<span class="cm"># │ Fully proved: 2                 │</span>
+<span class="cm"># │ Sorry: 1                        │</span>
+<span class="cm"># │ Trust: LEAN_EXPORTED            │</span>
+<span class="cm"># ╰─────────────────────────────────╯</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="using-export">Using the Export</h2>
+
+<h3 id="cli-workflow">CLI Workflow</h3>
+
+<p>
+  The simplest way to export and check proofs:
+</p>
+
+<pre><code class="notation"><span class="cm">$ deppy export --lean my_module.py -o my_module.lean</span>
+<span class="st">Exported 5 theorems (3 fully proved, 2 sorry)</span>
+
+<span class="cm">$ cd lean_project && lake build</span>
+<span class="st">Build completed successfully</span></code></pre>
+
+<h3 id="lean-project-setup">Setting Up a Lean 4 Project</h3>
+
+<p>
+  To check the exported proofs, you need a Lean 4 project with Mathlib. Here
+  is the minimal setup:
+</p>
+
+<pre><code class="lean"><span class="cm">-- lakefile.lean</span>
+<span class="kw">import</span> Lake
+<span class="kw">open</span> Lake DSL
+
+<span class="kw">require</span> mathlib <span class="kw">from</span> git
+  <span class="st">"https://github.com/leanprover-community/mathlib4"</span>
+
+<span class="kw">package</span> myProject
+
+<span class="kw">lean_lib</span> MyModule</code></pre>
+
+<p>Then:</p>
+
+<pre><code class="notation"><span class="cm">$ lake update   </span><span class="cm"># fetch Mathlib (takes a few minutes the first time)</span>
+<span class="cm">$ lake build    </span><span class="cm"># type-check everything, including your exported file</span></code></pre>
+
+<h3 id="interpreting-results">Interpreting Results</h3>
+
+<p>
+  When <code>lake build</code> succeeds, every theorem without <code>sorry</code>
+  has been fully verified by Lean's kernel. Lean will emit warnings for any
+  remaining <code>sorry</code>:
+</p>
+
+<pre><code class="notation"><span class="cm">warning: declaration uses 'sorry' [linter.unreachableTactic]</span></code></pre>
+
+<p>
+  This is expected for <code>LEAN_EXPORTED</code> certificates — it means
+  Lean acknowledged the proof structure but couldn't independently verify the
+  <code>sorry</code> steps.
+</p>
+
+<h3 id="when-lean-rejects">When Lean Rejects a Proof</h3>
+
+<p>
+  If <code>lake build</code> fails with a type error, it means Deppy generated
+  an invalid proof term. This can happen when:
+</p>
+
+<ul>
+  <li>A Z3 proof term doesn't translate cleanly to <code>omega</code>
+    (non-linear arithmetic, for example).</li>
+  <li>The type translation introduced a mismatch (e.g., Python's
+    <code>int</code> division vs. Lean's <code>Int</code> division).</li>
+  <li>A homotopy tactic used a rule that doesn't hold in CIC.</li>
+</ul>
+
+<p>What to do:</p>
+
+<ol>
+  <li><strong>Read the error message</strong> — Lean's errors are precise and
+    point to exactly which proof step failed.</li>
+  <li><strong>Try adding hints</strong> — sometimes the proof is correct but
+    Lean needs intermediate steps. Add <code>check()</code> annotations in
+    the Python source to give Deppy more stepping stones.</li>
+  <li><strong>Fall back to Z3</strong> — if a particular guarantee can't be
+    exported to Lean, the Z3_PROVEN trust level is still meaningful. Not
+    every proof needs the Lean gold standard.</li>
+  <li><strong>Fill in manually</strong> — open the <code>.lean</code> file in
+    VS Code with the Lean 4 extension and fill in the <code>sorry</code>s
+    with manual tactic proofs. This is a valid workflow for critical code.</li>
+</ol>
+
+<div class="warning">
+  Never modify the exported <code>.lean</code> file and then claim Deppy
+  verified it. If you manually edit the Lean file, the verification is
+  human-assisted, not automated. Track this in your trust metadata.
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="limitations">Limitations and Honest Assessment</h2>
+
+<p>
+  We believe in being forthright about what the Lean export can and cannot do.
+</p>
+
+<h3 id="what-we-can">What We CAN Export</h3>
+
+<ul>
+  <li><strong>Simple arithmetic proofs</strong> — equalities and inequalities
+    over integers that fall within <code>omega</code>'s scope.</li>
+  <li><strong>Structural induction</strong> — proofs by induction on
+    natural numbers or lists.</li>
+  <li><strong>Type-based proofs</strong> — refinement type properties that
+    follow from the function's structure.</li>
+  <li><strong>Equality chains</strong> — proofs built from
+    <code>Refl</code>, <code>Trans</code>, <code>Sym</code>,
+    <code>Cong</code>, <code>FunExt</code>.</li>
+  <li><strong>Case analysis</strong> — pattern matching on constructors,
+    if/else branches.</li>
+</ul>
+
+<h3 id="what-we-cannot">What We CAN'T Export</h3>
+
+<ul>
+  <li><strong>Python's full dynamic semantics</strong> — duck typing,
+    monkey-patching, <code>eval()</code>, metaclasses. These don't have
+    types in CIC.</li>
+  <li><strong>Duck typing paths</strong> — Deppy's <code>DuckPath</code>
+    proofs establish structural subtyping equivalences. These are modeled
+    as axioms in Lean, not proved from first principles.</li>
+  <li><strong>Čech cohomology proofs</strong> — the sheaf-theoretic gluing
+    used by Deppy has no analog in CIC. These are exported as
+    <code>sorry</code> with an explanatory comment.</li>
+  <li><strong>Complex loop invariants</strong> — <code>while</code> loops
+    require termination proofs and loop invariants that Deppy doesn't
+    always compute automatically.</li>
+</ul>
+
+<h3 id="semantic-gap">The Semantic Gap</h3>
+
+<div class="warning">
+  Lean's <code class="ty">Int</code> ≠ Python's <code class="ty">int</code>
+  in every respect. While both are arbitrary-precision, the operations differ:
+  Python's <code>//</code> rounds toward negative infinity; Lean's integer
+  division rounds toward zero. Python's <code>%</code> follows the sign of
+  the divisor; Lean follows the sign of the dividend. We model Python ints
+  as mathematical integers and document any semantic gap in the export header.
+</div>
+
+<h3 id="sorry-not-failure">Sorry Is Not Failure</h3>
+
+<p>
+  A partially-proved certificate with <code>sorry</code> is not useless — it
+  documents the proof <em>structure</em>. The theorem statements are precise.
+  The proof steps that <em>are</em> filled in have been checked by Lean.
+  Only the <code>sorry</code> steps remain unverified. You can:
+</p>
+
+<ul>
+  <li>Fill them in manually in Lean (for critical code).</li>
+  <li>Accept Z3_PROVEN trust level for those steps.</li>
+  <li>Use the sorry count as a metric: fewer sorry = higher assurance.</li>
+</ul>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="homotopy-to-cic">From Homotopy to CIC</h2>
+
+<p>
+  This section is for readers who want to understand the deep theory behind
+  the translation. If you're a practitioner who just wants to use the export,
+  the earlier sections suffice.
+</p>
+
+<h3 id="two-type-theories">Two Type Theories</h3>
+
+<p>
+  Deppy is built on <strong>synthetic homotopy type theory</strong> (HoTT).
+  Its proof terms manipulate paths (equalities as first-class objects),
+  transport (moving data along equalities), and Čech cohomology (decomposing
+  complex properties into locally-provable pieces that are glued together).
+</p>
+
+<p>
+  Lean 4 is built on the <strong>Calculus of Inductive Constructions</strong>
+  (CIC). Its equality is propositional (<code class="ty">Eq</code> in
+  <code class="kw">Prop</code>), proofs are proof-irrelevant (any two proofs
+  of the same proposition are considered equal), and there are no interval
+  variables or cubical primitives.
+</p>
+
+<p>
+  These are fundamentally different type theories. The translation is therefore
+  <em>lossy</em> — some Deppy proofs cannot be faithfully represented in CIC.
+  The translation preserves as much structure as possible and uses
+  <code>sorry</code> for the genuinely cubical parts.
+</p>
+
+<h3 id="the-bridge">The Bridge</h3>
+
+<p>
+  The key correspondences that make the translation possible:
+</p>
+
+<table>
+  <thead>
+    <tr><th>HoTT Concept</th><th>CIC / Lean Equivalent</th><th>Faithful?</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="ty">PathType</code> <code class="nb">a</code> <code class="nb">b</code></td>
+      <td><code class="ty">Eq</code> <code class="nb">a</code> <code class="nb">b</code> (propositional equality)</td>
+      <td>✓ for ground types</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Transport</code> <code class="nb">P</code> <code class="nb">p</code> <code class="nb">x</code></td>
+      <td><code class="fn">Eq.subst</code> <code class="nb">p</code> <code class="nb">x</code> / <code>▸</code></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Refl</code> / <code class="ty">Sym</code> / <code class="ty">Trans</code></td>
+      <td><code class="fn">rfl</code> / <code class="fn">Eq.symm</code> / <code class="fn">Eq.trans</code></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code class="ty">FunExt</code></td>
+      <td><code class="fn">funext</code></td>
+      <td>✓ (Lean has funext)</td>
+    </tr>
+    <tr>
+      <td>Interval variable <code class="nb">𝕀</code></td>
+      <td><em>no analog</em></td>
+      <td>✗</td>
+    </tr>
+    <tr>
+      <td><code class="ty">hcomp</code> (homogeneous composition)</td>
+      <td><em>no analog</em></td>
+      <td>✗ — <code>sorry</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">Glue</code> types</td>
+      <td><em>no analog</em></td>
+      <td>✗ — <code>sorry</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">CechGlue</code></td>
+      <td><em>no analog</em></td>
+      <td>✗ — <code>sorry</code></td>
+    </tr>
+    <tr>
+      <td>Univalence axiom</td>
+      <td><em>inconsistent with CIC's UIP</em></td>
+      <td>✗ — not exported</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="what-translates">What Translates Faithfully</h3>
+
+<p>
+  The good news: most proofs Deppy generates for <em>practical</em> Python
+  code don't use the deeply cubical features. They use:
+</p>
+
+<ul>
+  <li>Reflexivity, symmetry, transitivity, congruence — all map directly.</li>
+  <li>Z3 leaf proofs — map to <code>omega</code> / <code>decide</code>.</li>
+  <li>Induction on natural numbers or lists — maps to
+    <code>Nat.rec</code> / <code>List.rec</code>.</li>
+  <li>Function extensionality — Lean has <code>funext</code>.</li>
+  <li>Transport along equalities — maps to <code>Eq.subst</code>.</li>
+</ul>
+
+<p>
+  These cover the vast majority of refinement-type proofs.
+</p>
+
+<h3 id="what-doesnt-translate">What Doesn't Translate</h3>
+
+<p>
+  The cubical features — <code>hcomp</code>, <code>Glue</code>, interval
+  variables — are used in Deppy's more advanced proof strategies, particularly
+  the Čech decomposition. When these appear in a proof:
+</p>
+
+<pre><code><span class="cm"># Deppy proof term containing cubical operations</span>
+<span class="nb">proof</span> = <span class="ty">CechGlue</span>(
+    <span class="nb">patches</span>=[<span class="nb">p1</span>, <span class="nb">p2</span>, <span class="nb">p3</span>],
+    <span class="nb">overlaps</span>=[<span class="nb">o12</span>, <span class="nb">o23</span>],
+    <span class="nb">cocycle</span>=<span class="nb">c</span>
+)</code></pre>
+
+<p>The Lean export produces:</p>
+
+<pre><code class="lean"><span class="cm">/-
+  CechGlue: This proof step uses Čech cohomology gluing,
+  which has no analog in CIC. The Deppy proof decomposes
+  the property into 3 local patches verified independently,
+  then glues them via the sheaf condition.
+  Patches proved: p1 ✓, p2 ✓, p3 ✓
+  Overlaps checked: o12 ✓, o23 ✓
+  Cocycle condition: satisfied
+-/</span>
+<span class="fn">sorry</span>  <span class="cm">-- Čech gluing (no CIC analog)</span></code></pre>
+
+<p>
+  This is honest: the comment documents <em>exactly</em> what was proved using
+  the homotopy methods, even though Lean can't check it. A reader of the Lean
+  file can see the proof structure and decide whether to trust the homotopy
+  reasoning or attempt a CIC-native proof of the same property.
+</p>
+
+<div class="note">
+  <strong>Why not use Cubical Agda?</strong> Cubical Agda natively supports
+  HoTT and could check the cubical parts. We chose Lean because of Mathlib's
+  extensive library of mathematical lemmas, which covers far more of the
+  arithmetic and data-structure properties that arise in practice. A future
+  version of Deppy may support a Cubical Agda backend for the homotopy-heavy
+  proofs.
+</div>
+
+<hr>
+
+<div class="page-nav">
+  <a href="z3.html">
+    <span class="label">← Previous</span>
+    <span class="title">How Deppy Uses Z3</span>
+  </a>
+  <a href="index.html">
+    <span class="label">Next →</span>
+    <span class="title">Under the Hood: Overview</span>
+  </a>
+</div>
+
+</article>
+</main>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

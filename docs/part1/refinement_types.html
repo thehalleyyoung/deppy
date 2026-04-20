@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refinement Types — Deppy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+
+    <h1>Refinement Types</h1>
+
+    <p>
+      Python's built-in type hints — <code><span class="ty">int</span></code>,
+      <code><span class="ty">str</span></code>,
+      <code><span class="ty">list</span>[<span class="ty">int</span>]</code> —
+      tell you the <em>shape</em> of data. But they can't express "an integer
+      that is non-negative" or "a list that is sorted." Refinement types close
+      this gap: they pair a base type with a <strong>logical predicate</strong>
+      that every value of that type must satisfy.
+    </p>
+
+    <p>
+      Deppy lets you write these predicates as ordinary Python lambdas
+      and verifies them automatically with Z3 — without modifying the code
+      they describe. This chapter shows you how.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Base Types as Refinements</h2>
+
+    <p>
+      Every Python type is already a refinement type — it just has a trivially
+      true predicate. When Deppy sees a plain <code><span class="ty">int</span></code>
+      annotation, it treats it as:
+    </p>
+
+    <pre><code><span class="cm"># Internally: int ≡ refined(int, lambda x: True)</span>
+<span class="kw">def</span> <span class="fn">successor</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">return</span> n <span class="op">+</span> <span class="nb">1</span></code></pre>
+
+    <p>
+      The same holds for <code><span class="ty">str</span></code>,
+      <code><span class="ty">float</span></code>,
+      <code><span class="ty">bool</span></code>, and every other built-in.
+      This means refinement types are a strict generalisation of Python's
+      existing type system — all your existing annotations keep working.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>The <code>refined</code> Decorator</h2>
+
+    <p>
+      To add a predicate, use <code><span class="fn">refined</span></code>.
+      It takes a base type and a lambda that returns a boolean:
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> refined
+
+<span class="cm"># Natural numbers: integers ≥ 0</span>
+Nat <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span>)
+
+<span class="cm"># Positive integers: strictly greater than 0</span>
+Pos <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">></span> <span class="nb">0</span>)
+
+<span class="cm"># Even integers</span>
+Even <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">%</span> <span class="nb">2</span> <span class="op">==</span> <span class="nb">0</span>)
+
+<span class="cm"># Odd integers</span>
+Odd <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">%</span> <span class="nb">2</span> <span class="op">==</span> <span class="nb">1</span>)
+
+<span class="cm"># Non-empty lists</span>
+NonEmpty <span class="op">=</span> refined(<span class="ty">list</span>, <span class="kw">lambda</span> xs: len(xs) <span class="op">></span> <span class="nb">0</span>)</code></pre>
+
+    <p>
+      Once defined, use them exactly like regular type annotations:
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">double</span>(n: Nat) <span class="op">-></span> Even:
+    <span class="kw">return</span> n <span class="op">*</span> <span class="nb">2</span>
+
+<span class="kw">def</span> <span class="fn">factorial</span>(n: Nat) <span class="op">-></span> Pos:
+    <span class="kw">if</span> n <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">1</span>
+    <span class="kw">return</span> n <span class="op">*</span> factorial(n <span class="op">-</span> <span class="nb">1</span>)</code></pre>
+
+    <p>
+      Deppy reads these annotations from your source and encodes the
+      predicates as Z3 constraints. It then proves — at verification time,
+      not at runtime — that the function body satisfies the refinement on
+      the return type given the refinement on the parameters.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2><code>@guarantee</code> for Postconditions</h2>
+
+    <p>
+      The <code><span class="dc">@guarantee</span></code> decorator attaches a
+      postcondition to a function. Inside the predicate string, the special
+      name <code>result</code> refers to the return value:
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> guarantee
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= 0"</span>)
+<span class="kw">def</span> <span class="fn">absolute</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">if</span> x <span class="op">>=</span> <span class="nb">0</span>:
+        <span class="kw">return</span> x
+    <span class="kw">return</span> <span class="op">-</span>x</code></pre>
+
+    <p>
+      You can reference parameters and the result together:
+    </p>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"len(result) == len(a) + len(b)"</span>)
+<span class="kw">def</span> <span class="fn">concat</span>(a: <span class="ty">list</span>[<span class="ty">int</span>], b: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-></span> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">return</span> a <span class="op">+</span> b</code></pre>
+
+    <p>
+      Deppy verifies each guarantee by encoding it as a Z3 assertion
+      and checking that it holds for every execution path through the
+      function.
+    </p>
+
+    <div class="note">
+      <strong>Recall: <code>@guarantee</code> vs <code>@ensures</code>.</strong>
+      As explained in <a href="getting_started.html#guarantee-vs-ensures">Getting
+      Started</a>, <code>@guarantee</code> takes a natural-language string
+      and is parsed into Z3 when possible.  For a fully formal,
+      machine-checkable predicate, use <code>@ensures</code> instead:
+
+<pre><code><span class="dc">@ensures</span>(<span class="kw">lambda</span> x, result: result <span class="op">>=</span> <span class="nb">0</span>)
+<span class="kw">def</span> <span class="fn">absolute</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>: ...</code></pre>
+
+      Both are valid; <code>@ensures</code> guarantees Z3-level
+      verification with no NL ambiguity.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2><code>@assume</code> for Preconditions</h2>
+
+    <p>
+      Use <code><span class="dc">@assume</span></code> to state what must be
+      true when a function is called. Preconditions create
+      <strong>proof obligations at every call site</strong> — Deppy checks
+      that every caller satisfies the assumption.
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> assume
+
+<span class="dc">@assume</span>(<span class="st">"n > 0"</span>)
+<span class="kw">def</span> <span class="fn">reciprocal</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">float</span>:
+    <span class="kw">return</span> <span class="nb">1.0</span> <span class="op">/</span> n</code></pre>
+
+    <p>
+      Now any call to <code><span class="fn">reciprocal</span></code> must
+      provably pass a positive integer. If you write
+      <code>reciprocal(<span class="nb">0</span>)</code>, Deppy reports a
+      verification error — before the code ever runs.
+    </p>
+
+    <pre><code><span class="cm"># ✓ Deppy accepts — 42 > 0 is trivially true</span>
+x <span class="op">=</span> reciprocal(<span class="nb">42</span>)
+
+<span class="cm"># ✗ Deppy rejects — cannot prove 0 > 0</span>
+<span class="kw">try</span>:
+    y <span class="op">=</span> reciprocal(<span class="nb">0</span>)
+<span class="kw">except</span> (<span class="ty">ZeroDivisionError</span>, <span class="ty">ValueError</span>):
+    <span class="kw">pass</span>  <span class="cm"># precondition violated at runtime</span>
+
+<span class="cm"># ✓ Deppy accepts — the if-guard establishes n > 0</span>
+<span class="kw">def</span> <span class="fn">safe_call</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">float</span>:
+    <span class="kw">if</span> n <span class="op">></span> <span class="nb">0</span>:
+        <span class="kw">return</span> reciprocal(n)
+    <span class="kw">return</span> <span class="nb">0.0</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Refinement Subtyping</h2>
+
+    <p>
+      If the predicate of type <em>A</em> implies the predicate of type
+      <em>B</em>, then <em>A</em> is a <strong>subtype</strong> of <em>B</em>.
+      Deppy checks this via Z3 implication queries.
+    </p>
+
+    <pre><code><span class="cm"># Subtyping chain:  Pos  &lt;:  Nat  &lt;:  int</span>
+<span class="cm">#</span>
+<span class="cm">#   x > 0   ⟹   x >= 0   ⟹   True</span>
+<span class="cm">#</span>
+<span class="cm"># Every Pos is a Nat, and every Nat is an int.</span></code></pre>
+
+    <p>
+      This means you can pass a <code>Pos</code> wherever a <code>Nat</code>
+      is expected, and a <code>Nat</code> wherever an <code><span class="ty">int</span></code>
+      is expected — Deppy accepts these automatically:
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">increment</span>(n: Nat) <span class="op">-></span> Pos:
+    <span class="kw">return</span> n <span class="op">+</span> <span class="nb">1</span>
+
+<span class="cm"># Passing Pos where Nat is expected — subtyping makes this safe</span>
+p: Pos <span class="op">=</span> <span class="nb">5</span>
+q: Pos <span class="op">=</span> increment(p)   <span class="cm"># ✓ accepted</span></code></pre>
+
+    <p>
+      Visually, the subtyping lattice looks like this:
+    </p>
+
+    <pre><code class="notation"><span class="cm">              int  (λx. True)</span>
+<span class="cm">             /   \</span>
+<span class="cm">          Nat     Neg</span>
+<span class="cm">       (x ≥ 0)  (x &lt; 0)</span>
+<span class="cm">        /    \</span>
+<span class="cm">     Pos    Zero</span>
+<span class="cm">   (x > 0) (x == 0)</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Combining Refinements</h2>
+
+    <p>
+      You can build richer types by combining predicates with logical
+      connectives:
+    </p>
+
+    <h3>Intersection (conjunction)</h3>
+
+    <pre><code><span class="cm"># A percentage: integer between 0 and 100 inclusive</span>
+Percentage <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">100</span>)
+
+<span class="cm"># A probability: float in [0.0, 1.0]</span>
+Probability <span class="op">=</span> refined(<span class="ty">float</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0.0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">1.0</span>)
+
+<span class="cm"># A non-empty string of at most 255 characters</span>
+ShortStr <span class="op">=</span> refined(<span class="ty">str</span>, <span class="kw">lambda</span> s: len(s) <span class="op">></span> <span class="nb">0</span> <span class="kw">and</span> len(s) <span class="op"><=</span> <span class="nb">255</span>)</code></pre>
+
+    <h3>Complex list predicates</h3>
+
+    <pre><code><span class="cm"># Sorted list: every adjacent pair is in non-decreasing order</span>
+SortedList <span class="op">=</span> refined(
+    <span class="ty">list</span>[<span class="ty">int</span>],
+    <span class="kw">lambda</span> xs: all(xs[i] <span class="op"><=</span> xs[i<span class="op">+</span><span class="nb">1</span>] <span class="kw">for</span> i <span class="kw">in</span> range(len(xs)<span class="op">-</span><span class="nb">1</span>))
+)
+
+<span class="cm"># Unique list: no duplicates</span>
+UniqueList <span class="op">=</span> refined(
+    <span class="ty">list</span>[<span class="ty">int</span>],
+    <span class="kw">lambda</span> xs: len(xs) <span class="op">==</span> len(set(xs))
+)</code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Worked Examples</h2>
+
+    <h3>Safe Division</h3>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> assume, guarantee
+
+<span class="dc">@assume</span>(<span class="st">"b != 0"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"result * b == a"</span>)
+<span class="kw">def</span> <span class="fn">safe_div</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">return</span> a <span class="op">//</span> b</code></pre>
+
+    <p>
+      The <code><span class="dc">@assume</span></code> prevents
+      division-by-zero; the <code><span class="dc">@guarantee</span></code>
+      states that integer division is exact when <code>a</code> is divisible by
+      <code>b</code>. Deppy will flag cases where the guarantee cannot hold
+      (e.g., <code>safe_div(<span class="nb">7</span>, <span class="nb">2</span>)</code>
+      produces <code><span class="nb">3</span></code>, and
+      <code><span class="nb">3</span> <span class="op">*</span> <span class="nb">2</span>
+      <span class="op">!=</span> <span class="nb">7</span></code>).
+    </p>
+
+    <h3>Head of a Non-Empty List</h3>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"result == xs[0]"</span>)
+<span class="kw">def</span> <span class="fn">head</span>(xs: NonEmpty) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">return</span> xs[<span class="nb">0</span>]</code></pre>
+
+    <p>
+      Because <code>xs</code> has type <code>NonEmpty</code>, we know
+      <code>len(xs) <span class="op">></span> <span class="nb">0</span></code>,
+      so indexing at position 0 is safe. Deppy proves the guarantee
+      trivially.
+    </p>
+
+    <h3>Clamping a Value</h3>
+
+    <pre><code><span class="dc">@assume</span>(<span class="st">"lo <= hi"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"lo <= result and result <= hi"</span>)
+<span class="kw">def</span> <span class="fn">clamp</span>(x: <span class="ty">int</span>, lo: <span class="ty">int</span>, hi: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">if</span> x <span class="op"><</span> lo:
+        <span class="kw">return</span> lo
+    <span class="kw">if</span> x <span class="op">></span> hi:
+        <span class="kw">return</span> hi
+    <span class="kw">return</span> x</code></pre>
+
+    <p>
+      Deppy checks each branch independently. In the first branch,
+      <code>x <span class="op">&lt;</span> lo</code> so the return is
+      <code>lo</code>, which satisfies
+      <code>lo <span class="op">&lt;=</span> lo</code> and
+      <code>lo <span class="op">&lt;=</span> hi</code> (from the assumption).
+      The other branches follow similarly.
+    </p>
+
+    <h3>Inserting into a Sorted List</h3>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"len(result) == len(xs) + 1"</span>)
+<span class="kw">def</span> <span class="fn">sorted_insert</span>(xs: SortedList, v: <span class="ty">int</span>) <span class="op">-></span> SortedList:
+    <span class="kw">for</span> i <span class="kw">in</span> range(len(xs)):
+        <span class="kw">if</span> v <span class="op"><=</span> xs[i]:
+            <span class="kw">return</span> xs[:i] <span class="op">+</span> [v] <span class="op">+</span> xs[i:]
+    <span class="kw">return</span> xs <span class="op">+</span> [v]</code></pre>
+
+    <p>
+      This function both maintains the <code>SortedList</code> refinement on
+      its return type and satisfies the length guarantee. Deppy verifies
+      both properties.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>How Deppy Checks Refinements</h2>
+
+    <p>
+      Under the hood, Deppy translates each refinement predicate into a
+      Z3 formula. Verification proceeds in three steps:
+    </p>
+
+    <ol>
+      <li>
+        <strong>Extract</strong> — Deppy reads your Python source and collects
+        all <code>refined</code> types, <code><span class="dc">@assume</span></code>
+        preconditions, and <code><span class="dc">@guarantee</span></code>
+        postconditions.
+      </li>
+      <li>
+        <strong>Encode</strong> — Each predicate is translated into a Z3
+        expression. For example, <code><span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span></code>
+        becomes <code>x <span class="op">>=</span> <span class="nb">0</span></code>
+        in Z3's integer theory.
+      </li>
+      <li>
+        <strong>Verify</strong> — Deppy asks Z3 to prove that, given the
+        preconditions, the postcondition holds for every path. If Z3 returns
+        <code>unsat</code> (no counterexample exists), the refinement is
+        verified.
+      </li>
+    </ol>
+
+    <p>
+      Your Python code is <strong>never modified or instrumented</strong>.
+      Deppy operates as a sidecar verifier: it reads your annotations,
+      builds proof obligations, and reports results — all without touching
+      your runtime code.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Refinements vs. Runtime Assertions</h2>
+
+    <div class="note">
+      <strong>Note:</strong> Refinement types and <code><span class="kw">assert</span></code>
+      statements serve different purposes. An <code><span class="kw">assert</span></code>
+      checks a condition at runtime and crashes if it fails. A refinement type
+      is checked <em>statically</em> by Deppy — if verification succeeds,
+      the property is guaranteed for <strong>all</strong> inputs, not just
+      the ones you happened to test. You never need to scatter
+      <code><span class="kw">assert</span></code> statements through your
+      code; the type system does the work.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Lambda Limitations</h2>
+
+    <div class="warning">
+      <strong>Warning:</strong> Refinement predicates must be
+      <strong>pure functions</strong> — no side effects, no mutation, no I/O.
+      Deppy translates them into Z3 formulas, so they must be
+      expressible in first-order logic over the relevant theory (integers,
+      reals, sequences, etc.). Predicates that call impure functions, use
+      <code><span class="kw">import</span></code>, or modify external state
+      will cause a verification error. Stick to arithmetic, comparisons,
+      <code>len()</code>, indexing, <code>all()</code>, and
+      <code>any()</code>.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Naming Your Refinements</h2>
+
+    <div class="tip">
+      <strong>Tip:</strong> Always assign refinement types to named variables
+      (<code>Nat</code>, <code>Pos</code>, <code>SortedList</code>) rather
+      than inlining the <code>refined(...)</code> call in every annotation.
+      Named types are easier to read, easier to reuse, and produce clearer
+      verification error messages. Compare:
+    </div>
+
+    <pre><code><span class="cm"># Hard to read</span>
+<span class="kw">def</span> <span class="fn">f</span>(x: refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">100</span>)) <span class="op">-></span> <span class="ty">int</span>: ...
+
+<span class="cm"># Much better</span>
+Percentage <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">100</span>)
+
+<span class="kw">def</span> <span class="fn">f</span>(x: Percentage) <span class="op">-></span> <span class="ty">int</span>: ...</code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Exercise</h2>
+
+    <div class="exercise">
+      <strong>Exercise:</strong> Define a refinement type
+      <code>ValidEmail</code> for strings that contain both
+      <code>'@'</code> and <code>'.'</code>. Then write a function
+      <code><span class="fn">domain</span>(email: ValidEmail) <span class="op">-></span> <span class="ty">str</span></code>
+      that extracts the domain part (everything after the <code>@</code>),
+      with a <code><span class="dc">@guarantee</span></code> that the result
+      contains a <code>'.'</code>.
+    </div>
+
+    <details>
+      <summary>Show solution</summary>
+      <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> refined, guarantee
+
+ValidEmail <span class="op">=</span> refined(
+    <span class="ty">str</span>,
+    <span class="kw">lambda</span> s: <span class="st">'@'</span> <span class="kw">in</span> s <span class="kw">and</span> <span class="st">'.'</span> <span class="kw">in</span> s
+)
+
+<span class="dc">@guarantee</span>(<span class="st">"'.' in result"</span>)
+<span class="kw">def</span> <span class="fn">domain</span>(email: ValidEmail) <span class="op">-></span> <span class="ty">str</span>:
+    <span class="kw">return</span> email.split(<span class="st">'@'</span>)[<span class="nb">1</span>]</code></pre>
+
+      <p>
+        Deppy verifies this in two steps. First, because
+        <code>email</code> has type <code>ValidEmail</code>, it knows
+        <code><span class="st">'@'</span> <span class="kw">in</span> email</code>
+        and <code><span class="st">'.'</span> <span class="kw">in</span> email</code>.
+        Second, since the <code>'.'</code> must appear somewhere in the string
+        and the <code>'@'</code> splits the string into a local part and a
+        domain, the domain part contains the <code>'.'</code> (assuming
+        standard email format where the dot is in the domain). For more
+        complex string reasoning, Deppy may invoke the LLM oracle as a
+        fallback — see <a href="../part4/trust_levels.html">Trust &amp;
+        Verification Levels</a>.
+      </p>
+    </details>
+
+    <!-- ──────────────────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="getting_started.html">
+        <span class="label">← Previous</span>
+        <span class="title">Getting Started</span>
+      </a>
+      <a href="equality.html">
+        <span class="label">Next →</span>
+        <span class="title">Equality &amp; Duck Typing</span>
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

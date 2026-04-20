@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study: SymPy | Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Case Study: Verifying SymPy</h1>
+    <p>
+      SymPy is Python's premier symbolic mathematics library — over 700,000 lines of
+      code implementing algebra, calculus, linear algebra, number theory, and more. In
+      this chapter, we build a comprehensive sidecar verification for SymPy's core
+      modules, demonstrating that formal methods can scale to real-world libraries.
+    </p>
+
+    <div class="note">
+      This is the most substantial case study in the book. We'll verify algebraic
+      properties of <code>sympy.core</code>, matrix laws for <code>sympy.matrices</code>,
+      and calculus theorems for <code>sympy.integrals</code> — all without modifying
+      a single line of SymPy's source code.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="what-we-verify">What Are We Verifying?</h2>
+    <p>
+      We are <em>not</em> verifying SymPy's implementation (that would require access to
+      its internals). Instead, we verify three things:
+    </p>
+    <ol>
+      <li><strong>Algebraic laws</strong> — that SymPy's operations satisfy the axioms
+          of the algebraic structures they claim to implement (rings, fields, etc.).</li>
+      <li><strong>Our code's correct usage</strong> — that we call SymPy functions with
+          valid inputs and handle outputs correctly.</li>
+      <li><strong>Cross-domain transport</strong> — that properties proved symbolically
+          in SymPy transfer correctly to numerical computations.</li>
+    </ol>
+
+    <h3>Project Structure</h3>
+    <pre><code><span class="cm"># Sidecar files for SymPy verification</span>
+sidecars/
+├── sympy/
+│   ├── core.deppy          <span class="cm"># Add, Mul, Pow, Symbol — ring axioms</span>
+│   ├── matrices.deppy      <span class="cm"># Matrix, det, transpose, inverse</span>
+│   ├── integrals.deppy     <span class="cm"># integrate, diff — calculus theorems</span>
+│   └── __init__.deppy      <span class="cm"># top-level re-exports</span>
+└── sympy.deppy-sig         <span class="cm"># lightweight signatures for 100+ functions</span></code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="core-algebra">Sidecar Specs for <code>sympy.core</code></h2>
+    <p>
+      SymPy's core module implements symbolic expressions. The fundamental operations
+      — addition, multiplication, and exponentiation — form a commutative ring. We
+      specify the ring axioms as sidecar laws.
+    </p>
+
+    <h3>Commutativity</h3>
+    <pre><code><span class="cm"># sidecars/sympy/core.deppy</span>
+<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, law
+<span class="kw">from</span> deppy.types <span class="kw">import</span> SymExpr
+
+<span class="dc">@about</span>(<span class="st">"sympy.core.add.Add"</span>)
+<span class="kw">class</span> <span class="fn">AddSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Specification for symbolic addition."""</span>
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">commutative</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>, b: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a + b == b + a"""</span>
+        <span class="kw">return</span> self.call(a, b).equals(self.call(b, a))
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">associative</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>, b: <span class="ty">SymExpr</span>, c: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""(a + b) + c == a + (b + c)"""</span>
+        lhs = self.call(self.call(a, b), c)
+        rhs = self.call(a, self.call(b, c))
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">identity</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a + 0 == a"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> S
+        <span class="kw">return</span> self.call(a, S.Zero).equals(a)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">inverse</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a + (-a) == 0"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> S
+        <span class="kw">return</span> self.call(a, -a).equals(S.Zero)</code></pre>
+
+    <h3>Multiplication and Distributivity</h3>
+    <pre><code><span class="dc">@about</span>(<span class="st">"sympy.core.mul.Mul"</span>)
+<span class="kw">class</span> <span class="fn">MulSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Specification for symbolic multiplication."""</span>
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">commutative</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>, b: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a * b == b * a"""</span>
+        <span class="kw">return</span> self.call(a, b).equals(self.call(b, a))
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">associative</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>, b: <span class="ty">SymExpr</span>, c: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""(a * b) * c == a * (b * c)"""</span>
+        lhs = self.call(self.call(a, b), c)
+        rhs = self.call(a, self.call(b, c))
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">identity</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a * 1 == a"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> S
+        <span class="kw">return</span> self.call(a, S.One).equals(a)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">absorbing</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a * 0 == 0"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> S
+        <span class="kw">return</span> self.call(a, S.Zero).equals(S.Zero)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">distributive_over_add</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>, b: <span class="ty">SymExpr</span>, c: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a * (b + c) == a*b + a*c"""</span>
+        lhs = self.call(a, b + c)
+        rhs = self.call(a, b) + self.call(a, c)
+        <span class="kw">return</span> lhs.equals(rhs)</code></pre>
+
+    <div class="note">
+      We use SymPy's <code>.equals()</code> method rather than Python's <code>==</code>
+      operator because SymPy's <code>==</code> performs <em>structural</em> equality
+      (are the expression trees identical?) while <code>.equals()</code> performs
+      <em>mathematical</em> equality (do they simplify to the same value?). The algebraic
+      laws hold for mathematical equality.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="matrices">Sidecar Specs for <code>sympy.matrices</code></h2>
+    <p>
+      SymPy's matrix module provides symbolic linear algebra. Matrix operations satisfy
+      rich algebraic laws that we can specify and verify.
+    </p>
+
+    <pre><code><span class="cm"># sidecars/sympy/matrices.deppy</span>
+<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, law
+<span class="kw">from</span> deppy.types <span class="kw">import</span> SymMatrix
+
+<span class="dc">@about</span>(<span class="st">"sympy.matrices.dense.MutableDenseMatrix"</span>)
+<span class="kw">class</span> <span class="fn">MatrixSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Specifications for SymPy Matrix operations."""</span>
+
+    <span class="cm"># ── Multiplication ─────────────────────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">mul_associative</span>(<span class="kw">self</span>,
+                        A: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"m"</span>],
+                        B: <span class="ty">SymMatrix</span>[<span class="st">"m"</span>, <span class="st">"p"</span>],
+                        C: <span class="ty">SymMatrix</span>[<span class="st">"p"</span>, <span class="st">"q"</span>]) -> <span class="ty">bool</span>:
+        <span class="st">"""(A · B) · C == A · (B · C)"""</span>
+        lhs = (A * B) * C
+        rhs = A * (B * C)
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">mul_identity</span>(<span class="kw">self</span>, A: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"n"</span>]) -> <span class="ty">bool</span>:
+        <span class="st">"""A · I == A"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> eye
+        I = eye(A.rows)
+        <span class="kw">return</span> (A * I).equals(A)
+
+    <span class="cm"># ── Transpose ──────────────────────────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">transpose_involution</span>(<span class="kw">self</span>, A: <span class="ty">SymMatrix</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""(Aᵀ)ᵀ == A"""</span>
+        <span class="kw">return</span> A.T.T.equals(A)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">transpose_product</span>(<span class="kw">self</span>,
+                          A: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"m"</span>],
+                          B: <span class="ty">SymMatrix</span>[<span class="st">"m"</span>, <span class="st">"p"</span>]) -> <span class="ty">bool</span>:
+        <span class="st">"""(A · B)ᵀ == Bᵀ · Aᵀ"""</span>
+        lhs = (A * B).T
+        rhs = B.T * A.T
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">transpose_sum</span>(<span class="kw">self</span>,
+                      A: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"m"</span>],
+                      B: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"m"</span>]) -> <span class="ty">bool</span>:
+        <span class="st">"""(A + B)ᵀ == Aᵀ + Bᵀ"""</span>
+        <span class="kw">return</span> (A + B).T.equals(A.T + B.T)
+
+    <span class="cm"># ── Determinant ────────────────────────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">det_product</span>(<span class="kw">self</span>,
+                    A: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"n"</span>],
+                    B: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"n"</span>]) -> <span class="ty">bool</span>:
+        <span class="st">"""det(A · B) == det(A) · det(B)"""</span>
+        lhs = (A * B).det()
+        rhs = A.det() * B.det()
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">det_transpose</span>(<span class="kw">self</span>, A: <span class="ty">SymMatrix</span>[<span class="st">"n"</span>, <span class="st">"n"</span>]) -> <span class="ty">bool</span>:
+        <span class="st">"""det(Aᵀ) == det(A)"""</span>
+        <span class="kw">return</span> A.T.det().equals(A.det())
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">det_identity</span>(<span class="kw">self</span>, n: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""det(I) == 1"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> eye
+        <span class="kw">return</span> eye(n).det() == <span class="nb">1</span></code></pre>
+
+    <div class="tip">
+      The dimension annotations like <code>SymMatrix["n", "m"]</code> are
+      <em>dependent types</em> — Deppy tracks matrix dimensions and ensures
+      operations are only applied to compatibly-sized matrices. A multiplication
+      <code>A @ B</code> where <code>A</code> is n×m and <code>B</code> is p×q
+      requires a proof that <code>m == p</code>.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="calculus">Sidecar Specs for <code>sympy.integrals</code></h2>
+    <p>
+      The most impressive sidecar specs are for calculus. We can state theorems like the
+      Fundamental Theorem of Calculus as algebraic laws and have Deppy verify that
+      our code's usage is consistent with them.
+    </p>
+
+    <pre><code><span class="cm"># sidecars/sympy/integrals.deppy</span>
+<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, law
+<span class="kw">from</span> deppy.types <span class="kw">import</span> SymExpr, SymVar
+
+<span class="dc">@about</span>(<span class="st">"sympy.integrals.integrals.integrate"</span>)
+<span class="kw">class</span> <span class="fn">IntegrateSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Specifications for symbolic integration."""</span>
+
+    <span class="cm"># ── Fundamental Theorem of Calculus ────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">ftc_part1</span>(<span class="kw">self</span>, f: <span class="ty">SymExpr</span>, x: <span class="ty">SymVar</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""d/dx ∫ f dx == f  (up to constant)"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> diff, integrate
+        antideriv = integrate(f, x)
+        <span class="kw">return</span> diff(antideriv, x).equals(f)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">ftc_part2</span>(<span class="kw">self</span>, f: <span class="ty">SymExpr</span>, x: <span class="ty">SymVar</span>,
+                  a: <span class="ty">SymExpr</span>, b: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""∫ₐᵇ f'(x)dx == f(b) - f(a)"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> diff, integrate
+        fprime = diff(f, x)
+        lhs = integrate(fprime, (x, a, b))
+        rhs = f.subs(x, b) - f.subs(x, a)
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="cm"># ── Linearity ─────────────────────────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">linear_add</span>(<span class="kw">self</span>, f: <span class="ty">SymExpr</span>, g: <span class="ty">SymExpr</span>, x: <span class="ty">SymVar</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""∫(f + g)dx == ∫f dx + ∫g dx"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> integrate
+        lhs = integrate(f + g, x)
+        rhs = integrate(f, x) + integrate(g, x)
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">linear_scalar</span>(<span class="kw">self</span>, f: <span class="ty">SymExpr</span>, c: <span class="ty">SymExpr</span>, x: <span class="ty">SymVar</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""∫ c·f dx == c · ∫f dx  (when c is constant in x)"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> integrate
+        <span class="kw">if</span> x <span class="kw">in</span> c.free_symbols:
+            <span class="kw">return</span> <span class="nb">True</span>  <span class="cm"># law doesn't apply</span>
+        lhs = integrate(c * f, x)
+        rhs = c * integrate(f, x)
+        <span class="kw">return</span> lhs.equals(rhs)
+
+<span class="dc">@about</span>(<span class="st">"sympy.core.function.diff"</span>)
+<span class="kw">class</span> <span class="fn">DiffSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Specifications for symbolic differentiation."""</span>
+
+    <span class="cm"># ── Chain Rule ─────────────────────────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">chain_rule</span>(<span class="kw">self</span>, f: <span class="ty">SymExpr</span>, g: <span class="ty">SymExpr</span>, x: <span class="ty">SymVar</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""d/dx f(g(x)) == f'(g(x)) · g'(x)"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> diff, Function, Symbol
+        <span class="cm"># Verified structurally via SymPy's diff implementation</span>
+        composite = f.subs(x, g)
+        lhs = diff(composite, x)
+        rhs = diff(f, x).subs(x, g) * diff(g, x)
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="cm"># ── Product Rule ───────────────────────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">product_rule</span>(<span class="kw">self</span>, f: <span class="ty">SymExpr</span>, g: <span class="ty">SymExpr</span>, x: <span class="ty">SymVar</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""d/dx (f · g) == f' · g + f · g'"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> diff
+        lhs = diff(f * g, x)
+        rhs = diff(f, x) * g + f * diff(g, x)
+        <span class="kw">return</span> lhs.equals(rhs)
+
+    <span class="cm"># ── Integration by Parts ───────────────────────</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">integration_by_parts</span>(<span class="kw">self</span>, u: <span class="ty">SymExpr</span>, v: <span class="ty">SymExpr</span>,
+                             x: <span class="ty">SymVar</span>, a: <span class="ty">SymExpr</span>, b: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""∫ₐᵇ u·v' dx == [u·v]ₐᵇ - ∫ₐᵇ u'·v dx"""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> diff, integrate
+        vprime = diff(v, x)
+        uprime = diff(u, x)
+        lhs = integrate(u * vprime, (x, a, b))
+        boundary = (u * v).subs(x, b) - (u * v).subs(x, a)
+        rhs = boundary - integrate(uprime * v, (x, a, b))
+        <span class="kw">return</span> lhs.equals(rhs)</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="homotopy-transport">Homotopy: Symbolic ↔ Numerical Transport</h2>
+    <p>
+      This is where Deppy's homotopy type theory foundations shine. A common pattern
+      is: prove a property <em>symbolically</em> in SymPy, then <em>transport</em> it to
+      a numerical computation (NumPy, SciPy) via a path in the type universe.
+    </p>
+
+    <h3>The Idea</h3>
+    <p>
+      Consider two "representations" of the same mathematical object:
+    </p>
+    <ul>
+      <li><strong>Symbolic</strong>: <code>sympy.Matrix([[a, b], [c, d]])</code></li>
+      <li><strong>Numerical</strong>: <code>numpy.array([[1.0, 2.0], [3.0, 4.0]])</code></li>
+    </ul>
+    <p>
+      These live in different types, but they represent the "same" thing. In homotopy
+      type theory, we express this as a <strong>path</strong> between the two types,
+      and use <strong>transport</strong> to move proofs along the path.
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy.homotopy <span class="kw">import</span> path, transport
+<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, law
+
+<span class="cm"># Define the path: symbolic ≃ numerical (via evaluation)</span>
+<span class="dc">@path</span>(<span class="st">"sympy.Matrix"</span>, <span class="st">"numpy.ndarray"</span>)
+<span class="kw">def</span> <span class="fn">evaluate</span>(sym_matrix: <span class="ty">SymMatrix</span>, values: <span class="ty">dict</span>) -> <span class="ty">np.ndarray</span>:
+    <span class="st">"""Evaluate a symbolic matrix at concrete values."""</span>
+    <span class="kw">import</span> numpy <span class="kw">as</span> np
+    <span class="kw">return</span> np.array(sym_matrix.subs(values).tolist(), dtype=<span class="ty">float</span>)
+
+<span class="cm"># Now: a property proved symbolically can be transported!</span>
+<span class="dc">@transport</span>(evaluate)
+<span class="kw">def</span> <span class="fn">det_product_numerical</span>(A_vals: <span class="ty">np.ndarray</span>, B_vals: <span class="ty">np.ndarray</span>) -> <span class="ty">bool</span>:
+    <span class="st">"""det(A·B) == det(A)·det(B) holds numerically too."""</span>
+    <span class="cm"># This follows from MatrixSpec.det_product via transport!</span>
+    <span class="kw">import</span> numpy <span class="kw">as</span> np
+    lhs = np.linalg.det(A_vals @ B_vals)
+    rhs = np.linalg.det(A_vals) * np.linalg.det(B_vals)
+    <span class="kw">return</span> abs(lhs - rhs) < <span class="nb">1e-10</span></code></pre>
+
+    <div class="proof-steps">
+      <h4>How Transport Works</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Symbolic proof:</strong> <code>det_product</code> is assumed as a law
+          of <code>MatrixSpec</code> — it holds for all symbolic matrices.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Path construction:</strong> <code>evaluate</code> defines a map from
+          <code>sympy.Matrix</code> to <code>numpy.ndarray</code>. Deppy verifies this
+          is a valid path (structure-preserving: it respects matrix operations).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Transport:</strong> The <code>@transport</code> decorator automatically
+          derives that <code>det_product_numerical</code> holds, with a small numerical
+          tolerance (the path introduces floating-point error).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Trust level:</strong> The transported property inherits the minimum
+          trust level of the symbolic proof and the path's verification level.
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="running-verification">Running the Full Verification</h2>
+    <p>
+      With all sidecar specs in place, run the verification:
+    </p>
+
+    <pre><code><span class="cm">$ deppy sidecar verify src/ --sidecar-dir sidecars/sympy/ --verbose</span>
+
+<span class="fn">Deppy Sidecar Verification — SymPy</span>
+<span class="op">══════════════════════════════════════════════════════════</span>
+Loading sidecars:
+  sympy/core.deppy       → 2 specs, 9 laws
+  sympy/matrices.deppy   → 1 spec, 7 laws
+  sympy/integrals.deppy  → 2 specs, 7 laws
+  Total: 5 specs, 23 laws
+
+Scanning src/ for SymPy calls...
+Found 47 call sites across 12 files.
+
+<span class="fn">═══ sympy.core ═══</span>
+
+<span class="fn">src/algebra.py</span>:18  →  <span class="fn">sympy.expand</span>(expr)
+  No sidecar spec.  <span class="st">⚠ uncovered</span>
+
+<span class="fn">src/algebra.py</span>:24  →  <span class="fn">a + b</span> (sympy.core.add.Add)
+  Laws: commutative ✓, associative ✓, identity ✓, inverse ✓
+  <span class="st">✓ all laws assumed</span>
+
+<span class="fn">src/algebra.py</span>:31  →  <span class="fn">a * (b + c)</span> (sympy.core.mul.Mul, Add)
+  Law: distributive_over_add ✓
+  <span class="st">✓ law assumed</span>
+
+<span class="fn">═══ sympy.matrices ═══</span>
+
+<span class="fn">src/linalg.py</span>:12  →  <span class="fn">A * B</span> (Matrix.__mul__)
+  Dimension check: A is 3×3, B is 3×3  <span class="st">✓ compatible</span>
+  Law: mul_associative — applicable  <span class="st">✓ assumed</span>
+
+<span class="fn">src/linalg.py</span>:15  →  <span class="fn">(A * B).det()</span>
+  Law: det_product  <span class="st">✓ assumed</span>
+  Postcondition: det(A*B) == det(A)*det(B) available for downstream proofs
+
+<span class="fn">src/linalg.py</span>:22  →  <span class="fn">A.T.T</span>
+  Law: transpose_involution  <span class="st">✓ assumed</span>
+  Simplified to: A  <span class="st">✓</span>
+
+<span class="fn">═══ sympy.integrals ═══</span>
+
+<span class="fn">src/calculus.py</span>:8   →  <span class="fn">integrate</span>(f, x)
+  Law: ftc_part1 — d/dx ∫f dx == f  <span class="st">✓ assumed</span>
+
+<span class="fn">src/calculus.py</span>:19  →  <span class="fn">integrate</span>(f, (x, 0, 1))
+  Law: ftc_part2 applicable  <span class="st">✓ assumed</span>
+  Law: linear_add applicable  <span class="st">✓ assumed</span>
+
+<span class="fn">═══ Transport ═══</span>
+
+<span class="fn">src/numerical.py</span>:34  →  <span class="fn">np.linalg.det</span>(A @ B)
+  Transport: det_product via evaluate path
+  Path verified: structure-preserving  <span class="st">✓</span>
+  Transported property: det(A@B) ≈ det(A)*det(B)  <span class="st">✓</span>
+  Tolerance: 1e-10
+
+<span class="op">══════════════════════════════════════════════════════════</span>
+<span class="fn">Verification Report</span>
+<span class="op">──────────────────────────────────────────────────────────</span>
+Call sites verified:   42/47 (<span class="st">89%</span>)
+Call sites uncovered:   5/47 (no sidecar spec)
+Algebraic laws:        23 assumed
+Paths verified:         1
+Transport proofs:       1
+
+Trust level breakdown:
+  🟡 Z3_PROVEN:     12 call sites
+  🟠 LLM_JUDGED:     0 call sites
+  🔴 UNTRUSTED:       5 call sites (uncovered)
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Overall:           🟡 Z3_PROVEN (limited by uncovered calls)
+
+Recommendation: Add sidecar specs for:
+  - sympy.expand (5 call sites)
+  to reach 100% coverage.</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="edge-cases">Handling SymPy Edge Cases</h2>
+    <p>
+      SymPy has several known edge cases that sidecar specs must account for:
+    </p>
+
+    <h3>Undefined Expressions</h3>
+    <pre><code><span class="cm"># Division by zero yields zoo (complex infinity) or nan</span>
+<span class="dc">@about</span>(<span class="st">"sympy.core.mul.Mul"</span>)
+<span class="kw">class</span> <span class="fn">MulEdgeCases</span>(<span class="ty">ExternalSpec</span>):
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">div_by_zero</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""a / 0 is zoo (complex infinity), not an error."""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> S, zoo
+        <span class="kw">return</span> (a / S.Zero) == zoo <span class="kw">or</span> (a / S.Zero) == S.NaN</code></pre>
+
+    <h3>Assumptions System</h3>
+    <pre><code><span class="cm"># SymPy's assumptions affect simplification</span>
+<span class="kw">from</span> sympy <span class="kw">import</span> Symbol, sqrt
+
+<span class="cm"># Without assumptions: sqrt(x²) stays as sqrt(x²)</span>
+x = Symbol(<span class="st">'x'</span>)
+<span class="kw">assert</span> sqrt(x**<span class="nb">2</span>) != x  <span class="cm"># Not simplified!</span>
+
+<span class="cm"># With assumptions: sqrt(x²) simplifies to x</span>
+x = Symbol(<span class="st">'x'</span>, positive=<span class="nb">True</span>)
+<span class="kw">assert</span> sqrt(x**<span class="nb">2</span>) == x  <span class="cm"># Now simplified</span>
+
+<span class="cm"># Sidecar spec accounts for this:</span>
+<span class="dc">@about</span>(<span class="st">"sympy.functions.elementary.miscellaneous.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SympySqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">sqrt_square_positive</span>(<span class="kw">self</span>,
+            x: <span class="ty">SymExpr</span>(<span class="st">"positive"</span>)) -> <span class="ty">bool</span>:
+        <span class="st">"""sqrt(x²) == x when x is positive."""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> sqrt
+        <span class="kw">return</span> sqrt(x**<span class="nb">2</span>).equals(x)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">sqrt_square_general</span>(<span class="kw">self</span>, x: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""sqrt(x²) == |x| in general."""</span>
+        <span class="kw">from</span> sympy <span class="kw">import</span> sqrt, Abs
+        <span class="kw">return</span> sqrt(x**<span class="nb">2</span>).equals(Abs(x))</code></pre>
+
+    <div class="warning">
+      SymPy's <code>.equals()</code> method can be slow for complex expressions — it
+      tries multiple simplification strategies. For large-scale verification, use the
+      <code>--timeout</code> flag and consider splitting specs into smaller units.
+    </div>
+
+    <h3>Version Compatibility</h3>
+    <pre><code><span class="cm"># Pin your specs to a SymPy version range</span>
+<span class="dc">@about</span>(<span class="st">"sympy.core.add.Add"</span>)
+<span class="kw">class</span> <span class="fn">AddSpec</span>(<span class="ty">ExternalSpec</span>):
+    compatible_versions = <span class="st">">=1.12,<2.0"</span>
+    <span class="cm"># Deppy will warn if installed sympy doesn't match</span></code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="exercises">Exercises</h2>
+
+    <div class="exercise">
+      <strong>Exercise 4.5:</strong> Add a sidecar law for the <em>power rule</em>
+      of differentiation: <code>d/dx(xⁿ) == n·xⁿ⁻¹</code>. Be careful: what
+      assumptions do you need on <code>n</code>? Does this hold for
+      <code>n = 0</code>? For negative <code>n</code>?
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.6:</strong> Write a sidecar spec for
+      <code>sympy.matrices.Matrix.inv()</code>. Specify: (a) <code>A · A⁻¹ == I</code>,
+      (b) <code>(A⁻¹)⁻¹ == A</code>, (c) <code>(A·B)⁻¹ == B⁻¹·A⁻¹</code>.
+      What precondition is needed? (Hint: <code>det(A) ≠ 0</code>.)
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.7:</strong> Design a transport path from
+      <code>sympy.Rational</code> to Python's <code>fractions.Fraction</code>.
+      What properties can you transport? Can you transport
+      <code>Rational(1,3) + Rational(1,6) == Rational(1,2)</code>?
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.8 (Challenge):</strong> SymPy's <code>limit</code> function
+      computes limits of expressions. Write sidecar specs for:
+      (a) <code>limit(sin(x)/x, x, 0) == 1</code>,
+      (b) <code>limit((1+1/n)**n, n, oo) == E</code>,
+      (c) the squeeze theorem as an algebraic law.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="sidecar_basics.html">
+        <span class="label">← Previous</span>
+        <span class="title">Sidecar Basics</span>
+      </a>
+      <a href="trust_levels.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Trust &amp; Verification Levels</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

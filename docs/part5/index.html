@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 5 — Homotopy Methods | Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="index.html" class="active">Overview</a></li>
+      <li><a href="paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="cech.html">Čech Decomposition</a></li>
+      <li><a href="fibrations.html">Fibrations</a></li>
+      <li><a href="tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Part 5 — Synthetic Homotopy Methods</h1>
+    <p class="subtitle" style="font-size:1.1rem;color:var(--text-muted);margin-bottom:2rem;">
+      The theoretical heart of Deppy — why homotopy type theory is the
+      <em>right</em> foundation for verifying Python.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="why-hott">Why Homotopy Type Theory for Python?</h2>
+
+    <p>
+      Every formal verification tool must answer a deceptively simple question:
+      <strong>what does it mean for two things to be "the same"?</strong>
+    </p>
+    <p>
+      In most languages this has a straightforward answer.  In Haskell, two
+      values are equal when <code>==</code> returns <code>True</code>.  In Java,
+      <code>.equals()</code> decides it.  But Python is different.  Python lives
+      in a world of <em>duck typing</em>, protocols, dynamic dispatch, and
+      multiple inheritance — a world where "sameness" is nuanced, contextual,
+      and <em>structural</em>.
+    </p>
+
+    <div class="note">
+      Duck typing is the idea that objects are interchangeable if they
+      <strong>behave</strong> the same, regardless of their concrete class.  A
+      <code>list</code> and a <code>tuple</code> are different types, yet both
+      support indexing, iteration, and <code>len()</code>.  In a duck-typed
+      world they are "the same" for code that only uses those operations.
+    </div>
+
+    <p>
+      Traditional type theories — System F, dependent types à la Coq, even
+      refinement types — model equality as a <em>proposition</em>: either two
+      things are equal or they are not.  This binary view cannot capture duck
+      typing.  A <code>list</code> is not literally a <code>tuple</code>, yet
+      they are interchangeable in many contexts.  We need a notion of equality
+      that is <strong>evidence-bearing</strong> and <strong>context-sensitive</strong>.
+    </p>
+
+    <p>
+      Homotopy type theory (HoTT) provides exactly this.  In HoTT, equality is
+      not a mere proposition — it is a <em>type</em> whose inhabitants are
+      <strong>paths</strong>.  A path <code>p : a =<sub>A</sub> b</code> is
+      <em>evidence</em> that <code>a</code> and <code>b</code> are connected.
+      There can be many different paths (different reasons two things are
+      equal), and those paths can themselves be compared via higher paths.
+    </p>
+
+    <h3>The Deep Insight: Duck Typing = Path Equivalence</h3>
+
+    <p>
+      Here is the key observation that makes Deppy possible:
+    </p>
+
+    <blockquote>
+      <strong>Two Python objects are "the same" for a given protocol precisely
+      when there exists a path between them in the type that the protocol
+      defines.</strong>
+    </blockquote>
+
+    <p>
+      Consider a protocol <code>Iterable</code>.  A <code>list</code> and a
+      <code>range</code> object are different types, but both support
+      <code>__iter__</code>.  In Deppy this is modeled as:
+    </p>
+
+    <pre><code><span class="cm"># Two concrete types</span>
+my_list  : <span class="ty">list</span>[<span class="ty">int</span>]   = [<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>]
+my_range : <span class="ty">range</span>        = <span class="fn">range</span>(<span class="nb">1</span>, <span class="nb">4</span>)
+
+<span class="cm"># Path evidence: they are equal *as Iterables*</span>
+p : <span class="ty">PathType</span>(<span class="ty">Iterable</span>[<span class="ty">int</span>], my_list, my_range)
+p = <span class="fn">duck_path</span>(<span class="ty">Iterable</span>[<span class="ty">int</span>], my_list, my_range)
+
+<span class="cm"># Now any proof about my_list-as-Iterable transports to my_range</span>
+proof_range = <span class="fn">transport</span>(property, p, proof_list)</code></pre>
+
+    <p>
+      This is not merely an analogy.  The <code>duck_path</code> constructor
+      builds a genuine proof term that two objects satisfy the same protocol
+      operations, and <code>transport</code> carries proofs along that path.
+      The path might be non-trivial — it records exactly <em>how</em> the two
+      objects relate.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="topology">Types as Spaces, Programs as Points, Equalities as Paths</h2>
+
+    <p>
+      The homotopy interpretation gives us three fundamental correspondences:
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Topology</th><th>Type Theory</th><th>Python</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Space</td>
+          <td>Type</td>
+          <td>Class / Protocol</td>
+        </tr>
+        <tr>
+          <td>Point</td>
+          <td>Term / Value</td>
+          <td>Object instance</td>
+        </tr>
+        <tr>
+          <td>Path (continuous map I → X)</td>
+          <td>Evidence of equality <code>a =<sub>A</sub> b</code></td>
+          <td>Duck-typing witness, protocol conformance proof</td>
+        </tr>
+        <tr>
+          <td>Homotopy (path between paths)</td>
+          <td>Higher equality</td>
+          <td>Proof that two refactorings are equivalent</td>
+        </tr>
+        <tr>
+          <td>Fibration</td>
+          <td>Dependent type family</td>
+          <td>Class hierarchy, <code>Generic[T]</code></td>
+        </tr>
+        <tr>
+          <td>Fiber</td>
+          <td>Type at a specific index</td>
+          <td>Concrete subclass, <code>Generic[int]</code></td>
+        </tr>
+        <tr>
+          <td>Section</td>
+          <td>Dependent function</td>
+          <td>Method that works for all subclasses</td>
+        </tr>
+        <tr>
+          <td>Čech cover</td>
+          <td>Case decomposition</td>
+          <td><code>if/elif/else</code>, <code>match/case</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      This table is not window dressing — every row corresponds to a concrete
+      data structure and algorithm inside Deppy.  When you write a
+      <code>@guarantee</code>-annotated Python function, Deppy literally
+      constructs spaces, paths, fibrations, and Čech covers to verify it.
+    </p>
+
+    <h3>A Topological View of a Python Program</h3>
+
+    <p>
+      Think of a Python function's type signature as a <em>space</em>.  The
+      function itself is a <em>point</em> in the space of all functions with
+      that signature.  Two implementations of the same interface are two points
+      in the same space, and a proof that they behave the same is a
+      <em>path</em> connecting them.
+    </p>
+
+    <pre><code class="notation"><span class="cm"># Two sorting algorithms — two points in the same space</span>
+<span class="kw">def</span> <span class="fn">bubble_sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]: ...
+<span class="kw">def</span> <span class="fn">merge_sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]: ...
+
+<span class="cm"># A path between them: proof that ∀xs. bubble_sort(xs) = merge_sort(xs)</span>
+<span class="cm"># This is a continuous family of equalities, not a single bit.</span>
+p : <span class="ty">PathType</span>(
+    (<span class="ty">list</span>[<span class="ty">int</span>] -> <span class="ty">list</span>[<span class="ty">int</span>]),
+    bubble_sort,
+    merge_sort
+)
+<span class="cm"># Constructed via function extensionality (FunExt)</span>
+p = <span class="fn">funext</span>(<span class="kw">lambda</span> xs: <span class="fn">sort_equivalence_proof</span>(xs))</code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="four-methods">The Four Key Methods</h2>
+
+    <p>
+      Part 5 introduces the four synthetic homotopy methods that power Deppy's
+      verification engine.  Each addresses a different aspect of Python
+      verification, and together they cover the full landscape of real-world
+      Python code.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;">
+      <div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:1.25rem;">
+        <h4 style="color:var(--primary);margin-top:0;">🔵 Path Types &amp; Transport</h4>
+        <p style="font-size:0.9rem;">
+          The foundation.  Paths model equality-as-evidence.  Transport carries
+          proofs along paths.  Function extensionality and univalence complete
+          the picture.  This is how Deppy verifies that two implementations
+          are interchangeable.
+        </p>
+        <a href="paths.html" style="font-size:0.85rem;font-weight:600;">Read chapter →</a>
+      </div>
+      <div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:1.25rem;">
+        <h4 style="color:var(--accent);margin-top:0;">🟣 Čech Decomposition</h4>
+        <p style="font-size:0.9rem;">
+          Decompose a function into <em>patches</em> (branches, cases,
+          exception handlers), verify each independently, then <em>glue</em>
+          the local proofs into a global guarantee using Čech cohomology.
+        </p>
+        <a href="cech.html" style="font-size:0.85rem;font-weight:600;">Read chapter →</a>
+      </div>
+      <div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:1.25rem;">
+        <h4 style="color:var(--success);margin-top:0;">🟢 Fibrations</h4>
+        <p style="font-size:0.9rem;">
+          Model class hierarchies, generic types, and module structures as
+          fibrations.  Verify properties per-fiber (per-subclass) then
+          conclude global correctness via the fibration structure.
+        </p>
+        <a href="fibrations.html" style="font-size:0.85rem;font-weight:600;">Read chapter →</a>
+      </div>
+      <div style="background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:1.25rem;">
+        <h4 style="color:var(--warning);margin-top:0;">🟡 Homotopy Tactics</h4>
+        <p style="font-size:0.9rem;">
+          A tactic language for building proofs interactively.  Includes
+          homotopy-native tactics like <code>transport</code>,
+          <code>path_induction</code>, and <code>cech_decompose</code> that
+          have no analogue in other verification tools.
+        </p>
+        <a href="tactics.html" style="font-size:0.85rem;font-weight:600;">Read chapter →</a>
+      </div>
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="beyond">Beyond F*, Dafny, and Liquid Haskell</h2>
+
+    <p>
+      To appreciate what Deppy brings, let's compare with the state of the
+      art in formal verification:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>F*</th>
+          <th>Dafny</th>
+          <th>Liquid Haskell</th>
+          <th>Deppy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dependent types</td>
+          <td>✅ Full</td>
+          <td>❌</td>
+          <td>✅ Refinement</td>
+          <td>✅ Full + homotopy</td>
+        </tr>
+        <tr>
+          <td>Duck typing / structural eq.</td>
+          <td>❌</td>
+          <td>❌</td>
+          <td>❌</td>
+          <td>✅ Path types</td>
+        </tr>
+        <tr>
+          <td>Branch decomposition</td>
+          <td>Manual</td>
+          <td>Manual</td>
+          <td>N/A</td>
+          <td>✅ Čech automatic</td>
+        </tr>
+        <tr>
+          <td>Class hierarchy verification</td>
+          <td>Limited</td>
+          <td>Traits</td>
+          <td>N/A</td>
+          <td>✅ Fibrations</td>
+        </tr>
+        <tr>
+          <td>Proof reuse via equivalence</td>
+          <td>Limited</td>
+          <td>❌</td>
+          <td>❌</td>
+          <td>✅ Transport + univalence</td>
+        </tr>
+        <tr>
+          <td>Dynamic typing</td>
+          <td>❌</td>
+          <td>❌</td>
+          <td>❌</td>
+          <td>✅ Graded modality</td>
+        </tr>
+        <tr>
+          <td>Target language</td>
+          <td>F* / OCaml</td>
+          <td>Dafny / C#</td>
+          <td>Haskell</td>
+          <td><strong>Python</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The key differentiator is not any single feature but the
+      <em>combination</em>: path types for structural equality, Čech
+      decomposition for branching code, fibrations for class hierarchies, and
+      transport for proof reuse — all working together in a cubical type theory
+      that naturally accommodates Python's dynamic, duck-typed semantics.
+    </p>
+
+    <div class="important">
+      Deppy does not require you to learn homotopy type theory.  The surface
+      language (<code>@guarantee</code>, <code>assume</code>,
+      <code>check</code>, <code>hole</code>) hides the topology.  But
+      understanding the theory lets you write more powerful specifications,
+      debug verification failures, and appreciate <em>why</em> certain proofs
+      succeed or fail.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="cubical">Why <em>Cubical</em> Homotopy Type Theory?</h2>
+
+    <p>
+      Deppy is built on <strong>cubical</strong> type theory (CCHM /
+      Cartesian cubical), not classical HoTT.  The distinction matters:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Classical HoTT</strong> postulates univalence as an axiom.
+        It is consistent but <em>not</em> computational — you can state
+        that <code>A ≃ B → A = B</code>, but you cannot <em>compute</em>
+        with the resulting equality.
+      </li>
+      <li>
+        <strong>Cubical type theory</strong> makes univalence a
+        <em>theorem</em> that computes.  Paths are literal functions from
+        an interval type <code>𝕀</code>, and transport along a path
+        produces a concrete program, not just a logical assertion.
+      </li>
+    </ul>
+
+    <p>
+      For a verification tool this is crucial.  When Deppy transports a
+      proof from <code>list</code> to <code>tuple</code>, it needs to
+      <em>compute</em> the adapted proof term.  Cubical paths make this
+      possible.
+    </p>
+
+    <pre><code><span class="cm"># In cubical Deppy, a path is a function from the interval</span>
+<span class="cm"># PathAbs(i, body) — at i=0 we get the left endpoint, at i=1 the right</span>
+
+p = <span class="fn">PathAbs</span>(<span class="st">"i"</span>, <span class="kw">lambda</span> i:
+    <span class="cm"># Interpolate between list and tuple representations</span>
+    <span class="fn">interp</span>(list_repr, tuple_repr, i)
+)
+
+<span class="cm"># PathApp evaluates the path at a specific point</span>
+<span class="fn">PathApp</span>(p, <span class="nb">0</span>)   <span class="cm"># → list_repr   (left endpoint)</span>
+<span class="fn">PathApp</span>(p, <span class="nb">1</span>)   <span class="cm"># → tuple_repr  (right endpoint)</span>
+<span class="fn">PathApp</span>(p, <span class="nb">0.5</span>) <span class="cm"># → midpoint    (computes!)</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="roadmap">What You'll Learn</h2>
+
+    <p>
+      The four chapters in Part 5 build on each other:
+    </p>
+
+    <ol>
+      <li>
+        <strong><a href="paths.html">Path Types &amp; Transport</a></strong> —
+        the foundation.  You'll learn what paths are, how to construct them
+        (Refl, Sym, Trans, Cong, Ap, FunExt), and how transport carries proofs
+        along them.  This chapter also covers univalence, the most powerful
+        principle in HoTT.
+      </li>
+      <li>
+        <strong><a href="cech.html">Čech Decomposition</a></strong> —
+        decomposing branching Python code into patches and gluing local proofs
+        into global correctness.  You'll see how <code>if/elif/else</code>,
+        <code>match/case</code>, and <code>try/except</code> are all instances
+        of the same topological construction.
+      </li>
+      <li>
+        <strong><a href="fibrations.html">Fibrations</a></strong> —
+        modeling class hierarchies, generics, and module structures as fiber
+        bundles.  You'll learn how to verify a property per-subclass and
+        conclude it holds globally.
+      </li>
+      <li>
+        <strong><a href="tactics.html">Homotopy Tactics</a></strong> —
+        a tactic language for interactively constructing proofs.  Includes
+        homotopy-native tactics that have no analogue in other systems.
+      </li>
+    </ol>
+
+    <div class="tip">
+      <strong>Prerequisites.</strong>  You should be comfortable with
+      Parts 1–4 before diving into Part 5.  In particular, you should
+      understand refinement types (Part 1), dependent types (Part 2), and
+      Python protocols (Part 3).  No prior knowledge of topology or homotopy
+      theory is required — we build everything from scratch.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="mental-model">The Mental Model</h2>
+
+    <p>
+      Before we dive into the chapters, here is the mental model to carry
+      with you throughout Part 5:
+    </p>
+
+    <pre><code><span class="cm"># The verification pipeline (conceptual)</span>
+
+<span class="cm"># 1. Parse Python → extract type information</span>
+space   = <span class="fn">type_to_space</span>(function_signature)
+
+<span class="cm"># 2. Function body → point in the space</span>
+point   = <span class="fn">term_to_point</span>(function_body)
+
+<span class="cm"># 3. Specification → target region of the space</span>
+target  = <span class="fn">spec_to_region</span>(guarantee_annotation)
+
+<span class="cm"># 4. Verify: construct a path from point to target</span>
+proof   = <span class="fn">find_path</span>(point, target, space)
+<span class="cm">#          ↑ uses Čech decomposition, fibrations, transport</span>
+
+<span class="cm"># 5. If proof exists → verified ✅</span>
+<span class="cm">#    If no path can be found → report the obstruction</span>
+<span class="cm">#    (The obstruction is a cohomology class — a witness</span>
+<span class="cm">#     explaining WHY the proof fails.)</span></code></pre>
+
+    <p>
+      This is the engine that runs under every <code>@guarantee</code>
+      annotation.  The surface is simple; the topology underneath is what
+      makes it powerful.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="example">A Taste of What's Coming</h2>
+
+    <p>
+      To whet your appetite, here is a small example that uses paths,
+      transport, and Čech decomposition together:
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> guarantee, check, assume
+
+<span class="dc">@guarantee</span>(<span class="st">"returns absolute value: result >= 0 and (result == x or result == -x)"</span>)
+<span class="kw">def</span> <span class="fn">my_abs</span>(x: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> x >= <span class="nb">0</span>:
+        <span class="kw">return</span> x       <span class="cm"># Patch U₁: x ≥ 0</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> -x      <span class="cm"># Patch U₂: x &lt; 0</span></code></pre>
+
+    <div class="proof-steps">
+      <h4>Deppy verification trace</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Čech decomposition</strong> — split into two patches:
+          <code>U₁ = {x | x ≥ 0}</code> and <code>U₂ = {x | x &lt; 0}</code>.
+          These cover all integers.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Local verification</strong> — on U₁: <code>result = x ≥ 0 ✓</code>
+          and <code>result == x ✓</code>. On U₂: <code>result = -x > 0 ✓</code>
+          and <code>result == -x ✓</code>. Both patches satisfy the guarantee.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Overlap check</strong> — <code>U₁ ∩ U₂ = ∅</code> (no integer
+          is both ≥ 0 and &lt; 0). No gluing condition to check.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Čech glue</strong> — <code>CechGlue(proof₁, proof₂)</code>
+          produces a global proof. <span class="verified">Verified</span>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Now suppose we have a <em>second</em> absolute-value implementation:
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">my_abs2</span>(x: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">return</span> x <span class="kw">if</span> x >= <span class="nb">0</span> <span class="kw">else</span> -x</code></pre>
+
+    <p>
+      Deppy constructs a <em>path</em> between <code>my_abs</code> and
+      <code>my_abs2</code> via function extensionality (they agree on all
+      inputs), then <em>transports</em> the verified guarantee along the path
+      — so <code>my_abs2</code> is verified <em>for free</em>.
+    </p>
+
+    <div class="exercise">
+      <strong>Think about it.</strong>  Can you think of a Python function
+      where the branches <em>overlap</em> — where the same input could trigger
+      two different cases?  How would you verify the guarantee holds on the
+      overlap region?  (Hint: this is exactly the Čech gluing condition.)
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2 id="notation">Notation Guide</h2>
+
+    <p>Throughout Part 5 we use the following notation:</p>
+
+    <table>
+      <thead><tr><th>Notation</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>a =<sub>A</sub> b</code></td><td>Path type: evidence that a and b are equal in type A</td></tr>
+        <tr><td><code>refl(a)</code></td><td>Reflexivity path: a = a</td></tr>
+        <tr><td><code>p · q</code></td><td>Path composition: if p: a=b and q: b=c, then p·q: a=c</td></tr>
+        <tr><td><code>p⁻¹</code></td><td>Path inverse: if p: a=b, then p⁻¹: b=a</td></tr>
+        <tr><td><code>transport(P, p, x)</code></td><td>Carry x : P(a) along p : a=b to get P(b)</td></tr>
+        <tr><td><code>A ≃ B</code></td><td>Equivalence: a bijection with both-sided inverse</td></tr>
+        <tr><td><code>Σ(x:A). B(x)</code></td><td>Dependent pair (total space of a fibration)</td></tr>
+        <tr><td><code>Π(x:A). B(x)</code></td><td>Dependent function (section of a fibration)</td></tr>
+        <tr><td><code>𝕀</code></td><td>The interval type [0, 1] in cubical type theory</td></tr>
+        <tr><td><code>U<sub>i</sub></code></td><td>Patch / open set in a Čech cover</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <p>
+      Ready?  Let's begin with the most important chapter in the entire book:
+      <strong><a href="paths.html">Path Types &amp; Transport →</a></strong>
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <div class="page-nav">
+      <a href="../part4/trust_levels.html">
+        <span class="label">← Previous</span>
+        <span class="title">Trust &amp; Verification Levels</span>
+      </a>
+      <a href="paths.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Path Types &amp; Transport</span>
+      </a>
+    </div>
+  </article>
+</div>
+<script src="../js/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lemmas &amp; Induction — Deppy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Lemmas &amp; Induction</h1>
+
+    <p>
+      Sometimes Z3 can't prove a property automatically. The solver is powerful,
+      but it works within fixed decision procedures — it doesn't invent creative
+      proof strategies on its own. When Z3 gets stuck, you need to help by writing
+      <strong>lemmas</strong>: small helper proofs that guide the verification.
+    </p>
+    <p>
+      In Deppy, lemmas are ordinary Python functions decorated with
+      <code><span class="dc">@lemma</span></code> that return <em>proof terms</em>.
+      Combined with <strong>induction</strong>, lemmas let you prove complex
+      properties about recursive data structures — lists, trees, natural numbers —
+      all without modifying the code you're verifying.
+    </p>
+
+    <!-- ===== Lemmas as Python Functions ===== -->
+    <h2>Lemmas as Python Functions</h2>
+    <p>
+      A lemma is a function that takes inputs and returns a proof term. The
+      <code><span class="dc">@lemma</span></code> decorator marks it as a proof
+      obligation — not executable code. The function body constructs the proof
+      using proof combinators that Deppy checks for validity.
+    </p>
+    <p>
+      Here's the simplest possible lemma: proving that <code>x + 0 == x</code>
+      for any integer.
+    </p>
+
+    <pre><code><span class="dc">@lemma</span>
+<span class="kw">def</span> <span class="fn">add_zero_right</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">Proof</span>[x <span class="op">+</span> <span class="nb">0</span> <span class="op">==</span> x]:
+    <span class="cm"># x + 0 is definitionally equal to x</span>
+    <span class="kw">return</span> <span class="pr">Refl</span>(x)</code></pre>
+
+    <p>
+      The return type <code><span class="ty">Proof</span>[x + 0 == x]</code>
+      declares exactly what this lemma proves. The body must construct a valid
+      proof term of that type. Here, <code><span class="pr">Refl</span>(x)</code>
+      works because <code>x + 0</code> reduces to <code>x</code> by the
+      definition of addition.
+    </p>
+    <p>A slightly more involved lemma — commutativity of addition for a specific case:</p>
+    <pre><code><span class="dc">@lemma</span>
+<span class="kw">def</span> <span class="fn">add_comm_zero</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">Proof</span>[<span class="nb">0</span> <span class="op">+</span> x <span class="op">==</span> x <span class="op">+</span> <span class="nb">0</span>]:
+    <span class="cm"># Both sides equal x, so transitivity through Refl</span>
+    p1 <span class="op">=</span> add_zero_right(x)        <span class="cm"># x + 0 == x</span>
+    p2 <span class="op">=</span> <span class="pr">Refl</span>(x)                  <span class="cm"># x == x</span>
+    <span class="kw">return</span> <span class="pr">Trans</span>(<span class="pr">Symm</span>(p2), p1)   <span class="cm"># 0 + x == x == x + 0</span></code></pre>
+
+    <div class="note">
+      <strong>Ghost code.</strong> Lemmas are "ghost code" — they exist only for
+      verification and are completely erased at runtime. They produce no overhead,
+      no side effects, and no executable instructions. Your production code stays
+      exactly as it was.
+    </div>
+
+    <!-- ===== Natural Number Induction ===== -->
+    <h2>Natural Number Induction with <code>@induction</code></h2>
+    <p>
+      Many properties of natural numbers require induction. The
+      <code><span class="dc">@induction</span>(<span class="st">"n"</span>)</code>
+      decorator tells Deppy to apply the standard induction schema on the
+      parameter <code>n</code>:
+    </p>
+    <ul>
+      <li><strong>Base case:</strong> prove P(0)</li>
+      <li><strong>Inductive step:</strong> assuming P(k), prove P(k + 1)</li>
+    </ul>
+    <p>
+      Deppy generates the induction schema automatically and checks that both
+      cases are covered by your proof terms.
+    </p>
+
+    <h3>Example: Sum of First <em>n</em> Natural Numbers</h3>
+    <p>
+      Let's prove the classic identity:
+      <code>sum(range(n+1)) == n * (n+1) // 2</code>.
+      First, here's the ordinary Python function we're verifying:
+    </p>
+    <pre><code><span class="kw">def</span> <span class="fn">triangle</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="st">"""Sum of 0 + 1 + 2 + ... + n."""</span>
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="fn">range</span>(n <span class="op">+</span> <span class="nb">1</span>))</code></pre>
+
+    <p>Now the lemma that proves correctness:</p>
+
+    <pre><code><span class="dc">@lemma</span>
+<span class="dc">@induction</span>(<span class="st">"n"</span>)
+<span class="kw">def</span> <span class="fn">triangle_formula</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">Proof</span>[<span class="fn">triangle</span>(n) <span class="op">==</span> n <span class="op">*</span> (n <span class="op">+</span> <span class="nb">1</span>) <span class="op">//</span> <span class="nb">2</span>]:
+    <span class="kw">if</span> n <span class="op">==</span> <span class="nb">0</span>:
+        <span class="cm"># Base case: triangle(0) = sum(range(1)) = 0 = 0*1//2 ✓</span>
+        <span class="kw">return</span> <span class="pr">Refl</span>(<span class="nb">0</span>)
+    <span class="kw">else</span>:
+        <span class="cm"># Inductive step: assume triangle(n-1) == (n-1)*n//2</span>
+        ih <span class="op">=</span> triangle_formula(n <span class="op">-</span> <span class="nb">1</span>)  <span class="cm"># induction hypothesis</span>
+
+        <span class="cm"># triangle(n) = triangle(n-1) + n</span>
+        <span class="cm">#             = (n-1)*n//2 + n       (by ih)</span>
+        <span class="cm">#             = (n-1)*n//2 + 2n//2</span>
+        <span class="cm">#             = ((n-1)*n + 2n) // 2</span>
+        <span class="cm">#             = n*(n+1) // 2         ✓</span>
+        step <span class="op">=</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> s: s <span class="op">+</span> n, ih)
+        <span class="kw">return</span> <span class="pr">Trans</span>(step, <span class="pr">Refl</span>(n <span class="op">*</span> (n <span class="op">+</span> <span class="nb">1</span>) <span class="op">//</span> <span class="nb">2</span>))</code></pre>
+
+    <p>
+      The recursive call <code>triangle_formula(n - 1)</code> is not a runtime
+      call — it's the induction hypothesis provided by the
+      <code><span class="dc">@induction</span></code> schema. Deppy verifies
+      that the recursion is well-founded (always decreasing toward the base case).
+    </p>
+
+    <!-- ===== Structural Induction on Lists ===== -->
+    <h2>Structural Induction on Lists</h2>
+
+    <p>
+      Lists have two structural cases: the empty list <code>[]</code> and a cons
+      cell <code>[x] + xs</code>. The decorator
+      <code><span class="dc">@induction</span>(<span class="st">"xs"</span>, over=<span class="st">"list"</span>)</code>
+      triggers list induction:
+    </p>
+    <ul>
+      <li><strong>Base case:</strong> prove P([])</li>
+      <li><strong>Inductive step:</strong> for any element x and tail xs, assuming P(xs), prove P([x] + xs)</li>
+    </ul>
+
+    <h3>Example: Reverse Is Involutive</h3>
+
+    <p>
+      We prove that reversing a list twice gives back the original:
+      <code>reverse(reverse(xs)) == xs</code>.
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">reverse</span>(xs: <span class="ty">list</span>) <span class="op">-></span> <span class="ty">list</span>:
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="kw">return</span> []
+    <span class="kw">return</span> <span class="fn">reverse</span>(xs[<span class="nb">1</span>:]) <span class="op">+</span> [xs[<span class="nb">0</span>]]</code></pre>
+
+    <pre><code><span class="cm"># Helper lemma: reverse distributes over append</span>
+<span class="dc">@lemma</span>
+<span class="dc">@induction</span>(<span class="st">"xs"</span>, over=<span class="st">"list"</span>)
+<span class="kw">def</span> <span class="fn">reverse_append</span>(xs: <span class="ty">list</span>, ys: <span class="ty">list</span>) <span class="op">-></span> <span class="ty">Proof</span>[
+    <span class="fn">reverse</span>(xs <span class="op">+</span> ys) <span class="op">==</span> <span class="fn">reverse</span>(ys) <span class="op">+</span> <span class="fn">reverse</span>(xs)
+]:
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="cm"># reverse([] + ys) == reverse(ys) == reverse(ys) + []</span>
+        <span class="kw">return</span> <span class="pr">Symm</span>(append_nil(<span class="fn">reverse</span>(ys)))
+    <span class="kw">else</span>:
+        x, xt <span class="op">=</span> xs[<span class="nb">0</span>], xs[<span class="nb">1</span>:]
+        ih <span class="op">=</span> reverse_append(xt, ys)  <span class="cm"># induction hypothesis</span>
+        <span class="cm"># reverse((x:xt) + ys) = reverse(xt + ys) + [x]</span>
+        <span class="cm">#                      = (reverse(ys) + reverse(xt)) + [x]  (by ih)</span>
+        <span class="cm">#                      = reverse(ys) + (reverse(xt) + [x])</span>
+        <span class="cm">#                      = reverse(ys) + reverse(x:xt)</span>
+        step <span class="op">=</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> r: r <span class="op">+</span> [x], ih)
+        <span class="kw">return</span> <span class="pr">Trans</span>(step, append_assoc(<span class="fn">reverse</span>(ys), <span class="fn">reverse</span>(xt), [x]))
+
+<span class="dc">@lemma</span>
+<span class="dc">@induction</span>(<span class="st">"xs"</span>, over=<span class="st">"list"</span>)
+<span class="kw">def</span> <span class="fn">reverse_involutive</span>(xs: <span class="ty">list</span>) <span class="op">-></span> <span class="ty">Proof</span>[
+    <span class="fn">reverse</span>(<span class="fn">reverse</span>(xs)) <span class="op">==</span> xs
+]:
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="cm"># reverse(reverse([])) == reverse([]) == [] ✓</span>
+        <span class="kw">return</span> <span class="pr">Refl</span>([])
+    <span class="kw">else</span>:
+        x, xt <span class="op">=</span> xs[<span class="nb">0</span>], xs[<span class="nb">1</span>:]
+        ih <span class="op">=</span> reverse_involutive(xt)  <span class="cm"># reverse(reverse(xt)) == xt</span>
+
+        <span class="cm"># reverse(reverse([x] + xt))</span>
+        <span class="cm">#   = reverse(reverse(xt) + [x])         (def of reverse)</span>
+        <span class="cm">#   = reverse([x]) + reverse(reverse(xt)) (reverse_append)</span>
+        <span class="cm">#   = [x] + reverse(reverse(xt))          (reverse singleton)</span>
+        <span class="cm">#   = [x] + xt                            (by ih)</span>
+        p1 <span class="op">=</span> reverse_append(<span class="fn">reverse</span>(xt), [x])
+        p2 <span class="op">=</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> r: [x] <span class="op">+</span> r, ih)
+        <span class="kw">return</span> <span class="pr">Trans</span>(p1, p2)</code></pre>
+
+    <h3>Example: Append Preserves Length</h3>
+
+    <p>Prove that <code>len(xs + ys) == len(xs) + len(ys)</code>:</p>
+
+    <pre><code><span class="dc">@lemma</span>
+<span class="dc">@induction</span>(<span class="st">"xs"</span>, over=<span class="st">"list"</span>)
+<span class="kw">def</span> <span class="fn">append_length</span>(xs: <span class="ty">list</span>, ys: <span class="ty">list</span>) <span class="op">-></span> <span class="ty">Proof</span>[
+    <span class="fn">len</span>(xs <span class="op">+</span> ys) <span class="op">==</span> <span class="fn">len</span>(xs) <span class="op">+</span> <span class="fn">len</span>(ys)
+]:
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="cm"># len([] + ys) == len(ys) == 0 + len(ys) ✓</span>
+        <span class="kw">return</span> <span class="pr">Refl</span>(<span class="fn">len</span>(ys))
+    <span class="kw">else</span>:
+        x, xt <span class="op">=</span> xs[<span class="nb">0</span>], xs[<span class="nb">1</span>:]
+        ih <span class="op">=</span> append_length(xt, ys)  <span class="cm"># len(xt + ys) == len(xt) + len(ys)</span>
+
+        <span class="cm"># len([x] + xt + ys) = 1 + len(xt + ys)        (def of len)</span>
+        <span class="cm">#                   = 1 + len(xt) + len(ys)     (by ih)</span>
+        <span class="cm">#                   = len([x] + xt) + len(ys)   (def of len)</span>
+        <span class="kw">return</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> k: <span class="nb">1</span> <span class="op">+</span> k, ih)</code></pre>
+
+    <!-- ===== Structural Induction on Trees ===== -->
+    <h2>Structural Induction on Trees</h2>
+
+    <p>
+      Trees have two constructors: <code>Leaf</code> and
+      <code>Node(left, value, right)</code>. The decorator
+      <code><span class="dc">@induction</span>(<span class="st">"t"</span>, over=<span class="st">"tree"</span>)</code>
+      gives you:
+    </p>
+    <ul>
+      <li><strong>Base case:</strong> prove P(Leaf)</li>
+      <li><strong>Inductive step:</strong> assuming P(left) and P(right), prove P(Node(left, v, right))</li>
+    </ul>
+
+    <h3>Example: Mirror Is Involutive</h3>
+
+    <pre><code><span class="kw">def</span> <span class="fn">mirror</span>(t):
+    <span class="kw">if</span> t <span class="kw">is</span> <span class="nb">None</span>:      <span class="cm"># Leaf</span>
+        <span class="kw">return</span> <span class="nb">None</span>
+    <span class="kw">return</span> Node(<span class="fn">mirror</span>(t.right), t.value, <span class="fn">mirror</span>(t.left))
+
+<span class="dc">@lemma</span>
+<span class="dc">@induction</span>(<span class="st">"t"</span>, over=<span class="st">"tree"</span>)
+<span class="kw">def</span> <span class="fn">mirror_involutive</span>(t) <span class="op">-></span> <span class="ty">Proof</span>[<span class="fn">mirror</span>(<span class="fn">mirror</span>(t)) <span class="op">==</span> t]:
+    <span class="kw">if</span> t <span class="kw">is</span> <span class="nb">None</span>:
+        <span class="cm"># mirror(mirror(Leaf)) == mirror(Leaf) == Leaf ✓</span>
+        <span class="kw">return</span> <span class="pr">Refl</span>(<span class="nb">None</span>)
+    <span class="kw">else</span>:
+        <span class="cm"># Induction hypotheses for subtrees</span>
+        ih_left <span class="op">=</span> mirror_involutive(t.left)
+        ih_right <span class="op">=</span> mirror_involutive(t.right)
+
+        <span class="cm"># mirror(mirror(Node(L, v, R)))</span>
+        <span class="cm">#   = mirror(Node(mirror(R), v, mirror(L)))    (def of mirror)</span>
+        <span class="cm">#   = Node(mirror(mirror(L)), v, mirror(mirror(R)))  (def of mirror)</span>
+        <span class="cm">#   = Node(L, v, R)                             (by ih_left, ih_right)</span>
+        p_left <span class="op">=</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> l: Node(l, t.value, t.right), ih_left)
+        p_right <span class="op">=</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> r: Node(t.left, t.value, r), ih_right)
+        <span class="kw">return</span> <span class="pr">Trans</span>(p_left, p_right)</code></pre>
+
+    <!-- ===== Proof by Contradiction ===== -->
+    <h2>Proof by Contradiction</h2>
+
+    <p>
+      Sometimes the most natural proof assumes the negation and derives
+      <code><span class="nb">False</span></code>. The
+      <code><span class="dc">@proof_by_contradiction</span></code> decorator
+      handles this pattern:
+    </p>
+
+    <pre><code><span class="dc">@lemma</span>
+<span class="dc">@proof_by_contradiction</span>
+<span class="kw">def</span> <span class="fn">no_largest_int</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">Proof</span>[<span class="ty">Exists</span>(<span class="ty">int</span>, <span class="kw">lambda</span> m: m <span class="op">></span> n)]:
+    <span class="cm"># Assume for contradiction: ∀ m, m ≤ n</span>
+    <span class="cm"># Then n + 1 ≤ n, which implies 1 ≤ 0 — contradiction.</span>
+    witness <span class="op">=</span> n <span class="op">+</span> <span class="nb">1</span>
+    <span class="cm"># n + 1 > n is trivially true</span>
+    <span class="kw">return</span> <span class="pr">Witness</span>(witness, <span class="pr">Refl</span>(<span class="nb">True</span>))</code></pre>
+
+    <p>
+      Deppy checks that the contradiction is genuine — you can't just
+      assert <code><span class="nb">False</span></code>. The proof must
+      derive it from the negated hypothesis through valid logical steps.
+    </p>
+
+    <!-- ===== Proof Combinators ===== -->
+    <h2>Proof Combinators</h2>
+
+    <p>
+      Proof combinators are the building blocks for constructing proof terms.
+      Each combinator has a precise type that Deppy verifies:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Combinator</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code><span class="pr">Refl</span>(x)</code></td>
+          <td><code>Proof[x == x]</code></td>
+          <td>Reflexivity — every value equals itself</td>
+        </tr>
+        <tr>
+          <td><code><span class="pr">Symm</span>(p)</code></td>
+          <td><code>Proof[a == b] → Proof[b == a]</code></td>
+          <td>Symmetry — flip an equality</td>
+        </tr>
+        <tr>
+          <td><code><span class="pr">Trans</span>(p, q)</code></td>
+          <td><code>Proof[a == b] → Proof[b == c] → Proof[a == c]</code></td>
+          <td>Transitivity — chain two equalities</td>
+        </tr>
+        <tr>
+          <td><code><span class="pr">Cong</span>(f, p)</code></td>
+          <td><code>(a → b) → Proof[x == y] → Proof[f(x) == f(y)]</code></td>
+          <td>Congruence — apply a function to both sides</td>
+        </tr>
+        <tr>
+          <td><code><span class="pr">Subst</span>(p, ctx)</code></td>
+          <td><code>Proof[a == b] → (a → Prop) → Proof[ctx(a)] → Proof[ctx(b)]</code></td>
+          <td>Substitution — rewrite in a context</td>
+        </tr>
+        <tr>
+          <td><code><span class="pr">Witness</span>(w, p)</code></td>
+          <td><code>a → Proof[P(a)] → Proof[Exists(T, P)]</code></td>
+          <td>Existential introduction</td>
+        </tr>
+        <tr>
+          <td><code><span class="pr">Inductive</span>(base, step)</code></td>
+          <td><code>Proof[P(0)] → (Proof[P(k)] → Proof[P(k+1)]) → Proof[∀n. P(n)]</code></td>
+          <td>Induction principle</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      You can compose these freely. For instance, to prove
+      <code>f(a) == f(c)</code> given <code>a == b</code> and <code>b == c</code>:
+    </p>
+
+    <pre><code>p_ab: <span class="ty">Proof</span>[a <span class="op">==</span> b] <span class="op">=</span> ...
+p_bc: <span class="ty">Proof</span>[b <span class="op">==</span> c] <span class="op">=</span> ...
+p_ac <span class="op">=</span> <span class="pr">Trans</span>(p_ab, p_bc)       <span class="cm"># Proof[a == c]</span>
+result <span class="op">=</span> <span class="pr">Cong</span>(f, p_ac)          <span class="cm"># Proof[f(a) == f(c)]</span></code></pre>
+
+    <!-- ===== Sum of Odds ===== -->
+    <h2>Complete Example: Sum of Odd Numbers</h2>
+
+    <p>
+      Let's prove a classic identity: the sum of the first <em>n</em> odd numbers
+      equals <em>n</em>². That is,
+      <code>1 + 3 + 5 + ⋯ + (2n − 1) == n²</code>.
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">sum_odds</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="st">"""Sum of first n odd numbers: 1 + 3 + 5 + ... + (2n-1)."""</span>
+    total <span class="op">=</span> <span class="nb">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n):
+        total <span class="op">+=</span> <span class="nb">2</span> <span class="op">*</span> i <span class="op">+</span> <span class="nb">1</span>
+    <span class="kw">return</span> total
+
+<span class="dc">@lemma</span>
+<span class="dc">@induction</span>(<span class="st">"n"</span>)
+<span class="kw">def</span> <span class="fn">sum_odds_square</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">Proof</span>[<span class="fn">sum_odds</span>(n) <span class="op">==</span> n <span class="op">**</span> <span class="nb">2</span>]:
+    <span class="kw">if</span> n <span class="op">==</span> <span class="nb">0</span>:
+        <span class="cm"># Base case: sum_odds(0) = 0 = 0² ✓</span>
+        <span class="kw">return</span> <span class="pr">Refl</span>(<span class="nb">0</span>)
+    <span class="kw">else</span>:
+        <span class="cm"># Inductive step:</span>
+        <span class="cm"># Assume sum_odds(n-1) == (n-1)²</span>
+        ih <span class="op">=</span> sum_odds_square(n <span class="op">-</span> <span class="nb">1</span>)
+
+        <span class="cm"># sum_odds(n) = sum_odds(n-1) + (2n - 1)      (loop body)</span>
+        <span class="cm">#            = (n-1)² + (2n - 1)               (by ih)</span>
+        <span class="cm">#            = n² - 2n + 1 + 2n - 1</span>
+        <span class="cm">#            = n²                              ✓</span>
+        step <span class="op">=</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> s: s <span class="op">+</span> (<span class="nb">2</span> <span class="op">*</span> n <span class="op">-</span> <span class="nb">1</span>), ih)
+        <span class="cm"># Now step : sum_odds(n) == (n-1)² + (2n - 1)</span>
+        <span class="cm"># Z3 can close the arithmetic gap: (n-1)² + (2n-1) == n²</span>
+        <span class="kw">return</span> <span class="pr">Trans</span>(step, <span class="pr">Refl</span>(n <span class="op">**</span> <span class="nb">2</span>))</code></pre>
+
+    <p>
+      Notice how the final arithmetic simplification is left to Z3. You only
+      need to write proof steps for the parts Z3 can't figure out on its own
+      (the inductive structure). The algebraic manipulation is automatic.
+    </p>
+
+    <!-- ===== Composing Lemmas with @guarantee ===== -->
+    <h2>How Lemmas Compose with <code>@guarantee</code></h2>
+
+    <p>
+      Lemmas on their own prove facts. To <em>use</em> a lemma inside a
+      function's verification, add
+      <code><span class="dc">@uses</span>(lemma_name)</code>. This tells Deppy
+      to apply the lemma when discharging the function's
+      <code><span class="dc">@guarantee</span></code>.
+    </p>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"result has same total length as inputs combined"</span>)
+<span class="dc">@uses</span>(append_length)
+<span class="kw">def</span> <span class="fn">interleave</span>(xs: <span class="ty">list</span>, ys: <span class="ty">list</span>) <span class="op">-></span> <span class="ty">list</span>:
+    <span class="st">"""Interleave two lists: [1,2],[a,b] -> [1,a,2,b]."""</span>
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="kw">return</span> ys
+    <span class="kw">if</span> <span class="kw">not</span> ys:
+        <span class="kw">return</span> xs
+    <span class="kw">return</span> [xs[<span class="nb">0</span>], ys[<span class="nb">0</span>]] <span class="op">+</span> <span class="fn">interleave</span>(xs[<span class="nb">1</span>:], ys[<span class="nb">1</span>:])</code></pre>
+
+    <p>
+      The verification pipeline works like this:
+    </p>
+    <ol>
+      <li>Deppy sees <code><span class="dc">@guarantee</span></code> and generates a proof obligation about <code>len(result)</code>.</li>
+      <li>Z3 tries to discharge it automatically — but the recursive structure stumps it.</li>
+      <li>Deppy sees <code><span class="dc">@uses</span>(append_length)</code> and instantiates the lemma at each recursive call.</li>
+      <li>With the lemma's fact available, Z3 can now close the proof. ✓</li>
+    </ol>
+
+    <div class="tip">
+      <strong>Start with Z3.</strong> Always try verification without any lemmas
+      first. Z3 handles a surprising amount — arithmetic, simple list operations,
+      boolean logic. Only write a lemma when you see a verification failure that
+      requires inductive reasoning or a non-obvious rewrite.
+    </div>
+
+    <div class="warning">
+      <strong>Lemma termination.</strong> Lemma proofs must terminate, just like
+      any other function under Deppy's termination checker. If your lemma has
+      an infinite loop, the proof is unsound — Deppy will reject it. Always
+      ensure recursive lemma calls decrease on a well-founded measure (the
+      <code><span class="dc">@induction</span></code> decorator handles this
+      automatically for structural recursion).
+    </div>
+
+    <!-- ===== Exercise ===== -->
+    <div class="exercise">
+      <strong>Exercise.</strong> Prove that <code>map</code> distributes over
+      concatenation. That is, for any function <code>f</code> and lists
+      <code>xs</code>, <code>ys</code>:
+
+      <pre><code><span class="fn">map</span>(f, xs <span class="op">+</span> ys) <span class="op">==</span> <span class="fn">map</span>(f, xs) <span class="op">+</span> <span class="fn">map</span>(f, ys)</code></pre>
+
+      <p>
+        Write a complete lemma using
+        <code><span class="dc">@induction</span>(<span class="st">"xs"</span>, over=<span class="st">"list"</span>)</code>.
+        You'll need two cases:
+      </p>
+      <ul>
+        <li><strong>Base:</strong> <code>map(f, [] + ys) == map(f, ys) == [] + map(f, ys) == map(f, []) + map(f, ys)</code></li>
+        <li><strong>Inductive:</strong> Unfold one step of <code>map</code> on the cons case and apply the induction hypothesis.</li>
+      </ul>
+
+      <details>
+        <summary>Show solution</summary>
+        <pre><code><span class="dc">@lemma</span>
+<span class="dc">@induction</span>(<span class="st">"xs"</span>, over=<span class="st">"list"</span>)
+<span class="kw">def</span> <span class="fn">map_append</span>(f, xs: <span class="ty">list</span>, ys: <span class="ty">list</span>) <span class="op">-></span> <span class="ty">Proof</span>[
+    <span class="fn">map</span>(f, xs <span class="op">+</span> ys) <span class="op">==</span> <span class="fn">map</span>(f, xs) <span class="op">+</span> <span class="fn">map</span>(f, ys)
+]:
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="cm"># map(f, [] + ys) = map(f, ys)</span>
+        <span class="cm"># map(f, []) + map(f, ys) = [] + map(f, ys) = map(f, ys)</span>
+        <span class="kw">return</span> <span class="pr">Refl</span>(<span class="fn">map</span>(f, ys))
+    <span class="kw">else</span>:
+        x, xt <span class="op">=</span> xs[<span class="nb">0</span>], xs[<span class="nb">1</span>:]
+        ih <span class="op">=</span> map_append(f, xt, ys)
+
+        <span class="cm"># map(f, [x]+xt + ys) = [f(x)] + map(f, xt + ys)</span>
+        <span class="cm">#                    = [f(x)] + map(f, xt) + map(f, ys)  (by ih)</span>
+        <span class="cm">#                    = map(f, [x]+xt) + map(f, ys)</span>
+        <span class="kw">return</span> <span class="pr">Cong</span>(<span class="kw">lambda</span> r: [f(x)] <span class="op">+</span> r, ih)</code></pre>
+      </details>
+    </div>
+
+    <nav class="page-nav">
+      <a href="termination.html">
+        <span class="label">← Previous</span>
+        <span class="title">Termination</span>
+      </a>
+      <a href="quicksort.html">
+        <span class="label">Next →</span>
+        <span class="title">Case Study: Quicksort</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

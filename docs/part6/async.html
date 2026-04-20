@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Async / Await · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="separation.html">Separation Logic</a></li>
+      <li><a href="references.html">Mutable References</a></li>
+      <li><a href="arrays.html">Arrays</a></li>
+      <li><a href="threading.html">Threading &amp; GIL</a></li>
+      <li><a href="async.html" class="active">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Chapter 6.5 — Async / Await Verification</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      Verified asynchronous Python — event loops, coroutines, and structured concurrency
+    </p>
+
+    <div class="important">
+      This chapter is <strong>unique to Deppy</strong>. F*'s Pulse does not model
+      async/await, event loops, or cooperative multitasking. The concepts here are
+      original to the Deppy framework.
+    </div>
+
+    <!-- ─── asyncio Overview ─── -->
+    <h2>Python's asyncio Model</h2>
+    <p>
+      Python's <code>asyncio</code> is a cooperative concurrency framework. Unlike
+      threads (which are preempted by the OS), coroutines <strong>voluntarily
+      yield</strong> at <code>await</code> points. This gives us a powerful
+      verification advantage: between two <code>await</code> points, a coroutine
+      runs atomically — no other coroutine can interfere.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Property</th><th>Threading</th><th>asyncio</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Scheduling</td>
+          <td>Preemptive (OS)</td>
+          <td>Cooperative (event loop)</td>
+        </tr>
+        <tr>
+          <td>Yield points</td>
+          <td>Any bytecode boundary</td>
+          <td>Only at <code>await</code></td>
+        </tr>
+        <tr>
+          <td>Data races</td>
+          <td>Possible between any bytecodes</td>
+          <td>Only across <code>await</code> boundaries</td>
+        </tr>
+        <tr>
+          <td>Lock needed?</td>
+          <td>Yes, for shared mutable state</td>
+          <td>Only if state mutated across <code>await</code></td>
+        </tr>
+        <tr>
+          <td>Parallelism</td>
+          <td>Limited by GIL</td>
+          <td>None (single-threaded)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      Between two <code>await</code> expressions, a coroutine has <strong>exclusive
+      access</strong> to all Python state — no other coroutine is running. Deppy
+      exploits this to simplify proofs: within an "atomic block" (code between
+      awaits), no separation-logic framing is needed.
+    </div>
+
+    <!-- ─── Coroutines as Suspended Computations ─── -->
+    <h2>Coroutines as Suspended Computations</h2>
+    <p>
+      An <code>async def</code> function returns a <strong>coroutine object</strong> —
+      a suspended computation that runs only when awaited. Deppy models this as
+      an <strong>effect annotation</strong>:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.async_verify <span class="kw">import</span> async_requires, async_ensures, Async
+
+<span class="cm"># Regular function: runs immediately, returns a value</span>
+<span class="dc">@requires</span>(pts_to(x, <span class="st">'v'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> r: pts_to(x, <span class="st">'v + 1'</span>))
+<span class="kw">def</span> <span class="fn">incr</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    x.value += <span class="nb">1</span>
+
+<span class="cm"># Async function: returns a coroutine, runs when awaited</span>
+<span class="dc">@async_requires</span>(pts_to(x, <span class="st">'v'</span>))
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> r: pts_to(x, <span class="st">'v + 1'</span>))
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">async_incr</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    x.value += <span class="nb">1</span>
+
+<span class="cm"># Type perspective:</span>
+<span class="cm"># incr  : (Ref[int]) → unit   {pts_to pre/post}</span>
+<span class="cm"># async_incr : (Ref[int]) → Async[unit]  {pts_to pre/post}</span></code></pre>
+
+    <p>
+      The <code>Async[T]</code> type tells Deppy that this function may yield
+      control at <code>await</code> points. Between yields, the function has
+      exclusive ownership of its heap resources.
+    </p>
+
+    <!-- ─── Verification of Async Code ─── -->
+    <h2>Verification of Async Code</h2>
+
+    <h3>Property 1: No Deadlock (Eventual Completion)</h3>
+    <p>
+      Deppy can verify that an async function eventually completes — it doesn't
+      <code>await</code> forever on something that never resolves:
+    </p>
+
+<pre><code><span class="dc">@async_requires</span>(emp)
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> result: pure(result == <span class="nb">42</span>))
+<span class="dc">@terminates</span>
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">always_completes</span>() -> <span class="ty">int</span>:
+    <span class="st">"""This coroutine always finishes."""</span>
+    <span class="kw">await</span> asyncio.<span class="fn">sleep</span>(<span class="nb">0.1</span>)  <span class="cm"># sleep resolves after 0.1s</span>
+    <span class="kw">return</span> <span class="nb">42</span></code></pre>
+    <span class="verified">Verified — terminates, returns 42</span>
+
+<pre><code><span class="dc">@async_requires</span>(emp)
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">might_deadlock</span>(future: asyncio.Future):
+    <span class="st">"""Awaits an arbitrary future — may never complete."""</span>
+    <span class="kw">await</span> future  <span class="cm"># ✗ Cannot prove this resolves!</span></code></pre>
+    <span class="rejected">Verification failed — cannot prove termination</span>
+
+    <h3>Property 2: Task Ordering Constraints</h3>
+<pre><code><span class="dc">@async_requires</span>(emp)
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> _: pure(<span class="st">'step_a_before_step_b'</span>))
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">ordered_pipeline</span>():
+    <span class="st">"""Prove that A completes before B starts."""</span>
+    result_a = <span class="kw">await</span> <span class="fn">step_a</span>()   <span class="cm"># A completes here</span>
+    result_b = <span class="kw">await</span> <span class="fn">step_b</span>(result_a)  <span class="cm"># B starts after A</span>
+    <span class="cm"># Sequential await ⟹ A happens-before B</span></code></pre>
+    <span class="verified">Verified — sequential ordering guaranteed</span>
+
+    <h3>Property 3: Resource Cleanup (async context managers)</h3>
+<pre><code><span class="dc">@async_requires</span>(emp)
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> _: pure(<span class="st">'connection_closed'</span>))
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">safe_query</span>(url: <span class="ty">str</span>):
+    <span class="st">"""Async context manager ensures cleanup."""</span>
+    <span class="kw">async with</span> aiohttp.<span class="fn">ClientSession</span>() <span class="kw">as</span> session:
+        <span class="cm"># session is open here — owned by this coroutine</span>
+        <span class="kw">async with</span> session.<span class="fn">get</span>(url) <span class="kw">as</span> response:
+            data = <span class="kw">await</span> response.<span class="fn">json</span>()
+    <span class="cm"># session.__aexit__ called — connection closed</span>
+    <span class="cm"># Deppy verifies: __aexit__ always runs (even on exception)</span>
+    <span class="kw">return</span> data</code></pre>
+    <span class="verified">Verified — resource cleanup guaranteed</span>
+
+    <!-- ─── asyncio.Lock vs threading.Lock ─── -->
+    <h2>asyncio.Lock vs threading.Lock</h2>
+    <p>
+      Python has two lock types: <code>threading.Lock</code> (for threads) and
+      <code>asyncio.Lock</code> (for coroutines). They have different semantics
+      and Deppy verifies each appropriately:
+    </p>
+
+    <div class="compare">
+      <div>
+        <h4>threading.Lock</h4>
+<pre><code><span class="cm"># Blocks the OS thread</span>
+lock = threading.<span class="fn">Lock</span>()
+<span class="kw">with</span> lock:
+    <span class="cm"># exclusive access</span>
+    <span class="cm"># other threads sleep</span>
+    counter += <span class="nb">1</span></code></pre>
+        <p>Verified via: separation logic + preemptive interleaving model</p>
+      </div>
+      <div>
+        <h4>asyncio.Lock</h4>
+<pre><code><span class="kw">async def</span> <span class="fn">_example</span>():
+    <span class="cm"># Yields to event loop</span>
+    lock = asyncio.<span class="fn">Lock</span>()
+    <span class="kw">async with</span> lock:
+        <span class="cm"># exclusive access</span>
+        <span class="cm"># other coroutines run</span>
+        counter += <span class="nb">1</span></code></pre>
+        <p>Verified via: separation logic + cooperative yield model</p>
+      </div>
+    </div>
+
+    <div class="warning">
+      Never use <code>threading.Lock</code> in async code — it blocks the event loop.
+      Never use <code>asyncio.Lock</code> from threads — it's not thread-safe.
+      Deppy flags these misuses as type errors.
+    </div>
+
+<pre><code><span class="cm"># ✗ Type error: threading.Lock used in async function</span>
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">bad</span>():
+    lock = threading.<span class="fn">Lock</span>()
+    <span class="kw">with</span> lock:      <span class="cm"># blocks event loop!</span>
+        <span class="kw">await</span> <span class="fn">something</span>()  <span class="cm"># can't yield while holding thread lock</span></code></pre>
+    <span class="rejected">Type error — threading.Lock in async context</span>
+
+    <!-- ─── Async Web Crawler ─── -->
+    <h2>Example: Async Web Crawler</h2>
+    <p>
+      A verified web crawler that visits each URL at most once and respects a
+      rate limit:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.async_verify <span class="kw">import</span> async_requires, async_ensures
+<span class="kw">from</span> deppy.ghost <span class="kw">import</span> ghost_var, ghost_set
+
+<span class="dc">@guarantee</span>(<span class="st">"visits each URL at most once"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"respects rate limit"</span>)
+<span class="dc">@async_requires</span>(emp)
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> results:
+    pure(<span class="st">'len(results) <= len(urls)'</span>) <span class="op">and</span>
+    pure(<span class="st">'all_unique(visited_urls(results))'</span>))
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">crawl</span>(urls: <span class="ty">list</span>[<span class="ty">str</span>], rate_limit: <span class="ty">int</span>) -> <span class="ty">list</span>[<span class="ty">dict</span>]:
+    <span class="st">"""Crawl URLs with verified uniqueness and rate limiting."""</span>
+    visited: <span class="ty">set</span>[<span class="ty">str</span>] = <span class="fn">set</span>()
+    _ghost_visited = ghost_set()  <span class="cm"># ghost set for proof tracking</span>
+    results = []
+    semaphore = asyncio.<span class="fn">Semaphore</span>(rate_limit)
+
+    <span class="kw">async</span> <span class="kw">def</span> <span class="fn">fetch_one</span>(url: <span class="ty">str</span>):
+        <span class="cm"># Check-then-act is safe: cooperative scheduling means</span>
+        <span class="cm"># no other coroutine runs between check and add</span>
+        <span class="kw">if</span> url <span class="kw">in</span> visited:
+            <span class="kw">return</span>
+        visited.add(url)
+        ghost_set.add(_ghost_visited, url)
+        <span class="cm"># invariant: visited == _ghost_visited</span>
+
+        <span class="kw">async with</span> semaphore:  <span class="cm"># at most rate_limit concurrent fetches</span>
+            <span class="kw">async with</span> aiohttp.<span class="fn">ClientSession</span>() <span class="kw">as</span> session:
+                <span class="kw">async with</span> session.<span class="fn">get</span>(url) <span class="kw">as</span> resp:
+                    data = <span class="kw">await</span> resp.<span class="fn">json</span>()
+                    results.append({<span class="st">'url'</span>: url, <span class="st">'data'</span>: data})
+
+    tasks = [<span class="fn">fetch_one</span>(url) <span class="kw">for</span> url <span class="kw">in</span> urls]
+    <span class="kw">await</span> asyncio.<span class="fn">gather</span>(*tasks)
+    <span class="kw">return</span> results</code></pre>
+    <span class="verified">Verified — unique visits, rate limit respected</span>
+
+    <div class="proof-steps">
+      <h4>Why Uniqueness Holds</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <code>if url in visited</code> and <code>visited.add(url)</code> execute
+          in the same "atomic block" (no <code>await</code> between them).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          In cooperative scheduling, no other coroutine can modify <code>visited</code>
+          between the check and the add.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          Therefore, once a URL is in <code>visited</code>, it's never fetched again.
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      This proof exploits a key property of <code>asyncio</code>: between
+      <code>await</code> points, a coroutine runs atomically. In a threaded
+      implementation, this same check-then-act pattern would be a TOCTOU race
+      and would require a lock.
+    </div>
+
+    <!-- ─── Producer-Consumer ─── -->
+    <h2>Example: Async Producer-Consumer</h2>
+<pre><code><span class="kw">from</span> asyncio <span class="kw">import</span> Queue
+
+<span class="dc">@async_requires</span>(emp)
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> _:
+    pure(<span class="st">'all items produced == all items consumed'</span>))
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">producer_consumer</span>():
+    queue: asyncio.<span class="ty">Queue</span>[<span class="ty">int</span>] = asyncio.<span class="fn">Queue</span>(maxsize=<span class="nb">10</span>)
+    _produced = ghost_var(<span class="nb">0</span>)
+    _consumed = ghost_var(<span class="nb">0</span>)
+
+    <span class="kw">async</span> <span class="kw">def</span> <span class="fn">producer</span>():
+        <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nb">100</span>):
+            <span class="kw">await</span> queue.<span class="fn">put</span>(i)
+            ghost_update(_produced, <span class="kw">lambda</span> n: n + <span class="nb">1</span>)
+        <span class="kw">await</span> queue.<span class="fn">put</span>(<span class="kw">None</span>)  <span class="cm"># sentinel</span>
+
+    <span class="kw">async</span> <span class="kw">def</span> <span class="fn">consumer</span>():
+        <span class="kw">while</span> <span class="kw">True</span>:
+            item = <span class="kw">await</span> queue.<span class="fn">get</span>()
+            <span class="kw">if</span> item <span class="kw">is</span> <span class="kw">None</span>:
+                <span class="kw">break</span>
+            ghost_update(_consumed, <span class="kw">lambda</span> n: n + <span class="nb">1</span>)
+            <span class="fn">process</span>(item)
+
+    <span class="kw">await</span> asyncio.<span class="fn">gather</span>(producer(), consumer())
+    <span class="cm"># _produced == 100, _consumed == 100</span>
+    <span class="cm"># All items accounted for ✓</span></code></pre>
+    <span class="verified">Verified — no items lost, no duplicate consumption</span>
+
+    <!-- ─── Structured Concurrency ─── -->
+    <h2>Structured Concurrency (TaskGroup)</h2>
+    <p>
+      Python 3.11+ introduced <code>asyncio.TaskGroup</code> for structured
+      concurrency. Deppy verifies that:
+    </p>
+    <ol>
+      <li>All tasks complete before the group exits</li>
+      <li>Exceptions from any task cancel all siblings</li>
+      <li>Resource ownership is properly transferred to/from tasks</li>
+    </ol>
+
+<pre><code><span class="dc">@async_requires</span>(
+    array_pts_to(urls, <span class="st">'url_list'</span>))
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> results:
+    array_pts_to(urls, <span class="st">'url_list'</span>) <span class="op">and</span>
+    pure(<span class="st">'len(results) == len(url_list)'</span>))
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">fetch_all</span>(urls: <span class="ty">list</span>[<span class="ty">str</span>]) -> <span class="ty">list</span>[<span class="ty">str</span>]:
+    <span class="st">"""Fetch all URLs concurrently with TaskGroup."""</span>
+    results = [<span class="kw">None</span>] * <span class="fn">len</span>(urls)
+
+    <span class="kw">async with</span> asyncio.<span class="fn">TaskGroup</span>() <span class="kw">as</span> tg:
+        <span class="kw">for</span> i, url <span class="kw">in</span> <span class="fn">enumerate</span>(urls):
+            <span class="kw">async</span> <span class="kw">def</span> <span class="fn">fetch</span>(idx=i, u=url):
+                <span class="cm"># Each task owns results[idx] — no overlap</span>
+                <span class="kw">async with</span> aiohttp.<span class="fn">ClientSession</span>() <span class="kw">as</span> s:
+                    <span class="kw">async with</span> s.<span class="fn">get</span>(u) <span class="kw">as</span> r:
+                        results[idx] = <span class="kw">await</span> r.<span class="fn">text</span>()
+            tg.<span class="fn">create_task</span>(fetch())
+    <span class="cm"># All tasks complete here — TaskGroup guarantees this</span>
+    <span class="kw">return</span> results</code></pre>
+    <span class="verified">Verified — all tasks complete, no index conflicts</span>
+
+    <div class="tip">
+      Each task writes to a <strong>unique index</strong> <code>results[idx]</code>.
+      Deppy verifies that different tasks write to different indices — a form of
+      spatial separation on array elements. This eliminates data races without locks.
+    </div>
+
+    <!-- ─── Async Generators ─── -->
+    <h2>Async Generators</h2>
+    <p>
+      Async generators combine <code>async</code> with <code>yield</code>, creating
+      lazy asynchronous streams. Deppy verifies them as a sequence of
+      yield-point contracts:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.async_verify <span class="kw">import</span> async_yields
+
+<span class="dc">@async_yields</span>(<span class="ty">int</span>)
+<span class="dc">@guarantee</span>(<span class="st">"yields values in ascending order"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"yields exactly n values"</span>)
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">async_range</span>(start: <span class="ty">int</span>, stop: <span class="ty">int</span>):
+    <span class="st">"""Async generator with verified ordering."""</span>
+    current = start
+    <span class="kw">while</span> current < stop:
+        <span class="cm"># invariant: current ≥ start ∧ all previous yields < current</span>
+        <span class="kw">yield</span> current
+        current += <span class="nb">1</span>
+
+<span class="cm"># Consumer verifies it receives sorted values</span>
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">consume</span>():
+    prev = <span class="kw">None</span>
+    <span class="kw">async for</span> val <span class="kw">in</span> async_range(<span class="nb">0</span>, <span class="nb">100</span>):
+        <span class="kw">if</span> prev <span class="kw">is not</span> <span class="kw">None</span>:
+            <span class="kw">assert</span> val > prev  <span class="cm"># guaranteed by generator contract</span>
+        prev = val</code></pre>
+    <span class="verified">Verified — ascending order, 100 values yielded</span>
+
+    <h3>Proof Obligations for Async Generators</h3>
+    <table>
+      <thead>
+        <tr><th>Obligation</th><th>What Deppy Checks</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Yield type</td>
+          <td>Each <code>yield</code> produces a value of the declared type</td>
+        </tr>
+        <tr>
+          <td>Ordering invariant</td>
+          <td>Values satisfy any ordering guarantee across yields</td>
+        </tr>
+        <tr>
+          <td>Termination</td>
+          <td>Generator eventually stops (if <code>@terminates</code>)</td>
+        </tr>
+        <tr>
+          <td>Cleanup</td>
+          <td><code>async finally</code> blocks run on generator close</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ─── Async Context Managers ─── -->
+    <h2>Async Context Manager Verification</h2>
+<pre><code><span class="kw">class</span> <span class="ty">VerifiedConnection</span>:
+    <span class="st">"""Async context manager with verified resource lifecycle."""</span>
+
+    <span class="dc">@async_ensures</span>(<span class="kw">lambda</span> self:
+        attr_to(self, <span class="st">'_conn'</span>, <span class="st">'open_connection'</span>) **
+        attr_to(self, <span class="st">'_closed'</span>, <span class="kw">False</span>))
+    <span class="kw">async</span> <span class="kw">def</span> <span class="fn">__aenter__</span>(self):
+        self._conn = <span class="kw">await</span> <span class="fn">open_connection</span>()
+        self._closed = <span class="kw">False</span>
+        <span class="kw">return</span> self
+
+    <span class="dc">@async_requires</span>(
+        attr_to(self, <span class="st">'_conn'</span>, <span class="st">'c'</span>) **
+        attr_to(self, <span class="st">'_closed'</span>, <span class="kw">False</span>))
+    <span class="dc">@async_ensures</span>(<span class="kw">lambda</span> _:
+        attr_to(self, <span class="st">'_closed'</span>, <span class="kw">True</span>) <span class="op">and</span>
+        pure(<span class="st">'connection_released'</span>))
+    <span class="kw">async</span> <span class="kw">def</span> <span class="fn">__aexit__</span>(self, *exc):
+        <span class="kw">await</span> self._conn.<span class="fn">close</span>()
+        self._closed = <span class="kw">True</span>
+        <span class="kw">return</span> <span class="kw">False</span>
+
+<span class="cm"># Usage — Deppy verifies __aexit__ always runs</span>
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">use_db</span>():
+    <span class="kw">async with</span> <span class="ty">VerifiedConnection</span>() <span class="kw">as</span> conn:
+        <span class="kw">await</span> conn._conn.<span class="fn">execute</span>(<span class="st">"SELECT 1"</span>)
+    <span class="cm"># conn._closed is True here — guaranteed</span></code></pre>
+    <span class="verified">Verified — connection always closed</span>
+
+    <!-- ─── Comparison with Pulse ─── -->
+    <h2>Comparison with Pulse's Extraction</h2>
+    <p>
+      F*'s Pulse extracts verified code to <strong>sequential C</strong>. There is
+      no notion of async/await, event loops, or cooperative scheduling. Deppy fills
+      this gap:
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>Pulse (F*)</th><th>Deppy</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Target</td>
+          <td>Extracted C code</td>
+          <td>Python (verified in-place)</td>
+        </tr>
+        <tr>
+          <td>Concurrency model</td>
+          <td>Parallel composition (Steel)</td>
+          <td>Threading + asyncio</td>
+        </tr>
+        <tr>
+          <td>Async support</td>
+          <td>❌ None</td>
+          <td>✅ Full async/await verification</td>
+        </tr>
+        <tr>
+          <td>Event loop</td>
+          <td>❌ N/A</td>
+          <td>✅ Cooperative scheduling model</td>
+        </tr>
+        <tr>
+          <td>Structured concurrency</td>
+          <td>❌ N/A</td>
+          <td>✅ TaskGroup verification</td>
+        </tr>
+        <tr>
+          <td>Lock types</td>
+          <td>Steel locks (preemptive)</td>
+          <td>threading.Lock + asyncio.Lock</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      The absence of async/await in Pulse is not a limitation of F* — it's because
+      Pulse targets C, which has no coroutines. Deppy's ability to verify async
+      Python is a direct consequence of targeting a language with native coroutine
+      support.
+    </div>
+
+    <!-- ─── Advanced: Timeout Verification ─── -->
+    <h2>Timeout Verification</h2>
+<pre><code><span class="dc">@async_requires</span>(emp)
+<span class="dc">@async_ensures</span>(<span class="kw">lambda</span> result:
+    pure(<span class="st">'result is not None or timeout_elapsed'</span>))
+<span class="kw">async</span> <span class="kw">def</span> <span class="fn">fetch_with_timeout</span>(url: <span class="ty">str</span>, timeout: <span class="ty">float</span>):
+    <span class="st">"""Fetch with verified timeout handling."""</span>
+    <span class="kw">try</span>:
+        <span class="kw">async with</span> asyncio.<span class="fn">timeout</span>(timeout):
+            <span class="kw">async with</span> aiohttp.<span class="fn">ClientSession</span>() <span class="kw">as</span> session:
+                <span class="kw">async with</span> session.<span class="fn">get</span>(url) <span class="kw">as</span> resp:
+                    <span class="kw">return</span> <span class="kw">await</span> resp.<span class="fn">text</span>()
+    <span class="kw">except</span> asyncio.<span class="ty">TimeoutError</span>:
+        <span class="kw">return</span> <span class="kw">None</span>
+    <span class="cm"># Deppy verifies: both paths produce valid results</span>
+    <span class="cm"># and all resources are cleaned up in both cases</span></code></pre>
+    <span class="verified">Verified — handles timeout and success paths</span>
+
+    <!-- ─── Exercises ─── -->
+    <div class="exercise">
+      <strong>Exercise 6.5.1:</strong> Write a verified async function that fetches
+      two URLs in parallel (using <code>asyncio.gather</code>) and returns whichever
+      completes first. Prove that the result comes from one of the two URLs.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.5.2:</strong> Implement an async rate limiter that allows
+      at most <code>n</code> operations per second. Use <code>asyncio.Semaphore</code>
+      and <code>asyncio.sleep</code>. Verify the rate constraint using a ghost variable
+      tracking operation timestamps.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.5.3:</strong> Write an async producer that generates
+      Fibonacci numbers as an async generator. Verify: (a) each yielded value is
+      the sum of the previous two, (b) values are strictly increasing after the
+      first two.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.5.4:</strong> Explain why this code has a subtle bug:
+<pre><code><span class="kw">async</span> <span class="kw">def</span> <span class="fn">broken</span>():
+    results = []
+    <span class="kw">for</span> url <span class="kw">in</span> urls:
+        task = asyncio.<span class="fn">create_task</span>(fetch(url))
+    <span class="kw">return</span> results  <span class="cm"># results is empty!</span></code></pre>
+      Fix it using <code>TaskGroup</code> and write a specification that catches
+      the original bug.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.5.5 (Challenge):</strong> Implement a verified async
+      <code>Pipeline</code> class with <code>.pipe(stage)</code> that chains async
+      transformation stages. Verify that: (a) stages execute in order, (b) the
+      output type of each stage matches the input type of the next, and (c) the
+      pipeline handles backpressure via bounded queues between stages.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.5.6 (Challenge):</strong> Compare the proof effort for
+      verifying the parallel increment from Chapter 6.4 (threading + Lock) with
+      an async version using <code>asyncio.Lock</code>. Which proof is simpler?
+      Why? What does this tell us about cooperative vs. preemptive concurrency?
+    </div>
+
+    <!-- ─── Navigation ─── -->
+    <nav class="page-nav">
+      <a href="threading.html">
+        <span class="label">← Previous</span>
+        <span class="title">Threading &amp; GIL</span>
+      </a>
+      <a href="../under_the_hood/index.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Under the Hood</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equality &amp; Duck Typing — Deppy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+
+    <h1>Equality &amp; Duck Typing</h1>
+
+    <p>
+      Python has multiple notions of equality: <code><span class="kw">is</span></code>,
+      <code><span class="op">==</span></code>, and structural comparison. In
+      everyday code the distinctions rarely matter — but for formal
+      verification they are everything. Deppy borrows the answer from
+      homotopy type theory: different equalities correspond to different
+      <strong>path types</strong>. This chapter introduces all three, then
+      shows how Deppy extends the same idea to Python's duck typing —
+      treating structural conformance as a path between types.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Python's Three Equalities</h2>
+
+    <p>
+      Every Python programmer eventually trips over the difference between
+      <code><span class="kw">is</span></code> and
+      <code><span class="op">==</span></code>. Deppy makes the distinction
+      explicit by mapping each form of equality to a different path type:
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Python syntax</th>
+          <th>What it checks</th>
+          <th>Deppy path type</th>
+          <th>Analogy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>a <span class="kw">is</span> b</code></td>
+          <td>Same object in memory (<code>id(a) <span class="op">==</span> id(b)</code>)</td>
+          <td><code><span class="pr">Id</span></code> (definitional equality)</td>
+          <td>Same passport number</td>
+        </tr>
+        <tr>
+          <td><code>a <span class="op">==</span> b</code></td>
+          <td>Value equality via <code>__eq__</code></td>
+          <td><code><span class="pr">ValuePath</span></code> (propositional equality)</td>
+          <td>Same name on two passports</td>
+        </tr>
+        <tr>
+          <td>Structural</td>
+          <td>Same shape and contents, recursively</td>
+          <td><code><span class="pr">StructPath</span></code></td>
+          <td>Identical photocopies</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Here is a quick demonstration of how these diverge:</p>
+    <pre><code><span class="cm"># Identity vs. value equality</span>
+a <span class="op">=</span> [<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>]
+b <span class="op">=</span> [<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>]
+a <span class="op">==</span> b   <span class="cm"># True  — same contents</span>
+a <span class="kw">is</span> b   <span class="cm"># False — different objects in memory</span>
+c <span class="op">=</span> a
+a <span class="kw">is</span> c   <span class="cm"># True  — c is an alias for a</span></code></pre>
+
+    <p>
+      Deppy never relies on CPython interning behaviour. When verifying
+      <code>a <span class="kw">is</span> b</code>, it demands an
+      <code><span class="pr">Id</span></code> path — a proof that the two
+      names refer to the same object. For
+      <code>a <span class="op">==</span> b</code>, a
+      <code><span class="pr">ValuePath</span></code> suffices.
+    </p>
+
+    <div class="note">
+      <strong>Note:</strong> Use <code><span class="kw">is</span></code> only
+      for singletons (<code><span class="nb">None</span></code>,
+      <code><span class="nb">True</span></code>,
+      <code><span class="nb">False</span></code>). Deppy warns when
+      <code>x <span class="kw">is</span> y</code> is used with non-singleton types.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>The <code>__eq__</code> / <code>__hash__</code> Contract</h2>
+
+    <p>
+      Python's data model requires: if
+      <code>a <span class="op">==</span> b</code> then
+      <code>hash(a) <span class="op">==</span> hash(b)</code>. Violating this
+      breaks dictionaries and sets. Deppy verifies this automatically
+      for any class with custom <code>__eq__</code>.
+    </p>
+
+    <pre><code><span class="kw">class</span> <span class="ty">Point</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x: <span class="ty">float</span>, y: <span class="ty">float</span>):
+        self.x, self.y <span class="op">=</span> x, y
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other: object) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">if</span> <span class="kw">not</span> isinstance(other, <span class="ty">Point</span>):
+            <span class="kw">return</span> <span class="nb">False</span>
+        <span class="kw">return</span> self.x <span class="op">==</span> other.x <span class="kw">and</span> self.y <span class="op">==</span> other.y
+
+    <span class="kw">def</span> <span class="fn">__hash__</span>(self) <span class="op">-></span> <span class="ty">int</span>:
+        <span class="kw">return</span> hash((self.x, self.y))</code></pre>
+
+    <p>Deppy verifies:</p>
+    <pre><code><span class="cm"># Deppy output:</span>
+<span class="cm"># ✓ Point.__eq__ is reflexive     (∀p. p == p)</span>
+<span class="cm"># ✓ Point.__eq__ is symmetric     (∀p,q. p == q → q == p)</span>
+<span class="cm"># ✓ Point.__eq__ is transitive    (∀p,q,r. p == q ∧ q == r → p == r)</span>
+<span class="cm"># ✓ __eq__/__hash__ contract      (∀p,q. p == q → hash(p) == hash(q))</span></code></pre>
+
+    <p>Now consider a broken implementation:</p>
+    <pre><code><span class="kw">class</span> <span class="ty">BrokenPoint</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x: <span class="ty">float</span>, y: <span class="ty">float</span>):
+        self.x, self.y <span class="op">=</span> x, y
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other: object) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">if</span> <span class="kw">not</span> isinstance(other, <span class="ty">BrokenPoint</span>):
+            <span class="kw">return</span> <span class="nb">False</span>
+        <span class="kw">return</span> self.x <span class="op">==</span> other.x <span class="kw">and</span> self.y <span class="op">==</span> other.y
+
+    <span class="kw">def</span> <span class="fn">__hash__</span>(self) <span class="op">-></span> <span class="ty">int</span>:
+        <span class="kw">return</span> hash(self.x)  <span class="cm"># ✗ ignores y!</span></code></pre>
+    <pre><code><span class="cm"># Deppy output:</span>
+<span class="cm"># ✓ BrokenPoint.__eq__ is reflexive</span>
+<span class="cm"># ✓ BrokenPoint.__eq__ is symmetric</span>
+<span class="cm"># ✓ BrokenPoint.__eq__ is transitive</span>
+<span class="cm"># ⚠ __eq__/__hash__ quality warning</span>
+<span class="cm">#   hash ignores field y — unequal points will collide excessively.</span>
+<span class="cm">#   Recommendation: hash should use all fields compared by __eq__.</span></code></pre>
+
+    <div class="tip">
+      <strong>Tip:</strong> Use <code><span class="dc">@dataclass</span></code>
+      to get correct <code>__eq__</code> and <code>__hash__</code> for free.
+      Python generates both methods from the field declarations, and Deppy
+      can verify the generated implementations in one pass:
+    </div>
+
+    <pre><code><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="dc">@dataclass</span>(frozen<span class="op">=</span><span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Point</span>:
+    x: <span class="ty">float</span>
+    y: <span class="ty">float</span>
+
+<span class="cm"># Deppy: ✓ all equality/hash properties verified automatically</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Duck Typing as Paths</h2>
+
+    <p>
+      "If it walks like a duck and quacks like a duck, it's a duck." In
+      Python, any object with the right methods can substitute for any
+      other — no inheritance required. Deppy formalises this with
+      <code><span class="pr">DuckPath</span></code>: a path between two types
+      sharing the same interface. A
+      <code><span class="pr">DuckPath</span>(A, B, P)</code> proves that
+      <code>A</code> and <code>B</code> both conform to protocol <code>P</code>,
+      so either can be supplied wherever <code>P</code> is expected.
+    </p>
+
+    <pre><code><span class="kw">from</span> typing <span class="kw">import</span> Protocol, runtime_checkable
+
+<span class="dc">@runtime_checkable</span>
+<span class="kw">class</span> <span class="ty">Drawable</span>(<span class="ty">Protocol</span>):
+    <span class="kw">def</span> <span class="fn">draw</span>(self) <span class="op">-></span> <span class="nb">None</span>: ...
+    <span class="kw">def</span> <span class="fn">bounding_box</span>(self) <span class="op">-></span> tuple[<span class="ty">float</span>, <span class="ty">float</span>, <span class="ty">float</span>, <span class="ty">float</span>]: ...
+
+
+<span class="kw">class</span> <span class="ty">Circle</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, cx: <span class="ty">float</span>, cy: <span class="ty">float</span>, r: <span class="ty">float</span>):
+        self.cx, self.cy, self.r <span class="op">=</span> cx, cy, r
+
+    <span class="kw">def</span> <span class="fn">draw</span>(self) <span class="op">-></span> <span class="nb">None</span>:
+        print(<span class="st">f"○ at ({self.cx}, {self.cy}) r={self.r}"</span>)
+
+    <span class="kw">def</span> <span class="fn">bounding_box</span>(self) <span class="op">-></span> tuple[<span class="ty">float</span>, <span class="ty">float</span>, <span class="ty">float</span>, <span class="ty">float</span>]:
+        <span class="kw">return</span> (self.cx<span class="op">-</span>self.r, self.cy<span class="op">-</span>self.r, self.cx<span class="op">+</span>self.r, self.cy<span class="op">+</span>self.r)
+
+<span class="kw">class</span> <span class="ty">Square</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x: <span class="ty">float</span>, y: <span class="ty">float</span>, side: <span class="ty">float</span>):
+        self.x, self.y, self.side <span class="op">=</span> x, y, side
+
+    <span class="kw">def</span> <span class="fn">draw</span>(self) <span class="op">-></span> <span class="nb">None</span>:
+        print(<span class="st">f"□ at ({self.x}, {self.y}) side={self.side}"</span>)
+
+    <span class="kw">def</span> <span class="fn">bounding_box</span>(self) <span class="op">-></span> tuple[<span class="ty">float</span>, <span class="ty">float</span>, <span class="ty">float</span>, <span class="ty">float</span>]:
+        <span class="kw">return</span> (self.x, self.y, self.x<span class="op">+</span>self.side, self.y<span class="op">+</span>self.side)</code></pre>
+
+    <p>Deppy produces:</p>
+    <pre><code><span class="cm"># Deppy output:</span>
+<span class="cm"># ✓ DuckPath(Circle, Square, Drawable)</span>
+<span class="cm">#   Circle.draw   : (self) -> None       ≡  Drawable.draw</span>
+<span class="cm">#   Circle.bounding_box : (self) -> tuple ≡  Drawable.bounding_box</span>
+<span class="cm">#   Square.draw   : (self) -> None       ≡  Drawable.draw</span>
+<span class="cm">#   Square.bounding_box : (self) -> tuple ≡  Drawable.bounding_box</span></code></pre>
+
+    <p>
+      The <code><span class="pr">DuckPath</span></code> says
+      <code><span class="ty">Circle</span></code> and
+      <code><span class="ty">Square</span></code> are interchangeable
+      <strong>at the <code>Drawable</code> interface</strong> — not in every
+      context. Functions depending on <code>.r</code> will not accept a
+      <code><span class="ty">Square</span></code>.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Behavioral Equivalence</h2>
+
+    <p>
+      Two implementations are <strong>behaviorally equivalent</strong> if
+      they produce the same output for all valid inputs. Deppy can prove
+      this — enabling safe refactoring without test suites.
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">insertion_sort</span>(lst: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-></span> <span class="ty">list</span>[<span class="ty">int</span>]:
+    result <span class="op">=</span> <span class="ty">list</span>(lst)
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nb">1</span>, len(result)):
+        key <span class="op">=</span> result[i]
+        j <span class="op">=</span> i <span class="op">-</span> <span class="nb">1</span>
+        <span class="kw">while</span> j <span class="op">>=</span> <span class="nb">0</span> <span class="kw">and</span> result[j] <span class="op">></span> key:
+            result[j <span class="op">+</span> <span class="nb">1</span>] <span class="op">=</span> result[j]
+            j <span class="op">-=</span> <span class="nb">1</span>
+        result[j <span class="op">+</span> <span class="nb">1</span>] <span class="op">=</span> key
+    <span class="kw">return</span> result
+
+<span class="kw">def</span> <span class="fn">selection_sort</span>(lst: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-></span> <span class="ty">list</span>[<span class="ty">int</span>]:
+    result <span class="op">=</span> <span class="ty">list</span>(lst)
+    <span class="kw">for</span> i <span class="kw">in</span> range(len(result)):
+        min_idx <span class="op">=</span> i
+        <span class="kw">for</span> j <span class="kw">in</span> range(i <span class="op">+</span> <span class="nb">1</span>, len(result)):
+            <span class="kw">if</span> result[j] <span class="op"><</span> result[min_idx]:
+                min_idx <span class="op">=</span> j
+        result[i], result[min_idx] <span class="op">=</span> result[min_idx], result[i]
+    <span class="kw">return</span> result
+
+<span class="cm"># Deppy verification:</span>
+<span class="cm"># ✓ behavioral_equiv(insertion_sort, selection_sort)</span>
+<span class="cm">#   Both produce a sorted permutation of the input.</span>
+<span class="cm">#   Since sorted permutations are unique, outputs are equal (ValuePath).</span></code></pre>
+
+    <p>
+      Behavioral equivalence enables safe refactoring: replace one
+      implementation with another, and Deppy guarantees identical
+      observable behaviour.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Protocol Conformance Proofs</h2>
+
+    <p>
+      Deppy can prove that a class implements a
+      <code><span class="ty">Protocol</span></code> by checking each required
+      method for existence and type compatibility — no inheritance needed.
+    </p>
+
+    <pre><code><span class="kw">from</span> typing <span class="kw">import</span> Protocol, Iterator
+
+<span class="kw">class</span> <span class="ty">Iterable</span>(<span class="ty">Protocol</span>):
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self) <span class="op">-></span> <span class="ty">Iterator</span>: ...
+
+<span class="kw">class</span> <span class="ty">Range</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, start: <span class="ty">int</span>, stop: <span class="ty">int</span>):
+        self.start, self.stop <span class="op">=</span> start, stop
+
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self) <span class="op">-></span> <span class="ty">Iterator</span>[<span class="ty">int</span>]:
+        current <span class="op">=</span> self.start
+        <span class="kw">while</span> current <span class="op"><</span> self.stop:
+            <span class="kw">yield</span> current
+            current <span class="op">+=</span> <span class="nb">1</span>
+
+<span class="cm"># Deppy output:</span>
+<span class="cm"># ✓ Range implements Iterable</span>
+<span class="cm">#   __iter__: (self) -> Iterator[int]</span>
+<span class="cm">#   return type Iterator[int] ≤ Iterator (covariant). Conformance proven.</span></code></pre>
+
+    <p>
+      For explicit annotation, use <code><span class="dc">@implements</span></code>
+      — purely documentary, but Deppy will error if conformance breaks:
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> implements
+
+<span class="dc">@implements</span>(<span class="ty">Iterable</span>)
+<span class="kw">class</span> <span class="ty">Range</span>:
+    ...</code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Proving Interface Equivalence</h2>
+
+    <p>
+      Let's put it all together. We define a
+      <code><span class="ty">CacheProtocol</span></code>, implement it two ways,
+      and prove both are interchangeable at the protocol boundary.
+    </p>
+
+    <pre><code><span class="kw">from</span> typing <span class="kw">import</span> Protocol, Optional
+
+<span class="kw">class</span> <span class="ty">CacheProtocol</span>(<span class="ty">Protocol</span>):
+    <span class="kw">def</span> <span class="fn">get</span>(self, key: <span class="ty">str</span>) <span class="op">-></span> Optional[<span class="ty">str</span>]: ...
+    <span class="kw">def</span> <span class="fn">put</span>(self, key: <span class="ty">str</span>, value: <span class="ty">str</span>) <span class="op">-></span> <span class="nb">None</span>: ...
+    <span class="kw">def</span> <span class="fn">size</span>(self) <span class="op">-></span> <span class="ty">int</span>: ...
+
+
+<span class="kw">class</span> <span class="ty">DictCache</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self._store: <span class="ty">dict</span>[<span class="ty">str</span>, <span class="ty">str</span>] <span class="op">=</span> {}
+
+    <span class="kw">def</span> <span class="fn">get</span>(self, key: <span class="ty">str</span>) <span class="op">-></span> Optional[<span class="ty">str</span>]:
+        <span class="kw">return</span> self._store.get(key)
+
+    <span class="kw">def</span> <span class="fn">put</span>(self, key: <span class="ty">str</span>, value: <span class="ty">str</span>) <span class="op">-></span> <span class="nb">None</span>:
+        self._store[key] <span class="op">=</span> value
+
+    <span class="kw">def</span> <span class="fn">size</span>(self) <span class="op">-></span> <span class="ty">int</span>:
+        <span class="kw">return</span> len(self._store)
+<span class="kw">class</span> <span class="ty">ListCache</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self._entries: <span class="ty">list</span>[tuple[<span class="ty">str</span>, <span class="ty">str</span>]] <span class="op">=</span> []
+
+    <span class="kw">def</span> <span class="fn">get</span>(self, key: <span class="ty">str</span>) <span class="op">-></span> Optional[<span class="ty">str</span>]:
+        <span class="kw">for</span> k, v <span class="kw">in</span> self._entries:
+            <span class="kw">if</span> k <span class="op">==</span> key:
+                <span class="kw">return</span> v
+        <span class="kw">return</span> <span class="nb">None</span>
+
+    <span class="kw">def</span> <span class="fn">put</span>(self, key: <span class="ty">str</span>, value: <span class="ty">str</span>) <span class="op">-></span> <span class="nb">None</span>:
+        self._entries <span class="op">=</span> [(k, v) <span class="kw">for</span> k, v <span class="kw">in</span> self._entries <span class="kw">if</span> k <span class="op">!=</span> key]
+        self._entries.append((key, value))
+
+    <span class="kw">def</span> <span class="fn">size</span>(self) <span class="op">-></span> <span class="ty">int</span>:
+        <span class="kw">return</span> len(self._entries)</code></pre>
+
+    <pre><code><span class="cm"># Deppy output:</span>
+<span class="cm"># ✓ DictCache  implements CacheProtocol</span>
+<span class="cm"># ✓ ListCache  implements CacheProtocol</span>
+<span class="cm"># ✓ DuckPath(DictCache, ListCache, CacheProtocol)</span>
+<span class="cm"># ✓ Behavioral equivalence: identical outputs for all operation sequences.</span></code></pre>
+
+    <div class="warning">
+      <strong>Warning:</strong> Do not use mutable objects as dictionary keys.
+      If <code>__hash__</code> depends on mutable state, mutating an object
+      after inserting it into a <code><span class="ty">dict</span></code> or
+      <code><span class="ty">set</span></code> silently corrupts the container.
+      Deppy flags classes with both <code>__hash__</code> and mutable fields.
+      Use <code>frozen<span class="op">=</span><span class="nb">True</span></code>
+      on dataclasses to avoid this.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Exercise</h2>
+
+    <div class="exercise">
+      <strong>Exercise:</strong> Define a <code><span class="ty">Comparable</span></code>
+      protocol requiring <code>__lt__</code> and <code>__eq__</code>. Then
+      create two implementations — <code><span class="ty">Temperature</span></code>
+      (comparison by numeric value) and <code><span class="ty">Version</span></code>
+      (comparison by major/minor/patch tuple) — and verify that both satisfy
+      the protocol. Bonus: prove that each implementation's
+      <code>__lt__</code> defines a strict total order (irreflexive,
+      transitive, and total).
+    </div>
+
+    <details>
+      <summary>Show solution</summary>
+      <pre><code><span class="kw">from</span> typing <span class="kw">import</span> Protocol
+
+<span class="kw">class</span> <span class="ty">Comparable</span>(<span class="ty">Protocol</span>):
+    <span class="kw">def</span> <span class="fn">__lt__</span>(self, other: <span class="st">"Comparable"</span>) <span class="op">-></span> <span class="ty">bool</span>: ...
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other: object) <span class="op">-></span> <span class="ty">bool</span>: ...
+
+
+<span class="kw">class</span> <span class="ty">Temperature</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, celsius: <span class="ty">float</span>):
+        self.celsius <span class="op">=</span> celsius
+
+    <span class="kw">def</span> <span class="fn">__lt__</span>(self, other: <span class="st">"Temperature"</span>) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">return</span> self.celsius <span class="op"><</span> other.celsius
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other: object) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">return</span> isinstance(other, <span class="ty">Temperature</span>) <span class="kw">and</span> self.celsius <span class="op">==</span> other.celsius
+
+<span class="kw">class</span> <span class="ty">Version</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, major: <span class="ty">int</span>, minor: <span class="ty">int</span>, patch: <span class="ty">int</span>):
+        self.parts <span class="op">=</span> (major, minor, patch)
+
+    <span class="kw">def</span> <span class="fn">__lt__</span>(self, other: <span class="st">"Version"</span>) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">return</span> self.parts <span class="op"><</span> other.parts
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other: object) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">return</span> isinstance(other, <span class="ty">Version</span>) <span class="kw">and</span> self.parts <span class="op">==</span> other.parts</code></pre>
+
+      <p>Deppy verifies:</p>
+
+      <pre><code><span class="cm"># ✓ Temperature implements Comparable</span>
+<span class="cm"># ✓ Version     implements Comparable</span>
+<span class="cm"># ✓ DuckPath(Temperature, Version, Comparable)</span>
+<span class="cm">#</span>
+<span class="cm"># Strict total order — Temperature.__lt__:</span>
+<span class="cm">#   ✓ Irreflexive  ✓ Transitive  ✓ Total</span>
+<span class="cm"># Strict total order — Version.__lt__:</span>
+<span class="cm">#   ✓ Irreflexive  ✓ Transitive  ✓ Total</span></code></pre>
+    </details>
+
+    <!-- ──────────────────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="refinement_types.html">
+        <span class="label">← Previous</span>
+        <span class="title">Refinement Types</span>
+      </a>
+      <a href="z3_integration.html">
+        <span class="label">Next →</span>
+        <span class="title">Z3 Integration</span>
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merkle Trees · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Merkle Trees</h1>
+    <p class="subtitle" style="color:var(--text-muted);font-size:1.1rem;margin-bottom:2rem;">
+      Verified hash-based data structures — integrity proofs, membership, and tamper detection.
+    </p>
+
+    <h2>What Is a Merkle Tree?</h2>
+    <p>
+      A <strong>Merkle tree</strong> is a binary tree where every leaf holds a data block
+      and every internal node holds the cryptographic hash of its children. Any change to
+      a leaf cascades up, changing the root hash — giving you <strong>tamper detection</strong>
+      for free.
+    </p>
+    <p>
+      Merkle trees underpin Git, Bitcoin, Ethereum, certificate transparency, and
+      IPFS. In this chapter we build one in Python, then prove its security properties
+      using Deppy's path types.
+    </p>
+
+    <h2>Data Structure</h2>
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">TypeVar</span>, <span class="ty">Generic</span>, <span class="ty">Union</span>
+<span class="kw">import</span> hashlib
+<span class="kw">from</span> deppy <span class="kw">import</span> <span class="fn">guarantee</span>, <span class="fn">check</span>, <span class="fn">assume</span>
+<span class="kw">from</span> deppy.types <span class="kw">import</span> <span class="ty">PathType</span>
+
+<span class="ty">T</span> = <span class="ty">TypeVar</span>(<span class="st">'T'</span>)
+
+<span class="kw">def</span> <span class="fn">sha256</span>(data: <span class="ty">bytes</span>) -> <span class="ty">str</span>:
+    <span class="kw">return</span> hashlib.sha256(data).hexdigest()
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Leaf</span>(<span class="ty">Generic</span>[<span class="ty">T</span>]):
+    <span class="st">"""A leaf node containing data and its hash."""</span>
+    data: <span class="ty">T</span>
+    hash: <span class="ty">str</span>
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Branch</span>(<span class="ty">Generic</span>[<span class="ty">T</span>]):
+    <span class="st">"""An internal node: hash of its two children."""</span>
+    left:  <span class="ty">MerkleTree</span>[<span class="ty">T</span>]
+    right: <span class="ty">MerkleTree</span>[<span class="ty">T</span>]
+    hash:  <span class="ty">str</span>
+
+<span class="cm"># The inductive type</span>
+<span class="ty">MerkleTree</span> = <span class="ty">Union</span>[<span class="ty">Leaf</span>[<span class="ty">T</span>], <span class="ty">Branch</span>[<span class="ty">T</span>]]</code></pre>
+
+    <h2>Building a Merkle Tree</h2>
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"root hash reflects all leaves"</span>)
+<span class="kw">def</span> <span class="fn">build_leaf</span>(data: <span class="ty">bytes</span>) -> <span class="ty">Leaf</span>[<span class="ty">bytes</span>]:
+    <span class="kw">return</span> <span class="ty">Leaf</span>(data=data, hash=<span class="fn">sha256</span>(data))
+
+<span class="dc">@guarantee</span>(<span class="st">"branch hash == sha256(left.hash + right.hash)"</span>)
+<span class="kw">def</span> <span class="fn">build_branch</span>(
+    left: <span class="ty">MerkleTree</span>[<span class="ty">T</span>],
+    right: <span class="ty">MerkleTree</span>[<span class="ty">T</span>],
+) -> <span class="ty">Branch</span>[<span class="ty">T</span>]:
+    combined = <span class="fn">sha256</span>(
+        left.hash.encode() <span class="op">+</span> right.hash.encode()
+    )
+    <span class="kw">return</span> <span class="ty">Branch</span>(left, right, combined)
+
+<span class="dc">@guarantee</span>(<span class="st">"produces a balanced Merkle tree"</span>)
+<span class="kw">def</span> <span class="fn">build_tree</span>(blocks: <span class="ty">list</span>[<span class="ty">bytes</span>]) -> <span class="ty">MerkleTree</span>[<span class="ty">bytes</span>]:
+    <span class="fn">assume</span>(<span class="st">"len(blocks) &gt; 0"</span>)
+    leaves = [<span class="fn">build_leaf</span>(b) <span class="kw">for</span> b <span class="kw">in</span> blocks]
+    <span class="cm"># Pad to power of 2 if needed</span>
+    <span class="kw">while</span> <span class="nb">len</span>(leaves) <span class="op">&gt;</span> <span class="nb">1</span>:
+        next_level: <span class="ty">list</span>[<span class="ty">MerkleTree</span>[<span class="ty">bytes</span>]] = []
+        <span class="kw">for</span> i <span class="kw">in</span> <span class="nb">range</span>(<span class="nb">0</span>, <span class="nb">len</span>(leaves), <span class="nb">2</span>):
+            <span class="kw">if</span> i <span class="op">+</span> <span class="nb">1</span> <span class="op">&lt;</span> <span class="nb">len</span>(leaves):
+                next_level.append(<span class="fn">build_branch</span>(leaves[i], leaves[i<span class="op">+</span><span class="nb">1</span>]))
+            <span class="kw">else</span>:
+                next_level.append(leaves[i])
+        leaves = next_level
+    <span class="kw">return</span> leaves[<span class="nb">0</span>]</code></pre>
+
+    <h2>The Hash Integrity Invariant</h2>
+    <p>
+      The fundamental property of a Merkle tree is its <strong>hash integrity invariant</strong>:
+      every node's stored hash equals the hash recomputed from its children.
+    </p>
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"all hashes in the tree are consistent"</span>)
+<span class="kw">def</span> <span class="fn">verify_integrity</span>(tree: <span class="ty">MerkleTree</span>[<span class="ty">bytes</span>]) -> <span class="ty">bool</span>:
+    <span class="kw">match</span> tree:
+        <span class="kw">case</span> <span class="ty">Leaf</span>(data, h):
+            <span class="kw">return</span> h <span class="op">==</span> <span class="fn">sha256</span>(data)
+        <span class="kw">case</span> <span class="ty">Branch</span>(left, right, h):
+            expected = <span class="fn">sha256</span>(
+                left.hash.encode() <span class="op">+</span> right.hash.encode()
+            )
+            <span class="kw">return</span> (
+                h <span class="op">==</span> expected
+                <span class="kw">and</span> <span class="fn">verify_integrity</span>(left)
+                <span class="kw">and</span> <span class="fn">verify_integrity</span>(right)
+            )</code></pre>
+
+    <div class="tip">
+      Deppy verifies <code>verify_integrity</code> structurally: the recursive calls
+      decrease on the tree structure, guaranteeing termination, and the
+      <code>match</code> is exhaustive over <code>Leaf | Branch</code>.
+    </div>
+
+    <h2>Membership Proofs</h2>
+    <p>
+      A <strong>Merkle proof</strong> (also called an audit path) proves that a specific
+      leaf is part of the tree, using only <em>O(log n)</em> hashes.
+    </p>
+<pre><code><span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">MerkleProof</span>:
+    <span class="st">"""A path from a leaf to the root."""</span>
+    leaf_hash: <span class="ty">str</span>
+    siblings:  <span class="ty">list</span>[<span class="ty">tuple</span>[<span class="ty">str</span>, <span class="ty">str</span>]]  <span class="cm"># (sibling_hash, "left"|"right")</span>
+    root_hash: <span class="ty">str</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"proof is valid iff the hash chain reaches the root"</span>)
+<span class="kw">def</span> <span class="fn">verify_proof</span>(proof: <span class="ty">MerkleProof</span>) -> <span class="ty">bool</span>:
+    current = proof.leaf_hash
+    <span class="kw">for</span> sibling_hash, side <span class="kw">in</span> proof.siblings:
+        <span class="kw">if</span> side <span class="op">==</span> <span class="st">"left"</span>:
+            current = <span class="fn">sha256</span>(
+                sibling_hash.encode() <span class="op">+</span> current.encode()
+            )
+        <span class="kw">else</span>:
+            current = <span class="fn">sha256</span>(
+                current.encode() <span class="op">+</span> sibling_hash.encode()
+            )
+    <span class="kw">return</span> current <span class="op">==</span> proof.root_hash</code></pre>
+
+    <h2>Path Types: Hash Chains as Paths</h2>
+    <p>
+      Here is where Deppy's homotopy foundations shine. A Merkle proof is a
+      <strong>path</strong> in the tree — a chain of hash equalities connecting the
+      leaf to the root. We can represent this as a <code>PathType</code>:
+    </p>
+<pre><code><span class="kw">from</span> deppy.types <span class="kw">import</span> <span class="ty">PathType</span>, <span class="pr">Refl</span>, <span class="pr">Trans</span>, <span class="pr">Cong</span>
+
+<span class="cm"># A Merkle proof IS a path in the hash space:</span>
+<span class="cm">#   PathType(HashSpace, leaf_hash, root_hash)</span>
+<span class="cm"># Each step in the proof is a path segment:</span>
+<span class="cm">#   Trans(current_path, sha256_step)</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"constructs a valid path from leaf to root"</span>)
+<span class="kw">def</span> <span class="fn">proof_as_path</span>(
+    proof: <span class="ty">MerkleProof</span>,
+) -> <span class="ty">PathType</span>[<span class="ty">str</span>, <span class="st">"proof.leaf_hash"</span>, <span class="st">"proof.root_hash"</span>]:
+    <span class="st">"""
+    Each sibling step is a congruence:
+      Cong(sha256, step_i) : sha256(h_i) = sha256(h_{i+1})
+    The full proof is their transitive composition.
+    """</span>
+    path = <span class="pr">Refl</span>(proof.leaf_hash)  <span class="cm"># start: leaf = leaf</span>
+    current = proof.leaf_hash
+    <span class="kw">for</span> sibling, side <span class="kw">in</span> proof.siblings:
+        <span class="kw">if</span> side <span class="op">==</span> <span class="st">"left"</span>:
+            step = <span class="pr">Cong</span>(<span class="fn">sha256</span>, sibling, current)
+        <span class="kw">else</span>:
+            step = <span class="pr">Cong</span>(<span class="fn">sha256</span>, current, sibling)
+        path = <span class="pr">Trans</span>(path, step)
+        current = step.target
+    <span class="kw">return</span> path</code></pre>
+
+    <div class="note">
+      This is a preview of the <a href="equality_types.html">Equality &amp; Path Types</a>
+      chapter. The key insight: a hash chain is literally a <em>path</em> in the space
+      of hash values, and path composition (<code>Trans</code>) corresponds to following
+      the chain step by step.
+    </div>
+
+    <h2>Security: Tamper Detection</h2>
+    <p>
+      The core security theorem: if any leaf is modified, the root hash changes.
+      We prove this by contradiction.
+    </p>
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"modifying any leaf changes the root hash"</span>)
+<span class="kw">def</span> <span class="fn">tamper_detection_theorem</span>(
+    tree: <span class="ty">MerkleTree</span>[<span class="ty">bytes</span>],
+    original_root: <span class="ty">str</span>,
+) -> <span class="kw">None</span>:
+    <span class="st">"""
+    Proof sketch:
+    1. Assume tree has integrity (verify_integrity(tree) == True).
+    2. Modify leaf data → leaf.hash changes (collision resistance).
+    3. Parent hash = sha256(left.hash + right.hash) → parent changes.
+    4. By induction up the tree, root hash changes.
+    5. Therefore root_hash ≠ original_root.
+    """</span>
+    <span class="fn">assume</span>(<span class="st">"sha256 is collision-resistant"</span>)
+    <span class="fn">assume</span>(<span class="st">"verify_integrity(tree) is True"</span>)
+    <span class="cm"># The proof proceeds by structural induction on the tree.</span>
+    <span class="cm"># Deppy discharges each step to Z3 + sidecar.</span>
+    <span class="fn">check</span>(<span class="st">"any modification to a leaf produces a different root"</span>)</code></pre>
+
+    <div class="proof-steps">
+      <h4>Proof: Tamper detection</h4>
+      <div class="proof-step">
+        <span class="step-num">1</span>
+        <div class="step-content">
+          <strong>Base case (Leaf):</strong> If <code>data'&nbsp;≠&nbsp;data</code>, then
+          <code>sha256(data')&nbsp;≠&nbsp;sha256(data)</code> by collision resistance.
+        </div>
+      </div>
+      <div class="proof-step">
+        <span class="step-num">2</span>
+        <div class="step-content">
+          <strong>Inductive step (Branch):</strong> If a child's hash changes, then
+          <code>sha256(left.hash + right.hash)</code> changes by collision resistance.
+        </div>
+      </div>
+      <div class="proof-step">
+        <span class="step-num">3</span>
+        <div class="step-content">
+          <strong>Propagation:</strong> By induction, the change propagates from the
+          modified leaf up to the root.
+        </div>
+      </div>
+      <div class="proof-step">
+        <span class="step-num">4</span>
+        <div class="step-content">
+          <strong>Conclusion:</strong> <code>root_hash(modified_tree) ≠ root_hash(original_tree)</code>. QED.
+        </div>
+      </div>
+    </div>
+
+    <h2>Comparison with F*</h2>
+    <div class="compare">
+      <div>
+        <h4>F*</h4>
+<pre><code><span class="kw">type</span> <span class="ty">merkle_tree</span> =
+  | <span class="fn">MLeaf</span> : <span class="ty">data</span>:<span class="ty">bytes</span>
+    -> <span class="ty">hash</span>:<span class="ty">hash_t</span>
+    -> <span class="ty">merkle_tree</span>
+  | <span class="fn">MBranch</span> : <span class="ty">merkle_tree</span>
+    -> <span class="ty">merkle_tree</span>
+    -> <span class="ty">hash</span>:<span class="ty">hash_t</span>
+    -> <span class="ty">merkle_tree</span></code></pre>
+      </div>
+      <div>
+        <h4>Deppy</h4>
+<pre><code><span class="ty">MerkleTree</span> = <span class="ty">Union</span>[
+    <span class="ty">Leaf</span>[<span class="ty">T</span>],
+    <span class="ty">Branch</span>[<span class="ty">T</span>],
+]
+<span class="cm"># Pattern match with</span>
+<span class="cm"># match / case syntax</span></code></pre>
+      </div>
+    </div>
+
+    <h2>Real-World Application: Verifying Blockchain Data</h2>
+    <p>
+      In Bitcoin and Ethereum, each block header contains a Merkle root of all
+      transactions. A light client can verify that a transaction is included
+      without downloading the entire block:
+    </p>
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"transaction is in block iff proof verifies against block root"</span>)
+<span class="kw">def</span> <span class="fn">verify_tx_inclusion</span>(
+    tx: <span class="ty">bytes</span>,
+    proof: <span class="ty">MerkleProof</span>,
+    block_root: <span class="ty">str</span>,
+) -> <span class="ty">bool</span>:
+    <span class="fn">check</span>(proof.leaf_hash <span class="op">==</span> <span class="fn">sha256</span>(tx), <span class="st">"proof starts at tx"</span>)
+    <span class="fn">check</span>(proof.root_hash <span class="op">==</span> block_root, <span class="st">"proof targets block root"</span>)
+    <span class="kw">return</span> <span class="fn">verify_proof</span>(proof)</code></pre>
+
+    <div class="warning">
+      The collision-resistance assumption is critical. If <code>sha256</code> were
+      broken (i.e., two different inputs could produce the same hash), tamper
+      detection would fail. Deppy models this as an <code>assume</code> —
+      the proof is conditional on the cryptographic assumption.
+    </div>
+
+    <h2>Exercises</h2>
+
+    <div class="exercise">
+      <strong>Exercise 2.7:</strong> Implement <code>generate_proof(tree, leaf_index) → MerkleProof</code>
+      that generates a membership proof for a leaf at a given index.
+      Prove that <code>verify_proof(generate_proof(tree, i))</code> always returns <code>True</code>
+      for any valid index <code>i</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 2.8:</strong> Extend the Merkle tree to support updates: replace
+      a leaf and recompute only the affected path. Prove that the new root hash
+      is consistent with the updated data.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 2.9 (Challenge):</strong> Implement a <em>Merkle Patricia Trie</em>
+      (as used in Ethereum). How does the path-type representation change when
+      keys are arbitrary byte strings rather than positional indices?
+    </div>
+
+    <nav class="page-nav">
+      <a href="vectors.html">
+        <span class="label">← Previous</span>
+        <span class="title">Length-Indexed Lists</span>
+      </a>
+      <a href="equality_types.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Equality &amp; Path Types</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

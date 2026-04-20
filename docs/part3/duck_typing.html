@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duck Typing &amp; Protocols · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header"><h1>Deppy</h1><div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div></div>
+  <nav><ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../structure.html">Structure of this Book</a></li>
+    <li><a href="../intro.html">Introduction</a></li>
+    <li><span class="section-title">Part 1 — Pure Python</span></li>
+    <li><a href="../part1/index.html">Overview</a></li>
+    <li><a href="../part1/getting_started.html">Getting Started</a></li>
+    <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+    <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+    <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+    <li><a href="../part1/data_structures.html">Data Structures</a></li>
+    <li><a href="../part1/termination.html">Termination</a></li>
+    <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+    <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+    <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+    <li><a href="../part2/index.html">Overview</a></li>
+    <li><a href="../part2/generics.html">Generic Types</a></li>
+    <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+    <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+    <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+    <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+    <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+    <li><span class="section-title">Part 3 — Python Specifics</span></li>
+    <li><a href="../part3/index.html">Overview</a></li>
+    <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+    <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+    <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+    <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+    <li><a href="../part4/index.html">Overview</a></li>
+    <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+    <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+    <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+    <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+    <li><a href="../part5/index.html">Overview</a></li>
+    <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+    <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+    <li><a href="../part5/fibrations.html">Fibrations</a></li>
+    <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+    <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+    <li><a href="../part6/index.html">Overview</a></li>
+    <li><a href="../part6/separation.html">Separation Logic</a></li>
+    <li><a href="../part6/references.html">Mutable References</a></li>
+    <li><a href="../part6/arrays.html">Arrays</a></li>
+    <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+    <li><a href="../part6/async.html">Async / Await</a></li>
+    <li><span class="section-title">Under the Hood</span></li>
+    <li><a href="../under_the_hood/index.html">Overview</a></li>
+    <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+  </ul></nav>
+</aside>
+
+<div class="content">
+<article>
+
+<h1>Chapter 9 — Duck Typing &amp; Protocols</h1>
+
+<p>
+  "If it walks like a duck and quacks like a duck, then it <em>is</em> a duck."
+  This ancient Python proverb encodes a profound type-theoretic idea: <strong>type
+  identity is determined by behavior, not by name</strong>. In homotopy type theory,
+  this is exactly the notion of a <em>path</em> between types — two types are
+  equal if they support the same operations with compatible behaviors.
+</p>
+
+<p>
+  This chapter is the signature contribution of Deppy. We show how Python's
+  <code>Protocol</code> classes (PEP 544) are modeled as behavioral specifications
+  in HoTT, and how the <code>DuckPath</code> proof term provides machine-checked
+  evidence that a class conforms to a protocol without inheriting from it.
+</p>
+
+<h2>Protocols as Behavioral Specifications</h2>
+
+<p>
+  A Python <code>Protocol</code> declares a set of methods with their signatures.
+  Any class that provides those methods — regardless of its inheritance hierarchy —
+  is considered a structural subtype of the Protocol:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> Protocol, runtime_checkable
+
+<span class="dc">@runtime_checkable</span>
+<span class="kw">class</span> <span class="ty">Renderable</span>(<span class="ty">Protocol</span>):
+    <span class="st">"""Anything that can be rendered to a string representation."""</span>
+
+    <span class="kw">def</span> <span class="fn">render</span>(self, indent: <span class="ty">int</span> = <span class="nb">0</span>) -> <span class="ty">str</span>:
+        <span class="st">"""Return a string representation at the given indent level."""</span>
+        ...
+
+    <span class="kw">def</span> <span class="fn">render_width</span>(self) -> <span class="ty">int</span>:
+        <span class="st">"""Return the width in characters of the rendered output."""</span>
+        ...</code></pre>
+
+<p>
+  In Deppy, this Protocol is not just a type hint — it is a <strong>formal
+  specification</strong>. Deppy extracts:
+</p>
+
+<ul>
+  <li>The <strong>method signatures</strong> (parameter types, return types)</li>
+  <li>The <strong>behavioral contracts</strong> (from docstrings and <code>@guarantee</code> annotations)</li>
+  <li>The <strong>structural requirements</strong> (which dunder methods are needed)</li>
+</ul>
+
+<h3>Deppy Protocol Specification</h3>
+
+<pre><code><span class="kw">from</span> deppy <span class="kw">import</span> protocol_spec, guarantee
+
+<span class="dc">@protocol_spec</span>
+<span class="kw">class</span> <span class="ty">Renderable</span>(<span class="ty">Protocol</span>):
+    <span class="dc">@guarantee</span>(<span class="st">"result is a non-empty string"</span>)
+    <span class="kw">def</span> <span class="fn">render</span>(self, indent: <span class="ty">int</span> = <span class="nb">0</span>) -> <span class="ty">str</span>: ...
+
+    <span class="dc">@guarantee</span>(<span class="st">"returns a non-negative integer"</span>)
+    <span class="kw">def</span> <span class="fn">render_width</span>(self) -> <span class="ty">int</span>: ...
+
+<span class="cm"># Deppy generates the formal spec:</span>
+<span class="cm"># ProtocolSpec(Renderable) = {</span>
+<span class="cm">#   render     : (self, int?) → str  | guarantee: len(result) > 0</span>
+<span class="cm">#   render_width : (self) → int       | guarantee: result >= 0</span>
+<span class="cm"># }</span></code></pre>
+
+<h2>The DuckPath Proof Term</h2>
+
+<p>
+  The central proof object in this chapter is <code>DuckPath[C, P]</code> — a
+  witness that class <code>C</code> structurally conforms to Protocol <code>P</code>.
+  Formally, a <code>DuckPath</code> is a path in the <em>protocol universe</em>:
+</p>
+
+<blockquote>
+  <code>DuckPath[C, P] : C =_{ProtocolUniverse} P</code>
+  <br><br>
+  A DuckPath is valid if and only if for every method <code>m</code> in <code>P</code>,
+  the class <code>C</code> has a method <code>C.m</code> such that:
+  <br>
+  (1) <code>C.m</code>'s parameter types are <em>contravariant-compatible</em> with <code>P.m</code>'s, and
+  <br>
+  (2) <code>C.m</code>'s return type is <em>covariant-compatible</em> with <code>P.m</code>'s, and
+  <br>
+  (3) <code>C.m</code> satisfies all <code>@guarantee</code> annotations on <code>P.m</code>.
+</blockquote>
+
+<h3>Constructing a DuckPath</h3>
+
+<pre><code><span class="kw">from</span> deppy.hott <span class="kw">import</span> DuckPath, MethodPath, SignatureCheck
+
+<span class="cm"># A class that doesn't inherit from Renderable</span>
+<span class="kw">class</span> <span class="ty">HTMLElement</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, tag: <span class="ty">str</span>, children: <span class="ty">list</span>[<span class="ty">HTMLElement</span>] | <span class="ty">None</span> = <span class="ty">None</span>):
+        self.tag = tag
+        self.children = children <span class="kw">or</span> []
+        self.attrs: <span class="ty">dict</span>[<span class="ty">str</span>, <span class="ty">str</span>] = {}
+
+    <span class="kw">def</span> <span class="fn">render</span>(self, indent: <span class="ty">int</span> = <span class="nb">0</span>) -> <span class="ty">str</span>:
+        pad = <span class="st">" "</span> * indent
+        attr_str = <span class="st">" "</span>.join(
+            <span class="st">f'{k}="{v}"'</span> <span class="kw">for</span> k, v <span class="kw">in</span> self.attrs.items()
+        )
+        opening = <span class="st">f"{pad}&lt;{self.tag}"</span> + (<span class="st">f" {attr_str}"</span> <span class="kw">if</span> attr_str <span class="kw">else</span> <span class="st">""</span>) + <span class="st">"&gt;"</span>
+        <span class="kw">if not</span> self.children:
+            <span class="kw">return</span> <span class="st">f"{opening}&lt;/{self.tag}&gt;"</span>
+        child_str = <span class="st">"\n"</span>.join(c.render(indent + <span class="nb">2</span>) <span class="kw">for</span> c <span class="kw">in</span> self.children)
+        <span class="kw">return</span> <span class="st">f"{opening}\n{child_str}\n{pad}&lt;/{self.tag}&gt;"</span>
+
+    <span class="kw">def</span> <span class="fn">render_width</span>(self) -> <span class="ty">int</span>:
+        lines = self.render().split(<span class="st">"\n"</span>)
+        <span class="kw">return</span> max(len(line) <span class="kw">for</span> line <span class="kw">in</span> lines)
+
+<span class="cm"># Deppy automatically constructs this DuckPath:</span>
+<span class="pr">duck_proof</span> = DuckPath.auto_construct(<span class="ty">HTMLElement</span>, <span class="ty">Renderable</span>)
+<span class="cm"># DuckPath[HTMLElement, Renderable]:</span>
+<span class="cm">#   MethodPath(render):       sig ✓  ret ✓  guarantee ✓</span>
+<span class="cm">#   MethodPath(render_width): sig ✓  ret ✓  guarantee ✓</span>
+<span class="cm">#   Status: VALID ✅</span></code></pre>
+
+<div class="note">
+  <code>DuckPath.auto_construct</code> uses Python's <code>inspect</code> module
+  to extract method signatures, then Z3 to verify signature compatibility, and
+  finally the guarantee checker to verify behavioral contracts. If any step fails,
+  the DuckPath is <code>INVALID</code> and Deppy reports exactly which
+  method and which condition failed.
+</div>
+
+<h3>Inside a MethodPath</h3>
+
+<p>
+  Each <code>MethodPath</code> in the DuckPath contains detailed evidence:
+</p>
+
+<pre><code><span class="cm"># Inspecting the proof internals</span>
+mp = duck_proof.method_paths[<span class="st">"render"</span>]
+print(mp.details())
+
+<span class="cm"># Output:</span>
+<span class="cm"># MethodPath(HTMLElement.render → Renderable.render):</span>
+<span class="cm">#   Parameters:</span>
+<span class="cm">#     self  : HTMLElement  ≤  Self          [OK — self is always compatible]</span>
+<span class="cm">#     indent: int          ≡  int           [OK — exact match]</span>
+<span class="cm">#     indent default: 0    ≡  0             [OK — defaults match]</span>
+<span class="cm">#   Return:</span>
+<span class="cm">#     str                  ≡  str           [OK — exact match]</span>
+<span class="cm">#   Guarantees:</span>
+<span class="cm">#     "result is a non-empty string":</span>
+<span class="cm">#       Z3 query: len(result) > 0</span>
+<span class="cm">#       Proved by: tag is always non-empty ∧ output contains tag</span>
+<span class="cm">#       Status: Z3_PROVEN ✅</span></code></pre>
+
+<h2>Example: The Iterable Protocol</h2>
+
+<p>
+  Python's iteration protocol is the most pervasive duck typing example.
+  Let's verify that a custom data structure satisfies it:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> Protocol, TypeVar, Generic, Iterator
+<span class="kw">from</span> deppy <span class="kw">import</span> guarantee, verify
+
+<span class="ty">T</span> = TypeVar(<span class="st">"T"</span>)
+
+<span class="kw">class</span> <span class="ty">IterableProto</span>(<span class="ty">Protocol</span>[<span class="ty">T</span>]):
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self) -> <span class="ty">Iterator</span>[<span class="ty">T</span>]: ...
+    <span class="kw">def</span> <span class="fn">__next__</span>(self) -> <span class="ty">T</span>: ...
+
+<span class="dc">@verify</span>
+<span class="kw">class</span> <span class="ty">RingBuffer</span>(<span class="ty">Generic</span>[<span class="ty">T</span>]):
+    <span class="st">"""A fixed-size circular buffer that supports iteration."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, capacity: <span class="ty">int</span>) -> <span class="ty">None</span>:
+        <span class="kw">assert</span> capacity > <span class="nb">0</span>
+        self._buf: <span class="ty">list</span>[<span class="ty">T</span>] = []
+        self._cap = capacity
+        self._pos = <span class="nb">0</span>
+        self._iter_idx = <span class="nb">0</span>
+
+    <span class="kw">def</span> <span class="fn">push</span>(self, item: <span class="ty">T</span>) -> <span class="ty">None</span>:
+        <span class="kw">if</span> len(self._buf) < self._cap:
+            self._buf.append(item)
+        <span class="kw">else</span>:
+            self._buf[self._pos] = item
+        self._pos = (self._pos + <span class="nb">1</span>) % self._cap
+
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self) -> <span class="ty">RingBuffer</span>[<span class="ty">T</span>]:
+        self._iter_idx = <span class="nb">0</span>
+        <span class="kw">return</span> self
+
+    <span class="kw">def</span> <span class="fn">__next__</span>(self) -> <span class="ty">T</span>:
+        <span class="kw">if</span> self._iter_idx >= len(self._buf):
+            <span class="kw">raise</span> <span class="ty">StopIteration</span>
+        item = self._buf[self._iter_idx]
+        self._iter_idx += <span class="nb">1</span>
+        <span class="kw">return</span> item</code></pre>
+
+<p>Deppy's verification output:</p>
+
+<pre><code>$ deppy verify ring_buffer.py --show-paths
+<span class="st">Analyzing RingBuffer...</span>
+
+<span class="st">✓ DuckPath[RingBuffer[T], IterableProto[T]]</span>
+  <span class="cm">├── __iter__: RingBuffer[T] → RingBuffer[T]</span>
+  <span class="cm">│   └── Return type RingBuffer[T] ≤ Iterator[T]</span>
+  <span class="cm">│       (valid because RingBuffer has __next__)</span>
+  <span class="cm">├── __next__: RingBuffer[T] → T</span>
+  <span class="cm">│   ├── Return type T ≡ T  [exact match]</span>
+  <span class="cm">│   └── StopIteration raised when exhausted  ✓</span>
+  <span class="cm">└── Status: VALID ✅</span>
+
+<span class="st">✓ Termination: __next__ decreases (len(_buf) - _iter_idx)</span>
+<span class="st">✓ Safety: no index-out-of-bounds in __next__</span>
+  <span class="cm">└── Z3: _iter_idx < len(_buf) at access point</span>
+
+<span class="st">3/3 obligations verified</span> (0.12s)</code></pre>
+
+<h2>Example: File-Like Objects</h2>
+
+<p>
+  Python's ecosystem is full of file-like objects: <code>StringIO</code>,
+  <code>BytesIO</code>, actual files, network sockets with <code>makefile()</code>,
+  HTTP response bodies. They all satisfy the same protocol without sharing a
+  common base class. Let's verify this:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> Protocol, Optional
+<span class="kw">from</span> deppy <span class="kw">import</span> guarantee, protocol_spec
+
+<span class="dc">@protocol_spec</span>
+<span class="kw">class</span> <span class="ty">ReadableFile</span>(<span class="ty">Protocol</span>):
+    <span class="dc">@guarantee</span>(<span class="st">"returns at most n bytes/chars"</span>)
+    <span class="kw">def</span> <span class="fn">read</span>(self, n: <span class="ty">int</span> = -<span class="nb">1</span>) -> <span class="ty">str</span> | <span class="ty">bytes</span>: ...
+
+    <span class="kw">def</span> <span class="fn">readline</span>(self) -> <span class="ty">str</span> | <span class="ty">bytes</span>: ...
+
+    <span class="dc">@guarantee</span>(<span class="st">"returns False after close()"</span>)
+    <span class="kw">def</span> <span class="fn">readable</span>(self) -> <span class="ty">bool</span>: ...
+
+    <span class="kw">def</span> <span class="fn">close</span>(self) -> <span class="ty">None</span>: ...
+
+<span class="cm"># Now verify multiple classes against this protocol:</span>
+<span class="kw">from</span> io <span class="kw">import</span> StringIO, BytesIO
+
+<span class="cm"># Deppy can verify standard library classes too</span>
+<span class="pr">path_stringio</span> = DuckPath.auto_construct(<span class="ty">StringIO</span>, <span class="ty">ReadableFile</span>)
+<span class="pr">path_bytesio</span>  = DuckPath.auto_construct(<span class="ty">BytesIO</span>,  <span class="ty">ReadableFile</span>)
+
+<span class="cm"># Both are valid — StringIO.read returns str, BytesIO.read returns bytes</span>
+<span class="cm"># Both are subtypes of str | bytes, so the DuckPath holds</span></code></pre>
+
+<p>
+  We can also verify a custom file-like object:
+</p>
+
+<pre><code><span class="dc">@verify</span>
+<span class="kw">class</span> <span class="ty">LogCapture</span>:
+    <span class="st">"""Captures log output into an in-memory buffer."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self) -> <span class="ty">None</span>:
+        self._buffer: <span class="ty">list</span>[<span class="ty">str</span>] = []
+        self._pos = <span class="nb">0</span>
+        self._closed = <span class="nb">False</span>
+
+    <span class="dc">@guarantee</span>(<span class="st">"returns at most n characters"</span>)
+    <span class="kw">def</span> <span class="fn">read</span>(self, n: <span class="ty">int</span> = -<span class="nb">1</span>) -> <span class="ty">str</span>:
+        <span class="kw">if</span> self._closed:
+            <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">"I/O operation on closed file"</span>)
+        full = <span class="st">"\n"</span>.join(self._buffer[self._pos:])
+        <span class="kw">if</span> n == -<span class="nb">1</span>:
+            self._pos = len(self._buffer)
+            <span class="kw">return</span> full
+        result = full[:n]
+        <span class="cm"># advance position by lines consumed</span>
+        consumed_lines = result.count(<span class="st">"\n"</span>)
+        self._pos += consumed_lines
+        <span class="kw">return</span> result
+
+    <span class="kw">def</span> <span class="fn">readline</span>(self) -> <span class="ty">str</span>:
+        <span class="kw">if</span> self._closed:
+            <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">"I/O operation on closed file"</span>)
+        <span class="kw">if</span> self._pos >= len(self._buffer):
+            <span class="kw">return</span> <span class="st">""</span>
+        line = self._buffer[self._pos]
+        self._pos += <span class="nb">1</span>
+        <span class="kw">return</span> line + <span class="st">"\n"</span>
+
+    <span class="kw">def</span> <span class="fn">readable</span>(self) -> <span class="ty">bool</span>:
+        <span class="kw">return not</span> self._closed
+
+    <span class="kw">def</span> <span class="fn">close</span>(self) -> <span class="ty">None</span>:
+        self._closed = <span class="nb">True</span>
+
+    <span class="kw">def</span> <span class="fn">write</span>(self, msg: <span class="ty">str</span>) -> <span class="ty">None</span>:
+        <span class="kw">if</span> self._closed:
+            <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">"I/O operation on closed file"</span>)
+        self._buffer.append(msg)</code></pre>
+
+<pre><code>$ deppy verify log_capture.py --show-paths
+<span class="st">✓ DuckPath[LogCapture, ReadableFile]</span>
+  <span class="cm">├── read:     (self, int=-1) → str  ≤  (self, int=-1) → str|bytes</span>
+  <span class="cm">│   ├── Param compat: int ≡ int  ✓</span>
+  <span class="cm">│   ├── Return: str ≤ str|bytes  ✓  (str is subtype of union)</span>
+  <span class="cm">│   └── Guarantee "returns at most n chars":</span>
+  <span class="cm">│       Z3 query: (n ≥ 0) → len(result) ≤ n</span>
+  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">├── readline: (self) → str  ≤  (self) → str|bytes  ✓</span>
+  <span class="cm">├── readable: (self) → bool  ≡  (self) → bool  ✓</span>
+  <span class="cm">│   └── Guarantee "returns False after close()":</span>
+  <span class="cm">│       Z3 query: (self._closed == True) → (result == False)</span>
+  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">├── close:    (self) → None  ≡  (self) → None  ✓</span>
+  <span class="cm">└── Status: VALID ✅</span>
+
+<span class="st">Note:</span> LogCapture has extra method <span class="st">write</span> not in ReadableFile — OK
+  <span class="cm">(structural subtyping allows extra methods)</span></code></pre>
+
+<h2>Path Construction: The Theory</h2>
+
+<p>
+  How does Deppy actually construct the path between two duck-typed objects?
+  The construction mirrors the cubical type theory interval:
+</p>
+
+<pre><code><span class="cm"># Simplified internal representation of DuckPath construction</span>
+<span class="kw">from</span> deppy.hott.cubical <span class="kw">import</span> Interval, PathType, refl, ap
+
+<span class="kw">def</span> <span class="fn">construct_duck_path</span>(
+    cls: <span class="ty">type</span>,
+    proto: <span class="ty">type</span>[<span class="ty">Protocol</span>],
+) -> <span class="ty">PathType</span>[<span class="ty">type</span>, cls, proto]:
+    <span class="st">"""
+    Construct a path in the protocol universe from cls to proto.
+
+    In cubical type theory, a path A =_U B is a function
+    p : I → U such that p(0) = A and p(1) = B.
+
+    For duck typing, we construct this path by interpolating
+    between the method tables:
+      p(i) = { m : merge(cls.m, proto.m, i) for m in proto.methods }
+    where merge(f, g, 0) = f, merge(f, g, 1) = g,
+    and merge is defined iff f and g are signature-compatible.
+    """</span>
+    proto_methods = inspect_protocol_methods(proto)
+    cls_methods   = inspect_class_methods(cls)
+
+    method_paths = {}
+    <span class="kw">for</span> name, proto_sig <span class="kw">in</span> proto_methods.items():
+        <span class="kw">if</span> name <span class="kw">not in</span> cls_methods:
+            <span class="kw">raise</span> <span class="ty">DuckPathError</span>(
+                <span class="st">f"Class {cls.__name__} missing method {name}"</span>
+            )
+        cls_sig = cls_methods[name]
+
+        <span class="cm"># Check contravariant params, covariant return</span>
+        param_path = check_param_compatibility(cls_sig, proto_sig)
+        ret_path   = check_return_compatibility(cls_sig, proto_sig)
+
+        <span class="cm"># The method path is the product of param and return paths</span>
+        method_paths[name] = MethodPath(
+            source=cls_sig, target=proto_sig,
+            param_evidence=param_path,
+            return_evidence=ret_path,
+        )
+
+    <span class="cm"># The DuckPath is the product of all method paths</span>
+    <span class="kw">return</span> DuckPath(
+        source=cls, target=proto,
+        method_paths=method_paths,
+        <span class="cm"># Valid iff all method paths are valid</span>
+        is_valid=all(mp.is_valid <span class="kw">for</span> mp <span class="kw">in</span> method_paths.values()),
+    )</code></pre>
+
+<h2>Variance and Compatibility</h2>
+
+<p>
+  DuckPath construction requires careful variance checking. Python's type system
+  has nuanced rules about when a method signature is "compatible":
+</p>
+
+<table>
+  <thead>
+    <tr><th>Position</th><th>Variance</th><th>Rule</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Parameters</td>
+      <td>Contravariant</td>
+      <td>Class may accept <em>wider</em> types</td>
+      <td>Protocol: <code>int</code> → Class: <code>int | float</code> ✓</td>
+    </tr>
+    <tr>
+      <td>Return</td>
+      <td>Covariant</td>
+      <td>Class may return <em>narrower</em> types</td>
+      <td>Protocol: <code>Sequence[T]</code> → Class: <code>list[T]</code> ✓</td>
+    </tr>
+    <tr>
+      <td>Defaults</td>
+      <td>Must match</td>
+      <td>Default values must be equal</td>
+      <td>Protocol: <code>n=0</code> → Class: <code>n=0</code> ✓</td>
+    </tr>
+    <tr>
+      <td>*args/**kwargs</td>
+      <td>Compatible</td>
+      <td>Class may have *args if Protocol doesn't</td>
+      <td>Protocol: <code>(x, y)</code> → Class: <code>(*args)</code> ✓</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code><span class="cm"># Deppy's Z3 encoding of variance checks</span>
+<span class="kw">from</span> deppy.z3_bridge <span class="kw">import</span> encode_type, is_subtype
+
+<span class="kw">def</span> <span class="fn">check_param_compatibility</span>(
+    cls_sig: <span class="ty">Signature</span>, proto_sig: <span class="ty">Signature</span>
+) -> <span class="ty">VarianceProof</span>:
+    <span class="st">"""Check that cls parameters are contravariant-compatible."""</span>
+    solver = z3.Solver()
+
+    <span class="kw">for</span> p_param, c_param <span class="kw">in</span> zip(proto_sig.params, cls_sig.params):
+        p_type = encode_type(p_param.annotation)
+        c_type = encode_type(c_param.annotation)
+
+        <span class="cm"># Contravariant: proto_type ≤ cls_type</span>
+        <span class="cm"># (class accepts at least what protocol requires)</span>
+        solver.add(is_subtype(p_type, c_type))
+
+    <span class="kw">if</span> solver.check() == z3.sat:
+        <span class="kw">return</span> VarianceProof(status=<span class="st">"PROVEN"</span>, model=solver.model())
+    <span class="kw">else</span>:
+        <span class="kw">return</span> VarianceProof(status=<span class="st">"FAILED"</span>, core=solver.unsat_core())</code></pre>
+
+<h2>Dynamic Attribute Resolution</h2>
+
+<p>
+  Python allows classes to define <code>__getattr__</code>, which intercepts
+  attribute lookups for attributes that don't exist on the object. This means
+  a class can satisfy a Protocol <em>dynamically</em> — it might not have the
+  methods in its <code>__dict__</code>, but <code>__getattr__</code> synthesizes
+  them on demand:
+</p>
+
+<pre><code><span class="kw">class</span> <span class="ty">DynamicProxy</span>:
+    <span class="st">"""Proxy that delegates all method calls to a target object."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, target: <span class="ty">object</span>) -> <span class="ty">None</span>:
+        self._target = target
+
+    <span class="kw">def</span> <span class="fn">__getattr__</span>(self, name: <span class="ty">str</span>) -> <span class="ty">Any</span>:
+        <span class="kw">return</span> getattr(self._target, name)
+
+<span class="cm"># Does DynamicProxy satisfy Renderable?</span>
+<span class="cm"># It depends on what _target is!</span></code></pre>
+
+<p>
+  Deppy handles this with <strong>conditional DuckPaths</strong> — a DuckPath
+  that is valid <em>given</em> certain conditions on the object's state:
+</p>
+
+<pre><code><span class="cm"># Deppy generates a conditional DuckPath:</span>
+<span class="pr">cond_proof</span> : <span class="ty">ConditionalDuckPath</span>[<span class="ty">DynamicProxy</span>, <span class="ty">Renderable</span>] = (
+    ConditionalDuckPath.construct(
+        condition=<span class="st">"isinstance(self._target, Renderable)"</span>,
+        <span class="cm"># Under this condition, __getattr__ delegates to a Renderable,</span>
+        <span class="cm"># so all method lookups succeed with compatible signatures</span>
+        evidence=FiberedLookup(
+            fiber_over=<span class="st">"_target"</span>,
+            base_path=DuckPath.auto_construct(
+                target_type=<span class="ty">Renderable</span>,
+                proto=<span class="ty">Renderable</span>
+            ),
+            transport_through=<span class="st">"__getattr__"</span>,
+        )
+    )
+)
+<span class="cm"># Status: CONDITIONALLY VALID ✅</span>
+<span class="cm"># Condition: _target must satisfy Renderable</span></code></pre>
+
+<div class="important">
+  <code>__getattr__</code>-based protocol conformance is inherently conditional.
+  Deppy cannot prove unconditional conformance for dynamic proxies —
+  instead it generates a proof obligation for each call site:
+  <em>"At this point, prove that the proxy's target satisfies the Protocol."</em>
+</div>
+
+<h2>Composing DuckPaths</h2>
+
+<p>
+  DuckPaths compose. If <code>A</code> duck-types as <code>B</code> and
+  <code>B</code> duck-types as <code>C</code>, then <code>A</code> duck-types
+  as <code>C</code>:
+</p>
+
+<pre><code><span class="kw">from</span> deppy.hott <span class="kw">import</span> path_compose
+
+<span class="cm"># Given:</span>
+<span class="pr">p1</span> : <span class="ty">DuckPath</span>[<span class="ty">HTMLElement</span>, <span class="ty">Renderable</span>]   <span class="cm"># from earlier</span>
+<span class="pr">p2</span> : <span class="ty">DuckPath</span>[<span class="ty">Renderable</span>, <span class="ty">Displayable</span>]  <span class="cm"># if Displayable ⊆ Renderable</span>
+
+<span class="cm"># Then we can compose:</span>
+<span class="pr">p3</span> : <span class="ty">DuckPath</span>[<span class="ty">HTMLElement</span>, <span class="ty">Displayable</span>] = path_compose(p1, p2)
+<span class="cm"># p3 is valid iff both p1 and p2 are valid</span>
+
+<span class="cm"># This corresponds to path composition in HoTT:</span>
+<span class="cm"># p1 : A =_U B</span>
+<span class="cm"># p2 : B =_U C</span>
+<span class="cm"># p1 · p2 : A =_U C</span></code></pre>
+
+<h2>When DuckPaths Fail</h2>
+
+<p>
+  Not everything that looks like a duck is actually a duck. Deppy provides
+  detailed error reports when a DuckPath cannot be constructed:
+</p>
+
+<pre><code><span class="kw">class</span> <span class="ty">BadElement</span>:
+    <span class="kw">def</span> <span class="fn">render</span>(self) -> <span class="ty">None</span>:  <span class="cm"># wrong return type!</span>
+        print(<span class="st">"&lt;div/&gt;"</span>)
+
+    <span class="cm"># missing render_width entirely!</span></code></pre>
+
+<pre><code>$ deppy verify bad_element.py --show-paths
+<span class="cm">✗ DuckPath[BadElement, Renderable]: INVALID</span>
+
+  <span class="cm">├── render: SIGNATURE MISMATCH</span>
+  <span class="cm">│   ├── Parameters:</span>
+  <span class="cm">│   │   Protocol requires: (self, indent: int = 0)</span>
+  <span class="cm">│   │   Class provides:    (self)</span>
+  <span class="cm">│   │   ✗ Missing parameter 'indent'</span>
+  <span class="cm">│   └── Return type:</span>
+  <span class="cm">│       Protocol requires: str</span>
+  <span class="cm">│       Class provides:    None</span>
+  <span class="cm">│       ✗ None is not a subtype of str</span>
+  <span class="cm">│</span>
+  <span class="cm">├── render_width: MISSING</span>
+  <span class="cm">│   ✗ BadElement has no method 'render_width'</span>
+  <span class="cm">│</span>
+  <span class="cm">└── 2 errors, 0 warnings</span>
+
+<span class="cm">Suggestion: Add render_width(self) → int to BadElement,</span>
+<span class="cm">and change render to accept indent: int = 0 and return str.</span></code></pre>
+
+<h2>Comparison with F*: Interfaces vs. DuckPaths</h2>
+
+<p>
+  The fundamental difference between Deppy and F* (or any language with
+  nominal typing) is captured in this table:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Aspect</th><th>F* / Lean / Coq</th><th>Deppy</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Conformance declared</td>
+      <td>Explicitly (<code>implements</code>)</td>
+      <td>Inferred (structural)</td>
+    </tr>
+    <tr>
+      <td>Proof constructed</td>
+      <td>At declaration site</td>
+      <td>At use site (or precomputed)</td>
+    </tr>
+    <tr>
+      <td>New protocol, old class</td>
+      <td>Must modify old class</td>
+      <td>Automatically verified</td>
+    </tr>
+    <tr>
+      <td>Dynamic conformance</td>
+      <td>Not possible</td>
+      <td>Conditional DuckPaths</td>
+    </tr>
+    <tr>
+      <td>Proof term</td>
+      <td>Interface instance</td>
+      <td><code>DuckPath</code> (path in HoTT)</td>
+    </tr>
+    <tr>
+      <td>Extra methods</td>
+      <td>Irrelevant</td>
+      <td>Irrelevant (same)</td>
+    </tr>
+    <tr>
+      <td>Variance</td>
+      <td>Declared per type parameter</td>
+      <td>Inferred per method position</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Advanced: Generic Protocols</h2>
+
+<p>
+  Protocols can be generic, and DuckPaths must handle type variables correctly.
+  Here's a more complex example with a generic <code>Comparable</code> protocol:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> Protocol, TypeVar
+<span class="kw">from</span> deppy <span class="kw">import</span> guarantee, verify
+
+<span class="ty">T</span> = TypeVar(<span class="st">"T"</span>)
+
+<span class="kw">class</span> <span class="ty">Comparable</span>(<span class="ty">Protocol</span>):
+    <span class="dc">@guarantee</span>(<span class="st">"antisymmetric: (a ≤ b ∧ b ≤ a) → a == b"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"transitive: (a ≤ b ∧ b ≤ c) → a ≤ c"</span>)
+    <span class="kw">def</span> <span class="fn">__le__</span>(self, other: <span class="ty">Comparable</span>) -> <span class="ty">bool</span>: ...
+
+    <span class="dc">@guarantee</span>(<span class="st">"consistent with __le__: (a < b) ↔ (a ≤ b ∧ a ≠ b)"</span>)
+    <span class="kw">def</span> <span class="fn">__lt__</span>(self, other: <span class="ty">Comparable</span>) -> <span class="ty">bool</span>: ...
+
+<span class="dc">@verify</span>
+<span class="kw">class</span> <span class="ty">Temperature</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, kelvin: <span class="ty">float</span>) -> <span class="ty">None</span>:
+        <span class="kw">assert</span> kelvin >= <span class="nb">0.0</span>, <span class="st">"Temperature cannot be below absolute zero"</span>
+        self._k = kelvin
+
+    <span class="kw">def</span> <span class="fn">__le__</span>(self, other: <span class="ty">Temperature</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> self._k <= other._k
+
+    <span class="kw">def</span> <span class="fn">__lt__</span>(self, other: <span class="ty">Temperature</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> self._k < other._k
+
+    <span class="kw">def</span> <span class="fn">__eq__</span>(self, other: <span class="ty">object</span>) -> <span class="ty">bool</span>:
+        <span class="kw">if not</span> isinstance(other, <span class="ty">Temperature</span>):
+            <span class="kw">return</span> <span class="nb">NotImplemented</span>
+        <span class="kw">return</span> self._k == other._k</code></pre>
+
+<pre><code>$ deppy verify temperature.py --show-paths --verbose
+<span class="st">✓ DuckPath[Temperature, Comparable]</span>
+  <span class="cm">├── __le__: (self: Temperature, other: Temperature) → bool</span>
+  <span class="cm">│   ├── Param 'other': Temperature ≤ Comparable</span>
+  <span class="cm">│   │   (valid: Temperature satisfies Comparable — recursive check)</span>
+  <span class="cm">│   ├── Guarantee "antisymmetric":</span>
+  <span class="cm">│   │   Z3 encoding:</span>
+  <span class="cm">│   │     ∀ a_k b_k : Real.</span>
+  <span class="cm">│   │       (a_k ≥ 0 ∧ b_k ≥ 0) →</span>
+  <span class="cm">│   │       ((a_k ≤ b_k ∧ b_k ≤ a_k) → a_k == b_k)</span>
+  <span class="cm">│   │   Status: Z3_PROVEN ✅</span>
+  <span class="cm">│   └── Guarantee "transitive":</span>
+  <span class="cm">│       Z3 encoding:</span>
+  <span class="cm">│         ∀ a_k b_k c_k : Real.</span>
+  <span class="cm">│         (a_k ≥ 0 ∧ b_k ≥ 0 ∧ c_k ≥ 0) →</span>
+  <span class="cm">│         ((a_k ≤ b_k ∧ b_k ≤ c_k) → a_k ≤ c_k)</span>
+  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">├── __lt__:</span>
+  <span class="cm">│   └── Guarantee "consistent with __le__":</span>
+  <span class="cm">│       Z3 encoding:</span>
+  <span class="cm">│         ∀ a_k b_k : Real.</span>
+  <span class="cm">│         (a_k ≥ 0 ∧ b_k ≥ 0) →</span>
+  <span class="cm">│         ((a_k < b_k) ↔ (a_k ≤ b_k ∧ a_k ≠ b_k))</span>
+  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">└── Status: VALID ✅</span></code></pre>
+
+<div class="tip">
+  Notice how Deppy handles the recursive check: to verify that
+  <code>Temperature.__le__</code> accepts a <code>Comparable</code> parameter,
+  it needs to check that <code>Temperature</code> itself satisfies
+  <code>Comparable</code>. This is a coinductive check — Deppy uses a
+  fixed-point computation to handle it.
+</div>
+
+<h2>Runtime Protocol Checking</h2>
+
+<p>
+  With <code>@runtime_checkable</code> Protocols, Python's <code>isinstance</code>
+  performs a structural check at runtime. Deppy connects this to the
+  static DuckPath:
+</p>
+
+<pre><code><span class="dc">@runtime_checkable</span>
+<span class="kw">class</span> <span class="ty">Renderable</span>(<span class="ty">Protocol</span>):
+    <span class="kw">def</span> <span class="fn">render</span>(self, indent: <span class="ty">int</span> = <span class="nb">0</span>) -> <span class="ty">str</span>: ...
+    <span class="kw">def</span> <span class="fn">render_width</span>(self) -> <span class="ty">int</span>: ...
+
+<span class="kw">def</span> <span class="fn">display</span>(obj: <span class="ty">object</span>) -> <span class="ty">None</span>:
+    <span class="kw">if</span> isinstance(obj, Renderable):
+        <span class="cm"># Here, Deppy narrows obj's type:</span>
+        <span class="cm"># obj : object  →  obj : Renderable</span>
+        <span class="cm"># This is justified by the DuckPath that isinstance checks</span>
+        print(obj.render())
+        <span class="cm"># ✅ Safe: obj.render() is valid because isinstance verified</span>
+        <span class="cm">#    the structural conformance at runtime</span>
+    <span class="kw">else</span>:
+        print(repr(obj))
+
+<span class="cm"># Deppy's verification of 'display':</span>
+<span class="cm"># Branch 1: isinstance(obj, Renderable) == True</span>
+<span class="cm">#   → DuckPath[type(obj), Renderable] exists at runtime</span>
+<span class="cm">#   → obj.render : (int?) → str  is valid</span>
+<span class="cm">#   → print(obj.render()) : None  ✓</span>
+<span class="cm"># Branch 2: isinstance(obj, Renderable) == False</span>
+<span class="cm">#   → repr(obj) : str  always valid  ✓</span></code></pre>
+
+<div class="warning">
+  <code>@runtime_checkable</code> only checks method <em>existence</em>, not
+  signatures. Deppy's DuckPath goes further by also verifying signature
+  compatibility and behavioral guarantees. A runtime <code>isinstance</code>
+  check gives you existence; Deppy gives you full correctness.
+</div>
+
+<h2>Exercises</h2>
+
+<div class="exercise">
+  <strong>Exercise 9.1.</strong> Define a <code>Hashable</code> Protocol with
+  <code>__hash__</code> and <code>__eq__</code>, along with the guarantee that
+  <code>a == b → hash(a) == hash(b)</code>. Then create a <code>Point</code>
+  class with <code>x</code> and <code>y</code> fields, implement
+  <code>__hash__</code> and <code>__eq__</code>, and verify that the DuckPath
+  is valid. What happens if you implement <code>__hash__</code> as
+  <code>return hash(self.x)</code> (ignoring <code>y</code>)?
+</div>
+
+<div class="exercise">
+  <strong>Exercise 9.2.</strong> Create a <code>Serializable</code> Protocol
+  with <code>to_json(self) → str</code> and
+  <code>from_json(cls, data: str) → Self</code>. Verify that a
+  <code>Config</code> class with nested <code>dict</code> data satisfies it.
+  Note the classmethod: how does Deppy handle <code>cls</code> parameters
+  in DuckPaths?
+</div>
+
+<div class="exercise">
+  <strong>Exercise 9.3.</strong> Write a <code>DynamicProxy</code> class that
+  uses <code>__getattr__</code> to delegate to a target. Show that Deppy
+  produces a <code>ConditionalDuckPath</code>. Then write a wrapper function
+  that creates a proxy and passes it to a function expecting a
+  <code>Renderable</code> — what proof obligations does Deppy generate at
+  the call site?
+</div>
+
+<div class="exercise">
+  <strong>Exercise 9.4 (Challenge).</strong> Python generators are single-use
+  iterables: after you exhaust them, calling <code>__next__</code> always
+  raises <code>StopIteration</code>. Define a <code>ReusableIterable</code>
+  Protocol that requires <code>__iter__</code> to return a <em>fresh</em>
+  iterator each time. Show that <code>list</code> satisfies this Protocol
+  but a generator expression does not. What does the failed DuckPath look like?
+</div>
+
+<nav class="page-nav">
+  <a href="index.html">
+    <span class="label">← Previous</span>
+    <span class="title">Part 3 Overview</span>
+  </a>
+  <a href="decorators.html">
+    <span class="label">Next →</span>
+    <span class="title">Decorators &amp; Meta</span>
+  </a>
+</nav>
+
+</article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

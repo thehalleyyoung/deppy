@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 1: Pure Python — Deppy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+
+    <h1>Part 1: Programming &amp; Proving with Pure Python</h1>
+
+    <p>
+      Part 1 introduces the foundations of formal verification with Deppy:
+      how to attach precise specifications to ordinary Python functions and
+      have those specifications machine-checked. Every function we verify in
+      this part is <em>pure</em>&thinsp;—&thinsp;no mutation, no I/O, no side
+      effects&thinsp;—&thinsp;which keeps reasoning tractable while we build
+      intuition for the tools.
+    </p>
+
+    <p>
+      By the end of Part 1 you will be able to write refinement-typed
+      Python, discharge proof obligations with Z3, prove lemmas by
+      induction, argue termination, and combine all of these techniques in a
+      verified quicksort implementation.
+    </p>
+
+    <!-- ── What You'll Learn ─────────────────────────────── -->
+    <h2>What You'll Learn</h2>
+
+    <ul>
+      <li>How to install Deppy and run the verifier on a Python file</li>
+      <li>Refinement types: constraining values beyond their base type</li>
+      <li>How Deppy dispatches proof obligations to the Z3 SMT solver</li>
+      <li>Defining algebraic data types with Python dataclasses</li>
+      <li>Proving termination of recursive functions via decreasing measures</li>
+      <li>Writing lemmas and structuring inductive proofs</li>
+      <li>Putting it all together: a fully verified quicksort</li>
+    </ul>
+
+    <!-- ── Philosophy ────────────────────────────────────── -->
+    <h2>Philosophy: Verify What You Already Write</h2>
+
+    <p>
+      Most verification systems ask you to rewrite your code in a new
+      language. Deppy takes the opposite approach: <strong>your existing
+      Python <em>is</em> the program</strong>. Specifications live in a
+      <em>sidecar</em> file or in lightweight decorators that the Python
+      runtime ignores. The verifier reads your <code>.py</code> source,
+      builds a cubical type-theoretic model of its behaviour, and checks
+      that model against your specs&thinsp;—&thinsp;all without executing
+      your code.
+    </p>
+
+    <p>
+      This means:
+    </p>
+
+    <ul>
+      <li>No new syntax to learn&thinsp;—&thinsp;it's just Python.</li>
+      <li>No runtime overhead&thinsp;—&thinsp;verification happens at check time.</li>
+      <li>No language lock-in&thinsp;—&thinsp;remove the decorators and you have plain Python.</li>
+    </ul>
+
+    <p>
+      Where F* asks you to program <em>in</em> its language, Deppy asks
+      you to program in Python and <em>prove alongside</em> it.
+    </p>
+
+    <!-- ── Unverified vs Verified ────────────────────────── -->
+    <h2>Unverified Python vs. Deppy-Verified Python</h2>
+
+    <p>
+      Consider a function that computes the absolute value of an integer.
+      Here is the standard, unverified version:
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">abs_val</span>(x: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="kw">if</span> x <span class="op">&gt;=</span> <span class="nb">0</span>:
+        <span class="kw">return</span> x
+    <span class="kw">return</span> <span class="op">-</span>x</code></pre>
+
+    <p>
+      This is perfectly good Python, but nothing stops a caller from
+      misunderstanding the return type. With Deppy we can add a
+      machine-checked refinement:
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> guarantee, Nat
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= 0"</span>)
+<span class="kw">def</span> <span class="fn">abs_val</span>(x: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">Nat</span>:
+    <span class="cm"># Nat is a refinement: int where value >= 0</span>
+    <span class="kw">if</span> x <span class="op">&gt;=</span> <span class="nb">0</span>:
+        <span class="kw">return</span> x
+    <span class="kw">return</span> <span class="op">-</span>x</code></pre>
+
+    <p>
+      The function body is <em>identical</em>. The only additions are
+      the <code class="dc">@guarantee</code> decorator and the
+      <code class="ty">Nat</code> return type&thinsp;—&thinsp;both of which
+      the Python runtime ignores. Deppy's verifier reads them, encodes
+      the obligation <code>result &gt;= 0</code> as a Z3 query, and
+      discharges it automatically.
+    </p>
+
+    <!-- ── Your First Taste ──────────────────────────────── -->
+    <h2>Your First Taste</h2>
+
+    <p>
+      Here is a slightly richer example: a function that doubles every
+      element in a list, with a postcondition relating the output length
+      to the input length.
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> guarantee, assume, check
+
+<span class="dc">@guarantee</span>(<span class="st">"len(result) == len(xs)"</span>)
+<span class="kw">def</span> <span class="fn">double_all</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-&gt;</span> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="st">"""Return a new list with every element doubled."""</span>
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="kw">return</span> []
+
+    head, *tail <span class="op">=</span> xs
+    rest <span class="op">=</span> double_all(tail)
+
+    <span class="cm"># Deppy checks this inductively:</span>
+    <span class="cm"># len(rest) == len(tail)  by recursive guarantee</span>
+    <span class="cm"># len([head*2] + rest) == 1 + len(tail) == len(xs)  ✓</span>
+
+    <span class="kw">return</span> [head <span class="op">*</span> <span class="nb">2</span>] <span class="op">+</span> rest</code></pre>
+
+    <p>
+      Running <code>deppy check double_all.py</code> produces:
+    </p>
+
+    <pre><code><span class="cm">$ deppy check double_all.py</span>
+<span class="fn">double_all</span> ··· <span class="st">len(result) == len(xs)</span>
+  ├─ base case (xs = []):  Z3 ✓  <span class="nb">0.02s</span>
+  ├─ inductive step:       Z3 ✓  <span class="nb">0.04s</span>
+  └─ termination:          structural (len) ✓
+<span class="cm">All 1 function(s) verified.</span></code></pre>
+
+    <!-- ── Chapter Summary ───────────────────────────────── -->
+    <h2>Chapter Summary</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Chapter</th>
+          <th>Topic</th>
+          <th>Key Concepts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="getting_started.html">Getting Started</a></td>
+          <td>Installation &amp; first run</td>
+          <td><code>pip install</code>, <code>deppy check</code>, project layout</td>
+        </tr>
+        <tr>
+          <td><a href="refinement_types.html">Refinement Types</a></td>
+          <td>Constraining values</td>
+          <td><code class="ty">Nat</code>, <code class="ty">Pos</code>, <code class="dc">@refined</code>, subtyping</td>
+        </tr>
+        <tr>
+          <td><a href="equality.html">Equality &amp; Duck Typing</a></td>
+          <td>What "equal" means in Python</td>
+          <td><code>__eq__</code>, structural vs. nominal, path types</td>
+        </tr>
+        <tr>
+          <td><a href="z3_integration.html">Z3 Integration</a></td>
+          <td>Automated proving</td>
+          <td>SMT encoding, bitvectors, quantifiers, timeouts</td>
+        </tr>
+        <tr>
+          <td><a href="data_structures.html">Data Structures</a></td>
+          <td>Algebraic data types</td>
+          <td>Dataclasses, <code>match</code> statements, recursive types</td>
+        </tr>
+        <tr>
+          <td><a href="termination.html">Termination</a></td>
+          <td>Proving functions finish</td>
+          <td>Decreasing measures, well-founded orders, structural recursion</td>
+        </tr>
+        <tr>
+          <td><a href="lemmas.html">Lemmas &amp; Induction</a></td>
+          <td>Manual proofs</td>
+          <td><code class="dc">@lemma</code>, induction schemes, <code class="pr">Refl</code>, <code class="pr">Trans</code></td>
+        </tr>
+        <tr>
+          <td><a href="quicksort.html">Case Study: Quicksort</a></td>
+          <td>Putting it all together</td>
+          <td>Permutation, sortedness, partitioning lemma</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── Prerequisites ─────────────────────────────────── -->
+    <div class="note">
+
+      <ul>
+        <li><strong>Python 3.10+</strong> — we use <code>match</code> statements and modern union syntax.</li>
+        <li><strong>Basic type hints</strong> — familiarity with <code>int</code>, <code>str</code>, <code>list[T]</code>, <code>-&gt;</code> annotations.</li>
+        <li><strong>pip</strong> — for installing Deppy and Z3.</li>
+      </ul>
+      <p>
+        No prior experience with formal verification, proof assistants, or
+        type theory is required. We introduce every concept from scratch.
+      </p>
+    </div>
+
+    <!-- ── Tip: Virtual Environment ──────────────────────── -->
+    <div class="tip">
+
+      <p>
+        We recommend creating a dedicated virtual environment before
+        installing Deppy. This keeps the Z3 solver and its bindings
+        isolated from the rest of your system:
+      </p>
+      <pre><code><span class="cm"># Create and activate a virtual environment</span>
+python3 <span class="op">-</span>m venv .venv
+source .venv/bin/activate
+
+<span class="cm"># Install Deppy (pulls in z3-solver automatically)</span>
+pip install deppy</code></pre>
+    </div>
+
+    <!-- ── A Peek at Refinement Types ────────────────────── -->
+    <h2>A Peek at Refinement Types</h2>
+
+    <p>
+      Refinement types are the workhorse of Part 1. A refinement type
+      takes an existing Python type and narrows it with a logical
+      predicate. For example, <code class="ty">Nat</code> is
+      <code class="ty">int</code> refined by <code>value &gt;= 0</code>.
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> refined, guarantee
+
+<span class="ty">Nat</span> <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">&gt;=</span> <span class="nb">0</span>)
+<span class="ty">Pos</span> <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">&gt;</span> <span class="nb">0</span>)
+
+<span class="dc">@guarantee</span>(<span class="st">"result > 0"</span>)
+<span class="kw">def</span> <span class="fn">successor</span>(n: <span class="ty">Nat</span>) <span class="op">-&gt;</span> <span class="ty">Pos</span>:
+    <span class="kw">return</span> n <span class="op">+</span> <span class="nb">1</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= x and result >= y"</span>)
+<span class="kw">def</span> <span class="fn">max_of</span>(x: <span class="ty">int</span>, y: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="kw">if</span> x <span class="op">&gt;=</span> y:
+        <span class="kw">return</span> x
+    <span class="kw">return</span> y</code></pre>
+
+    <p>
+      Deppy translates each <code class="dc">@guarantee</code> into a Z3
+      assertion and checks it against every execution path. If
+      <code class="fn">successor</code> returned <code>n</code> instead of
+      <code>n + 1</code>, the verifier would report a counterexample:
+      <code>n = 0 ⇒ result = 0</code>, which violates
+      <code class="ty">Pos</code>.
+    </p>
+
+    <!-- ── What Comes Next ───────────────────────────────── -->
+    <h2>What Comes Next</h2>
+
+    <p>
+      Ready to start? Head to
+      <a href="getting_started.html"><strong>Getting Started</strong></a>
+      to install Deppy, verify your first function, and set up your
+      editor for inline verification feedback. Each subsequent chapter
+      builds on the last, culminating in the
+      <a href="quicksort.html"><strong>Quicksort Case Study</strong></a>
+      where we prove both correctness and termination of a classic
+      sorting algorithm&thinsp;—&thinsp;written in plain Python.
+    </p>
+
+    <!-- ── Page Navigation ───────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="../intro.html">
+        <span class="label">← Previous</span>
+        <span class="title">Introduction</span>
+      </a>
+      <a href="getting_started.html">
+        <span class="label">Next →</span>
+        <span class="title">Getting Started</span>
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

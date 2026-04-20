@@ -2,57 +2,56 @@
 
 ## What is deppy?
 
-deppy is a **hybrid dependent type system** for Python that uses algebraic geometry (sheaf cohomology), dependent type theory, and LLM-as-controlled-oracle to produce formally verified software.
+deppy is a **proof-oriented programming system** for Python that uses synthetic homotopy type theory, cubical paths, Čech cohomology, and Lean 4 discharge to produce formally verified software — directly from idiomatic Python.
 
 ## When writing code in this repository:
 
 1. **Always use deppy's surface syntax** on public functions:
    ```python
-   from deppy.hybrid import guarantee, spec, hole, assume, check, given
+   from deppy import guarantee, requires, verify, compile_to_lean
 
-   @guarantee("returns a sorted list with no duplicates")
-   def unique_sorted(lst: list[int]) -> list[int]:
-       ...
+   @guarantee("result >= 0")
+   def square(x: int) -> int:
+       return x * x
    ```
 
 2. **Use `@guarantee` on every public function** — this is the postcondition that deppy verifies.
 
-3. **Use `assume()` for preconditions** — these generate proof obligations for callers.
+3. **Use `@requires` for preconditions** — these generate proof obligations for callers.
 
-4. **Use `check()` for internal invariants** — these are verified structurally (Z3) or semantically (oracle).
+4. **Use `verify()` for runtime/static verification** — checks guarantees hold.
 
-5. **Use `hole("description")` for complex logic** — deppy will synthesize code that satisfies the surrounding type context.
+5. **Use `compile_to_lean()` for Lean 4 export** — produces machine-checkable proofs.
 
-6. **Use `@spec("description")` for functions whose entire body should be synthesized** from the NL description.
+6. **All monetary values use `Decimal`, never `float`.**
 
-7. **Use `given("theorem or axiom")` to import domain knowledge** (regulatory requirements, paper theorems, etc.)
+7. **Guard Z3 imports**: `try: from z3 import *; _HAS_Z3 = True; except: _HAS_Z3 = False`
 
-8. **All monetary values use `Decimal`, never `float`.**
-
-9. **Guard Z3 imports**: `try: from z3 import *; _HAS_Z3 = True; except: _HAS_Z3 = False`
-
-10. **Use `from __future__ import annotations`** in every file.
+8. **Use `from __future__ import annotations`** in every file.
 
 ## Verification levels:
-- 🟢 **LEAN_VERIFIED** — machine-checked by Lean's kernel
+- 🟢 **LEAN_VERIFIED** — machine-checked by Lean's kernel (0 sorry)
 - 🟡 **Z3_PROVEN** — proved by Z3 solver
-- 🟠 **LLM_JUDGED** — oracle says correct with confidence ≥ threshold
+- 🟠 **LEAN_EXPORTED** — exported to Lean but has sorry obligations
 - 🔴 **UNTRUSTED** — no verification yet
 
 ## Running verification:
 ```bash
-PYTHONPATH=src python3 -m pytest tests/test_hybrid/ -v
-deppy hybrid verify <file.py>
-deppy hybrid check <file.py>
+PYTHONPATH=. python3 -m pytest deppy/tests/ -v
+PYTHONPATH=. python3 -m pytest deppy/lean/ -v
 ```
 
 ## Architecture:
-- `src/deppy/hybrid/core/` — type system, trust topos, oracle monad, AG computation
-- `src/deppy/hybrid/mixed_mode/` — surface language (hole/spec/guarantee/assume/check)
-- `src/deppy/hybrid/lean_translation/` — Python → Lean translation
-- `src/deppy/hybrid/nl_spec/` — NL → HybridSpec parsing
-- `src/deppy/hybrid/anti_hallucination/` — hallucination detection as type error
-- `src/deppy/hybrid/discharge/` — Z3 + LLM → Lean proof discharge
-- `src/deppy/hybrid/pipeline/` — end-to-end verification pipeline
-- `src/deppy/hybrid/theory_library/` — per-library type theories
-- `agent/` — autonomous verified code generation agent
+- `deppy/` — main package
+  - `deppy/core/` — type checker, kernel, path engine, Z3 bridge
+  - `deppy/proofs/` — sugar decorators (guarantee/requires/verify), tactics, sidecar specs
+  - `deppy/hott/` — HoTT types, cubical paths, fibrations
+  - `deppy/lean/` — Python → Lean 4 translation, spec translator, proof translator, compiler
+  - `deppy/pipeline/` — verification pipeline, incremental checking, batch Z3
+  - `deppy/semantics/` — Python denotational semantics, AST compiler
+  - `deppy/axioms/` — formal axiom library, library axioms
+  - `deppy/runtime/` — runtime monitor
+  - `deppy/effects/` — effect types
+  - `deppy/tests/` — 358 unit tests
+  - `deppy/lean/test_*.py` — 159 Lean discharge tests
+- `docs/` — tutorial website (thehalleyyoung.github.io/deppy)

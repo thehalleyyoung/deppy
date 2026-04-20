@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 4 — Sidecar Proofs | Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Part 4 — Sidecar Proofs</h1>
+    <p>
+      <em>Verify existing Python libraries without modifying a single line of their source code.</em>
+    </p>
+
+    <div class="note">
+      Sidecar proofs are <strong>unique to Deppy</strong>. No other Python verification
+      tool lets you write formal specifications for libraries you don't control — NumPy,
+      SymPy, torch, requests — and verify that your usage of them is correct.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="the-problem">The Problem</h2>
+    <p>
+      Most real Python code depends on third-party libraries. When you import
+      <code>numpy</code>, <code>sympy</code>, or <code>torch</code>, you're importing
+      hundreds of thousands of lines of code that you cannot modify. Traditional
+      verification systems face a hard choice:
+    </p>
+    <ul>
+      <li><strong>Ignore libraries</strong> — treat every external call as a black box,
+          losing the ability to reason about most of your program.</li>
+      <li><strong>Rewrite everything</strong> — port the library into the verification
+          language (impractical for anything beyond toy examples).</li>
+      <li><strong>Require source annotations</strong> — like F*, which needs
+          <code>val</code> specifications <em>inside</em> the library source. You can't
+          do this for <code>pip install numpy</code>.</li>
+    </ul>
+    <p>
+      Deppy takes a fourth path: <strong>sidecar proofs</strong>.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="sidecar-philosophy">The Sidecar Philosophy</h2>
+    <p>
+      A sidecar is a separate file that rides alongside the library it describes —
+      just like a motorcycle sidecar. The library runs unmodified; the sidecar
+      provides the formal specifications.
+    </p>
+
+    <h3>How It Works</h3>
+    <p>
+      For any module <code>foo</code>, you create a companion file
+      <code>foo.deppy</code>. This file contains:
+    </p>
+    <ol>
+      <li><strong>Type specifications</strong> — refined types for function parameters
+          and return values.</li>
+      <li><strong>Preconditions</strong> — what must be true before calling a function.</li>
+      <li><strong>Postconditions</strong> — what the function guarantees.</li>
+      <li><strong>Algebraic laws</strong> — properties like commutativity, associativity,
+          or idempotence that the library's operations satisfy.</li>
+      <li><strong>Trust level</strong> — how much you trust each specification
+          (from <span class="verified">LEAN_VERIFIED</span> to
+          <span class="rejected">UNTRUSTED</span>).</li>
+    </ol>
+
+    <pre><code><span class="cm"># math.deppy — sidecar specs for Python's math module</span>
+<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove
+
+<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> x >= <span class="nb">0</span>
+
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>, result: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> result >= <span class="nb">0</span> <span class="kw">and</span> abs(result * result - x) < <span class="nb">1e-10</span></code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="about-decorator">The <code>@about</code> Decorator</h2>
+    <p>
+      The <code>@about</code> decorator is the key mechanism. It binds a specification
+      class to an external function or class <em>by its fully qualified name</em> — the
+      library code is never touched.
+    </p>
+
+    <pre><code><span class="dc">@about</span>(<span class="st">"collections.OrderedDict.popitem"</span>)
+<span class="kw">class</span> <span class="fn">PopItemSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""popitem(last=True) returns the last-inserted key-value pair."""</span>
+
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, result: <span class="ty">tuple</span>, *, last: <span class="ty">bool</span> = <span class="nb">True</span>) -> <span class="ty">bool</span>:
+        <span class="cm"># When last=True, result is the most-recently inserted pair</span>
+        <span class="kw">return</span> <span class="nb">True</span>  <span class="cm"># structural spec — order verified via algebraic laws</span></code></pre>
+
+    <p>
+      Deppy resolves the dotted name at verification time, matches it to the
+      installed library, and checks every call site in your code against the spec.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="trust-levels-preview">Trust Levels (Preview)</h2>
+    <p>
+      Not all specifications carry the same weight. Deppy distinguishes four trust
+      levels, forming a lattice ordered by strength:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Badge</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🟢 <code>LEAN_VERIFIED</code></td>
+          <td><span class="verified">LEAN_VERIFIED</span></td>
+          <td>Machine-checked by the Lean 4 kernel — highest trust.</td>
+        </tr>
+        <tr>
+          <td>🟡 <code>Z3_PROVEN</code></td>
+          <td><span class="verified">Z3_PROVEN</span></td>
+          <td>Proved by the Z3 SMT solver with no admits.</td>
+        </tr>
+        <tr>
+          <td>🟠 <code>LLM_JUDGED</code></td>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">🟠 LLM_JUDGED</span></td>
+          <td>Oracle says correct with confidence ≥ threshold.</td>
+        </tr>
+        <tr>
+          <td>🔴 <code>UNTRUSTED</code></td>
+          <td><span class="rejected">UNTRUSTED</span></td>
+          <td>No verification. Specification is assumed on faith.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Trust propagates through dependencies: if function <code>A</code> calls function
+      <code>B</code>, then <code>A</code>'s trust level can never exceed <code>B</code>'s.
+      We'll explore this in detail in <a href="trust_levels.html">Trust &amp; Verification
+      Levels</a>.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="gradual-verification">Gradual Verification</h2>
+    <p>
+      Sidecar proofs enable <strong>gradual verification</strong> — you don't have to
+      specify everything at once. Start with the functions that matter most:
+    </p>
+
+    <div class="proof-steps">
+      <h4>Gradual Verification Workflow</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Identify critical call sites</strong> — which library functions does
+          your safety-critical code depend on?
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Write sidecar specs</strong> — create <code>.deppy</code> files with
+          preconditions, postconditions, and algebraic laws.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Run verification</strong> — <code>deppy sidecar verify myproject/</code>
+          checks all call sites against the specs.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Add more specs over time</strong> — coverage grows incrementally. CI
+          tracks "verification coverage" like code coverage.
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="comparison">Comparison with Other Systems</h2>
+
+    <div class="compare">
+      <div>
+        <h4>F* / Dafny</h4>
+        <pre><code><span class="cm">// F*: must add specs INSIDE the module</span>
+<span class="kw">val</span> <span class="fn">sqrt</span>: x:<span class="ty">float</span>{x >= 0.0}
+         -> y:<span class="ty">float</span>{y >= 0.0
+                /\ y *. y ≈ x}
+<span class="kw">let</span> <span class="fn">sqrt</span> x = <span class="cm">// implementation here</span>
+  <span class="cm">// ← Can't do this for pip packages!</span></code></pre>
+      </div>
+      <div>
+        <h4>Deppy Sidecar</h4>
+        <pre><code><span class="cm"># math.deppy — lives BESIDE the library</span>
+<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="kw">def</span> <span class="fn">precondition</span>(self, x):
+        <span class="kw">return</span> x >= <span class="nb">0</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(self, x, result):
+        <span class="kw">return</span> result >= <span class="nb">0</span>
+  <span class="cm"># ← Library stays untouched!</span></code></pre>
+      </div>
+    </div>
+
+    <div class="tip">
+      The sidecar approach means you can start verifying your code <em>today</em>,
+      even if you depend on dozens of unverified libraries. You specify the contract
+      you rely on, and Deppy checks that your code respects it.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="sidecar-file-anatomy">Anatomy of a <code>.deppy</code> File</h2>
+    <p>
+      Every sidecar file follows a consistent structure. Here is the complete anatomy:
+    </p>
+
+    <pre><code><span class="cm"># ─── Header: identify the target module ───</span>
+<span class="cm"># filename: numpy/linalg.deppy</span>
+<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove, law
+<span class="kw">from</span> deppy.types <span class="kw">import</span> NDArray, PosDefMatrix
+
+<span class="cm"># ─── Spec class: one per function/method ───</span>
+<span class="dc">@about</span>(<span class="st">"numpy.linalg.solve"</span>)
+<span class="kw">class</span> <span class="fn">SolveSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Solve the linear system A·x = b."""</span>
+    compatible_versions = <span class="st">">=1.24,<2.0"</span>
+
+    <span class="cm"># Precondition: A must be square and invertible</span>
+    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, A: <span class="ty">NDArray</span>, b: <span class="ty">NDArray</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> A.shape[<span class="nb">0</span>] == A.shape[<span class="nb">1</span>] <span class="kw">and</span> np.linalg.det(A) != <span class="nb">0</span>
+
+    <span class="cm"># Postcondition: A @ result ≈ b</span>
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, A, b, result) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> np.allclose(A @ result, b)
+
+    <span class="cm"># Exception behavior</span>
+    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, A, b) -> <span class="ty">type</span> | <span class="nb">None</span>:
+        <span class="kw">if</span> A.shape[<span class="nb">0</span>] != A.shape[<span class="nb">1</span>]:
+            <span class="kw">return</span> <span class="ty">LinAlgError</span>
+        <span class="kw">return</span> <span class="nb">None</span>
+
+    <span class="cm"># Algebraic laws</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">solution_unique</span>(<span class="kw">self</span>, A: <span class="ty">PosDefMatrix</span>, b: <span class="ty">NDArray</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""For positive definite A, the solution is unique."""</span>
+        x1 = self.call(A, b)
+        x2 = self.call(A, b)
+        <span class="kw">return</span> np.allclose(x1, x2)</code></pre>
+
+    <p>
+      The key design principles:
+    </p>
+    <ul>
+      <li><strong>Postconditions are <code>@assume</code>d</strong> — you trust the library
+          does what it says. These are axioms about external behavior.</li>
+      <li><strong>Preconditions are <code>@prove</code>d</strong> — Deppy verifies that
+          your code always satisfies them before calling the function.</li>
+      <li><strong>Laws are structural</strong> — they express algebraic properties that
+          compose into larger proofs.</li>
+      <li><strong>Version pinning</strong> — sidecars are tied to library versions so
+          API changes don't silently break your specs.</li>
+    </ul>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="how-verification-works">How Sidecar Verification Works</h2>
+    <p>
+      When you run <code>deppy sidecar verify</code>, the system performs these steps:
+    </p>
+
+    <div class="proof-steps">
+      <h4>Verification Pipeline</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Load sidecars</strong> — parse all <code>.deppy</code> and
+          <code>.deppy-sig</code> files from the configured search paths. Build
+          a registry of specs keyed by fully qualified function name.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Scan source</strong> — analyze your Python code via AST to find every
+          call to an external function. Match each call to a sidecar spec (if one exists).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Generate proof obligations</strong> — for each call site, extract the
+          precondition from the sidecar and the context from the surrounding code (types,
+          assertions, control flow guards).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Discharge proofs</strong> — send each obligation to the appropriate
+          solver. Z3 handles arithmetic and logical properties. The LLM oracle handles
+          semantic properties. Lean handles constructive proofs.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Propagate postconditions</strong> — once a precondition is verified,
+          the postcondition becomes available as an assumption for downstream code.
+          This lets proofs compose across function boundaries.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <strong>Compute trust levels</strong> — traverse the dependency graph and
+          compute each function's effective trust level via the propagation rule.
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      Step 5 is crucial: postconditions <em>compose</em>. If <code>math.sqrt</code>
+      guarantees <code>result ≥ 0</code>, then code that computes
+      <code>x = math.sqrt(n); y = math.sqrt(x)</code> can automatically prove that
+      <code>x ≥ 0</code> — the precondition for the second call — using the
+      postcondition of the first.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="why-not-modify">Why Not Just Modify the Source?</h2>
+    <p>
+      Some verification systems require annotations inside the source code. This doesn't
+      work for the Python ecosystem:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Approach</th>
+          <th>Pro</th>
+          <th>Con</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Modify source (F*-style)</td>
+          <td>Specs live with implementation</td>
+          <td>Can't do this for <code>pip install numpy</code></td>
+        </tr>
+        <tr>
+          <td>Stub files (<code>.pyi</code>)</td>
+          <td>Python has native support</td>
+          <td>Only types, no pre/post/laws</td>
+        </tr>
+        <tr>
+          <td>Wrapper libraries</td>
+          <td>Full control</td>
+          <td>Runtime overhead, breaks introspection</td>
+        </tr>
+        <tr>
+          <td><strong>Sidecar files</strong></td>
+          <td>Zero modification, full specs, composable</td>
+          <td>Must keep in sync with library updates</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The sidecar approach extends Python's existing <code>.pyi</code> stub file
+      convention — but adds preconditions, postconditions, algebraic laws, trust levels,
+      and verification support.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="what-you-will-learn">What You'll Learn in Part 4</h2>
+    <ol>
+      <li>
+        <a href="sidecar_basics.html"><strong>Sidecar Basics</strong></a> —
+        Creating <code>.deppy</code> files, the <code>@about</code> decorator,
+        <code>ExternalSpec</code>, and verifying specs for <code>math</code> and
+        <code>collections</code>.
+      </li>
+      <li>
+        <a href="sympy.html"><strong>Case Study: SymPy</strong></a> —
+        A full sidecar verification of SymPy's algebraic, matrix, and calculus modules.
+        Using homotopy to transport properties between symbolic and numerical computation.
+      </li>
+      <li>
+        <a href="trust_levels.html"><strong>Trust &amp; Verification Levels</strong></a> —
+        The four trust levels, trust propagation, gradual verification, CI integration,
+        and the trust dashboard.
+      </li>
+    </ol>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="quick-example">Quick Example: Verifying Your Code Against a Sidecar</h2>
+
+    <p>Suppose your project uses <code>math.sqrt</code>. Here's the full workflow:</p>
+
+    <pre><code><span class="cm"># my_geometry.py — YOUR code</span>
+<span class="kw">import</span> math
+
+<span class="kw">def</span> <span class="fn">circle_area</span>(radius: <span class="ty">float</span>) -> <span class="ty">float</span>:
+    <span class="st">"""Compute area of a circle. Radius must be non-negative."""</span>
+    <span class="kw">assert</span> radius >= <span class="nb">0</span>
+    <span class="kw">return</span> math.pi * radius * radius
+
+<span class="kw">def</span> <span class="fn">hypotenuse</span>(a: <span class="ty">float</span>, b: <span class="ty">float</span>) -> <span class="ty">float</span>:
+    <span class="st">"""Compute hypotenuse. a, b must be non-negative."""</span>
+    <span class="kw">assert</span> a >= <span class="nb">0</span> <span class="kw">and</span> b >= <span class="nb">0</span>
+    <span class="kw">return</span> math.sqrt(a * a + b * b)
+    <span class="cm"># ↑ Deppy checks: a*a + b*b >= 0 (sqrt precondition)</span>
+    <span class="cm">#   This is automatically discharged by Z3!</span></code></pre>
+
+    <p>Running verification:</p>
+
+    <pre><code><span class="cm">$ deppy sidecar verify my_geometry.py --sidecar math.deppy</span>
+
+<span class="fn">Deppy Sidecar Verification</span>
+<span class="op">══════════════════════════════</span>
+Module: my_geometry
+Sidecar: math.deppy (3 specs loaded)
+
+Checking <span class="fn">circle_area</span>:
+  No external calls with specs. <span class="st">✓ trivially verified</span>
+
+Checking <span class="fn">hypotenuse</span>:
+  Call: <span class="fn">math.sqrt</span>(a * a + b * b)
+  Precondition: x >= 0
+  Proof obligation: a * a + b * b >= 0
+  <span class="pr">Z3 says: ∀ a,b ∈ ℝ. a² + b² ≥ 0</span>  <span class="st">✓ proved</span>
+
+  Postcondition: result >= 0
+  Propagated: hypotenuse returns non-negative  <span class="st">✓</span>
+
+<span class="op">──────────────────────────────</span>
+Result: <span class="st">2/2 functions verified</span> 🟡 Z3_PROVEN
+Coverage: 100% of external calls have sidecar specs</code></pre>
+
+    <div class="exercise">
+      <strong>Before You Begin:</strong> Install Deppy and create a simple Python file
+      that uses <code>math.gcd</code>. Think about what preconditions and postconditions
+      you would want to specify. What properties does <code>gcd</code> satisfy?
+      (Hint: <code>gcd(a, b)</code> divides both <code>a</code> and <code>b</code>,
+      and is the <em>greatest</em> such divisor.)
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="../part3/dynamic.html">
+        <span class="label">← Previous</span>
+        <span class="title">Dynamic Typing</span>
+      </a>
+      <a href="sidecar_basics.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Sidecar Basics</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

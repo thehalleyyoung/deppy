@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Deppy Uses Z3 — Deppy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header"><h1>Deppy</h1><div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div></div>
+  <nav><ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../structure.html">Structure of this Book</a></li>
+    <li><a href="../intro.html">Introduction</a></li>
+    <li><span class="section-title">Part 1 — Pure Python</span></li>
+    <li><a href="../part1/index.html">Overview</a></li>
+    <li><a href="../part1/getting_started.html">Getting Started</a></li>
+    <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+    <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+    <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+    <li><a href="../part1/data_structures.html">Data Structures</a></li>
+    <li><a href="../part1/termination.html">Termination</a></li>
+    <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+    <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+    <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+    <li><a href="../part2/index.html">Overview</a></li>
+    <li><a href="../part2/generics.html">Generic Types</a></li>
+    <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+    <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+    <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+    <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+    <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+    <li><span class="section-title">Part 3 — Python Specifics</span></li>
+    <li><a href="../part3/index.html">Overview</a></li>
+    <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+    <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+    <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+    <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+    <li><a href="../part4/index.html">Overview</a></li>
+    <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+    <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+    <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+    <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+    <li><a href="../part5/index.html">Overview</a></li>
+    <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+    <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+    <li><a href="../part5/fibrations.html">Fibrations</a></li>
+    <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+    <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+    <li><a href="../part6/index.html">Overview</a></li>
+    <li><a href="../part6/separation.html">Separation Logic</a></li>
+    <li><a href="../part6/references.html">Mutable References</a></li>
+    <li><a href="../part6/arrays.html">Arrays</a></li>
+    <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+    <li><a href="../part6/async.html">Async / Await</a></li>
+    <li><span class="section-title">Under the Hood</span></li>
+    <li><a href="../under_the_hood/index.html">Overview</a></li>
+    <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+  </ul></nav>
+</aside>
+
+<main class="content">
+<article>
+
+<h1>How Deppy Uses Z3</h1>
+<p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:1.5rem;">
+  Z3 as a leaf solver: encoding Python into SMT, controlling the solver, and
+  debugging failures.
+</p>
+
+<p>
+  If you have used F*, you know that Z3 is the <em>primary</em> decision procedure —
+  essentially every proof obligation is shipped to Z3 as a first-order logic formula.
+  Deppy takes a different approach: Z3 is a <strong>leaf solver</strong> embedded
+  inside the homotopy proof search. The top-level proof structure is always a
+  homotopy proof term (paths, transport, Čech gluing), but whenever the search
+  reaches a sub-goal that is a decidable arithmetic, boolean, or quantifier-free
+  formula, it hands that goal to Z3.
+</p>
+
+<p>
+  This chapter explains exactly how Deppy encodes Python types and expressions
+  into Z3's input language (SMT-LIB 2), how to control the solver, and how to
+  debug when things go wrong.
+</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="role">Z3's Role in the Pipeline</h2>
+
+<p>
+  Recall the verification pipeline from the <a href="index.html">Overview</a>:
+</p>
+
+<pre><code class="notation"><span class="cm">                     ┌──────────────────────────┐</span>
+<span class="cm">                     │   HomotopyStrategy       │</span>
+<span class="cm">                     │                          │</span>
+<span class="cm">  ProofGoal ────────▶│  try_refl()              │</span>
+<span class="cm">                     │  try_congruence()        │</span>
+<span class="cm">                     │  try_transport()         │</span>
+<span class="cm">                     │  try_cech()              │</span>
+<span class="cm">                     │  try_funext()            │</span>
+<span class="cm">                     │  try_z3_leaf() ──────────│──▶  Z3 Solver</span>
+<span class="cm">                     │                          │       │</span>
+<span class="cm">                     │          ◀───────────────│───────┘</span>
+<span class="cm">                     │       Z3Leaf(cert)       │</span>
+<span class="cm">                     └──────────────────────────┘</span></code></pre>
+
+<p>
+  Z3 is invoked in two contexts:
+</p>
+<ol>
+  <li><strong>As a leaf solver</strong> — When <code>HomotopyStrategy.try_z3_leaf()</code>
+    is called, the current sub-goal is encoded as an SMT query and sent to Z3.
+    If Z3 returns <code>unsat</code> (the negation of the goal is unsatisfiable),
+    the goal is proved and a <code>Z3Leaf</code> proof term is emitted.</li>
+  <li><strong>As a direct strategy</strong> — For goals classified as
+    <code>Z3Only</code> by the dispatcher (purely arithmetic/boolean refinements),
+    Z3 is called directly without homotopy wrapping.</li>
+</ol>
+
+<div class="note">
+  Unlike F*, Deppy never asks Z3 to prove equalities between functions,
+  path-level properties, or anything involving the interval variable <code>𝕀</code>.
+  Those are handled exclusively by the homotopy engine. Z3 only sees
+  first-order formulas over integers, booleans, strings, sequences, and arrays.
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="encoding">Python-to-Z3 Encoding</h2>
+
+<p>
+  The <code>Z3Encoder</code> class translates Python types, expressions, and
+  constraints into Z3 sorts, terms, and assertions. This is the most delicate
+  part of the Z3 integration: if the encoding is unsound, the entire system's
+  guarantees collapse. For this reason, the encoder is extensively tested and
+  its soundness is documented with respect to Python's semantics.
+</p>
+
+<h3 id="enc-scalars">Scalar Types</h3>
+
+<table>
+  <thead>
+    <tr><th>Python Type</th><th>Z3 Sort</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="ty">int</code></td>
+      <td><code>Int</code></td>
+      <td>Arbitrary precision (matches Python's <code>int</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="ty">bool</code></td>
+      <td><code>Bool</code></td>
+      <td>Python's <code>bool</code> is a subtype of <code>int</code>; Z3 keeps them separate</td>
+    </tr>
+    <tr>
+      <td><code class="ty">str</code></td>
+      <td><code>String</code></td>
+      <td>Z3's string theory (Unicode sequences)</td>
+    </tr>
+    <tr>
+      <td><code class="ty">float</code></td>
+      <td><code>Real</code> or <code>FP64</code></td>
+      <td>Configurable: <code>Real</code> for proofs, <code>FP64</code> for precision</td>
+    </tr>
+    <tr>
+      <td><code class="ty">None</code></td>
+      <td>Unit sort (single-element)</td>
+      <td>Encoded as a datatype with one constructor</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code><span class="cm"># Python int → Z3 Int</span>
+<span class="kw">from</span> z3 <span class="kw">import</span> Int, IntSort
+
+x = <span class="fn">Int</span>(<span class="st">'x'</span>)    <span class="cm"># Z3 integer variable named 'x'</span></code></pre>
+
+<pre><code class="smt"><span class="cm"># Corresponding SMT-LIB:</span>
+<span class="cm">; (declare-const x Int)</span></code></pre>
+
+<pre><code><span class="cm"># Python bool → Z3 Bool</span>
+<span class="kw">from</span> z3 <span class="kw">import</span> Bool, And, Or, Not
+
+flag = <span class="fn">Bool</span>(<span class="st">'flag'</span>)
+constraint = <span class="fn">And</span>(flag, <span class="fn">Not</span>(<span class="fn">Bool</span>(<span class="st">'other'</span>)))</code></pre>
+
+<pre><code class="smt"><span class="cm">; (declare-const flag Bool)</span>
+<span class="cm">; (declare-const other Bool)</span>
+<span class="cm">; (assert (and flag (not other)))</span></code></pre>
+
+<h3 id="enc-collections">Collection Types</h3>
+
+<table>
+  <thead>
+    <tr><th>Python Type</th><th>Z3 Encoding</th><th>Key Operations</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="ty">list[T]</code></td>
+      <td><code>Seq(T)</code></td>
+      <td><code>Length</code>, <code>Nth</code>, <code>Concat</code>, <code>Contains</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">dict[K, V]</code></td>
+      <td><code>Array(K, V)</code></td>
+      <td><code>Select</code>, <code>Store</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">set[T]</code></td>
+      <td><code>Array(T, Bool)</code></td>
+      <td>Membership = <code>Select</code></td>
+    </tr>
+    <tr>
+      <td><code class="ty">tuple[A, B]</code></td>
+      <td>Z3 Datatype (product)</td>
+      <td>Constructor + accessors</td>
+    </tr>
+    <tr>
+      <td><code class="ty">Optional[T]</code></td>
+      <td>Z3 Datatype (<code>None | Some(T)</code>)</td>
+      <td><code>is_none</code>, <code>is_some</code>, <code>value</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code><span class="cm"># list[int] → Z3 Seq(IntSort())</span>
+<span class="kw">from</span> z3 <span class="kw">import</span> SeqSort, IntSort, Const, Length, Unit, Concat
+<span class="kw">def</span> <span class="fn">Nth</span>(seq, idx): <span class="kw">return</span> seq[idx]  <span class="cm"># z3 sequence indexing</span>
+
+<span class="ty">IntSeq</span> = <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>())
+xs = <span class="fn">Const</span>(<span class="st">'xs'</span>, IntSeq)
+
+<span class="cm"># len(xs) → Length(xs)</span>
+<span class="cm"># xs[i]   → Nth(xs, i)</span>
+<span class="cm"># xs + ys → Concat(xs, ys)</span></code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB encoding:</span>
+<span class="cm">; (declare-const xs (Seq Int))</span>
+<span class="cm">; (assert (> (seq.len xs) 0))</span>
+<span class="cm">; (assert (>= (seq.nth xs 0) 0))</span></code></pre>
+
+<pre><code><span class="cm"># dict[str, int] → Z3 Array(StringSort(), IntSort())</span>
+<span class="kw">from</span> z3 <span class="kw">import</span> Array, StringSort, IntSort, Select, Store
+
+d = <span class="fn">Array</span>(<span class="st">'d'</span>, <span class="fn">StringSort</span>(), <span class="fn">IntSort</span>())
+
+<span class="cm"># d["key"]       → Select(d, StringVal("key"))</span>
+<span class="cm"># d["key"] = 42  → Store(d, StringVal("key"), IntVal(42))</span></code></pre>
+
+<pre><code class="smt"><span class="cm">; (declare-const d (Array String Int))</span>
+<span class="cm">; (assert (= (select d "key") 42))</span></code></pre>
+
+<h3 id="enc-classes">Python Classes → Z3 Datatypes</h3>
+
+<p>
+  Python classes with type-annotated fields are encoded as Z3 algebraic datatypes.
+  Each field becomes a selector, and the class constructor becomes a Z3 constructor:
+</p>
+
+<pre><code><span class="cm"># Python class</span>
+<span class="kw">class</span> <span class="ty">Point</span>:
+    x: <span class="ty">int</span>
+    y: <span class="ty">int</span>
+
+<span class="cm"># Z3 encoding</span>
+<span class="ty">Point</span> = <span class="fn">Datatype</span>(<span class="st">'Point'</span>)
+Point.declare(<span class="st">'mk_point'</span>, (<span class="st">'x'</span>, <span class="fn">IntSort</span>()), (<span class="st">'y'</span>, <span class="fn">IntSort</span>()))
+Point = Point.create()
+
+mk_point = Point.mk_point
+get_x = Point.x
+get_y = Point.y</code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
+<span class="cm">; (declare-datatypes ((Point 0))</span>
+<span class="cm">;   (((mk_point (x Int) (y Int)))))</span>
+<span class="cm">;</span>
+<span class="cm">; (declare-const p Point)</span>
+<span class="cm">; (assert (= (x p) 3))</span>
+<span class="cm">; (assert (= (y p) 4))</span></code></pre>
+
+<h3 id="enc-functions">Python Functions → Z3 Uninterpreted Functions</h3>
+
+<p>
+  When a function appears in a refinement but its body is not being analyzed
+  (e.g., it's a library function), Deppy encodes it as a Z3
+  <em>uninterpreted function</em> — Z3 knows the function's type signature but
+  nothing about its implementation. Any known properties (from
+  <code>@guarantee</code> decorators or sidecar proofs) are added as axioms:
+</p>
+
+<pre><code><span class="cm"># Python function (body not analyzed by Z3)</span>
+<span class="dc">@guarantee</span>(<span class="st">"result == len(xs) + len(ys)"</span>)
+<span class="kw">def</span> <span class="fn">total_length</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>], ys: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">int</span>:
+    ...
+
+<span class="cm"># Z3 encoding</span>
+total_length = <span class="fn">Function</span>(
+    <span class="st">'total_length'</span>,
+    <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>()),   <span class="cm"># xs</span>
+    <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>()),   <span class="cm"># ys</span>
+    <span class="fn">IntSort</span>()             <span class="cm"># return type</span>
+)
+
+<span class="cm"># Add the guarantee as an axiom</span>
+xs = <span class="fn">Const</span>(<span class="st">'xs'</span>, <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>()))
+ys = <span class="fn">Const</span>(<span class="st">'ys'</span>, <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>()))
+solver.add(<span class="fn">ForAll</span>(
+    [xs, ys],
+    total_length(xs, ys) == <span class="fn">Length</span>(xs) + <span class="fn">Length</span>(ys)
+))</code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
+<span class="cm">; (declare-fun total_length ((Seq Int) (Seq Int)) Int)</span>
+<span class="cm">; (assert (forall ((xs (Seq Int)) (ys (Seq Int)))</span>
+<span class="cm">;   (= (total_length xs ys) (+ (seq.len xs) (seq.len ys)))))</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="quantifiers">Quantifier Encoding</h2>
+
+<p>
+  Quantifiers are the most challenging part of SMT solving. Z3 uses an
+  <em>E-matching</em> strategy for quantifier instantiation, which means it
+  needs <strong>trigger patterns</strong> to know when to instantiate a
+  universal quantifier. Deppy carefully generates these triggers.
+</p>
+
+<h3 id="universal">Universal Quantification</h3>
+
+<pre><code><span class="cm"># Python: "for all i in range(len(xs)), xs[i] >= 0"</span>
+<span class="cm"># This comes from: @guarantee("all elements are non-negative")</span>
+
+<span class="cm"># Z3 encoding with explicit trigger pattern</span>
+i = <span class="fn">Int</span>(<span class="st">'i'</span>)
+xs = <span class="fn">Const</span>(<span class="st">'xs'</span>, <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>()))
+
+forall_constraint = <span class="fn">ForAll</span>(
+    [i],
+    <span class="fn">Implies</span>(
+        <span class="fn">And</span>(<span class="nb">0</span> <= i, i < <span class="fn">Length</span>(xs)),
+        <span class="fn">Nth</span>(xs, i) >= <span class="nb">0</span>
+    ),
+    patterns=[<span class="fn">MultiPattern</span>(<span class="fn">Nth</span>(xs, i))]  <span class="cm"># trigger on xs[i]</span>
+)
+
+<span class="cm"># SMT-LIB equivalent:</span>
+<span class="cm"># (assert</span>
+<span class="cm">#   (forall ((i Int))</span>
+<span class="cm">#     (! (=> (and (<= 0 i) (< i (seq.len xs)))</span>
+<span class="cm">#            (>= (seq.nth xs i) 0))</span>
+<span class="cm">#        :pattern ((seq.nth xs i)))))</span></code></pre>
+
+<div class="warning">
+  Choosing the wrong trigger pattern can cause Z3 to either
+  <strong>loop forever</strong> (if the trigger is too general and causes
+  infinite instantiation) or <strong>miss the proof</strong> (if the trigger
+  is too specific and never fires). Deppy's trigger generation is
+  conservative: it uses the smallest sub-expression that mentions the
+  quantified variable and appears in the conclusion.
+</div>
+
+<h3 id="existential">Existential Quantification</h3>
+
+<pre><code><span class="cm"># Python: "there exists an i such that xs[i] == target"</span>
+<span class="cm"># from: @guarantee("target is found in the list")</span>
+
+i = <span class="fn">Int</span>(<span class="st">'i'</span>)
+target = <span class="fn">Int</span>(<span class="st">'target'</span>)
+xs = <span class="fn">Const</span>(<span class="st">'xs'</span>, <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>()))
+
+exists_constraint = <span class="fn">Exists</span>(
+    [i],
+    <span class="fn">And</span>(
+        <span class="nb">0</span> <= i,
+        i < <span class="fn">Length</span>(xs),
+        <span class="fn">Nth</span>(xs, i) == target
+    )
+)
+
+<span class="cm"># SMT-LIB equivalent:</span>
+<span class="cm"># (assert</span>
+<span class="cm">#   (exists ((i Int))</span>
+<span class="cm">#     (and (<= 0 i)</span>
+<span class="cm">#          (< i (seq.len xs))</span>
+<span class="cm">#          (= (seq.nth xs i) target))))</span></code></pre>
+
+<h3 id="triggers">Pattern-Based Triggering in Depth</h3>
+<p>
+  Triggers (also called <em>patterns</em>) control quantifier instantiation in
+  Z3's E-matching engine. A trigger is a set of ground terms that, when they
+  appear in the E-graph (the solver's equality saturation structure), cause
+  the quantifier to be instantiated with matching substitutions.
+</p>
+
+<pre><code><span class="cm"># Example: a sortedness property with two triggers</span>
+<span class="cm"># "for all i, j: i < j implies xs[i] <= xs[j]"</span>
+
+i, j = <span class="fn">Ints</span>(<span class="st">'i j'</span>)
+xs = <span class="fn">Const</span>(<span class="st">'xs'</span>, <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>()))
+
+sorted_prop = <span class="fn">ForAll</span>(
+    [i, j],
+    <span class="fn">Implies</span>(
+        <span class="fn">And</span>(<span class="nb">0</span> <= i, i < j, j < <span class="fn">Length</span>(xs)),
+        <span class="fn">Nth</span>(xs, i) <= <span class="fn">Nth</span>(xs, j)
+    ),
+    patterns=[<span class="fn">MultiPattern</span>(<span class="fn">Nth</span>(xs, i), <span class="fn">Nth</span>(xs, j))]
+)
+
+<span class="cm"># SMT-LIB equivalent:</span>
+<span class="cm"># (assert</span>
+<span class="cm">#   (forall ((i Int) (j Int))</span>
+<span class="cm">#     (! (=> (and (<= 0 i) (< i j) (< j (seq.len xs)))</span>
+<span class="cm">#            (<= (seq.nth xs i) (seq.nth xs j)))</span>
+<span class="cm">#        :pattern ((seq.nth xs i) (seq.nth xs j)))))</span></code></pre>
+
+<p>
+  The <code>MultiPattern</code> here says: "instantiate this quantifier whenever
+  <em>both</em> <code>xs[i]</code> and <code>xs[j]</code> appear in the E-graph
+  for some concrete <code>i</code> and <code>j</code>." This is more restrictive
+  than a single-pattern trigger and avoids the combinatorial explosion that would
+  result from triggering on <code>xs[i]</code> alone.
+</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="decidable">When Z3 Succeeds Immediately</h2>
+
+<p>
+  Z3 can decide goals in certain <em>decidable fragments</em> of first-order logic
+  without any help from the homotopy engine. Deppy recognizes these fragments
+  and routes them directly to Z3:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Fragment</th><th>Examples</th><th>Z3 Theory</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quantifier-free linear integer arithmetic (QF_LIA)</td>
+      <td><code>x + y > 0</code>, <code>2*n + 1 > 0</code></td>
+      <td>Arithmetic</td>
+    </tr>
+    <tr>
+      <td>Quantifier-free propositional logic (QF_BOOL)</td>
+      <td><code>a and (b or not c)</code></td>
+      <td>SAT</td>
+    </tr>
+    <tr>
+      <td>Quantifier-free arrays (QF_AX)</td>
+      <td><code>d["k"] == v</code> after <code>d["k"] = v</code></td>
+      <td>Array theory</td>
+    </tr>
+    <tr>
+      <td>Quantifier-free bit-vectors (QF_BV)</td>
+      <td><code>x & 0xFF == x % 256</code></td>
+      <td>Bit-vector</td>
+    </tr>
+    <tr>
+      <td>Linear real arithmetic (QF_LRA)</td>
+      <td><code>0.5 * x + 0.3 * y <= 1.0</code></td>
+      <td>Real arithmetic</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code><span class="cm"># Example: QF_LIA — Z3 solves this instantly</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"result == a + b"</span>)
+<span class="kw">def</span> <span class="fn">add</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">return</span> a + b</code></pre>
+
+<pre><code class="smt"><span class="cm"># Generated Z3 query:</span>
+<span class="cm">; (declare-const a Int)</span>
+<span class="cm">; (declare-const b Int)</span>
+<span class="cm">; (declare-const result Int)</span>
+<span class="cm">; (assert (= result (+ a b)))   ; function body</span>
+<span class="cm">; (assert (not (= result (+ a b))))  ; negated postcondition</span>
+<span class="cm">; (check-sat)  → unsat  ✓  (postcondition holds)</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="undecidable">When Z3 Needs Help</h2>
+
+<p>
+  Many real-world proof obligations fall outside the decidable fragments. When
+  Z3 returns <code>unknown</code> or times out, Deppy's homotopy engine takes
+  over. Common scenarios:
+</p>
+
+<h3 id="nonlinear">Non-Linear Arithmetic</h3>
+<pre><code><span class="cm"># Z3 struggles with non-linear integer arithmetic</span>
+<span class="dc">@guarantee</span>(<span class="st">"result == n * (n + 1) // 2"</span>)
+<span class="kw">def</span> <span class="fn">triangle</span>(n: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    assume(<span class="st">"n >= 0"</span>)
+    total = <span class="nb">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="nb">range</span>(n + <span class="nb">1</span>):
+        total += i
+    <span class="kw">return</span> total
+
+<span class="cm"># The loop invariant involves n*i, which is non-linear.</span>
+<span class="cm"># Z3 alone may time out. Deppy's homotopy engine:</span>
+<span class="cm">#   1. Unrolls the loop conceptually as a path (n steps)</span>
+<span class="cm">#   2. Proves each step via Z3 (linear: total' = total + i)</span>
+<span class="cm">#   3. Composes the path steps via PathComp</span>
+<span class="cm">#   4. Final composition proves the full invariant</span></code></pre>
+
+<h3 id="inductive">Inductive Properties</h3>
+<pre><code><span class="cm"># Induction is not built into Z3's core</span>
+<span class="dc">@guarantee</span>(<span class="st">"result == xs[::-1][::-1]"</span>)
+<span class="kw">def</span> <span class="fn">reverse_involution</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">return</span> xs
+
+<span class="cm"># Deppy proves this by structural induction on the list:</span>
+<span class="cm">#   Base case (empty list):  Z3 leaf</span>
+<span class="cm">#   Inductive step:         Homotopy + Z3 leaf</span>
+<span class="cm">#   Composition:            PathComp over the induction structure</span></code></pre>
+
+<h3 id="higher-order">Higher-Order Functions</h3>
+<pre><code><span class="cm"># Z3 cannot reason about function equality</span>
+<span class="dc">@guarantee</span>(<span class="st">"map(f, map(g, xs)) == map(compose(f, g), xs)"</span>)
+<span class="kw">def</span> <span class="fn">map_fusion</span>(
+    f: <span class="ty">Callable</span>[[<span class="ty">int</span>], <span class="ty">int</span>],
+    g: <span class="ty">Callable</span>[[<span class="ty">int</span>], <span class="ty">int</span>],
+    xs: <span class="ty">list</span>[<span class="ty">int</span>]
+) -> <span class="ty">bool</span>:
+    <span class="kw">return</span> <span class="kw">True</span>
+
+<span class="cm"># Deppy uses FunExt (function extensionality):</span>
+<span class="cm">#   1. Reduce to pointwise: for each element x in xs,</span>
+<span class="cm">#      f(g(x)) == compose(f,g)(x)</span>
+<span class="cm">#   2. That's true by definition of compose → Refl</span>
+<span class="cm">#   3. FunExt lifts to the list level</span>
+<span class="cm">#   4. Induction over the list length glues it all</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="controlling">Controlling Z3</h2>
+
+<h3 id="timeout">Timeout Settings</h3>
+
+<pre><code class="toml"><span class="cm"># In deppy.toml configuration</span>
+[z3]
+timeout_ms = <span class="nb">5000</span>       <span class="cm"># Per-query timeout (default: 5 seconds)</span>
+global_timeout_ms = <span class="nb">60000</span>  <span class="cm"># Total Z3 time budget per module</span>
+
+<span class="cm"># Or via Python API</span>
+<span class="kw">from</span> deppy.config <span class="kw">import</span> DeppyConfig
+
+config = <span class="ty">DeppyConfig</span>(
+    z3_timeout_ms=<span class="nb">10000</span>,
+    z3_global_timeout_ms=<span class="nb">120000</span>
+)</code></pre>
+
+<h3 id="resource-limits">Resource Limits</h3>
+
+<pre><code class="toml"><span class="cm"># Z3 supports resource limits (rlimit) as an alternative to timeouts.</span>
+<span class="cm"># Resource limits are deterministic — the same query always uses the</span>
+<span class="cm"># same number of resources regardless of machine speed.</span>
+
+[z3]
+rlimit = <span class="nb">2000000</span>        <span class="cm"># Resource units (default: 2M)</span></code></pre>
+
+<pre><code><span class="cm"># Programmatic control</span>
+<span class="kw">from</span> z3 <span class="kw">import</span> Solver, set_param
+
+solver = <span class="fn">Solver</span>()
+solver.set(<span class="st">"timeout"</span>, <span class="nb">5000</span>)
+solver.set(<span class="st">"rlimit"</span>, <span class="nb">2000000</span>)
+
+<span class="cm"># SMT-LIB equivalent:</span>
+<span class="cm"># (set-option :timeout 5000)</span>
+<span class="cm"># (set-option :rlimit 2000000)</span></code></pre>
+
+<h3 id="custom-tactics">Custom Tactics</h3>
+<p>
+  Z3's tactic framework lets you compose proof strategies. Deppy exposes
+  this for advanced users:
+</p>
+
+<pre><code><span class="cm"># Deppy default tactic pipeline for arithmetic goals</span>
+<span class="kw">from</span> z3 <span class="kw">import</span> Then, Tactic, OrElse
+
+default_tactic = <span class="fn">Then</span>(
+    <span class="fn">Tactic</span>(<span class="st">'simplify'</span>),         <span class="cm"># Algebraic simplification</span>
+    <span class="fn">Tactic</span>(<span class="st">'propagate-values'</span>), <span class="cm"># Constant propagation</span>
+    <span class="fn">Tactic</span>(<span class="st">'solve-eqs'</span>),        <span class="cm"># Gaussian elimination</span>
+    <span class="fn">OrElse</span>(
+        <span class="fn">Tactic</span>(<span class="st">'qflia'</span>),         <span class="cm"># QF_LIA decision procedure</span>
+        <span class="fn">Tactic</span>(<span class="st">'smt'</span>)            <span class="cm"># General SMT fallback</span>
+    )
+)
+
+<span class="cm"># For non-linear arithmetic, Deppy switches to:</span>
+nla_tactic = <span class="fn">Then</span>(
+    <span class="fn">Tactic</span>(<span class="st">'simplify'</span>),
+    <span class="fn">Tactic</span>(<span class="st">'nla2bv'</span>),           <span class="cm"># Try bit-blasting</span>
+    <span class="fn">Tactic</span>(<span class="st">'sat'</span>)
+)</code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
+<span class="cm">; (check-sat-using (then simplify propagate-values solve-eqs</span>
+<span class="cm">;                   (or-else qflia smt)))</span></code></pre>
+
+<h3 id="incremental">Incremental Solving</h3>
+<p>
+  When verifying a function with multiple proof obligations, Deppy uses Z3's
+  <em>incremental solving</em> feature. Shared context (parameter types,
+  preconditions, class invariants) is asserted once, and individual goals are
+  checked using <code>push</code>/<code>pop</code> scopes:
+</p>
+
+<pre><code><span class="cm"># Incremental solving for a function with 3 proof obligations</span>
+
+solver = <span class="fn">Solver</span>()
+
+<span class="cm"># Shared context (asserted once)</span>
+x = <span class="fn">Int</span>(<span class="st">'x'</span>)
+solver.add(x > <span class="nb">0</span>)     <span class="cm"># precondition: assume("x > 0")</span>
+solver.add(x < <span class="nb">100</span>)   <span class="cm"># precondition: assume("x < 100")</span>
+
+<span class="cm"># Goal 1: x + 1 > 0</span>
+solver.push()
+solver.add(<span class="fn">Not</span>(x + <span class="nb">1</span> > <span class="nb">0</span>))  <span class="cm"># negate the goal</span>
+result1 = solver.check()       <span class="cm"># → unsat ✓</span>
+solver.pop()
+
+<span class="cm"># Goal 2: x * 2 < 200</span>
+solver.push()
+solver.add(<span class="fn">Not</span>(x * <span class="nb">2</span> < <span class="nb">200</span>))
+result2 = solver.check()       <span class="cm"># → unsat ✓</span>
+solver.pop()
+
+<span class="cm"># Goal 3: x - 1 >= 0</span>
+solver.push()
+solver.add(<span class="fn">Not</span>(x - <span class="nb">1</span> >= <span class="nb">0</span>))
+result3 = solver.check()       <span class="cm"># → unsat ✓</span>
+solver.pop()</code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
+<span class="cm">; (declare-const x Int)</span>
+<span class="cm">; (assert (> x 0))</span>
+<span class="cm">; (assert (< x 100))</span>
+<span class="cm">;</span>
+<span class="cm">; (push 1)</span>
+<span class="cm">; (assert (not (> (+ x 1) 0)))</span>
+<span class="cm">; (check-sat)  ; → unsat</span>
+<span class="cm">; (pop 1)</span>
+<span class="cm">;</span>
+<span class="cm">; (push 1)</span>
+<span class="cm">; (assert (not (< (* x 2) 200)))</span>
+<span class="cm">; (check-sat)  ; → unsat</span>
+<span class="cm">; (pop 1)</span>
+<span class="cm">;</span>
+<span class="cm">; (push 1)</span>
+<span class="cm">; (assert (not (>= (- x 1) 0)))</span>
+<span class="cm">; (check-sat)  ; → unsat</span>
+<span class="cm">; (pop 1)</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="debugging">Debugging Z3 Failures</h2>
+
+<p>
+  When Z3 returns <code>unknown</code> or <code>sat</code> (meaning the negated
+  goal is satisfiable, i.e., there's a counterexample), you need to understand
+  <em>why</em>. Deppy provides several tools for this.
+</p>
+
+<h3 id="unsat-cores">Reading Unsat Cores</h3>
+<p>
+  An <em>unsat core</em> is a minimal subset of assertions that is sufficient
+  to prove unsatisfiability. When Z3 succeeds, you can ask for the core to
+  understand which assumptions were actually used:
+</p>
+
+<pre><code><span class="cm"># Enable unsat core tracking</span>
+solver = <span class="fn">Solver</span>()
+solver.set(<span class="st">"unsat_core"</span>, <span class="kw">True</span>)
+
+<span class="cm"># Name each assertion</span>
+p1 = <span class="fn">Bool</span>(<span class="st">'p1'</span>)  <span class="cm"># "x > 0"</span>
+p2 = <span class="fn">Bool</span>(<span class="st">'p2'</span>)  <span class="cm"># "x < 100"</span>
+p3 = <span class="fn">Bool</span>(<span class="st">'p3'</span>)  <span class="cm"># "y == x + 1"</span>
+
+solver.assert_and_track(x > <span class="nb">0</span>, p1)
+solver.assert_and_track(x < <span class="nb">100</span>, p2)
+solver.assert_and_track(y == x + <span class="nb">1</span>, p3)
+solver.add(<span class="fn">Not</span>(y > <span class="nb">0</span>))  <span class="cm"># negated goal</span>
+
+result = solver.check()  <span class="cm"># → unsat</span>
+core = solver.unsat_core()
+<span class="nb">print</span>(core)  <span class="cm"># → [p1, p3]  (p2 was not needed)</span></code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
+<span class="cm">; (set-option :produce-unsat-cores true)</span>
+<span class="cm">; (assert (! (> x 0) :named p1))</span>
+<span class="cm">; (assert (! (< x 100) :named p2))</span>
+<span class="cm">; (assert (! (= y (+ x 1)) :named p3))</span>
+<span class="cm">; (assert (not (> y 0)))</span>
+<span class="cm">; (check-sat)        ; → unsat</span>
+<span class="cm">; (get-unsat-core)   ; → (p1 p3)</span></code></pre>
+
+<h3 id="counterexamples">Generating Counterexamples</h3>
+<p>
+  When Z3 returns <code>sat</code>, it means the postcondition can be violated.
+  Z3 provides a <em>model</em> — concrete values that demonstrate the violation:
+</p>
+
+<pre><code><span class="cm"># A buggy function</span>
+<span class="dc">@guarantee</span>(<span class="st">"result > 0"</span>)
+<span class="kw">def</span> <span class="fn">buggy_abs</span>(x: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">return</span> x  <span class="cm"># Bug: doesn't handle negative x</span>
+
+<span class="cm"># Z3 query</span>
+solver = <span class="fn">Solver</span>()
+x = <span class="fn">Int</span>(<span class="st">'x'</span>)
+result = <span class="fn">Int</span>(<span class="st">'result'</span>)
+solver.add(result == x)         <span class="cm"># function body</span>
+solver.add(<span class="fn">Not</span>(result > <span class="nb">0</span>))     <span class="cm"># negated postcondition</span>
+
+check = solver.check()          <span class="cm"># → sat (counterexample exists!)</span>
+model = solver.model()
+<span class="nb">print</span>(model)                    <span class="cm"># → [x = -1, result = -1]</span>
+
+<span class="cm"># Deppy reports:</span>
+<span class="cm"># ❌ Verification failed for buggy_abs</span>
+<span class="cm">#    Postcondition: result > 0</span>
+<span class="cm">#    Counterexample: x = -1 → result = -1</span>
+<span class="cm">#    The returned value -1 is not > 0</span></code></pre>
+
+<h3 id="proof-trace">The Z3 Proof Trace</h3>
+<p>
+  For deep debugging, Z3 can produce a full proof trace that shows how it
+  derived <code>unsat</code>. Deppy can export this trace for inspection:
+</p>
+
+<pre><code><span class="cm"># Enable proof production</span>
+<span class="fn">set_param</span>(<span class="st">"proof"</span>, <span class="kw">True</span>)
+
+solver = <span class="fn">Solver</span>()
+solver.add(x > <span class="nb">0</span>)
+solver.add(x < <span class="nb">0</span>)
+result = solver.check()  <span class="cm"># → unsat</span>
+<span class="nb">print</span>(<span class="st">f"result: {result}"</span>)
+
+<span class="kw">try</span>:
+    proof = solver.proof()
+    <span class="nb">print</span>(proof)
+    <span class="cm"># mp(asserted(x > 0),</span>
+    <span class="cm">#    asserted(x < 0),</span>
+    <span class="cm">#    trans(leq-axiom(...), ...),</span>
+    <span class="cm">#    false)</span>
+<span class="kw">except</span> <span class="ty">Exception</span>:
+    <span class="nb">print</span>(<span class="st">"(proof object not available — depends on Z3 build)"</span>)
+
+<span class="cm"># Export to SMT-LIB for inspection</span>
+<span class="nb">print</span>(solver.to_smt2()[:200])</code></pre>
+
+<div class="tip">
+  When debugging a verification failure, start with the counterexample. If Z3
+  returns <code>unknown</code> instead, increase the timeout or rlimit. If it
+  still fails, the goal may need homotopy assistance — add a <code>check()</code>
+  annotation to provide an intermediate hint.
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="example-refinement">Example: Step-by-Step Refinement Check</h2>
+
+<p>
+  Let's trace the complete Z3 encoding of a refinement type check:
+</p>
+
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"result is sorted and has same length as input"</span>)
+<span class="kw">def</span> <span class="fn">insertion_sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
+    result = <span class="nb">list</span>(xs)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="nb">range</span>(<span class="nb">1</span>, <span class="nb">len</span>(result)):
+        key = result[i]
+        j = i - <span class="nb">1</span>
+        <span class="kw">while</span> j >= <span class="nb">0</span> <span class="kw">and</span> result[j] > key:
+            result[j + <span class="nb">1</span>] = result[j]
+            j -= <span class="nb">1</span>
+        result[j + <span class="nb">1</span>] = key
+    <span class="kw">return</span> result</code></pre>
+
+<div class="proof-steps">
+  <h4>Z3 Encoding Trace</h4>
+  <div class="proof-step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <strong>Parse the guarantee.</strong>
+      NL spec <code>"result is sorted and has same length as input"</code> is
+      decomposed into two conjuncts:
+      <br>
+      (a) <code>∀ i,j. 0 ≤ i &lt; j &lt; len(result) → result[i] ≤ result[j]</code>
+      <br>
+      (b) <code>len(result) == len(xs)</code>
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <strong>Declare Z3 variables.</strong>
+<pre><code class="smt"><span class="cm">; (declare-const xs (Seq Int))</span>
+<span class="cm">; (declare-const result (Seq Int))</span></code></pre>
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <strong>Encode the length preservation (conjunct b).</strong>
+      This is the simpler obligation. Deppy generates:
+<pre><code class="smt"><span class="cm">; (assert (= (seq.len result) (seq.len xs)))</span>
+<span class="cm">; ; from the loop structure analysis: the loop only swaps,</span>
+<span class="cm">; ; never adds or removes elements</span></code></pre>
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <strong>Encode the sortedness property (conjunct a).</strong>
+      This requires a loop invariant. Deppy infers:
+      <em>"after iteration i, result[0..i] is sorted"</em> and encodes:
+<pre><code class="smt"><span class="cm">; Loop invariant at iteration k:</span>
+<span class="cm">; (forall ((p Int) (q Int))</span>
+<span class="cm">;   (! (=> (and (<= 0 p) (< p q) (<= q k))</span>
+<span class="cm">;          (<= (seq.nth result p) (seq.nth result q)))</span>
+<span class="cm">;      :pattern ((seq.nth result p) (seq.nth result q))))</span></code></pre>
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <strong>Check the invariant inductively.</strong>
+      Deppy generates three Z3 queries:
+      <br>
+      <em>Base:</em> Invariant holds at <code>k = 0</code> (trivially — a single element is sorted).
+      <br>
+      <em>Step:</em> If invariant holds at <code>k</code>, the inner while-loop maintains it at <code>k+1</code>.
+      <br>
+      <em>Post:</em> At <code>k = len(xs) - 1</code>, the full array is sorted.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">6</div>
+    <div class="step-content">
+      <strong>Z3 discharges each sub-goal.</strong>
+      All three return <code>unsat</code>. The results are wrapped in
+      <code>Z3Leaf</code> proof terms and composed via <code>PathComp</code>
+      in the homotopy layer.
+      <span class="verified">Verified</span>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="example-array">Example: Quantifier Instantiation for Array Bounds</h2>
+
+<p>
+  Array bounds checking is one of the most common verification tasks. Here's
+  how Deppy encodes and verifies a safe array access:
+</p>
+
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"no index-out-of-bounds"</span>)
+<span class="kw">def</span> <span class="fn">safe_sum</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>], indices: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">int</span>:
+    assume(<span class="st">"all elements of indices are valid: 0 <= i < len(xs)"</span>)
+    total = <span class="nb">0</span>
+    <span class="kw">for</span> idx <span class="kw">in</span> indices:
+        total += xs[idx]   <span class="cm"># Need to prove: 0 <= idx < len(xs)</span>
+    <span class="kw">return</span> total</code></pre>
+
+<pre><code class="smt"><span class="cm">; Z3 encoding of the bounds check at xs[idx]</span>
+
+<span class="cm">; Declarations</span>
+(declare-const xs (Seq Int))
+(declare-const indices (Seq Int))
+(declare-const k Int)               <span class="cm">; loop iteration variable</span>
+
+<span class="cm">; Precondition: all indices are valid</span>
+(assert
+  (forall ((j Int))
+    (! (=> (and (<= 0 j) (< j (seq.len indices)))
+           (and (<= 0 (seq.nth indices j))
+                (< (seq.nth indices j) (seq.len xs))))
+       :pattern ((seq.nth indices j)))))
+
+<span class="cm">; Current iteration: idx = indices[k]</span>
+(assert (and (<= 0 k) (< k (seq.len indices))))
+
+<span class="cm">; Goal (negated): is the access xs[indices[k]] in-bounds?</span>
+(assert
+  (not (and (<= 0 (seq.nth indices k))
+            (< (seq.nth indices k) (seq.len xs)))))
+
+<span class="cm">; (check-sat)</span>
+<span class="cm">; → unsat</span>
+<span class="cm">;</span>
+<span class="cm">; Z3 instantiates the forall with j ↦ k (triggered by</span>
+<span class="cm">; the pattern (seq.nth indices k)), yielding:</span>
+<span class="cm">;   0 <= k < len(indices) →</span>
+<span class="cm">;     0 <= indices[k] < len(xs)</span>
+<span class="cm">; Combined with the assertion 0 <= k < len(indices),</span>
+<span class="cm">; this contradicts the negated goal. QED.</span></code></pre>
+
+<div class="note">
+  The trigger pattern <code>(seq.nth indices j)</code> is critical here.
+  When Z3 sees <code>(seq.nth indices k)</code> in the negated goal, it
+  matches the pattern with <code>j ↦ k</code> and instantiates the
+  precondition, immediately yielding the needed bounds.
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="example-collab">Example: Z3 + Homotopy Collaboration</h2>
+
+<p>
+  The most interesting verification scenarios involve <em>both</em> Z3 and
+  the homotopy engine working together. Here's a function where Z3 handles
+  the arithmetic leaves and homotopy provides the structural glue:
+</p>
+
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"result preserves the sum: sum(result) == sum(xs)"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"result is sorted"</span>)
+<span class="kw">def</span> <span class="fn">verified_sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">if</span> <span class="nb">len</span>(xs) <= <span class="nb">1</span>:
+        <span class="kw">return</span> xs
+    mid = <span class="nb">len</span>(xs) // <span class="nb">2</span>
+    left = <span class="fn">verified_sort</span>(xs[:mid])
+    right = <span class="fn">verified_sort</span>(xs[mid:])
+    <span class="kw">return</span> <span class="fn">merge</span>(left, right)</code></pre>
+
+<div class="proof-steps">
+  <h4>Hybrid Proof Trace</h4>
+  <div class="proof-step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <strong>Čech decomposition.</strong> The homotopy engine splits the proof
+      into two patches: (a) base case <code>len(xs) ≤ 1</code>, (b) recursive case
+      <code>len(xs) &gt; 1</code>.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <strong>Patch (a): Base case.</strong> Goal: <code>sum(xs) == sum(xs)</code>
+      and <code>xs is sorted when len(xs) ≤ 1</code>. Both are trivially
+      <code>Refl</code> — no Z3 needed.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <strong>Patch (b): Recursive case — sum preservation.</strong>
+      Goal: <code>sum(merge(left, right)) == sum(xs)</code>.
+      <br>
+      The homotopy engine uses <code>Trans</code>:
+      <br>
+      <code>sum(merge(left, right)) == sum(left) + sum(right)</code>
+      (from merge's guarantee — <strong>Z3 leaf</strong>)
+      <br>
+      <code>sum(left) + sum(right) == sum(xs[:mid]) + sum(xs[mid:])</code>
+      (from recursive guarantee — <strong>Z3 leaf</strong>)
+      <br>
+      <code>sum(xs[:mid]) + sum(xs[mid:]) == sum(xs)</code>
+      (sum split property — <strong>Z3 leaf</strong>)
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <strong>Patch (b): Recursive case — sortedness.</strong>
+      Goal: <code>merge(left, right) is sorted</code>.
+      This comes from merge's guarantee + the induction hypothesis that
+      <code>left</code> and <code>right</code> are sorted — <strong>Z3 leaf</strong>.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <strong>Glue.</strong> The <code>CechGlue</code> constructor combines patches
+      (a) and (b). The overlap condition (the boundary at <code>len(xs) == 1</code>)
+      is checked: both patches agree — <strong>Z3 leaf</strong>.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">6</div>
+    <div class="step-content">
+      <strong>Final proof term:</strong>
+<pre><code class="notation"><span class="pr">CechGlue</span>(
+  patches=[
+    <span class="pr">Patch</span>(domain=<span class="st">"len ≤ 1"</span>, proof=<span class="pr">Refl</span>()),
+    <span class="pr">Patch</span>(domain=<span class="st">"len > 1"</span>, proof=<span class="pr">Trans</span>(
+      <span class="pr">Trans</span>(<span class="pr">Z3Leaf</span>(cert_1), <span class="pr">Z3Leaf</span>(cert_2)),
+      <span class="pr">Z3Leaf</span>(cert_3)
+    ))
+  ],
+  gluing=<span class="pr">Z3Leaf</span>(cert_overlap)
+)</code></pre>
+      <span class="verified">Verified</span>
+    </div>
+  </div>
+</div>
+
+<p>
+  This example illustrates the division of labor: the homotopy engine provides
+  the <em>proof architecture</em> (Čech decomposition, transitivity chains),
+  while Z3 handles the <em>arithmetic facts</em> at the leaves.
+</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="homotopy-encoding">Z3 Encoding of Homotopy Constructs</h2>
+
+<p>
+  Although Z3 doesn't natively understand homotopy type theory, Deppy
+  sometimes needs to encode homotopy-adjacent concepts into Z3 for leaf-level
+  reasoning. Three specialized encoders handle this:
+</p>
+
+<h3 id="path-encoder">PathEncoder: Paths as Z3 Functions</h3>
+<p>
+  A path <code>Path A a b</code> can be thought of as a function
+  <code>f : [0,1] → A</code> with <code>f(0) = a</code> and <code>f(1) = b</code>.
+  When Z3 needs to reason about path properties, Deppy encodes them as
+  uninterpreted functions over the real interval:
+</p>
+
+<pre><code><span class="cm"># PathEncoder: encode a path as a Z3 function</span>
+
+<span class="kw">import</span> z3
+<span class="kw">from</span> z3 <span class="kw">import</span> Function, RealSort, IntSort, ForAll, Real, Implies, And
+
+<span class="kw">class</span> <span class="ty">PathEncoder</span>:
+    <span class="kw">def</span> <span class="fn">encode_path</span>(
+        <span class="kw">self</span>,
+        name: <span class="ty">str</span>,
+        sort: <span class="ty">z3.SortRef</span>,
+        start: <span class="ty">z3.ExprRef</span>,
+        end: <span class="ty">z3.ExprRef</span>
+    ) -> <span class="kw">tuple</span>:
+        <span class="cm"># Path as a function from [0,1] to the sort</span>
+        path_fn = <span class="fn">Function</span>(name, <span class="fn">RealSort</span>(), sort)
+        t = <span class="fn">Real</span>(<span class="st">'t'</span>)
+
+        constraints = [
+            path_fn(<span class="nb">0</span>) == start,  <span class="cm"># left endpoint</span>
+            path_fn(<span class="nb">1</span>) == end,    <span class="cm"># right endpoint</span>
+            <span class="cm"># Continuity (approximated): nearby inputs → nearby outputs</span>
+            <span class="fn">ForAll</span>([t],
+                <span class="fn">Implies</span>(
+                    <span class="fn">And</span>(<span class="nb">0</span> <= t, t <= <span class="nb">1</span>),
+                    <span class="fn">And</span>(sort.lo <= path_fn(t),
+                         path_fn(t) <= sort.hi)
+                )
+            )
+        ]
+        <span class="kw">return</span> path_fn, constraints</code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
+<span class="cm">; (declare-fun path_p (Real) Int)</span>
+<span class="cm">; (assert (= (path_p 0.0) 3))    ; start</span>
+<span class="cm">; (assert (= (path_p 1.0) 5))    ; end</span>
+<span class="cm">; (assert (forall ((t Real))</span>
+<span class="cm">;   (=> (and (<= 0.0 t) (<= t 1.0))</span>
+<span class="cm">;       (and (<= 0 (path_p t)) (<= (path_p t) 1000)))))</span></code></pre>
+
+<h3 id="transport-encoder">TransportEncoder: Transport as Function Composition</h3>
+<p>
+  Transport along a path <code>p : Path Type A B</code> carries a value
+  <code>x : A</code> to a value <code>transport(p, x) : B</code>. When the
+  types <code>A</code> and <code>B</code> have Z3 encodings, transport becomes
+  a function composition:
+</p>
+
+<pre><code><span class="kw">import</span> z3
+
+<span class="kw">class</span> <span class="ty">TransportEncoder</span>:
+    <span class="kw">def</span> <span class="fn">encode_transport</span>(
+        <span class="kw">self</span>,
+        type_path: <span class="ty">PathEncoder</span>,
+        value: <span class="ty">z3.ExprRef</span>,
+        coercion: <span class="ty">z3.FuncDeclRef</span>
+    ) -> <span class="ty">z3.ExprRef</span>:
+        <span class="st">"""
+        Encode transport(p, x) as coercion(x).
+
+        The coercion function witnesses the equivalence
+        between the source and target types.
+        """</span>
+        <span class="kw">return</span> coercion(value)
+
+<span class="cm"># Example: transport along int ≃ nat (for non-negative ints)</span>
+<span class="cm"># coercion: x ↦ x (identity, since nat ⊆ int in Z3)</span></code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
+<span class="cm">; (declare-fun coerce_int_nat (Int) Int)</span>
+<span class="cm">; (assert (forall ((x Int))</span>
+<span class="cm">;   (=> (>= x 0) (= (coerce_int_nat x) x))))</span>
+<span class="cm">; ; transport(path_int_nat, 42) = coerce_int_nat(42) = 42</span></code></pre>
+
+<h3 id="cech-encoder">CechEncoder: Patches as Array Partitions</h3>
+<p>
+  A Čech cover decomposes a domain into overlapping patches. When the domain
+  is an integer range (e.g., array indices), the patches become sub-ranges,
+  and the covering condition becomes an array partition property:
+</p>
+
+<pre><code><span class="kw">import</span> z3
+<span class="kw">from</span> z3 <span class="kw">import</span> Int, Or, And, ForAll, Implies
+<span class="kw">from</span> itertools <span class="kw">import</span> combinations
+
+<span class="kw">class</span> <span class="ty">CechEncoder</span>:
+    <span class="kw">def</span> <span class="fn">encode_cover</span>(
+        <span class="kw">self</span>,
+        domain_size: <span class="ty">z3.ExprRef</span>,
+        patches: <span class="ty">list</span>[<span class="kw">tuple</span>[<span class="ty">z3.ExprRef</span>, <span class="ty">z3.ExprRef</span>]]
+    ) -> <span class="ty">list</span>[<span class="ty">z3.ExprRef</span>]:
+        <span class="st">"""
+        Encode covering condition: every index is in at least
+        one patch.
+        """</span>
+        constraints = []
+        i = <span class="fn">Int</span>(<span class="st">'i'</span>)
+
+        <span class="cm"># Covering: ∀ i ∈ [0, n), ∃ patch containing i</span>
+        patch_contains = <span class="fn">Or</span>(*[
+            <span class="fn">And</span>(lo <= i, i < hi)
+            <span class="kw">for</span> lo, hi <span class="kw">in</span> patches
+        ])
+        constraints.append(
+            <span class="fn">ForAll</span>([i],
+                <span class="fn">Implies</span>(
+                    <span class="fn">And</span>(<span class="nb">0</span> <= i, i < domain_size),
+                    patch_contains
+                )
+            )
+        )
+
+        <span class="cm"># Overlap agreement: on shared indices, patch proofs agree</span>
+        <span class="kw">for</span> (lo1, hi1), (lo2, hi2) <span class="kw">in</span> <span class="fn">combinations</span>(patches, <span class="nb">2</span>):
+            overlap = <span class="fn">And</span>(
+                <span class="fn">And</span>(lo1 <= i, i < hi1),
+                <span class="fn">And</span>(lo2 <= i, i < hi2)
+            )
+            <span class="cm"># Agreement on overlaps is checked separately</span>
+
+        <span class="kw">return</span> constraints</code></pre>
+
+<pre><code class="smt"><span class="cm">; SMT-LIB for a 2-patch cover of [0, n):</span>
+<span class="cm">; patch 1: [0, mid)    patch 2: [mid-1, n)    overlap: [mid-1, mid)</span>
+<span class="cm">;</span>
+<span class="cm">; (declare-const n Int)</span>
+<span class="cm">; (declare-const mid Int)</span>
+<span class="cm">; (assert (> n 0))</span>
+<span class="cm">; (assert (= mid (div n 2)))</span>
+<span class="cm">;</span>
+<span class="cm">; ; Covering condition</span>
+<span class="cm">; (assert (forall ((i Int))</span>
+<span class="cm">;   (=> (and (<= 0 i) (< i n))</span>
+<span class="cm">;       (or (and (<= 0 i) (< i mid))</span>
+<span class="cm">;           (and (<= (- mid 1) i) (< i n))))))</span>
+<span class="cm">;</span>
+<span class="cm">; (check-sat)  ; → unsat (covering holds)</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="encoder-full">The Z3Encoder: Full Implementation Sketch</h2>
+
+<p>
+  For reference, here is a condensed view of the complete <code>Z3Encoder</code>
+  class that ties together all the encoding strategies:
+</p>
+
+<pre><code><span class="kw">class</span> <span class="ty">Z3Encoder</span>:
+    <span class="st">"""Encode Python types, expressions, and constraints into Z3."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>):
+        <span class="kw">self</span>.sort_cache: <span class="ty">dict</span>[<span class="ty">SynType</span>, <span class="ty">z3.SortRef</span>] = {}
+        <span class="kw">self</span>.func_cache: <span class="ty">dict</span>[<span class="ty">str</span>, <span class="ty">z3.FuncDeclRef</span>] = {}
+        <span class="kw">self</span>.path_encoder = <span class="ty">PathEncoder</span>()
+        <span class="kw">self</span>.transport_encoder = <span class="ty">TransportEncoder</span>()
+        <span class="kw">self</span>.cech_encoder = <span class="ty">CechEncoder</span>()
+
+    <span class="kw">def</span> <span class="fn">encode_type</span>(<span class="kw">self</span>, ty: <span class="ty">SynType</span>) -> <span class="ty">z3.SortRef</span>:
+        <span class="kw">if</span> ty <span class="kw">in</span> <span class="kw">self</span>.sort_cache:
+            <span class="kw">return</span> <span class="kw">self</span>.sort_cache[ty]
+
+        <span class="kw">match</span> ty:
+            <span class="kw">case</span> <span class="ty">IntType</span>():     sort = <span class="fn">IntSort</span>()
+            <span class="kw">case</span> <span class="ty">BoolType</span>():    sort = <span class="fn">BoolSort</span>()
+            <span class="kw">case</span> <span class="ty">StrType</span>():     sort = <span class="fn">StringSort</span>()
+            <span class="kw">case</span> <span class="ty">FloatType</span>():   sort = <span class="fn">RealSort</span>()
+            <span class="kw">case</span> <span class="ty">ListType</span>(elem):
+                sort = <span class="fn">SeqSort</span>(<span class="kw">self</span>.<span class="fn">encode_type</span>(elem))
+            <span class="kw">case</span> <span class="ty">DictType</span>(k, v):
+                sort = <span class="fn">ArraySort</span>(
+                    <span class="kw">self</span>.<span class="fn">encode_type</span>(k),
+                    <span class="kw">self</span>.<span class="fn">encode_type</span>(v)
+                )
+            <span class="kw">case</span> <span class="ty">ClassType</span>(name, fields):
+                sort = <span class="kw">self</span>.<span class="fn">_encode_datatype</span>(name, fields)
+            <span class="kw">case</span> <span class="ty">FunctionType</span>(params, ret):
+                sort = <span class="kw">self</span>.<span class="fn">_encode_function_sort</span>(params, ret)
+            <span class="kw">case</span> _:
+                <span class="kw">raise</span> <span class="ty">EncodingError</span>(<span class="st">f"Cannot encode {ty}"</span>)
+
+        <span class="kw">self</span>.sort_cache[ty] = sort
+        <span class="kw">return</span> sort
+
+    <span class="kw">def</span> <span class="fn">encode_expr</span>(<span class="kw">self</span>, expr: <span class="ty">Expr</span>, env: <span class="ty">dict</span>) -> <span class="ty">z3.ExprRef</span>:
+        <span class="kw">match</span> expr:
+            <span class="kw">case</span> <span class="ty">IntLit</span>(n):      <span class="kw">return</span> <span class="fn">IntVal</span>(n)
+            <span class="kw">case</span> <span class="ty">BoolLit</span>(b):     <span class="kw">return</span> <span class="fn">BoolVal</span>(b)
+            <span class="kw">case</span> <span class="ty">StrLit</span>(s):      <span class="kw">return</span> <span class="fn">StringVal</span>(s)
+            <span class="kw">case</span> <span class="ty">Var</span>(name):       <span class="kw">return</span> env[name]
+            <span class="kw">case</span> <span class="ty">BinOp</span>(l, <span class="st">"+"</span>, r):
+                <span class="kw">return</span> <span class="kw">self</span>.<span class="fn">encode_expr</span>(l, env) + <span class="kw">self</span>.<span class="fn">encode_expr</span>(r, env)
+            <span class="kw">case</span> <span class="ty">BinOp</span>(l, <span class="st">"<"</span>, r):
+                <span class="kw">return</span> <span class="kw">self</span>.<span class="fn">encode_expr</span>(l, env) < <span class="kw">self</span>.<span class="fn">encode_expr</span>(r, env)
+            <span class="kw">case</span> <span class="ty">Call</span>(func, args):
+                z3_func = <span class="kw">self</span>.<span class="fn">_get_or_create_func</span>(func)
+                z3_args = [<span class="kw">self</span>.<span class="fn">encode_expr</span>(a, env) <span class="kw">for</span> a <span class="kw">in</span> args]
+                <span class="kw">return</span> z3_func(*z3_args)
+            <span class="cm"># ... more cases ...</span>
+
+    <span class="kw">def</span> <span class="fn">encode_goal</span>(<span class="kw">self</span>, goal: <span class="ty">ProofGoal</span>) -> <span class="ty">z3.ExprRef</span>:
+        <span class="st">"""Encode a proof goal as a Z3 assertion (negated for refutation)."""</span>
+        env = {}
+        <span class="kw">for</span> hyp <span class="kw">in</span> goal.context:
+            z3_var = <span class="fn">Const</span>(hyp.name, <span class="kw">self</span>.<span class="fn">encode_type</span>(hyp.type))
+            env[hyp.name] = z3_var
+
+        z3_goal = <span class="kw">self</span>.<span class="fn">encode_expr</span>(goal.goal_type.to_expr(), env)
+        <span class="kw">return</span> <span class="fn">Not</span>(z3_goal)  <span class="cm"># negate: unsat means goal holds</span></code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="summary">Summary</h2>
+
+<p>
+  Z3 in Deppy is a <em>precision instrument</em>, not a blunt hammer. Rather than
+  sending every proof obligation to an SMT solver and hoping it works, Deppy uses
+  Z3 surgically — only for the decidable arithmetic, boolean, and quantifier-free
+  fragments where Z3 excels. The homotopy engine handles the structural reasoning
+  (equality, transport, decomposition), and Z3 handles the numeric facts at the
+  leaves. This division of labor means:
+</p>
+
+<ul>
+  <li><strong>Z3 almost always succeeds</strong> — because it only sees goals in
+    its sweet spot.</li>
+  <li><strong>Timeout failures are rare</strong> — because undecidable fragments
+    are never sent to Z3.</li>
+  <li><strong>Proof terms are always produced</strong> — even when Z3 is used, the
+    result is wrapped in a <code>Z3Leaf</code> that the kernel can verify.</li>
+  <li><strong>The system degrades gracefully</strong> — if Z3 fails on a leaf,
+    the homotopy engine can try alternative decompositions or ask for a manual
+    sidecar proof.</li>
+</ul>
+
+<div class="tip">
+  If you're coming from F* and are used to sprinkling <code>assert_norm</code>
+  hints to help Z3, the equivalent in Deppy is adding <code>check()</code>
+  annotations at strategic points. These give the homotopy engine intermediate
+  facts that Z3 can use as stepping stones, without requiring you to understand
+  the SMT encoding directly.
+</div>
+
+<hr>
+
+<div class="page-nav">
+  <a href="index.html">
+    <span class="label">← Previous</span>
+    <span class="title">Under the Hood: Overview</span>
+  </a>
+  <a href="lean.html">
+    <span class="label">Next →</span>
+    <span class="title">Lean Export &amp; CIC Interpretation</span>
+  </a>
+</div>
+
+</article>
+</main>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

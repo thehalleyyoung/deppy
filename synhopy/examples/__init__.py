@@ -1,1 +1,0 @@
-"""SynHoPy example scripts."""

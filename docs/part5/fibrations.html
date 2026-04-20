@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fibrations &amp; Fiber Bundles | Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="cech.html">Čech Decomposition</a></li>
+      <li><a href="fibrations.html" class="active">Fibrations</a></li>
+      <li><a href="tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Fibrations &amp; Fiber Bundles</h1>
+    <p class="subtitle" style="font-size:1.05rem;color:var(--text-muted);margin-bottom:2rem;">
+      Model class hierarchies, generic types, and module structures as
+      fibrations — then verify properties per-fiber and conclude globally.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="intuition">What Is a Fibration?</h2>
+
+    <p>
+      A <strong>fibration</strong> is a map <code>p : E → B</code> from a
+      <em>total space</em> <code>E</code> to a <em>base space</em>
+      <code>B</code>, where the key property is that paths in <code>B</code>
+      can be <em>lifted</em> to paths in <code>E</code>.
+    </p>
+
+    <p>
+      Think of it like a multi-story building.  The base space <code>B</code>
+      is the floor plan.  The total space <code>E</code> is the entire
+      building (all floors stacked together).  The fibration map
+      <code>p</code> projects a room to its position on the floor plan.  The
+      <em>fiber</em> above a point <code>b ∈ B</code> is the column of rooms
+      above that position — one room on each floor.
+    </p>
+
+    <blockquote>
+      In type theory: a fibration is a <strong>type family</strong>
+      <code>P : B → Type</code>.  The base is <code>B</code>.  The fiber
+      over <code>b : B</code> is <code>P(b)</code>.  The total space is
+      the dependent sum <code>Σ(b:B). P(b)</code>.
+    </blockquote>
+
+    <h3>The Python Connection</h3>
+
+    <p>
+      Python's type system is <em>full</em> of fibration structures:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Class hierarchies:</strong>  The base is the abstract class.
+        The fibers are the concrete subclasses.  The total space is the union
+        of all instances.
+      </li>
+      <li>
+        <strong>Generic types:</strong>  <code>list[T]</code> is a type family
+        indexed by <code>T</code>.  The base is the set of all types.  The
+        fiber over <code>int</code> is <code>list[int]</code>.
+      </li>
+      <li>
+        <strong>Module hierarchies:</strong>  A package is a fibration.  The
+        base is the package namespace.  Each module is a fiber.
+      </li>
+    </ul>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="formal">Formal Definition in Deppy</h2>
+
+    <pre><code><span class="kw">from</span> deppy.core <span class="kw">import</span> Fibration, Fiber, TotalSpace, Section
+
+<span class="cm"># A fibration is a type family P indexed by a base type B</span>
+<span class="cm"># P : B → Type</span>
+
+<span class="cm"># Example: class hierarchy as fibration</span>
+<span class="cm"># Base: the set of shape kinds {"circle", "rect", "triangle"}</span>
+<span class="cm"># P("circle")   = Circle   (all Circle instances)</span>
+<span class="cm"># P("rect")     = Rectangle</span>
+<span class="cm"># P("triangle") = Triangle</span>
+
+shape_fibration = <span class="fn">Fibration</span>(
+    base=<span class="ty">ShapeKind</span>,         <span class="cm"># B = {"circle", "rect", "triangle"}</span>
+    fiber=<span class="kw">lambda</span> k: {        <span class="cm"># P : B → Type</span>
+        <span class="st">"circle"</span>:   <span class="ty">Circle</span>,
+        <span class="st">"rect"</span>:     <span class="ty">Rectangle</span>,
+        <span class="st">"triangle"</span>: <span class="ty">Triangle</span>,
+    }[k]
+)</code></pre>
+
+    <h3>Key Components</h3>
+
+    <table>
+      <thead><tr><th>Concept</th><th>Type Theory</th><th>Python</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Base space B</td>
+          <td>Index type</td>
+          <td>Abstract class / type parameter</td>
+        </tr>
+        <tr>
+          <td>Fiber P(b)</td>
+          <td>Type at index b</td>
+          <td>Concrete subclass / <code>Generic[T]</code> at specific T</td>
+        </tr>
+        <tr>
+          <td>Total space Σ(b:B). P(b)</td>
+          <td>Dependent pair</td>
+          <td>Union of all subclass instances</td>
+        </tr>
+        <tr>
+          <td>Section s : Π(b:B). P(b)</td>
+          <td>Dependent function</td>
+          <td>Method that works for all subclasses</td>
+        </tr>
+        <tr>
+          <td>Path lifting</td>
+          <td>Transport along fiber</td>
+          <td>Subclass substitution principle</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="class-hierarchies">Class Hierarchies as Fibrations</h2>
+
+    <p>
+      The most natural fibration in Python is a <strong>class hierarchy</strong>.
+      An abstract base class (ABC) defines a base space, and each concrete
+      subclass is a fiber.
+    </p>
+
+    <pre><code><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="ty">Serializable</span>(ABC):
+    <span class="dc">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">serialize</span>(self) -> <span class="ty">bytes</span>: ...
+
+    <span class="dc">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">deserialize</span>(cls, data: <span class="ty">bytes</span>) -> <span class="st">"Serializable"</span>: ...
+
+<span class="cm"># Five concrete implementations (five fibers)</span>
+<span class="kw">class</span> <span class="ty">JsonDoc</span>(<span class="ty">Serializable</span>):
+    <span class="kw">def</span> <span class="fn">serialize</span>(self) -> <span class="ty">bytes</span>:
+        <span class="kw">return</span> <span class="fn">json.dumps</span>(self.data).<span class="fn">encode</span>()
+    <span class="kw">def</span> <span class="fn">deserialize</span>(cls, data: <span class="ty">bytes</span>) -> <span class="st">"JsonDoc"</span>:
+        <span class="kw">return</span> <span class="fn">JsonDoc</span>(<span class="fn">json.loads</span>(data))
+
+<span class="kw">class</span> <span class="ty">CsvRow</span>(<span class="ty">Serializable</span>): ...
+<span class="kw">class</span> <span class="ty">ProtobufMsg</span>(<span class="ty">Serializable</span>): ...
+<span class="kw">class</span> <span class="ty">MsgpackObj</span>(<span class="ty">Serializable</span>): ...
+<span class="kw">class</span> <span class="ty">XmlElement</span>(<span class="ty">Serializable</span>): ...</code></pre>
+
+    <pre><code><span class="cm"># Fibration structure</span>
+<span class="cm"># Base:  B = {JsonDoc, CsvRow, ProtobufMsg, MsgpackObj, XmlElement}</span>
+<span class="cm"># Fiber: P(JsonDoc) = set of all JsonDoc instances</span>
+<span class="cm">#        P(CsvRow)  = set of all CsvRow instances</span>
+<span class="cm">#        etc.</span>
+<span class="cm"># Total space: Σ(T:B). P(T) = all Serializable instances</span>
+<span class="cm"># Section: serialize : Π(T:B). P(T) → bytes</span></code></pre>
+
+    <h3>Fiber-by-Fiber Verification</h3>
+
+    <p>
+      The key benefit of the fibration viewpoint is <strong>fiber-by-fiber
+      verification</strong>.  Instead of proving that <code>serialize</code>
+      works for all possible <code>Serializable</code> objects at once, we
+      prove it <em>per-fiber</em> — once for <code>JsonDoc</code>, once for
+      <code>CsvRow</code>, etc.
+    </p>
+
+    <pre><code><span class="cm"># Contract: deserialize(serialize(x)) = x for all Serializable x</span>
+
+<span class="cm"># Instead of one hard proof for all Serializable:</span>
+<span class="cm"># ∀ x:Serializable. deserialize(serialize(x)) = x</span>
+
+<span class="cm"># We prove per-fiber:</span>
+<span class="cm"># ∀ x:JsonDoc.     deserialize(serialize(x)) = x  ✓  (fiber 1)</span>
+<span class="cm"># ∀ x:CsvRow.      deserialize(serialize(x)) = x  ✓  (fiber 2)</span>
+<span class="cm"># ∀ x:ProtobufMsg. deserialize(serialize(x)) = x  ✓  (fiber 3)</span>
+<span class="cm"># ∀ x:MsgpackObj.  deserialize(serialize(x)) = x  ✓  (fiber 4)</span>
+<span class="cm"># ∀ x:XmlElement.  deserialize(serialize(x)) = x  ✓  (fiber 5)</span>
+
+<span class="cm"># Fibration structure guarantees: fiber proofs → global proof</span></code></pre>
+
+    <div class="proof-steps">
+      <h4>Fibration verification of Serializable roundtrip</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Identify fibration.</strong>  <code>Serializable</code> is
+          an ABC with 5 concrete subclasses.  The fibration has base
+          <code>B = {JsonDoc, CsvRow, ProtobufMsg, MsgpackObj, XmlElement}</code>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Check exhaustiveness.</strong>  Are there other subclasses
+          of <code>Serializable</code>?  Deppy performs a sealed-class
+          analysis or uses a <code>@sealed</code> annotation.
+          <span class="verified">5 fibers exhaustive</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Verify fiber 1 (JsonDoc).</strong>  Z3 proves that
+          <code>json.loads(json.dumps(data).encode()) = data</code> for
+          JSON-serializable data (given library axioms).
+          <span class="verified">Fiber 1 ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Verify fibers 2–5</strong> similarly.
+          <span class="verified">All fibers ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Fibration glue.</strong>  Since every fiber satisfies the
+          contract and the fibers exhaust the base, the contract holds
+          globally.
+          <span class="verified">Globally verified</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="generics">Parametric Polymorphism as Fibration</h2>
+
+    <p>
+      Python's <code>Generic[T]</code> types form a fibration where the base
+      is the set of all types, and the fiber over each type <code>T</code> is
+      the set of <code>Generic[T]</code> instances at that type.
+    </p>
+
+    <pre><code><span class="kw">from</span> typing <span class="kw">import</span> Generic, TypeVar
+T = <span class="fn">TypeVar</span>(<span class="st">'T'</span>)
+
+<span class="kw">class</span> <span class="ty">Stack</span>(<span class="ty">Generic</span>[<span class="ty">T</span>]):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self._items: <span class="ty">list</span>[<span class="ty">T</span>] = []
+
+    <span class="kw">def</span> <span class="fn">push</span>(self, item: <span class="ty">T</span>) -> <span class="kw">None</span>:
+        self._items.<span class="fn">append</span>(item)
+
+    <span class="kw">def</span> <span class="fn">pop</span>(self) -> <span class="ty">T</span>:
+        <span class="kw">return</span> self._items.<span class="fn">pop</span>()
+
+    <span class="kw">def</span> <span class="fn">is_empty</span>(self) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> <span class="fn">len</span>(self._items) == <span class="nb">0</span>
+
+<span class="cm"># Fibration structure:</span>
+<span class="cm"># Base:  B = Type (all Python types)</span>
+<span class="cm"># Fiber: P(int) = Stack[int], P(str) = Stack[str], ...</span>
+<span class="cm"># Section: push : Π(T:Type). Stack[T] × T → Stack[T]</span></code></pre>
+
+    <h3>Verifying Generics Per-Fiber</h3>
+
+    <pre><code><span class="cm"># Contract: pop() after push(x) returns x</span>
+<span class="dc">@guarantee</span>(<span class="st">"pop after push returns the pushed item"</span>)
+<span class="kw">def</span> <span class="fn">push_pop_roundtrip</span>(stack: <span class="ty">Stack</span>[<span class="ty">T</span>], item: <span class="ty">T</span>) -> <span class="ty">bool</span>:
+    stack.<span class="fn">push</span>(item)
+    <span class="kw">return</span> stack.<span class="fn">pop</span>() == item
+
+<span class="cm"># Deppy verifies per-fiber:</span>
+<span class="cm"># 1. For T = int:  push(42); pop() → 42      ✓</span>
+<span class="cm"># 2. For T = str:  push("hi"); pop() → "hi"  ✓</span>
+<span class="cm"># 3. For T = list: push([1]); pop() → [1]    ✓</span>
+<span class="cm">#</span>
+<span class="cm"># But we don't need to check ALL types — parametricity!</span>
+<span class="cm"># The generic code doesn't inspect T, so if it works for one T,</span>
+<span class="cm"># it works for all T.  This is a "free theorem" from parametricity.</span></code></pre>
+
+    <div class="note">
+      Deppy combines fibration structure with <strong>parametricity
+      analysis</strong>.  If the generic code doesn't inspect the type
+      parameter (no <code>isinstance</code>, no type-specific operations),
+      then verifying one fiber suffices — the proof <em>transports</em>
+      to all fibers automatically.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="path-lifting">Path Lifting</h2>
+
+    <p>
+      The <strong>homotopy lifting property</strong> is the defining property
+      of fibrations.  It says: if you have a path in the base space, you can
+      <em>lift</em> it to a path in the total space.
+    </p>
+
+    <pre><code><span class="cm"># Path in the base: int ≃ float (as numeric types)</span>
+base_path : <span class="ty">PathType</span>(<span class="ty">NumericType</span>, <span class="ty">int</span>, <span class="ty">float</span>)
+
+<span class="cm"># Lifting: this path lifts to a path between Stack[int] and Stack[float]</span>
+lifted_path : <span class="ty">PathType</span>(<span class="ty">StackType</span>, <span class="ty">Stack</span>[<span class="ty">int</span>], <span class="ty">Stack</span>[<span class="ty">float</span>])
+
+<span class="cm"># Now any proof about Stack[int] transports to Stack[float]!</span>
+<span class="cm"># transport(StackCorrect, lifted_path, proof_int) : StackCorrect(Stack[float])</span></code></pre>
+
+    <p>
+      In Python terms: if two types are equivalent (via a path), then
+      generic containers over those types are also equivalent.  Proofs
+      about <code>Stack[int]</code> transport to <code>Stack[float]</code>
+      via the lifted path.
+    </p>
+
+    <h3>Application to Python Inheritance</h3>
+
+    <p>
+      Path lifting gives us the <strong>Liskov Substitution Principle</strong>
+      as a theorem, not an axiom.  If <code>Dog</code> is a subtype of
+      <code>Animal</code>, there is a path from <code>Dog</code> to
+      <code>Animal</code> in the type universe.  This path lifts to paths
+      between containers of dogs and containers of animals.
+    </p>
+
+    <pre><code><span class="cm"># Subtyping as path in type universe</span>
+sub_path : <span class="ty">PathType</span>(<span class="ty">Type</span>, <span class="ty">Dog</span>, <span class="ty">Animal</span>)
+
+<span class="cm"># Lifts to container types (covariant case)</span>
+lifted : <span class="ty">PathType</span>(<span class="ty">Type</span>, <span class="ty">list</span>[<span class="ty">Dog</span>], <span class="ty">list</span>[<span class="ty">Animal</span>])
+
+<span class="cm"># A function verified for list[Animal] works for list[Dog]</span>
+<span class="cm"># via transport along the lifted path</span>
+proof_dogs = <span class="fn">transport</span>(<span class="ty">AllFed</span>, <span class="fn">Sym</span>(lifted), proof_animals)
+
+<span class="cm"># BUT: contravariant case</span>
+<span class="cm"># For Callable[[Animal], None], the path goes the OTHER way:</span>
+contra_lifted : <span class="ty">PathType</span>(<span class="ty">Type</span>,
+    <span class="ty">Callable</span>[[<span class="ty">Animal</span>], <span class="kw">None</span>],
+    <span class="ty">Callable</span>[[<span class="ty">Dog</span>], <span class="kw">None</span>]
+)
+<span class="cm"># A function accepting Animals can be used where Dog-acceptor is expected</span>
+<span class="cm"># (but NOT vice versa — direction matters!)</span></code></pre>
+
+    <div class="warning">
+      Variance is encoded in the direction of the lifted path.
+      <strong>Covariant</strong> type parameters preserve path direction
+      (Dog → Animal lifts to list[Dog] → list[Animal]).
+      <strong>Contravariant</strong> parameters reverse it.
+      <strong>Invariant</strong> parameters don't lift at all — the path
+      does not exist.  Deppy checks variance automatically.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="module-fibration">Module Hierarchies as Fibrations</h2>
+
+    <p>
+      A Python package is naturally a fibration:
+    </p>
+
+    <pre><code><span class="cm"># Package structure as fibration</span>
+<span class="cm">#</span>
+<span class="cm"># mypackage/           ← Total space E</span>
+<span class="cm"># ├── __init__.py      ← Base space B (package namespace)</span>
+<span class="cm"># ├── models.py        ← Fiber P("models")</span>
+<span class="cm"># ├── views.py         ← Fiber P("views")</span>
+<span class="cm"># ├── controllers.py   ← Fiber P("controllers")</span>
+<span class="cm"># └── utils.py         ← Fiber P("utils")</span>
+<span class="cm">#</span>
+<span class="cm"># Fibration map: each function/class → its containing module</span>
+<span class="cm"># Section: an import that works across all modules</span></code></pre>
+
+    <p>
+      This is useful for verifying cross-module properties.  For example:
+      "every public function in every module has a docstring" can be verified
+      per-fiber (per-module) and concluded globally via the fibration structure.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="abc-example">Full Example: Abstract Base Class with 5 Implementations</h2>
+
+    <pre><code><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+<span class="kw">from</span> deppy <span class="kw">import</span> guarantee
+
+<span class="kw">class</span> <span class="ty">Collection</span>(ABC):
+    <span class="dc">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">add</span>(self, item) -> <span class="kw">None</span>: ...
+
+    <span class="dc">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">contains</span>(self, item) -> <span class="ty">bool</span>: ...
+
+    <span class="dc">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">size</span>(self) -> <span class="ty">int</span>: ...
+
+    <span class="dc">@guarantee</span>(<span class="st">"after add(x), contains(x) is True and size increases by 1"</span>)
+    <span class="kw">def</span> <span class="fn">add_contract</span>(self, item):
+        <span class="st">"""Contract that all subclasses must satisfy."""</span>
+        old_size = self.<span class="fn">size</span>()
+        self.<span class="fn">add</span>(item)
+        <span class="kw">assert</span> self.<span class="fn">contains</span>(item)
+        <span class="kw">assert</span> self.<span class="fn">size</span>() == old_size + <span class="nb">1</span>
+
+<span class="cm"># Five implementations (five fibers)</span>
+<span class="kw">class</span> <span class="ty">ListCollection</span>(<span class="ty">Collection</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self._data = []
+    <span class="kw">def</span> <span class="fn">add</span>(self, item): self._data.<span class="fn">append</span>(item)
+    <span class="kw">def</span> <span class="fn">contains</span>(self, item): <span class="kw">return</span> item <span class="kw">in</span> self._data
+    <span class="kw">def</span> <span class="fn">size</span>(self): <span class="kw">return</span> <span class="fn">len</span>(self._data)
+
+<span class="kw">class</span> <span class="ty">SetCollection</span>(<span class="ty">Collection</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self._data = <span class="fn">set</span>()
+    <span class="kw">def</span> <span class="fn">add</span>(self, item): self._data.<span class="fn">add</span>(item)
+    <span class="kw">def</span> <span class="fn">contains</span>(self, item): <span class="kw">return</span> item <span class="kw">in</span> self._data
+    <span class="kw">def</span> <span class="fn">size</span>(self): <span class="kw">return</span> <span class="fn">len</span>(self._data)
+
+<span class="kw">class</span> <span class="ty">DictCollection</span>(<span class="ty">Collection</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self._data = {}
+    <span class="kw">def</span> <span class="fn">add</span>(self, item): self._data[item] = <span class="kw">True</span>
+    <span class="kw">def</span> <span class="fn">contains</span>(self, item): <span class="kw">return</span> item <span class="kw">in</span> self._data
+    <span class="kw">def</span> <span class="fn">size</span>(self): <span class="kw">return</span> <span class="fn">len</span>(self._data)
+
+<span class="kw">class</span> <span class="ty">DequeCollection</span>(<span class="ty">Collection</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self._data = <span class="fn">deque</span>()
+    <span class="kw">def</span> <span class="fn">add</span>(self, item): self._data.<span class="fn">append</span>(item)
+    <span class="kw">def</span> <span class="fn">contains</span>(self, item): <span class="kw">return</span> item <span class="kw">in</span> self._data
+    <span class="kw">def</span> <span class="fn">size</span>(self): <span class="kw">return</span> <span class="fn">len</span>(self._data)
+
+<span class="kw">class</span> <span class="ty">SortedCollection</span>(<span class="ty">Collection</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self._data = []
+    <span class="kw">def</span> <span class="fn">add</span>(self, item): <span class="fn">bisect.insort</span>(self._data, item)
+    <span class="kw">def</span> <span class="fn">contains</span>(self, item):
+        i = <span class="fn">bisect.bisect_left</span>(self._data, item)
+        <span class="kw">return</span> i &lt; <span class="fn">len</span>(self._data) <span class="kw">and</span> self._data[i] == item
+    <span class="kw">def</span> <span class="fn">size</span>(self): <span class="kw">return</span> <span class="fn">len</span>(self._data)</code></pre>
+
+    <div class="proof-steps">
+      <h4>Fiber-by-fiber verification of Collection contract</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Fiber 1 — ListCollection.</strong>
+          <code>append(item)</code> adds to end → <code>item in self._data</code>
+          is True.  <code>len</code> increases by 1.
+          <span class="verified">Fiber ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Fiber 2 — SetCollection.</strong>
+          <code>set.add(item)</code> → <code>item in set</code> is True.
+          But <code>len</code> increases by 1 only if item was not already
+          present!
+          <span class="rejected">Fiber FAILS when item already in set</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Bug detected!</strong>  SetCollection violates the contract
+          for duplicate items: <code>size()</code> doesn't increase.  The
+          fibration analysis catches this — even though each method works
+          "correctly" for sets, the ABC contract requires size increase.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Similarly: DictCollection</strong> fails for duplicate keys.
+          <span class="rejected">Fiber FAILS</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Fibers 4, 5 (Deque, Sorted)</strong> pass — both allow
+          duplicates.
+          <span class="verified">Fibers ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="important">
+      This is a real-world bug pattern.  The ABC contract says "size increases
+      by 1", but set-based and dict-based implementations don't increase size
+      for duplicates.  The fibration analysis catches this because it checks
+      each fiber against the ABC contract independently.  The fix: either
+      weaken the contract (remove the size requirement) or disallow
+      set/dict implementations.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="dependent-pairs">Total Spaces and Dependent Pairs</h2>
+
+    <p>
+      The <strong>total space</strong> of a fibration is the type of
+      dependent pairs:
+    </p>
+
+    <pre><code><span class="cm"># Σ(b:B). P(b)  — the total space</span>
+<span class="cm"># An element is a pair (b, x) where b:B and x:P(b)</span>
+
+<span class="cm"># For the Collection example:</span>
+<span class="cm"># Σ(T:CollectionType). T</span>
+<span class="cm"># An element is ("ListCollection", some_list_collection_instance)</span>
+
+<span class="cm"># In Python, this is essentially:</span>
+<span class="kw">def</span> <span class="fn">process_any_collection</span>(c: <span class="ty">Collection</span>) -> <span class="ty">int</span>:
+    <span class="cm"># c is an element of the total space</span>
+    <span class="cm"># It has a type tag (which fiber it's from) and a value</span>
+    <span class="kw">return</span> c.<span class="fn">size</span>()
+
+<span class="cm"># The type of c is Σ(T:CollectionType). T</span>
+<span class="cm"># Deppy can pattern-match on the first component (the fiber)</span>
+<span class="cm"># to dispatch verification to the right fiber proof.</span></code></pre>
+
+    <h3>Sections: Functions That Work Across All Fibers</h3>
+
+    <p>
+      A <strong>section</strong> of a fibration is a dependent function
+      <code>s : Π(b:B). P(b)</code> — it picks one element from each fiber.
+      In Python terms, a section is a method that works for every subclass.
+    </p>
+
+    <pre><code><span class="cm"># Section: a function that works for any Collection subclass</span>
+<span class="kw">def</span> <span class="fn">add_twice</span>(c: <span class="ty">Collection</span>, item) -> <span class="kw">None</span>:
+    c.<span class="fn">add</span>(item)
+    c.<span class="fn">add</span>(item)
+
+<span class="cm"># This is a section of the fibration</span>
+<span class="cm"># add_twice : Π(T:CollectionType). T → item → None</span>
+<span class="cm"># It must work for every fiber (every concrete Collection)</span>
+
+<span class="cm"># Verification: prove per-fiber, conclude globally</span>
+<span class="cm"># For ListCollection: add_twice adds two copies → size += 2  ✓</span>
+<span class="cm"># For DequeCollection: same  ✓</span>
+<span class="cm"># For SetCollection: add_twice might add only one (duplicate!) → check!</span></code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="parametricity">Connection to Parametricity and Free Theorems</h2>
+
+    <p>
+      Parametricity is the idea that a polymorphic function must behave
+      "uniformly" across all type instantiations.  In HoTT, this is captured
+      by the fact that a section of a fibration must be
+      <em>natural</em> — it commutes with path lifting.
+    </p>
+
+    <pre><code><span class="cm"># Free theorem for a function f : list[T] → list[T]</span>
+<span class="cm"># If f is parametric (doesn't inspect T), then for any</span>
+<span class="cm"># function g : A → B:</span>
+<span class="cm">#</span>
+<span class="cm">#   map(g, f(xs)) = f(map(g, xs))</span>
+<span class="cm">#</span>
+<span class="cm"># This is a "free theorem" — it follows from the TYPE alone,</span>
+<span class="cm"># without looking at the implementation.</span>
+
+<span class="cm"># In fibration terms:</span>
+<span class="cm"># f is a section of the fibration list : Type → Type</span>
+<span class="cm"># g induces a path between fibers list[A] and list[B]</span>
+<span class="cm"># Naturality says: f commutes with this path</span>
+
+<span class="cm"># Deppy checks parametricity automatically:</span>
+<span class="cm"># 1. Analyze function body — does it use isinstance(T)?</span>
+<span class="cm"># 2. If no type inspection → parametric → free theorems apply</span>
+<span class="cm"># 3. If yes → not parametric → must verify per-fiber</span></code></pre>
+
+    <div class="tip">
+      Parametricity is a <em>shortcut</em>.  If a generic function is
+      parametric, you only need to verify it for one type — the free theorem
+      gives you all the others.  Deppy detects this automatically and
+      avoids redundant per-fiber verification.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="fiber-induction">Fiber Induction</h2>
+
+    <p>
+      <strong>Fiber induction</strong> is the elimination principle for
+      fibrations.  To prove a property of the total space, it suffices to
+      prove it for each fiber:
+    </p>
+
+    <pre><code><span class="cm"># Fiber induction principle:</span>
+<span class="cm"># Given:</span>
+<span class="cm">#   P : (Σ(b:B). F(b)) → Type    — a property of the total space</span>
+<span class="cm">#   d : Π(b:B). Π(x:F(b)). P(b, x)  — proof for each fiber</span>
+<span class="cm"># Then:</span>
+<span class="cm">#   Π(e:Σ(b:B). F(b)). P(e)       — proof for the total space</span>
+
+<span class="cm"># In Python:</span>
+<span class="cm"># To prove something about "any Collection":</span>
+<span class="cm"># 1. Prove it for ListCollection</span>
+<span class="cm"># 2. Prove it for SetCollection</span>
+<span class="cm"># 3. Prove it for DictCollection</span>
+<span class="cm"># 4. Prove it for DequeCollection</span>
+<span class="cm"># 5. Prove it for SortedCollection</span>
+<span class="cm"># Then: it holds for any Collection.</span></code></pre>
+
+    <div class="exercise">
+      <strong>Exercise 5.6.</strong>  Define an abstract base class
+      <code>Comparator</code> with a method <code>compare(a, b) → int</code>
+      and three implementations: <code>IntComparator</code>,
+      <code>StrComparator</code>, and <code>LenComparator</code> (compares by
+      string length).  What is the fibration structure?  Write a contract
+      "compare is a total order" and check which fibers satisfy it.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 5.7.</strong>  Consider <code>dict[str, T]</code> as a
+      fibration over the type parameter <code>T</code>.  If you verify that
+      <code>dict[str, int]</code> supports a "sum all values" operation, can
+      you transport this to <code>dict[str, float]</code>?  What path would
+      you need?  (Hint: you need an equivalence <code>int ≃ float</code> that
+      preserves addition.)
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="summary">Summary</h2>
+
+    <table>
+      <thead><tr><th>Concept</th><th>Python Analogue</th><th>Verification Strategy</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Fibration <code>P : B → Type</code></td>
+          <td>ABC with subclasses, <code>Generic[T]</code></td>
+          <td>Verify per-fiber, conclude globally</td>
+        </tr>
+        <tr>
+          <td>Fiber <code>P(b)</code></td>
+          <td>Concrete subclass, <code>Generic[int]</code></td>
+          <td>Local proof with Z3/oracle</td>
+        </tr>
+        <tr>
+          <td>Total space <code>Σ(b:B).P(b)</code></td>
+          <td>Union of all subclass instances</td>
+          <td>Assembled from fiber proofs</td>
+        </tr>
+        <tr>
+          <td>Section <code>Π(b:B).P(b)</code></td>
+          <td>Method working for all subclasses</td>
+          <td>Must be verified in each fiber</td>
+        </tr>
+        <tr>
+          <td>Path lifting</td>
+          <td>Subtype coercion / variance</td>
+          <td>Transport proofs between related fibers</td>
+        </tr>
+        <tr>
+          <td>Parametricity</td>
+          <td>Generic code not inspecting T</td>
+          <td>Free theorems → one fiber suffices</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ════════════════════════════════════════════ -->
+    <div class="page-nav">
+      <a href="cech.html">
+        <span class="label">← Previous</span>
+        <span class="title">Čech Decomposition</span>
+      </a>
+      <a href="tactics.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Homotopy Tactics</span>
+      </a>
+    </div>
+  </article>
+</div>
+<script src="../js/book.js"></script>
+</body>
+</html>
