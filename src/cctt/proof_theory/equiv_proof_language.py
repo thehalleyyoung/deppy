@@ -134,6 +134,11 @@ class EquivTacticKind(Enum):
     APPLY = auto()
     # Composition
     EXACT = auto()
+    # Induction
+    NAT_INDUCTION = auto()    # induction on natural numbers
+    LIST_INDUCTION = auto()   # induction on lists
+    # Case splitting
+    CASES = auto()            # split into cases per branch
 
 
 @dataclass(frozen=True)
@@ -224,6 +229,10 @@ _EQUIV_TACTIC_MAP = {
     'structural': EquivTacticKind.STRUCTURAL,
     'funext': EquivTacticKind.FUNEXT,
     'apply': EquivTacticKind.APPLY,
+    'nat_induction': EquivTacticKind.NAT_INDUCTION,
+    'induction': EquivTacticKind.NAT_INDUCTION,
+    'list_induction': EquivTacticKind.LIST_INDUCTION,
+    'cases': EquivTacticKind.CASES,
 }
 
 
@@ -496,6 +505,46 @@ def compile_equiv_step(
         return Ext(
             var=ext_var,
             body_proof=Refl(term=OVar(step.lhs)),
+        )
+
+    if kind == EquivTacticKind.NAT_INDUCTION:
+        # nat_induction <var> — structural induction on a natural number
+        ind_var = tactic.args[0] if tactic.args else "n"
+        return NatInduction(
+            variable=ind_var,
+            base_case=Refl(term=OVar(step.lhs)),
+            inductive_step=Assume(
+                label=f"ind_step:{step.name}",
+                assumed_lhs=OVar(step.lhs),
+                assumed_rhs=OVar(step.rhs),
+            ),
+        )
+
+    if kind == EquivTacticKind.LIST_INDUCTION:
+        # list_induction <var> — structural induction on a list
+        ind_var = tactic.args[0] if tactic.args else "xs"
+        return ListInduction(
+            variable=ind_var,
+            nil_case=Refl(term=OVar(step.lhs)),
+            cons_case=Assume(
+                label=f"ind_step:{step.name}",
+                assumed_lhs=OVar(step.lhs),
+                assumed_rhs=OVar(step.rhs),
+            ),
+        )
+
+    if kind == EquivTacticKind.CASES:
+        # cases <var> — split on variable's value
+        case_var = tactic.args[0] if tactic.args else "x"
+        return CasesSplit(
+            discriminant=OVar(case_var),
+            cases={
+                "case": Assume(
+                    label=f"case:{step.name}",
+                    assumed_lhs=OVar(step.lhs),
+                    assumed_rhs=OVar(step.rhs),
+                ),
+            },
         )
 
     # Default: try as Assume with explicit trust marking
@@ -917,6 +966,9 @@ def render_equiv_obligation(
     lines.append("--   contradiction     : hypotheses contradictory")
     lines.append("--   apply <axiom>     : use a trusted axiom [AXIOM_TRUSTED]")
     lines.append("--   funext <var>      : functional extensionality")
+    lines.append("--   induction <var>   : natural number induction")
+    lines.append("--   list_induction <v>: list induction (base=[], step=x::xs)")
+    lines.append("--   cases <var>       : case split on variable")
     lines.append("--")
     lines.append("-- Available combinators for 'exact':")
     lines.append("--   trans(p, q)       : chain p : a=b with q : b=c → a=c")

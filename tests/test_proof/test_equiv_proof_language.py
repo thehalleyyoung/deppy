@@ -167,6 +167,33 @@ class TestEquivTacticParsing:
         assert t is not None
         assert "integer arithmetic" in t.comment
 
+    def test_parse_nat_induction(self):
+        from cctt.proof_theory.equiv_proof_language import (
+            parse_equiv_tactic, EquivTacticKind,
+        )
+        t = parse_equiv_tactic("induction n")
+        assert t is not None
+        assert t.kind == EquivTacticKind.NAT_INDUCTION
+        assert t.args == ("n",)
+
+    def test_parse_list_induction(self):
+        from cctt.proof_theory.equiv_proof_language import (
+            parse_equiv_tactic, EquivTacticKind,
+        )
+        t = parse_equiv_tactic("list_induction xs")
+        assert t is not None
+        assert t.kind == EquivTacticKind.LIST_INDUCTION
+        assert t.args == ("xs",)
+
+    def test_parse_cases(self):
+        from cctt.proof_theory.equiv_proof_language import (
+            parse_equiv_tactic, EquivTacticKind,
+        )
+        t = parse_equiv_tactic("cases x")
+        assert t is not None
+        assert t.kind == EquivTacticKind.CASES
+        assert t.args == ("x",)
+
 
 # ═══════════════════════════════════════════════════════════════════
 # Test compilation to ProofTerms
@@ -277,6 +304,53 @@ qed
         assert isinstance(proof, Ext)
         inner = proof.body_proof
         assert isinstance(inner, Ext)
+
+    def test_compile_with_induction(self):
+        from cctt.proof_theory.equiv_proof_language import (
+            parse_equiv_script, compile_equiv_proof,
+        )
+        from cctt.proof_theory.terms import Ext, Cut, NatInduction
+        text = """
+equiv sum_induction
+  func_a: sum_loop
+  func_b: sum_formula
+  given n : Int
+  effects: both pure
+  show sum_loop(n) = sum_formula(n)
+  have h : sum_loop(n) = n*(n+1)//2 := by induction n
+  exact h
+qed
+"""
+        script = parse_equiv_script(text)
+        proof = compile_equiv_proof(script)
+        assert isinstance(proof, Ext)
+        inner = proof.body_proof
+        assert isinstance(inner, Cut)
+        assert isinstance(inner.lemma_proof, NatInduction)
+        assert inner.lemma_proof.variable == "n"
+
+    def test_compile_with_cases(self):
+        from cctt.proof_theory.equiv_proof_language import (
+            parse_equiv_script, compile_equiv_proof,
+        )
+        from cctt.proof_theory.terms import Ext, Cut, CasesSplit
+        text = """
+equiv abs_equiv
+  func_a: abs_branch
+  func_b: abs_ternary
+  given x : Int
+  effects: both pure
+  show abs_branch(x) = abs_ternary(x)
+  have h : abs_branch(x) = abs_ternary(x) := by cases x
+  exact h
+qed
+"""
+        script = parse_equiv_script(text)
+        proof = compile_equiv_proof(script)
+        assert isinstance(proof, Ext)
+        inner = proof.body_proof
+        assert isinstance(inner, Cut)
+        assert isinstance(inner.lemma_proof, CasesSplit)
 
 
 # ═══════════════════════════════════════════════════════════════════
