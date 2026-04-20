@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Path Types &amp; Transport | SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="paths.html" class="active">Path Types &amp; Transport</a></li>
+      <li><a href="cech.html">Čech Decomposition</a></li>
+      <li><a href="fibrations.html">Fibrations</a></li>
+      <li><a href="tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Path Types &amp; Transport</h1>
+    <p class="subtitle" style="font-size:1.05rem;color:var(--text-muted);margin-bottom:2rem;">
+      The most important chapter in this book.  Paths are the foundation of
+      everything SynHoPy does — they turn equality from a proposition into
+      a <em>structure</em>.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="what-is-a-path">What Is a Path?</h2>
+
+    <p>
+      In everyday mathematics a path is a continuous curve connecting two
+      points.  You can picture it: a line drawn from point A to point B on a
+      surface.  The line is <em>evidence</em> that A and B are connected.
+    </p>
+
+    <p>
+      In homotopy type theory we take this literally.  An <strong>equality
+      proof</strong> between two values <code>a</code> and <code>b</code> of
+      type <code>A</code> is a <em>path</em> — a continuous map from the
+      unit interval <code>𝕀 = [0, 1]</code> into the space <code>A</code>,
+      sending <code>0</code> to <code>a</code> and <code>1</code> to
+      <code>b</code>.
+    </p>
+
+    <blockquote>
+      A path is not a <em>fact</em> that two things are equal — it is a
+      <em>construction</em> that <strong>witnesses</strong> their equality
+      and records <strong>how</strong> they are related.
+    </blockquote>
+
+    <p>
+      This distinction matters enormously.  In classical logic,
+      <code>3 + 4 = 7</code> and <code>2 + 5 = 7</code> are both just "true".
+      In path-based equality, each has a <em>different</em> path — the
+      computation <code>3 + 4 ↝ 7</code> is different evidence than
+      <code>2 + 5 ↝ 7</code>.  The paths remember the computation.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="pathtype">PathType(A, x, y) — The Type of Paths</h2>
+
+    <p>
+      In SynHoPy the type of paths between <code>x</code> and <code>y</code>
+      in type <code>A</code> is written:
+    </p>
+
+    <pre><code class="notation"><span class="ty">PathType</span>(<span class="ty">A</span>, x, y)</code></pre>
+
+    <p>
+      A term <code>p : PathType(A, x, y)</code> is evidence that
+      <code>x</code> and <code>y</code> are equal in type <code>A</code>.
+      The type <code>A</code> matters: two values can be equal in one type
+      but not in another (just as two Python objects can be equal under one
+      protocol but not another).
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy.core <span class="kw">import</span> PathType, Refl, Sym, Trans, Cong, Ap
+
+<span class="cm"># Reflexivity: every value is equal to itself</span>
+p1 : <span class="ty">PathType</span>(<span class="ty">int</span>, <span class="nb">42</span>, <span class="nb">42</span>) = <span class="fn">Refl</span>(<span class="nb">42</span>)
+
+<span class="cm"># A computed path: 3+4 = 7</span>
+p2 : <span class="ty">PathType</span>(<span class="ty">int</span>, <span class="nb">3</span> + <span class="nb">4</span>, <span class="nb">7</span>) = <span class="fn">Refl</span>(<span class="nb">7</span>)
+<span class="cm"># β-reduction makes 3+4 and 7 definitionally equal</span></code></pre>
+
+    <div class="note">
+      In cubical type theory, <code>PathType(A, x, y)</code> is defined as
+      the type of functions <code>p : 𝕀 → A</code> with
+      <code>p(0) ≡ x</code> and <code>p(1) ≡ y</code>.  The interval
+      <code>𝕀</code> has two endpoints <code>0</code> and <code>1</code> and
+      is <em>not</em> a type of real numbers — it is a formal interval with
+      exactly the structure needed for path algebra.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="constructors">Path Constructors</h2>
+
+    <p>
+      SynHoPy provides six fundamental constructors for building paths.
+      Every path that SynHoPy ever constructs is ultimately built from these
+      primitives.
+    </p>
+
+    <h3 id="refl">Refl — Reflexivity</h3>
+
+    <p>
+      The simplest path: every value is equal to itself.
+    </p>
+
+    <pre><code class="notation"><span class="fn">Refl</span>(a) : <span class="ty">PathType</span>(<span class="ty">A</span>, a, a)
+
+<span class="cm"># "a = a because... it just is."</span>
+<span class="cm"># As an interval function: λ i. a  (constant function)</span></code></pre>
+
+    <p>
+      Refl is the identity path.  It is the zero-length loop at a point.
+      Computationally, <code>Refl(a)</code> is the constant function that
+      returns <code>a</code> regardless of the interval parameter.
+    </p>
+
+    <h3 id="sym">Sym — Symmetry (Path Inverse)</h3>
+
+    <p>
+      If <code>p : a = b</code>, then <code>Sym(p) : b = a</code>.
+      Equality is symmetric — you can walk a path backwards.
+    </p>
+
+    <pre><code class="notation"><span class="fn">Sym</span>(p) : <span class="ty">PathType</span>(<span class="ty">A</span>, b, a)
+
+<span class="cm"># As an interval function: λ i. p(1 - i)</span>
+<span class="cm"># At i=0: p(1) = b.  At i=1: p(0) = a.  ✓</span>
+
+<span class="cm"># Example</span>
+p   : <span class="ty">PathType</span>(<span class="ty">int</span>, <span class="nb">7</span>, <span class="nb">3</span> + <span class="nb">4</span>)  <span class="cm"># 7 = 3+4</span>
+p_inv = <span class="fn">Sym</span>(p)                     <span class="cm"># 3+4 = 7</span></code></pre>
+
+    <h3 id="trans">Trans — Transitivity (Path Composition)</h3>
+
+    <p>
+      If <code>p : a = b</code> and <code>q : b = c</code>, then
+      <code>Trans(p, q) : a = c</code>.  You can chain paths end-to-end.
+    </p>
+
+    <pre><code class="notation"><span class="fn">Trans</span>(p, q) : <span class="ty">PathType</span>(<span class="ty">A</span>, a, c)
+
+<span class="cm"># Notation: p · q  (path composition)</span>
+<span class="cm"># As an interval function: walk p for i ∈ [0, 0.5], then q for i ∈ [0.5, 1]</span>
+
+<span class="cm"># Example: chain of equalities</span>
+p : <span class="ty">PathType</span>(<span class="ty">int</span>, <span class="nb">2</span>+<span class="nb">3</span>, <span class="nb">5</span>)    <span class="cm"># 2+3 = 5</span>
+q : <span class="ty">PathType</span>(<span class="ty">int</span>, <span class="nb">5</span>, <span class="nb">10</span>//<span class="nb">2</span>)  <span class="cm"># 5 = 10//2</span>
+r = <span class="fn">Trans</span>(p, q)                <span class="cm"># 2+3 = 10//2</span></code></pre>
+
+    <div class="tip">
+      Path composition is <em>not</em> strictly associative on the nose —
+      <code>(p · q) · r</code> and <code>p · (q · r)</code> are not
+      <em>definitionally</em> equal, but they are connected by a
+      <strong>higher path</strong> (an associator).  This is the beginning
+      of higher category theory, and it's part of what gives HoTT its power.
+    </div>
+
+    <h3 id="cong">Cong — Congruence</h3>
+
+    <p>
+      If <code>p : a = b</code> and <code>f</code> is a function, then
+      <code>Cong(f, p) : f(a) = f(b)</code>.  Functions preserve equality.
+    </p>
+
+    <pre><code class="notation"><span class="fn">Cong</span>(f, p) : <span class="ty">PathType</span>(<span class="ty">B</span>, <span class="fn">f</span>(a), <span class="fn">f</span>(b))
+
+<span class="cm"># As an interval function: λ i. f(p(i))</span>
+<span class="cm"># Apply f pointwise along the path</span>
+
+<span class="cm"># Example</span>
+p : <span class="ty">PathType</span>(<span class="ty">int</span>, <span class="nb">3</span>, <span class="nb">3</span>)         <span class="cm"># 3 = 3 (Refl)</span>
+double = <span class="kw">lambda</span> x: x * <span class="nb">2</span>
+q = <span class="fn">Cong</span>(double, p)                <span class="cm"># double(3) = double(3), i.e., 6 = 6</span>
+
+<span class="cm"># More interesting example</span>
+p2 : <span class="ty">PathType</span>(<span class="ty">int</span>, <span class="nb">2</span>+<span class="nb">1</span>, <span class="nb">3</span>)       <span class="cm"># 2+1 = 3</span>
+q2 = <span class="fn">Cong</span>(double, p2)              <span class="cm"># double(2+1) = double(3), i.e., 6 = 6</span></code></pre>
+
+    <h3 id="ap">Ap — Application to Paths</h3>
+
+    <p>
+      <code>Ap</code> is the dependent version of <code>Cong</code>.  Given a
+      dependent function <code>f : Π(x:A). B(x)</code> and a path
+      <code>p : a =<sub>A</sub> b</code>, we get a <em>path over</em>
+      <code>p</code> from <code>f(a)</code> to <code>f(b)</code>.
+    </p>
+
+    <pre><code class="notation"><span class="fn">Ap</span>(f, p) : <span class="ty">PathOver</span>(<span class="ty">B</span>, p, <span class="fn">f</span>(a), <span class="fn">f</span>(b))
+
+<span class="cm"># PathOver is a "path that lies above another path"</span>
+<span class="cm"># It accounts for the fact that f(a) : B(a) and f(b) : B(b)</span>
+<span class="cm"># live in DIFFERENT types when B depends on the input.</span>
+
+<span class="cm"># Example: a function from numbers to their string names</span>
+<span class="kw">def</span> <span class="fn">name</span>(n: <span class="ty">int</span>) -> <span class="ty">str</span>:
+    names = {<span class="nb">1</span>: <span class="st">"one"</span>, <span class="nb">2</span>: <span class="st">"two"</span>, <span class="nb">3</span>: <span class="st">"three"</span>}
+    <span class="kw">return</span> names.get(n, <span class="fn">str</span>(n))
+
+<span class="cm"># Ap(name, refl(2)) : name(2) = name(2)</span></code></pre>
+
+    <h3 id="pathabs-pathapp">PathAbs &amp; PathApp — Cubical Path Abstraction</h3>
+
+    <p>
+      In cubical type theory, paths are literally functions from the interval.
+      <code>PathAbs</code> constructs a path by abstracting over the interval
+      variable, and <code>PathApp</code> evaluates a path at a point.
+    </p>
+
+    <pre><code><span class="cm"># PathAbs: construct a path from a lambda over 𝕀</span>
+p = <span class="fn">PathAbs</span>(<span class="st">"i"</span>, <span class="kw">lambda</span> i: <span class="fn">interp</span>(a, b, i))
+<span class="cm"># p : PathType(A, a, b)</span>
+<span class="cm"># Boundary conditions: p(0) = interp(a, b, 0) = a</span>
+<span class="cm">#                      p(1) = interp(a, b, 1) = b</span>
+
+<span class="cm"># PathApp: evaluate a path at a specific interval point</span>
+<span class="fn">PathApp</span>(p, <span class="nb">0</span>)    <span class="cm"># → a</span>
+<span class="fn">PathApp</span>(p, <span class="nb">1</span>)    <span class="cm"># → b</span>
+
+<span class="cm"># This is the key computational content:</span>
+<span class="cm"># paths are not opaque tokens — they COMPUTE.</span></code></pre>
+
+    <div class="important">
+      <code>PathAbs</code> / <code>PathApp</code> are what make cubical type
+      theory <em>computational</em>.  In classical HoTT you know a path
+      <em>exists</em> but you can't run it.  In cubical HoTT you can
+      evaluate <code>PathApp(p, 0.5)</code> and get a concrete midpoint.
+      This is essential for a verification tool that needs to
+      <em>compute</em> adapted proof terms.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="composition">Path Composition in Detail</h2>
+
+    <p>
+      Path composition <code>p · q</code> (Trans) is the workhorse of
+      equational reasoning.  Here's how it works in SynHoPy:
+    </p>
+
+    <pre><code><span class="cm"># Given: p : a = b  and  q : b = c</span>
+<span class="cm"># We want: a = c</span>
+
+<span class="cm"># Algebraically:</span>
+composed = <span class="fn">Trans</span>(p, q)  <span class="cm"># a = c</span>
+
+<span class="cm"># As an interval function (cubical):</span>
+<span class="cm"># composed(i) = { p(2i)       if i ≤ 0.5</span>
+<span class="cm">#               { q(2i - 1)   if i ≥ 0.5</span>
+
+<span class="cm"># Verification example: chain of equalities for a sorting proof</span>
+step1 : <span class="ty">PathType</span>(<span class="ty">list</span>[<span class="ty">int</span>], <span class="fn">sort</span>([<span class="nb">3</span>,<span class="nb">1</span>,<span class="nb">2</span>]), [<span class="nb">1</span>,<span class="nb">2</span>,<span class="nb">3</span>])  <span class="cm"># sort([3,1,2]) = [1,2,3]</span>
+step2 : <span class="ty">PathType</span>(<span class="ty">list</span>[<span class="ty">int</span>], [<span class="nb">1</span>,<span class="nb">2</span>,<span class="nb">3</span>], <span class="fn">sorted</span>([<span class="nb">3</span>,<span class="nb">1</span>,<span class="nb">2</span>]))  <span class="cm"># [1,2,3] = sorted([3,1,2])</span>
+combined = <span class="fn">Trans</span>(step1, step2)   <span class="cm"># sort([3,1,2]) = sorted([3,1,2])</span></code></pre>
+
+    <h3>Path Algebra Laws</h3>
+
+    <p>
+      Paths satisfy groupoid laws (up to higher paths):
+    </p>
+
+    <table>
+      <thead><tr><th>Law</th><th>Statement</th><th>Proof term type</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Left unit</td>
+          <td><code>refl · p = p</code></td>
+          <td><code>PathType(a=c, Trans(Refl(a), p), p)</code></td>
+        </tr>
+        <tr>
+          <td>Right unit</td>
+          <td><code>p · refl = p</code></td>
+          <td><code>PathType(a=b, Trans(p, Refl(b)), p)</code></td>
+        </tr>
+        <tr>
+          <td>Inverse (left)</td>
+          <td><code>p⁻¹ · p = refl</code></td>
+          <td><code>PathType(b=b, Trans(Sym(p), p), Refl(b))</code></td>
+        </tr>
+        <tr>
+          <td>Inverse (right)</td>
+          <td><code>p · p⁻¹ = refl</code></td>
+          <td><code>PathType(a=a, Trans(p, Sym(p)), Refl(a))</code></td>
+        </tr>
+        <tr>
+          <td>Associativity</td>
+          <td><code>(p · q) · r = p · (q · r)</code></td>
+          <td>Higher path (associator)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="transport">Transport — THE Key Operation</h2>
+
+    <p>
+      If paths are the nouns of HoTT, <strong>transport</strong> is the verb.
+      Transport is what makes paths <em>useful</em>: it lets you carry data
+      and proofs from one point to another along a path.
+    </p>
+
+    <pre><code><span class="fn">transport</span>(<span class="ty">P</span>, p, x)
+  <span class="cm"># P : A → Type     — a type family (property) indexed by A</span>
+  <span class="cm"># p : PathType(A, a, b)  — a path from a to b</span>
+  <span class="cm"># x : P(a)         — a value/proof at the starting point</span>
+  <span class="cm"># Result: P(b)     — the corresponding value/proof at the endpoint</span></code></pre>
+
+    <p>
+      In words: if <code>P</code> is some property that depends on a value
+      in <code>A</code>, and you have a proof that <code>P</code> holds at
+      point <code>a</code>, and you have a path from <code>a</code> to
+      <code>b</code>, then transport gives you a proof that <code>P</code>
+      holds at point <code>b</code>.
+    </p>
+
+    <div class="important">
+      Transport is the mechanism by which <strong>proof reuse</strong> works
+      in SynHoPy.  You prove something once, construct a path, and transport
+      gives you the proof at the other end — for free.
+    </div>
+
+    <h3>Transport Example: Sorting</h3>
+
+    <pre><code><span class="cm"># We've verified that insertion_sort produces a sorted list</span>
+proof_isort : <span class="ty">Sorted</span>(<span class="fn">insertion_sort</span>(xs))
+
+<span class="cm"># We have a path: insertion_sort and merge_sort produce the same output</span>
+<span class="cm"># (proved via function extensionality — see below)</span>
+p_equiv : <span class="ty">PathType</span>(
+    <span class="ty">list</span>[<span class="ty">int</span>],
+    <span class="fn">insertion_sort</span>(xs),
+    <span class="fn">merge_sort</span>(xs)
+)
+
+<span class="cm"># Transport the "Sorted" property along the path</span>
+proof_msort : <span class="ty">Sorted</span>(<span class="fn">merge_sort</span>(xs)) = <span class="fn">transport</span>(
+    <span class="ty">Sorted</span>,      <span class="cm"># the property to transport</span>
+    p_equiv,     <span class="cm"># the path to transport along</span>
+    proof_isort  <span class="cm"># the proof at the starting point</span>
+)
+
+<span class="cm"># merge_sort is verified! We reused the insertion_sort proof.</span></code></pre>
+
+    <h3>Transport Example: List ↔ Tuple</h3>
+
+    <pre><code><span class="cm"># Property: "all elements are positive"</span>
+<span class="ty">AllPositive</span> = <span class="kw">lambda</span> container: <span class="fn">all</span>(x > <span class="nb">0</span> <span class="kw">for</span> x <span class="kw">in</span> container)
+
+<span class="cm"># Proof that my_list has all positive elements</span>
+my_list = [<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>]
+proof_list : <span class="ty">AllPositive</span>(my_list) = <span class="cm">... # verified by Z3</span>
+
+<span class="cm"># Path between list and tuple (as Iterables, they're equivalent)</span>
+p : <span class="ty">PathType</span>(<span class="ty">Iterable</span>[<span class="ty">int</span>], my_list, (<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>))
+p = <span class="fn">duck_path</span>(<span class="ty">Iterable</span>[<span class="ty">int</span>], my_list, (<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>))
+
+<span class="cm"># Transport: AllPositive(my_list) → AllPositive((1, 2, 3))</span>
+proof_tuple = <span class="fn">transport</span>(<span class="ty">AllPositive</span>, p, proof_list)
+
+<span class="cm"># The tuple is verified without re-checking every element!</span></code></pre>
+
+    <h3>When Transport Fails</h3>
+
+    <p>
+      Transport can only carry a property <code>P</code> along a path
+      <code>p : a =<sub>A</sub> b</code> if <code>P</code> is invariant
+      under the equivalence that <code>p</code> represents.  If <code>P</code>
+      depends on structure that the path does <em>not</em> preserve, transport
+      fails — and this failure is a <em>type error</em>, caught at
+      verification time.
+    </p>
+
+    <pre><code><span class="cm"># This will FAIL:</span>
+<span class="ty">HasAppendMethod</span> = <span class="kw">lambda</span> container: <span class="fn">hasattr</span>(container, <span class="st">"append"</span>)
+
+proof_list_has_append : <span class="ty">HasAppendMethod</span>(my_list)  <span class="cm"># ✓ lists have .append()</span>
+
+<span class="cm"># Try to transport to tuple...</span>
+proof_tuple_has_append = <span class="fn">transport</span>(<span class="ty">HasAppendMethod</span>, p, proof_list_has_append)
+<span class="cm"># ❌ TYPE ERROR: HasAppendMethod is not invariant under the Iterable path.</span>
+<span class="cm"># The path p only preserves Iterable operations (__iter__, __next__).</span>
+<span class="cm"># .append() is not part of Iterable, so it can't be transported.</span></code></pre>
+
+    <div class="tip">
+      This failure is <em>exactly right</em>.  Tuples don't have
+      <code>.append()</code>, so any attempt to transport that property is
+      correctly rejected.  The path <code>p</code> only witnesses
+      equivalence <em>as Iterables</em>, not as mutable sequences.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="funext">Function Extensionality (FunExt)</h2>
+
+    <p>
+      Function extensionality is the principle that two functions are equal
+      if they produce equal outputs on all inputs:
+    </p>
+
+    <blockquote>
+      <strong>FunExt:</strong>  If <code>∀ x. f(x) = g(x)</code>, then
+      <code>f = g</code>.
+    </blockquote>
+
+    <p>
+      This sounds obvious, but it is <em>not</em> provable in many type
+      theories (including vanilla Martin-Löf type theory).  In cubical HoTT
+      it is a theorem, and in SynHoPy it is a fundamental building block.
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy.core <span class="kw">import</span> funext
+
+<span class="cm"># Two implementations of doubling</span>
+f = <span class="kw">lambda</span> x: x + x
+g = <span class="kw">lambda</span> x: x * <span class="nb">2</span>
+
+<span class="cm"># Pointwise proof: for every x, f(x) = g(x)</span>
+pointwise : <span class="ty">Π</span>(x:<span class="ty">int</span>). <span class="ty">PathType</span>(<span class="ty">int</span>, x + x, x * <span class="nb">2</span>)
+pointwise = <span class="kw">lambda</span> x: <span class="fn">z3_prove</span>(x + x == x * <span class="nb">2</span>)
+
+<span class="cm"># FunExt lifts pointwise equality to function equality</span>
+p : <span class="ty">PathType</span>(<span class="ty">int</span> -> <span class="ty">int</span>, f, g) = <span class="fn">funext</span>(pointwise)
+
+<span class="cm"># Now f and g are EQUAL as functions.</span>
+<span class="cm"># Any proof about f can be transported to g.</span></code></pre>
+
+    <h3>FunExt for Higher-Order Python</h3>
+
+    <p>
+      Function extensionality is especially powerful for Python's rich
+      ecosystem of higher-order functions:
+    </p>
+
+    <pre><code><span class="cm"># Prove that map(f, xs) = [f(x) for x in xs] for all f, xs</span>
+
+map_version = <span class="kw">lambda</span> f, xs: <span class="fn">list</span>(<span class="fn">map</span>(f, xs))
+comp_version = <span class="kw">lambda</span> f, xs: [<span class="fn">f</span>(x) <span class="kw">for</span> x <span class="kw">in</span> xs]
+
+<span class="cm"># Pointwise: for any specific f and xs, they produce the same list</span>
+pointwise_proof = <span class="kw">lambda</span> f, xs: <span class="fn">list_map_comprehension_equiv</span>(f, xs)
+
+<span class="cm"># FunExt (applied twice — once for f, once for xs):</span>
+p = <span class="fn">funext</span>(<span class="kw">lambda</span> f: <span class="fn">funext</span>(<span class="kw">lambda</span> xs: pointwise_proof(f, xs)))
+
+<span class="cm"># Result: map_version = comp_version  as functions</span>
+<span class="cm"># Any property verified for map(f, xs) transfers to comprehension</span></code></pre>
+
+    <div class="exercise">
+      <strong>Exercise 5.1.</strong>  Using FunExt, prove that
+      <code>lambda x: x</code> is equal to <code>lambda x: x + 0</code> as
+      functions from <code>int → int</code>.  What proof do you need at each
+      point?  (Hint: Z3 can discharge <code>x = x + 0</code> for all
+      integers.)
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="univalence">Univalence — The Crown Jewel</h2>
+
+    <p>
+      Univalence is the most powerful principle in homotopy type theory.
+      It says:
+    </p>
+
+    <blockquote>
+      <strong>Univalence:</strong>  If <code>A ≃ B</code> (A and B are
+      equivalent types — there's a structure-preserving bijection between
+      them), then <code>A = B</code> in the universe of types.
+    </blockquote>
+
+    <p>
+      This is a profound statement.  It says that <em>equivalent types are
+      identical</em>.  Two types that have the same structure are not merely
+      "isomorphic" — they are <em>equal</em>, and any property of one is
+      automatically a property of the other.
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy.core <span class="kw">import</span> univalence, Equiv
+
+<span class="cm"># Equivalence: dict ≃ OrderedDict for read operations</span>
+<span class="cm"># (Both support __getitem__, __contains__, keys(), values(), items())</span>
+
+read_equiv : <span class="ty">Equiv</span>(<span class="ty">ReadableMapping</span>[<span class="ty">str</span>, <span class="ty">int</span>],
+                   <span class="ty">dict</span>[<span class="ty">str</span>, <span class="ty">int</span>],
+                   <span class="ty">OrderedDict</span>[<span class="ty">str</span>, <span class="ty">int</span>])
+
+<span class="cm"># Univalence: equivalence → equality</span>
+p : <span class="ty">PathType</span>(<span class="ty">Type</span>,
+    <span class="ty">dict</span>[<span class="ty">str</span>, <span class="ty">int</span>],
+    <span class="ty">OrderedDict</span>[<span class="ty">str</span>, <span class="ty">int</span>]
+) = <span class="fn">univalence</span>(read_equiv)
+
+<span class="cm"># Now ANY property of dict (for read operations) transfers to OrderedDict</span>
+<span class="cm"># and vice versa — automatically, via transport along p.</span></code></pre>
+
+    <h3>Univalence in Practice</h3>
+
+    <p>
+      Univalence lets SynHoPy perform powerful proof transfer between types.
+      The most common applications:
+    </p>
+
+    <table>
+      <thead><tr><th>Equivalence</th><th>Application</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>list ≃ tuple</code> (as Sequence)</td>
+          <td>Transfer read-only proofs between list and tuple</td>
+        </tr>
+        <tr>
+          <td><code>dict ≃ defaultdict</code> (as Mapping)</td>
+          <td>Transfer lookup proofs</td>
+        </tr>
+        <tr>
+          <td><code>int ≃ np.int64</code> (as Ring)</td>
+          <td>Transfer arithmetic proofs to NumPy</td>
+        </tr>
+        <tr>
+          <td><code>str ≃ bytes</code> (as Sequence[element])</td>
+          <td>Transfer indexing/slicing proofs</td>
+        </tr>
+        <tr>
+          <td><code>Set ≃ frozenset</code> (as ReadableSet)</td>
+          <td>Transfer membership and subset proofs</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning">
+      Univalence requires a genuine <em>equivalence</em>, not just any
+      function.  An equivalence <code>A ≃ B</code> requires a function
+      <code>f : A → B</code>, a function <code>g : B → A</code>, and
+      proofs that <code>g ∘ f = id<sub>A</sub></code> and
+      <code>f ∘ g = id<sub>B</sub></code>.  One-directional coercions
+      are <em>not</em> enough.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="worked-examples">Worked Examples</h2>
+
+    <h3>Example 1: Two Sorting Algorithms Are Equivalent</h3>
+
+    <pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+<span class="kw">from</span> synhopy.core <span class="kw">import</span> PathType, funext, transport
+
+<span class="dc">@guarantee</span>(<span class="st">"output is a sorted permutation of input"</span>)
+<span class="kw">def</span> <span class="fn">insertion_sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
+    result = <span class="fn">list</span>(xs)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nb">1</span>, <span class="fn">len</span>(result)):
+        key = result[i]
+        j = i - <span class="nb">1</span>
+        <span class="kw">while</span> j >= <span class="nb">0</span> <span class="kw">and</span> result[j] > key:
+            result[j + <span class="nb">1</span>] = result[j]
+            j -= <span class="nb">1</span>
+        result[j + <span class="nb">1</span>] = key
+    <span class="kw">return</span> result
+
+<span class="dc">@guarantee</span>(<span class="st">"output is a sorted permutation of input"</span>)
+<span class="kw">def</span> <span class="fn">merge_sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">if</span> <span class="fn">len</span>(xs) <= <span class="nb">1</span>:
+        <span class="kw">return</span> <span class="fn">list</span>(xs)
+    mid = <span class="fn">len</span>(xs) // <span class="nb">2</span>
+    left = <span class="fn">merge_sort</span>(xs[:mid])
+    right = <span class="fn">merge_sort</span>(xs[mid:])
+    <span class="kw">return</span> <span class="fn">merge</span>(left, right)</code></pre>
+
+    <div class="proof-steps">
+      <h4>Proof that insertion_sort = merge_sort (as sorting functions)</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Verify insertion_sort independently.</strong>
+          Z3 + induction proves it produces a sorted permutation.
+          <code>proof_isort : ∀xs. SortedPerm(insertion_sort(xs), xs)</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Verify merge_sort independently.</strong>
+          Čech decomposition on the base case / recursive case.
+          <code>proof_msort : ∀xs. SortedPerm(merge_sort(xs), xs)</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Both produce sorted permutations → their outputs are equal.</strong>
+          A sorted permutation of a list is unique.
+          <code>pointwise : ∀xs. insertion_sort(xs) = merge_sort(xs)</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Apply FunExt.</strong>
+          <code>p = funext(pointwise) : insertion_sort = merge_sort</code>
+          <span class="verified">Path constructed</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Example 2: Lambda Equivalence via FunExt</h3>
+
+    <pre><code><span class="cm"># Two lambda expressions</span>
+f = <span class="kw">lambda</span> xs: <span class="fn">sorted</span>(<span class="fn">set</span>(xs))
+g = <span class="kw">lambda</span> xs: <span class="fn">list</span>(<span class="fn">dict</span>.<span class="fn">fromkeys</span>(<span class="fn">sorted</span>(xs)))
+
+<span class="cm"># Both remove duplicates and sort.  Are they equal?</span>
+
+<span class="cm"># Pointwise: for any list xs, sorted(set(xs)) = list(dict.fromkeys(sorted(xs)))</span>
+<span class="cm"># Z3 can verify this for finite domains; oracle for general case</span>
+pw = <span class="kw">lambda</span> xs: <span class="fn">verify_set_fromkeys_equiv</span>(xs)
+
+<span class="cm"># FunExt gives us the path</span>
+p : <span class="ty">PathType</span>(
+    <span class="ty">list</span>[<span class="ty">int</span>] -> <span class="ty">list</span>[<span class="ty">int</span>],
+    f, g
+) = <span class="fn">funext</span>(pw)
+
+<span class="cm"># If f is verified correct, g is correct via transport</span>
+proof_g = <span class="fn">transport</span>(<span class="ty">Correct</span>, p, proof_f)</code></pre>
+
+    <h3>Example 3: Transport Across Container Types</h3>
+
+    <pre><code><span class="cm"># Verified: sum of a list of positive ints is positive</span>
+<span class="dc">@guarantee</span>(<span class="st">"result > 0 when all elements > 0 and len(xs) > 0"</span>)
+<span class="kw">def</span> <span class="fn">positive_sum</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">int</span>:
+    <span class="kw">return</span> <span class="fn">sum</span>(xs)
+
+<span class="cm"># We want to use this with a tuple too.</span>
+<span class="cm"># Construct a path: list and tuple are equivalent as Iterables</span>
+p = <span class="fn">duck_path</span>(<span class="ty">Iterable</span>[<span class="ty">int</span>], [<span class="nb">1</span>,<span class="nb">2</span>,<span class="nb">3</span>], (<span class="nb">1</span>,<span class="nb">2</span>,<span class="nb">3</span>))
+
+<span class="cm"># Transport the property</span>
+<span class="cm"># "positive_sum is correct" → "positive_sum is correct on this tuple"</span>
+<span class="cm"># (Here positive_sum uses only Iterable operations: iteration via sum())</span>
+proof_tuple = <span class="fn">transport</span>(<span class="ty">PositiveSumCorrect</span>, p, proof_list)</code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="j-elim">J-Elimination (Path Induction)</h2>
+
+    <p>
+      <strong>J-elimination</strong> (also called <em>path induction</em>) is
+      the fundamental elimination principle for path types.  It says: to prove
+      something about <em>all</em> paths, it suffices to prove it for the
+      reflexivity path <code>refl(a)</code>.
+    </p>
+
+    <pre><code><span class="cm"># J-elimination principle:</span>
+<span class="cm">#</span>
+<span class="cm"># Given:</span>
+<span class="cm">#   C : Π(x:A). Π(y:A). (x =_A y) → Type    — a motive</span>
+<span class="cm">#   d : Π(a:A). C(a, a, refl(a))              — base case for refl</span>
+<span class="cm">#</span>
+<span class="cm"># Then for any x, y : A and p : x =_A y:</span>
+<span class="cm">#   J(C, d, x, y, p) : C(x, y, p)</span>
+
+<span class="cm"># In Python terms: to prove a property about all equalities,</span>
+<span class="cm"># just prove it for the "obvious" equality (refl).</span>
+
+<span class="cm"># Example: prove that Sym(Sym(p)) = p for any path p</span>
+<span class="cm"># It suffices to show Sym(Sym(refl(a))) = refl(a)</span>
+<span class="cm"># But Sym(refl(a)) = refl(a), so Sym(Sym(refl(a))) = Sym(refl(a)) = refl(a) ✓</span></code></pre>
+
+    <div class="note">
+      In cubical type theory, J-elimination is derivable from more primitive
+      operations (transport + composition).  SynHoPy provides it as a
+      convenience tactic; internally it is implemented using cubical primitives.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="summary">Summary: The Path Toolkit</h2>
+
+    <table>
+      <thead><tr><th>Operation</th><th>Type</th><th>Intuition</th></tr></thead>
+      <tbody>
+        <tr><td><code>Refl(a)</code></td><td><code>a = a</code></td><td>Identity path (stay put)</td></tr>
+        <tr><td><code>Sym(p)</code></td><td><code>b = a</code> from <code>a = b</code></td><td>Walk backwards</td></tr>
+        <tr><td><code>Trans(p, q)</code></td><td><code>a = c</code> from <code>a = b</code>, <code>b = c</code></td><td>Chain two paths</td></tr>
+        <tr><td><code>Cong(f, p)</code></td><td><code>f(a) = f(b)</code> from <code>a = b</code></td><td>Apply function along path</td></tr>
+        <tr><td><code>Ap(f, p)</code></td><td>Path over <code>p</code> in dependent type</td><td>Dependent version of Cong</td></tr>
+        <tr><td><code>PathAbs</code></td><td>Build path from interval function</td><td>Construct a path explicitly</td></tr>
+        <tr><td><code>PathApp</code></td><td>Evaluate path at interval point</td><td>Compute along a path</td></tr>
+        <tr><td><code>transport</code></td><td><code>P(b)</code> from <code>P(a)</code> and <code>a = b</code></td><td>Carry proof along path</td></tr>
+        <tr><td><code>funext</code></td><td><code>f = g</code> from <code>∀x. f(x) = g(x)</code></td><td>Pointwise → function equality</td></tr>
+        <tr><td><code>univalence</code></td><td><code>A = B</code> from <code>A ≃ B</code></td><td>Equivalence is equality</td></tr>
+        <tr><td><code>duck_path</code></td><td>Path from protocol conformance</td><td>Duck typing witness</td></tr>
+        <tr><td><code>J</code></td><td>Eliminate over all paths via refl case</td><td>Path induction</td></tr>
+      </tbody>
+    </table>
+
+    <div class="exercise">
+      <strong>Exercise 5.2.</strong>  Consider the following two functions:
+      <pre><code><span class="kw">def</span> <span class="fn">f</span>(d: <span class="ty">dict</span>) -> <span class="ty">list</span>: <span class="kw">return</span> <span class="fn">sorted</span>(d.keys())
+<span class="kw">def</span> <span class="fn">g</span>(d: <span class="ty">dict</span>) -> <span class="ty">list</span>: <span class="kw">return</span> <span class="fn">sorted</span>(<span class="fn">list</span>(d))</code></pre>
+      <ol>
+        <li>Construct a pointwise proof that <code>f(d) = g(d)</code> for any dict <code>d</code>.</li>
+        <li>Apply FunExt to get <code>f = g</code>.</li>
+        <li>If you have a proof that <code>f</code> returns a sorted list with no duplicates,
+            use transport to conclude that <code>g</code> also returns a sorted list with no duplicates.</li>
+      </ol>
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 5.3.</strong>  Can you construct a path between
+      <code>list[int]</code> and <code>set[int]</code> via univalence?  Why
+      or why not?  (Hint: think about what structure-preserving bijection
+      would be needed.  Does one exist?)
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <div class="page-nav">
+      <a href="index.html">
+        <span class="label">← Previous</span>
+        <span class="title">Part 5 Overview</span>
+      </a>
+      <a href="cech.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Čech Decomposition</span>
+      </a>
+    </div>
+  </article>
+</div>
+<script src="../js/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 3 — Python Specifics · SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header"><h1>SynHoPy</h1><div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div></div>
+  <nav><ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../structure.html">Structure of this Book</a></li>
+    <li><a href="../intro.html">Introduction</a></li>
+    <li><span class="section-title">Part 1 — Pure Python</span></li>
+    <li><a href="../part1/index.html">Overview</a></li>
+    <li><a href="../part1/getting_started.html">Getting Started</a></li>
+    <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+    <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+    <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+    <li><a href="../part1/data_structures.html">Data Structures</a></li>
+    <li><a href="../part1/termination.html">Termination</a></li>
+    <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+    <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+    <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+    <li><a href="../part2/index.html">Overview</a></li>
+    <li><a href="../part2/generics.html">Generic Types</a></li>
+    <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+    <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+    <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+    <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+    <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+    <li><span class="section-title">Part 3 — Python Specifics</span></li>
+    <li><a href="../part3/index.html">Overview</a></li>
+    <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+    <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+    <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+    <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+    <li><a href="../part4/index.html">Overview</a></li>
+    <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+    <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+    <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+    <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+    <li><a href="../part5/index.html">Overview</a></li>
+    <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+    <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+    <li><a href="../part5/fibrations.html">Fibrations</a></li>
+    <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+    <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+    <li><a href="../part6/index.html">Overview</a></li>
+    <li><a href="../part6/separation.html">Separation Logic</a></li>
+    <li><a href="../part6/references.html">Mutable References</a></li>
+    <li><a href="../part6/arrays.html">Arrays</a></li>
+    <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+    <li><a href="../part6/async.html">Async / Await</a></li>
+    <li><span class="section-title">Under the Hood</span></li>
+    <li><a href="../under_the_hood/index.html">Overview</a></li>
+    <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+  </ul></nav>
+</aside>
+
+<div class="content">
+<article>
+
+<h1>Part 3 — Python-Specific Verification</h1>
+
+<p>
+  Parts 1 and 2 introduced SynHoPy's core type theory and proof system using
+  features that have close analogues in F*, Lean, or Coq — refinement types,
+  inductive datatypes, lemmas, and higher-order proofs. But Python is <em>not</em>
+  F*. It is a dynamically-typed, duck-typed, mutable, metaprogrammable language,
+  and any serious verification framework for Python must confront these realities
+  head-on rather than pretending they don't exist.
+</p>
+
+<p>
+  This part is <strong>unique to SynHoPy</strong>. There is no equivalent section in
+  the F* tutorial, because the problems we address here simply do not arise in
+  statically-typed languages with nominal type systems. This is where SynHoPy's
+  homotopy-theoretic foundation pays its largest dividends.
+</p>
+
+<h2>Why Python Needs Its Own Approach</h2>
+
+<p>
+  Consider three features that every Python programmer uses daily but that make
+  verification researchers reach for the aspirin:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Python Feature</th><th>What It Means</th><th>Why Verification Is Hard</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Duck typing</strong></td>
+      <td>"If it has <code>__iter__</code> and <code>__next__</code>, it's iterable"</td>
+      <td>No nominal type to check — conformance is <em>structural</em> and <em>behavioral</em></td>
+    </tr>
+    <tr>
+      <td><strong>Monkey patching</strong></td>
+      <td>Modify classes/objects at runtime</td>
+      <td>The "type" of an object can change between any two statements</td>
+    </tr>
+    <tr>
+      <td><strong>Metaclasses</strong></td>
+      <td>Classes are themselves objects; metaclasses control class creation</td>
+      <td>The type system itself is programmable and can violate its own rules</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  Traditional approaches either forbid these features (too restrictive to be useful)
+  or approximate them unsoundly (producing false negatives or false positives).
+  SynHoPy takes a third path: we model each feature using the appropriate
+  concept from <strong>cubical homotopy type theory</strong>.
+</p>
+
+<h2>The HoTT Correspondence</h2>
+
+<p>
+  The key insight of Part 3 is that Python's "weird" features aren't bugs — they're
+  features that correspond to well-understood mathematical structures:
+</p>
+
+<div class="proof-steps">
+  <h4>Python → HoTT Dictionary</h4>
+  <div class="proof-step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <strong>Duck typing</strong> = <strong>Path types</strong>. Two types
+      <code>A</code> and <code>B</code> are "duck-equivalent" if there is a
+      path <code>p : A =_U B</code> in the type universe, constructed by
+      showing they support the same operations with the same behavior.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <strong>Monkey patching</strong> = <strong>Transport</strong>. If we have a
+      proof <code>P(A)</code> and a path <code>p : A =_U A'</code> (the patch),
+      then <code>transport(p, proof) : P(A')</code> — the property is
+      preserved if and only if the patch preserves the path.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <strong>Metaclasses</strong> = <strong>Fibrations</strong>. A metaclass
+      <code>M</code> defines a fibration <code>π : E → B</code> where <code>B</code>
+      is the space of metaclass parameters and <code>E</code> is the total space
+      of classes produced. The fiber over each point <code>b : B</code> is the
+      class <code>M(b)</code>.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <strong>Dynamic type tests</strong> = <strong>Decidable path predicates</strong>.
+      <code>isinstance(x, T)</code> is a decision procedure for the proposition
+      <code>type(x) =_U T</code>, and <code>match</code>/<code>case</code>
+      provides exhaustive coverage checking.
+    </div>
+  </div>
+</div>
+
+<h2>What This Part Covers</h2>
+
+<p>
+  This part contains three chapters, each devoted to one of the major
+  Python-specific verification challenges:
+</p>
+
+<h3><a href="duck_typing.html">Chapter 9: Duck Typing &amp; Protocols</a></h3>
+<p>
+  The signature chapter of SynHoPy. We show how Python's structural subtyping
+  via PEP 544 <code>Protocol</code> classes is modeled as path equivalence in HoTT.
+  The <code>DuckPath</code> proof term lets you prove that a class conforms to a
+  protocol without inheriting from it. We work through detailed examples
+  including the <code>Iterable</code> protocol, file-like objects, and dynamic
+  attribute resolution via <code>__getattr__</code>.
+</p>
+
+<h3><a href="decorators.html">Chapter 10: Decorators &amp; Metaprogramming</a></h3>
+<p>
+  Python decorators are higher-order functions that transform functions or classes.
+  We show how to prove that decorators preserve specifications, how metaclasses
+  form fibrations over the class hierarchy, and how the descriptor protocol
+  (<code>__get__</code>/<code>__set__</code>/<code>__delete__</code>) can be
+  verified. Case studies include a verified caching decorator and a verified
+  retry decorator.
+</p>
+
+<h3><a href="dynamic.html">Chapter 11: Dynamic Typing Verification</a></h3>
+<p>
+  Python's runtime type system — <code>isinstance</code>, <code>type()</code>,
+  gradual typing, <code>Any</code>, <code>Union</code>, <code>TypeGuard</code> —
+  is modeled as a universe with decidable predicates. We show how to verify
+  code that mixes typed and untyped regions, how monkey patching is sound when
+  it preserves paths, and how runtime validation becomes proof obligation
+  discharge.
+</p>
+
+<h2>Prerequisites</h2>
+
+<p>You should be comfortable with:</p>
+<ul>
+  <li>SynHoPy refinement types and Z3 integration (Part 1)</li>
+  <li>Basic familiarity with Python Protocols, decorators, and metaclasses</li>
+  <li>The concept of path types from Part 2 (we'll review what we need)</li>
+</ul>
+
+<div class="note">
+  If you haven't used <code>typing.Protocol</code> before, Python's
+  <a href="https://peps.python.org/pep-0544/">PEP 544</a> is a quick read.
+  The core idea: a Protocol defines a set of methods, and any class that
+  implements those methods is considered a subtype — no inheritance required.
+</div>
+
+<h2>Comparison with F*</h2>
+
+<p>
+  To illustrate why this part is necessary, here's a quick comparison of how
+  F* and SynHoPy handle a simple "is this thing iterable?" check:
+</p>
+
+<div class="compare">
+  <div>
+    <h4>F* — Nominal Interface</h4>
+<pre><code class="fstar"><span class="cm">// F*: must explicitly implement</span>
+<span class="kw">noeq type</span> <span class="ty">iterable</span> (a: Type) = {
+  has_next : unit -> <span class="ty">Tot</span> <span class="ty">bool</span>;
+  next     : unit -> <span class="ty">Tot</span> a;
+}
+
+<span class="cm">// Every type must declare it</span>
+<span class="kw">let</span> <span class="fn">my_list_iterable</span> :
+  <span class="ty">iterable</span> <span class="ty">int</span> = {
+    has_next = ...;
+    next     = ...;
+  }</code></pre>
+  </div>
+  <div>
+    <h4>SynHoPy — Structural Path</h4>
+<pre><code><span class="cm"># SynHoPy: if you have the methods,</span>
+<span class="cm"># you're iterable — prove it with a path</span>
+<span class="kw">class</span> <span class="ty">Iterable</span>(<span class="ty">Protocol</span>[<span class="ty">T</span>]):
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self) -> <span class="ty">Iterator</span>[<span class="ty">T</span>]: ...
+    <span class="kw">def</span> <span class="fn">__next__</span>(self) -> <span class="ty">T</span>: ...
+
+<span class="cm"># MyList automatically satisfies it</span>
+<span class="cm"># SynHoPy constructs DuckPath proof</span>
+<span class="dc">@synhopy.verify</span>
+<span class="kw">class</span> <span class="ty">MyList</span>:
+    <span class="kw">def</span> <span class="fn">__iter__</span>(self): ...
+    <span class="kw">def</span> <span class="fn">__next__</span>(self): ...</code></pre>
+  </div>
+</div>
+
+<p>
+  In F*, the relationship between a type and an interface is <em>declared</em>.
+  In SynHoPy, the relationship is <em>discovered and proved</em>. This mirrors
+  how Python actually works: you never declare that your class "implements"
+  <code>Iterable</code> — you just provide the right methods, and Python's
+  runtime (and mypy's checker) figure it out.
+</p>
+
+<h2>A Preview: The DuckPath</h2>
+
+<p>
+  The central proof term of this part is <code>DuckPath</code>. Here's a taste
+  of what it looks like:
+</p>
+
+<pre><code><span class="kw">from</span> synhopy.hott <span class="kw">import</span> DuckPath, PathType, transport
+
+<span class="cm"># Define a protocol</span>
+<span class="kw">class</span> <span class="ty">Drawable</span>(<span class="ty">Protocol</span>):
+    <span class="kw">def</span> <span class="fn">draw</span>(self, canvas: <span class="ty">Canvas</span>) -> <span class="ty">None</span>: ...
+    <span class="kw">def</span> <span class="fn">bounding_box</span>(self) -> <span class="ty">Rect</span>: ...
+
+<span class="cm"># A class that doesn't inherit from Drawable</span>
+<span class="kw">class</span> <span class="ty">Circle</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, center: <span class="ty">Point</span>, radius: <span class="ty">float</span>):
+        self.center = center
+        self.radius = radius
+
+    <span class="kw">def</span> <span class="fn">draw</span>(self, canvas: <span class="ty">Canvas</span>) -> <span class="ty">None</span>:
+        canvas.circle(self.center, self.radius)
+
+    <span class="kw">def</span> <span class="fn">bounding_box</span>(self) -> <span class="ty">Rect</span>:
+        <span class="kw">return</span> Rect(
+            self.center.x - self.radius,
+            self.center.y - self.radius,
+            self.radius * <span class="nb">2</span>, self.radius * <span class="nb">2</span>
+        )
+
+<span class="cm"># SynHoPy constructs this proof automatically:</span>
+<span class="pr">proof</span> : <span class="ty">DuckPath</span>[<span class="ty">Circle</span>, <span class="ty">Drawable</span>] = DuckPath.construct(
+    <span class="cm"># For each method in the protocol, show Circle has a matching one</span>
+    draw    = MethodPath(Circle.draw,    Drawable.draw,
+                         sig_match=<span class="nb">True</span>, ret_compat=<span class="nb">True</span>),
+    bounding_box = MethodPath(Circle.bounding_box, Drawable.bounding_box,
+                              sig_match=<span class="nb">True</span>, ret_compat=<span class="nb">True</span>),
+)
+<span class="cm"># proof.is_valid == True</span>
+<span class="cm"># Circle is now verified as a Drawable ✅</span></code></pre>
+
+<div class="tip">
+  The <code>DuckPath</code> proof is constructed <em>automatically</em> by
+  SynHoPy's verifier when you annotate your code. You only need to construct
+  it manually if you want to inspect the proof or override part of the
+  automatic inference.
+</div>
+
+<h2>The Verification Pipeline for Python</h2>
+
+<p>
+  In this part, we'll see SynHoPy's verification pipeline handle Python-specific
+  challenges at each stage:
+</p>
+
+<div class="proof-steps">
+  <h4>Pipeline Stages for Python Features</h4>
+  <div class="proof-step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <strong>Parse &amp; Introspect</strong> — SynHoPy uses Python's <code>inspect</code>
+      module and AST to extract method signatures, decorators, metaclasses,
+      and dynamic attribute access patterns.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <strong>Protocol Matching</strong> — For each class, SynHoPy identifies
+      which Protocols it structurally conforms to and attempts to construct
+      <code>DuckPath</code> proofs.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <strong>Decorator Unwinding</strong> — Decorator stacks are unwound to
+      verify that each decorator preserves the specifications of the
+      function/class it wraps.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <strong>Metaclass Fibration</strong> — Metaclass hierarchies are modeled
+      as fibrations; SynHoPy verifies that the fiber over each class
+      satisfies the metaclass's invariants.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <strong>Dynamic Dispatch Proof</strong> — Runtime type tests
+      (<code>isinstance</code>, <code>match/case</code>) generate branching
+      proofs with narrowed types in each branch.
+    </div>
+  </div>
+  <div class="proof-step">
+    <div class="step-num">6</div>
+    <div class="step-content">
+      <strong>Transport Checking</strong> — Monkey patches and runtime
+      modifications are checked via transport along paths to ensure
+      properties are preserved.
+    </div>
+  </div>
+</div>
+
+<h2>Running the Examples</h2>
+
+<p>
+  All examples in Part 3 require the SynHoPy runtime with Z3 support:
+</p>
+
+<pre><code class="output"><span class="cm"># Install SynHoPy with Z3 backend</span>
+pip install synhopy[z3]
+
+<span class="cm"># Verify a file with Python-specific checks enabled</span>
+synhopy verify --python-specifics my_module.py
+
+<span class="cm"># Run with verbose output to see DuckPath proofs</span>
+synhopy verify --verbose --show-paths my_module.py</code></pre>
+
+<pre><code class="output"><span class="cm"># Example output:</span>
+$ synhopy verify examples/drawing.py --show-paths
+<span class="st">✓ DuckPath[Circle, Drawable]</span>         <span class="cm">  2 methods matched</span>
+<span class="st">✓ DuckPath[Rectangle, Drawable]</span>      <span class="cm">  2 methods matched</span>
+<span class="st">✓ DecoratorPreserves[@cache, render]</span> <span class="cm">  signature preserved</span>
+<span class="st">✓ TransportSafe[Canvas.monkey_patch]</span> <span class="cm">  path preserved</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="st">4/4 obligations verified</span> (0.34s)</code></pre>
+
+<h2>Mathematical Foundations</h2>
+
+<p>
+  For readers interested in the theory, here's the formal statement of the
+  main theorem underlying Part 3:
+</p>
+
+<blockquote>
+  <strong>Theorem (Duck Typing Soundness).</strong>
+  Let <code>P</code> be a Protocol with methods <code>m₁, …, mₖ</code>
+  and let <code>C</code> be a class. If for each <code>mᵢ</code> there exists
+  a method <code>C.mᵢ</code> with a compatible signature (covariant return,
+  contravariant arguments), then there exists a path
+  <code>p : C =_{Protocol} P</code> in the protocol universe, and for any
+  property <code>Φ</code> verified against <code>P</code>, we have
+  <code>transport(p, Φ) : Φ(C)</code>.
+</blockquote>
+
+<p>
+  This theorem is proved in SynHoPy's core library using cubical Agda as the
+  metalanguage, with Z3 handling the signature compatibility checks. The
+  practical consequence: if you verify your code against a Protocol, and
+  a new class satisfies that Protocol, the verification transfers
+  automatically.
+</p>
+
+<div class="exercise">
+  Before diving into the chapters, think about the following: suppose you have
+  a function <code>def process(items: Iterable[int]) -> int</code> that is
+  verified to return the sum of all items. Now someone passes a generator
+  expression <code>(x*2 for x in range(10))</code>. How would you prove that
+  this generator satisfies the <code>Iterable[int]</code> protocol? What
+  challenges arise from the fact that generators are single-use? We'll answer
+  these questions in Chapter 9.
+</div>
+
+<nav class="page-nav">
+  <a href="../part2/stlc.html">
+    <span class="label">← Previous</span>
+    <span class="title">Simply Typed λ-Calculus</span>
+  </a>
+  <a href="duck_typing.html">
+    <span class="label">Next →</span>
+    <span class="title">Duck Typing &amp; Protocols</span>
+  </a>
+</nav>
+
+</article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

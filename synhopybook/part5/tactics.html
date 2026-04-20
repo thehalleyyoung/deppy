@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homotopy Tactics | SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="cech.html">Čech Decomposition</a></li>
+      <li><a href="fibrations.html">Fibrations</a></li>
+      <li><a href="tactics.html" class="active">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Homotopy Tactics</h1>
+    <p class="subtitle" style="font-size:1.05rem;color:var(--text-muted);margin-bottom:2rem;">
+      A tactic language for building proofs interactively — including
+      homotopy-native tactics that exist nowhere else.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="what-are-tactics">What Are Tactics?</h2>
+
+    <p>
+      A <strong>tactic</strong> is a function that transforms a proof goal
+      into simpler subgoals.  Instead of writing proof terms by hand (which
+      can be enormous and inscrutable), you describe a <em>strategy</em> for
+      finding the proof, and the tactic engine does the rest.
+    </p>
+
+    <p>
+      If proof terms are the assembly language of verification, tactics are
+      the high-level programming language.  You say <em>what</em> to do
+      ("split into cases", "apply induction", "rewrite using this equality"),
+      and the engine figures out <em>how</em> to build the proof term.
+    </p>
+
+    <blockquote>
+      <strong>Analogy:</strong>  Tactics are to proof terms what Python is to
+      machine code.  You write <code>apply(lemma)</code> and the engine
+      generates the hundreds of proof constructors needed to complete the step.
+    </blockquote>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="tactic-monad">The Tactic Monad</h2>
+
+    <p>
+      Internally, each tactic is a function:
+    </p>
+
+    <pre><code><span class="ty">Tactic</span> = <span class="ty">Callable</span>[[<span class="ty">TacticState</span>], <span class="ty">tuple</span>[<span class="ty">ProofTerm</span>, <span class="ty">TacticState</span>]]
+
+<span class="cm"># TacticState contains:</span>
+<span class="cm">#   - goals:    list of remaining proof goals</span>
+<span class="cm">#   - context:  current hypotheses (names → types)</span>
+<span class="cm">#   - env:      global definitions, imported lemmas</span>
+<span class="cm">#   - fuel:     recursion budget (for termination)</span></code></pre>
+
+    <p>
+      A tactic takes the current state (a list of goals with a proof
+      context) and returns a proof term that solves the current goal, plus
+      a new state with the remaining goals.  Tactics compose monadically:
+    </p>
+
+    <pre><code><span class="cm"># Sequential composition: do t1, then t2 on the remaining goals</span>
+<span class="kw">def</span> <span class="fn">then</span>(t1: <span class="ty">Tactic</span>, t2: <span class="ty">Tactic</span>) -> <span class="ty">Tactic</span>:
+    <span class="kw">def</span> <span class="fn">composed</span>(state: <span class="ty">TacticState</span>) -> (<span class="ty">ProofTerm</span>, <span class="ty">TacticState</span>):
+        proof1, state1 = <span class="fn">t1</span>(state)
+        proof2, state2 = <span class="fn">t2</span>(state1)
+        <span class="kw">return</span> <span class="fn">combine</span>(proof1, proof2), state2
+    <span class="kw">return</span> composed</code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="basic-tactics">Basic Tactics</h2>
+
+    <p>
+      SynHoPy provides the standard set of tactics found in any proof
+      assistant, adapted for Python verification:
+    </p>
+
+    <h3 id="exact"><code>exact(term)</code> — Provide a Proof Directly</h3>
+
+    <p>
+      The simplest tactic: you supply the proof term.  The engine checks that
+      it has the right type.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: 42 == 42</span>
+<span class="cm"># Tactic: just provide the proof</span>
+> <span class="fn">exact</span>(<span class="fn">Refl</span>(<span class="nb">42</span>))
+<span class="cm"># Goal solved! ✅</span></code></pre>
+
+    <h3 id="intro"><code>intro(name?)</code> — Introduce a Variable</h3>
+
+    <p>
+      When the goal is a universally quantified statement <code>∀ x:A. P(x)</code>,
+      <code>intro</code> moves <code>x</code> into the context and changes the
+      goal to <code>P(x)</code>.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: ∀ x:int. x + 0 = x</span>
+> <span class="fn">intro</span>(<span class="st">"x"</span>)
+<span class="cm"># Context: x : int</span>
+<span class="cm"># Goal: x + 0 = x</span></code></pre>
+
+    <h3 id="apply"><code>apply(lemma)</code> — Apply a Known Lemma</h3>
+
+    <p>
+      If you have a lemma <code>L : A → B</code> and the goal is <code>B</code>,
+      <code>apply(L)</code> changes the goal to <code>A</code>.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Known lemma: add_zero_right : ∀ x:int. x + 0 = x</span>
+<span class="cm"># Goal: 5 + 0 = 5</span>
+> <span class="fn">apply</span>(add_zero_right)
+<span class="cm"># Goal solved! ✅ (auto-instantiates x := 5)</span></code></pre>
+
+    <h3 id="rewrite"><code>rewrite(path)</code> — Rewrite Using a Path</h3>
+
+    <p>
+      Given a path <code>p : a = b</code>, <code>rewrite(p)</code> replaces
+      occurrences of <code>a</code> with <code>b</code> in the current goal.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: (x + 0) * 2 = x * 2</span>
+<span class="cm"># We have: p : x + 0 = x  (from add_zero_right)</span>
+> <span class="fn">rewrite</span>(p)
+<span class="cm"># Goal: x * 2 = x * 2</span>
+> <span class="fn">exact</span>(<span class="fn">Refl</span>(x * <span class="nb">2</span>))
+<span class="cm"># Goal solved! ✅</span></code></pre>
+
+    <h3 id="split"><code>split()</code> — Case Split</h3>
+
+    <p>
+      Splits the current goal into multiple subgoals based on the structure
+      of the input.  This generates a <strong>Čech cover</strong> internally.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: ∀ x:int. abs(x) >= 0</span>
+> <span class="fn">split</span>()
+<span class="cm"># Subgoal 1: x >= 0 → abs(x) >= 0</span>
+<span class="cm"># Subgoal 2: x &lt; 0 → abs(x) >= 0</span></code></pre>
+
+    <h3 id="induction"><code>induction(var)</code> — Structural Induction</h3>
+
+    <p>
+      Performs structural induction on a variable.  For lists, this generates
+      a base case (empty list) and an inductive step (cons case).
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: ∀ xs:list[int]. len(reverse(xs)) = len(xs)</span>
+> <span class="fn">induction</span>(<span class="st">"xs"</span>)
+<span class="cm"># Subgoal 1 (base):      len(reverse([])) = len([])</span>
+<span class="cm"># Subgoal 2 (inductive): ∀ x, xs'.</span>
+<span class="cm">#   len(reverse(xs')) = len(xs')  →  (IH)</span>
+<span class="cm">#   len(reverse(x :: xs')) = len(x :: xs')</span></code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="homotopy-tactics">Homotopy-Specific Tactics</h2>
+
+    <p>
+      These tactics are <strong>unique to SynHoPy</strong>.  No other
+      verification tool has them because no other tool is built on homotopy
+      type theory.
+    </p>
+
+    <h3 id="transport-tactic"><code>transport(path)</code> — Carry Proof Along Path</h3>
+
+    <p>
+      The tactic version of the transport operation.  Given a path
+      <code>p : a = b</code> and a goal <code>P(b)</code>, replaces the goal
+      with <code>P(a)</code>.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: Sorted(merge_sort(xs))</span>
+<span class="cm"># We have: p : insertion_sort(xs) = merge_sort(xs)</span>
+<span class="cm"># We have: proof_isort : Sorted(insertion_sort(xs))</span>
+> <span class="fn">transport</span>(p)
+<span class="cm"># Goal: Sorted(insertion_sort(xs))</span>
+<span class="cm"># (The goal has been "transported back" along p)</span>
+> <span class="fn">exact</span>(proof_isort)
+<span class="cm"># Goal solved! ✅</span></code></pre>
+
+    <div class="note">
+      <code>transport</code> is the most frequently used homotopy tactic.
+      It's the mechanism for proof reuse: once you've verified one
+      implementation, transport lets you verify equivalent implementations
+      instantly.
+    </div>
+
+    <h3 id="path-induction-tactic"><code>path_induction()</code> — J-Elimination</h3>
+
+    <p>
+      When the goal involves an arbitrary path <code>p : a = b</code>,
+      <code>path_induction()</code> reduces it to the case where
+      <code>p = refl(a)</code> and <code>b = a</code>.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: ∀ a b:A. ∀ p:(a = b). Sym(Sym(p)) = p</span>
+> <span class="fn">intro</span>(<span class="st">"a"</span>); <span class="fn">intro</span>(<span class="st">"b"</span>); <span class="fn">intro</span>(<span class="st">"p"</span>)
+<span class="cm"># Goal: Sym(Sym(p)) = p</span>
+> <span class="fn">path_induction</span>()
+<span class="cm"># Now b = a and p = refl(a)</span>
+<span class="cm"># Goal: Sym(Sym(refl(a))) = refl(a)</span>
+<span class="cm"># Sym(refl(a)) = refl(a), so Sym(Sym(refl(a))) = Sym(refl(a)) = refl(a)</span>
+> <span class="fn">exact</span>(<span class="fn">Refl</span>(<span class="fn">Refl</span>(a)))
+<span class="cm"># Goal solved! ✅</span></code></pre>
+
+    <h3 id="cech-decompose-tactic"><code>cech_decompose(cover)</code> — Čech Strategy</h3>
+
+    <p>
+      Automatically decomposes the current goal using a Čech cover.  Generates
+      one subgoal per patch plus overlap consistency goals.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: ∀ x:int. classify(x) ∈ {"negative", "zero", "positive"}</span>
+> <span class="fn">cech_decompose</span>([<span class="st">"x &lt; 0"</span>, <span class="st">"x == 0"</span>, <span class="st">"x &gt; 0"</span>])
+<span class="cm"># Subgoal 1: x &lt; 0 → classify(x) ∈ {"negative", "zero", "positive"}</span>
+<span class="cm"># Subgoal 2: x == 0 → classify(x) ∈ {"negative", "zero", "positive"}</span>
+<span class="cm"># Subgoal 3: x &gt; 0 → classify(x) ∈ {"negative", "zero", "positive"}</span>
+<span class="cm"># (No overlaps → no gluing subgoals)</span></code></pre>
+
+    <h3 id="fiber-induction-tactic"><code>fiber_induction(fibration)</code> — Induction on Fibers</h3>
+
+    <p>
+      When the goal involves a value from a fibration (e.g., any subclass of
+      an ABC), this tactic generates one subgoal per fiber.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: ∀ c:Collection. after add(x), contains(x) is True</span>
+> <span class="fn">fiber_induction</span>(Collection)
+<span class="cm"># Subgoal 1: c:ListCollection → after add(x), contains(x) is True</span>
+<span class="cm"># Subgoal 2: c:SetCollection → after add(x), contains(x) is True</span>
+<span class="cm"># Subgoal 3: c:DictCollection → after add(x), contains(x) is True</span>
+<span class="cm"># Subgoal 4: c:DequeCollection → after add(x), contains(x) is True</span>
+<span class="cm"># Subgoal 5: c:SortedCollection → after add(x), contains(x) is True</span></code></pre>
+
+    <h3 id="univalence-tactic"><code>univalence()</code> — Apply Univalence Axiom</h3>
+
+    <p>
+      When the goal requires showing two types are equal, <code>univalence()</code>
+      reduces it to showing they are equivalent (have a structure-preserving
+      bijection).
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: list[int] =_Type tuple[int]  (as Sequences)</span>
+> <span class="fn">univalence</span>()
+<span class="cm"># Goal: list[int] ≃ tuple[int]  (as Sequences)</span>
+<span class="cm"># i.e., construct a bijection preserving Sequence operations</span>
+> <span class="fn">exact</span>(<span class="fn">Equiv</span>(
+    forward=<span class="fn">tuple</span>,          <span class="cm"># list → tuple</span>
+    backward=<span class="fn">list</span>,          <span class="cm"># tuple → list</span>
+    roundtrip_lr=...,       <span class="cm"># tuple(list(t)) = t</span>
+    roundtrip_rl=...,       <span class="cm"># list(tuple(l)) = l</span>
+  ))
+<span class="cm"># Goal solved! ✅</span></code></pre>
+
+    <h3 id="funext-tactic"><code>funext()</code> — Apply Function Extensionality</h3>
+
+    <p>
+      When the goal is <code>f = g</code> for two functions, <code>funext()</code>
+      reduces it to showing <code>f(x) = g(x)</code> for an arbitrary <code>x</code>.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: (λ x. x + x) = (λ x. 2 * x)</span>
+> <span class="fn">funext</span>()
+<span class="cm"># Intro'd: x : int</span>
+<span class="cm"># Goal: x + x = 2 * x</span>
+> <span class="fn">apply</span>(add_self_is_double)
+<span class="cm"># Goal solved! ✅</span></code></pre>
+
+    <h3 id="duck-path-tactic"><code>duck_path(protocol)</code> — Construct Duck Typing Path</h3>
+
+    <p>
+      Constructs a path between two objects based on their conformance to a
+      shared protocol.  This is SynHoPy's most Python-specific tactic.
+    </p>
+
+    <pre><code class="tactic-repl"><span class="cm"># Goal: PathType(Iterable[int], my_list, my_tuple)</span>
+> <span class="fn">duck_path</span>(<span class="ty">Iterable</span>[<span class="ty">int</span>])
+<span class="cm"># Checks that both my_list and my_tuple implement __iter__</span>
+<span class="cm"># and yield the same sequence of values.</span>
+<span class="cm"># Auto-generates the path witness.</span>
+<span class="cm"># Goal solved! ✅</span></code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="combinators">Tactic Combinators</h2>
+
+    <p>
+      Tactics compose via combinators — building complex proof strategies
+      from simple pieces:
+    </p>
+
+    <h3><code>then(t1, t2)</code> — Sequential Composition</h3>
+
+    <pre><code><span class="cm"># Do t1 on the current goal, then t2 on whatever remains</span>
+strategy = <span class="fn">then</span>(
+    <span class="fn">intro</span>(<span class="st">"x"</span>),      <span class="cm"># introduce the variable</span>
+    <span class="fn">apply</span>(lemma)      <span class="cm"># then apply a lemma</span>
+)
+
+<span class="cm"># Chains of 'then' are common — use the >> operator</span>
+strategy = <span class="fn">intro</span>(<span class="st">"x"</span>) >> <span class="fn">split</span>() >> <span class="fn">apply</span>(lemma)</code></pre>
+
+    <h3><code>or_else(t1, t2)</code> — Fallback</h3>
+
+    <pre><code><span class="cm"># Try t1; if it fails, try t2</span>
+strategy = <span class="fn">or_else</span>(
+    <span class="fn">apply</span>(specific_lemma),   <span class="cm"># try the specific lemma first</span>
+    <span class="fn">auto</span>()                    <span class="cm"># fall back to auto-search</span>
+)
+
+<span class="cm"># Use the | operator</span>
+strategy = <span class="fn">apply</span>(lemma1) | <span class="fn">apply</span>(lemma2) | <span class="fn">auto</span>()</code></pre>
+
+    <h3><code>repeat(t)</code> — Apply Until Fixpoint</h3>
+
+    <pre><code><span class="cm"># Keep applying t until it fails (no more goals it can solve)</span>
+strategy = <span class="fn">repeat</span>(<span class="fn">intro</span>())
+<span class="cm"># Introduces all universally quantified variables</span>
+
+<span class="cm"># Useful for simplification loops:</span>
+simplify = <span class="fn">repeat</span>(
+    <span class="fn">rewrite</span>(add_zero) | <span class="fn">rewrite</span>(mul_one) | <span class="fn">rewrite</span>(mul_zero)
+)</code></pre>
+
+    <h3><code>all_goals(t)</code> — Apply to Every Open Goal</h3>
+
+    <pre><code><span class="cm"># After split() creates N subgoals, solve all with same tactic</span>
+strategy = <span class="fn">split</span>() >> <span class="fn">all_goals</span>(<span class="fn">auto</span>())
+
+<span class="cm"># Or target a specific goal</span>
+strategy = <span class="fn">split</span>() >> <span class="fn">focus</span>(<span class="nb">1</span>, <span class="fn">apply</span>(lemma_a)) >> <span class="fn">focus</span>(<span class="nb">2</span>, <span class="fn">apply</span>(lemma_b))</code></pre>
+
+    <h3>Full Combinator Reference</h3>
+
+    <table>
+      <thead><tr><th>Combinator</th><th>Description</th><th>Operator</th></tr></thead>
+      <tbody>
+        <tr><td><code>then(t1, t2)</code></td><td>Sequential: t1 then t2</td><td><code>t1 >> t2</code></td></tr>
+        <tr><td><code>or_else(t1, t2)</code></td><td>Try t1, fallback to t2</td><td><code>t1 | t2</code></td></tr>
+        <tr><td><code>repeat(t)</code></td><td>Apply until fixpoint</td><td>—</td></tr>
+        <tr><td><code>all_goals(t)</code></td><td>Apply t to every open goal</td><td>—</td></tr>
+        <tr><td><code>focus(n, t)</code></td><td>Apply t to goal n only</td><td>—</td></tr>
+        <tr><td><code>try_(t)</code></td><td>Apply t, ignore failure</td><td>—</td></tr>
+        <tr><td><code>id_()</code></td><td>Do nothing (identity tactic)</td><td>—</td></tr>
+        <tr><td><code>fail(msg)</code></td><td>Always fail with message</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="interactive">Interactive Tactic Mode</h2>
+
+    <p>
+      SynHoPy provides an interactive REPL for developing proofs
+      step-by-step.  This is invaluable when automatic verification fails
+      and you need to guide the engine.
+    </p>
+
+    <pre><code class="output"><span class="cm">$ synhopy tactic myfile.py::my_function</span>
+
+<span class="cm">SynHoPy Tactic Mode v0.1</span>
+<span class="cm">Function: my_function</span>
+<span class="cm">Guarantee: "returns a sorted list with no duplicates"</span>
+<span class="cm">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+
+<span class="cm">Goal 1 of 1:</span>
+  <span class="cm">∀ xs:list[int].</span>
+    <span class="cm">sorted(unique_sorted(xs)) = unique_sorted(xs)</span>
+    <span class="cm">∧ len(unique_sorted(xs)) = len(set(xs))</span>
+
+> <span class="fn">intro</span>(<span class="st">"xs"</span>)
+  <span class="cm">Context: xs : list[int]</span>
+  <span class="cm">Goal: sorted(unique_sorted(xs)) = unique_sorted(xs)</span>
+         <span class="cm">∧ len(unique_sorted(xs)) = len(set(xs))</span>
+
+> <span class="fn">split</span>()
+  <span class="cm">Goal 1 of 2: sorted(unique_sorted(xs)) = unique_sorted(xs)</span>
+  <span class="cm">Goal 2 of 2: len(unique_sorted(xs)) = len(set(xs))</span>
+
+> <span class="fn">focus</span>(<span class="nb">1</span>)
+  <span class="cm">Goal 1: sorted(unique_sorted(xs)) = unique_sorted(xs)</span>
+  <span class="cm">Hint: unique_sorted returns sorted(list(set(xs)))</span>
+
+> <span class="fn">unfold</span>(<span class="st">"unique_sorted"</span>)
+  <span class="cm">Goal 1: sorted(sorted(list(set(xs)))) = sorted(list(set(xs)))</span>
+
+> <span class="fn">rewrite</span>(sorted_idempotent)
+  <span class="cm">Goal 1 solved! ✅</span>
+
+> <span class="fn">focus</span>(<span class="nb">2</span>)
+  <span class="cm">Goal 2: len(unique_sorted(xs)) = len(set(xs))</span>
+
+> <span class="fn">unfold</span>(<span class="st">"unique_sorted"</span>)
+  <span class="cm">Goal 2: len(sorted(list(set(xs)))) = len(set(xs))</span>
+
+> <span class="fn">rewrite</span>(sorted_preserves_length)
+  <span class="cm">Goal 2: len(list(set(xs))) = len(set(xs))</span>
+
+> <span class="fn">rewrite</span>(list_preserves_length)
+  <span class="cm">Goal 2: len(set(xs)) = len(set(xs))</span>
+
+> <span class="fn">exact</span>(<span class="fn">Refl</span>(<span class="fn">len</span>(<span class="fn">set</span>(xs))))
+  <span class="cm">Goal 2 solved! ✅</span>
+
+<span class="cm">All goals solved! Proof complete. ✅</span>
+<span class="cm">Proof term saved to myfile.synhopy.proof</span></code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="full-example">Full Example: List Reverse Is Involutive</h2>
+
+    <p>
+      Let's prove that reversing a list twice gives back the original list:
+      <code>reverse(reverse(xs)) = xs</code> for all lists <code>xs</code>.
+    </p>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"reverse(reverse(xs)) == xs"</span>)
+<span class="kw">def</span> <span class="fn">reverse_involutive</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">bool</span>:
+    <span class="kw">return</span> <span class="fn">list</span>(<span class="fn">reversed</span>(<span class="fn">list</span>(<span class="fn">reversed</span>(xs)))) == xs</code></pre>
+
+    <div class="proof-steps">
+      <h4>Tactic proof</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <code>&gt; intro("xs")</code><br>
+          Context: <code>xs : list[int]</code><br>
+          Goal: <code>reverse(reverse(xs)) = xs</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <code>&gt; induction("xs")</code><br>
+          <strong>Base case:</strong> <code>reverse(reverse([])) = []</code><br>
+          <strong>Inductive:</strong> IH: <code>reverse(reverse(xs')) = xs'</code><br>
+          Goal: <code>reverse(reverse(x :: xs')) = x :: xs'</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <code>&gt; focus(1); exact(Refl([]))</code><br>
+          Base case: <code>reverse(reverse([])) = reverse([]) = []</code>
+          <span class="verified">Base ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <code>&gt; focus(2); rewrite(reverse_cons)</code><br>
+          Using: <code>reverse(x :: xs') = reverse(xs') ++ [x]</code><br>
+          Goal: <code>reverse(reverse(xs') ++ [x]) = x :: xs'</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <code>&gt; rewrite(reverse_append)</code><br>
+          Using: <code>reverse(as ++ bs) = reverse(bs) ++ reverse(as)</code><br>
+          Goal: <code>reverse([x]) ++ reverse(reverse(xs')) = x :: xs'</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <code>&gt; rewrite(reverse_singleton)</code><br>
+          Using: <code>reverse([x]) = [x]</code><br>
+          Goal: <code>[x] ++ reverse(reverse(xs')) = x :: xs'</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <code>&gt; rewrite(IH)</code><br>
+          Using the induction hypothesis: <code>reverse(reverse(xs')) = xs'</code><br>
+          Goal: <code>[x] ++ xs' = x :: xs'</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <code>&gt; rewrite(singleton_append)</code><br>
+          Using: <code>[x] ++ ys = x :: ys</code><br>
+          Goal: <code>x :: xs' = x :: xs'</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">9</div>
+        <div class="step-content">
+          <code>&gt; exact(Refl(x :: xs'))</code>
+          <span class="verified">Inductive step ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>As a Tactic Script</h3>
+
+    <pre><code><span class="cm"># The full proof as a tactic script (non-interactive)</span>
+proof = (
+    <span class="fn">intro</span>(<span class="st">"xs"</span>)
+    >> <span class="fn">induction</span>(<span class="st">"xs"</span>)
+    >> <span class="fn">focus</span>(<span class="nb">1</span>, <span class="fn">exact</span>(<span class="fn">Refl</span>([])))
+    >> <span class="fn">focus</span>(<span class="nb">2</span>,
+        <span class="fn">rewrite</span>(reverse_cons)
+        >> <span class="fn">rewrite</span>(reverse_append)
+        >> <span class="fn">rewrite</span>(reverse_singleton)
+        >> <span class="fn">rewrite</span>(IH)
+        >> <span class="fn">rewrite</span>(singleton_append)
+        >> <span class="fn">exact</span>(<span class="fn">Refl</span>(Cons(x, xs_)))
+    )
+)</code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="auto">The <code>auto()</code> Tactic</h2>
+
+    <p>
+      <code>auto()</code> is SynHoPy's most powerful tactic.  It searches for
+      a proof by trying a battery of strategies:
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">auto</span>(depth: <span class="ty">int</span> = <span class="nb">5</span>) -> <span class="ty">Tactic</span>:
+    <span class="st">"""Try everything: Z3, simplification, lemma DB, path search."""</span>
+    <span class="kw">return</span> <span class="fn">or_else</span>(
+        <span class="fn">z3_discharge</span>(),             <span class="cm"># try Z3 directly</span>
+        <span class="fn">or_else</span>(
+            <span class="fn">apply_from_db</span>(),         <span class="cm"># try known lemmas</span>
+            <span class="fn">or_else</span>(
+                <span class="fn">simplify</span>() >> <span class="fn">auto</span>(depth - <span class="nb">1</span>),  <span class="cm"># simplify, recurse</span>
+                <span class="fn">or_else</span>(
+                    <span class="fn">split</span>() >> <span class="fn">all_goals</span>(<span class="fn">auto</span>(depth - <span class="nb">1</span>)),  <span class="cm"># case split</span>
+                    <span class="fn">or_else</span>(
+                        <span class="fn">transport_search</span>(),  <span class="cm"># look for transportable proofs</span>
+                        <span class="fn">oracle_query</span>()       <span class="cm"># ask the LLM oracle</span>
+                    )
+                )
+            )
+        )
+    )</code></pre>
+
+    <p>
+      The search order matters.  <code>auto()</code> tries the cheapest and
+      most trustworthy strategies first (Z3, known lemmas), then moves to
+      more expensive ones (case splitting, transport search), and finally
+      falls back to the LLM oracle as a last resort.
+    </p>
+
+    <div class="note">
+      The <code>auto</code> tactic is what runs when you write
+      <code>@guarantee("...")</code> without any manual proof guidance.
+      Most of the time it succeeds automatically.  When it doesn't, you use
+      the interactive tactic mode to guide it.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="comparison">Comparison with F* Meta Tactics</h2>
+
+    <p>
+      F* has a powerful tactic system called Meta-F*.  SynHoPy's tactics
+      are inspired by Meta-F* but differ in key ways:
+    </p>
+
+    <table>
+      <thead><tr><th>Feature</th><th>Meta-F*</th><th>SynHoPy Tactics</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Foundation</td>
+          <td>Dependent types + effects</td>
+          <td>Cubical HoTT</td>
+        </tr>
+        <tr>
+          <td><code>transport</code> tactic</td>
+          <td>❌ N/A</td>
+          <td>✅ First-class</td>
+        </tr>
+        <tr>
+          <td><code>path_induction</code></td>
+          <td>❌ N/A</td>
+          <td>✅ J-elimination</td>
+        </tr>
+        <tr>
+          <td><code>cech_decompose</code></td>
+          <td>❌ N/A</td>
+          <td>✅ Automatic cover</td>
+        </tr>
+        <tr>
+          <td><code>fiber_induction</code></td>
+          <td>❌ N/A</td>
+          <td>✅ Per-subclass proof</td>
+        </tr>
+        <tr>
+          <td><code>univalence</code></td>
+          <td>❌ N/A</td>
+          <td>✅ Equivalence = equality</td>
+        </tr>
+        <tr>
+          <td><code>duck_path</code></td>
+          <td>❌ N/A</td>
+          <td>✅ Python-specific</td>
+        </tr>
+        <tr>
+          <td>Z3 integration</td>
+          <td>✅ SMT</td>
+          <td>✅ Z3 + oracle</td>
+        </tr>
+        <tr>
+          <td>Metaprogramming</td>
+          <td>✅ Full (F* itself)</td>
+          <td>✅ Python metaprogramming</td>
+        </tr>
+        <tr>
+          <td>Target language</td>
+          <td>F* / OCaml / C</td>
+          <td>Python</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The six homotopy-specific tactics (transport, path_induction,
+      cech_decompose, fiber_induction, univalence, duck_path) have
+      <strong>no analogue</strong> in any other verification tool.  They are
+      a direct consequence of building the type theory on homotopy-theoretic
+      foundations.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="custom-tactics">Writing Custom Tactics</h2>
+
+    <p>
+      Because SynHoPy tactics are just Python functions, you can write
+      your own:
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy.tactics <span class="kw">import</span> Tactic, TacticState, intro, apply, rewrite
+
+<span class="cm"># A custom tactic for arithmetic goals</span>
+<span class="kw">def</span> <span class="fn">arith</span>() -> <span class="ty">Tactic</span>:
+    <span class="st">"""Solve arithmetic goals by normalization + Z3."""</span>
+    <span class="kw">return</span> (
+        <span class="fn">repeat</span>(
+            <span class="fn">rewrite</span>(add_zero)
+            | <span class="fn">rewrite</span>(mul_one)
+            | <span class="fn">rewrite</span>(mul_zero)
+            | <span class="fn">rewrite</span>(add_comm)
+            | <span class="fn">rewrite</span>(mul_comm)
+        )
+        >> <span class="fn">z3_discharge</span>()
+    )
+
+<span class="cm"># A domain-specific tactic for financial code</span>
+<span class="kw">def</span> <span class="fn">money_tactic</span>() -> <span class="ty">Tactic</span>:
+    <span class="st">"""Handle Decimal arithmetic with rounding."""</span>
+    <span class="kw">return</span> (
+        <span class="fn">repeat</span>(<span class="fn">rewrite</span>(decimal_add_assoc))
+        >> <span class="fn">rewrite</span>(decimal_round_monotone)
+        >> <span class="fn">z3_discharge</span>()
+    )
+
+<span class="cm"># Use in a guarantee</span>
+<span class="dc">@guarantee</span>(<span class="st">"total = sum of line items"</span>, tactic=money_tactic())
+<span class="kw">def</span> <span class="fn">compute_total</span>(items: <span class="ty">list</span>[<span class="ty">LineItem</span>]) -> <span class="ty">Decimal</span>:
+    <span class="kw">return</span> <span class="fn">sum</span>(item.price * item.qty <span class="kw">for</span> item <span class="kw">in</span> items)</code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="tactic-reference">Quick Reference</h2>
+
+    <h3>Standard Tactics</h3>
+
+    <table>
+      <thead><tr><th>Tactic</th><th>Goal Transform</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>exact(t)</code></td><td>Solves goal if <code>t</code> has right type</td><td>Provide proof directly</td></tr>
+        <tr><td><code>intro(name)</code></td><td><code>∀x.P(x)</code> → <code>P(x)</code></td><td>Introduce variable</td></tr>
+        <tr><td><code>apply(lem)</code></td><td><code>B</code> → <code>A</code> (given lem: A→B)</td><td>Backwards reasoning</td></tr>
+        <tr><td><code>rewrite(p)</code></td><td>Replace <code>a</code> with <code>b</code> (given p: a=b)</td><td>Equational rewriting</td></tr>
+        <tr><td><code>split()</code></td><td>Generates Čech subgoals</td><td>Case analysis</td></tr>
+        <tr><td><code>induction(v)</code></td><td>Base + inductive step</td><td>Structural induction</td></tr>
+        <tr><td><code>unfold(name)</code></td><td>Expand definition</td><td>Unfold a function</td></tr>
+        <tr><td><code>z3_discharge()</code></td><td>Solve if Z3 can</td><td>SMT solver</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Homotopy Tactics (unique to SynHoPy)</h3>
+
+    <table>
+      <thead><tr><th>Tactic</th><th>Goal Transform</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>transport(p)</code></td><td><code>P(b)</code> → <code>P(a)</code> (given p: a=b)</td><td>Carry proof along path</td></tr>
+        <tr><td><code>path_induction()</code></td><td>Reduce to <code>refl</code> case</td><td>J-elimination</td></tr>
+        <tr><td><code>cech_decompose(cover)</code></td><td>One subgoal per patch</td><td>Branch decomposition</td></tr>
+        <tr><td><code>fiber_induction(fib)</code></td><td>One subgoal per fiber</td><td>Per-subclass proof</td></tr>
+        <tr><td><code>univalence()</code></td><td><code>A=B</code> → <code>A≃B</code></td><td>Type equality via equiv</td></tr>
+        <tr><td><code>funext()</code></td><td><code>f=g</code> → <code>∀x. f(x)=g(x)</code></td><td>Function extensionality</td></tr>
+        <tr><td><code>duck_path(proto)</code></td><td>Build path from protocol</td><td>Duck typing witness</td></tr>
+      </tbody>
+    </table>
+
+    <div class="exercise">
+      <strong>Exercise 5.8.</strong>  Write a tactic script to prove:
+      <code>∀ xs:list[int]. len(xs ++ ys) = len(xs) + len(ys)</code>.
+      Use <code>induction("xs")</code>, then handle the base case with
+      <code>exact</code> and the inductive case with <code>rewrite</code>
+      and the induction hypothesis.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 5.9.</strong>  Write a <em>custom tactic</em> called
+      <code>list_solver()</code> that combines <code>induction</code>,
+      <code>repeat(rewrite(...))</code> with common list lemmas, and
+      <code>z3_discharge()</code>.  Test it on the goal
+      <code>reverse(xs ++ ys) = reverse(ys) ++ reverse(xs)</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 5.10.</strong>  Use the interactive tactic mode to
+      prove: if <code>f : list[int] → list[int]</code> is verified to
+      preserve sorting, and we have <code>duck_path(Sequence, list, tuple)</code>,
+      then we can transport the sorting-preservation property to tuples.
+      Which tactics do you need?
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <div class="page-nav">
+      <a href="fibrations.html">
+        <span class="label">← Previous</span>
+        <span class="title">Fibrations</span>
+      </a>
+      <a href="../part6/index.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Part 6 — Heap &amp; Concurrency</span>
+      </a>
+    </div>
+  </article>
+</div>
+<script src="../js/book.js"></script>
+</body>
+</html>

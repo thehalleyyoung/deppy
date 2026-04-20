@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Čech Decomposition | SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="cech.html" class="active">Čech Decomposition</a></li>
+      <li><a href="fibrations.html">Fibrations</a></li>
+      <li><a href="tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Čech Decomposition</h1>
+    <p class="subtitle" style="font-size:1.05rem;color:var(--text-muted);margin-bottom:2rem;">
+      Verify branching code by decomposing it into patches, proving each
+      patch independently, and gluing local proofs into a global guarantee.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="intuition">What Is Čech Cohomology?</h2>
+
+    <p>
+      Imagine you want to verify that a painted canvas is entirely blue.  The
+      canvas is too large to inspect all at once, so you cover it with
+      overlapping magnifying lenses — each lens shows a small region.  You
+      check that each region is blue.  On the overlaps (where two lenses see
+      the same area), you check that they agree.  If every region is blue and
+      the overlaps are consistent, you conclude the entire canvas is blue.
+    </p>
+
+    <p>
+      That's <strong>Čech cohomology</strong> in a nutshell.  The canvas is
+      your function's input domain.  The lenses are your function's branches
+      (<code>if</code>/<code>elif</code>/<code>else</code>).  The property
+      "is blue" is your postcondition.  The overlap check is the
+      <em>gluing condition</em>.  And the conclusion — "the whole canvas is
+      blue" — is your <code>@guarantee</code>.
+    </p>
+
+    <blockquote>
+      <strong>Čech decomposition turns one hard global proof into many easy
+      local proofs plus a consistency check.</strong>
+    </blockquote>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="cover">The Čech Cover</h2>
+
+    <p>
+      A <strong>Čech cover</strong> of a function is a collection of
+      <em>patches</em> <code>{U₁, U₂, …, Uₙ}</code> that together cover the
+      entire input domain.  Each patch corresponds to one branch of the
+      function.
+    </p>
+
+    <pre><code><span class="cm"># Python function with three branches</span>
+<span class="kw">def</span> <span class="fn">classify</span>(x: <span class="ty">int</span>) -> <span class="ty">str</span>:
+    <span class="kw">if</span> x &lt; <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="st">"negative"</span>     <span class="cm"># Patch U₁: { x | x &lt; 0 }</span>
+    <span class="kw">elif</span> x == <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="st">"zero"</span>         <span class="cm"># Patch U₂: { x | x = 0 }</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="st">"positive"</span>     <span class="cm"># Patch U₃: { x | x &gt; 0 }</span>
+
+<span class="cm"># Cover: U₁ ∪ U₂ ∪ U₃ = ℤ  (all integers)  ✓</span>
+<span class="cm"># Pairwise overlaps: U₁ ∩ U₂ = ∅, U₂ ∩ U₃ = ∅, U₁ ∩ U₃ = ∅</span>
+<span class="cm"># No overlaps to check → trivial gluing</span></code></pre>
+
+    <p>
+      SynHoPy automatically extracts the cover from the Python AST.  Each
+      <code>if</code>/<code>elif</code>/<code>else</code> condition defines a
+      patch.  <code>match</code>/<code>case</code> patterns define patches.
+      <code>try</code>/<code>except</code> blocks define patches (normal
+      execution vs. exception paths).
+    </p>
+
+    <h3>Why Branching Code Is Hard</h3>
+
+    <p>
+      The fundamental difficulty of verifying branching code is that you must
+      reason about <em>all paths simultaneously</em>.  A function with 5
+      branches has 5 possible execution paths, and the interactions between
+      them can be subtle.  Without Čech decomposition, you'd need a single
+      monolithic proof that handles all cases.
+    </p>
+
+    <p>
+      With Čech decomposition, you:
+    </p>
+
+    <ol>
+      <li><strong>Decompose</strong> the function body into patches (one per branch).</li>
+      <li><strong>Verify each patch independently</strong> using Z3 or other solvers.</li>
+      <li><strong>Check agreement on overlaps</strong> (where two branches could both apply).</li>
+      <li><strong>Glue</strong> the local proofs into a global proof via <code>CechGlue</code>.</li>
+    </ol>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="algorithm">The Čech Verification Algorithm</h2>
+
+    <p>
+      Here is the full algorithm, step by step:
+    </p>
+
+    <div class="proof-steps">
+      <h4>Algorithm: Čech Decomposition</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Extract cover.</strong>  Parse the function AST. Identify
+          branching constructs (<code>if/elif/else</code>, <code>match/case</code>,
+          <code>try/except</code>).  For each branch, extract the guard condition
+          as the patch predicate.
+          <pre><code>patches = <span class="fn">extract_patches</span>(function_ast)
+<span class="cm"># [Patch(guard=x&lt;0, body=...), Patch(guard=x==0, body=...), ...]</span></code></pre>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Check coverage.</strong>  Verify that the patches cover the
+          entire input domain: <code>U₁ ∪ U₂ ∪ … ∪ Uₙ = Domain</code>.
+          This is a Z3 query: <code>¬(guard₁ ∨ guard₂ ∨ … ∨ guardₙ)</code>
+          must be unsatisfiable.
+          <pre><code><span class="fn">z3_check</span>(<span class="fn">Not</span>(<span class="fn">Or</span>(*[p.guard <span class="kw">for</span> p <span class="kw">in</span> patches])))
+<span class="cm"># Must be UNSAT → patches cover everything</span></code></pre>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Verify each patch.</strong>  For each patch Uᵢ, assume the
+          guard and verify the postcondition (guarantee) holds for the branch body.
+          <pre><code><span class="kw">for</span> patch <span class="kw">in</span> patches:
+    local_proof = <span class="fn">verify</span>(
+        assume=patch.guard,
+        body=patch.body,
+        postcondition=guarantee
+    )</code></pre>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Check overlaps.</strong>  For every pair of patches (Uᵢ, Uⱼ)
+          with non-empty overlap <code>Uᵢ ∩ Uⱼ</code>, verify that the two
+          branches produce the same result on the overlap region.
+          <pre><code><span class="kw">for</span> i, j <span class="kw">in</span> <span class="fn">pairs</span>(patches):
+    overlap = <span class="fn">And</span>(patches[i].guard, patches[j].guard)
+    <span class="kw">if</span> <span class="fn">z3_sat</span>(overlap):  <span class="cm"># overlap is non-empty</span>
+        <span class="fn">verify_agreement</span>(patches[i].body, patches[j].body, overlap)</code></pre>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Glue.</strong>  Combine all local proofs into a global proof
+          via <code>CechGlue</code>.
+          <pre><code>global_proof = <span class="fn">CechGlue</span>(local_proofs, overlap_proofs)
+<span class="cm"># global_proof : ∀x. guarantee(f(x))</span></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="example-piecewise">Example: Piecewise Function Verification</h2>
+
+    <pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+
+<span class="dc">@guarantee</span>(<span class="st">"returns a string describing the sign of x"</span>)
+<span class="kw">def</span> <span class="fn">classify</span>(x: <span class="ty">int</span>) -> <span class="ty">str</span>:
+    <span class="kw">if</span> x &lt; <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="st">"negative"</span>
+    <span class="kw">elif</span> x == <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="st">"zero"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="st">"positive"</span></code></pre>
+
+    <div class="proof-steps">
+      <h4>Verification trace</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Extract cover:</strong>
+          <code>U₁ = {x &lt; 0}</code>,
+          <code>U₂ = {x = 0}</code>,
+          <code>U₃ = {x &gt; 0}</code>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Coverage:</strong> <code>x &lt; 0 ∨ x = 0 ∨ x &gt; 0</code>
+          is a tautology for integers. <span class="verified">Covered</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Patch U₁ (x &lt; 0):</strong>  Returns <code>"negative"</code>.
+          Check: is <code>"negative"</code> a string describing the sign?
+          Z3 + oracle: yes — for any negative x, returning "negative" is correct.
+          <span class="verified">Local proof ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Patch U₂ (x = 0):</strong>  Returns <code>"zero"</code>.
+          <span class="verified">Local proof ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Patch U₃ (x &gt; 0):</strong>  Returns <code>"positive"</code>.
+          <span class="verified">Local proof ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <strong>Overlaps:</strong>  All pairwise overlaps are empty
+          (<code>x &lt; 0 ∧ x = 0</code> is UNSAT, etc.).  No gluing
+          conditions to check.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <strong>Glue:</strong> <code>CechGlue(proof₁, proof₂, proof₃)</code>.
+          <span class="verified">Globally verified</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="exception-handling">Example: Exception Handling as Čech Cover</h2>
+
+    <p>
+      One of SynHoPy's most powerful insights is that <code>try/except</code>
+      blocks are <em>also</em> Čech covers.  The "try" body is one patch, and
+      each <code>except</code> handler is another.  Together they cover all
+      possible execution paths.
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+
+<span class="dc">@guarantee</span>(<span class="st">"returns a / b if b != 0, else returns float('inf')"</span>)
+<span class="kw">def</span> <span class="fn">safe_divide</span>(a: <span class="ty">float</span>, b: <span class="ty">float</span>) -> <span class="ty">float</span>:
+    <span class="kw">try</span>:
+        <span class="kw">return</span> a / b               <span class="cm"># Patch U₁: normal execution (b ≠ 0)</span>
+    <span class="kw">except</span> <span class="ty">ZeroDivisionError</span>:
+        <span class="kw">return</span> <span class="fn">float</span>(<span class="st">'inf'</span>)       <span class="cm"># Patch U₂: exception path (b = 0)</span></code></pre>
+
+    <div class="proof-steps">
+      <h4>Verification trace</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Extract cover:</strong>
+          <code>U₁ = {(a,b) | b ≠ 0}</code> (no exception),
+          <code>U₂ = {(a,b) | b = 0}</code> (ZeroDivisionError raised).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Coverage:</strong> <code>b ≠ 0 ∨ b = 0</code> is a
+          tautology. <span class="verified">Covered</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Patch U₁ (b ≠ 0):</strong>  Returns <code>a / b</code>.
+          Guarantee requires <code>result = a / b when b ≠ 0</code>.  Trivially holds.
+          <span class="verified">Local proof ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Patch U₂ (b = 0):</strong>  Returns <code>float('inf')</code>.
+          Guarantee requires <code>result = float('inf') when b = 0</code>.  Holds.
+          <span class="verified">Local proof ✓</span>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Overlap:</strong> <code>b ≠ 0 ∧ b = 0</code> is UNSAT.
+          No gluing needed.
+          <span class="verified">CechGlue ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      SynHoPy treats exception semantics precisely.  It knows that
+      <code>a / b</code> raises <code>ZeroDivisionError</code> when
+      <code>b = 0</code>, so it correctly partitions the domain into the
+      try-body and except-handler regions.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="overlaps">Overlapping Branches</h2>
+
+    <p>
+      The most interesting (and most important) case is when branches
+      <strong>overlap</strong> — when an input could trigger multiple
+      branches.  This happens more often than you might think:
+    </p>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"returns max(a, b)"</span>)
+<span class="kw">def</span> <span class="fn">maximum</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> a >= b:
+        <span class="kw">return</span> a       <span class="cm"># Patch U₁: { (a,b) | a ≥ b }</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> b       <span class="cm"># Patch U₂: { (a,b) | a &lt; b }</span></code></pre>
+
+    <p>
+      Here <code>U₁ ∩ U₂ = ∅</code> because <code>a ≥ b</code> and
+      <code>a &lt; b</code> are mutually exclusive.  But consider a variant:
+    </p>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"returns max(a, b)"</span>)
+<span class="kw">def</span> <span class="fn">maximum_v2</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> a >= b:
+        <span class="kw">return</span> a       <span class="cm"># Patch U₁: { (a,b) | a ≥ b }</span>
+    <span class="kw">if</span> b >= a:
+        <span class="kw">return</span> b       <span class="cm"># Patch U₂: { (a,b) | b ≥ a }</span></code></pre>
+
+    <p>
+      Now <code>U₁ ∩ U₂ = {(a,b) | a = b}</code> is non-empty.  On the
+      overlap, the first branch returns <code>a</code> and the second returns
+      <code>b</code>.  Since <code>a = b</code> on the overlap, both branches
+      return the same value.  The gluing condition is satisfied.
+    </p>
+
+    <pre><code><span class="cm"># Gluing check for maximum_v2</span>
+<span class="cm"># On U₁ ∩ U₂ = {a = b}: branch 1 returns a, branch 2 returns b</span>
+<span class="cm"># Need: a = b on the overlap</span>
+<span class="cm"># Z3 query: a ≥ b ∧ b ≥ a → a = b  ...  VALID ✓</span>
+<span class="cm"># Gluing condition satisfied!</span></code></pre>
+
+    <div class="tip">
+      The overlap check is where SynHoPy catches <strong>inconsistent
+      branching</strong> — if two branches disagree on their overlap, the
+      proof fails with a concrete counterexample.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="match-case">Match/Case as Čech Cover</h2>
+
+    <p>
+      Python 3.10's structural pattern matching maps perfectly to Čech covers:
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+
+<span class="dc">@guarantee</span>(<span class="st">"returns the area of the shape"</span>)
+<span class="kw">def</span> <span class="fn">area</span>(shape: <span class="ty">Shape</span>) -> <span class="ty">float</span>:
+    <span class="kw">match</span> shape:
+        <span class="kw">case</span> <span class="ty">Circle</span>(r):                  <span class="cm"># U₁</span>
+            <span class="kw">return</span> <span class="nb">3.14159</span> * r * r
+        <span class="kw">case</span> <span class="ty">Rectangle</span>(w, h):             <span class="cm"># U₂</span>
+            <span class="kw">return</span> w * h
+        <span class="kw">case</span> <span class="ty">Triangle</span>(base, height):       <span class="cm"># U₃</span>
+            <span class="kw">return</span> <span class="nb">0.5</span> * base * height
+        <span class="kw">case</span> _:                            <span class="cm"># U₄ (wildcard)</span>
+            <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">"Unknown shape"</span>)
+
+<span class="cm"># Each case arm is a patch.</span>
+<span class="cm"># The wildcard case _ catches everything not matched above.</span>
+<span class="cm"># Coverage: U₁ ∪ U₂ ∪ U₃ ∪ U₄ = all Shape instances  ✓</span>
+<span class="cm"># Overlaps: pattern matching is sequential → no overlap</span></code></pre>
+
+    <p>
+      SynHoPy treats <code>match/case</code> as a special Čech cover where
+      the patches are ordered (first match wins), which means there are no
+      overlaps to check — each case excludes all previous patterns.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="equiv-branching">Example: Proving Equivalence of Two Branching Functions</h2>
+
+    <pre><code><span class="cm"># Version 1: traditional if/elif</span>
+<span class="dc">@guarantee</span>(<span class="st">"returns the grade letter for a score"</span>)
+<span class="kw">def</span> <span class="fn">grade_v1</span>(score: <span class="ty">int</span>) -> <span class="ty">str</span>:
+    <span class="kw">if</span> score >= <span class="nb">90</span>: <span class="kw">return</span> <span class="st">"A"</span>
+    <span class="kw">elif</span> score >= <span class="nb">80</span>: <span class="kw">return</span> <span class="st">"B"</span>
+    <span class="kw">elif</span> score >= <span class="nb">70</span>: <span class="kw">return</span> <span class="st">"C"</span>
+    <span class="kw">elif</span> score >= <span class="nb">60</span>: <span class="kw">return</span> <span class="st">"D"</span>
+    <span class="kw">else</span>: <span class="kw">return</span> <span class="st">"F"</span>
+
+<span class="cm"># Version 2: dictionary lookup</span>
+<span class="dc">@guarantee</span>(<span class="st">"returns the grade letter for a score"</span>)
+<span class="kw">def</span> <span class="fn">grade_v2</span>(score: <span class="ty">int</span>) -> <span class="ty">str</span>:
+    thresholds = [(<span class="nb">90</span>, <span class="st">"A"</span>), (<span class="nb">80</span>, <span class="st">"B"</span>), (<span class="nb">70</span>, <span class="st">"C"</span>), (<span class="nb">60</span>, <span class="st">"D"</span>)]
+    <span class="kw">for</span> threshold, letter <span class="kw">in</span> thresholds:
+        <span class="kw">if</span> score >= threshold:
+            <span class="kw">return</span> letter
+    <span class="kw">return</span> <span class="st">"F"</span></code></pre>
+
+    <p>
+      To prove these equivalent, SynHoPy:
+    </p>
+
+    <ol>
+      <li>Čech-decomposes <code>grade_v1</code> into 5 patches (one per branch).</li>
+      <li>Čech-decomposes <code>grade_v2</code> into 5 patches (loop unrolling + final return).</li>
+      <li>Constructs a <strong>refinement of the two covers</strong>: a common cover where
+          each patch of one function corresponds to a patch of the other.</li>
+      <li>On each patch of the common cover, checks that both functions return the same result.</li>
+      <li>Applies FunExt to conclude <code>grade_v1 = grade_v2</code>.</li>
+    </ol>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="obstruction">H¹ Obstruction: When Proofs <em>Can't</em> Be Glued</h2>
+
+    <p>
+      Not every collection of local proofs can be glued into a global proof.
+      When they can't, the obstruction lives in <strong>H¹</strong> — the
+      first Čech cohomology group.  This is the mathematical name for
+      "the local proofs are inconsistent on overlaps."
+    </p>
+
+    <pre><code><span class="cm"># This function has an H¹ obstruction — it CANNOT be verified!</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"returns a consistent ordering of items"</span>)
+<span class="kw">def</span> <span class="fn">broken_sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">if</span> <span class="fn">len</span>(xs) &lt;= <span class="nb">2</span>:
+        <span class="kw">return</span> <span class="fn">sorted</span>(xs)                 <span class="cm"># U₁: len ≤ 2 → correct</span>
+    <span class="kw">elif</span> <span class="fn">len</span>(xs) &lt;= <span class="nb">5</span>:
+        <span class="kw">return</span> <span class="fn">sorted</span>(xs, reverse=<span class="nb">True</span>)  <span class="cm"># U₂: 3 ≤ len ≤ 5 → DESCENDING!</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="fn">sorted</span>(xs)                 <span class="cm"># U₃: len &gt; 5 → correct</span></code></pre>
+
+    <div class="proof-steps">
+      <h4>Obstruction detection</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Patch U₁:</strong>  <code>sorted(xs)</code> produces ascending order.
+          <span class="verified">Local proof ✓</span> (ascending = "consistent ordering")
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Patch U₂:</strong>  <code>sorted(xs, reverse=True)</code> produces
+          descending order.  <span class="verified">Local proof ✓</span> (descending is also
+          a "consistent ordering" locally)
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Overlap U₁ ∩ U₂:</strong>  <code>len(xs) = 2</code>.
+          U₁ returns <code>[1, 2]</code>, U₂ returns <code>[2, 1]</code>.
+          <span class="rejected">DISAGREEMENT</span> — different results on overlap.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>H¹ obstruction:</strong>  The cocycle
+          <code>[1, 2] ≠ [2, 1]</code> is non-trivial.
+          <span class="rejected">Cannot glue — proof fails</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="important">
+      The H¹ obstruction is not just a "proof failure" — it is a
+      <strong>witness</strong> that the function is genuinely buggy.
+      SynHoPy reports: "On inputs of length 2, patches U₁ and U₂ produce
+      contradictory orderings."  This is a concrete, actionable bug report.
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="sheaf-theory">Connection to Sheaf Theory</h2>
+
+    <p>
+      The Čech decomposition is an instance of <strong>sheaf theory</strong>
+      — one of the most beautiful areas of modern mathematics.  Here is how
+      the correspondence works:
+    </p>
+
+    <table>
+      <thead><tr><th>Sheaf Theory</th><th>SynHoPy</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Topological space X</td>
+          <td>Function's input domain</td>
+        </tr>
+        <tr>
+          <td>Open cover {Uᵢ}</td>
+          <td>Branch conditions</td>
+        </tr>
+        <tr>
+          <td>Presheaf F</td>
+          <td>Properties/guarantees</td>
+        </tr>
+        <tr>
+          <td>Section over Uᵢ</td>
+          <td>Local proof on patch Uᵢ</td>
+        </tr>
+        <tr>
+          <td>Restriction map F(Uᵢ) → F(Uᵢ ∩ Uⱼ)</td>
+          <td>Restricting a proof to the overlap</td>
+        </tr>
+        <tr>
+          <td>Gluing axiom</td>
+          <td>Overlap consistency check</td>
+        </tr>
+        <tr>
+          <td>Global section</td>
+          <td>Global proof (CechGlue result)</td>
+        </tr>
+        <tr>
+          <td>H¹(X, F)</td>
+          <td>Obstruction to gluing (bug witness)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The <strong>sheaf condition</strong> says that local data can be glued
+      into global data whenever it agrees on overlaps.  In SynHoPy, the
+      "data" is proof terms, and the sheaf condition becomes: local proofs
+      can be glued into a global proof whenever they are consistent on
+      overlapping branches.
+    </p>
+
+    <h3>Presheaf of Properties over Execution Paths</h3>
+
+    <p>
+      For each open set <code>U</code> in the input domain, we assign the
+      set of all properties that are verified on <code>U</code>.  This gives
+      a <em>presheaf</em> — a functor from open sets to properties.  The
+      presheaf is a <em>sheaf</em> if and only if properties that hold
+      locally (on every patch) and agree on overlaps also hold globally.
+    </p>
+
+    <pre><code><span class="cm"># Presheaf of properties</span>
+<span class="cm"># F(U) = { P | P is verified for all inputs in U }</span>
+
+<span class="cm"># For classify():</span>
+<span class="cm"># F(U₁) = { "returns 'negative'" }   — verified on x &lt; 0</span>
+<span class="cm"># F(U₂) = { "returns 'zero'" }       — verified on x = 0</span>
+<span class="cm"># F(U₃) = { "returns 'positive'" }   — verified on x &gt; 0</span>
+<span class="cm">#</span>
+<span class="cm"># Sheaf condition: these local properties glue to</span>
+<span class="cm"># F(ℤ) = { "returns correct sign description" }</span>
+<span class="cm"># because they are consistent on overlaps (which are empty)</span></code></pre>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="nested">Nested Branching &amp; Higher Čech</h2>
+
+    <p>
+      Real Python code often has <strong>nested</strong> branching — an
+      <code>if</code> inside an <code>if</code>, a <code>try/except</code>
+      inside a <code>match/case</code>, etc.  SynHoPy handles this via
+      <strong>iterated Čech decomposition</strong>: decompose the outer
+      branches first, then decompose each inner branch.
+    </p>
+
+    <pre><code><span class="dc">@guarantee</span>(<span class="st">"returns a formatted string for the HTTP response"</span>)
+<span class="kw">def</span> <span class="fn">format_response</span>(status: <span class="ty">int</span>, body: <span class="ty">str</span>) -> <span class="ty">str</span>:
+    <span class="kw">if</span> status >= <span class="nb">200</span> <span class="kw">and</span> status &lt; <span class="nb">300</span>:           <span class="cm"># Outer U₁: success</span>
+        <span class="kw">if</span> body:                                  <span class="cm"># Inner U₁₁: has body</span>
+            <span class="kw">return</span> <span class="st">f"OK: </span>{body}<span class="st">"</span>
+        <span class="kw">else</span>:                                     <span class="cm"># Inner U₁₂: no body</span>
+            <span class="kw">return</span> <span class="st">"OK: (empty)"</span>
+    <span class="kw">elif</span> status >= <span class="nb">400</span> <span class="kw">and</span> status &lt; <span class="nb">500</span>:        <span class="cm"># Outer U₂: client error</span>
+        <span class="kw">return</span> <span class="st">f"Client Error </span>{status}<span class="st">: </span>{body}<span class="st">"</span>
+    <span class="kw">else</span>:                                        <span class="cm"># Outer U₃: other</span>
+        <span class="kw">return</span> <span class="st">f"Status </span>{status}<span class="st">: </span>{body}<span class="st">"</span>
+
+<span class="cm"># Decomposition tree:</span>
+<span class="cm"># ├─ U₁ (200 ≤ status &lt; 300)</span>
+<span class="cm"># │   ├─ U₁₁ (body non-empty)</span>
+<span class="cm"># │   └─ U₁₂ (body empty)</span>
+<span class="cm"># ├─ U₂ (400 ≤ status &lt; 500)</span>
+<span class="cm"># └─ U₃ (everything else)</span></code></pre>
+
+    <p>
+      The nested structure forms a <em>tree of covers</em>.  SynHoPy verifies
+      bottom-up: inner branches first, then glue to verify outer branches,
+      then glue again for the global proof.
+    </p>
+
+    <!-- ════════════════════════════════════════════ -->
+    <h2 id="cech-glue-term">The CechGlue Proof Term</h2>
+
+    <p>
+      <code>CechGlue</code> is the proof term that combines local proofs
+      into a global proof.  Here is its formal signature:
+    </p>
+
+    <pre><code class="notation"><span class="fn">CechGlue</span>(
+    cover:   <span class="ty">list</span>[<span class="ty">Patch</span>],            <span class="cm"># the patches {U₁, ..., Uₙ}</span>
+    locals:  <span class="ty">list</span>[<span class="ty">ProofTerm</span>],        <span class="cm"># local proofs {π₁, ..., πₙ}</span>
+    glues:   <span class="ty">dict</span>[(<span class="ty">int</span>,<span class="ty">int</span>), <span class="ty">ProofTerm</span>] <span class="cm"># overlap proofs {πᵢⱼ}</span>
+) -> <span class="ty">ProofTerm</span>                       <span class="cm"># global proof</span>
+
+<span class="cm"># Preconditions (checked):</span>
+<span class="cm"># 1. ∪ patches = Domain</span>
+<span class="cm"># 2. For each i: locals[i] proves guarantee on patch[i]</span>
+<span class="cm"># 3. For each (i,j) with patch[i] ∩ patch[j] ≠ ∅:</span>
+<span class="cm">#    glues[(i,j)] proves that locals[i] and locals[j]</span>
+<span class="cm">#    agree on patch[i] ∩ patch[j]</span></code></pre>
+
+    <p>
+      The output is a single proof term that you can think of as:
+      "for any input <code>x</code>, find which patch <code>x</code> belongs
+      to and apply the corresponding local proof."  The gluing proofs ensure
+      that the choice of patch doesn't matter when <code>x</code> is in an
+      overlap.
+    </p>
+
+    <div class="exercise">
+      <strong>Exercise 5.4.</strong>  Write a Python function
+      <code>clamp(x, lo, hi)</code> that returns <code>lo</code> if
+      <code>x &lt; lo</code>, <code>hi</code> if <code>x &gt; hi</code>,
+      and <code>x</code> otherwise.  Annotate it with
+      <code>@guarantee("lo &lt;= result &lt;= hi")</code>.  Identify the
+      Čech cover (3 patches).  What are the overlaps?  Write out the
+      gluing conditions.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 5.5.</strong>  Consider a function with redundant
+      branches:
+      <pre><code><span class="kw">def</span> <span class="fn">sign</span>(x: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> x > <span class="nb">0</span>: <span class="kw">return</span> <span class="nb">1</span>
+    <span class="kw">if</span> x &lt; <span class="nb">0</span>: <span class="kw">return</span> -<span class="nb">1</span>
+    <span class="kw">if</span> x >= <span class="nb">0</span>: <span class="kw">return</span> <span class="nb">0</span> <span class="kw">if</span> x == <span class="nb">0</span> <span class="kw">else</span> <span class="nb">1</span>
+    <span class="kw">return</span> <span class="nb">0</span></code></pre>
+      What is the Čech cover?  Which patches overlap?  Does the gluing
+      condition hold?  (Hint: check what each branch returns when
+      <code>x = 5</code>, which is in <code>U₁ ∩ U₃</code>.)
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <div class="page-nav">
+      <a href="paths.html">
+        <span class="label">← Previous</span>
+        <span class="title">Path Types &amp; Transport</span>
+      </a>
+      <a href="fibrations.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Fibrations</span>
+      </a>
+    </div>
+  </article>
+</div>
+<script src="../js/book.js"></script>
+</body>
+</html>

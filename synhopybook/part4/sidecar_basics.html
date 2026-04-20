@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidecar Basics | SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Sidecar Proof Basics</h1>
+    <p>
+      This chapter teaches you how to create sidecar specifications — formal contracts
+      for libraries you don't own. By the end, you'll be able to write <code>.synhopy</code>
+      files for any Python module and verify your code against them.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="creating-sidecar">Creating a <code>.synhopy</code> File</h2>
+    <p>
+      A sidecar file mirrors the structure of the module it describes. For a module
+      <code>foo.bar</code>, create <code>foo/bar.synhopy</code> in your project's
+      <code>sidecars/</code> directory (or wherever you configure
+      <code>synhopy.toml</code> to look).
+    </p>
+
+    <pre><code class="output"><span class="cm"># Project layout</span>
+myproject/
+├── src/
+│   └── my_app.py          <span class="cm"># your code — imports math, collections</span>
+├── sidecars/
+│   ├── math.synhopy        <span class="cm"># sidecar for Python's math module</span>
+│   └── collections.synhopy <span class="cm"># sidecar for Python's collections</span>
+├── synhopy.toml            <span class="cm"># configuration</span>
+└── tests/</code></pre>
+
+    <p>The <code>synhopy.toml</code> configuration:</p>
+    <pre><code class="toml"><span class="cm"># synhopy.toml</span>
+[sidecar]
+search_paths = [<span class="st">"sidecars/"</span>]
+auto_discover = <span class="nb">true</span>
+
+[verification]
+default_trust = <span class="st">"Z3_PROVEN"</span>
+timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof obligation</span></code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="about-decorator">The <code>@about</code> Decorator</h2>
+    <p>
+      Every specification in a sidecar file is bound to an external function or class
+      via the <code>@about</code> decorator. The argument is the <strong>fully qualified
+      name</strong> of the target.
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy.sidecar <span class="kw">import</span> about, ExternalSpec
+
+<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Specification for math.sqrt."""</span>
+    ...
+
+<span class="dc">@about</span>(<span class="st">"math.factorial"</span>)
+<span class="kw">class</span> <span class="fn">FactorialSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""Specification for math.factorial."""</span>
+    ...</code></pre>
+
+    <p>
+      The name resolution rules are:
+    </p>
+    <ul>
+      <li><code>"math.sqrt"</code> — top-level function in a module</li>
+      <li><code>"collections.OrderedDict"</code> — a class</li>
+      <li><code>"collections.OrderedDict.popitem"</code> — a method on a class</li>
+      <li><code>"numpy.linalg.solve"</code> — nested module function</li>
+    </ul>
+
+    <div class="tip">
+      SynHoPy verifies that the target exists in the installed package at verification
+      time. If <code>math.sqrt</code> doesn't resolve, you get a clear error — not a
+      silent failure.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="external-spec">The <code>ExternalSpec</code> Class</h2>
+    <p>
+      <code>ExternalSpec</code> is the base class for all sidecar specifications. It
+      provides a structured way to declare preconditions, postconditions, algebraic
+      laws, and exception behavior.
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove, law
+
+<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="st">"""math.sqrt(x) → float"""</span>
+
+    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""x must be non-negative."""</span>
+        <span class="kw">return</span> x >= <span class="nb">0</span>
+
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>, result: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""Result is the non-negative square root."""</span>
+        <span class="kw">return</span> result >= <span class="nb">0</span> <span class="kw">and</span> abs(result * result - x) < <span class="nb">1e-10</span>
+
+    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">type</span> | <span class="nb">None</span>:
+        <span class="st">"""ValueError when x < 0."""</span>
+        <span class="kw">if</span> x < <span class="nb">0</span>:
+            <span class="kw">return</span> <span class="ty">ValueError</span>
+        <span class="kw">return</span> <span class="nb">None</span>
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">sqrt_of_square</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""sqrt(x²) == |x| for all x."""</span>
+        <span class="kw">return</span> abs(self.call(x * x) - abs(x)) < <span class="nb">1e-10</span></code></pre>
+
+    <h3>ExternalSpec Methods</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Purpose</th>
+          <th>Required?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>precondition(self, ...)</code></td>
+          <td>Conditions that must hold before calling the function</td>
+          <td>Optional</td>
+        </tr>
+        <tr>
+          <td><code>postcondition(self, ..., result)</code></td>
+          <td>Conditions guaranteed to hold after the call returns</td>
+          <td>Optional</td>
+        </tr>
+        <tr>
+          <td><code>raises(self, ...)</code></td>
+          <td>Which exception (if any) is thrown for given inputs</td>
+          <td>Optional</td>
+        </tr>
+        <tr>
+          <td><code>@law</code> methods</td>
+          <td>Algebraic properties (commutativity, etc.)</td>
+          <td>Optional</td>
+        </tr>
+        <tr>
+          <td><code>trust_level</code> attribute</td>
+          <td>How much to trust this spec (default: <code>Z3_PROVEN</code>)</td>
+          <td>Optional</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="assume-vs-prove">Assume vs. Prove</h2>
+    <p>
+      Sidecar specs distinguish between things you <strong>assume</strong> about the
+      library and things you <strong>prove</strong> about your usage of it.
+    </p>
+
+    <div class="compare">
+      <div>
+        <h4><code>assume</code></h4>
+        <pre><code><span class="cm"># You TRUST the library does this</span>
+<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    trust_level = <span class="st">"ASSUMED"</span>
+
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(self, x, r):
+        <span class="kw">return</span> r >= <span class="nb">0</span>
+<span class="cm"># ↑ Not verified — taken on faith</span></code></pre>
+      </div>
+      <div>
+        <h4><code>prove</code></h4>
+        <pre><code><span class="cm"># SynHoPy CHECKS this at call sites</span>
+<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    trust_level = <span class="st">"Z3_PROVEN"</span>
+
+    <span class="dc">@prove</span>
+    <span class="kw">def</span> <span class="fn">precondition</span>(self, x):
+        <span class="kw">return</span> x >= <span class="nb">0</span>
+<span class="cm"># ↑ Z3 must prove this at every call</span></code></pre>
+      </div>
+    </div>
+
+    <p>
+      The rule is simple: <strong>postconditions are assumed</strong> (you trust the
+      library's implementation), <strong>preconditions are proved</strong> (you must
+      show your code satisfies them).
+    </p>
+
+    <div class="warning">
+      If you mark a postcondition with <code>@prove</code>, SynHoPy will try to verify
+      the library's implementation — which requires source access. This only works for
+      libraries you also have the source code for. For <code>pip</code> packages, stick
+      with <code>@assume</code> on postconditions.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="math-sidecar">Example: Sidecar for Python's <code>math</code> Module</h2>
+    <p>
+      Let's build a complete sidecar for the most commonly used functions in
+      <code>math</code>.
+    </p>
+
+    <pre><code><span class="cm"># sidecars/math.synhopy</span>
+<span class="kw">from</span> synhopy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove, law
+<span class="kw">from</span> synhopy.types <span class="kw">import</span> Nat, PosInt, NonNegFloat
+
+<span class="cm"># ── sqrt ──────────────────────────────────────────────</span>
+<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
+<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> x >= <span class="nb">0</span>
+
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>, result: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> result >= <span class="nb">0</span> <span class="kw">and</span> abs(result * result - x) < <span class="nb">1e-10</span>
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">monotone</span>(<span class="kw">self</span>, a: <span class="ty">NonNegFloat</span>, b: <span class="ty">NonNegFloat</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""sqrt is monotonically increasing."""</span>
+        <span class="kw">if</span> a <= b:
+            <span class="kw">return</span> self.call(a) <= self.call(b)
+        <span class="kw">return</span> <span class="nb">True</span>
+
+<span class="cm"># ── factorial ─────────────────────────────────────────</span>
+<span class="dc">@about</span>(<span class="st">"math.factorial"</span>)
+<span class="kw">class</span> <span class="fn">FactorialSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, n: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> n >= <span class="nb">0</span>
+
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, n: <span class="ty">int</span>, result: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> result > <span class="nb">0</span>  <span class="cm"># factorial is always positive</span>
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">recursive_def</span>(<span class="kw">self</span>, n: <span class="ty">PosInt</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""n! == n * (n-1)!"""</span>
+        <span class="kw">return</span> self.call(n) == n * self.call(n - <span class="nb">1</span>)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">base_case</span>(<span class="kw">self</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""0! == 1"""</span>
+        <span class="kw">return</span> self.call(<span class="nb">0</span>) == <span class="nb">1</span>
+
+    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, n: <span class="ty">int</span>) -> <span class="ty">type</span> | <span class="nb">None</span>:
+        <span class="kw">if</span> n < <span class="nb">0</span>:
+            <span class="kw">return</span> <span class="ty">ValueError</span>
+        <span class="kw">return</span> <span class="nb">None</span>
+
+<span class="cm"># ── gcd ───────────────────────────────────────────────</span>
+<span class="dc">@about</span>(<span class="st">"math.gcd"</span>)
+<span class="kw">class</span> <span class="fn">GcdSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, a: <span class="ty">int</span>, b: <span class="ty">int</span>, result: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""result divides both a and b."""</span>
+        <span class="kw">if</span> result == <span class="nb">0</span>:
+            <span class="kw">return</span> a == <span class="nb">0</span> <span class="kw">and</span> b == <span class="nb">0</span>
+        <span class="kw">return</span> (a % result == <span class="nb">0</span>) <span class="kw">and</span> (b % result == <span class="nb">0</span>) <span class="kw">and</span> result >= <span class="nb">0</span>
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">commutative</span>(<span class="kw">self</span>, a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""gcd(a, b) == gcd(b, a)"""</span>
+        <span class="kw">return</span> self.call(a, b) == self.call(b, a)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">idempotent</span>(<span class="kw">self</span>, a: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""gcd(a, a) == |a|"""</span>
+        <span class="kw">return</span> self.call(a, a) == abs(a)
+
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">identity</span>(<span class="kw">self</span>, a: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""gcd(a, 0) == |a|"""</span>
+        <span class="kw">return</span> self.call(a, <span class="nb">0</span>) == abs(a)</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="collections-sidecar">Example: Sidecar for <code>collections.OrderedDict</code></h2>
+
+    <pre><code><span class="cm"># sidecars/collections.synhopy</span>
+<span class="kw">from</span> synhopy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, law
+
+<span class="dc">@about</span>(<span class="st">"collections.OrderedDict.__setitem__"</span>)
+<span class="kw">class</span> <span class="fn">SetItemSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, key, value, *, _self_before, _self_after):
+        <span class="st">"""Newly inserted key appears at the end of iteration order."""</span>
+        <span class="kw">if</span> key <span class="kw">not in</span> _self_before:
+            <span class="kw">return</span> list(_self_after.keys())[-<span class="nb">1</span>] == key
+        <span class="kw">return</span> <span class="nb">True</span>  <span class="cm"># existing key retains its position</span>
+
+<span class="dc">@about</span>(<span class="st">"collections.OrderedDict.popitem"</span>)
+<span class="kw">class</span> <span class="fn">PopItemSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, *, last: <span class="ty">bool</span> = <span class="nb">True</span>, _self) -> <span class="ty">bool</span>:
+        <span class="st">"""Dict must not be empty."""</span>
+        <span class="kw">return</span> len(_self) > <span class="nb">0</span>
+
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, result: <span class="ty">tuple</span>, *, last=<span class="nb">True</span>, _self_before) -> <span class="ty">bool</span>:
+        <span class="st">"""When last=True, returns the last-inserted pair."""</span>
+        keys = list(_self_before.keys())
+        expected_key = keys[-<span class="nb">1</span>] <span class="kw">if</span> last <span class="kw">else</span> keys[<span class="nb">0</span>]
+        <span class="kw">return</span> result[<span class="nb">0</span>] == expected_key
+
+    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, *, last=<span class="nb">True</span>, _self) -> <span class="ty">type</span> | <span class="nb">None</span>:
+        <span class="kw">if</span> len(_self) == <span class="nb">0</span>:
+            <span class="kw">return</span> <span class="ty">KeyError</span>
+        <span class="kw">return</span> <span class="nb">None</span>
+
+<span class="dc">@about</span>(<span class="st">"collections.OrderedDict.move_to_end"</span>)
+<span class="kw">class</span> <span class="fn">MoveToEndSpec</span>(<span class="ty">ExternalSpec</span>):
+    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, key, *, last=<span class="nb">True</span>, _self) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> key <span class="kw">in</span> _self
+
+    <span class="dc">@assume</span>
+    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, key, *, last=<span class="nb">True</span>, _self_after) -> <span class="ty">bool</span>:
+        keys = list(_self_after.keys())
+        <span class="kw">if</span> last:
+            <span class="kw">return</span> keys[-<span class="nb">1</span>] == key
+        <span class="kw">return</span> keys[<span class="nb">0</span>] == key</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="sidecar-module">Loading Sidecars: <code>SidecarModule</code></h2>
+    <p>
+      SynHoPy provides <code>SidecarModule</code> to programmatically load and query
+      sidecar specifications.
+    </p>
+
+    <pre><code><span class="kw">from</span> synhopy.sidecar <span class="kw">import</span> SidecarModule
+
+<span class="cm"># Load a sidecar</span>
+math_sidecar = SidecarModule.load(<span class="st">"sidecars/math.synhopy"</span>)
+
+<span class="cm"># Query specs</span>
+sqrt_spec = math_sidecar.get_spec(<span class="st">"math.sqrt"</span>)
+print(sqrt_spec.precondition)   <span class="cm"># x >= 0</span>
+print(sqrt_spec.postcondition)  <span class="cm"># result >= 0 ∧ result² ≈ x</span>
+print(sqrt_spec.laws)           <span class="cm"># [monotone, sqrt_of_square]</span>
+print(sqrt_spec.trust_level)    <span class="cm"># TrustLevel.Z3_PROVEN</span>
+
+<span class="cm"># List all specs in this sidecar</span>
+<span class="kw">for</span> name, spec <span class="kw">in</span> math_sidecar.specs.items():
+    print(f<span class="st">"  {name}: {len(spec.laws)} laws, trust={spec.trust_level}"</span>)</code></pre>
+
+    <p>Verification output:</p>
+    <pre><code class="output"><span class="cm">$ synhopy sidecar verify src/ --sidecar-dir sidecars/</span>
+
+<span class="fn">SynHoPy Sidecar Verification</span>
+<span class="op">══════════════════════════════════════════════════</span>
+Loaded sidecars:
+  math.synhopy       → 3 specs (sqrt, factorial, gcd)
+  collections.synhopy → 3 specs (setitem, popitem, move_to_end)
+
+Scanning src/ for external calls...
+
+<span class="fn">src/my_app.py</span>
+  Line 12: <span class="fn">math.sqrt</span>(distance)
+    Precondition: distance >= 0
+    Context: distance = a**2 + b**2 (always non-negative)
+    <span class="pr">Z3: ∀ a,b ∈ ℝ. a² + b² ≥ 0</span>  <span class="st">✓ proved</span>
+
+  Line 28: <span class="fn">math.factorial</span>(n)
+    Precondition: n >= 0
+    Context: n has type Nat (non-negative by construction)
+    <span class="pr">Z3: Nat ⊆ {x ∈ ℤ | x ≥ 0}</span>  <span class="st">✓ proved</span>
+
+  Line 45: <span class="fn">math.gcd</span>(x, y)
+    No preconditions.  <span class="st">✓ trivially satisfied</span>
+
+  Line 67: <span class="fn">od.popitem</span>()
+    Precondition: len(od) > 0
+    Context: inside <span class="kw">if</span> od: branch (implies non-empty)
+    <span class="pr">Z3: bool(od) ⟹ len(od) > 0</span>  <span class="st">✓ proved</span>
+
+<span class="op">──────────────────────────────────────────────────</span>
+<span class="st">4/4 call sites verified</span>  🟡 Z3_PROVEN
+Algebraic laws: 6 assumed, 0 proved
+Coverage: 100% of external calls have sidecar specs</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="exceptions">Handling Exceptions in Specs</h2>
+    <p>
+      The <code>raises</code> method lets you specify which exceptions a function throws
+      for given inputs. SynHoPy uses this in two ways:
+    </p>
+    <ol>
+      <li><strong>Negative preconditions:</strong> If you call <code>math.sqrt(-1)</code>,
+          SynHoPy knows a <code>ValueError</code> will be raised and flags it.</li>
+      <li><strong>Exception-safe code:</strong> If your code wraps calls in
+          <code>try/except</code>, SynHoPy verifies you catch the right exception type.</li>
+    </ol>
+
+    <pre><code><span class="cm"># Your code with try/except</span>
+<span class="kw">def</span> <span class="fn">safe_sqrt</span>(x: <span class="ty">float</span>) -> <span class="ty">float</span> | <span class="nb">None</span>:
+    <span class="kw">try</span>:
+        <span class="kw">return</span> math.sqrt(x)
+    <span class="kw">except</span> <span class="ty">ValueError</span>:
+        <span class="kw">return</span> <span class="nb">None</span>
+
+<span class="cm"># SynHoPy verifies:</span>
+<span class="cm"># 1. math.sqrt CAN raise ValueError (from the sidecar spec)</span>
+<span class="cm"># 2. The except clause catches the right type</span>
+<span class="cm"># 3. Return type is float | None (union of both branches)</span></code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="signatures">Module Signatures: <code>.synhopy-sig</code> Files</h2>
+    <p>
+      For large libraries, writing full <code>ExternalSpec</code> classes for every
+      function is tedious. SynHoPy supports a lightweight <strong>signature format</strong>
+      for quickly declaring types without full pre/post conditions:
+    </p>
+
+    <pre><code class="notation"><span class="cm"># math.synhopy-sig — lightweight type signatures</span>
+<span class="cm"># Format: function_name : (param_types) -> return_type [trust_level]</span>
+
+sqrt : (x: <span class="ty">float</span> {x >= <span class="nb">0</span>}) -> <span class="ty">float</span> {result >= <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
+factorial : (n: <span class="ty">int</span> {n >= <span class="nb">0</span>}) -> <span class="ty">int</span> {result > <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
+gcd : (a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">int</span> {result >= <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
+ceil : (x: <span class="ty">float</span>) -> <span class="ty">int</span> {result >= x}  [<span class="st">Z3_PROVEN</span>]
+floor : (x: <span class="ty">float</span>) -> <span class="ty">int</span> {result <= x}  [<span class="st">Z3_PROVEN</span>]
+log : (x: <span class="ty">float</span> {x > <span class="nb">0</span>}) -> <span class="ty">float</span>  [<span class="st">Z3_PROVEN</span>]
+log2 : (x: <span class="ty">float</span> {x > <span class="nb">0</span>}) -> <span class="ty">float</span>  [<span class="st">Z3_PROVEN</span>]
+exp : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {result > <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
+sin : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<span class="nb">1</span> <= result <= <span class="nb">1</span>}  [<span class="st">Z3_PROVEN</span>]
+cos : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<span class="nb">1</span> <= result <= <span class="nb">1</span>}  [<span class="st">Z3_PROVEN</span>]</code></pre>
+
+    <p>
+      Signature files are automatically combined with full <code>.synhopy</code> specs.
+      If both exist, the <code>.synhopy</code> file takes precedence.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="json-specs">JSON Spec Format for CI</h2>
+    <p>
+      For CI integration, SynHoPy can export and consume specifications in JSON:
+    </p>
+
+    <pre><code class="output"><span class="cm">$ synhopy sidecar export sidecars/math.synhopy --format json</span>
+
+{
+  <span class="st">"module"</span>: <span class="st">"math"</span>,
+  <span class="st">"version"</span>: <span class="st">"3.12"</span>,
+  <span class="st">"specs"</span>: {
+    <span class="st">"math.sqrt"</span>: {
+      <span class="st">"precondition"</span>: <span class="st">"x >= 0"</span>,
+      <span class="st">"postcondition"</span>: <span class="st">"result >= 0 and abs(result**2 - x) < 1e-10"</span>,
+      <span class="st">"raises"</span>: { <span class="st">"ValueError"</span>: <span class="st">"x < 0"</span> },
+      <span class="st">"laws"</span>: [
+        { <span class="st">"name"</span>: <span class="st">"monotone"</span>, <span class="st">"formula"</span>: <span class="st">"a <= b => sqrt(a) <= sqrt(b)"</span> },
+        { <span class="st">"name"</span>: <span class="st">"sqrt_of_square"</span>, <span class="st">"formula"</span>: <span class="st">"sqrt(x**2) == abs(x)"</span> }
+      ],
+      <span class="st">"trust_level"</span>: <span class="st">"Z3_PROVEN"</span>
+    },
+    <span class="st">"math.factorial"</span>: {
+      <span class="st">"precondition"</span>: <span class="st">"n >= 0"</span>,
+      <span class="st">"postcondition"</span>: <span class="st">"result > 0"</span>,
+      <span class="st">"raises"</span>: { <span class="st">"ValueError"</span>: <span class="st">"n < 0"</span> },
+      <span class="st">"laws"</span>: [
+        { <span class="st">"name"</span>: <span class="st">"recursive_def"</span>, <span class="st">"formula"</span>: <span class="st">"f(n) == n * f(n-1)"</span> },
+        { <span class="st">"name"</span>: <span class="st">"base_case"</span>, <span class="st">"formula"</span>: <span class="st">"f(0) == 1"</span> }
+      ],
+      <span class="st">"trust_level"</span>: <span class="st">"Z3_PROVEN"</span>
+    }
+  }
+}</code></pre>
+
+    <p>
+      Use the JSON format in CI pipelines to track specification drift across versions:
+    </p>
+    <pre><code class="yaml"><span class="cm"># .github/workflows/verify.yml (excerpt)</span>
+- name: Check sidecar specs
+  run: |
+    synhopy sidecar verify src/ --sidecar-dir sidecars/ --report json > report.json
+    synhopy sidecar diff report.json baseline.json --fail-on-regression</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="best-practices">Best Practices</h2>
+
+    <div class="tip">
+      <strong>1. Start small.</strong> Don't try to specify every function in NumPy.
+      Start with the functions your safety-critical code actually calls.
+    </div>
+
+    <div class="tip">
+      <strong>2. Specify only what you rely on.</strong> If your code only needs
+      <code>sqrt(x) >= 0</code>, don't also specify floating-point precision —
+      keep specs minimal and maintainable.
+    </div>
+
+    <div class="tip">
+      <strong>3. Use algebraic laws for structural properties.</strong> Laws like
+      commutativity and associativity compose well and catch subtle bugs.
+    </div>
+
+    <div class="tip">
+      <strong>4. Version-pin your sidecars.</strong> Library updates can break specs.
+      Include the library version in your sidecar metadata so CI catches API drift.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="exercises">Exercises</h2>
+
+    <div class="exercise">
+      <strong>Exercise 4.1:</strong> Write a sidecar spec for <code>json.loads</code>.
+      What precondition should you specify? (Hint: the input must be valid JSON.)
+      What postcondition can you assume about the return type?
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.2:</strong> Write a sidecar spec for <code>os.path.join</code>.
+      Specify the law: <code>os.path.join(a, os.path.join(b, c)) ==
+      os.path.join(os.path.join(a, b), c)</code> — is this always true?
+      When does it fail? (Hint: what if <code>b</code> starts with <code>/</code>?)
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.3:</strong> Write a complete sidecar for Python's
+      <code>heapq</code> module. Specify: <code>heappush</code> maintains the heap
+      invariant, <code>heappop</code> returns the smallest element, and
+      <code>heapify</code> is idempotent.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.4:</strong> Create a <code>.synhopy-sig</code> file for
+      Python's <code>statistics</code> module covering <code>mean</code>,
+      <code>median</code>, <code>stdev</code>, and <code>variance</code>.
+      What preconditions do they share?
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="index.html">
+        <span class="label">← Previous</span>
+        <span class="title">Part 4 Overview</span>
+      </a>
+      <a href="sympy.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Case Study: SymPy</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

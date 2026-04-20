@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — SynHoPy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Getting Started with SynHoPy</h1>
+
+    <p>
+      SynHoPy verifies <em>existing</em> Python code — you do not need to
+      rewrite anything or learn a new language. You keep writing ordinary
+      Python with standard type hints, add lightweight specification
+      decorators, and SynHoPy checks that the code actually satisfies those
+      specifications using Z3, cubical homotopy type theory, and optional
+      sidecar proofs.
+    </p>
+
+    <p>
+      This chapter walks you through installation, your first verified
+      function, and how to read the verifier's output.
+    </p>
+
+    <div class="note">
+      <strong>Python version.</strong> SynHoPy requires <strong>Python 3.10
+      or later</strong>. It relies on <code>match</code> statements,
+      <code>ParamSpec</code>, and several newer <code>typing</code> features.
+      We recommend Python 3.12+ for the best experience.
+    </div>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="installation">Installation</h2>
+
+    <p>Install SynHoPy from PyPI:</p>
+
+    <pre><code><span class="cm"># Core verifier</span>
+pip install synhopy
+
+<span class="cm"># Optional but strongly recommended — enables Z3-backed proofs</span>
+pip install z3-solver</code></pre>
+
+    <p>
+      Without <code>z3-solver</code> SynHoPy can still run in LLM-judged
+      mode, but you will not get the strongest (Z3_PROVEN) trust level.
+    </p>
+
+    <p>Confirm the installation:</p>
+
+    <pre><code>synhopy --version
+<span class="cm"># synhopy 0.4.0 (z3 available: yes)</span></code></pre>
+
+    <p>
+      If you see <code>z3 available: yes</code> you are ready to go.
+      If it says <code>no</code>, double-check that <code>z3-solver</code>
+      is installed in the same environment.
+    </p>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="first-verified-function">Your First Verified Function</h2>
+
+    <p>
+      Create a file called <code>mymath.py</code> with the following
+      contents. This is plain Python — the only addition is the
+      <code>@guarantee</code> decorator that states what the function
+      promises to its callers.
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= a and result >= b and (result == a or result == b)"</span>)
+<span class="kw">def</span> <span class="fn">max_of</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="st">"""Return the larger of two integers."""</span>
+    <span class="kw">if</span> a <span class="op">>=</span> b:
+        <span class="kw">return</span> a
+    <span class="kw">else</span>:
+        <span class="kw">return</span> b</code></pre>
+
+    <p>
+      Notice that the function body is <em>completely ordinary Python</em>.
+      There are no proof terms, no monadic wrappers, and no special base
+      classes. SynHoPy reads the AST, extracts proof obligations from the
+      <code>@guarantee</code> specification, and discharges them
+      automatically.
+    </p>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="running-the-verifier">Running the Verifier</h2>
+
+    <p>Verify the file from your terminal:</p>
+
+    <pre><code>synhopy verify mymath.py</code></pre>
+
+    <p>You should see output like this:</p>
+
+    <pre><code class="output"><span class="cm">──────────────────────────────────────────────────</span>
+ SynHoPy v0.4.0 — verifying mymath.py
+<span class="cm">──────────────────────────────────────────────────</span>
+
+<span class="fn">max_of</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
+  Proof obligations:
+    1. result <span class="op">>=</span> a            ✅  Z3_PROVEN
+    2. result <span class="op">>=</span> b            ✅  Z3_PROVEN
+    3. result <span class="op">==</span> a <span class="kw">or</span> result <span class="op">==</span> b  ✅  Z3_PROVEN
+
+  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.03s
+
+<span class="cm">──────────────────────────────────────────────────</span>
+ 1 function verified · 0 failed · 3 obligations discharged
+<span class="cm">──────────────────────────────────────────────────</span></code></pre>
+
+    <div class="tip">
+      <strong>Continuous verification.</strong> Run
+      <code>synhopy watch mymath.py</code> and the verifier will re-check
+      the file every time you save. This pairs well with a split terminal
+      — code on the left, verification output on the right.
+    </div>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="guarantee-vs-ensures">Two Styles of Specification: <code>@guarantee</code> vs <code>@ensures</code></h2>
+
+    <p>
+      SynHoPy provides <strong>two complementary ways</strong> to state
+      postconditions, designed around the principle of <em>gradual
+      formality</em>:
+    </p>
+
+    <div class="compare">
+      <div>
+        <h4><code>@guarantee</code> — Natural Language</h4>
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+
+<span class="dc">@guarantee</span>(<span class="st">"result is non-negative"</span>)
+<span class="kw">def</span> <span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">return</span> n <span class="op">*</span> n</code></pre>
+        <ul>
+          <li>Takes a <strong>plain English string</strong></li>
+          <li>SynHoPy parses it into Z3 assertions when
+              possible, falls back to the LLM oracle otherwise</li>
+          <li>Yields <span class="verified">Z3_PROVEN</span> when the
+              string maps to a decidable formula, or
+              <span style="background:#fef3c7;color:#92400e;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600">LLM_JUDGED</span>
+              when it cannot</li>
+          <li>Best for: quick annotations, documentation-grade specs,
+              early-stage verification</li>
+        </ul>
+      </div>
+      <div>
+        <h4><code>@ensures</code> — Formal Predicate</h4>
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> ensures
+
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> n, result: result <span class="op">>=</span> <span class="nb">0</span>)
+<span class="kw">def</span> <span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">return</span> n <span class="op">*</span> n</code></pre>
+        <ul>
+          <li>Takes a <strong>Python callable</strong>
+              <code>(args..., result) → bool</code></li>
+          <li>SynHoPy encodes it <em>directly</em> into Z3 — no NL
+              parsing, no oracle</li>
+          <li>Always yields <span class="verified">Z3_PROVEN</span> or
+              a concrete counterexample</li>
+          <li>Best for: machine-checkable contracts, CI gates,
+              production-grade proofs</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      Similarly, <strong>preconditions</strong> have two forms:
+    </p>
+
+    <div class="compare">
+      <div>
+<pre><code><span class="dc">@requires</span>(<span class="st">"xs is non-empty"</span>)  <span class="cm"># NL string</span></code></pre>
+      </div>
+      <div>
+<pre><code><span class="dc">@requires</span>(<span class="kw">lambda</span> xs: <span class="fn">len</span>(xs) <span class="op">></span> <span class="nb">0</span>)  <span class="cm"># formal</span></code></pre>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>The gradual formality principle.</strong>
+      Start with <code>@guarantee</code> strings to capture intent quickly.
+      As your project matures, tighten critical specs to <code>@ensures</code>
+      lambdas for machine-checkable, Z3-proven guarantees.  Both can coexist
+      on the same function:
+
+<pre><code><span class="dc">@guarantee</span>(<span class="st">"returns the sorted, deduplicated version of xs"</span>)
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> xs, r: <span class="fn">len</span>(r) <span class="op"><=</span> <span class="fn">len</span>(xs))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> xs, r: <span class="fn">all</span>(r[i] <span class="op"><</span> r[i<span class="op">+</span><span class="nb">1</span>] <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(r)<span class="op">-</span><span class="nb">1</span>)))
+<span class="kw">def</span> <span class="fn">unique_sorted</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-></span> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">return</span> <span class="fn">sorted</span>(<span class="fn">set</span>(xs))</code></pre>
+
+      Here the two <code>@ensures</code> predicates are Z3-proven; the
+      <code>@guarantee</code> string acts as human-readable documentation
+      and may trigger an additional oracle check for the "deduplication"
+      semantics that Z3 cannot express directly.
+    </div>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="understanding-output">Understanding the Output</h2>
+
+    <p>
+      Each function annotated with <code>@guarantee</code> produces a
+      verification block in the output. Here is what each piece means:
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Element</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Proof obligations</strong></td>
+          <td>
+            Individual clauses extracted from the guarantee string.
+            SynHoPy splits conjunctions (<code>and</code>) into separate
+            obligations so you can see exactly which parts pass or fail.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Trust level</strong></td>
+          <td>
+            How the obligation was discharged. From strongest to weakest:
+            <br><code>🟢 LEAN_VERIFIED</code> — machine-checked by Lean's kernel
+            <br><code>🟡 Z3_PROVEN</code> — proved by the Z3 SMT solver
+            <br><code>🟠 LLM_JUDGED</code> — an LLM oracle judged it correct (confidence ≥ threshold)
+            <br><code>🔴 UNTRUSTED</code> — no verification yet
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Status</strong></td>
+          <td>
+            <code>✅ VERIFIED</code> if every obligation is discharged at
+            the configured minimum trust level;
+            <code>❌ FAILED</code> otherwise.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Time</strong></td>
+          <td>Wall-clock time for that function's verification.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="harder-example">A Slightly Harder Example</h2>
+
+    <p>
+      Let's verify an absolute-value function. The guarantee now involves
+      conditionals that SynHoPy must reason about across both branches.
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= 0 and (result == x or result == -x)"</span>)
+<span class="kw">def</span> <span class="fn">abs_val</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="st">"""Return the absolute value of x."""</span>
+    <span class="kw">if</span> x <span class="op">>=</span> <span class="nb">0</span>:
+        <span class="kw">return</span> x
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="op">-</span>x</code></pre>
+
+    <p>Running <code>synhopy verify</code> on this file produces:</p>
+
+    <pre><code class="output"><span class="fn">abs_val</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
+  Proof obligations:
+    1. result <span class="op">>=</span> <span class="nb">0</span>                       ✅  Z3_PROVEN
+    2. result <span class="op">==</span> x <span class="kw">or</span> result <span class="op">==</span> <span class="op">-</span>x      ✅  Z3_PROVEN
+
+  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.02s</code></pre>
+
+    <p>
+      Z3 handles both branches by case-splitting on the condition
+      <code>x >= 0</code>. In each branch it checks the guarantee
+      independently and merges the results.
+    </p>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="verification-fails">When Verification Fails</h2>
+
+    <p>
+      What happens if the code is wrong? Suppose we make a mistake in our
+      <code>max_of</code> implementation:
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy <span class="kw">import</span> guarantee
+
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= a and result >= b and (result == a or result == b)"</span>)
+<span class="kw">def</span> <span class="fn">max_of</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="st">"""Oops — always returns the first argument."""</span>
+    <span class="kw">return</span> a  <span class="cm"># BUG: ignores b entirely</span></code></pre>
+
+    <p>The verifier will catch this immediately:</p>
+
+    <pre><code class="output"><span class="fn">max_of</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
+  Proof obligations:
+    1. result <span class="op">>=</span> a            ✅  Z3_PROVEN
+    2. result <span class="op">>=</span> b            ❌  FAILED
+    3. result <span class="op">==</span> a <span class="kw">or</span> result <span class="op">==</span> b  ✅  Z3_PROVEN
+
+  Status: ❌ FAILED
+
+  Counterexample (from Z3):
+    a <span class="op">=</span> <span class="nb">0</span>, b <span class="op">=</span> <span class="nb">1</span>
+    result <span class="op">=</span> <span class="nb">0</span>
+    Violated: result <span class="op">>=</span> b  (<span class="nb">0</span> <span class="op">>=</span> <span class="nb">1</span> is <span class="nb">False</span>)
+
+<span class="cm">──────────────────────────────────────────────────</span>
+ 0 functions verified · 1 failed · 2/3 obligations discharged
+<span class="cm">──────────────────────────────────────────────────</span></code></pre>
+
+    <p>
+      The counterexample is concrete: when <code>a = 0</code> and
+      <code>b = 1</code>, the function returns <code>0</code>, which
+      violates <code>result >= b</code>. This is one of the great strengths
+      of SMT-backed verification — when something is wrong, you get a
+      <em>witness</em>, not just a vague error.
+    </p>
+
+    <div class="warning">
+      <strong>Mixing verified and unverified code.</strong> A
+      <code>@guarantee</code> only tells you that the decorated function
+      satisfies its postcondition <em>assuming</em> it is called with
+      values that satisfy Python's type annotations. If unverified code
+      passes bad data (e.g., a string where an <code>int</code> is
+      expected), the guarantee says nothing about the outcome. Keep
+      verification boundaries clean: verify entire modules, not isolated
+      functions surrounded by untyped code.
+    </div>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="ide-integration">IDE Integration</h2>
+
+    <p>
+      SynHoPy ships with a VS Code extension
+      (<code>synhopy-vscode</code>) that shows verification results
+      inline as you type. Verified guarantees are marked with a green
+      gutter icon; failures show red with the counterexample on hover.
+    </p>
+
+    <pre><code class="output"><span class="cm"># In VS Code with synhopy-vscode installed, you see:</span>
+<span class="cm">#</span>
+<span class="cm">#  ✅ │ @guarantee("result >= a and result >= b ...")</span>
+<span class="cm">#     │ def max_of(a: int, b: int) -> int:</span>
+<span class="cm">#     │     if a >= b:</span>
+<span class="cm">#     │         return a</span>
+<span class="cm">#     │     else:</span>
+<span class="cm">#     │         return b</span>
+<span class="cm">#</span>
+<span class="cm"># The green checkmark appears once verification completes.</span>
+<span class="cm"># Hover it for details (trust level, time, obligations).</span></code></pre>
+
+    <p>
+      Install it from the VS Code marketplace or via the command line:
+    </p>
+
+    <pre><code>code --install-extension synhopy.synhopy-vscode</code></pre>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="project-config">Project Configuration</h2>
+
+    <p>
+      For multi-file projects, place a <code>synhopy.toml</code> at your
+      project root. Here is a minimal example:
+    </p>
+
+    <pre><code class="toml"><span class="cm"># synhopy.toml</span>
+[synhopy]
+python   <span class="op">=</span> <span class="st">"3.12"</span>
+min_trust <span class="op">=</span> <span class="st">"Z3_PROVEN"</span>     <span class="cm"># reject LLM-only judgements</span>
+z3_timeout <span class="op">=</span> <span class="nb">30</span>            <span class="cm"># seconds per obligation</span>
+
+[synhopy.paths]
+include <span class="op">=</span> [<span class="st">"src/**/*.py"</span>]
+exclude <span class="op">=</span> [<span class="st">"tests/**"</span>]</code></pre>
+
+    <p>
+      With a config file in place you can simply run
+      <code>synhopy verify</code> (no filename) and it will verify every
+      file matched by <code>include</code>.
+    </p>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="what-synhopy-checks">What SynHoPy Checks (and What It Doesn't)</h2>
+
+    <p>
+      At this stage SynHoPy is checking <strong>functional
+      correctness</strong> — does the return value satisfy the
+      postcondition for every possible input that matches the type
+      annotations? It does <em>not</em> yet check:
+    </p>
+
+    <ul>
+      <li>Termination (covered in <a href="termination.html">Chapter 6</a>)</li>
+      <li>Side effects or mutation (covered in <a href="../part6/separation.html">Part 6</a>)</li>
+      <li>Concurrency safety (also <a href="../part6/threading.html">Part 6</a>)</li>
+    </ul>
+
+    <p>
+      Those topics build on the foundation laid here. For now, focus on
+      pure functions with clear input/output contracts.
+    </p>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="a-complete-module">A Complete Module</h2>
+
+    <p>
+      Let's put several verified functions together into a small utility
+      module to see how SynHoPy handles a realistic file.
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy <span class="kw">import</span> guarantee, assume
+
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= 0"</span>)
+<span class="kw">def</span> <span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">return</span> n <span class="op">*</span> n
+
+
+<span class="dc">@guarantee</span>(<span class="st">"result >= lo and result <= hi"</span>)
+<span class="kw">def</span> <span class="fn">clamp</span>(x: <span class="ty">int</span>, lo: <span class="ty">int</span>, hi: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    assume(<span class="st">"lo <= hi"</span>)
+    <span class="kw">if</span> x <span class="op"><</span> lo:
+        <span class="kw">return</span> lo
+    <span class="kw">elif</span> x <span class="op">></span> hi:
+        <span class="kw">return</span> hi
+    <span class="kw">else</span>:
+        <span class="kw">return</span> x
+
+
+<span class="dc">@guarantee</span>(<span class="st">"result == a + b"</span>)
+<span class="kw">def</span> <span class="fn">add</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
+    <span class="kw">return</span> a <span class="op">+</span> b
+
+
+<span class="dc">@guarantee</span>(<span class="st">"(result == True and n > 0) or (result == False and n <= 0)"</span>)
+<span class="kw">def</span> <span class="fn">is_positive</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">bool</span>:
+    <span class="kw">return</span> n <span class="op">></span> <span class="nb">0</span></code></pre>
+
+    <p>Running <code>synhopy verify utils.py</code>:</p>
+
+    <pre><code class="output"><span class="cm">──────────────────────────────────────────────────</span>
+ SynHoPy v0.4.0 — verifying utils.py
+<span class="cm">──────────────────────────────────────────────────</span>
+
+<span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
+  1. result <span class="op">>=</span> <span class="nb">0</span>   ✅  Z3_PROVEN
+  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.01s
+
+<span class="fn">clamp</span>(x: <span class="ty">int</span>, lo: <span class="ty">int</span>, hi: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
+  Precondition: lo <span class="op"><=</span> hi
+  1. result <span class="op">>=</span> lo   ✅  Z3_PROVEN
+  2. result <span class="op"><=</span> hi   ✅  Z3_PROVEN
+  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.02s
+
+<span class="fn">add</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
+  1. result <span class="op">==</span> a <span class="op">+</span> b   ✅  Z3_PROVEN
+  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.01s
+
+<span class="fn">is_positive</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">bool</span>
+  1. (result <span class="op">==</span> <span class="nb">True</span> <span class="kw">and</span> n <span class="op">></span> <span class="nb">0</span>) <span class="kw">or</span>
+     (result <span class="op">==</span> <span class="nb">False</span> <span class="kw">and</span> n <span class="op"><=</span> <span class="nb">0</span>)   ✅  Z3_PROVEN
+  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.01s
+
+<span class="cm">──────────────────────────────────────────────────</span>
+ 4 functions verified · 0 failed · 5 obligations discharged
+<span class="cm">──────────────────────────────────────────────────</span></code></pre>
+
+    <p>
+      Note how <code>clamp</code> uses <code>assume("lo &lt;= hi")</code>
+      to declare a precondition. SynHoPy adds this as an axiom when
+      proving the postcondition, and separately generates a proof obligation
+      at every <em>call site</em> of <code>clamp</code> to ensure the
+      precondition actually holds.
+    </p>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="exercise">Exercise</h2>
+
+    <div class="exercise">
+      <strong>Exercise 1 — clamp with guarantee.</strong>
+      <p>
+        Write a function <code>clamp(x: int, lo: int, hi: int) -> int</code>
+        that returns <code>lo</code> if <code>x &lt; lo</code>,
+        <code>hi</code> if <code>x &gt; hi</code>, and <code>x</code>
+        otherwise. Add a <code>@guarantee</code> that the result is
+        between <code>lo</code> and <code>hi</code> (inclusive), and an
+        <code>assume("lo &lt;= hi")</code> precondition.
+      </p>
+      <p>
+        Verify your solution with <code>synhopy verify</code>. Then
+        deliberately introduce a bug (e.g., swap the <code>lo</code> and
+        <code>hi</code> returns) and observe the counterexample that Z3
+        produces.
+      </p>
+      <details>
+        <summary>Hint</summary>
+        <p>
+          The guarantee string should be
+          <code>"result >= lo and result <= hi"</code>.
+          Don't forget <code>from __future__ import annotations</code>.
+        </p>
+      </details>
+    </div>
+
+    <!-- ──────────────────────────────────────────────── -->
+    <h2 id="next-steps">Next Steps</h2>
+
+    <p>
+      You now know how to install SynHoPy, annotate functions with
+      <code>@guarantee</code> and <code>assume</code>, run the verifier,
+      and read its output. In the next chapter we will explore
+      <strong>refinement types</strong> — a more expressive way to
+      describe the values a function accepts and returns.
+    </p>
+
+    <nav class="page-nav">
+      <a href="index.html">
+        <span class="label">← Previous</span>
+        <span class="title">Part 1 Overview</span>
+      </a>
+      <a href="refinement_types.html">
+        <span class="label">Next →</span>
+        <span class="title">Refinement Types</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

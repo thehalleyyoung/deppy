@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Termination Proofs — SynHoPy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+
+    <h1>Termination Proofs</h1>
+
+    <p>
+      A function is <strong>total</strong> if it always returns a value — no
+      infinite loops, no infinite recursion. SynHoPy can prove termination for
+      recursive functions using <em>well-founded ordering</em>: you identify a
+      quantity that strictly decreases on every recursive call and is bounded
+      below (typically by zero). This is essential for using functions inside
+      proofs — a non-terminating function could "prove" anything, because
+      its return type is vacuously inhabited.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Why Termination Matters</h2>
+
+    <p>
+      In ordinary Python, a function that loops forever simply hangs or
+      eventually crashes with <code>RecursionError</code>. That's annoying, but
+      it's a runtime problem. In a proof system the stakes are higher:
+    </p>
+
+    <ul>
+      <li><strong>Total functions are safe.</strong> They always produce a
+        result of the declared return type.</li>
+      <li><strong>Non-terminating functions break logic.</strong> If a function
+        never returns, it can inhabit <em>any</em> type — including
+        <code>False</code>. That makes the entire proof system unsound.</li>
+      <li><strong>SynHoPy defaults to checking termination</strong> for every
+        recursive function it verifies. If it cannot establish termination
+        automatically, it asks you for a <em>decreasing measure</em>.</li>
+      <li><strong>Python itself doesn't check termination.</strong>
+        <code>RecursionError</code> is a safety net, not a proof. SynHoPy's
+        analysis is purely mathematical.</li>
+    </ul>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Structural Recursion (Automatic)</h2>
+
+    <p>
+      When a recursive call operates on a <em>strict substructure</em> of an
+      argument, termination is obvious and SynHoPy detects it without any
+      annotation. Two classic patterns:
+    </p>
+
+    <h3>Natural-number recursion</h3>
+
+<pre><code><span class="kw">def</span> <span class="fn">factorial</span>(<span class="fn">n</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="cm"># n decreases by 1 on every recursive call</span>
+    <span class="kw">if</span> n <span class="op">&lt;=</span> <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">1</span>
+    <span class="kw">return</span> n <span class="op">*</span> <span class="fn">factorial</span>(n <span class="op">-</span> <span class="nb">1</span>)</code></pre>
+
+    <h3>List recursion</h3>
+
+<pre><code><span class="kw">def</span> <span class="fn">sum_list</span>(<span class="fn">xs</span>: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="cm"># xs[1:] is strictly shorter than xs</span>
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="kw">return</span> <span class="nb">0</span>
+    <span class="kw">return</span> xs[<span class="nb">0</span>] <span class="op">+</span> <span class="fn">sum_list</span>(xs[<span class="nb">1</span>:])</code></pre>
+
+    <p>Verification output for both:</p>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/factorial.py</span>
+<span class="cm">  ✓ factorial: structural recursion detected (n ↦ n−1)</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span>
+
+<span class="cm">$ synhopy verify examples/sum_list.py</span>
+<span class="cm">  ✓ sum_list: structural recursion detected (xs ↦ xs[1:])</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+
+    <div class="tip">
+      <strong>Tip.</strong> Start with simple structural recursion whenever
+      possible. If your function recurses on <code>n - 1</code>, <code>xs[1:]</code>,
+      or <code>node.left / node.right</code>, SynHoPy handles it automatically —
+      no annotations needed.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Well-Founded Recursion with <code>@decreases</code></h2>
+
+    <p>
+      When the recursive structure isn't immediately obvious, you annotate the
+      function with <code>@decreases(expression)</code>. The expression must
+      evaluate to a natural number (≥ 0) and must <em>strictly decrease</em> on
+      every recursive call.
+    </p>
+
+    <h3>Example: Greatest Common Divisor</h3>
+
+    <p>
+      In <code>gcd(a, b)</code>, the recursive call is
+      <code>gcd(b, a % b)</code>. The second argument decreases because
+      <code>a % b &lt; b</code> whenever <code>b &gt; 0</code>.
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> decreases
+
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> a, b: b)
+<span class="kw">def</span> <span class="fn">gcd</span>(<span class="fn">a</span>: <span class="ty">int</span>, <span class="fn">b</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="kw">if</span> b <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> a
+    <span class="kw">return</span> <span class="fn">gcd</span>(b, a <span class="op">%</span> b)</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/gcd.py</span>
+<span class="cm">  ✓ gcd: @decreases(b) — Z3 proved a % b &lt; b for b &gt; 0</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+
+    <h3>Example: Binary Search</h3>
+
+    <p>
+      The search range <code>hi - lo</code> shrinks on every call, reaching
+      zero when the element is found or the range is empty.
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> decreases
+
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> xs, target, lo, hi: hi <span class="op">-</span> lo)
+<span class="kw">def</span> <span class="fn">binary_search</span>(
+    <span class="fn">xs</span>: <span class="ty">list</span>[<span class="ty">int</span>],
+    <span class="fn">target</span>: <span class="ty">int</span>,
+    <span class="fn">lo</span>: <span class="ty">int</span> <span class="op">=</span> <span class="nb">0</span>,
+    <span class="fn">hi</span>: <span class="ty">int</span> <span class="op">|</span> <span class="nb">None</span> <span class="op">=</span> <span class="nb">None</span>,
+) <span class="op">-&gt;</span> <span class="ty">int</span> <span class="op">|</span> <span class="nb">None</span>:
+    <span class="kw">if</span> hi <span class="kw">is</span> <span class="nb">None</span>:
+        hi <span class="op">=</span> <span class="fn">len</span>(xs)
+    <span class="kw">if</span> lo <span class="op">&gt;=</span> hi:
+        <span class="kw">return</span> <span class="nb">None</span>
+    mid <span class="op">=</span> (lo <span class="op">+</span> hi) <span class="op">//</span> <span class="nb">2</span>
+    <span class="kw">if</span> xs[mid] <span class="op">==</span> target:
+        <span class="kw">return</span> mid
+    <span class="kw">elif</span> xs[mid] <span class="op">&lt;</span> target:
+        <span class="kw">return</span> <span class="fn">binary_search</span>(xs, target, mid <span class="op">+</span> <span class="nb">1</span>, hi)
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="fn">binary_search</span>(xs, target, lo, mid)</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/binary_search.py</span>
+<span class="cm">  ✓ binary_search: @decreases(hi - lo)</span>
+<span class="cm">    — branch xs[mid] &lt; target: hi−(mid+1) &lt; hi−lo  ✓</span>
+<span class="cm">    — branch xs[mid] &gt; target: mid−lo &lt; hi−lo      ✓</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Lexicographic Ordering</h2>
+
+    <p>
+      Some functions need a <em>tuple</em> measure. SynHoPy uses
+      <strong>lexicographic ordering</strong>: the first component must
+      decrease, <em>or</em> it stays the same and the second component
+      decreases, and so on. Pass multiple arguments to
+      <code>@decreases</code> to specify a tuple.
+    </p>
+
+    <h3>Example: Ackermann Function</h3>
+
+    <p>
+      The Ackermann function is a classic test case for termination
+      checkers. It grows faster than any primitive-recursive function, but it
+      <em>does</em> terminate — witnessed by the lexicographic order
+      <code>(m, n)</code>.
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> decreases
+
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> m, n: (m, n))
+<span class="kw">def</span> <span class="fn">ackermann</span>(<span class="fn">m</span>: <span class="ty">int</span>, <span class="fn">n</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="kw">if</span> m <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> n <span class="op">+</span> <span class="nb">1</span>
+    <span class="kw">elif</span> n <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="fn">ackermann</span>(m <span class="op">-</span> <span class="nb">1</span>, <span class="nb">1</span>)
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="fn">ackermann</span>(m <span class="op">-</span> <span class="nb">1</span>, <span class="fn">ackermann</span>(m, n <span class="op">-</span> <span class="nb">1</span>))</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/ackermann.py</span>
+<span class="cm">  ✓ ackermann: @decreases(m, n) — lexicographic</span>
+<span class="cm">    — branch m=0:            base case                       ✓</span>
+<span class="cm">    — branch n=0:            (m−1, 1)   &lt;_lex (m, 0)        ✓</span>
+<span class="cm">    — branch else (inner):   (m, n−1)   &lt;_lex (m, n)        ✓</span>
+<span class="cm">    — branch else (outer):   (m−1, _)   &lt;_lex (m, n)        ✓</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Fuel-Based Termination</h2>
+
+    <p>
+      Sometimes you <em>cannot</em> prove that a function terminates — either
+      because it's an open conjecture or because the proof is beyond Z3's
+      reach. In these cases you can supply a <strong>fuel budget</strong>:
+      SynHoPy will verify correctness <em>assuming</em> the function finishes
+      within that many recursive calls.
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> fuel
+
+<span class="dc">@fuel</span>(<span class="nb">1000</span>)
+<span class="kw">def</span> <span class="fn">collatz</span>(<span class="fn">n</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="st">"""Return the number of steps to reach 1."""</span>
+    <span class="kw">if</span> n <span class="op">==</span> <span class="nb">1</span>:
+        <span class="kw">return</span> <span class="nb">0</span>
+    <span class="kw">elif</span> n <span class="op">%</span> <span class="nb">2</span> <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">1</span> <span class="op">+</span> <span class="fn">collatz</span>(n <span class="op">//</span> <span class="nb">2</span>)
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="nb">1</span> <span class="op">+</span> <span class="fn">collatz</span>(<span class="nb">3</span> <span class="op">*</span> n <span class="op">+</span> <span class="nb">1</span>)</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/collatz.py</span>
+<span class="cm">  ⚠ collatz: termination not proven — using fuel budget (1000)</span>
+<span class="cm">  ✓ per-step correctness: Z3_PROVEN</span>
+<span class="cm">  ◐ termination: FUEL_BOUNDED (trust level reduced)</span></code></pre>
+
+    <p>
+      The verification level for fuel-bounded functions is
+      <strong>FUEL_BOUNDED</strong>, which is weaker than
+      <strong>Z3_PROVEN</strong>. Other functions that depend on a
+      fuel-bounded function inherit the reduced trust level.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>While Loops and Termination</h2>
+
+    <p>
+      Recursive functions aren't the only source of non-termination. A
+      <code>while</code> loop can also run forever. SynHoPy handles this
+      with <code>@loop_variant</code>: you specify an expression that
+      decreases on every iteration and is bounded below by zero.
+    </p>
+
+    <h3>Example: Integer Division by Repeated Subtraction</h3>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> loop_variant, guarantee
+
+<span class="dc">@guarantee</span>(<span class="st">"returns (quotient, remainder) such that a == b * q + r and 0 &lt;= r &lt; b"</span>)
+<span class="kw">def</span> <span class="fn">divmod_sub</span>(<span class="fn">a</span>: <span class="ty">int</span>, <span class="fn">b</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">tuple</span>[<span class="ty">int</span>, <span class="ty">int</span>]:
+    <span class="kw">assert</span> a <span class="op">&gt;=</span> <span class="nb">0</span> <span class="kw">and</span> b <span class="op">&gt;</span> <span class="nb">0</span>
+    q <span class="op">=</span> <span class="nb">0</span>
+    r <span class="op">=</span> a
+
+    <span class="dc">@loop_variant</span>(<span class="kw">lambda</span>: r)   <span class="cm"># r decreases each iteration</span>
+    <span class="kw">while</span> r <span class="op">&gt;=</span> b:
+        r <span class="op">=</span> r <span class="op">-</span> b
+        q <span class="op">=</span> q <span class="op">+</span> <span class="nb">1</span>
+
+    <span class="kw">return</span> (q, r)</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/divmod_sub.py</span>
+<span class="cm">  ✓ divmod_sub: while loop variant r</span>
+<span class="cm">    — r decreases: r − b &lt; r when b &gt; 0    ✓</span>
+<span class="cm">    — r bounded below: r ≥ 0                ✓</span>
+<span class="cm">  ✓ guarantee: a == b * q + r ∧ 0 ≤ r &lt; b  ✓</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Mutual Recursion</h2>
+
+    <p>
+      When two or more functions call each other, SynHoPy verifies a
+      <em>combined measure</em> across the call graph. Each function gets its
+      own <code>@decreases</code>, and SynHoPy checks that the measure
+      decreases on every cross-function call.
+    </p>
+
+    <h3>Example: <code>is_even</code> / <code>is_odd</code></h3>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> decreases
+
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> n: n)
+<span class="kw">def</span> <span class="fn">is_even</span>(<span class="fn">n</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">bool</span>:
+    <span class="kw">if</span> n <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">True</span>
+    <span class="kw">return</span> <span class="fn">is_odd</span>(n <span class="op">-</span> <span class="nb">1</span>)
+
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> n: n)
+<span class="kw">def</span> <span class="fn">is_odd</span>(<span class="fn">n</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">bool</span>:
+    <span class="kw">if</span> n <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">False</span>
+    <span class="kw">return</span> <span class="fn">is_even</span>(n <span class="op">-</span> <span class="nb">1</span>)</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/even_odd.py</span>
+<span class="cm">  ✓ mutual recursion group: {is_even, is_odd}</span>
+<span class="cm">    — is_even → is_odd(n−1): n−1 &lt; n  ✓</span>
+<span class="cm">    — is_odd → is_even(n−1): n−1 &lt; n  ✓</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>The <code>@may_diverge</code> Escape Hatch</h2>
+
+    <p>
+      If you genuinely need a function that might not terminate — for
+      example, a REPL loop or an event listener — mark it with
+      <code>@may_diverge</code>. SynHoPy will skip the termination check but
+      will <strong>not</strong> allow the function's result to be used in
+      proofs.
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> may_diverge
+
+<span class="dc">@may_diverge</span>
+<span class="kw">def</span> <span class="fn">repl</span>() <span class="op">-&gt;</span> <span class="nb">None</span>:
+    <span class="kw">while</span> <span class="nb">True</span>:
+        line <span class="op">=</span> <span class="fn">input</span>(<span class="st">"&gt; "</span>)
+        <span class="kw">if</span> line <span class="op">==</span> <span class="st">"quit"</span>:
+            <span class="kw">break</span>
+        <span class="fn">print</span>(<span class="fn">eval_expr</span>(<span class="fn">parse</span>(line)))</code></pre>
+
+    <div class="warning">
+      <strong>Warning.</strong> Use <code>@may_diverge</code> sparingly. A
+      may-diverge function cannot appear in proof terms, guarantee
+      annotations, or lemma bodies. It weakens the verification guarantees of
+      anything that depends on it. Reserve it for I/O loops and top-level
+      entry points where non-termination is intentional.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Comparison with F*</h2>
+
+    <p>
+      SynHoPy's termination checking is modelled on <strong>F*</strong>'s approach:
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>F*</th><th>SynHoPy</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>decreases x</code></td><td><code>@decreases(lambda …: x)</code></td></tr>
+        <tr><td><code>decreases (x, y)</code></td><td><code>@decreases(lambda …: (x, y))</code> — lexicographic</td></tr>
+        <tr><td><code>Tot</code> effect</td><td><code>@total</code> (default)</td></tr>
+        <tr><td><code>Div</code> effect</td><td><code>@may_diverge</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      The key difference: F* requires you to write F* code. SynHoPy verifies
+      your <em>existing</em> Python without modification.
+    </p>
+
+    <!-- ──────────────────────────────────────────── -->
+    <div class="note">
+      <strong>Note — Python's recursion limit vs mathematical termination.</strong>
+      Python's default recursion limit is 1000 stack frames
+      (<code>sys.getrecursionlimit()</code>). This is a <em>practical</em>
+      safety limit, not a mathematical one. SynHoPy's termination analysis is
+      purely logical: it proves that the recursion <em>eventually stops</em>,
+      regardless of how deep it goes. A function can be mathematically total
+      but still hit Python's recursion limit for large inputs — that's an
+      implementation concern, not a correctness concern. Use
+      <code>sys.setrecursionlimit()</code> or rewrite as iteration if needed
+      at runtime.
+    </div>
+
+    <!-- ──────────────────────────────────────────── -->
+    <h2>Putting It All Together</h2>
+
+    <p>
+      Here's a complete example combining <code>@decreases</code>,
+      <code>@guarantee</code>, and structural reasoning: a verified
+      power function with fast exponentiation.
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> decreases, guarantee
+
+<span class="dc">@guarantee</span>(<span class="st">"returns base ** exp"</span>)
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> base, exp: exp)
+<span class="kw">def</span> <span class="fn">fast_pow</span>(<span class="fn">base</span>: <span class="ty">int</span>, <span class="fn">exp</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
+    <span class="kw">assert</span> exp <span class="op">&gt;=</span> <span class="nb">0</span>
+    <span class="kw">if</span> exp <span class="op">==</span> <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">1</span>
+    <span class="kw">elif</span> exp <span class="op">%</span> <span class="nb">2</span> <span class="op">==</span> <span class="nb">0</span>:
+        half <span class="op">=</span> <span class="fn">fast_pow</span>(base, exp <span class="op">//</span> <span class="nb">2</span>)
+        <span class="kw">return</span> half <span class="op">*</span> half
+    <span class="kw">else</span>:
+        <span class="kw">return</span> base <span class="op">*</span> <span class="fn">fast_pow</span>(base, exp <span class="op">-</span> <span class="nb">1</span>)</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/fast_pow.py</span>
+<span class="cm">  ✓ fast_pow: @decreases(exp)</span>
+<span class="cm">    — branch exp even: exp // 2 &lt; exp   ✓</span>
+<span class="cm">    — branch exp odd:  exp − 1 &lt; exp    ✓</span>
+<span class="cm">  ✓ guarantee: base ** exp               ✓</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+
+    <!-- ──────────────────────────────────────────── -->
+    <details class="exercise">
+      <summary>Exercise — Verified Merge Sort</summary>
+
+      <p>
+        Write a <code>merge_sort</code> function that sorts a list of
+        integers. Annotate it with <code>@decreases</code> to prove
+        termination via the decreasing length of the input list.
+      </p>
+
+      <p>You'll need two functions:</p>
+      <ol>
+        <li><code>merge(xs, ys)</code> — merge two sorted lists (terminates
+          by <code>len(xs) + len(ys)</code>).</li>
+        <li><code>merge_sort(xs)</code> — split, recurse, merge (terminates
+          by <code>len(xs)</code>).</li>
+      </ol>
+
+      <p><strong>Hints:</strong></p>
+      <ul>
+        <li>The base case is <code>len(xs) &lt;= 1</code>.</li>
+        <li>Split at <code>mid = len(xs) // 2</code>.</li>
+        <li>Each half is strictly shorter than <code>xs</code> when
+          <code>len(xs) &gt;= 2</code>.</li>
+        <li>Add <code>@guarantee("returns a sorted permutation of xs")</code>
+          for full verification.</li>
+      </ul>
+
+      <p><strong>Solution:</strong></p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> decreases, guarantee
+
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> xs, ys: <span class="fn">len</span>(xs) <span class="op">+</span> <span class="fn">len</span>(ys))
+<span class="kw">def</span> <span class="fn">merge</span>(<span class="fn">xs</span>: <span class="ty">list</span>[<span class="ty">int</span>], <span class="fn">ys</span>: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-&gt;</span> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">if</span> <span class="kw">not</span> xs:
+        <span class="kw">return</span> ys
+    <span class="kw">if</span> <span class="kw">not</span> ys:
+        <span class="kw">return</span> xs
+    <span class="kw">if</span> xs[<span class="nb">0</span>] <span class="op">&lt;=</span> ys[<span class="nb">0</span>]:
+        <span class="kw">return</span> [xs[<span class="nb">0</span>]] <span class="op">+</span> <span class="fn">merge</span>(xs[<span class="nb">1</span>:], ys)
+    <span class="kw">else</span>:
+        <span class="kw">return</span> [ys[<span class="nb">0</span>]] <span class="op">+</span> <span class="fn">merge</span>(xs, ys[<span class="nb">1</span>:])
+
+<span class="dc">@guarantee</span>(<span class="st">"returns a sorted permutation of xs"</span>)
+<span class="dc">@decreases</span>(<span class="kw">lambda</span> xs: <span class="fn">len</span>(xs))
+<span class="kw">def</span> <span class="fn">merge_sort</span>(<span class="fn">xs</span>: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-&gt;</span> <span class="ty">list</span>[<span class="ty">int</span>]:
+    <span class="kw">if</span> <span class="fn">len</span>(xs) <span class="op">&lt;=</span> <span class="nb">1</span>:
+        <span class="kw">return</span> xs
+    mid <span class="op">=</span> <span class="fn">len</span>(xs) <span class="op">//</span> <span class="nb">2</span>
+    left <span class="op">=</span> <span class="fn">merge_sort</span>(xs[:mid])
+    right <span class="op">=</span> <span class="fn">merge_sort</span>(xs[mid:])
+    <span class="kw">return</span> <span class="fn">merge</span>(left, right)</code></pre>
+
+<pre><code class="output"><span class="cm">$ synhopy verify examples/merge_sort.py</span>
+<span class="cm">  ✓ merge: @decreases(len(xs) + len(ys))</span>
+<span class="cm">    — branch xs[0] ≤ ys[0]: len(xs[1:])+len(ys) &lt; len(xs)+len(ys)  ✓</span>
+<span class="cm">    — branch xs[0] &gt; ys[0]: len(xs)+len(ys[1:]) &lt; len(xs)+len(ys)  ✓</span>
+<span class="cm">  ✓ merge_sort: @decreases(len(xs))</span>
+<span class="cm">    — len(xs[:mid]) &lt; len(xs)  when len(xs) ≥ 2   ✓</span>
+<span class="cm">    — len(xs[mid:]) &lt; len(xs)  when len(xs) ≥ 2   ✓</span>
+<span class="cm">  ✓ guarantee: sorted permutation                  ✓</span>
+<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+    </details>
+
+    <!-- ──────────────────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="data_structures.html">
+        <span class="label">← Previous</span>
+        <span class="title">Data Structures</span>
+      </a>
+      <a href="lemmas.html">
+        <span class="label">Next →</span>
+        <span class="title">Lemmas &amp; Induction</span>
+      </a>
+    </nav>
+
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

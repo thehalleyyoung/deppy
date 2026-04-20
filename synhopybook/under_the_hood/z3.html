@@ -97,7 +97,7 @@
   Recall the verification pipeline from the <a href="index.html">Overview</a>:
 </p>
 
-<pre><code><span class="cm">                     ┌──────────────────────────┐</span>
+<pre><code class="output"><span class="cm">                     ┌──────────────────────────┐</span>
 <span class="cm">                     │   HomotopyStrategy       │</span>
 <span class="cm">                     │                          │</span>
 <span class="cm">  ProofGoal ────────▶│  try_refl()              │</span>
@@ -553,7 +553,7 @@ sorted_prop = <span class="fn">ForAll</span>(
 
 <h3 id="timeout">Timeout Settings</h3>
 
-<pre><code><span class="cm"># In synhopy.toml configuration</span>
+<pre><code class="toml"><span class="cm"># In synhopy.toml configuration</span>
 [z3]
 timeout_ms = <span class="nb">5000</span>       <span class="cm"># Per-query timeout (default: 5 seconds)</span>
 global_timeout_ms = <span class="nb">60000</span>  <span class="cm"># Total Z3 time budget per module</span>
@@ -815,7 +815,7 @@ proof = solver.proof()
     <div class="step-num">2</div>
     <div class="step-content">
       <strong>Declare Z3 variables.</strong>
-<pre><code><span class="cm">; (declare-const xs (Seq Int))</span>
+<pre><code class="smt"><span class="cm">; (declare-const xs (Seq Int))</span>
 <span class="cm">; (declare-const result (Seq Int))</span></code></pre>
     </div>
   </div>
@@ -824,7 +824,7 @@ proof = solver.proof()
     <div class="step-content">
       <strong>Encode the length preservation (conjunct b).</strong>
       This is the simpler obligation. SynHoPy generates:
-<pre><code><span class="cm">; (assert (= (seq.len result) (seq.len xs)))</span>
+<pre><code class="smt"><span class="cm">; (assert (= (seq.len result) (seq.len xs)))</span>
 <span class="cm">; ; from the loop structure analysis: the loop only swaps,</span>
 <span class="cm">; ; never adds or removes elements</span></code></pre>
     </div>
@@ -835,7 +835,7 @@ proof = solver.proof()
       <strong>Encode the sortedness property (conjunct a).</strong>
       This requires a loop invariant. SynHoPy infers:
       <em>"after iteration i, result[0..i] is sorted"</em> and encodes:
-<pre><code><span class="cm">; Loop invariant at iteration k:</span>
+<pre><code class="smt"><span class="cm">; Loop invariant at iteration k:</span>
 <span class="cm">; (forall ((p Int) (q Int))</span>
 <span class="cm">;   (! (=> (and (<= 0 p) (< p q) (<= q k))</span>
 <span class="cm">;          (<= (seq.nth result p) (seq.nth result q)))</span>
@@ -885,7 +885,7 @@ proof = solver.proof()
         total += xs[idx]   <span class="cm"># Need to prove: 0 <= idx < len(xs)</span>
     <span class="kw">return</span> total</code></pre>
 
-<pre><code><span class="cm">; Z3 encoding of the bounds check at xs[idx]</span>
+<pre><code class="smt"><span class="cm">; Z3 encoding of the bounds check at xs[idx]</span>
 
 <span class="cm">; Declarations</span>
 (declare-const xs (Seq Int))
@@ -1003,7 +1003,7 @@ proof = solver.proof()
     <div class="step-num">6</div>
     <div class="step-content">
       <strong>Final proof term:</strong>
-<pre><code><span class="pr">CechGlue</span>(
+<pre><code class="notation"><span class="pr">CechGlue</span>(
   patches=[
     <span class="pr">Patch</span>(domain=<span class="st">"len ≤ 1"</span>, proof=<span class="pr">Refl</span>()),
     <span class="pr">Patch</span>(domain=<span class="st">"len > 1"</span>, proof=<span class="pr">Trans</span>(

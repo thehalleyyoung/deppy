@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mutable References · SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="separation.html">Separation Logic</a></li>
+      <li><a href="references.html" class="active">Mutable References</a></li>
+      <li><a href="arrays.html">Arrays</a></li>
+      <li><a href="threading.html">Threading &amp; GIL</a></li>
+      <li><a href="async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Chapter 6.2 — Mutable References</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      Aliasing, ownership, ghost state, and fractional permissions
+    </p>
+
+    <!-- ─── Python Variables as References ─── -->
+    <h2>Python Variables Are References</h2>
+    <p>
+      In Python, every variable is a <strong>reference</strong> — a name bound to an
+      object on the heap. Assignment (<code>y = x</code>) copies the reference, not
+      the object. This is the fundamental source of aliasing in Python:
+    </p>
+
+<pre><code><span class="kw">class</span> <span class="ty">Box</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, value):
+        self.value = value
+
+a = <span class="ty">Box</span>(<span class="nb">10</span>)
+b = a            <span class="cm"># b is an ALIAS for a — same object</span>
+b.value = <span class="nb">99</span>
+<span class="kw">print</span>(a.value)   <span class="cm"># 99 — a was mutated through b!</span></code></pre>
+
+    <p>
+      Separation logic makes aliasing <strong>explicit</strong>. If two variables
+      <code>a</code> and <code>b</code> are separated (<code>pts_to(a, _) ** pts_to(b, _)</code>),
+      they <em>cannot</em> be aliases. If they might alias, we must model this
+      explicitly.
+    </p>
+
+    <!-- ─── Aliasing and Non-Aliasing ─── -->
+    <h2>Aliasing vs. Non-Aliasing</h2>
+
+    <div class="compare">
+      <div>
+        <h4>Non-Aliasing (★)</h4>
+<pre><code><span class="cm"># x ≠ y guaranteed</span>
+<span class="dc">@requires</span>(
+    pts_to(x, <span class="st">'a'</span>) **
+    pts_to(y, <span class="st">'b'</span>)
+)
+<span class="kw">def</span> <span class="fn">safe</span>(x, y):
+    x.value = <span class="nb">0</span>
+    <span class="cm"># y.value is still b</span></code></pre>
+      </div>
+      <div>
+        <h4>Possible Aliasing (∧)</h4>
+<pre><code><span class="cm"># x might equal y!</span>
+<span class="dc">@requires</span>(
+    pts_to(x, <span class="st">'a'</span>) <span class="op">and</span>
+    pts_to(y, <span class="st">'b'</span>)
+)
+<span class="kw">def</span> <span class="fn">unsafe</span>(x, y):
+    x.value = <span class="nb">0</span>
+    <span class="cm"># y.value might be 0!</span></code></pre>
+      </div>
+    </div>
+
+    <div class="warning">
+      SynHoPy <strong>requires</strong> you to use <code>**</code> (separating
+      conjunction) in specifications. If you want to express that two references
+      might alias, you must explicitly model the two cases using disjunction.
+    </div>
+
+    <!-- ─── Ownership Tracking ─── -->
+    <h2>Ownership Tracking</h2>
+    <p>
+      SynHoPy tracks which references each function <strong>owns</strong>. Ownership
+      is passed through function calls: when you call a function, you <em>transfer</em>
+      ownership of the references mentioned in its precondition. When it returns, you
+      get back ownership of the references in its postcondition.
+    </p>
+
+<pre><code><span class="dc">@requires</span>(pts_to(x, <span class="st">'v'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="st">'v * 2'</span>))
+<span class="kw">def</span> <span class="fn">double_ref</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    x.value *= <span class="nb">2</span>
+
+<span class="cm"># Caller perspective:</span>
+<span class="cm"># pre:  pts_to(r, 5) ** pts_to(s, 7)</span>
+<span class="fn">double_ref</span>(r)   <span class="cm"># transfers ownership of r, keeps s</span>
+<span class="cm"># mid:  pts_to(r, 10) ** pts_to(s, 7)   ← r doubled, s unchanged</span>
+<span class="fn">double_ref</span>(s)   <span class="cm"># transfers ownership of s, keeps r</span>
+<span class="cm"># post: pts_to(r, 10) ** pts_to(s, 14)  ← both doubled independently</span></code></pre>
+
+    <!-- ─── Swap with Proof ─── -->
+    <h2>Swap with Detailed Proof</h2>
+    <p>
+      The <code>swap</code> function exchanges the values of two references. Here we
+      annotate each intermediate state:
+    </p>
+
+<pre><code><span class="dc">@requires</span>(pts_to(x, <span class="st">'a'</span>) ** pts_to(y, <span class="st">'b'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="st">'b'</span>) ** pts_to(y, <span class="st">'a'</span>))
+<span class="kw">def</span> <span class="fn">swap</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>], y: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="cm"># State: pts_to(x, a) ** pts_to(y, b)</span>
+    tmp = x.value
+    <span class="cm"># State: pts_to(x, a) ** pts_to(y, b) ∧ tmp = a</span>
+    x.value = y.value
+    <span class="cm"># State: pts_to(x, b) ** pts_to(y, b) ∧ tmp = a</span>
+    y.value = tmp
+    <span class="cm"># State: pts_to(x, b) ** pts_to(y, a)  ✓</span></code></pre>
+    <span class="verified">Verified</span>
+
+    <p>
+      The key insight is that <code>**</code> guarantees <code>x ≠ y</code>, so
+      writing to <code>x</code> does not affect the value at <code>y</code>. Without
+      separation logic, we would need to add an explicit <code>x is not y</code>
+      precondition — which is exactly what <code>**</code> gives us for free.
+    </p>
+
+    <!-- ─── Linked Structures ─── -->
+    <h2>Linked Data Structures</h2>
+    <p>
+      Heap-allocated data structures like linked lists are where separation logic
+      truly shines. Consider a simple linked list node:
+    </p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> Optional
+
+<span class="kw">class</span> <span class="ty">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, val: <span class="ty">int</span>, nxt: <span class="ty">Optional</span>[<span class="ty">Node</span>] = <span class="kw">None</span>):
+        self.val = val
+        self.nxt = nxt</code></pre>
+
+    <p>
+      A linked list is a chain of nodes on the heap. We define a <strong>recursive
+      separation-logic predicate</strong> that describes the entire list:
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> SLProp, attr_to, emp
+
+<span class="kw">def</span> <span class="fn">is_list</span>(head: <span class="ty">Optional</span>[<span class="ty">Node</span>], vals: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">SLProp</span>:
+    <span class="st">"""head points to a linked list containing vals."""</span>
+    <span class="kw">if</span> head <span class="kw">is</span> <span class="kw">None</span>:
+        <span class="kw">return</span> emp <span class="kw">if</span> vals == [] <span class="kw">else</span> <span class="nb">False</span>
+    <span class="kw">if</span> <span class="kw">not</span> vals:
+        <span class="kw">return</span> <span class="nb">False</span>
+    <span class="kw">return</span> (
+        attr_to(head, <span class="st">'val'</span>, vals[<span class="nb">0</span>]) **
+        attr_to(head, <span class="st">'nxt'</span>, head.nxt) **
+        is_list(head.nxt, vals[<span class="nb">1</span>:])
+    )</code></pre>
+
+    <p>
+      Each node occupies a <em>disjoint</em> region of the heap (enforced by <code>**</code>),
+      which prevents cycles by construction.
+    </p>
+
+    <h3>Example: Prepend to a Linked List</h3>
+<pre><code><span class="dc">@requires</span>(is_list(head, <span class="st">'xs'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> result: is_list(result, <span class="st">'[v] + xs'</span>))
+<span class="kw">def</span> <span class="fn">prepend</span>(head: <span class="ty">Optional</span>[<span class="ty">Node</span>], v: <span class="ty">int</span>) -> <span class="ty">Node</span>:
+    <span class="st">"""Prepend v to the front of the list."""</span>
+    <span class="kw">return</span> Node(v, head)</code></pre>
+    <span class="verified">Verified</span>
+
+    <h3>Example: Length of a Linked List</h3>
+<pre><code><span class="dc">@requires</span>(is_list(head, <span class="st">'xs'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> result: is_list(head, <span class="st">'xs'</span>) <span class="op">and</span> result == <span class="fn">len</span>(<span class="st">'xs'</span>))
+<span class="kw">def</span> <span class="fn">list_length</span>(head: <span class="ty">Optional</span>[<span class="ty">Node</span>]) -> <span class="ty">int</span>:
+    <span class="st">"""Return the length without modifying the list."""</span>
+    count = <span class="nb">0</span>
+    current = head
+    <span class="kw">while</span> current <span class="kw">is not</span> <span class="kw">None</span>:
+        count += <span class="nb">1</span>
+        current = current.nxt
+    <span class="kw">return</span> count</code></pre>
+    <span class="verified">Verified</span>
+
+    <div class="note">
+      Notice the postcondition restores <code>is_list(head, 'xs')</code> — the list
+      is returned to the caller intact. This is a <strong>read-only traversal</strong>:
+      the function borrows the list and gives it back unchanged.
+    </div>
+
+    <!-- ─── Existential Quantification ─── -->
+    <h2>Existential Quantification</h2>
+    <p>
+      Often we don't care about the exact value stored at a reference — we just need
+      to know <em>something</em> is there. SynHoPy uses <code>exists</code> for this:
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> exists
+
+<span class="cm"># "x points to some integer, we don't care what"</span>
+prop = exists(<span class="st">'v'</span>, pts_to(x, <span class="st">'v'</span>))
+
+<span class="dc">@requires</span>(exists(<span class="st">'v'</span>, pts_to(x, <span class="st">'v'</span>)))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="nb">0</span>))
+<span class="kw">def</span> <span class="fn">reset</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="st">"""Set reference to zero, regardless of current value."""</span>
+    x.value = <span class="nb">0</span></code></pre>
+
+    <p>
+      The existential hides the initial value — the function doesn't need to know it.
+      This is useful for initialisation functions and cleanup code.
+    </p>
+
+    <!-- ─── Ghost Variables ─── -->
+    <h2>Ghost Variables</h2>
+    <p>
+      Ghost variables exist only in specifications — they have no runtime
+      representation. SynHoPy uses them to track logical properties that aren't
+      stored explicitly in the program:
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy.ghost <span class="kw">import</span> ghost_var, ghost_update
+
+<span class="kw">class</span> <span class="ty">Counter</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.count = <span class="nb">0</span>
+        self._total_ops = ghost_var(<span class="nb">0</span>)  <span class="cm"># specification-only</span>
+
+    <span class="dc">@requires</span>(
+        attr_to(self, <span class="st">'count'</span>, <span class="st">'n'</span>) **
+        ghost_pts_to(self._total_ops, <span class="st">'t'</span>)
+    )
+    <span class="dc">@ensures</span>(<span class="kw">lambda</span> _:
+        attr_to(self, <span class="st">'count'</span>, <span class="st">'n + 1'</span>) **
+        ghost_pts_to(self._total_ops, <span class="st">'t + 1'</span>)
+    )
+    <span class="kw">def</span> <span class="fn">increment</span>(self):
+        self.count += <span class="nb">1</span>
+        ghost_update(self._total_ops, <span class="kw">lambda</span> t: t + <span class="nb">1</span>)</code></pre>
+
+    <div class="tip">
+      Ghost variables are erased at runtime — they incur zero overhead. They exist
+      solely to help the verifier track invariants that involve history or counting.
+    </div>
+
+    <!-- ─── Fractional Permissions ─── -->
+    <h2>Fractional Permissions</h2>
+    <p>
+      Full ownership (<code>pts_to(x, v)</code>) grants both read and write access.
+      But what if multiple functions need to <em>read</em> the same reference
+      concurrently? SynHoPy supports <strong>fractional permissions</strong>: a
+      permission <code>p</code> where <code>0 &lt; p ≤ 1.0</code>.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Permission</th><th>Access</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>p = 1.0</code></td>
+          <td>Read + Write</td>
+          <td>Full ownership — exclusive access</td>
+        </tr>
+        <tr>
+          <td><code>0 &lt; p &lt; 1.0</code></td>
+          <td>Read only</td>
+          <td>Shared read access — no writes permitted</td>
+        </tr>
+        <tr>
+          <td><code>p = 0</code></td>
+          <td>None</td>
+          <td>No access (not useful — never used)</td>
+        </tr>
+      </tbody>
+    </table>
+
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> pts_to_frac
+
+<span class="cm"># Full permission — can read and write</span>
+full = pts_to_frac(x, <span class="st">'v'</span>, perm=<span class="nb">1.0</span>)
+
+<span class="cm"># Half permission — can only read</span>
+half = pts_to_frac(x, <span class="st">'v'</span>, perm=<span class="nb">0.5</span>)
+
+<span class="cm"># Two halves combine to full permission:</span>
+<span class="cm"># pts_to_frac(x, v, 0.5) ** pts_to_frac(x, v, 0.5)</span>
+<span class="cm">#   ≡ pts_to_frac(x, v, 1.0)</span>
+<span class="cm">#   ≡ pts_to(x, v)</span></code></pre>
+
+    <h3>Splitting and Joining Permissions</h3>
+<pre><code><span class="cm"># Split: one full permission → two half permissions</span>
+<span class="dc">@requires</span>(pts_to(x, <span class="st">'v'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _:
+    pts_to_frac(x, <span class="st">'v'</span>, perm=<span class="nb">0.5</span>) **
+    pts_to_frac(x, <span class="st">'v'</span>, perm=<span class="nb">0.5</span>))
+<span class="kw">def</span> <span class="fn">share</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="st">"""Split ownership for concurrent readers."""</span>
+    <span class="kw">pass</span>  <span class="cm"># ghost operation — no runtime effect</span>
+
+<span class="cm"># Join: two half permissions → one full permission</span>
+<span class="dc">@requires</span>(
+    pts_to_frac(x, <span class="st">'v'</span>, perm=<span class="nb">0.5</span>) **
+    pts_to_frac(x, <span class="st">'v'</span>, perm=<span class="nb">0.5</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="st">'v'</span>))
+<span class="kw">def</span> <span class="fn">recombine</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="st">"""Recombine shared permissions for exclusive access."""</span>
+    <span class="kw">pass</span>  <span class="cm"># ghost operation</span></code></pre>
+
+    <!-- ─── Multiple Readers, Single Writer ─── -->
+    <h2>Multiple Readers, Single Writer</h2>
+    <p>
+      Fractional permissions naturally encode the <strong>readers–writer pattern</strong>:
+      any number of readers can hold fractional permissions simultaneously, but a
+      writer needs the full permission (which means all readers must give up their
+      shares first).
+    </p>
+
+<pre><code><span class="cm"># Multiple readers — each gets a fraction</span>
+<span class="dc">@requires</span>(pts_to_frac(data, <span class="st">'v'</span>, perm=<span class="nb">0.25</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> result:
+    pts_to_frac(data, <span class="st">'v'</span>, perm=<span class="nb">0.25</span>) <span class="op">and</span> result == <span class="st">'v'</span>)
+<span class="kw">def</span> <span class="fn">read_data</span>(data: <span class="ty">Ref</span>[<span class="ty">str</span>]) -> <span class="ty">str</span>:
+    <span class="st">"""Read-only access with fractional permission."""</span>
+    <span class="kw">return</span> data.value
+
+<span class="cm"># Writer — needs full permission</span>
+<span class="dc">@requires</span>(pts_to(data, <span class="st">'old'</span>))  <span class="cm"># perm=1.0 implied</span>
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(data, <span class="st">'new_val'</span>))
+<span class="kw">def</span> <span class="fn">write_data</span>(data: <span class="ty">Ref</span>[<span class="ty">str</span>], new_val: <span class="ty">str</span>):
+    <span class="st">"""Write requires exclusive ownership."""</span>
+    data.value = new_val</code></pre>
+
+    <div class="note">
+      Fractional permissions are a purely logical concept — they don't correspond to
+      runtime locks or reference counts. They're a tool for the verifier to track
+      how access is distributed across call sites.
+    </div>
+
+    <!-- ─── Comparison with Pulse ─── -->
+    <h2>Comparison with Pulse References</h2>
+    <div class="compare">
+      <div>
+        <h4>Pulse (F*)</h4>
+<pre><code class="fstar"><span class="kw">fn</span> <span class="fn">swap</span> (x y: ref int)
+  <span class="kw">requires</span>
+    pts_to x <span class="st">'a'</span> **
+    pts_to y <span class="st">'b'</span>
+  <span class="kw">ensures</span>
+    pts_to x <span class="st">'b'</span> **
+    pts_to y <span class="st">'a'</span>
+{
+  <span class="kw">let</span> vx = !x;
+  <span class="kw">let</span> vy = !y;
+  x := vy;
+  y := vx;
+}</code></pre>
+      </div>
+      <div>
+        <h4>SynHoPy (Python)</h4>
+<pre><code><span class="dc">@requires</span>(
+    pts_to(x, <span class="st">'a'</span>) **
+    pts_to(y, <span class="st">'b'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _:
+    pts_to(x, <span class="st">'b'</span>) **
+    pts_to(y, <span class="st">'a'</span>))
+<span class="kw">def</span> <span class="fn">swap</span>(x, y):
+    vx = x.value
+    vy = y.value
+    x.value = vy
+    y.value = vx</code></pre>
+      </div>
+    </div>
+
+    <p>
+      The specifications are nearly identical — separation logic is the same
+      regardless of the host language. The main differences are syntactic:
+    </p>
+    <ul>
+      <li>Pulse uses <code>!</code> for read and <code>:=</code> for write;
+          SynHoPy uses <code>.value</code>.</li>
+      <li>Pulse requires explicit type annotations on all bindings;
+          SynHoPy infers types from Python's runtime.</li>
+      <li>SynHoPy specifications are Python decorators — they can be
+          introspected, composed, and tested like any other Python object.</li>
+    </ul>
+
+    <!-- ─── Example: Tree structure ─── -->
+    <h2>Example: Binary Tree Ownership</h2>
+<pre><code><span class="kw">class</span> <span class="ty">TreeNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, val, left=<span class="kw">None</span>, right=<span class="kw">None</span>):
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="kw">def</span> <span class="fn">is_bst</span>(node: <span class="ty">Optional</span>[<span class="ty">TreeNode</span>],
+         lo: <span class="ty">int</span>, hi: <span class="ty">int</span>) -> <span class="ty">SLProp</span>:
+    <span class="st">"""node is a BST with all values in (lo, hi)."""</span>
+    <span class="kw">if</span> node <span class="kw">is</span> <span class="kw">None</span>:
+        <span class="kw">return</span> emp
+    <span class="kw">return</span> (
+        attr_to(node, <span class="st">'val'</span>, node.val) **
+        attr_to(node, <span class="st">'left'</span>, node.left) **
+        attr_to(node, <span class="st">'right'</span>, node.right) **
+        pure(lo < node.val < hi) **
+        is_bst(node.left, lo, node.val) **
+        is_bst(node.right, node.val, hi)
+    )
+
+<span class="dc">@requires</span>(is_bst(root, <span class="st">'lo'</span>, <span class="st">'hi'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> result:
+    is_bst(root, <span class="st">'lo'</span>, <span class="st">'hi'</span>) <span class="op">and</span>
+    result == <span class="st">'(target in tree_values(root))'</span>)
+<span class="kw">def</span> <span class="fn">search</span>(root: <span class="ty">Optional</span>[<span class="ty">TreeNode</span>], target: <span class="ty">int</span>) -> <span class="ty">bool</span>:
+    <span class="st">"""Search in BST — verified to not modify the tree."""</span>
+    <span class="kw">if</span> root <span class="kw">is</span> <span class="kw">None</span>:
+        <span class="kw">return</span> <span class="kw">False</span>
+    <span class="kw">if</span> target == root.val:
+        <span class="kw">return</span> <span class="kw">True</span>
+    <span class="kw">elif</span> target < root.val:
+        <span class="kw">return</span> search(root.left, target)
+    <span class="kw">else</span>:
+        <span class="kw">return</span> search(root.right, target)</code></pre>
+    <span class="verified">Verified — read-only traversal preserves BST invariant</span>
+
+    <!-- ─── Exercises ─── -->
+    <div class="exercise">
+      <strong>Exercise 6.2.1:</strong> Write a function <code>move(src, dst)</code>
+      that moves the value from <code>src</code> to <code>dst</code> and resets
+      <code>src</code> to zero. Give the complete separation-logic specification.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.2.2:</strong> Using the <code>is_list</code> predicate, write
+      and verify a function <code>sum_list(head)</code> that returns the sum of all
+      values in a linked list without modifying the list.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.2.3:</strong> Split a full permission into <em>four</em>
+      quarter-permissions. Show that all four can read simultaneously, then recombine
+      them in pairs (two quarters → half, two halves → full). Write the specification
+      chain.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.2.4:</strong> Define a ghost variable <code>_max_seen</code>
+      that tracks the maximum value ever written to a reference. Write a specification
+      for <code>update_if_larger(x, v)</code> that only updates <code>x</code> if
+      <code>v > x.value</code>, and prove that <code>_max_seen</code> is monotonically
+      non-decreasing.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.2.5 (Challenge):</strong> Write and verify a function
+      <code>reverse_list(head)</code> that reverses a singly-linked list in-place.
+      You will need to use a loop invariant expressed in separation logic. Hint: at
+      each step of the loop, split the list into a "reversed prefix" and an
+      "unreversed suffix."
+    </div>
+
+    <!-- ─── Navigation ─── -->
+    <nav class="page-nav">
+      <a href="separation.html">
+        <span class="label">← Previous</span>
+        <span class="title">Separation Logic Basics</span>
+      </a>
+      <a href="arrays.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Arrays</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>
