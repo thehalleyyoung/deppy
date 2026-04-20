@@ -1105,17 +1105,41 @@ def path(a: str, b: str, via: str = "refl") -> ProofTerm:
     )
 
 
-def transport_proof(type_family: str, path_proof: ProofTerm,
-                    base_proof: ProofTerm) -> ProofTerm:
+def transport_proof(type_family_or_path, path_proof: ProofTerm | None = None,
+                    base_proof: ProofTerm | None = None) -> ProofTerm:
     """Transport a proof along a path.
 
-    Usage::
+    Supports two calling conventions:
 
-        # I proved P(sort_v1).  sort_v1 = sort_v2.  Therefore P(sort_v2).
+    1. **Explicit** (proof-term construction)::
+
         p = transport_proof("is_sorted",
                             path("sort_v1", "sort_v2"),
                             by_z3("sort_v1(xs) is sorted"))
+
+    2. **Decorator** (book-friendly)::
+
+        @transport(evaluate)
+        def det_product_numerical(...): ...
+
+    In decorator mode *type_family_or_path* is a callable (the path
+    function), and the result is a decorator that annotates *fn*.
     """
+    # Decorator mode: @transport(path_fn) → decorator
+    if callable(type_family_or_path) and path_proof is None and base_proof is None:
+        path_fn = type_family_or_path
+
+        def _decorator(fn):
+            fn._synhopy_transport = path_fn
+            fn._synhopy_proof = Structural(
+                description=f"transport({getattr(path_fn, '__name__', '?')})"
+            )
+            return fn
+
+        return _decorator  # type: ignore[return-value]
+
+    # Original mode: transport_proof(family, path, base)
+    type_family: str = type_family_or_path  # type: ignore[assignment]
     family = Var(type_family) if type_family != "auto" else Var("_P")
     return TransportProof(
         type_family=family,

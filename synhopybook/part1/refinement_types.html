@@ -233,7 +233,10 @@ NonEmpty <span class="op">=</span> refined(<span class="ty">list</span>, <span c
 x <span class="op">=</span> reciprocal(<span class="nb">42</span>)
 
 <span class="cm"># ✗ SynHoPy rejects — cannot prove 0 > 0</span>
-y <span class="op">=</span> reciprocal(<span class="nb">0</span>)
+<span class="kw">try</span>:
+    y <span class="op">=</span> reciprocal(<span class="nb">0</span>)
+<span class="kw">except</span> (<span class="ty">ZeroDivisionError</span>, <span class="ty">ValueError</span>):
+    <span class="kw">pass</span>  <span class="cm"># precondition violated at runtime</span>
 
 <span class="cm"># ✓ SynHoPy accepts — the if-guard establishes n > 0</span>
 <span class="kw">def</span> <span class="fn">safe_call</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">float</span>:
