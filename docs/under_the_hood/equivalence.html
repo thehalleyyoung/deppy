@@ -211,11 +211,11 @@ def unsafe_div(a: int, b: int) -> int:
 result = check_equiv(safe_div, unsafe_div)
 print(result)
 # EquivResult(INEQUIVALENT, method='z3',
-#   counterexample={'a': 7, 'b': 0})</code></pre>
+#   counterexample={'a': 1, 'b': 0})</code></pre>
 
 <p>
-  Z3 found that when <code>a=7, b=0</code>, <code>safe_div</code> returns <code>0</code>
-  but <code>unsafe_div</code> returns <code>7</code>. The counterexample is concrete —
+  Z3 found that when <code>b=0</code>, <code>safe_div</code> returns <code>0</code>
+  but <code>unsafe_div</code> returns <code>a</code>. The counterexample is concrete —
   you can replay it yourself.
 </p>
 
@@ -316,9 +316,9 @@ def abs_val(x: int) -> int:
         return x
     return -x
 
-result = check_adherence(abs_val)
-print(result)
-# AdherenceResult(adheres=True, method='z3')</code></pre>
+results = check_adherence(abs_val)
+print(results[0])
+# AdherenceResult(adheres=True, spec='result >= 0', method='z3')</code></pre>
 
 <p>
   Deppy symbolically executes the body, extracts the result expression per path,
@@ -331,9 +331,9 @@ def abs_val_buggy(x: int) -> int:
         return x
     return -x
 
-result = check_adherence(abs_val_buggy)
-print(result)
-# AdherenceResult(adheres=False, method='z3',
+results = check_adherence(abs_val_buggy)
+print(results[0])
+# AdherenceResult(adheres=False, spec='result > 0', method='z3',
 #   counterexample={'x': 0})</code></pre>
 
 <p>
@@ -350,8 +350,9 @@ print(result)
 def double_pos(n: int) -> int:
     return n * 2
 
-result = check_adherence(double_pos)
-# AdherenceResult(adheres=True, method='z3')
+results = check_adherence(double_pos)
+print(results[0])
+# AdherenceResult(adheres=True, spec='result > 0', method='z3')
 # Z3 checks: ∀n. (n > 0) → (n * 2 > 0)  ✓</code></pre>
 
 <p>
@@ -393,12 +394,12 @@ def my_sort_b(xs: list[int]) -> list[int]:
 
 result = check_equiv(my_sort_a, my_sort_b)
 print(result)
-# EquivResult(EQUIVALENT, method='testing', confidence=0.95)</code></pre>
+# EquivResult(EQUIVALENT, method='testing', confidence=1.00)</code></pre>
 
 <p>
   Z3 can't handle the nested loops, so Deppy falls back to testing. Both functions
   produce the same output on all 1,000 random test inputs. The result has
-  <code>confidence=0.95</code> — a strong signal, but not a formal proof.
+  <code>confidence≈1.0</code> — a strong signal, but not a formal proof.
 </p>
 
 <p>
@@ -571,18 +572,18 @@ def clamp(x: int) -> int:
     return x
 
 # Check any property you like, without decorating:
-check_adherence(clamp, spec="result >= 0")
-# AdherenceResult(adheres=True, method='z3')
+check_adherence(clamp, spec="result >= 0")[0]
+# AdherenceResult(adheres=True, spec='result >= 0', method='z3')
 
-check_adherence(clamp, spec="result <= 100")
-# AdherenceResult(adheres=True, method='z3')
+check_adherence(clamp, spec="result <= 100")[0]
+# AdherenceResult(adheres=True, spec='result <= 100', method='z3')
 
-check_adherence(clamp, spec="result >= 0 and result <= 100")
-# AdherenceResult(adheres=True, method='z3')
+check_adherence(clamp, spec="result >= 0 and result <= 100")[0]
+# AdherenceResult(adheres=True, spec='result >= 0 and result <= 100', method='z3')
 
 # Try a false property:
-check_adherence(clamp, spec="result == x")
-# AdherenceResult(adheres=False, method='z3',
+check_adherence(clamp, spec="result == x")[0]
+# AdherenceResult(adheres=False, spec='result == x', method='z3',
 #   counterexample={'x': -1})  — clamp(-1)=0 ≠ -1</code></pre>
 
 <hr>
@@ -607,7 +608,7 @@ check_adherence(clamp, spec="result == x")
     <td><span class="verdict verdict-unk">Tier 2</span></td>
     <td>Functions + <code>@guarantee</code> specs</td>
     <td>Spec comparison + testing</td>
-    <td>High-confidence testing. <code>confidence=0.95</code></td>
+    <td>High-confidence testing. <code>confidence≈1.0</code></td>
   </tr>
   <tr>
     <td><span class="verdict verdict-neq">Tier 3</span></td>
