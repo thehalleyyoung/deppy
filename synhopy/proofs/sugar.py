@@ -42,6 +42,7 @@ from synhopy.core.kernel import (
     NatInduction, ListInduction, Cases, DuckPath,
     EffectWitness, AxiomInvocation, Ext, Unfold, Rewrite,
     Structural, TransportProof, min_trust,
+    PathComp, Ap, FunExt, CechGlue, Univalence, Fiber, Patch,
 )
 from synhopy.core.types import (
     SynType, SynTerm, Context, Judgment, JudgmentKind,
@@ -524,6 +525,43 @@ class Proof:
         )
         return self
 
+    # ── Homotopy-native methods ──────────────────────────────────
+
+    def by_path(self, a: str, b: str, via: str = "refl") -> Proof:
+        """Set proof to a path construction."""
+        self._final_proof = path(a, b, via=via)
+        return self
+
+    def by_transport_along(self, from_proof: ProofTerm,
+                           along: ProofTerm,
+                           family: str = "auto") -> Proof:
+        """Transport an existing proof along a path."""
+        self._final_proof = transport_proof(family, along, from_proof)
+        return self
+
+    def by_cech(self, *patches: tuple[str, ProofTerm],
+                overlaps: list[tuple[int, int, ProofTerm]] | None = None) -> Proof:
+        """Prove by Čech decomposition."""
+        self._final_proof = by_cech_proof(*patches, overlaps=overlaps)
+        return self
+
+    def by_fiber(self, scrutinee: str,
+                 branches: dict[str, ProofTerm]) -> Proof:
+        """Prove by fibration descent over type fibers."""
+        self._final_proof = by_fiber_proof(scrutinee, branches)
+        return self
+
+    def by_duck_equiv(self, type_a: str, type_b: str,
+                      methods: dict[str, ProofTerm]) -> Proof:
+        """Prove via duck-type equivalence."""
+        self._final_proof = by_duck_type(type_a, type_b, methods)
+        return self
+
+    def by_funext(self, var: str, pointwise: ProofTerm) -> Proof:
+        """Prove function equality by extensionality."""
+        self._final_proof = funext(var, pointwise)
+        return self
+
     def qed(self) -> VerificationResult:
         """Finalize and verify the proof."""
         if self._kernel is None:
@@ -958,8 +996,410 @@ def extract_spec(f: Callable) -> FunctionSpec | None:
 
 
 # ═══════════════════════════════════════════════════════════════════
-#  Exports
+#  §12  Path Proof Combinators
 # ═══════════════════════════════════════════════════════════════════
+
+def path(a: str, b: str, via: str = "refl") -> ProofTerm:
+    """Construct a path between two terms.
+
+    Usage::
+
+        p = path("sort_v1(xs)", "sort_v2(xs)", via="behavioral_equiv")
+
+    If *via* is ``"refl"`` the path is reflexivity (a must equal b).
+    Otherwise a :class:`Structural` justification carrying *via* is
+    used as the inner evidence.  The result is a genuine
+    :class:`PathComp` / :class:`Refl` proof term, not a
+    ``Structural`` wrapper.
+    """
+    left = Var(a)
+    right = Var(b)
+    if via == "refl":
+        return Refl(term=left)
+    return PathComp(
+        left_path=Refl(term=left),
+        right_path=Structural(description=f"path({a}, {b}): {via}"),
+    )
+
+
+def transport_proof(type_family: str, path_proof: ProofTerm,
+                    base_proof: ProofTerm) -> ProofTerm:
+    """Transport a proof along a path.
+
+    Usage::
+
+        # I proved P(sort_v1).  sort_v1 = sort_v2.  Therefore P(sort_v2).
+        p = transport_proof("is_sorted",
+                            path("sort_v1", "sort_v2"),
+                            by_z3("sort_v1(xs) is sorted"))
+    """
+    family = Var(type_family) if type_family != "auto" else Var("_P")
+    return TransportProof(
+        type_family=family,
+        path_proof=path_proof,
+        base_proof=base_proof,
+    )
+
+
+def ap_f(f: str, path_proof: ProofTerm) -> ProofTerm:
+    """Apply a function to a path: if a = b then f(a) = f(b).
+
+    Produces a genuine :class:`Ap` proof term.
+
+    Usage::
+
+        p = path("x", "y")           # x = y
+        q = ap_f("len", p)           # len(x) = len(y)
+    """
+    return Ap(function=Var(f), path_proof=path_proof)
+
+
+def funext(var: str, pointwise: ProofTerm) -> ProofTerm:
+    """Function extensionality: ∀x. f(x) = g(x)  →  f = g.
+
+    Produces a genuine :class:`FunExt` proof term.
+
+    Usage::
+
+        p = funext("x", by_z3("f(x) == g(x) for all int x"))
+    """
+    return FunExt(var=var, pointwise_proof=pointwise)
+
+
+def path_chain(*steps: tuple[str, ProofTerm]) -> ProofTerm:
+    """Chain of equalities via path composition.
+
+    Each *step* is ``(label, proof_of_prev_eq_label)``.  The first
+    label names the starting point; subsequent proofs justify each
+    link.
+
+    Produces nested :class:`PathComp` terms.
+
+    Usage::
+
+        p = path_chain(
+            ("a", by_z3("a == b")),     # a = b
+            ("b", by_axiom(...)),        # b = c
+            ("c", by_structural(...)),   # c = d
+        )
+        # Result: a = d via composition
+    """
+    if len(steps) == 0:
+        return Refl(term=Var("_"))
+    if len(steps) == 1:
+        return steps[0][1]
+    result = steps[0][1]
+    for _label, proof in steps[1:]:
+        result = PathComp(left_path=result, right_path=proof)
+    return result
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §13  Transport Sugar
+# ═══════════════════════════════════════════════════════════════════
+
+class TransportChain:
+    """Chain of transports for moving proofs across equivalences.
+
+    Usage::
+
+        result = (transport_from(proved_about_v1)
+                    .along(path("v1", "v2"))
+                    .via_refactoring("for loop", "list comp")
+                    .result())
+    """
+
+    def __init__(self, base_proof: ProofTerm):
+        self._proof = base_proof
+        self._steps: list[tuple[str, ProofTerm]] = []
+
+    def along(self, path_pf: ProofTerm,
+              type_family: str = "auto") -> TransportChain:
+        """Transport along a path."""
+        family = Var(type_family) if type_family != "auto" else Var("_P")
+        self._proof = TransportProof(
+            type_family=family,
+            path_proof=path_pf,
+            base_proof=self._proof,
+        )
+        self._steps.append(("along", path_pf))
+        return self
+
+    def via_refactoring(self, before: str, after: str) -> TransportChain:
+        """Transport via a code-refactoring equivalence.
+
+        Constructs a path ``before = after`` justified by a
+        :class:`Structural` witness, then transports along it.
+        """
+        refactor_path = PathComp(
+            left_path=Refl(term=Var(before)),
+            right_path=Structural(description=f"refactoring: {before} → {after}"),
+        )
+        self._proof = TransportProof(
+            type_family=Var("_P"),
+            path_proof=refactor_path,
+            base_proof=self._proof,
+        )
+        self._steps.append(("refactoring", refactor_path))
+        return self
+
+    def via_duck_type(self, from_type: str, to_type: str,
+                      methods: list[str]) -> TransportChain:
+        """Transport via duck-type protocol equivalence.
+
+        Builds a :class:`DuckPath` from *from_type* to *to_type*
+        with :class:`Structural` method proofs, then transports.
+        """
+        duck = DuckPath(
+            type_a=PyClassType(name=from_type),
+            type_b=PyClassType(name=to_type),
+            method_proofs=[
+                (m, Structural(description=f"{from_type}.{m} ≡ {to_type}.{m}"))
+                for m in methods
+            ],
+        )
+        univ = Univalence(
+            equiv_proof=duck,
+            from_type=PyClassType(name=from_type),
+            to_type=PyClassType(name=to_type),
+        )
+        self._proof = TransportProof(
+            type_family=Var("_P"),
+            path_proof=univ,
+            base_proof=self._proof,
+        )
+        self._steps.append(("duck_type", univ))
+        return self
+
+    def via_library_update(self, old_ver: str,
+                           new_ver: str) -> TransportChain:
+        """Transport via library-version equivalence.
+
+        Constructs a path ``old_ver = new_ver`` and transports.
+        """
+        ver_path = PathComp(
+            left_path=Refl(term=Var(old_ver)),
+            right_path=Structural(
+                description=f"library update: {old_ver} → {new_ver}",
+            ),
+        )
+        self._proof = TransportProof(
+            type_family=Var("_P"),
+            path_proof=ver_path,
+            base_proof=self._proof,
+        )
+        self._steps.append(("library_update", ver_path))
+        return self
+
+    def result(self) -> ProofTerm:
+        """Get the final transported proof term."""
+        return self._proof
+
+
+def transport_from(base_proof: ProofTerm) -> TransportChain:
+    """Start a transport chain.
+
+    Usage::
+
+        result = (transport_from(proved_about_v1)
+                    .along(path("v1", "v2"))
+                    .via_refactoring("for loop", "list comp")
+                    .result())
+    """
+    return TransportChain(base_proof)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §14  Čech Decomposition Sugar
+# ═══════════════════════════════════════════════════════════════════
+
+class CechProof:
+    """Prove by decomposing into patches and gluing.
+
+    Usage::
+
+        proof = (CechProof("abs(x) >= 0")
+                    .patch("x >= 0", by_z3("x >= 0 implies x >= 0"))
+                    .patch("x < 0", by_z3("x < 0 implies -x > 0"))
+                    .overlap(0, 1, by_z3("x >= 0 and x < 0 is empty"))
+                    .glue())
+    """
+
+    def __init__(self, goal: str):
+        self._goal = goal
+        self._patches: list[tuple[str, ProofTerm]] = []
+        self._overlaps: list[tuple[int, int, ProofTerm]] = []
+
+    def patch(self, condition: str, proof: ProofTerm) -> CechProof:
+        """Add a local proof for a region of the input space."""
+        self._patches.append((condition, proof))
+        return self
+
+    def overlap(self, i: int, j: int, proof: ProofTerm) -> CechProof:
+        """Prove agreement on the overlap of patches *i* and *j*."""
+        self._overlaps.append((i, j, proof))
+        return self
+
+    def glue(self) -> ProofTerm:
+        """Glue local proofs into a global proof.
+
+        Produces a genuine :class:`CechGlue` proof term.
+        """
+        return CechGlue(
+            patches=list(self._patches),
+            overlap_proofs=list(self._overlaps),
+        )
+
+
+def by_cech_proof(*patches: tuple[str, ProofTerm],
+                  overlaps: list[tuple[int, int, ProofTerm]] | None = None,
+                  ) -> ProofTerm:
+    """Quick Čech proof.
+
+    Produces a genuine :class:`CechGlue` proof term.
+
+    Usage::
+
+        p = by_cech_proof(
+            ("x > 0", by_z3("x > 0 implies abs(x) = x >= 0")),
+            ("x == 0", by_z3("abs(0) = 0 >= 0")),
+            ("x < 0", by_z3("x < 0 implies abs(x) = -x > 0")),
+        )
+    """
+    return CechGlue(
+        patches=list(patches),
+        overlap_proofs=list(overlaps or []),
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §15  Fibration Sugar
+# ═══════════════════════════════════════════════════════════════════
+
+def by_fiber_proof(scrutinee: str,
+                   branches: dict[str, ProofTerm]) -> ProofTerm:
+    """Prove by verifying on each fiber of a type dispatch.
+
+    Produces a genuine :class:`Fiber` proof term.
+
+    Usage::
+
+        p = by_fiber_proof("x", {
+            "int":   by_z3("str(x) is a string for int x"),
+            "float": by_z3("f'{x:.2f}' is a string for float x"),
+            "str":   by_structural("x is already a string"),
+        })
+    """
+    type_branches = [
+        (_parse_type(type_name), proof)
+        for type_name, proof in branches.items()
+    ]
+    return Fiber(
+        scrutinee=Var(scrutinee),
+        type_branches=type_branches,
+        exhaustive=True,
+    )
+
+
+def by_duck_type(type_a: str, type_b: str,
+                 methods: dict[str, ProofTerm]) -> ProofTerm:
+    """Prove types are equivalent via duck-type protocol.
+
+    Produces a genuine :class:`DuckPath` proof term.
+
+    Usage::
+
+        p = by_duck_type("MyList", "list", {
+            "__len__":     by_structural("same length semantics"),
+            "__getitem__": by_structural("same indexing"),
+            "__iter__":    by_structural("same iteration"),
+        })
+    """
+    return DuckPath(
+        type_a=PyClassType(name=type_a),
+        type_b=PyClassType(name=type_b),
+        method_proofs=list(methods.items()),
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §16  Path Equivalence & Refactoring Decorators
+# ═══════════════════════════════════════════════════════════════════
+
+# Registry for path-equivalence relationships.
+_PATH_EQUIV_REGISTRY: dict[str, list[tuple[Callable, ProofTerm]]] = {}
+
+
+def path_equivalent(target: Callable) -> Callable[[F], F]:
+    """Declare that the decorated function is path-equivalent to *target*.
+
+    Proofs about *target* transport to the decorated function
+    automatically via a :class:`TransportProof`.
+
+    Usage::
+
+        @path_equivalent(sorted)
+        def my_sort(xs):
+            '''Custom sort proved equivalent to sorted()'''
+            ...
+    """
+    def decorator(f: F) -> F:
+        tgt_name = getattr(target, "__name__", str(target))
+        fn_name = getattr(f, "__name__", str(f))
+        equiv_path = PathComp(
+            left_path=Refl(term=Var(tgt_name)),
+            right_path=Structural(
+                description=f"path_equivalent: {fn_name} ≡ {tgt_name}",
+            ),
+        )
+        _PATH_EQUIV_REGISTRY.setdefault(tgt_name, []).append((f, equiv_path))
+        f._synhopy_path_equiv = {  # type: ignore[attr-defined]
+            "target": target,
+            "target_name": tgt_name,
+            "path": equiv_path,
+        }
+        return f
+    return decorator
+
+
+def refactoring(original: Callable) -> Callable[[F], F]:
+    """Mark the decorated function as a verified refactoring of *original*.
+
+    Proofs about *original* transport to the new function via a
+    :class:`TransportProof`.
+
+    Usage::
+
+        @refactoring(naive_matrix_mul)
+        @guarantee("same result as naive_matrix_mul")
+        def strassen_mul(A, B):
+            ...
+    """
+    def decorator(f: F) -> F:
+        orig_name = getattr(original, "__name__", str(original))
+        fn_name = getattr(f, "__name__", str(f))
+        refactor_path = PathComp(
+            left_path=Refl(term=Var(orig_name)),
+            right_path=Structural(
+                description=f"refactoring: {orig_name} → {fn_name}",
+            ),
+        )
+        _PATH_EQUIV_REGISTRY.setdefault(orig_name, []).append(
+            (f, refactor_path),
+        )
+        f._synhopy_refactoring = {  # type: ignore[attr-defined]
+            "original": original,
+            "original_name": orig_name,
+            "path": refactor_path,
+        }
+        return f
+    return decorator
+
+
+def get_path_equivalences(target: Callable) -> list[tuple[Callable, ProofTerm]]:
+    """Return all functions registered as path-equivalent to *target*."""
+    tgt_name = getattr(target, "__name__", str(target))
+    return list(_PATH_EQUIV_REGISTRY.get(tgt_name, []))
 
 __all__ = [
     # Decorators
@@ -982,4 +1422,14 @@ __all__ = [
     "extract_spec",
     # Kernel management
     "set_global_kernel", "get_global_kernel",
+    # §12 Path proof combinators
+    "path", "transport_proof", "ap_f", "funext", "path_chain",
+    # §13 Transport sugar
+    "TransportChain", "transport_from",
+    # §14 Čech decomposition sugar
+    "CechProof", "by_cech_proof",
+    # §15 Fibration sugar
+    "by_fiber_proof", "by_duck_type",
+    # §16 Path equivalence & refactoring decorators
+    "path_equivalent", "refactoring", "get_path_equivalences",
 ]
