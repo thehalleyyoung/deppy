@@ -2,7 +2,7 @@
 
 ## What is deppy?
 
-deppy is a **proof-oriented programming system** for Python that uses synthetic homotopy type theory, cubical paths, Čech cohomology, and Lean 4 discharge to produce formally verified software — directly from idiomatic Python.
+deppy is a **proof-oriented programming system** for Python that uses dependent type theory, cubical paths, Čech cohomology, and Lean 4 discharge to produce formally verified software — directly from idiomatic Python.
 
 ## When writing code in this repository:
 

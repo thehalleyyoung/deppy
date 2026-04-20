@@ -13,7 +13,7 @@
 <aside class="sidebar">
   <div class="sidebar-header">
     <h1>Deppy</h1>
-    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
   </div>
   <nav>
     <ul>
@@ -238,8 +238,7 @@
     <!-- ──────────────────────────────────────────── -->
     <h2>Step 4: Termination</h2>
 
-    <p>We annotate quicksort with <code>@decreases(len(xs))</code>. Deppy
-      must verify that every recursive call receives a strictly shorter list:</p>
+    <p>We annotate quicksort with <code>@decreases(len(xs))</code>. Deppy must verify that every recursive call receives a strictly shorter list:</p>
 
 <pre><code><span class="dc">@decreases</span>(<span class="kw">lambda</span> xs: <span class="fn">len</span>(xs))
 <span class="kw">def</span> <span class="fn">quicksort</span>(<span class="fn">xs</span>: <span class="ty">list</span>[<span class="ty">int</span>]) <span class="op">-&gt;</span> <span class="ty">list</span>[<span class="ty">int</span>]:
@@ -449,8 +448,7 @@
       </tbody>
     </table>
 
-    <p>The key difference: F* requires you to <em>write</em> F*. Deppy
-      verifies the Python you already have, with proof obligations stated as
+    <p>The key difference: F* requires you to <em>write</em> F*. Deppy verifies the Python you already have, with proof obligations stated as
       annotations beside the code.</p>
 
     <!-- ──────────────────────────────────────────── -->

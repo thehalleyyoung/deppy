@@ -1,5 +1,5 @@
 """
-Deppy — Synthetic Homotopy Python Type Theory
+Deppy — Python with Dependent Types
 
 A formal verification system for Python based on cubical homotopy type theory.
 """

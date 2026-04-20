@@ -13,7 +13,7 @@
 <aside class="sidebar">
   <div class="sidebar-header">
     <h1>Deppy</h1>
-    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
   </div>
   <nav>
     <ul>
@@ -384,8 +384,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Deppy
-        run: pip install deppy[z3]
+      - name: Install Deppy run: pip install deppy[z3]
 
       - name: Run verification
         run: |
@@ -703,8 +702,7 @@ Upgraded: 3/5 functions.</code></pre>
       <strong>Exercise 4.12 (Challenge):</strong> The trust propagation rule says
       <code>trust(A) ≤ trust(B)</code> when A calls B. But what about higher-order
       functions? If <code>map(f, xs)</code> is 🟢 LEAN_VERIFIED but <code>f</code> is
-      🔴 UNTRUSTED, what is <code>map(f, xs)</code>'s trust level? How should Deppy
-      handle this? Propose a rule and justify it.
+      🔴 UNTRUSTED, what is <code>map(f, xs)</code>'s trust level? How should Deppy handle this? Propose a rule and justify it.
     </div>
 
     <div class="exercise">

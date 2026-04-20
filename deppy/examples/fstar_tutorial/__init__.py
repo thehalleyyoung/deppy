@@ -4,7 +4,7 @@ Deppy Translation of the Complete F* Tutorial Book
 
 This package contains Python translations of EVERY example, data structure,
 and proof from the F* Tutorial Book (https://fstar-lang.org/tutorial/book),
-reimplemented using Deppy's synthetic homotopy type theory.
+reimplemented using Deppy's dependent type theory.
 
 Each module corresponds to a section of the book:
 
