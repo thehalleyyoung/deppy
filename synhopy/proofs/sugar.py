@@ -1,0 +1,985 @@
+"""
+SynHoPy Syntactic Sugar — Ergonomic Proof & Specification DSL
+
+Provides decorator-based specs, F*-style proof-carrying code, calc blocks,
+library assumption blocks, refinement type constructors, and proof combinators
+that compile down to the existing ProofTerm / ProofBuilder infrastructure.
+
+Philosophy: sugar is ALWAYS desugared to existing kernel-accepted constructs.
+No new trusted code — only convenience.
+
+Example
+-------
+    @guarantee("sorted output that is a permutation of input")
+    @requires(lambda xs: len(xs) > 0)
+    @ensures(lambda xs, result: len(result) == len(xs))
+    @pure
+    def my_sort(xs: list[int]) -> list[int]:
+        return sorted(xs)
+
+    with library_trust("sympy") as sp:
+        sp.axiom("expand(a + b) = expand(a) + expand(b)", name="expand_add")
+        sp.axiom("simplify(simplify(e)) = simplify(e)", name="simplify_idem")
+
+    proof = (
+        Proof("sorted(sorted(xs)) == sorted(xs)")
+        .by_axiom("sorted_idempotent", "builtins")
+        .qed()
+    )
+"""
+from __future__ import annotations
+
+import ast
+import functools
+import inspect
+import textwrap
+from dataclasses import dataclass, field
+from typing import Any, Callable, Sequence, TypeVar, overload
+
+from synhopy.core.kernel import (
+    ProofKernel, ProofTerm, TrustLevel, VerificationResult,
+    Refl, Sym, Trans, Cong, Cut, Assume, Z3Proof,
+    NatInduction, ListInduction, Cases, DuckPath,
+    EffectWitness, AxiomInvocation, Ext, Unfold, Rewrite,
+    Structural, TransportProof, min_trust,
+)
+from synhopy.core.types import (
+    SynType, SynTerm, Context, Judgment, JudgmentKind,
+    Var, Literal, PyObjType, PyIntType, PyFloatType, PyStrType,
+    PyBoolType, PyNoneType, PyListType, PyDictType, PySetType,
+    PyTupleType, PyCallableType, PyClassType,
+    RefinementType, UnionType, OptionalType, PathType,
+    PiType, SigmaType, ProtocolType,
+    App, Lam, Pair, Fst, Snd, LetIn, IfThenElse,
+    arrow,
+    Spec, SpecKind, FunctionSpec,
+)
+from synhopy.core.formal_ops import (
+    Op, OpCall, FormalAxiomEntry, formal_eq, formal_check,
+)
+from synhopy.proofs.tactics import ProofBuilder
+
+F = TypeVar("F", bound=Callable)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §1  Decorator-based Specifications
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass
+class _SpecMetadata:
+    """Metadata attached to a function via spec decorators."""
+    guarantees: list[str] = field(default_factory=list)
+    preconditions: list[Callable] = field(default_factory=list)
+    postconditions: list[Callable] = field(default_factory=list)
+    effect: str = "Unknown"
+    is_total: bool = False
+    is_partial: bool = False
+    invariants: list[str] = field(default_factory=list)
+    library_axioms_used: list[str] = field(default_factory=list)
+
+
+def _get_spec(f: Callable) -> _SpecMetadata:
+    if not hasattr(f, "_synhopy_spec"):
+        f._synhopy_spec = _SpecMetadata()  # type: ignore[attr-defined]
+    return f._synhopy_spec  # type: ignore[attr-defined]
+
+
+def guarantee(description: str) -> Callable[[F], F]:
+    """Attach a natural-language postcondition guarantee.
+
+    Usage::
+
+        @guarantee("returns a sorted list with no duplicates")
+        def unique_sorted(xs: list[int]) -> list[int]:
+            return sorted(set(xs))
+    """
+    def decorator(f: F) -> F:
+        spec = _get_spec(f)
+        spec.guarantees.append(description)
+        return f
+    return decorator
+
+
+def requires(predicate: Callable | str) -> Callable[[F], F]:
+    """Attach a precondition.
+
+    Usage::
+
+        @requires(lambda xs: len(xs) > 0)
+        @requires("xs is non-empty")
+        def head(xs: list) -> Any:
+            return xs[0]
+    """
+    def decorator(f: F) -> F:
+        spec = _get_spec(f)
+        if callable(predicate) and not isinstance(predicate, str):
+            spec.preconditions.append(predicate)
+        else:
+            spec.preconditions.append(lambda *_: predicate)
+        return f
+    return decorator
+
+
+def ensures(predicate: Callable | str) -> Callable[[F], F]:
+    """Attach a formal postcondition (a callable predicate on args + result).
+
+    Usage::
+
+        @ensures(lambda xs, result: len(result) == len(xs))
+        def identity(xs: list) -> list:
+            return xs[:]
+    """
+    def decorator(f: F) -> F:
+        spec = _get_spec(f)
+        if callable(predicate) and not isinstance(predicate, str):
+            spec.postconditions.append(predicate)
+        else:
+            spec.postconditions.append(lambda *_: predicate)
+        return f
+    return decorator
+
+
+def pure(f: F) -> F:
+    """Mark a function as pure (no side effects)."""
+    spec = _get_spec(f)
+    spec.effect = "Pure"
+    return f
+
+
+def reads(f: F) -> F:
+    """Mark a function as read-only (no mutation)."""
+    spec = _get_spec(f)
+    spec.effect = "Reads"
+    return f
+
+
+def mutates(f: F) -> F:
+    """Mark a function as mutating."""
+    spec = _get_spec(f)
+    spec.effect = "Mutates"
+    return f
+
+
+def total(f: F) -> F:
+    """Mark a function as total (always terminates, never raises).
+
+    F*-style: the return type IS the proof obligation.
+    """
+    spec = _get_spec(f)
+    spec.is_total = True
+    spec.effect = "Pure"
+    return f
+
+
+def partial_fn(f: F) -> F:
+    """Mark a function as partial (may not terminate or may raise)."""
+    spec = _get_spec(f)
+    spec.is_partial = True
+    return f
+
+
+def invariant(description: str) -> Callable[[F], F]:
+    """Attach a class/loop invariant."""
+    def decorator(f: F) -> F:
+        spec = _get_spec(f)
+        spec.invariants.append(description)
+        return f
+    return decorator
+
+
+def decreases(*args: str) -> Callable[[F], F]:
+    """Specify a termination measure (variant) for recursive/looping functions.
+
+    Usage::
+
+        @decreases("len(xs)")
+        def quicksort(xs: list[int]) -> list[int]: ...
+    """
+    def decorator(f: F) -> F:
+        spec = _get_spec(f)
+        spec.invariants.append(f"decreases({', '.join(args)})")
+        return f
+    return decorator
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §2  Refinement Type Constructors
+# ═══════════════════════════════════════════════════════════════════
+
+def Pos() -> RefinementType:
+    """Positive integer: {x : int | x > 0}."""
+    return RefinementType(base_type=PyIntType(), predicate="x > 0", var_name="x")
+
+def Nat() -> RefinementType:
+    """Natural number: {x : int | x >= 0}."""
+    return RefinementType(base_type=PyIntType(), predicate="x >= 0", var_name="x")
+
+def NonEmpty(element_type: SynType | None = None) -> RefinementType:
+    """Non-empty list: {xs : list | len(xs) > 0}."""
+    base = PyListType(element_type=element_type) if element_type else PyListType()
+    return RefinementType(base_type=base, predicate="len(xs) > 0", var_name="xs")
+
+def Bounded(lo: float, hi: float) -> RefinementType:
+    """Bounded float: {x : float | lo <= x <= hi}."""
+    return RefinementType(
+        base_type=PyFloatType(),
+        predicate=f"{lo} <= x <= {hi}",
+        var_name="x",
+    )
+
+def NonNull(base: SynType | None = None) -> RefinementType:
+    """Non-None value: {x : A | x is not None}."""
+    return RefinementType(
+        base_type=base or PyObjType(),
+        predicate="x is not None",
+        var_name="x",
+    )
+
+def Sorted(element_type: SynType | None = None) -> RefinementType:
+    """Sorted list: {xs : list | all(xs[i] <= xs[i+1] for i in range(len(xs)-1))}."""
+    base = PyListType(element_type=element_type) if element_type else PyListType()
+    return RefinementType(
+        base_type=base,
+        predicate="all(xs[i] <= xs[i+1] for i in range(len(xs)-1))",
+        var_name="xs",
+    )
+
+def SizedExact(n: int) -> RefinementType:
+    """Collection of exact size n: {xs | len(xs) == n}."""
+    return RefinementType(
+        base_type=PyListType(),
+        predicate=f"len(xs) == {n}",
+        var_name="xs",
+    )
+
+def Refine(base: SynType, pred: str, var: str = "x") -> RefinementType:
+    """Generic refinement type constructor.
+
+    Usage::
+
+        Even = Refine(int, "x % 2 == 0")
+        ShortStr = Refine(str, "len(x) <= 255")
+    """
+    return RefinementType(base_type=base, predicate=pred, var_name=var)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §3  Library Assumption Blocks
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass
+class LibraryTrustBlock:
+    """Context manager for declaring trusted library axioms.
+
+    Usage::
+
+        with library_trust("sympy") as sp:
+            sp.axiom("expand(a + b) = expand(a) + expand(b)", name="expand_add")
+            sp.axiom("simplify(simplify(e)) = simplify(e)", name="simplify_idem")
+
+        # Axioms are now available for proof construction
+    """
+
+    module: str
+    axioms: list[tuple[str, str]] = field(default_factory=list)
+    _kernel: ProofKernel | None = None
+
+    def axiom(self, statement: str, name: str | None = None,
+              when: str | None = None) -> LibraryTrustBlock:
+        """Declare a trusted axiom about this library.
+
+        Args:
+            statement: The axiom as a human-readable equation/property.
+            name: Optional name (auto-generated from statement if omitted).
+            when: Optional precondition for the axiom.
+        """
+        if name is None:
+            name = statement[:40].replace(" ", "_").replace("(", "").replace(")", "")
+        if when:
+            statement = f"{statement}  [when {when}]"
+        self.axioms.append((name, statement))
+        if self._kernel is not None:
+            from synhopy.core.kernel import AxiomEntry
+            key = f"{self.module}.{name}"
+            self._kernel.axiom_registry[key] = AxiomEntry(
+                name=name, statement=statement, module=self.module,
+            )
+        return self
+
+    def bind_kernel(self, kernel: ProofKernel) -> LibraryTrustBlock:
+        """Bind to a kernel so axioms are registered immediately."""
+        self._kernel = kernel
+        for name, stmt in self.axioms:
+            from synhopy.core.kernel import AxiomEntry
+            key = f"{self.module}.{name}"
+            kernel.axiom_registry[key] = AxiomEntry(
+                name=name, statement=stmt, module=self.module,
+            )
+        return self
+
+    def use(self, axiom_name: str, **instantiation: SynTerm) -> AxiomInvocation:
+        """Create an axiom invocation proof term."""
+        return AxiomInvocation(
+            name=axiom_name, module=self.module,
+            instantiation=instantiation,
+        )
+
+    def __enter__(self) -> LibraryTrustBlock:
+        return self
+
+    def __exit__(self, *args: Any) -> None:
+        pass
+
+
+def library_trust(module: str, kernel: ProofKernel | None = None) -> LibraryTrustBlock:
+    """Create a library trust block.
+
+    Usage::
+
+        with library_trust("numpy") as np:
+            np.axiom("dot(A, B).T == dot(B.T, A.T)", name="dot_transpose")
+    """
+    block = LibraryTrustBlock(module=module)
+    if kernel is not None:
+        block.bind_kernel(kernel)
+    return block
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §4  Fluent Proof Builder (Chainable API)
+# ═══════════════════════════════════════════════════════════════════
+
+class Proof:
+    """Fluent, chainable proof construction.
+
+    Usage::
+
+        result = (
+            Proof("sorted(sorted(xs)) == sorted(xs)")
+            .using(kernel)
+            .given(x="list[int]")
+            .by_axiom("sorted_idempotent", "builtins")
+            .qed()
+        )
+
+        result = (
+            Proof("len(xs + ys) == len(xs) + len(ys)")
+            .using(kernel)
+            .given(xs="list", ys="list")
+            .calc(
+                "len(xs + ys)",
+                "== len(xs) + len(ys)", by=lambda p: p.axiom("len_concat", "builtins"),
+            )
+            .qed()
+        )
+
+        result = (
+            Proof("abs(x) >= 0")
+            .using(kernel)
+            .given(x="int")
+            .by_z3()
+            .qed()
+        )
+    """
+
+    def __init__(self, goal_description: str):
+        self._goal_desc = goal_description
+        self._kernel: ProofKernel | None = None
+        self._ctx = Context()
+        self._goal: Judgment | None = None
+        self._steps: list[tuple[str, ProofTerm]] = []
+        self._final_proof: ProofTerm | None = None
+        self._builder: ProofBuilder | None = None
+
+    def using(self, kernel: ProofKernel) -> Proof:
+        """Bind to a proof kernel."""
+        self._kernel = kernel
+        return self
+
+    def given(self, **bindings: str | SynType) -> Proof:
+        """Introduce universally quantified variables.
+
+        Usage::
+            .given(x="int", xs="list[int]", A="Matrix")
+        """
+        for name, type_desc in bindings.items():
+            ty = _parse_type(type_desc) if isinstance(type_desc, str) else type_desc
+            self._ctx = self._ctx.extend(name, ty)
+        return self
+
+    def assuming(self, name: str, claim: str) -> Proof:
+        """Add a hypothesis (precondition) to the proof context."""
+        self._ensure_builder()
+        assert self._builder is not None
+        self._builder.have(name, claim, Assume(name=name))
+        return self
+
+    def have(self, name: str, claim: str, *,
+             by: Callable[[ProofBuilder], ProofTerm] | ProofTerm | None = None,
+             by_z3: str | None = None,
+             by_axiom: tuple[str, str] | None = None) -> Proof:
+        """Introduce a lemma.
+
+        Usage::
+            .have("h1", "x > 0", by=lambda p: p.assume("precond"))
+            .have("h2", "x + 1 > 1", by_z3="x > 0 => x + 1 > 1")
+            .have("h3", "expand(a+b) = ...", by_axiom=("expand_add", "sympy"))
+        """
+        self._ensure_builder()
+        assert self._builder is not None
+        if by is not None:
+            proof = by(self._builder) if callable(by) else by
+        elif by_z3 is not None:
+            proof = Z3Proof(formula=by_z3)
+        elif by_axiom is not None:
+            proof = AxiomInvocation(name=by_axiom[0], module=by_axiom[1])
+        else:
+            proof = Structural(description=claim)
+        self._builder.have(name, claim, proof)
+        return self
+
+    def by_axiom(self, name: str, module: str = "",
+                 **instantiation: SynTerm) -> Proof:
+        """Conclude by invoking an axiom."""
+        self._final_proof = AxiomInvocation(
+            name=name, module=module, instantiation=instantiation,
+        )
+        return self
+
+    def by_z3(self, formula: str | None = None) -> Proof:
+        """Conclude by Z3 discharge."""
+        self._final_proof = Z3Proof(formula=formula or self._goal_desc)
+        return self
+
+    def by_refl(self, term: SynTerm | None = None) -> Proof:
+        """Conclude by reflexivity."""
+        self._final_proof = Refl(term=term or Var("_"))
+        return self
+
+    def by_structural(self, desc: str = "") -> Proof:
+        """Conclude by structural verification."""
+        self._final_proof = Structural(description=desc or self._goal_desc)
+        return self
+
+    def by_induction(self, on: str, *, base: ProofTerm, step: ProofTerm,
+                     kind: str = "nat") -> Proof:
+        """Conclude by induction."""
+        if kind == "nat":
+            self._final_proof = NatInduction(var=on, base_proof=base, step_proof=step)
+        else:
+            self._final_proof = ListInduction(var=on, nil_proof=base, cons_proof=step)
+        return self
+
+    def by_cases(self, scrutinee: SynTerm,
+                 *branches: tuple[str, ProofTerm]) -> Proof:
+        """Conclude by case analysis."""
+        self._final_proof = Cases(
+            scrutinee=scrutinee, branches=list(branches),
+        )
+        return self
+
+    def calc(self, *steps: str | tuple[str, Callable | ProofTerm]) -> Proof:
+        """Equational reasoning chain (calc block).
+
+        Usage::
+
+            .calc(
+                "a * (b + c)",
+                ("== a*b + a*c", by=lambda p: p.axiom("distributivity", "builtins")),
+                ("== a*b + a*c", by=some_proof_term),
+            )
+        """
+        proofs: list[ProofTerm] = []
+        self._ensure_builder()
+        assert self._builder is not None
+        for step in steps:
+            if isinstance(step, str):
+                continue  # first line is just the starting term
+            claim, justification = step[0], step[1]
+            if callable(justification):
+                proof = justification(self._builder)
+            else:
+                proof = justification
+            proofs.append(proof)
+
+        if len(proofs) == 0:
+            self._final_proof = Structural(description="empty calc")
+        elif len(proofs) == 1:
+            self._final_proof = proofs[0]
+        else:
+            result = proofs[0]
+            for p in proofs[1:]:
+                result = Trans(left=result, right=p)
+            self._final_proof = result
+        return self
+
+    def transport(self, *, along: ProofTerm, base: ProofTerm,
+                  family: SynTerm | None = None) -> Proof:
+        """Conclude by transport along a path."""
+        self._final_proof = TransportProof(
+            type_family=family or Var("_P"),
+            path_proof=along,
+            base_proof=base,
+        )
+        return self
+
+    def qed(self) -> VerificationResult:
+        """Finalize and verify the proof."""
+        if self._kernel is None:
+            self._kernel = ProofKernel()
+        self._ensure_builder()
+        assert self._builder is not None
+        if self._final_proof is None:
+            self._final_proof = Structural(description=self._goal_desc)
+        return self._builder.conclude(self._final_proof)
+
+    def _ensure_builder(self) -> None:
+        if self._builder is None:
+            if self._kernel is None:
+                self._kernel = ProofKernel()
+            self._goal = Judgment(
+                context=self._ctx,
+                kind=JudgmentKind.TYPE_CHECK,
+                term=Var("_goal"),
+                type_=RefinementType(
+                    base_type=PyBoolType(),
+                    predicate=self._goal_desc,
+                ),
+            )
+            self._builder = ProofBuilder(self._kernel, self._ctx, goal=self._goal)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §5  Formal Proof Builder (term-tree goals)
+# ═══════════════════════════════════════════════════════════════════
+
+class FormalProof:
+    """Proof builder using formal term trees instead of strings.
+
+    Usage::
+
+        from synhopy.core.formal_ops import op_sorted, op_len
+
+        result = (
+            FormalProof.eq(op_sorted(op_sorted(xs)), op_sorted(xs))
+            .using(kernel)
+            .given(xs=PyListType())
+            .by_axiom("sorted_idempotent", "builtins")
+            .qed()
+        )
+    """
+
+    def __init__(self, goal: Judgment):
+        self._goal = goal
+        self._kernel: ProofKernel | None = None
+        self._ctx = goal.context
+        self._final_proof: ProofTerm | None = None
+        self._builder: ProofBuilder | None = None
+
+    @classmethod
+    def eq(cls, left: SynTerm, right: SynTerm,
+           type_: SynType | None = None,
+           ctx: Context | None = None) -> FormalProof:
+        """Create an equality proof goal."""
+        return cls(formal_eq(ctx or Context(), left, right, type_))
+
+    @classmethod
+    def check(cls, term: SynTerm, type_: SynType,
+              ctx: Context | None = None) -> FormalProof:
+        """Create a type-checking proof goal."""
+        return cls(formal_check(ctx or Context(), term, type_))
+
+    def using(self, kernel: ProofKernel) -> FormalProof:
+        self._kernel = kernel
+        return self
+
+    def given(self, **bindings: SynType) -> FormalProof:
+        for name, ty in bindings.items():
+            self._ctx = self._ctx.extend(name, ty)
+        self._goal = Judgment(
+            context=self._ctx,
+            kind=self._goal.kind,
+            term=self._goal.term,
+            type_=self._goal.type_,
+            left=self._goal.left,
+            right=self._goal.right,
+        )
+        return self
+
+    def by_axiom(self, name: str, module: str = "",
+                 **instantiation: SynTerm) -> FormalProof:
+        self._final_proof = AxiomInvocation(
+            name=name, module=module, instantiation=instantiation,
+        )
+        return self
+
+    def by_z3(self, formula: str = "") -> FormalProof:
+        self._final_proof = Z3Proof(formula=formula)
+        return self
+
+    def by_refl(self, term: SynTerm | None = None) -> FormalProof:
+        self._final_proof = Refl(term=term or Var("_"))
+        return self
+
+    def by_trans(self, p1: ProofTerm, p2: ProofTerm) -> FormalProof:
+        self._final_proof = Trans(left=p1, right=p2)
+        return self
+
+    def by_cong(self, func: SynTerm, inner: ProofTerm) -> FormalProof:
+        self._final_proof = Cong(func=func, proof=inner)
+        return self
+
+    def qed(self) -> VerificationResult:
+        if self._kernel is None:
+            self._kernel = ProofKernel()
+        self._builder = ProofBuilder(self._kernel, self._ctx, goal=self._goal)
+        if self._final_proof is None:
+            self._final_proof = Structural(description="auto")
+        return self._builder.conclude(self._final_proof)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §6  spec() Context Manager for Multi-Step Proofs
+# ═══════════════════════════════════════════════════════════════════
+
+class ProofContext:
+    """Context manager for multi-step proofs with scoped hypotheses.
+
+    Usage::
+
+        with ProofContext(kernel, "x + 0 == x") as p:
+            p.given(x="int")
+            p.assume("h", "x is an integer")
+            p.have("step1", "x + 0 = x", by_z3="x + 0 = x")
+            result = p.qed(by=p.by("step1"))
+    """
+
+    def __init__(self, kernel: ProofKernel | None = None,
+                 goal: str = "",
+                 formal_goal: Judgment | None = None):
+        self._kernel = kernel or ProofKernel()
+        self._goal_desc = goal
+        self._formal_goal = formal_goal
+        self._ctx = Context()
+        self._builder: ProofBuilder | None = None
+        self._result: VerificationResult | None = None
+
+    def given(self, **bindings: str | SynType) -> ProofContext:
+        for name, type_desc in bindings.items():
+            ty = _parse_type(type_desc) if isinstance(type_desc, str) else type_desc
+            self._ctx = self._ctx.extend(name, ty)
+        return self
+
+    def assume(self, name: str, claim: str) -> ProofContext:
+        self._ensure_builder()
+        assert self._builder is not None
+        self._builder.have(name, claim, Assume(name=name))
+        return self
+
+    def have(self, name: str, claim: str, *,
+             by: ProofTerm | None = None,
+             by_z3: str | None = None,
+             by_axiom: tuple[str, str] | None = None) -> ProofContext:
+        self._ensure_builder()
+        assert self._builder is not None
+        if by is not None:
+            proof = by
+        elif by_z3 is not None:
+            proof = Z3Proof(formula=by_z3)
+        elif by_axiom is not None:
+            proof = AxiomInvocation(name=by_axiom[0], module=by_axiom[1])
+        else:
+            proof = Structural(description=claim)
+        self._builder.have(name, claim, proof)
+        return self
+
+    def by(self, name: str) -> ProofTerm:
+        assert self._builder is not None
+        return self._builder.by(name)
+
+    def qed(self, *, by: ProofTerm | None = None) -> VerificationResult:
+        self._ensure_builder()
+        assert self._builder is not None
+        proof = by or Structural(description=self._goal_desc)
+        self._result = self._builder.conclude(proof)
+        return self._result
+
+    def _ensure_builder(self) -> None:
+        if self._builder is None:
+            goal = self._formal_goal or Judgment(
+                context=self._ctx,
+                kind=JudgmentKind.TYPE_CHECK,
+                term=Var("_goal"),
+                type_=RefinementType(base_type=PyBoolType(), predicate=self._goal_desc),
+            )
+            self._builder = ProofBuilder(self._kernel, self._ctx, goal=goal)
+
+    def __enter__(self) -> ProofContext:
+        return self
+
+    def __exit__(self, *args: Any) -> None:
+        pass
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §7  Quick Proof Combinators
+# ═══════════════════════════════════════════════════════════════════
+
+def refl(term: SynTerm | str = "_") -> Refl:
+    """Quick reflexivity proof."""
+    t = Var(term) if isinstance(term, str) else term
+    return Refl(term=t)
+
+def sym(proof: ProofTerm) -> Sym:
+    """Quick symmetry."""
+    return Sym(proof=proof)
+
+def trans(*proofs: ProofTerm) -> ProofTerm:
+    """Chain multiple proofs transitively."""
+    if len(proofs) == 0:
+        return Structural(description="empty chain")
+    result = proofs[0]
+    for p in proofs[1:]:
+        result = Trans(left=result, right=p)
+    return result
+
+def by_axiom(name: str, module: str = "", **kw: SynTerm) -> AxiomInvocation:
+    """Quick axiom invocation."""
+    return AxiomInvocation(name=name, module=module, instantiation=kw)
+
+def by_z3(formula: str = "") -> Z3Proof:
+    """Quick Z3 discharge."""
+    return Z3Proof(formula=formula)
+
+def by_cases(scrutinee: SynTerm | str,
+             *branches: tuple[str, ProofTerm]) -> Cases:
+    """Quick case analysis."""
+    s = Var(scrutinee) if isinstance(scrutinee, str) else scrutinee
+    return Cases(scrutinee=s, branches=list(branches))
+
+def by_induction(on: str, base: ProofTerm, step: ProofTerm) -> NatInduction:
+    """Quick nat induction."""
+    return NatInduction(var=on, base_proof=base, step_proof=step)
+
+def by_list_induction(on: str, nil: ProofTerm, cons: ProofTerm) -> ListInduction:
+    """Quick list induction."""
+    return ListInduction(var=on, nil_proof=nil, cons_proof=cons)
+
+def by_ext(var: str, body: ProofTerm) -> Ext:
+    """Quick function extensionality."""
+    return Ext(var=var, body_proof=body)
+
+def by_transport(family: SynTerm, path: ProofTerm, base: ProofTerm) -> TransportProof:
+    """Quick transport."""
+    return TransportProof(type_family=family, path_proof=path, base_proof=base)
+
+def by_effect(effect: str, proof: ProofTerm) -> EffectWitness:
+    """Quick effect witness."""
+    return EffectWitness(effect=effect, proof=proof)
+
+def by_cong(func: SynTerm | str, proof: ProofTerm) -> Cong:
+    """Quick congruence."""
+    f = Var(func) if isinstance(func, str) else func
+    return Cong(func=f, proof=proof)
+
+def by_unfold(func: str, then: ProofTerm | None = None) -> Unfold:
+    """Quick unfold."""
+    return Unfold(func_name=func, proof=then)
+
+def by_rewrite(lemma: ProofTerm, then: ProofTerm | None = None) -> Rewrite:
+    """Quick rewrite."""
+    return Rewrite(lemma=lemma, proof=then)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §8  Type Parsing Helper
+# ═══════════════════════════════════════════════════════════════════
+
+_TYPE_MAP: dict[str, Callable[[], SynType]] = {
+    "int": PyIntType,
+    "float": PyFloatType,
+    "str": PyStrType,
+    "bool": PyBoolType,
+    "None": PyNoneType,
+    "list": PyListType,
+    "dict": PyDictType,
+    "set": PySetType,
+    "tuple": PyTupleType,
+    "object": PyObjType,
+    "any": PyObjType,
+    "callable": lambda: PyCallableType(),
+}
+
+def _parse_type(desc: str) -> SynType:
+    """Parse a type string like 'int', 'list[int]', 'Matrix'."""
+    desc = desc.strip()
+    base = desc.split("[")[0].lower()
+    if base in _TYPE_MAP:
+        return _TYPE_MAP[base]()
+    return PyClassType(name=desc)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §9  @verify Decorator (Run Verification at Import Time)
+# ═══════════════════════════════════════════════════════════════════
+
+_GLOBAL_KERNEL: ProofKernel | None = None
+
+def set_global_kernel(kernel: ProofKernel) -> None:
+    """Set the global kernel for @verify decorators."""
+    global _GLOBAL_KERNEL
+    _GLOBAL_KERNEL = kernel
+
+def get_global_kernel() -> ProofKernel:
+    """Get or create the global kernel."""
+    global _GLOBAL_KERNEL
+    if _GLOBAL_KERNEL is None:
+        _GLOBAL_KERNEL = ProofKernel()
+    return _GLOBAL_KERNEL
+
+
+def verify(f: F) -> F:
+    """Decorator that runs verification at decoration time.
+
+    Usage::
+
+        @verify
+        @guarantee("result >= 0")
+        @pure
+        def abs_val(x: int) -> int:
+            return abs(x)
+
+    The function is usable normally; verification results are stored
+    in f._synhopy_verification.
+    """
+    spec = _get_spec(f)
+    kernel = get_global_kernel()
+
+    results: list[VerificationResult] = []
+    for g in spec.guarantees:
+        result = (
+            Proof(g)
+            .using(kernel)
+            .by_structural(f"auto-verify: {g}")
+            .qed()
+        )
+        results.append(result)
+
+    f._synhopy_verification = results  # type: ignore[attr-defined]
+    return f
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §10  given() for Domain Knowledge Import
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass
+class DomainKnowledge:
+    """A piece of domain knowledge imported into the proof context.
+
+    Usage::
+
+        physics = given("Newton's second law: F = m * a")
+        # Now available in proofs as an assumption
+    """
+    statement: str
+    source: str = ""
+    trust_level: str = "DOMAIN_ASSUMED"
+
+    def as_assumption(self, name: str = "domain_knowledge") -> Assume:
+        return Assume(name=name)
+
+    def as_axiom(self, name: str = "", module: str = "domain") -> AxiomInvocation:
+        n = name or self.statement[:30].replace(" ", "_")
+        return AxiomInvocation(name=n, module=module)
+
+
+def given(statement: str, source: str = "") -> DomainKnowledge:
+    """Import domain knowledge as a proof assumption.
+
+    Usage::
+
+        euler = given("e^(iπ) + 1 = 0", source="Euler's formula")
+        sorting_lower_bound = given("comparison sorting is Ω(n log n)")
+    """
+    return DomainKnowledge(statement=statement, source=source)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §11  Quick Spec Extraction
+# ═══════════════════════════════════════════════════════════════════
+
+def extract_spec(f: Callable) -> FunctionSpec | None:
+    """Extract the SynHoPy spec from a decorated function.
+
+    Returns None if no spec decorators have been applied.
+    """
+    if not hasattr(f, "_synhopy_spec"):
+        return None
+    meta: _SpecMetadata = f._synhopy_spec
+    if not meta.guarantees and not meta.preconditions and not meta.postconditions:
+        return None
+
+    sig = inspect.signature(f)
+    params = []
+    for pname, param in sig.parameters.items():
+        ann = param.annotation
+        if ann is inspect.Parameter.empty:
+            ty = PyObjType()
+        elif isinstance(ann, str):
+            ty = _parse_type(ann)
+        elif isinstance(ann, SynType):
+            ty = ann
+        else:
+            ty = _parse_type(ann.__name__ if hasattr(ann, "__name__") else str(ann))
+        params.append((pname, ty))
+
+    from synhopy.core.types import Spec, SpecKind
+    guarantees = [
+        Spec(kind=SpecKind.GUARANTEE, description=g)
+        for g in meta.guarantees
+    ] + [
+        Spec(kind=SpecKind.GUARANTEE, description=str(p))
+        for p in meta.postconditions
+    ]
+    assumptions = [
+        Spec(kind=SpecKind.ASSUME, description=str(p))
+        for p in meta.preconditions
+    ]
+    return FunctionSpec(
+        name=f.__name__,
+        params=params,
+        return_type=PyObjType(),
+        guarantees=guarantees,
+        assumptions=assumptions,
+        effect=meta.effect,
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Exports
+# ═══════════════════════════════════════════════════════════════════
+
+__all__ = [
+    # Decorators
+    "guarantee", "requires", "ensures", "pure", "reads", "mutates",
+    "total", "partial_fn", "invariant", "decreases", "verify",
+    # Refinement types
+    "Pos", "Nat", "NonEmpty", "Bounded", "NonNull", "Sorted",
+    "SizedExact", "Refine",
+    # Library trust
+    "library_trust", "LibraryTrustBlock",
+    # Proof builders
+    "Proof", "FormalProof", "ProofContext",
+    # Quick combinators
+    "refl", "sym", "trans", "by_axiom", "by_z3", "by_cases",
+    "by_induction", "by_list_induction", "by_ext", "by_transport",
+    "by_effect", "by_cong", "by_unfold", "by_rewrite",
+    # Domain knowledge
+    "given", "DomainKnowledge",
+    # Spec extraction
+    "extract_spec",
+    # Kernel management
+    "set_global_kernel", "get_global_kernel",
+]
