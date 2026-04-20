@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Separation Logic Basics · SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="separation.html" class="active">Separation Logic</a></li>
+      <li><a href="references.html">Mutable References</a></li>
+      <li><a href="arrays.html">Arrays</a></li>
+      <li><a href="threading.html">Threading &amp; GIL</a></li>
+      <li><a href="async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Chapter 6.1 — Separation Logic Basics</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      Reasoning about the Python heap with disjoint ownership
+    </p>
+
+    <!-- ─── Introduction ─── -->
+    <h2>From Hoare Logic to Separation Logic</h2>
+    <p>
+      Classical Hoare logic uses triples <code>{P} C {Q}</code> where <code>P</code>
+      and <code>Q</code> are predicates over <em>all</em> program state. This works
+      for simple programs, but falls apart when functions manipulate only part of the
+      heap — every specification must describe the <em>entire</em> memory to be precise.
+    </p>
+    <p>
+      <strong>Separation logic</strong> (Reynolds, 2002; O'Hearn, 2001) solves this
+      with a single new idea: propositions can assert ownership of
+      <em>disjoint regions</em> of memory. A function that owns references
+      <code>x</code> and <code>y</code> cannot accidentally corrupt reference
+      <code>z</code> belonging to someone else, because <code>z</code> lives in a
+      separate part of the heap that the function cannot even name.
+    </p>
+
+    <div class="note">
+      In SynHoPy, separation logic propositions are values of type
+      <code>SLProp</code>. They are built from primitives like <code>emp</code> and
+      <code>pts_to</code>, combined with the separating conjunction <code>★</code>
+      (written <code>**</code> in Python, since <code>★</code> is not ASCII).
+    </div>
+
+    <!-- ─── SLProp ─── -->
+    <h2>SLProp: Propositions About the Heap</h2>
+    <p>
+      An <code>SLProp</code> describes a <em>set of heaps</em> — those heaps that
+      satisfy the proposition. The fundamental building blocks are:
+    </p>
+
+    <h3><code>emp</code> — The Empty Heap</h3>
+    <p>
+      <code>emp</code> is satisfied only by the empty heap: no references, no
+      objects, nothing allocated.
+    </p>
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> emp, SLProp
+
+<span class="cm"># emp describes a heap with zero allocated references</span>
+<span class="kw">assert</span> <span class="fn">isinstance</span>(emp, SLProp)</code></pre>
+
+    <h3><code>pts_to(ref, value)</code> — Points-To</h3>
+    <p>
+      The assertion <code>pts_to(x, v)</code> states that reference <code>x</code>
+      exists on the heap and currently holds value <code>v</code>. Crucially,
+      <code>pts_to</code> also asserts <strong>exclusive ownership</strong> of that
+      reference — no other part of the program may read or write <code>x</code>
+      unless ownership is explicitly shared.
+    </p>
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> pts_to
+<span class="kw">from</span> synhopy.heap <span class="kw">import</span> Ref
+
+<span class="cm"># "x points to the integer 42"</span>
+x: <span class="ty">Ref</span>[<span class="ty">int</span>] = Ref(<span class="nb">42</span>)
+prop: <span class="ty">SLProp</span> = pts_to(x, <span class="nb">42</span>)</code></pre>
+
+    <p>
+      The value argument can be a <strong>logical variable</strong> (a string name)
+      to represent an unknown value:
+    </p>
+<pre><code><span class="cm"># "x points to some unknown integer v"</span>
+prop = pts_to(x, <span class="st">'v'</span>)  <span class="cm"># v is universally quantified</span></code></pre>
+
+    <h3><code>★</code> — Separating Conjunction</h3>
+    <p>
+      The central operator. <code>P ★ Q</code> asserts that the heap can be split
+      into two <strong>disjoint</strong> sub-heaps, one satisfying <code>P</code>
+      and the other satisfying <code>Q</code>. In Python we write this as
+      <code>P ** Q</code>:
+    </p>
+<pre><code><span class="cm"># x and y point to DIFFERENT heap locations</span>
+spec = pts_to(x, <span class="st">'a'</span>) ** pts_to(y, <span class="st">'b'</span>)
+
+<span class="cm"># This implies x is not y (non-aliasing!)</span></code></pre>
+
+    <div class="important">
+      <code>P ** Q</code> is <strong>stronger</strong> than <code>P and Q</code>.
+      Ordinary conjunction says both hold <em>for the same heap</em>; separating
+      conjunction says they hold for <em>disjoint parts</em> of the heap. This
+      built-in non-aliasing guarantee is what makes separation logic powerful.
+    </div>
+
+    <p>Properties of <code>★</code>:</p>
+    <ul>
+      <li><strong>Commutative:</strong> <code>P ** Q ≡ Q ** P</code></li>
+      <li><strong>Associative:</strong> <code>(P ** Q) ** R ≡ P ** (Q ** R)</code></li>
+      <li><strong>Unit:</strong> <code>P ** emp ≡ P</code></li>
+    </ul>
+
+    <!-- ─── Frame Rule ─── -->
+    <h2>The Frame Rule</h2>
+    <p>
+      The frame rule is the crown jewel of separation logic. It says: if a function
+      is proved correct for a small piece of the heap, it remains correct when run
+      in a bigger heap — the "frame" (the unmentioned part) is automatically
+      preserved.
+    </p>
+
+    <div class="proof-steps">
+      <h4>Frame Rule</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          If <code>{P} C {Q}</code> is valid, then for any frame <code>F</code>:
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <code>{P ** F} C {Q ** F}</code> is also valid.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <code>C</code> cannot touch the resources described by <code>F</code>
+          because it doesn't own them.
+        </div>
+      </div>
+    </div>
+
+    <p>
+      In SynHoPy, the frame rule is applied <strong>automatically</strong>. When you
+      call a function with a separation-logic spec, SynHoPy infers the frame from
+      the calling context:
+    </p>
+
+<pre><code><span class="dc">@requires</span>(pts_to(x, <span class="st">'i'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="st">'i + 1'</span>))
+<span class="kw">def</span> <span class="fn">incr</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="st">"""Increment a mutable integer reference."""</span>
+    x.value += <span class="nb">1</span>
+
+<span class="cm"># Calling context: we own both x and y</span>
+<span class="cm"># pre:  pts_to(x, 10) ** pts_to(y, 20)</span>
+<span class="fn">incr</span>(x)
+<span class="cm"># post: pts_to(x, 11) ** pts_to(y, 20)  ← frame preserved y!</span></code></pre>
+
+    <div class="tip">
+      The frame rule means you never have to write "and everything else stays the
+      same" in your specifications. Separation logic gives you that for free.
+    </div>
+
+    <!-- ─── Ownership ─── -->
+    <h2>Ownership &amp; Access Control</h2>
+    <p>
+      Ownership in separation logic is <em>implicit</em>: if your precondition
+      mentions <code>pts_to(x, v)</code>, you own <code>x</code>. If it doesn't,
+      you can't access it. Attempting to read or write a reference you don't own
+      is a <strong>proof failure</strong>, not a runtime error.
+    </p>
+
+<pre><code><span class="dc">@requires</span>(pts_to(x, <span class="st">'v'</span>))
+<span class="kw">def</span> <span class="fn">bad_read</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>], y: <span class="ty">Ref</span>[<span class="ty">int</span>]) -> <span class="ty">int</span>:
+    <span class="kw">return</span> y.value  <span class="cm"># ✗ ERROR: no ownership of y!</span></code></pre>
+    <span class="rejected">Verification failed — y not in owned set</span>
+
+<pre><code><span class="dc">@requires</span>(pts_to(x, <span class="st">'v'</span>) ** pts_to(y, <span class="st">'w'</span>))
+<span class="kw">def</span> <span class="fn">good_read</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>], y: <span class="ty">Ref</span>[<span class="ty">int</span>]) -> <span class="ty">int</span>:
+    <span class="kw">return</span> y.value  <span class="cm"># ✓ OK — y is owned</span></code></pre>
+    <span class="verified">Verified</span>
+
+    <!-- ─── Full Example: incr ─── -->
+    <h2>Example: Incrementing a Reference</h2>
+    <p>
+      Let's walk through the complete verification of <code>incr</code>:
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> pts_to
+<span class="kw">from</span> synhopy.heap <span class="kw">import</span> Ref, requires, ensures
+
+<span class="dc">@requires</span>(pts_to(x, <span class="st">'i'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="st">'i + 1'</span>))
+<span class="kw">def</span> <span class="fn">incr</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    x.value += <span class="nb">1</span></code></pre>
+
+    <div class="proof-steps">
+      <h4>Verification Trace</h4>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Precondition:</strong> <code>pts_to(x, i)</code> — we own <code>x</code>
+          and it holds value <code>i</code>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Read:</strong> <code>x.value</code> reads the heap at <code>x</code>.
+          Permitted because we own <code>x</code>. Result: <code>i</code>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Compute:</strong> <code>i + 1</code> is a pure computation — no
+          heap effect.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Write:</strong> <code>x.value = i + 1</code> updates the heap.
+          Permitted because we own <code>x</code>. New state:
+          <code>pts_to(x, i + 1)</code>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Postcondition:</strong> <code>pts_to(x, i + 1)</code> matches.
+          <span class="verified">QED</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Object Attributes ─── -->
+    <h2>Python-Specific: Object Attribute Mutation</h2>
+    <p>
+      In Python, heap mutation often takes the form of setting attributes on objects
+      rather than dereferencing raw pointers. SynHoPy generalises <code>pts_to</code>
+      with an <code>attr_to</code> assertion for attribute access:
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> attr_to
+
+<span class="kw">class</span> <span class="ty">Point</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x: <span class="ty">float</span>, y: <span class="ty">float</span>):
+        self.x = x
+        self.y = y
+
+<span class="dc">@requires</span>(attr_to(p, <span class="st">'x'</span>, <span class="st">'px'</span>) ** attr_to(p, <span class="st">'y'</span>, <span class="st">'py'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: attr_to(p, <span class="st">'x'</span>, <span class="st">'px + dx'</span>) ** attr_to(p, <span class="st">'y'</span>, <span class="st">'py + dy'</span>))
+<span class="kw">def</span> <span class="fn">translate</span>(p: <span class="ty">Point</span>, dx: <span class="ty">float</span>, dy: <span class="ty">float</span>):
+    <span class="st">"""Translate a point by (dx, dy)."""</span>
+    p.x += dx
+    p.y += dy</code></pre>
+
+    <p>
+      Here <code>attr_to(p, 'x', 'px')</code> means "the <code>x</code> attribute
+      of object <code>p</code> holds value <code>px</code>." The separating conjunction
+      between the two <code>attr_to</code> assertions guarantees that the <code>x</code>
+      and <code>y</code> attributes are stored in disjoint slots (which they are, since
+      Python stores them in the object's <code>__dict__</code>).
+    </p>
+
+    <!-- ─── Compound example ─── -->
+    <h2>Example: Swapping Two References</h2>
+    <p>
+      Swapping is the canonical separation-logic example. We need to own both
+      references, and the postcondition reflects the exchange:
+    </p>
+
+<pre><code><span class="dc">@requires</span>(pts_to(x, <span class="st">'a'</span>) ** pts_to(y, <span class="st">'b'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="st">'b'</span>) ** pts_to(y, <span class="st">'a'</span>))
+<span class="kw">def</span> <span class="fn">swap</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>], y: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="st">"""Swap the values stored in two mutable references."""</span>
+    tmp = x.value      <span class="cm"># read x → a</span>
+    x.value = y.value  <span class="cm"># read y → b, write x ← b</span>
+    y.value = tmp      <span class="cm"># write y ← a</span></code></pre>
+    <span class="verified">Verified</span>
+
+    <div class="proof-steps">
+      <h4>Heap States Through Execution</h4>
+      <div class="proof-step">
+        <div class="step-num">0</div>
+        <div class="step-content">
+          <code>pts_to(x, a) ** pts_to(y, b)</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <code>tmp = a</code> (pure). Heap unchanged.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <code>x.value = b</code> → <code>pts_to(x, b) ** pts_to(y, b)</code>
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <code>y.value = a</code> → <code>pts_to(x, b) ** pts_to(y, a)</code>
+          <span class="verified">Matches postcondition</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Multiple references ─── -->
+    <h2>Example: Rotate Three Values</h2>
+<pre><code><span class="dc">@requires</span>(pts_to(a, <span class="st">'x'</span>) ** pts_to(b, <span class="st">'y'</span>) ** pts_to(c, <span class="st">'z'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(a, <span class="st">'z'</span>) ** pts_to(b, <span class="st">'x'</span>) ** pts_to(c, <span class="st">'y'</span>))
+<span class="kw">def</span> <span class="fn">rotate3</span>(a: <span class="ty">Ref</span>[<span class="ty">int</span>], b: <span class="ty">Ref</span>[<span class="ty">int</span>], c: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="st">"""Rotate values: a←c, b←a, c←b."""</span>
+    tmp = a.value
+    a.value = c.value
+    c.value = b.value
+    b.value = tmp</code></pre>
+    <span class="verified">Verified</span>
+
+    <p>
+      Notice how the three-way <code>**</code> guarantees that <code>a</code>,
+      <code>b</code>, and <code>c</code> are all distinct references. Without
+      this, the rotation proof would be unsound — if <code>a</code> and <code>c</code>
+      were the same reference, the first write would destroy the value we need to
+      read later.
+    </p>
+
+    <!-- ─── Dictionary as heap ─── -->
+    <h2>Example: Dictionary Mutation</h2>
+    <p>
+      Python dictionaries are heap-allocated mutable maps. SynHoPy treats dictionary
+      entries as individual heap cells:
+    </p>
+
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> dict_entry
+
+<span class="dc">@requires</span>(dict_entry(d, <span class="st">'name'</span>, <span class="st">'old_name'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: dict_entry(d, <span class="st">'name'</span>, <span class="st">'new_name'</span>))
+<span class="kw">def</span> <span class="fn">rename</span>(d: <span class="ty">dict</span>, new_name: <span class="ty">str</span>):
+    <span class="st">"""Update the 'name' key without touching other keys."""</span>
+    d[<span class="st">'name'</span>] = new_name</code></pre>
+
+    <p>
+      The frame rule ensures that other dictionary entries (e.g., <code>d['age']</code>)
+      are unaffected by this operation — they live in a separate region of the
+      conceptual heap.
+    </p>
+
+    <!-- ─── Implication and wand ─── -->
+    <h2>The Magic Wand (—★)</h2>
+    <p>
+      The <strong>magic wand</strong> <code>P —★ Q</code> (also called "separating
+      implication") asserts: "given a heap satisfying <code>P</code>, I can produce
+      a heap satisfying <code>Q</code>." It is the adjoint of <code>★</code>:
+    </p>
+<pre><code><span class="cm"># If I have (P —★ Q) ** P, I can derive Q</span>
+<span class="cm"># This is the "modus ponens" of separation logic</span>
+
+<span class="kw">from</span> synhopy.separation <span class="kw">import</span> wand
+
+<span class="cm"># "If you give me ownership of x, I'll give back x incremented"</span>
+promise: <span class="ty">SLProp</span> = wand(pts_to(x, <span class="st">'v'</span>), pts_to(x, <span class="st">'v + 1'</span>))</code></pre>
+
+    <div class="tip">
+      The magic wand is less commonly used than <code>★</code> but becomes essential
+      when reasoning about <strong>callbacks</strong> and <strong>higher-order
+      functions</strong> — Python's bread and butter.
+    </div>
+
+    <!-- ─── Formal rules summary ─── -->
+    <h2>Summary of Rules</h2>
+    <table>
+      <thead>
+        <tr><th>Rule</th><th>Statement</th><th>Intuition</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alloc</td>
+          <td><code>{emp} x = Ref(v) {pts_to(x, v)}</code></td>
+          <td>Allocation creates a new points-to</td>
+        </tr>
+        <tr>
+          <td>Read</td>
+          <td><code>{pts_to(x, v)} r = x.value {pts_to(x, v) ∧ r = v}</code></td>
+          <td>Reading preserves ownership</td>
+        </tr>
+        <tr>
+          <td>Write</td>
+          <td><code>{pts_to(x, _)} x.value = w {pts_to(x, w)}</code></td>
+          <td>Writing updates the pointed-to value</td>
+        </tr>
+        <tr>
+          <td>Frame</td>
+          <td><code>{P} C {Q} ⟹ {P ** F} C {Q ** F}</code></td>
+          <td>Unmentioned state is preserved</td>
+        </tr>
+        <tr>
+          <td>Sep-Conj</td>
+          <td><code>P ** Q ⟹ P ∧ Q</code> (but not vice versa)</td>
+          <td>Separation implies conjunction</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ─── Z3 Encoding ─── -->
+    <h2>Z3 Encoding</h2>
+    <p>
+      Under the hood, SynHoPy encodes separation-logic obligations as Z3 constraints.
+      The heap is modelled as a <em>partial map</em> from abstract addresses to values,
+      and the separating conjunction is encoded using disjointness constraints on the
+      domains of two sub-maps:
+    </p>
+
+<pre><code><span class="cm"># Simplified Z3 encoding (internal)</span>
+<span class="kw">from</span> z3 <span class="kw">import</span> *
+
+Addr = DeclareSort(<span class="st">'Addr'</span>)
+Heap = ArraySort(Addr, IntSort())
+
+<span class="kw">def</span> <span class="fn">disjoint</span>(dom1, dom2):
+    <span class="st">"""No address belongs to both domains."""</span>
+    a = Const(<span class="st">'a'</span>, Addr)
+    <span class="kw">return</span> ForAll([a], Not(And(dom1(a), dom2(a))))
+
+<span class="kw">def</span> <span class="fn">sep_conj</span>(p, q, heap):
+    <span class="st">"""P ** Q holds for heap iff heap splits into disjoint parts."""</span>
+    h1, h2 = Consts(<span class="st">'h1 h2'</span>, Heap)
+    <span class="kw">return</span> Exists([h1, h2],
+        And(disjoint(dom(h1), dom(h2)),
+            union(h1, h2) == heap,
+            p(h1), q(h2)))</code></pre>
+
+    <!-- ─── Exercises ─── -->
+    <div class="exercise">
+      <strong>Exercise 6.1.1:</strong> Write a SynHoPy specification for a function
+      <code>double(x: Ref[int])</code> that doubles the value at reference <code>x</code>.
+      State the precondition and postcondition using <code>pts_to</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.1.2:</strong> Consider a function that reads from <code>x</code>
+      and writes the result to <code>y</code>:
+<pre><code><span class="kw">def</span> <span class="fn">copy</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>], y: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    y.value = x.value</code></pre>
+      Write the separation-logic specification. Why must the precondition use
+      <code>**</code> rather than <code>and</code>?
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.1.3:</strong> Explain why the following specification is
+      <em>incorrect</em>:
+<pre><code><span class="dc">@requires</span>(pts_to(x, <span class="st">'v'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> _: pts_to(x, <span class="st">'v'</span>) ** pts_to(x, <span class="st">'v'</span>))</code></pre>
+      Hint: what does <code>**</code> say about the two operands?
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.1.4:</strong> Write a function <code>add_to_first</code> that
+      takes three references <code>a</code>, <code>b</code>, <code>c</code> and sets
+      <code>a.value = a.value + b.value + c.value</code>. Provide the full specification
+      and verify that <code>b</code> and <code>c</code> are unchanged (using the frame
+      rule explicitly in your reasoning).
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.1.5 (Challenge):</strong> Using <code>attr_to</code>, specify
+      and verify a method <code>Point.reflect()</code> that swaps the <code>x</code> and
+      <code>y</code> attributes of a <code>Point</code> object. Explain how this is
+      similar to the <code>swap</code> function but operates on attributes rather than
+      standalone references.
+    </div>
+
+    <!-- ─── Navigation ─── -->
+    <nav class="page-nav">
+      <a href="index.html">
+        <span class="label">← Previous</span>
+        <span class="title">Part 6 Overview</span>
+      </a>
+      <a href="references.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Mutable References</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

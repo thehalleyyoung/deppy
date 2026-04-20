@@ -97,7 +97,7 @@
   Recall the verification pipeline from the <a href="index.html">Overview</a>:
 </p>
 
-<pre><code class="output"><span class="cm">                     ┌──────────────────────────┐</span>
+<pre><code class="notation"><span class="cm">                     ┌──────────────────────────┐</span>
 <span class="cm">                     │   HomotopyStrategy       │</span>
 <span class="cm">                     │                          │</span>
 <span class="cm">  ProofGoal ────────▶│  try_refl()              │</span>
@@ -182,18 +182,18 @@
 <pre><code><span class="cm"># Python int → Z3 Int</span>
 <span class="kw">from</span> z3 <span class="kw">import</span> Int, IntSort
 
-x = <span class="fn">Int</span>(<span class="st">'x'</span>)    <span class="cm"># Z3 integer variable named 'x'</span>
+x = <span class="fn">Int</span>(<span class="st">'x'</span>)    <span class="cm"># Z3 integer variable named 'x'</span></code></pre>
 
-<span class="cm"># Corresponding SMT-LIB:</span>
+<pre><code class="smt"><span class="cm"># Corresponding SMT-LIB:</span>
 <span class="cm">; (declare-const x Int)</span></code></pre>
 
 <pre><code><span class="cm"># Python bool → Z3 Bool</span>
 <span class="kw">from</span> z3 <span class="kw">import</span> Bool, And, Or, Not
 
 flag = <span class="fn">Bool</span>(<span class="st">'flag'</span>)
-constraint = <span class="fn">And</span>(flag, <span class="fn">Not</span>(<span class="fn">Bool</span>(<span class="st">'other'</span>)))
+constraint = <span class="fn">And</span>(flag, <span class="fn">Not</span>(<span class="fn">Bool</span>(<span class="st">'other'</span>)))</code></pre>
 
-<span class="cm">; (declare-const flag Bool)</span>
+<pre><code class="smt"><span class="cm">; (declare-const flag Bool)</span>
 <span class="cm">; (declare-const other Bool)</span>
 <span class="cm">; (assert (and flag (not other)))</span></code></pre>
 
@@ -233,16 +233,17 @@ constraint = <span class="fn">And</span>(flag, <span class="fn">Not</span>(<span
 </table>
 
 <pre><code><span class="cm"># list[int] → Z3 Seq(IntSort())</span>
-<span class="kw">from</span> z3 <span class="kw">import</span> SeqSort, IntSort, Const, Length, Nth, Unit, Concat
+<span class="kw">from</span> z3 <span class="kw">import</span> SeqSort, IntSort, Const, Length, Unit, Concat
+<span class="kw">def</span> <span class="fn">Nth</span>(seq, idx): <span class="kw">return</span> seq[idx]  <span class="cm"># z3 sequence indexing</span>
 
 <span class="ty">IntSeq</span> = <span class="fn">SeqSort</span>(<span class="fn">IntSort</span>())
 xs = <span class="fn">Const</span>(<span class="st">'xs'</span>, IntSeq)
 
 <span class="cm"># len(xs) → Length(xs)</span>
 <span class="cm"># xs[i]   → Nth(xs, i)</span>
-<span class="cm"># xs + ys → Concat(xs, ys)</span>
+<span class="cm"># xs + ys → Concat(xs, ys)</span></code></pre>
 
-<span class="cm">; SMT-LIB encoding:</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB encoding:</span>
 <span class="cm">; (declare-const xs (Seq Int))</span>
 <span class="cm">; (assert (> (seq.len xs) 0))</span>
 <span class="cm">; (assert (>= (seq.nth xs 0) 0))</span></code></pre>
@@ -253,9 +254,9 @@ xs = <span class="fn">Const</span>(<span class="st">'xs'</span>, IntSeq)
 d = <span class="fn">Array</span>(<span class="st">'d'</span>, <span class="fn">StringSort</span>(), <span class="fn">IntSort</span>())
 
 <span class="cm"># d["key"]       → Select(d, StringVal("key"))</span>
-<span class="cm"># d["key"] = 42  → Store(d, StringVal("key"), IntVal(42))</span>
+<span class="cm"># d["key"] = 42  → Store(d, StringVal("key"), IntVal(42))</span></code></pre>
 
-<span class="cm">; (declare-const d (Array String Int))</span>
+<pre><code class="smt"><span class="cm">; (declare-const d (Array String Int))</span>
 <span class="cm">; (assert (= (select d "key") 42))</span></code></pre>
 
 <h3 id="enc-classes">Python Classes → Z3 Datatypes</h3>
@@ -277,9 +278,9 @@ Point = Point.create()
 
 mk_point = Point.mk_point
 get_x = Point.x
-get_y = Point.y
+get_y = Point.y</code></pre>
 
-<span class="cm">; SMT-LIB:</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
 <span class="cm">; (declare-datatypes ((Point 0))</span>
 <span class="cm">;   (((mk_point (x Int) (y Int)))))</span>
 <span class="cm">;</span>
@@ -316,9 +317,9 @@ ys = <span class="fn">Const</span>(<span class="st">'ys'</span>, <span class="fn
 solver.add(<span class="fn">ForAll</span>(
     [xs, ys],
     total_length(xs, ys) == <span class="fn">Length</span>(xs) + <span class="fn">Length</span>(ys)
-))
+))</code></pre>
 
-<span class="cm">; SMT-LIB:</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
 <span class="cm">; (declare-fun total_length ((Seq Int) (Seq Int)) Int)</span>
 <span class="cm">; (assert (forall ((xs (Seq Int)) (ys (Seq Int)))</span>
 <span class="cm">;   (= (total_length xs ys) (+ (seq.len xs) (seq.len ys)))))</span></code></pre>
@@ -480,9 +481,9 @@ sorted_prop = <span class="fn">ForAll</span>(
 
 <span class="dc">@guarantee</span>(<span class="st">"result == a + b"</span>)
 <span class="kw">def</span> <span class="fn">add</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">int</span>:
-    <span class="kw">return</span> a + b
+    <span class="kw">return</span> a + b</code></pre>
 
-<span class="cm"># Generated Z3 query:</span>
+<pre><code class="smt"><span class="cm"># Generated Z3 query:</span>
 <span class="cm">; (declare-const a Int)</span>
 <span class="cm">; (declare-const b Int)</span>
 <span class="cm">; (declare-const result Int)</span>
@@ -649,9 +650,9 @@ solver.pop()
 solver.push()
 solver.add(<span class="fn">Not</span>(x - <span class="nb">1</span> >= <span class="nb">0</span>))
 result3 = solver.check()       <span class="cm"># → unsat ✓</span>
-solver.pop()
+solver.pop()</code></pre>
 
-<span class="cm">; SMT-LIB:</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
 <span class="cm">; (declare-const x Int)</span>
 <span class="cm">; (assert (> x 0))</span>
 <span class="cm">; (assert (< x 100))</span>
@@ -705,9 +706,9 @@ solver.add(<span class="fn">Not</span>(y > <span class="nb">0</span>))  <span cl
 
 result = solver.check()  <span class="cm"># → unsat</span>
 core = solver.unsat_core()
-<span class="nb">print</span>(core)  <span class="cm"># → [p1, p3]  (p2 was not needed)</span>
+<span class="nb">print</span>(core)  <span class="cm"># → [p1, p3]  (p2 was not needed)</span></code></pre>
 
-<span class="cm">; SMT-LIB:</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
 <span class="cm">; (set-option :produce-unsat-cores true)</span>
 <span class="cm">; (assert (! (> x 0) :named p1))</span>
 <span class="cm">; (assert (! (< x 100) :named p2))</span>
@@ -756,18 +757,21 @@ model = solver.model()
 solver = <span class="fn">Solver</span>()
 solver.add(x > <span class="nb">0</span>)
 solver.add(x < <span class="nb">0</span>)
-solver.check()  <span class="cm"># → unsat</span>
+result = solver.check()  <span class="cm"># → unsat</span>
+<span class="nb">print</span>(<span class="st">f"result: {result}"</span>)
 
-proof = solver.proof()
-<span class="nb">print</span>(proof)
-<span class="cm"># mp(asserted(x > 0),</span>
-<span class="cm">#    asserted(x < 0),</span>
-<span class="cm">#    trans(leq-axiom(...), ...),</span>
-<span class="cm">#    false)</span>
+<span class="kw">try</span>:
+    proof = solver.proof()
+    <span class="nb">print</span>(proof)
+    <span class="cm"># mp(asserted(x > 0),</span>
+    <span class="cm">#    asserted(x < 0),</span>
+    <span class="cm">#    trans(leq-axiom(...), ...),</span>
+    <span class="cm">#    false)</span>
+<span class="kw">except</span> <span class="ty">Exception</span>:
+    <span class="nb">print</span>(<span class="st">"(proof object not available — depends on Z3 build)"</span>)
 
-<span class="cm"># Export to file for inspection</span>
-<span class="kw">with</span> <span class="nb">open</span>(<span class="st">"debug_proof.smt2"</span>, <span class="st">"w"</span>) <span class="kw">as</span> f:
-    f.write(solver.to_smt2())</code></pre>
+<span class="cm"># Export to SMT-LIB for inspection</span>
+<span class="nb">print</span>(solver.to_smt2()[:200])</code></pre>
 
 <div class="tip">
   When debugging a verification failure, start with the counterexample. If Z3
@@ -1071,9 +1075,9 @@ proof = solver.proof()
                 )
             )
         ]
-        <span class="kw">return</span> path_fn, constraints
+        <span class="kw">return</span> path_fn, constraints</code></pre>
 
-<span class="cm">; SMT-LIB:</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
 <span class="cm">; (declare-fun path_p (Real) Int)</span>
 <span class="cm">; (assert (= (path_p 0.0) 3))    ; start</span>
 <span class="cm">; (assert (= (path_p 1.0) 5))    ; end</span>
@@ -1105,9 +1109,9 @@ proof = solver.proof()
         <span class="kw">return</span> coercion(value)
 
 <span class="cm"># Example: transport along int ≃ nat (for non-negative ints)</span>
-<span class="cm"># coercion: x ↦ x (identity, since nat ⊆ int in Z3)</span>
+<span class="cm"># coercion: x ↦ x (identity, since nat ⊆ int in Z3)</span></code></pre>
 
-<span class="cm">; SMT-LIB:</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB:</span>
 <span class="cm">; (declare-fun coerce_int_nat (Int) Int)</span>
 <span class="cm">; (assert (forall ((x Int))</span>
 <span class="cm">;   (=> (>= x 0) (= (coerce_int_nat x) x))))</span>
@@ -1155,9 +1159,9 @@ proof = solver.proof()
             )
             <span class="cm"># Agreement on overlaps is checked separately</span>
 
-        <span class="kw">return</span> constraints
+        <span class="kw">return</span> constraints</code></pre>
 
-<span class="cm">; SMT-LIB for a 2-patch cover of [0, n):</span>
+<pre><code class="smt"><span class="cm">; SMT-LIB for a 2-patch cover of [0, n):</span>
 <span class="cm">; patch 1: [0, mid)    patch 2: [mid-1, n)    overlap: [mid-1, mid)</span>
 <span class="cm">;</span>
 <span class="cm">; (declare-const n Int)</span>

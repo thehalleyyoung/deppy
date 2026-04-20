@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Structure of this Book — SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .part-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      transition: border-color 0.15s;
+    }
+    .part-card:hover { border-color: var(--primary); }
+    .part-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+    .part-card .part-num {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .part-card .part-num.hood {
+      background: var(--accent);
+    }
+    .part-card .chapters {
+      list-style: none;
+      padding: 0;
+      margin: 0.75rem 0 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.25rem;
+    }
+    .part-card .chapters li { margin: 0; }
+    .part-card .chapters a {
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+    .part-card .chapters a:hover { color: var(--primary); }
+
+    .prereq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .prereq-grid > div {
+      background: var(--bg-alt);
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .prereq-grid h4 { margin-top: 0; color: var(--primary); }
+    @media (max-width: 700px) {
+      .prereq-grid { grid-template-columns: 1fr; }
+      .part-card .chapters { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./structure.html">Structure of this Book</a></li>
+      <li><a href="./intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="./part1/index.html">Overview</a></li>
+      <li><a href="./part1/getting_started.html">Getting Started</a></li>
+      <li><a href="./part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="./part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="./part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="./part1/data_structures.html">Data Structures</a></li>
+      <li><a href="./part1/termination.html">Termination</a></li>
+      <li><a href="./part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="./part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="./part2/index.html">Overview</a></li>
+      <li><a href="./part2/generics.html">Generic Types</a></li>
+      <li><a href="./part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="./part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="./part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="./part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="./part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="./part3/index.html">Overview</a></li>
+      <li><a href="./part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="./part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="./part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="./part4/index.html">Overview</a></li>
+      <li><a href="./part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="./part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="./part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="./part5/index.html">Overview</a></li>
+      <li><a href="./part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="./part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="./part5/fibrations.html">Fibrations</a></li>
+      <li><a href="./part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="./part6/index.html">Overview</a></li>
+      <li><a href="./part6/separation.html">Separation Logic</a></li>
+      <li><a href="./part6/references.html">Mutable References</a></li>
+      <li><a href="./part6/arrays.html">Arrays</a></li>
+      <li><a href="./part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="./part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="./under_the_hood/index.html">Overview</a></li>
+      <li><a href="./under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+  <article>
+
+    <h1>Structure of this Book</h1>
+
+    <p>
+      This book is organized into six progressive parts, plus an "Under the Hood"
+      appendix. Each part builds on the previous ones, but experienced readers can
+      skip ahead — we note dependencies where they arise.
+    </p>
+
+    <div class="note">
+      The book follows a <strong>verify-existing-code</strong> philosophy throughout.
+      Every example starts with ordinary Python and adds verification externally.
+      You never need to modify your source code to use SynHoPy.
+    </div>
+
+    <!-- ── Who Is This For? ── -->
+    <h2 id="audience">Who Is This Book For?</h2>
+
+    <p>
+      This book is aimed at three audiences:
+    </p>
+    <ul>
+      <li>
+        <strong>Python developers</strong> who want to add formal guarantees to their code
+        without learning a new language. If you've used type hints or mypy, you already
+        have the right intuitions.
+      </li>
+      <li>
+        <strong>Verification engineers</strong> familiar with F*, Dafny, or Coq who want
+        to apply their skills to the Python ecosystem. SynHoPy will feel familiar but
+        with key differences around dynamic typing and sidecar proofs.
+      </li>
+      <li>
+        <strong>Researchers</strong> interested in the application of homotopy type theory
+        to practical programming language verification. Parts 5 and the appendix provide
+        theoretical depth.
+      </li>
+    </ul>
+
+    <!-- ── Prerequisites ── -->
+    <h2 id="prereqs">Prerequisites</h2>
+
+    <div class="prereq-grid">
+      <div>
+        <h4>Required</h4>
+        <ul>
+          <li>Comfortable reading and writing Python 3.10+</li>
+          <li>Basic understanding of type hints (<code>int</code>, <code>list[str]</code>, <code>Optional</code>)</li>
+          <li>Familiarity with <code>pip</code>, virtual environments, and the command line</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Helpful but Not Required</h4>
+        <ul>
+          <li>Experience with property-based testing (Hypothesis)</li>
+          <li>Exposure to formal logic or proof assistants</li>
+          <li>Basic knowledge of abstract algebra or topology (for Part 5)</li>
+          <li>Familiarity with async/await and threading (for Part 6)</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      We introduce every concept from scratch with Python examples. You do <em>not</em>
+      need prior experience with formal verification, type theory, or homotopy theory
+      to read Parts 1–4.
+    </p>
+
+    <!-- ── The Six Parts ── -->
+    <h2 id="parts">The Six Parts</h2>
+
+    <!-- Part 1 -->
+    <div class="part-card">
+      <span class="part-num">Part 1</span>
+      <h3>Pure Python — Refinement Types &amp; Z3</h3>
+      <p>
+        We begin with the bread and butter of formal verification: refinement types.
+        You'll learn how to annotate Python functions with preconditions and postconditions,
+        and have Z3 discharge the proof obligations automatically. We cover termination
+        checking, lemma-based reasoning, structural induction, and culminate in a fully
+        verified quicksort implementation.
+      </p>
+      <p>
+        <strong>Key idea:</strong> Even without homotopy theory, SynHoPy's refinement types
+        and Z3 integration provide a powerful verification experience comparable to
+        Liquid Haskell or Dafny — but for Python.
+      </p>
+      <ul class="chapters">
+        <li><a href="./part1/index.html">Overview</a></li>
+        <li><a href="./part1/getting_started.html">Getting Started</a></li>
+        <li><a href="./part1/refinement_types.html">Refinement Types</a></li>
+        <li><a href="./part1/equality.html">Equality &amp; Duck Typing</a></li>
+        <li><a href="./part1/z3_integration.html">Z3 Integration</a></li>
+        <li><a href="./part1/data_structures.html">Data Structures</a></li>
+        <li><a href="./part1/termination.html">Termination</a></li>
+        <li><a href="./part1/lemmas.html">Lemmas &amp; Induction</a></li>
+        <li><a href="./part1/quicksort.html">Case Study: Quicksort</a></li>
+      </ul>
+    </div>
+
+    <!-- Part 2 -->
+    <div class="part-card">
+      <span class="part-num">Part 2</span>
+      <h3>Advanced Proofs — Generics, Dependent Types &amp; Metatheory</h3>
+      <p>
+        Building on Part 1, we tackle more expressive type-level reasoning:
+        generic types with type-variable constraints, length-indexed vectors,
+        cryptographic Merkle trees with hash-collision proofs, equality and path types,
+        logical connectives as types, and a formalization of the simply typed lambda
+        calculus with type safety proofs.
+      </p>
+      <p>
+        <strong>Key idea:</strong> Python's dynamic nature doesn't prevent dependent-type
+        reasoning. SynHoPy lifts runtime values into the type level using refinements
+        and path types.
+      </p>
+      <ul class="chapters">
+        <li><a href="./part2/index.html">Overview</a></li>
+        <li><a href="./part2/generics.html">Generic Types</a></li>
+        <li><a href="./part2/vectors.html">Length-Indexed Lists</a></li>
+        <li><a href="./part2/merkle.html">Merkle Trees</a></li>
+        <li><a href="./part2/equality_types.html">Equality &amp; Path Types</a></li>
+        <li><a href="./part2/connectives.html">Logical Connectives</a></li>
+        <li><a href="./part2/stlc.html">Simply Typed λ-Calculus</a></li>
+      </ul>
+    </div>
+
+    <!-- Part 3 -->
+    <div class="part-card">
+      <span class="part-num">Part 3</span>
+      <h3>Python Specifics — Duck Typing, Decorators &amp; Dynamic Types</h3>
+      <p>
+        Python has features that no other verified language deals with: pervasive duck
+        typing, decorators that transform function signatures, metaclasses, and a fully
+        dynamic type system where <code>type(x)</code> can change at runtime. This part
+        shows how SynHoPy uses <em>homotopy-theoretic paths</em> to model structural
+        subtyping (duck typing as path equivalence), decorator composition as fibrations,
+        and dynamic type changes as transport along paths.
+      </p>
+      <p>
+        <strong>Key idea:</strong> Duck typing is not chaos — it is structural equivalence,
+        and homotopy type theory is the natural language for reasoning about it.
+      </p>
+      <ul class="chapters">
+        <li><a href="./part3/index.html">Overview</a></li>
+        <li><a href="./part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+        <li><a href="./part3/decorators.html">Decorators &amp; Meta</a></li>
+        <li><a href="./part3/dynamic.html">Dynamic Typing</a></li>
+      </ul>
+    </div>
+
+    <!-- Part 4 -->
+    <div class="part-card">
+      <span class="part-num">Part 4</span>
+      <h3>Sidecar Proofs — Verifying Libraries Without Modification</h3>
+      <p>
+        The defining feature of SynHoPy: verifying code you didn't write and can't
+        modify. We explain the <code>.synhopy</code> sidecar file format, how it binds
+        specifications to existing functions, trust levels and verification confidence,
+        and demonstrate a full case study verifying parts of SymPy's symbolic algebra engine.
+      </p>
+      <p>
+        <strong>Key idea:</strong> Proofs about library code live <em>beside</em> the library,
+        not inside it. This enables verification of pip-installed packages, legacy code,
+        and third-party APIs.
+      </p>
+      <ul class="chapters">
+        <li><a href="./part4/index.html">Overview</a></li>
+        <li><a href="./part4/sidecar_basics.html">Sidecar Basics</a></li>
+        <li><a href="./part4/sympy.html">Case Study: SymPy</a></li>
+        <li><a href="./part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+      </ul>
+    </div>
+
+    <!-- Part 5 -->
+    <div class="part-card">
+      <span class="part-num">Part 5</span>
+      <h3>Homotopy Methods — Paths, Transport, Čech &amp; Fibrations</h3>
+      <p>
+        The theoretical heart of SynHoPy. We develop cubical path types for reasoning
+        about type equivalences, transport for moving proofs across equivalent types,
+        Čech decomposition for breaking complex verification into local patches that
+        glue together, and fibrations for modeling dependent structures. This part
+        connects the abstract mathematics to concrete Python verification tasks.
+      </p>
+      <p>
+        <strong>Key idea:</strong> Homotopy type theory provides a <em>compositional</em>
+        framework — verify locally, assemble globally — that scales to large codebases
+        in ways that monolithic SMT queries cannot.
+      </p>
+      <ul class="chapters">
+        <li><a href="./part5/index.html">Overview</a></li>
+        <li><a href="./part5/paths.html">Path Types &amp; Transport</a></li>
+        <li><a href="./part5/cech.html">Čech Decomposition</a></li>
+        <li><a href="./part5/fibrations.html">Fibrations</a></li>
+        <li><a href="./part5/tactics.html">Homotopy Tactics</a></li>
+      </ul>
+    </div>
+
+    <!-- Part 6 -->
+    <div class="part-card">
+      <span class="part-num">Part 6</span>
+      <h3>Heap &amp; Concurrency — Separation Logic, Threading &amp; Async</h3>
+      <p>
+        Python is not a purely functional language: it has mutable references, arrays,
+        shared state, the GIL, threads, and async/await. This part introduces separation
+        logic for heap reasoning, verifies mutable data structures, proves thread-safety
+        properties (with GIL-awareness), and shows how to verify async Python code with
+        structured concurrency guarantees.
+      </p>
+      <p>
+        <strong>Key idea:</strong> Python's GIL is not a free lunch for concurrency proofs,
+        but it <em>does</em> simplify them. SynHoPy exploits GIL semantics to automate
+        many concurrency obligations that would be manual in other systems.
+      </p>
+      <ul class="chapters">
+        <li><a href="./part6/index.html">Overview</a></li>
+        <li><a href="./part6/separation.html">Separation Logic</a></li>
+        <li><a href="./part6/references.html">Mutable References</a></li>
+        <li><a href="./part6/arrays.html">Arrays</a></li>
+        <li><a href="./part6/threading.html">Threading &amp; GIL</a></li>
+        <li><a href="./part6/async.html">Async / Await</a></li>
+      </ul>
+    </div>
+
+    <!-- Under the Hood -->
+    <div class="part-card">
+      <span class="part-num hood">Appendix</span>
+      <h3>Under the Hood — Implementation Details</h3>
+      <p>
+        For the curious reader: how SynHoPy is built. We describe the internal architecture,
+        how Python ASTs are translated into the type-theoretic core, how Z3 is used as a
+        leaf-obligation solver within the homotopy framework, and how sidecar files are
+        parsed and bound to their targets.
+      </p>
+      <ul class="chapters">
+        <li><a href="./under_the_hood/index.html">Overview</a></li>
+        <li><a href="./under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+      </ul>
+    </div>
+
+    <!-- ── How to Read ── -->
+    <h2 id="how-to-read">How to Read This Book</h2>
+
+    <h3>Linear Path (Recommended for Beginners)</h3>
+    <p>
+      Read Parts 1 through 4 in order. These take you from zero to productive
+      SynHoPy usage. Part 5 (homotopy methods) and Part 6 (heap/concurrency)
+      can then be read in either order depending on your interests.
+    </p>
+
+    <h3>Fast Track for Verification Engineers</h3>
+    <p>
+      If you've used F*, Dafny, or Liquid Haskell:
+    </p>
+    <ol>
+      <li>Skim <a href="./intro.html">Introduction</a> for the key differences</li>
+      <li>Read <a href="./part1/getting_started.html">Getting Started</a> for setup</li>
+      <li>Jump to <a href="./part3/index.html">Part 3: Python Specifics</a></li>
+      <li>Then <a href="./part4/index.html">Part 4: Sidecar Proofs</a></li>
+    </ol>
+
+    <h3>Theory Track for Researchers</h3>
+    <p>
+      If you're interested in the homotopy-theoretic foundations:
+    </p>
+    <ol>
+      <li>Read the <a href="./intro.html">Introduction</a></li>
+      <li>Skim <a href="./part1/refinement_types.html">Refinement Types</a> and
+          <a href="./part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li>Dive into <a href="./part5/index.html">Part 5: Homotopy Methods</a></li>
+      <li>Read <a href="./under_the_hood/index.html">Under the Hood</a></li>
+    </ol>
+
+    <!-- ── Conventions ── -->
+    <h2 id="conventions">Conventions Used in This Book</h2>
+
+    <p>Throughout this book we use the following visual conventions:</p>
+
+    <h4>Code Blocks</h4>
+    <p>Python source code that you would write or already have:</p>
+<pre><code><span class="kw">def</span> <span class="fn">greet</span>(name: <span class="ty">str</span>) -> <span class="ty">str</span>:
+    <span class="kw">return</span> <span class="st">f"Hello, </span>{name}<span class="st">!"</span></code></pre>
+
+    <p>SynHoPy specifications in sidecar files:</p>
+<pre><code><span class="dc">@verify</span>(<span class="st">"module.greet"</span>)
+<span class="kw">def</span> <span class="fn">greet_spec</span>(name: <span class="ty">str</span>) -> <span class="pr">refined</span>(<span class="ty">str</span>, <span class="kw">lambda</span> s: <span class="fn">len</span>(s) > <span class="nb">0</span>):
+    <span class="pr">z3.auto</span>()</code></pre>
+
+    <h4>Callout Boxes</h4>
+
+    <div class="note">
+      Informational notes provide additional context or clarify subtleties.
+    </div>
+
+    <div class="tip">
+      Tips offer practical advice for common patterns.
+    </div>
+
+    <div class="warning">
+      Warnings flag common pitfalls or surprising behavior.
+    </div>
+
+    <div class="exercise">
+      Exercises invite you to practice what you've learned. Solutions are provided
+      at the end of each chapter.
+    </div>
+
+    <h4>Verification Badges</h4>
+    <p>
+      When we show verification output, we use colored badges to indicate the result:
+    </p>
+    <p>
+      <span class="verified">Z3_PROVEN</span> —
+      Obligation discharged by Z3 with a machine-checked proof.
+    </p>
+    <p>
+      <span class="verified">LEAN_VERIFIED</span> —
+      Proof exported to Lean 4 and checked by its kernel.
+    </p>
+    <p>
+      <span class="rejected">FAILED</span> —
+      Verification failed — either a bug or an insufficient specification.
+    </p>
+
+    <!-- Navigation -->
+    <nav class="page-nav">
+      <a href="./index.html">
+        <span class="label">← Previous</span>
+        <span class="title">Home</span>
+      </a>
+      <a href="./intro.html">
+        <span class="label">Next →</span>
+        <span class="title">Introduction</span>
+      </a>
+    </nav>
+
+  </article>
+</main>
+
+<script src="js/book.js"></script>
+</body>
+</html>

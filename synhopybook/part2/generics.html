@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generic Types · SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Generic Types</h1>
+    <p class="subtitle" style="color:var(--text-muted);font-size:1.1rem;margin-bottom:2rem;">
+      Universe-polymorphic types through Python's <code>Generic[T]</code> system.
+    </p>
+
+    <h2>Overview</h2>
+    <p>
+      In F*, polymorphism is expressed with implicit type parameters:
+      <code>val id : #a:Type → a → a</code>. Python's <code>typing</code> module offers
+      <code>TypeVar</code> and <code>Generic</code> — SynHoPy treats these as
+      <strong>universe-polymorphic</strong> type parameters that participate in verification.
+    </p>
+    <p>
+      This chapter shows how to write generic data structures whose operations are
+      verified for <em>all</em> possible type instantiations, not just the ones you
+      happen to test.
+    </p>
+
+    <h2>TypeVar — The Basic Building Block</h2>
+    <p>
+      A <code>TypeVar</code> declares a universally quantified type variable.
+      SynHoPy interprets it as ranging over a universe of types.
+    </p>
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">TypeVar</span>, <span class="ty">Generic</span>
+
+<span class="ty">T</span> = <span class="ty">TypeVar</span>(<span class="st">'T'</span>)
+
+<span class="kw">def</span> <span class="fn">identity</span>(x: <span class="ty">T</span>) -> <span class="ty">T</span>:
+    <span class="st">"""The identity function — verified for all T."""</span>
+    <span class="kw">return</span> x
+<span class="cm"># SynHoPy checks: ∀ T : Type, ∀ x : T, identity(x) : T  ✅</span></code></pre>
+
+    <h3>Bounded TypeVars</h3>
+    <p>
+      Adding a <code>bound</code> restricts the universe. SynHoPy treats the bound as a
+      refinement — only types that are subtypes of the bound are valid instantiations.
+    </p>
+<pre><code><span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">TypeVar</span>
+<span class="kw">from</span> synhopy <span class="kw">import</span> <span class="fn">guarantee</span>, <span class="fn">assume</span>
+
+<span class="ty">Comparable</span> = <span class="ty">TypeVar</span>(<span class="st">'Comparable'</span>, bound=<span class="ty">object</span>)
+
+<span class="dc">@guarantee</span>(<span class="st">"returns the smaller of the two arguments"</span>)
+<span class="kw">def</span> <span class="fn">min_of</span>(a: <span class="ty">Comparable</span>, b: <span class="ty">Comparable</span>) -> <span class="ty">Comparable</span>:
+    <span class="fn">assume</span>(<span class="st">"a and b support __lt__"</span>)
+    <span class="kw">return</span> a <span class="kw">if</span> a <span class="op">&lt;</span> b <span class="kw">else</span> b</code></pre>
+
+    <div class="note">
+      In F*, bounded polymorphism is expressed with type-class constraints.
+      In SynHoPy, we use <code>bound=</code> on <code>TypeVar</code> or
+      <code>Protocol</code> classes to achieve the same effect.
+    </div>
+
+    <h2>Generic Classes — Parameterised Containers</h2>
+    <p>
+      The real power comes when you parameterise a <strong>class</strong> over a type variable.
+      SynHoPy verifies every method for all valid instantiations of <code>T</code>.
+    </p>
+
+    <h3>Example: Generic Stack</h3>
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">TypeVar</span>, <span class="ty">Generic</span>, <span class="ty">Optional</span>
+<span class="kw">from</span> synhopy <span class="kw">import</span> <span class="fn">guarantee</span>, <span class="fn">check</span>
+
+<span class="ty">T</span> = <span class="ty">TypeVar</span>(<span class="st">'T'</span>)
+
+<span class="dc">@dataclass</span>
+<span class="kw">class</span> <span class="ty">Stack</span>(<span class="ty">Generic</span>[<span class="ty">T</span>]):
+    <span class="st">"""A verified LIFO stack."""</span>
+    _items: <span class="ty">list</span>[<span class="ty">T</span>] = field(default_factory=<span class="nb">list</span>)
+
+    <span class="dc">@guarantee</span>(<span class="st">"len increases by 1"</span>)
+    <span class="kw">def</span> <span class="fn">push</span>(self, val: <span class="ty">T</span>) -> <span class="kw">None</span>:
+        old_len = <span class="nb">len</span>(self._items)
+        self._items.append(val)
+        <span class="fn">check</span>(<span class="nb">len</span>(self._items) <span class="op">==</span> old_len <span class="op">+</span> <span class="nb">1</span>)
+
+    <span class="dc">@guarantee</span>(<span class="st">"returns most recently pushed item"</span>)
+    <span class="kw">def</span> <span class="fn">pop</span>(self) -> <span class="ty">T</span>:
+        <span class="fn">check</span>(<span class="nb">len</span>(self._items) <span class="op">&gt;</span> <span class="nb">0</span>, <span class="st">"stack must be non-empty"</span>)
+        <span class="kw">return</span> self._items.pop()
+
+    <span class="dc">@guarantee</span>(<span class="st">"peek does not modify the stack"</span>)
+    <span class="kw">def</span> <span class="fn">peek</span>(self) -> <span class="ty">T</span>:
+        <span class="fn">check</span>(<span class="nb">len</span>(self._items) <span class="op">&gt;</span> <span class="nb">0</span>)
+        <span class="kw">return</span> self._items[<span class="op">-</span><span class="nb">1</span>]
+
+    <span class="kw">def</span> <span class="fn">is_empty</span>(self) -> <span class="ty">bool</span>:
+        <span class="kw">return</span> <span class="nb">len</span>(self._items) <span class="op">==</span> <span class="nb">0</span></code></pre>
+    <p class="verified">Z3_PROVEN — all methods verified for all T</p>
+
+    <h3>Example: Pair and Either</h3>
+<pre><code><span class="ty">A</span> = <span class="ty">TypeVar</span>(<span class="st">'A'</span>)
+<span class="ty">B</span> = <span class="ty">TypeVar</span>(<span class="st">'B'</span>)
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Pair</span>(<span class="ty">Generic</span>[<span class="ty">A</span>, <span class="ty">B</span>]):
+    <span class="st">"""Product type: A × B"""</span>
+    fst: <span class="ty">A</span>
+    snd: <span class="ty">B</span>
+
+    <span class="dc">@guarantee</span>(<span class="st">"swap is an involution: swap(swap(p)) == p"</span>)
+    <span class="kw">def</span> <span class="fn">swap</span>(self) -> <span class="ty">Pair</span>[<span class="ty">B</span>, <span class="ty">A</span>]:
+        <span class="kw">return</span> <span class="ty">Pair</span>(self.snd, self.fst)</code></pre>
+
+<pre><code><span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">Union</span>
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Left</span>(<span class="ty">Generic</span>[<span class="ty">A</span>]):
+    value: <span class="ty">A</span>
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">Right</span>(<span class="ty">Generic</span>[<span class="ty">B</span>]):
+    value: <span class="ty">B</span>
+
+<span class="cm"># Sum type: A + B</span>
+<span class="ty">Either</span> = <span class="ty">Union</span>[<span class="ty">Left</span>[<span class="ty">A</span>], <span class="ty">Right</span>[<span class="ty">B</span>]]
+
+<span class="dc">@guarantee</span>(<span class="st">"applies exactly one of the two functions"</span>)
+<span class="kw">def</span> <span class="fn">either</span>(
+    e: <span class="ty">Either</span>[<span class="ty">A</span>, <span class="ty">B</span>],
+    on_left: <span class="ty">Callable</span>[[<span class="ty">A</span>], <span class="ty">T</span>],
+    on_right: <span class="ty">Callable</span>[[<span class="ty">B</span>], <span class="ty">T</span>],
+) -> <span class="ty">T</span>:
+    <span class="kw">match</span> e:
+        <span class="kw">case</span> <span class="ty">Left</span>(a):
+            <span class="kw">return</span> on_left(a)
+        <span class="kw">case</span> <span class="ty">Right</span>(b):
+            <span class="kw">return</span> on_right(b)</code></pre>
+
+    <h2>Covariance and Contravariance</h2>
+    <p>
+      Variance describes how subtyping of a container relates to subtyping of its
+      elements. SynHoPy can prove variance properties automatically.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Variance</th><th>Meaning</th><th>Python declaration</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Covariant</td><td><code>Cat &lt;: Animal ⟹ Box[Cat] &lt;: Box[Animal]</code></td><td><code>TypeVar('T', covariant=True)</code></td></tr>
+        <tr><td>Contravariant</td><td><code>Cat &lt;: Animal ⟹ Sink[Animal] &lt;: Sink[Cat]</code></td><td><code>TypeVar('T', contravariant=True)</code></td></tr>
+        <tr><td>Invariant</td><td>No subtyping relationship</td><td><code>TypeVar('T')</code> (default)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Proving Covariance</h3>
+<pre><code><span class="ty">T_co</span> = <span class="ty">TypeVar</span>(<span class="st">'T_co'</span>, covariant=<span class="nb">True</span>)
+
+<span class="dc">@dataclass</span>(<span class="nb">frozen</span>=<span class="nb">True</span>)
+<span class="kw">class</span> <span class="ty">FrozenBox</span>(<span class="ty">Generic</span>[<span class="ty">T_co</span>]):
+    <span class="st">"""Read-only container — safely covariant."""</span>
+    _value: <span class="ty">T_co</span>
+
+    <span class="kw">def</span> <span class="fn">get</span>(self) -> <span class="ty">T_co</span>:
+        <span class="kw">return</span> self._value
+
+<span class="cm"># SynHoPy proves: FrozenBox only appears in covariant positions</span>
+<span class="cm"># (T_co is never used as a parameter type) → covariance is sound ✅</span></code></pre>
+
+    <div class="warning">
+      A mutable container with <code>covariant=True</code> is <strong>unsound</strong>.
+      SynHoPy will reject it: if you can <em>write</em> <code>T</code> into the container,
+      covariance allows inserting an <code>Animal</code> where a <code>Cat</code> is expected.
+    </div>
+
+    <h3>Contravariance Example</h3>
+<pre><code><span class="ty">T_contra</span> = <span class="ty">TypeVar</span>(<span class="st">'T_contra'</span>, contravariant=<span class="nb">True</span>)
+
+<span class="kw">class</span> <span class="ty">Handler</span>(<span class="ty">Generic</span>[<span class="ty">T_contra</span>]):
+    <span class="st">"""Consumes values — contravariant in T."""</span>
+    <span class="kw">def</span> <span class="fn">handle</span>(self, item: <span class="ty">T_contra</span>) -> <span class="kw">None</span>: ...
+
+<span class="cm"># Handler[Animal] &lt;: Handler[Cat]</span>
+<span class="cm"># A handler that accepts any Animal can certainly handle a Cat.</span></code></pre>
+
+    <h2>Universe Polymorphism</h2>
+    <p>
+      In dependent type theory, types themselves have types — the <em>universe hierarchy</em>
+      Type₀ : Type₁ : Type₂ : … prevents Girard's paradox.
+      SynHoPy tracks universe levels implicitly:
+    </p>
+<pre><code><span class="cm"># TypeVar ranges over Type₀ (concrete types) by default</span>
+<span class="ty">T</span> = <span class="ty">TypeVar</span>(<span class="st">'T'</span>)  <span class="cm"># T : Type₀</span>
+
+<span class="cm"># Higher-kinded generics are at level 1</span>
+<span class="ty">F</span> = <span class="ty">TypeVar</span>(<span class="st">'F'</span>)  <span class="cm"># When F is used as a generic alias: F : Type₁</span>
+
+<span class="kw">def</span> <span class="fn">apply_functor</span>(
+    f: <span class="ty">Callable</span>[[<span class="ty">A</span>], <span class="ty">B</span>],
+    container: <span class="ty">F</span>[<span class="ty">A</span>]
+) -> <span class="ty">F</span>[<span class="ty">B</span>]:
+    <span class="st">"""Map f over a functor F — universe level 1."""</span>
+    ...</code></pre>
+
+    <div class="note">
+      You do not need to annotate universe levels explicitly.
+      SynHoPy infers them from usage, similarly to how Lean and Agda handle
+      universe polymorphism. Most code lives at level&nbsp;0.
+    </div>
+
+    <h2>Comparison with F*</h2>
+    <div class="compare">
+      <div>
+        <h4>F*</h4>
+<pre><code><span class="kw">val</span> <span class="fn">swap</span> : #<span class="ty">a</span>:<span class="ty">Type</span> -> #<span class="ty">b</span>:<span class="ty">Type</span>
+  -> (<span class="ty">a</span> * <span class="ty">b</span>) -> (<span class="ty">b</span> * <span class="ty">a</span>)
+<span class="kw">let</span> <span class="fn">swap</span> (x, y) = (y, x)</code></pre>
+      </div>
+      <div>
+        <h4>SynHoPy</h4>
+<pre><code><span class="kw">def</span> <span class="fn">swap</span>(p: <span class="ty">Pair</span>[<span class="ty">A</span>, <span class="ty">B</span>]) -> <span class="ty">Pair</span>[<span class="ty">B</span>, <span class="ty">A</span>]:
+    <span class="kw">return</span> <span class="ty">Pair</span>(p.snd, p.fst)</code></pre>
+      </div>
+    </div>
+    <p>
+      F* uses <code>#a:Type</code> for implicit type parameters. Python's
+      <code>TypeVar</code> + <code>Generic</code> is the direct equivalent —
+      type inference fills them in at call sites automatically.
+    </p>
+
+    <h2>Exercises</h2>
+
+    <div class="exercise">
+      <strong>Exercise 2.1:</strong> Implement a generic <code>Option[T]</code> type
+      (like Rust's <code>Option</code> or Haskell's <code>Maybe</code>) using
+      <code>@dataclass</code> with <code>Some</code> and <code>NoneVal</code> variants.
+      Add a verified <code>map</code> method that preserves <code>NoneVal</code> and
+      transforms <code>Some</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 2.2:</strong> Write a generic <code>Result[T, E]</code> type
+      with <code>Ok</code> and <code>Err</code> variants. Prove that
+      <code>map</code> composed with <code>map</code> equals <code>map</code> of
+      the composed function (the functor law).
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 2.3:</strong> Given <code>FrozenBox[T_co]</code> above,
+      try adding a <code>set</code> method that takes a <code>T_co</code> parameter.
+      Observe SynHoPy's rejection. Explain why mutable covariant containers are unsound.
+    </div>
+
+    <nav class="page-nav">
+      <a href="index.html">
+        <span class="label">← Previous</span>
+        <span class="title">Part 2 Overview</span>
+      </a>
+      <a href="vectors.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Length-Indexed Lists</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

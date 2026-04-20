@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equality &amp; Path Types · SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Equality &amp; Path Types</h1>
+    <p class="subtitle" style="color:var(--text-muted);font-size:1.1rem;margin-bottom:2rem;">
+      The conceptual heart of SynHoPy — identity types, path types, and the bridge
+      between homotopy type theory and Python verification.
+    </p>
+
+    <div class="important">
+      This is the <strong>key chapter</strong> of Part&nbsp;2. It introduces the
+      homotopy-theoretic foundations that make SynHoPy fundamentally different from
+      classical program verifiers. Everything that follows — connectives, STLC,
+      and the advanced topics in Parts&nbsp;5–6 — builds on these ideas.
+    </div>
+
+    <h2>Identity Types</h2>
+    <p>
+      In ordinary Python, <code>==</code> is a runtime boolean test. In dependent type
+      theory, equality is a <strong>type</strong>: the proposition "<em>x equals y</em>"
+      is itself a type, and a <em>proof</em> that <code>x == y</code> is a term
+      inhabiting that type.
+    </p>
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy.types <span class="kw">import</span> <span class="ty">PathType</span>, <span class="pr">Refl</span>, <span class="pr">Sym</span>, <span class="pr">Trans</span>, <span class="pr">Cong</span>
+<span class="kw">from</span> synhopy.types <span class="kw">import</span> <span class="pr">Ap</span>, <span class="pr">Transport</span>, <span class="pr">J</span>, <span class="pr">FunExt</span>, <span class="pr">Univalence</span>
+<span class="kw">from</span> synhopy <span class="kw">import</span> <span class="fn">guarantee</span>, <span class="fn">check</span>
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">TypeVar</span>
+
+<span class="ty">A</span> = <span class="ty">TypeVar</span>(<span class="st">'A'</span>)
+<span class="ty">B</span> = <span class="ty">TypeVar</span>(<span class="st">'B'</span>)
+
+<span class="cm"># PathType(A, x, y) is the type of proofs that x = y in type A</span>
+<span class="cm"># Read: "a path from x to y in the space A"</span></code></pre>
+
+    <h2>Reflexivity — Every Point Has a Path to Itself</h2>
+<pre><code><span class="cm"># Refl(x) : PathType(A, x, x)</span>
+<span class="cm"># "x equals x" — the trivial path (constant loop)</span>
+
+<span class="kw">def</span> <span class="fn">equality_is_reflexive</span>(x: <span class="ty">A</span>) -> <span class="ty">PathType</span>[<span class="ty">A</span>, x, x]:
+    <span class="kw">return</span> <span class="pr">Refl</span>(x)
+<span class="cm"># SynHoPy verifies: Refl(x) inhabits PathType(A, x, x)  ✅</span></code></pre>
+
+    <h2>Symmetry — Paths Are Reversible</h2>
+<pre><code><span class="cm"># If p : PathType(A, x, y), then Sym(p) : PathType(A, y, x)</span>
+<span class="cm"># "If x = y, then y = x"</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"symmetry of equality"</span>)
+<span class="kw">def</span> <span class="fn">equality_is_symmetric</span>(
+    p: <span class="ty">PathType</span>[<span class="ty">A</span>, x, y]
+) -> <span class="ty">PathType</span>[<span class="ty">A</span>, y, x]:
+    <span class="kw">return</span> <span class="pr">Sym</span>(p)</code></pre>
+
+    <h2>Transitivity — Paths Compose</h2>
+<pre><code><span class="cm"># If p : PathType(A, x, y) and q : PathType(A, y, z),</span>
+<span class="cm"># then Trans(p, q) : PathType(A, x, z)</span>
+<span class="cm"># "If x = y and y = z, then x = z"</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"transitivity of equality"</span>)
+<span class="kw">def</span> <span class="fn">equality_is_transitive</span>(
+    p: <span class="ty">PathType</span>[<span class="ty">A</span>, x, y],
+    q: <span class="ty">PathType</span>[<span class="ty">A</span>, y, z],
+) -> <span class="ty">PathType</span>[<span class="ty">A</span>, x, z]:
+    <span class="kw">return</span> <span class="pr">Trans</span>(p, q)</code></pre>
+
+    <h2>Congruence — Functions Respect Equality</h2>
+<pre><code><span class="cm"># If f : A → B and p : PathType(A, x, y),</span>
+<span class="cm"># then Ap(f, p) : PathType(B, f(x), f(y))</span>
+<span class="cm"># "If x = y, then f(x) = f(y)" for any function f</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"functions preserve equality"</span>)
+<span class="kw">def</span> <span class="fn">congruence</span>(
+    f: <span class="ty">Callable</span>[[<span class="ty">A</span>], <span class="ty">B</span>],
+    p: <span class="ty">PathType</span>[<span class="ty">A</span>, x, y],
+) -> <span class="ty">PathType</span>[<span class="ty">B</span>, f(x), f(y)]:
+    <span class="kw">return</span> <span class="pr">Ap</span>(f, p)
+
+<span class="cm"># Also available as Cong(f, x, y) for convenience:</span>
+<span class="cm"># Cong(f, p) is the same as Ap(f, p)</span></code></pre>
+
+    <h2>J-Elimination — The Induction Principle for Equality</h2>
+    <p>
+      The <strong>J rule</strong> (path induction) is the fundamental elimination
+      principle for identity types. It says: to prove a property for all paths,
+      it suffices to prove it for reflexivity.
+    </p>
+<pre><code><span class="cm"># J(C, d, p) where:</span>
+<span class="cm">#   C : (x : A) → (y : A) → PathType(A, x, y) → Type</span>
+<span class="cm">#   d : (x : A) → C(x, x, Refl(x))</span>
+<span class="cm">#   p : PathType(A, a, b)</span>
+<span class="cm"># produces: C(a, b, p)</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"path induction: reduce any path proof to the refl case"</span>)
+<span class="kw">def</span> <span class="fn">j_example</span>(
+    x: <span class="ty">A</span>,
+    y: <span class="ty">A</span>,
+    p: <span class="ty">PathType</span>[<span class="ty">A</span>, x, y],
+) -> <span class="ty">PathType</span>[<span class="ty">A</span>, y, x]:
+    <span class="st">"""Derive symmetry from J."""</span>
+    <span class="cm"># C(x, y, p) = PathType(A, y, x)</span>
+    <span class="cm"># d(x) = Refl(x) : PathType(A, x, x)</span>
+    <span class="kw">return</span> <span class="pr">J</span>(
+        motive=<span class="kw">lambda</span> x, y, _: <span class="ty">PathType</span>[<span class="ty">A</span>, y, x],
+        base=<span class="kw">lambda</span> x: <span class="pr">Refl</span>(x),
+        path=p
+    )</code></pre>
+
+    <div class="note">
+      J-elimination is the workhorse of equality proofs. In practice, SynHoPy
+      often applies it automatically when you use <code>Sym</code>, <code>Trans</code>,
+      and <code>Cong</code> — those are all derivable from J.
+    </div>
+
+    <h2>Transport — Moving Data Along Paths</h2>
+    <p>
+      If you have a proof that <code>x = y</code> and a value of type <code>P(x)</code>,
+      you can <strong>transport</strong> it to get a value of type <code>P(y)</code>.
+    </p>
+<pre><code><span class="cm"># Transport(P, p, px) where:</span>
+<span class="cm">#   P : A → Type    (a type family)</span>
+<span class="cm">#   p : PathType(A, x, y)</span>
+<span class="cm">#   px : P(x)</span>
+<span class="cm"># produces: P(y)</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"transport along an equality proof"</span>)
+<span class="kw">def</span> <span class="fn">transport_example</span>(
+    v: <span class="ty">Vec</span>[<span class="ty">int</span>, n],
+    p: <span class="ty">PathType</span>[<span class="ty">Nat</span>, n, m],  <span class="cm"># proof that n = m</span>
+) -> <span class="ty">Vec</span>[<span class="ty">int</span>, m]:
+    <span class="st">"""If n = m, a Vec of length n is also a Vec of length m."""</span>
+    <span class="kw">return</span> <span class="pr">Transport</span>(
+        family=<span class="kw">lambda</span> k: <span class="ty">Vec</span>[<span class="ty">int</span>, k],
+        path=p,
+        value=v
+    )</code></pre>
+
+    <div class="tip">
+      Transport is how you convert between types that are "the same" but
+      syntactically different. If Z3 proves <code>n + 0 == n</code>,
+      you get a path <code>p : PathType(Nat, n + 0, n)</code> and can
+      transport a <code>Vec[T, n + 0]</code> to a <code>Vec[T, n]</code>.
+    </div>
+
+    <h2>Function Extensionality</h2>
+    <p>
+      Two functions are equal if they agree on all inputs. This is <em>not</em>
+      automatic in standard type theory — it's an axiom (or a theorem in
+      cubical type theory).
+    </p>
+<pre><code><span class="cm"># FunExt(h) where:</span>
+<span class="cm">#   h : (x : A) → PathType(B, f(x), g(x))</span>
+<span class="cm"># produces: PathType(A → B, f, g)</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"pointwise equal functions are equal"</span>)
+<span class="kw">def</span> <span class="fn">funext_example</span>(
+    f: <span class="ty">Callable</span>[[<span class="ty">int</span>], <span class="ty">int</span>],
+    g: <span class="ty">Callable</span>[[<span class="ty">int</span>], <span class="ty">int</span>],
+    h: <span class="ty">Callable</span>[[<span class="ty">int</span>], <span class="ty">PathType</span>[<span class="ty">int</span>, <span class="st">"f(x)"</span>, <span class="st">"g(x)"</span>]],
+) -> <span class="ty">PathType</span>[<span class="ty">Callable</span>[[<span class="ty">int</span>], <span class="ty">int</span>], f, g]:
+    <span class="kw">return</span> <span class="pr">FunExt</span>(h)
+
+<span class="cm"># Example: (λx. x + 0) = (λx. x)</span>
+<span class="kw">def</span> <span class="fn">plus_zero_is_identity</span>():
+    f = <span class="kw">lambda</span> x: x <span class="op">+</span> <span class="nb">0</span>
+    g = <span class="kw">lambda</span> x: x
+    <span class="cm"># Z3 proves ∀x. x + 0 == x</span>
+    pointwise = <span class="kw">lambda</span> x: <span class="pr">Refl</span>(x)  <span class="cm"># Z3 discharges this</span>
+    <span class="kw">return</span> <span class="pr">FunExt</span>(pointwise)
+<span class="cm"># Result: PathType(int → int, (λx. x+0), (λx. x))  ✅</span></code></pre>
+
+    <h2>Univalence — Equivalence Is Equality</h2>
+    <p>
+      The <strong>univalence axiom</strong> is the crown jewel of homotopy type theory.
+      It states: two types that are <em>equivalent</em> (have inverse functions between
+      them) are <em>equal</em> as types.
+    </p>
+<pre><code><span class="cm"># If f : A → B is an equivalence (has an inverse g with</span>
+<span class="cm"># g ∘ f ~ id and f ∘ g ~ id), then:</span>
+<span class="cm"># Univalence(f, g, ...) : PathType(Type, A, B)</span>
+
+<span class="dc">@guarantee</span>(<span class="st">"equivalent types are equal"</span>)
+<span class="kw">def</span> <span class="fn">univalence_example</span>():
+    <span class="st">"""
+    bool ≃ Literal[0, 1]
+    They are equivalent: True↔1, False↔0.
+    Therefore, by univalence, they are EQUAL as types.
+    """</span>
+    to_int   = <span class="kw">lambda</span> b: <span class="nb">1</span> <span class="kw">if</span> b <span class="kw">else</span> <span class="nb">0</span>
+    from_int = <span class="kw">lambda</span> n: n <span class="op">==</span> <span class="nb">1</span>
+
+    <span class="cm"># Prove round-trip: from_int(to_int(b)) == b for all b</span>
+    <span class="cm"># Prove round-trip: to_int(from_int(n)) == n for n ∈ {0,1}</span>
+    <span class="kw">return</span> <span class="pr">Univalence</span>(
+        forward=to_int,
+        backward=from_int,
+        <span class="cm"># SynHoPy + Z3 verify the round-trip properties</span>
+    )</code></pre>
+
+    <div class="important">
+      Univalence means you can freely substitute equivalent types.
+      If <code>list[bool]</code> and <code>BitVector</code> are equivalent,
+      a proof about one applies to the other <em>automatically</em> via transport
+      along the univalence path.
+    </div>
+
+    <h2>Path Types in Practice: Python Object Equality</h2>
+    <p>
+      Why does this matter for Python? Because Python has many notions of equality:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Python</th><th>What it tests</th><th>Path-type interpretation</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>is</code></td>
+          <td>Identity (same object)</td>
+          <td><code>Refl</code> — definitional equality</td>
+        </tr>
+        <tr>
+          <td><code>==</code></td>
+          <td>Value equality</td>
+          <td><code>PathType(A, x, y)</code> — propositional equality</td>
+        </tr>
+        <tr>
+          <td>duck typing</td>
+          <td>Behavioural compatibility</td>
+          <td><code>Equiv(A, B)</code> → <code>PathType(Type, A, B)</code> via univalence</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      SynHoPy unifies these: <code>is</code> implies <code>==</code> implies
+      behavioural equivalence, each giving a path type at a different level.
+      Univalence lets you <em>transport proofs</em> between duck-type-compatible
+      classes automatically.
+    </p>
+
+<pre><code><span class="cm"># Two classes with the same interface are equivalent</span>
+<span class="kw">class</span> <span class="ty">ArrayStack</span>:
+    <span class="kw">def</span> <span class="fn">push</span>(self, x: <span class="ty">int</span>) -> <span class="kw">None</span>: ...
+    <span class="kw">def</span> <span class="fn">pop</span>(self) -> <span class="ty">int</span>: ...
+
+<span class="kw">class</span> <span class="ty">LinkedStack</span>:
+    <span class="kw">def</span> <span class="fn">push</span>(self, x: <span class="ty">int</span>) -> <span class="kw">None</span>: ...
+    <span class="kw">def</span> <span class="fn">pop</span>(self) -> <span class="ty">int</span>: ...
+
+<span class="cm"># SynHoPy can prove: ArrayStack ≃ LinkedStack</span>
+<span class="cm"># Via univalence: PathType(Type, ArrayStack, LinkedStack)</span>
+<span class="cm"># Any theorem proved about ArrayStack transfers to LinkedStack!</span></code></pre>
+
+    <h2>Summary of Path Operations</h2>
+    <table>
+      <thead>
+        <tr><th>Operation</th><th>Type</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>Refl(x)</code></td><td><code>PathType(A, x, x)</code></td><td>x = x</td></tr>
+        <tr><td><code>Sym(p)</code></td><td><code>PathType(A, y, x)</code></td><td>if x = y then y = x</td></tr>
+        <tr><td><code>Trans(p, q)</code></td><td><code>PathType(A, x, z)</code></td><td>if x = y and y = z then x = z</td></tr>
+        <tr><td><code>Ap(f, p)</code></td><td><code>PathType(B, f(x), f(y))</code></td><td>if x = y then f(x) = f(y)</td></tr>
+        <tr><td><code>Transport(P, p, v)</code></td><td><code>P(y)</code></td><td>move v : P(x) along x = y</td></tr>
+        <tr><td><code>FunExt(h)</code></td><td><code>PathType(A→B, f, g)</code></td><td>pointwise equal ⟹ equal</td></tr>
+        <tr><td><code>Univalence(…)</code></td><td><code>PathType(Type, A, B)</code></td><td>equivalent ⟹ equal</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Exercises</h2>
+
+    <div class="exercise">
+      <strong>Exercise 2.10:</strong> Using <code>Trans</code> and <code>Sym</code>,
+      prove that if <code>a = b</code>, <code>b = c</code>, and <code>c = d</code>,
+      then <code>d = a</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 2.11:</strong> Use <code>Transport</code> to convert a
+      <code>Vec[int, 2 + 3]</code> into a <code>Vec[int, 5]</code>, given
+      Z3's proof that <code>2 + 3 = 5</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 2.12:</strong> Prove <code>FunExt</code> for
+      <code>lambda x: x * 1</code> and <code>lambda x: x</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 2.13 (Challenge):</strong> Define two Python classes that
+      implement the same <code>Protocol</code>, construct an equivalence between
+      them, and use <code>Univalence</code> to transport a theorem from one to
+      the other.
+    </div>
+
+    <nav class="page-nav">
+      <a href="merkle.html">
+        <span class="label">← Previous</span>
+        <span class="title">Merkle Trees</span>
+      </a>
+      <a href="connectives.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Logical Connectives</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Typing Verification · SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header"><h1>SynHoPy</h1><div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div></div>
+  <nav><ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../structure.html">Structure of this Book</a></li>
+    <li><a href="../intro.html">Introduction</a></li>
+    <li><span class="section-title">Part 1 — Pure Python</span></li>
+    <li><a href="../part1/index.html">Overview</a></li>
+    <li><a href="../part1/getting_started.html">Getting Started</a></li>
+    <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+    <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+    <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+    <li><a href="../part1/data_structures.html">Data Structures</a></li>
+    <li><a href="../part1/termination.html">Termination</a></li>
+    <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+    <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+    <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+    <li><a href="../part2/index.html">Overview</a></li>
+    <li><a href="../part2/generics.html">Generic Types</a></li>
+    <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+    <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+    <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+    <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+    <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+    <li><span class="section-title">Part 3 — Python Specifics</span></li>
+    <li><a href="../part3/index.html">Overview</a></li>
+    <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+    <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+    <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+    <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+    <li><a href="../part4/index.html">Overview</a></li>
+    <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+    <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+    <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+    <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+    <li><a href="../part5/index.html">Overview</a></li>
+    <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+    <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+    <li><a href="../part5/fibrations.html">Fibrations</a></li>
+    <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+    <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+    <li><a href="../part6/index.html">Overview</a></li>
+    <li><a href="../part6/separation.html">Separation Logic</a></li>
+    <li><a href="../part6/references.html">Mutable References</a></li>
+    <li><a href="../part6/arrays.html">Arrays</a></li>
+    <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+    <li><a href="../part6/async.html">Async / Await</a></li>
+    <li><span class="section-title">Under the Hood</span></li>
+    <li><a href="../under_the_hood/index.html">Overview</a></li>
+    <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+  </ul></nav>
+</aside>
+
+<div class="content">
+<article>
+
+<h1>Chapter 11 — Dynamic Typing Verification</h1>
+
+<p>
+  Python is dynamically typed: variables have no fixed type, objects can change
+  their behavior at runtime, and the type of a value is determined by its
+  <code>__class__</code> attribute — which can itself be reassigned. This chapter
+  shows how SynHoPy models Python's dynamic type system as a
+  <strong>universe</strong> in HoTT, with <code>isinstance</code> as a
+  decidable predicate, gradual typing as a trust boundary, and monkey patching
+  as transport along paths.
+</p>
+
+<h2>The Python Type Universe</h2>
+
+<p>
+  In HoTT, a <em>universe</em> <code>U</code> is a type whose elements are
+  themselves types. Python's runtime type system works exactly this way:
+  <code>type</code> is a universe, and every class is an element of this universe.
+</p>
+
+<pre><code><span class="cm"># Python's type universe in action:</span>
+<span class="kw">assert</span> isinstance(<span class="nb">42</span>, int)          <span class="cm"># 42 : int, and int : type</span>
+<span class="kw">assert</span> isinstance(int, type)         <span class="cm"># int : type (int is in the universe)</span>
+<span class="kw">assert</span> isinstance(type, type)        <span class="cm"># type : type (the universe contains itself!)</span>
+
+<span class="cm"># In HoTT terms:</span>
+<span class="cm">#   int : U₀     (int is a type in the first universe)</span>
+<span class="cm">#   type : U₁    (type is a type in the second universe)</span>
+<span class="cm">#   But Python has type : type, which is Russell's paradox!</span>
+<span class="cm">#   SynHoPy resolves this with a stratified universe hierarchy.</span></code></pre>
+
+<p>
+  SynHoPy models Python's type universe with explicit levels to avoid paradoxes:
+</p>
+
+<pre><code><span class="kw">from</span> synhopy.hott <span class="kw">import</span> Universe, Level
+
+<span class="cm"># SynHoPy's internal universe hierarchy:</span>
+<span class="cm"># U₀ : values (42, "hello", [1,2,3])</span>
+<span class="cm"># U₁ : types  (int, str, list[int])</span>
+<span class="cm"># U₂ : metatypes (type, ABCMeta)</span>
+<span class="cm"># U₃ : meta-metatypes (rarely needed)</span>
+<span class="cm">#</span>
+<span class="cm"># The stratification ensures consistency:</span>
+<span class="cm">#   type(42) = int      : U₀ → U₁</span>
+<span class="cm">#   type(int) = type    : U₁ → U₂</span>
+<span class="cm">#   type(type) = type   : U₂ → U₂  (fixed point, explicitly handled)</span></code></pre>
+
+<h2>isinstance as Type Predicate</h2>
+
+<p>
+  <code>isinstance(x, T)</code> is a decision procedure for the proposition
+  "the runtime type of <code>x</code> is a subtype of <code>T</code>."
+  SynHoPy models this as a <strong>decidable predicate</strong> that produces
+  evidence when it holds:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee
+<span class="kw">from</span> synhopy.hott <span class="kw">import</span> Dec, Narrowing
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">safe_divide</span>(a: <span class="ty">object</span>, b: <span class="ty">object</span>) -> <span class="ty">float</span> | <span class="ty">str</span>:
+    <span class="st">"""Divide a by b, with type checking and error handling."""</span>
+    <span class="kw">if not</span> isinstance(a, (<span class="ty">int</span>, <span class="ty">float</span>)):
+        <span class="kw">return</span> <span class="st">f"Error: {a!r} is not a number"</span>
+    <span class="kw">if not</span> isinstance(b, (<span class="ty">int</span>, <span class="ty">float</span>)):
+        <span class="kw">return</span> <span class="st">f"Error: {b!r} is not a number"</span>
+    <span class="kw">if</span> b == <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="st">"Error: division by zero"</span>
+
+    <span class="cm"># At this point, SynHoPy knows:</span>
+    <span class="cm">#   a : int | float     (narrowed by isinstance check)</span>
+    <span class="cm">#   b : int | float     (narrowed by isinstance check)</span>
+    <span class="cm">#   b ≠ 0              (narrowed by conditional)</span>
+    <span class="kw">return</span> a / b  <span class="cm"># safe: types verified, no ZeroDivisionError</span></code></pre>
+
+<pre><code>$ synhopy verify safe_divide.py --show-narrowing
+<span class="st">Analyzing safe_divide...</span>
+
+<span class="st">Type narrowing trace:</span>
+  <span class="cm">Line 4: a : object</span>
+  <span class="cm">Line 5: isinstance(a, (int, float)) → False branch:</span>
+  <span class="cm">  → a : object \ (int | float)  — returns str ✓</span>
+  <span class="cm">Line 5: isinstance(a, (int, float)) → True branch:</span>
+  <span class="cm">  → a : int | float</span>
+  <span class="cm">Line 7: isinstance(b, (int, float)) → False branch:</span>
+  <span class="cm">  → b : object \ (int | float)  — returns str ✓</span>
+  <span class="cm">Line 7: isinstance(b, (int, float)) → True branch:</span>
+  <span class="cm">  → b : int | float</span>
+  <span class="cm">Line 9: b == 0 → True branch:</span>
+  <span class="cm">  → b : Literal[0]  — returns str ✓</span>
+  <span class="cm">Line 9: b == 0 → False branch:</span>
+  <span class="cm">  → b : (int | float) \ {0}</span>
+  <span class="cm">Line 13: a / b</span>
+  <span class="cm">  → a : int | float, b : (int | float) \ {0}</span>
+  <span class="cm">  → result : float ✓</span>
+
+<span class="st">✓ All branches type-safe</span>
+<span class="st">✓ No ZeroDivisionError possible</span>
+<span class="st">✓ Return type: float | str — matches annotation</span></code></pre>
+
+<h2>Type Narrowing with match/case</h2>
+
+<p>
+  Python 3.10's structural pattern matching provides exhaustive type narrowing.
+  SynHoPy models each <code>case</code> branch as a fiber:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee
+
+<span class="dc">@dataclass</span>
+<span class="kw">class</span> <span class="ty">Circle</span>:
+    radius: <span class="ty">float</span>
+
+<span class="dc">@dataclass</span>
+<span class="kw">class</span> <span class="ty">Rectangle</span>:
+    width: <span class="ty">float</span>
+    height: <span class="ty">float</span>
+
+<span class="dc">@dataclass</span>
+<span class="kw">class</span> <span class="ty">Triangle</span>:
+    base: <span class="ty">float</span>
+    height: <span class="ty">float</span>
+
+<span class="ty">Shape</span> = Circle | Rectangle | Triangle
+
+<span class="dc">@verify</span>
+<span class="dc">@guarantee</span>(<span class="st">"returns a non-negative float"</span>)
+<span class="kw">def</span> <span class="fn">area</span>(shape: <span class="ty">Shape</span>) -> <span class="ty">float</span>:
+    <span class="kw">import</span> math
+    <span class="kw">match</span> shape:
+        <span class="kw">case</span> Circle(radius=r):
+            <span class="cm"># narrowed: shape : Circle, r : float = shape.radius</span>
+            <span class="kw">return</span> math.pi * r ** <span class="nb">2</span>
+        <span class="kw">case</span> Rectangle(width=w, height=h):
+            <span class="cm"># narrowed: shape : Rectangle, w = shape.width, h = shape.height</span>
+            <span class="kw">return</span> w * h
+        <span class="kw">case</span> Triangle(base=b, height=h):
+            <span class="cm"># narrowed: shape : Triangle, b = shape.base, h = shape.height</span>
+            <span class="kw">return</span> <span class="nb">0.5</span> * b * h</code></pre>
+
+<pre><code>$ synhopy verify area.py --show-narrowing
+<span class="st">Analyzing area(shape: Shape)...</span>
+
+<span class="st">Pattern matching exhaustiveness:</span>
+  <span class="cm">Shape = Circle | Rectangle | Triangle</span>
+  <span class="cm">case Circle:     covers Circle      ✓</span>
+  <span class="cm">case Rectangle:  covers Rectangle   ✓</span>
+  <span class="cm">case Triangle:   covers Triangle    ✓</span>
+  <span class="cm">Coverage: 3/3 variants — EXHAUSTIVE ✅</span>
+
+<span class="st">Guarantee "returns non-negative float":</span>
+  <span class="cm">case Circle:    π × r² ≥ 0 iff r : float (always true for real r)  Z3 ✅</span>
+  <span class="cm">case Rectangle: w × h ≥ 0 iff w ≥ 0 ∧ h ≥ 0</span>
+  <span class="cm">  ⚠ Proof obligation: width ≥ 0 ∧ height ≥ 0</span>
+  <span class="cm">  (add precondition or assert in __init__)</span>
+  <span class="cm">case Triangle:  0.5 × b × h ≥ 0 iff b ≥ 0 ∧ h ≥ 0</span>
+  <span class="cm">  ⚠ Proof obligation: base ≥ 0 ∧ height ≥ 0</span>
+
+<span class="st">2 proof obligations generated</span> (need preconditions on Rectangle, Triangle)</code></pre>
+
+<div class="note">
+  SynHoPy detects that the guarantee requires preconditions. You can either
+  add <code>assert</code> statements in each class's <code>__init__</code> or
+  add a precondition to <code>area</code> using <code>@assume</code>.
+</div>
+
+<h2>Gradual Typing: Mixing Typed and Untyped Code</h2>
+
+<p>
+  Real Python codebases are gradually typed — some code has annotations, some
+  doesn't. SynHoPy handles this by introducing <strong>trust boundaries</strong>
+  at the interface between typed and untyped code:
+</p>
+
+<pre><code><span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee, trust_boundary
+
+<span class="cm"># Untyped legacy code — no annotations</span>
+<span class="kw">def</span> <span class="fn">legacy_compute</span>(data, factor):
+    <span class="st">"""Some old code without type annotations."""</span>
+    result = []
+    <span class="kw">for</span> item <span class="kw">in</span> data:
+        result.append(item * factor)
+    <span class="kw">return</span> result
+
+<span class="cm"># Typed code that calls untyped code</span>
+<span class="dc">@verify</span>
+<span class="dc">@guarantee</span>(<span class="st">"returns a list of floats with same length as input"</span>)
+<span class="kw">def</span> <span class="fn">scale_values</span>(values: <span class="ty">list</span>[<span class="ty">float</span>], scale: <span class="ty">float</span>) -> <span class="ty">list</span>[<span class="ty">float</span>]:
+    <span class="cm"># Calling into untyped code — trust boundary</span>
+    result = trust_boundary(
+        legacy_compute,
+        args=(values, scale),
+        <span class="cm"># Declare what we expect from the untyped code:</span>
+        expected_return=<span class="ty">list</span>[<span class="ty">float</span>],
+        expected_properties=[
+            <span class="st">"len(result) == len(values)"</span>,
+            <span class="st">"all(isinstance(x, float) for x in result)"</span>,
+        ],
+    )
+    <span class="kw">return</span> result</code></pre>
+
+<pre><code>$ synhopy verify gradual.py
+<span class="st">Analyzing scale_values...</span>
+
+<span class="st">Trust boundary at legacy_compute:</span>
+  <span class="cm">├── legacy_compute has no type annotations</span>
+  <span class="cm">├── Inferred types from usage:</span>
+  <span class="cm">│   data  : list[float]  (from values : list[float])</span>
+  <span class="cm">│   factor: float        (from scale : float)</span>
+  <span class="cm">├── Expected return: list[float]</span>
+  <span class="cm">│   └── Runtime check will be inserted ✓</span>
+  <span class="cm">├── Expected property: len(result) == len(values)</span>
+  <span class="cm">│   └── AST analysis: for loop iterates over data, appends once each</span>
+  <span class="cm">│       → len(result) == len(data) == len(values)</span>
+  <span class="cm">│       Status: LLM_JUDGED (confidence: 0.94) 🟠</span>
+  <span class="cm">├── Expected property: all floats</span>
+  <span class="cm">│   └── item : float (from data : list[float]), factor : float</span>
+  <span class="cm">│       → item * factor : float</span>
+  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">└── Trust level: MIXED (some Z3, some LLM)</span>
+
+<span class="st">✓ scale_values: guarantee verified at MIXED trust level</span></code></pre>
+
+<h2>The Any Type</h2>
+
+<p>
+  <code>Any</code> is the top of Python's type universe — it is compatible
+  with every type. In HoTT, <code>Any</code> is the contractible type
+  (every path to and from it exists trivially):
+</p>
+
+<pre><code><span class="kw">from</span> typing <span class="kw">import</span> Any
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">identity</span>(x: <span class="ty">Any</span>) -> <span class="ty">Any</span>:
+    <span class="kw">return</span> x  <span class="cm"># trivially correct — Any → Any</span>
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">dangerous_add</span>(a: <span class="ty">Any</span>, b: <span class="ty">Any</span>) -> <span class="ty">Any</span>:
+    <span class="kw">return</span> a + b  <span class="cm"># ⚠ might fail at runtime!</span>
+
+<span class="cm"># SynHoPy's analysis:</span>
+<span class="cm"># identity: Any → Any  — trivially safe ✓</span>
+<span class="cm"># dangerous_add: Any → Any</span>
+<span class="cm">#   ⚠ Warning: a + b requires __add__ on type(a)</span>
+<span class="cm">#   Not all types have __add__</span>
+<span class="cm">#   This is type-safe (Any accepts anything) but not VALUE-safe</span>
+<span class="cm">#   Recommendation: narrow types with isinstance or use Protocol</span></code></pre>
+
+<div class="warning">
+  <code>Any</code> is a verification escape hatch. SynHoPy treats <code>Any</code>
+  as compatible with all types but issues warnings when operations on
+  <code>Any</code>-typed values could fail at runtime. Use <code>Any</code>
+  sparingly — prefer <code>Protocol</code> or <code>Union</code> types.
+</div>
+
+<h2>Union Types and Type Narrowing Proofs</h2>
+
+<p>
+  Python 3.10 introduced <code>X | Y</code> syntax for union types.
+  SynHoPy generates <strong>narrowing proofs</strong> — evidence that
+  within a particular branch, the union has been refined to a specific variant:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee
+<span class="kw">from</span> synhopy.hott <span class="kw">import</span> NarrowingProof
+
+<span class="dc">@verify</span>
+<span class="dc">@guarantee</span>(<span class="st">"returns a non-empty string representation"</span>)
+<span class="kw">def</span> <span class="fn">stringify</span>(value: <span class="ty">int</span> | <span class="ty">float</span> | <span class="ty">str</span> | <span class="ty">list</span> | <span class="ty">None</span>) -> <span class="ty">str</span>:
+    <span class="kw">if</span> value <span class="kw">is</span> <span class="ty">None</span>:
+        <span class="kw">return</span> <span class="st">"null"</span>
+    <span class="kw">if</span> isinstance(value, <span class="ty">str</span>):
+        <span class="kw">return</span> <span class="st">f'"{value}"'</span> <span class="kw">if</span> value <span class="kw">else</span> <span class="st">'""'</span>
+    <span class="kw">if</span> isinstance(value, (<span class="ty">int</span>, <span class="ty">float</span>)):
+        <span class="kw">return</span> str(value)
+    <span class="cm"># At this point: value : list (only remaining option)</span>
+    items = [stringify(item) <span class="kw">for</span> item <span class="kw">in</span> value]
+    <span class="kw">return</span> <span class="st">"["</span> + <span class="st">", "</span>.join(items) + <span class="st">"]"</span></code></pre>
+
+<pre><code>$ synhopy verify stringify.py --show-narrowing
+<span class="st">Type narrowing for stringify(value: int|float|str|list|None):</span>
+
+  <span class="cm">Step 1: value is None → True</span>
+  <span class="cm">  narrow: value : None</span>
+  <span class="cm">  return "null" — len("null") = 4 > 0 ✓</span>
+  <span class="cm">  remaining: int | float | str | list</span>
+
+  <span class="cm">Step 2: isinstance(value, str) → True</span>
+  <span class="cm">  narrow: value : str</span>
+  <span class="cm">  if value (non-empty): f'"{value}"' — len ≥ 3 > 0 ✓</span>
+  <span class="cm">  else (empty): '""' — len = 2 > 0 ✓</span>
+  <span class="cm">  remaining: int | float | list</span>
+
+  <span class="cm">Step 3: isinstance(value, (int, float)) → True</span>
+  <span class="cm">  narrow: value : int | float</span>
+  <span class="cm">  str(value) — always non-empty for numeric types ✓</span>
+  <span class="cm">  remaining: list</span>
+
+  <span class="cm">Step 4: fallthrough</span>
+  <span class="cm">  narrow: value : list (exhaustive — only option left)</span>
+  <span class="cm">  "[" + ... + "]" — len ≥ 2 > 0 ✓</span>
+
+<span class="st">✓ Exhaustive narrowing — all union variants covered</span>
+<span class="st">✓ Guarantee "non-empty string" — Z3_PROVEN in all branches ✅</span></code></pre>
+
+<h2>TypeGuard and TypeIs (PEP 742)</h2>
+
+<p>
+  Python 3.10 added <code>TypeGuard</code> and Python 3.13 added
+  <code>TypeIs</code> (PEP 742) for user-defined type narrowing functions.
+  SynHoPy verifies that these functions actually produce correct evidence:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> TypeGuard, TypeIs
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">is_string_list</span>(val: <span class="ty">list</span>[<span class="ty">object</span>]) -> <span class="ty">TypeGuard</span>[<span class="ty">list</span>[<span class="ty">str</span>]]:
+    <span class="st">"""Check if all elements in the list are strings."""</span>
+    <span class="kw">return</span> all(isinstance(item, <span class="ty">str</span>) <span class="kw">for</span> item <span class="kw">in</span> val)
+
+<span class="cm"># SynHoPy verifies the TypeGuard:</span>
+<span class="cm"># If is_string_list(val) returns True, then:</span>
+<span class="cm">#   ∀ item ∈ val. isinstance(item, str)</span>
+<span class="cm">#   → val : list[str]</span>
+<span class="cm"># This is sound because:</span>
+<span class="cm">#   all(isinstance(item, str) for item in val) == True</span>
+<span class="cm">#   ↔ ∀ item ∈ val. isinstance(item, str) == True</span>
+<span class="cm">#   ↔ ∀ item ∈ val. type(item) ≤ str</span>
+<span class="cm">#   ↔ val : list[str]  ✓</span>
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">is_positive_int</span>(val: <span class="ty">int</span> | <span class="ty">float</span>) -> <span class="ty">TypeIs</span>[<span class="ty">int</span>]:
+    <span class="st">"""Check if value is a positive integer."""</span>
+    <span class="kw">return</span> isinstance(val, <span class="ty">int</span>) <span class="kw">and</span> val > <span class="nb">0</span>
+
+<span class="cm"># TypeIs is stricter than TypeGuard:</span>
+<span class="cm"># TypeIs[int] narrows BOTH the True AND False branches</span>
+<span class="cm">#   True branch:  val : int  (narrowed from int | float)</span>
+<span class="cm">#   False branch: val : float  (complement in the union)</span>
+
+<span class="cm"># Usage with narrowing:</span>
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">process</span>(data: <span class="ty">list</span>[<span class="ty">object</span>]) -> <span class="ty">list</span>[<span class="ty">str</span>]:
+    <span class="kw">if</span> is_string_list(data):
+        <span class="cm"># data is narrowed to list[str] by TypeGuard</span>
+        <span class="kw">return</span> [s.upper() <span class="kw">for</span> s <span class="kw">in</span> data]  <span class="cm"># .upper() valid on str ✓</span>
+    <span class="kw">return</span> [str(item) <span class="kw">for</span> item <span class="kw">in</span> data]</code></pre>
+
+<pre><code>$ synhopy verify typeguard.py
+<span class="st">✓ TypeGuard[is_string_list]: sound narrowing</span>
+  <span class="cm">├── True branch: val : list[str]</span>
+  <span class="cm">│   └── all(isinstance(item, str)) → correct narrowing ✓</span>
+  <span class="cm">└── Verified ✅</span>
+
+<span class="st">✓ TypeIs[is_positive_int]: sound narrowing</span>
+  <span class="cm">├── True branch:  val : int ∧ val > 0  ✓</span>
+  <span class="cm">├── False branch: val : float | (int ∧ val ≤ 0)  ✓</span>
+  <span class="cm">└── Verified ✅</span>
+
+<span class="st">✓ process: all branches type-safe ✅</span></code></pre>
+
+<h2>Example: JSON Parsing with Runtime Validation</h2>
+
+<p>
+  A common Python pattern: parse JSON (which returns <code>Any</code>), then
+  validate the structure at runtime. SynHoPy converts runtime validation into
+  proof obligations:
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">import</span> json
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+<span class="kw">from</span> typing <span class="kw">import</span> Any
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee
+
+<span class="dc">@dataclass</span>
+<span class="kw">class</span> <span class="ty">User</span>:
+    name: <span class="ty">str</span>
+    age: <span class="ty">int</span>
+    email: <span class="ty">str</span>
+
+<span class="dc">@verify</span>
+<span class="dc">@guarantee</span>(<span class="st">"returns a valid User object or raises ValueError"</span>)
+<span class="kw">def</span> <span class="fn">parse_user</span>(raw_json: <span class="ty">str</span>) -> <span class="ty">User</span>:
+    <span class="st">"""Parse and validate a User from JSON."""</span>
+    data: <span class="ty">Any</span> = json.loads(raw_json)
+
+    <span class="cm"># Validate structure</span>
+    <span class="kw">if not</span> isinstance(data, <span class="ty">dict</span>):
+        <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">f"Expected object, got {type(data).__name__}"</span>)
+
+    <span class="cm"># Validate fields</span>
+    required = {<span class="st">"name"</span>: <span class="ty">str</span>, <span class="st">"age"</span>: <span class="ty">int</span>, <span class="st">"email"</span>: <span class="ty">str</span>}
+    <span class="kw">for</span> field, expected_type <span class="kw">in</span> required.items():
+        <span class="kw">if</span> field <span class="kw">not in</span> data:
+            <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">f"Missing field: {field}"</span>)
+        <span class="kw">if not</span> isinstance(data[field], expected_type):
+            <span class="kw">raise</span> <span class="ty">ValueError</span>(
+                <span class="st">f"Field {field}: expected {expected_type.__name__}, "</span>
+                <span class="st">f"got {type(data[field]).__name__}"</span>
+            )
+
+    <span class="cm"># Additional validation</span>
+    <span class="kw">if</span> data[<span class="st">"age"</span>] < <span class="nb">0</span> <span class="kw">or</span> data[<span class="st">"age"</span>] > <span class="nb">150</span>:
+        <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">f"Invalid age: {data['age']}"</span>)
+    <span class="kw">if</span> <span class="st">"@"</span> <span class="kw">not in</span> data[<span class="st">"email"</span>]:
+        <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">f"Invalid email: {data['email']}"</span>)
+
+    <span class="cm"># At this point, SynHoPy has narrowed:</span>
+    <span class="cm">#   data["name"]  : str</span>
+    <span class="cm">#   data["age"]   : int ∧ 0 ≤ age ≤ 150</span>
+    <span class="cm">#   data["email"] : str ∧ "@" in email</span>
+    <span class="kw">return</span> User(
+        name=data[<span class="st">"name"</span>],
+        age=data[<span class="st">"age"</span>],
+        email=data[<span class="st">"email"</span>],
+    )</code></pre>
+
+<pre><code>$ synhopy verify json_parse.py --verbose
+<span class="st">Analyzing parse_user...</span>
+
+<span class="st">Trust boundary: json.loads(raw_json) → Any</span>
+  <span class="cm">├── json.loads is untyped in SynHoPy's model</span>
+  <span class="cm">├── Returns: Any (could be dict, list, str, int, float, bool, None)</span>
+  <span class="cm">└── All subsequent operations must validate ✓</span>
+
+<span class="st">Narrowing chain:</span>
+  <span class="cm">data : Any</span>
+  <span class="cm">  → isinstance(data, dict) → data : dict[str, Any]</span>
+  <span class="cm">  → "name" in data → data has key "name"</span>
+  <span class="cm">  → isinstance(data["name"], str) → data["name"] : str</span>
+  <span class="cm">  → "age" in data ∧ isinstance(data["age"], int)</span>
+  <span class="cm">    → data["age"] : int</span>
+  <span class="cm">  → 0 ≤ data["age"] ≤ 150</span>
+  <span class="cm">    → data["age"] : int{v | 0 ≤ v ≤ 150}</span>
+  <span class="cm">  → "email" in data ∧ isinstance(data["email"], str)</span>
+  <span class="cm">    → data["email"] : str</span>
+  <span class="cm">  → "@" in data["email"]</span>
+  <span class="cm">    → data["email"] : str{v | "@" ∈ v}</span>
+
+<span class="st">✓ User construction is safe with narrowed types</span>
+<span class="st">✓ All error paths raise ValueError ✓</span>
+<span class="st">✓ Guarantee: "valid User or ValueError" — Z3_PROVEN ✅</span></code></pre>
+
+<h2>Example: Plugin System with Dynamic Loading</h2>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">import</span> importlib
+<span class="kw">from</span> typing <span class="kw">import</span> Protocol
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee
+<span class="kw">from</span> synhopy.hott <span class="kw">import</span> DuckPath
+
+<span class="kw">class</span> <span class="ty">PluginInterface</span>(<span class="ty">Protocol</span>):
+    name: <span class="ty">str</span>
+
+    <span class="kw">def</span> <span class="fn">initialize</span>(self) -> <span class="ty">None</span>: ...
+    <span class="kw">def</span> <span class="fn">execute</span>(self, data: <span class="ty">dict</span>) -> <span class="ty">dict</span>: ...
+    <span class="kw">def</span> <span class="fn">cleanup</span>(self) -> <span class="ty">None</span>: ...
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">load_plugin</span>(module_name: <span class="ty">str</span>, class_name: <span class="ty">str</span>) -> <span class="ty">PluginInterface</span>:
+    <span class="st">"""Dynamically load a plugin class and verify it conforms."""</span>
+    module = importlib.import_module(module_name)
+    cls = getattr(module, class_name)
+
+    <span class="cm"># Runtime DuckPath check</span>
+    duck_proof = DuckPath.runtime_check(cls, <span class="ty">PluginInterface</span>)
+    <span class="kw">if not</span> duck_proof.is_valid:
+        <span class="kw">raise</span> <span class="ty">TypeError</span>(
+            <span class="st">f"{class_name} does not satisfy PluginInterface:\n"</span>
+            <span class="st">f"{duck_proof.error_report()}"</span>
+        )
+
+    instance = cls()
+    <span class="cm"># At this point, instance is verified to satisfy PluginInterface</span>
+    <span class="kw">return</span> instance
+
+<span class="cm"># SynHoPy's analysis:</span>
+<span class="cm"># load_plugin cannot be fully verified statically</span>
+<span class="cm"># (the loaded class is only known at runtime)</span>
+<span class="cm"># But DuckPath.runtime_check provides runtime evidence</span>
+<span class="cm"># that is equivalent to a static DuckPath proof</span>
+<span class="cm">#</span>
+<span class="cm"># Verification level: RUNTIME_CHECKED 🟡</span>
+<span class="cm"># (stronger than untyped, weaker than static proof)</span></code></pre>
+
+<h2>Monkey Patching as Transport</h2>
+
+<p>
+  Monkey patching — modifying classes or objects at runtime — is one of
+  Python's most controversial features. SynHoPy models it using HoTT's
+  <strong>transport</strong>: if you have a proof <code>P(A)</code> and a
+  path <code>p : A ≃ A'</code> (the patch), then
+  <code>transport(p, proof) : P(A')</code>.
+</p>
+
+<p>
+  The key insight: <strong>monkey patching is safe if and only if the patch
+  preserves the relevant paths</strong>. If a class satisfies a Protocol before
+  patching, it must still satisfy the Protocol after patching.
+</p>
+
+<pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> synhopy <span class="kw">import</span> verify, guarantee
+<span class="kw">from</span> synhopy.hott <span class="kw">import</span> transport, DuckPath, PathPreserving
+
+<span class="cm"># Original class</span>
+<span class="kw">class</span> <span class="ty">Logger</span>:
+    <span class="kw">def</span> <span class="fn">log</span>(self, message: <span class="ty">str</span>) -> <span class="ty">None</span>:
+        print(<span class="st">f"[LOG] {message}"</span>)
+
+    <span class="kw">def</span> <span class="fn">error</span>(self, message: <span class="ty">str</span>) -> <span class="ty">None</span>:
+        print(<span class="st">f"[ERROR] {message}"</span>)
+
+<span class="cm"># A function verified against Logger</span>
+<span class="dc">@verify</span>
+<span class="dc">@guarantee</span>(<span class="st">"logs both start and end of operation"</span>)
+<span class="kw">def</span> <span class="fn">process_with_logging</span>(logger: <span class="ty">Logger</span>, data: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">int</span>:
+    logger.log(<span class="st">"Processing started"</span>)
+    result = sum(data)
+    logger.log(<span class="st">"Processing finished"</span>)
+    <span class="kw">return</span> result
+
+<span class="cm"># Now someone monkey-patches Logger:</span>
+<span class="kw">def</span> <span class="fn">patched_log</span>(self, message: <span class="ty">str</span>) -> <span class="ty">None</span>:
+    <span class="kw">import</span> datetime
+    ts = datetime.datetime.now().isoformat()
+    print(<span class="st">f"[{ts}] {message}"</span>)
+
+<span class="cm"># UNSAFE monkey patch — just overwrite:</span>
+Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></code></pre>
+
+<h3>The @safe_patch Decorator</h3>
+
+<pre><code><span class="kw">from</span> synhopy.patching <span class="kw">import</span> safe_patch
+
+<span class="cm"># SAFE monkey patch — SynHoPy verifies it preserves paths</span>
+<span class="dc">@safe_patch</span>(<span class="ty">Logger</span>, <span class="st">"log"</span>)
+<span class="kw">def</span> <span class="fn">timestamped_log</span>(self, message: <span class="ty">str</span>) -> <span class="ty">None</span>:
+    <span class="kw">import</span> datetime
+    ts = datetime.datetime.now().isoformat()
+    print(<span class="st">f"[{ts}] {message}"</span>)</code></pre>
+
+<pre><code>$ synhopy verify monkey_patch.py --verbose
+<span class="st">Analyzing @safe_patch(Logger, "log")...</span>
+
+<span class="st">Transport check: Logger.log → timestamped_log</span>
+  <span class="cm">├── Original: log(self: Logger, message: str) → None</span>
+  <span class="cm">├── Patch:    timestamped_log(self: Logger, message: str) → None</span>
+  <span class="cm">├── Signature compatibility:</span>
+  <span class="cm">│   Parameters: (self, message: str) ≡ (self, message: str)  ✓</span>
+  <span class="cm">│   Return:     None ≡ None  ✓</span>
+  <span class="cm">├── Path preservation:</span>
+  <span class="cm">│   DuckPath[Logger, *] — check all protocols:</span>
+  <span class="cm">│   No protocols reference Logger.log explicitly</span>
+  <span class="cm">│   → No paths to break  ✓</span>
+  <span class="cm">├── Behavioral analysis:</span>
+  <span class="cm">│   Original: prints "[LOG] {message}"</span>
+  <span class="cm">│   Patch:    prints "[{timestamp}] {message}"</span>
+  <span class="cm">│   Both: write to stdout with message content preserved</span>
+  <span class="cm">│   → Observationally equivalent for logging purposes  ✓</span>
+  <span class="cm">└── Transport: SAFE ✅</span>
+
+<span class="st">Affected verifications:</span>
+  <span class="cm">├── process_with_logging: guarantee "logs start and end"</span>
+  <span class="cm">│   transport(patch, proof):</span>
+  <span class="cm">│   logger.log("Processing started") still called  ✓</span>
+  <span class="cm">│   logger.log("Processing finished") still called  ✓</span>
+  <span class="cm">│   → Guarantee preserved via transport ✅</span>
+  <span class="cm">└── 1/1 proofs successfully transported</span></code></pre>
+
+<h3>When Monkey Patching Breaks</h3>
+
+<pre><code><span class="cm"># This patch CHANGES the return type — transport fails!</span>
+<span class="dc">@safe_patch</span>(<span class="ty">Logger</span>, <span class="st">"log"</span>)
+<span class="kw">def</span> <span class="fn">broken_log</span>(self, message: <span class="ty">str</span>) -> <span class="ty">bool</span>:  <span class="cm"># return type changed!</span>
+    print(<span class="st">f"[LOG] {message}"</span>)
+    <span class="kw">return</span> <span class="nb">True</span></code></pre>
+
+<pre><code>$ synhopy verify broken_patch.py
+<span class="cm">✗ @safe_patch(Logger, "log"): TRANSPORT FAILED</span>
+
+  <span class="cm">├── Signature mismatch:</span>
+  <span class="cm">│   Original return: None</span>
+  <span class="cm">│   Patch return:    bool</span>
+  <span class="cm">│   ✗ bool is not a subtype of None</span>
+  <span class="cm">│</span>
+  <span class="cm">├── Path broken:</span>
+  <span class="cm">│   If any code depends on Logger.log returning None,</span>
+  <span class="cm">│   the patch changes that behavior.</span>
+  <span class="cm">│</span>
+  <span class="cm">└── 1 error: patch rejected</span></code></pre>
+
+<h2>Transport Formally</h2>
+
+<p>
+  The formal transport rule for monkey patching:
+</p>
+
+<blockquote>
+  <strong>Transport Rule for Monkey Patching.</strong>
+  Let <code>C</code> be a class, <code>m</code> a method of <code>C</code>,
+  and <code>m'</code> a proposed patch. Let <code>Φ</code> be a property
+  verified against <code>C</code>. The patch is <em>safe with respect to
+  Φ</em> if:
+  <br><br>
+  (1) <code>m'</code> has a signature compatible with <code>m</code> (contravariant params, covariant return), and
+  <br>
+  (2) For every guarantee <code>G</code> of <code>m</code> used in the proof of <code>Φ</code>,
+  <code>m'</code> also satisfies <code>G</code>, and
+  <br>
+  (3) No other method of <code>C</code> depends on the specific implementation of <code>m</code>
+  (only on its spec).
+  <br><br>
+  If (1)–(3) hold, then <code>transport(patch, Φ_proof) : Φ(C[m↦m'])</code>.
+</blockquote>
+
+<pre><code><span class="cm"># SynHoPy's internal transport computation:</span>
+<span class="kw">from</span> synhopy.hott <span class="kw">import</span> transport, PathEquiv
+
+<span class="kw">def</span> <span class="fn">verify_monkey_patch</span>(
+    cls: <span class="ty">type</span>,
+    method_name: <span class="ty">str</span>,
+    new_method: <span class="ty">Callable</span>,
+    affected_proofs: <span class="ty">list</span>[<span class="ty">Proof</span>],
+) -> <span class="ty">TransportResult</span>:
+    old_method = getattr(cls, method_name)
+    old_sig = inspect.signature(old_method)
+    new_sig = inspect.signature(new_method)
+
+    <span class="cm"># Check signature compatibility</span>
+    sig_path = check_signature_path(old_sig, new_sig)
+    <span class="kw">if not</span> sig_path.is_valid:
+        <span class="kw">return</span> TransportResult(safe=<span class="nb">False</span>, reason=sig_path.error)
+
+    <span class="cm"># Check guarantee preservation</span>
+    old_guarantees = extract_guarantees(old_method)
+    <span class="kw">for</span> g <span class="kw">in</span> old_guarantees:
+        <span class="kw">if not</span> verify_guarantee(new_method, g):
+            <span class="kw">return</span> TransportResult(
+                safe=<span class="nb">False</span>,
+                reason=<span class="st">f"Guarantee '{g}' not preserved by patch"</span>
+            )
+
+    <span class="cm"># Transport each affected proof</span>
+    transported = []
+    <span class="kw">for</span> proof <span class="kw">in</span> affected_proofs:
+        new_proof = transport(
+            path=PathEquiv(old_method, new_method, sig_path),
+            proof=proof,
+        )
+        transported.append(new_proof)
+
+    <span class="kw">return</span> TransportResult(
+        safe=<span class="nb">True</span>,
+        transported_proofs=transported,
+    )</code></pre>
+
+<h2>Comparison with F*: Static vs. Dynamic Verification</h2>
+
+<div class="compare">
+  <div>
+    <h4>F* — Everything Static</h4>
+<pre><code><span class="cm">// F*: types are fixed at compile time</span>
+<span class="cm">// No isinstance, no monkey patching</span>
+<span class="cm">// No dynamic loading</span>
+
+<span class="kw">val</span> <span class="fn">process</span> :
+  x:<span class="ty">nat</span> → <span class="ty">Tot</span> (<span class="ty">y:nat</span>{y >= x})
+
+<span class="cm">// Types cannot change at runtime</span>
+<span class="cm">// No need for narrowing or transport</span>
+<span class="cm">// But also no flexibility</span></code></pre>
+  </div>
+  <div>
+    <h4>SynHoPy — Static + Dynamic</h4>
+<pre><code><span class="cm"># SynHoPy: static where possible,</span>
+<span class="cm"># dynamic where necessary</span>
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">process</span>(x: <span class="ty">object</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> isinstance(x, <span class="ty">int</span>):
+        <span class="kw">return</span> x + <span class="nb">1</span>  <span class="cm"># narrowed</span>
+    <span class="kw">return</span> <span class="nb">0</span>
+
+<span class="cm"># Types flow through isinstance</span>
+<span class="cm"># Monkey patches are transported</span>
+<span class="cm"># Maximum flexibility + safety</span></code></pre>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr><th>Feature</th><th>F*</th><th>SynHoPy</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Type narrowing</td>
+      <td>N/A (types don't narrow)</td>
+      <td>isinstance / match / TypeGuard</td>
+    </tr>
+    <tr>
+      <td>Dynamic dispatch</td>
+      <td>Typeclasses (static)</td>
+      <td>DuckPath (static + runtime)</td>
+    </tr>
+    <tr>
+      <td>Monkey patching</td>
+      <td>Not possible</td>
+      <td>Transport with @safe_patch</td>
+    </tr>
+    <tr>
+      <td>Gradual typing</td>
+      <td>N/A (fully typed)</td>
+      <td>Trust boundaries</td>
+    </tr>
+    <tr>
+      <td>Runtime loading</td>
+      <td>Not possible</td>
+      <td>Runtime DuckPath checks</td>
+    </tr>
+    <tr>
+      <td>Any type</td>
+      <td>N/A</td>
+      <td>Top of universe + warnings</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Advanced: Verification Levels for Dynamic Code</h2>
+
+<p>
+  SynHoPy assigns verification levels to dynamic code based on how much
+  evidence is available:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Level</th><th>Badge</th><th>Meaning</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="verified">Z3_PROVEN</span></td>
+      <td>🟢</td>
+      <td>Fully proved by Z3</td>
+      <td>isinstance narrowing, arithmetic checks</td>
+    </tr>
+    <tr>
+      <td><span class="verified">RUNTIME_CHECKED</span></td>
+      <td>🟡</td>
+      <td>Verified at runtime</td>
+      <td>DuckPath.runtime_check, TypeGuard</td>
+    </tr>
+    <tr>
+      <td><span style="display:inline-flex;align-items:center;gap:0.35rem;background:#fff3cd;color:#856404;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">LLM_JUDGED</span></td>
+      <td>🟠</td>
+      <td>LLM analysis (high confidence)</td>
+      <td>Untyped code analysis, behavioral equivalence</td>
+    </tr>
+    <tr>
+      <td><span class="rejected">UNTRUSTED</span></td>
+      <td>🔴</td>
+      <td>No verification evidence</td>
+      <td>Fully dynamic, no annotations or checks</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code><span class="cm"># The overall verification level of a function is the minimum</span>
+<span class="cm"># across all its proof obligations:</span>
+
+<span class="dc">@verify</span>
+<span class="kw">def</span> <span class="fn">mixed_trust</span>(data: <span class="ty">Any</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> isinstance(data, <span class="ty">int</span>):
+        <span class="kw">return</span> data + <span class="nb">1</span>              <span class="cm"># 🟢 Z3_PROVEN</span>
+    <span class="kw">if</span> isinstance(data, <span class="ty">str</span>):
+        <span class="kw">return</span> len(data)             <span class="cm"># 🟢 Z3_PROVEN</span>
+    <span class="kw">return</span> legacy_compute(data)    <span class="cm"># 🟠 LLM_JUDGED</span>
+
+<span class="cm"># Overall level: 🟠 LLM_JUDGED (weakest link)</span></code></pre>
+
+<h2>Exercises</h2>
+
+<div class="exercise">
+  <strong>Exercise 11.1.</strong> Write a function that accepts
+  <code>int | str | list[int]</code> and returns the sum of all integers
+  it finds (converting strings to ints if possible, recursing into lists).
+  Use <code>isinstance</code> for narrowing. Show SynHoPy's narrowing trace.
+</div>
+
+<div class="exercise">
+  <strong>Exercise 11.2.</strong> Create a <code>TypeGuard</code> function
+  <code>is_matrix(val) → TypeGuard[list[list[float]]]</code> that checks a
+  value is a non-empty rectangular matrix. What proof obligations does
+  SynHoPy generate when this TypeGuard is used?
+</div>
+
+<div class="exercise">
+  <strong>Exercise 11.3.</strong> Write a <code>@safe_patch</code> that replaces
+  <code>dict.update</code> with a version that logs all key changes. Verify
+  that the patch preserves the behavioral contract of <code>update</code>:
+  after <code>d.update(other)</code>, every key in <code>other</code> is in
+  <code>d</code> with the same value.
+</div>
+
+<div class="exercise">
+  <strong>Exercise 11.4 (Challenge).</strong> Consider this scenario: you have
+  a verified function <code>f(x: Renderable) → str</code>, and someone monkey-patches
+  a class <code>Widget</code> that satisfies <code>Renderable</code> by replacing
+  its <code>render</code> method. Write the full transport proof showing
+  under what conditions <code>f(Widget())</code> remains correct after the
+  patch. When does transport fail?
+</div>
+
+<div class="exercise">
+  <strong>Exercise 11.5 (Challenge).</strong> Model Python's MRO (method
+  resolution order) as a path in the type universe. Given a diamond
+  inheritance <code>D(B1, B2)</code> where both <code>B1</code> and
+  <code>B2</code> inherit from <code>A</code>, show that Python's C3
+  linearization produces a unique path and that method calls are
+  deterministic. How does SynHoPy verify that the MRO-selected method
+  satisfies the spec?
+</div>
+
+<nav class="page-nav">
+  <a href="decorators.html">
+    <span class="label">← Previous</span>
+    <span class="title">Decorators &amp; Meta</span>
+  </a>
+  <a href="../part4/index.html">
+    <span class="label">Next →</span>
+    <span class="title">Part 4: Sidecar Proofs</span>
+  </a>
+</nav>
+
+</article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

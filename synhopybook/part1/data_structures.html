@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifying Data Structures — SynHoPy Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Verifying Data Structures</h1>
+
+    <p>
+      Data structures are the backbone of software. A stack that silently
+      drops elements, a queue whose ordering breaks, or a binary tree that
+      loses its search property after deletion — these are bugs that unit
+      tests rarely catch exhaustively. SynHoPy lets you verify that your
+      data structures maintain their invariants across <em>all</em>
+      operations, for <em>all</em> inputs, without modifying the Python
+      code itself. This chapter covers dataclasses, class invariants,
+      method contracts, inheritance verification, and culminates with a
+      fully verified binary search tree.
+    </p>
+
+    <h2 id="dataclass-verification">Dataclass Verification</h2>
+
+    <p>
+      Python's <code><span class="dc">@dataclass</span></code> decorator
+      creates well-behaved classes automatically — generating
+      <code>__init__</code>, <code>__repr__</code>, <code>__eq__</code>,
+      and more. SynHoPy understands dataclasses natively and lets you
+      attach invariants at the class level with
+      <code><span class="dc">@guarantee</span></code>.
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="dc">@dataclass</span>
+<span class="kw">class</span> <span class="ty">Point</span>:
+    x: <span class="ty">float</span>
+    y: <span class="ty">float</span>
+    radius: <span class="ty">float</span></code></pre>
+
+    <p>
+      This is ordinary Python. In a SynHoPy sidecar file, we add the
+      invariant that the point lies within a circle of the given radius:
+    </p>
+
+    <pre><code><span class="cm"># point_spec.synhopy</span>
+<span class="dc">@guarantee</span>(<span class="st">"self.x ** 2 + self.y ** 2 <= self.radius ** 2"</span>)
+<span class="kw">class</span> <span class="ty">Point</span>: ...</code></pre>
+
+    <p>
+      SynHoPy verifies that every construction of a <code>Point</code>
+      satisfies this invariant — writing
+      <code>Point(<span class="nb">10</span>, <span class="nb">10</span>, <span class="nb">5</span>)</code>
+      triggers a violation because 10² + 10² = 200 &gt; 25 = 5².
+      Here is another dataclass where the low bound never exceeds the
+      high bound:
+    </p>
+
+    <pre><code><span class="dc">@dataclass</span>
+<span class="kw">class</span> <span class="ty">Range</span>:
+    lo: <span class="ty">int</span>
+    hi: <span class="ty">int</span>
+
+<span class="cm"># range_spec.synhopy</span>
+<span class="dc">@guarantee</span>(<span class="st">"self.lo <= self.hi"</span>)
+<span class="kw">class</span> <span class="ty">Range</span>: ...</code></pre>
+
+    <h2 id="class-invariants">Class Invariants with <code>@invariant</code></h2>
+
+    <p>
+      While <code>@guarantee</code> works well for simple dataclasses,
+      mutable classes with methods need a stronger contract:
+      <code><span class="dc">@invariant</span></code>. An invariant must
+      hold after <code>__init__</code> completes and before and after
+      every public method call. SynHoPy checks this automatically.
+    </p>
+
+    <pre><code><span class="kw">class</span> <span class="ty">BoundedList</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, capacity: <span class="ty">int</span>) <span class="op">-></span> <span class="nb">None</span>:
+        self.capacity <span class="op">=</span> capacity
+        self.items: <span class="ty">list</span>[<span class="ty">int</span>] <span class="op">=</span> []
+
+    <span class="kw">def</span> <span class="fn">add</span>(self, x: <span class="ty">int</span>) <span class="op">-></span> <span class="nb">None</span>:
+        <span class="kw">if</span> len(self.items) <span class="op"><</span> self.capacity:
+            self.items.append(x)
+
+    <span class="kw">def</span> <span class="fn">size</span>(self) <span class="op">-></span> <span class="ty">int</span>:
+        <span class="kw">return</span> len(self.items)</code></pre>
+
+    <pre><code><span class="cm"># bounded_list_spec.synhopy</span>
+<span class="dc">@invariant</span>(<span class="st">"len(self.items) <= self.capacity"</span>)
+<span class="kw">class</span> <span class="ty">BoundedList</span>: ...</code></pre>
+
+    <p>
+      SynHoPy proves that <code>len(self.items) &le; self.capacity</code>
+      is established by <code>__init__</code> and preserved by
+      <code>add</code> — the guard is exactly what Z3 needs.
+    </p>
+
+    <h2 id="method-contracts">Method Contracts (Pre/Postconditions)</h2>
+
+    <p>
+      Individual methods can have their own contracts on top of the class
+      invariant. Use <code><span class="dc">@assume</span></code> for
+      preconditions and <code><span class="dc">@guarantee</span></code>
+      for postconditions. Inside a postcondition, the <code>old_</code>
+      prefix refers to the value of an expression <em>before</em> the
+      method was called — SynHoPy snapshots these at method entry.
+    </p>
+
+    <pre><code><span class="cm"># stack_spec.synhopy</span>
+<span class="dc">@invariant</span>(<span class="st">"len(self._items) >= 0"</span>)
+<span class="kw">class</span> <span class="ty">Stack</span>:
+    <span class="dc">@guarantee</span>(<span class="st">"self.size() == old_size + 1"</span>)
+    <span class="kw">def</span> <span class="fn">push</span>(self, x): ...
+
+    <span class="dc">@assume</span>(<span class="st">"not self.is_empty()"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"self.size() == old_size - 1"</span>)
+    <span class="kw">def</span> <span class="fn">pop</span>(self): ...
+
+    <span class="dc">@assume</span>(<span class="st">"not self.is_empty()"</span>)
+    <span class="kw">def</span> <span class="fn">peek</span>(self): ...</code></pre>
+
+    <p>
+      The <code>old_size</code> variable is bound to
+      <code>self.size()</code> evaluated at method entry, then checked
+      against the post-state.
+    </p>
+
+    <h2 id="verified-stack">Verified Stack — Complete Example</h2>
+
+    <p>
+      Here is a complete, verified stack. First the pure Python code:
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">Generic</span>, <span class="ty">TypeVar</span>
+T <span class="op">=</span> <span class="ty">TypeVar</span>(<span class="st">'T'</span>)
+
+<span class="kw">class</span> <span class="ty">Stack</span>(<span class="ty">Generic</span>[T]):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self) <span class="op">-></span> <span class="nb">None</span>:
+        self._items: <span class="ty">list</span>[T] <span class="op">=</span> []
+
+    <span class="kw">def</span> <span class="fn">push</span>(self, value: T) <span class="op">-></span> <span class="nb">None</span>:
+        self._items.append(value)
+
+    <span class="kw">def</span> <span class="fn">pop</span>(self) <span class="op">-></span> T:
+        <span class="kw">return</span> self._items.pop()
+
+    <span class="kw">def</span> <span class="fn">peek</span>(self) <span class="op">-></span> T:
+        <span class="kw">return</span> self._items[<span class="op">-</span><span class="nb">1</span>]
+
+    <span class="kw">def</span> <span class="fn">is_empty</span>(self) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">return</span> len(self._items) <span class="op">==</span> <span class="nb">0</span>
+
+    <span class="kw">def</span> <span class="fn">size</span>(self) <span class="op">-></span> <span class="ty">int</span>:
+        <span class="kw">return</span> len(self._items)</code></pre>
+
+    <p>
+      The sidecar specification adds contracts:
+    </p>
+
+    <pre><code><span class="cm"># stack_spec.synhopy — sidecar proof for Stack</span>
+<span class="dc">@invariant</span>(<span class="st">"len(self._items) >= 0"</span>)
+<span class="kw">class</span> <span class="ty">Stack</span>:
+    <span class="dc">@guarantee</span>(<span class="st">"not self.is_empty()"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"self.size() == old_size + 1"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"self.peek() == value"</span>)
+    <span class="kw">def</span> <span class="fn">push</span>(self, value): ...
+
+    <span class="dc">@assume</span>(<span class="st">"not self.is_empty()"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"self.size() == old_size - 1"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"result == old_peek"</span>)
+    <span class="kw">def</span> <span class="fn">pop</span>(self): ...
+
+    <span class="dc">@assume</span>(<span class="st">"not self.is_empty()"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"result == self._items[-1]"</span>)
+    <span class="kw">def</span> <span class="fn">peek</span>(self): ...
+
+    <span class="dc">@guarantee</span>(<span class="st">"result == (self.size() == 0)"</span>)
+    <span class="kw">def</span> <span class="fn">is_empty</span>(self): ...</code></pre>
+
+    <p>
+      Running <code>synhopy verify stack.py</code> produces:
+    </p>
+
+    <pre><code><span class="cm">  ✓ Stack.__init__     — invariant established</span>
+<span class="cm">  ✓ Stack.push         — 3 guarantees proved (Z3, 0.04s)</span>
+<span class="cm">  ✓ Stack.pop          — 2 guarantees proved (Z3, 0.06s)</span>
+<span class="cm">  ✓ Stack.peek         — 1 guarantee proved  (Z3, 0.01s)</span>
+<span class="cm">  ✓ Stack.is_empty     — 1 guarantee proved  (Z3, 0.01s)</span>
+<span class="cm">  ✓ Stack              — invariant preserved by all methods</span>
+<span class="cm">  ────────────────────────────────────────────</span>
+<span class="cm">  6/6 obligations discharged  ·  Z3_PROVEN</span></code></pre>
+
+    <h2 id="verified-queue">Verified Queue</h2>
+
+    <p>
+      A classic two-list queue uses a <code>front</code> list for
+      dequeuing and a <code>back</code> list for enqueuing, reversing
+      <code>back</code> into <code>front</code> when needed. The key
+      invariant: if <code>front</code> is empty then <code>back</code>
+      must also be empty.
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">Generic</span>, <span class="ty">TypeVar</span>
+T <span class="op">=</span> <span class="ty">TypeVar</span>(<span class="st">'T'</span>)
+
+<span class="kw">class</span> <span class="ty">Queue</span>(<span class="ty">Generic</span>[T]):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self) <span class="op">-></span> <span class="nb">None</span>:
+        self._front: <span class="ty">list</span>[T] <span class="op">=</span> []
+        self._back: <span class="ty">list</span>[T] <span class="op">=</span> []
+
+    <span class="kw">def</span> <span class="fn">_transfer</span>(self) <span class="op">-></span> <span class="nb">None</span>:
+        <span class="kw">if</span> <span class="kw">not</span> self._front:
+            self._front <span class="op">=</span> self._back[::<span class="op">-</span><span class="nb">1</span>]
+            self._back <span class="op">=</span> []
+
+    <span class="kw">def</span> <span class="fn">enqueue</span>(self, value: T) <span class="op">-></span> <span class="nb">None</span>:
+        self._back.append(value)
+        self._transfer()
+
+    <span class="kw">def</span> <span class="fn">dequeue</span>(self) <span class="op">-></span> T:
+        self._transfer()
+        <span class="kw">return</span> self._front.pop()
+
+    <span class="kw">def</span> <span class="fn">is_empty</span>(self) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">return</span> <span class="kw">not</span> self._front <span class="kw">and</span> <span class="kw">not</span> self._back</code></pre>
+
+    <pre><code><span class="cm"># queue_spec.synhopy</span>
+<span class="dc">@invariant</span>(<span class="st">"not self._front implies not self._back"</span>)
+<span class="kw">class</span> <span class="ty">Queue</span>:
+    <span class="dc">@guarantee</span>(<span class="st">"not self.is_empty()"</span>)
+    <span class="kw">def</span> <span class="fn">enqueue</span>(self, value): ...
+
+    <span class="dc">@assume</span>(<span class="st">"not self.is_empty()"</span>)
+    <span class="kw">def</span> <span class="fn">dequeue</span>(self): ...</code></pre>
+
+    <p>
+      SynHoPy verifies that <code>enqueue</code> preserves the invariant
+      and that <code>dequeue</code> is safe given its precondition.
+    </p>
+
+    <h2 id="inheritance-lsp">Inheritance and Liskov Substitution</h2>
+
+    <p>
+      If class <code>B</code> extends class <code>A</code>, then
+      <code>B</code> must satisfy all of <code>A</code>'s invariants —
+      the <strong>Liskov substitution principle</strong> (LSP). SynHoPy
+      verifies LSP automatically.
+    </p>
+
+    <pre><code><span class="kw">class</span> <span class="ty">SortedList</span>(<span class="ty">list</span>[<span class="ty">int</span>]):
+    <span class="kw">def</span> <span class="fn">add</span>(self, value: <span class="ty">int</span>) <span class="op">-></span> <span class="nb">None</span>:
+        <span class="kw">for</span> i, item <span class="kw">in</span> enumerate(self):
+            <span class="kw">if</span> value <span class="op"><=</span> item:
+                self.insert(i, value)
+                <span class="kw">return</span>
+        self.append(value)</code></pre>
+
+    <pre><code><span class="cm"># sorted_list_spec.synhopy</span>
+<span class="dc">@invariant</span>(<span class="st">"all(self[i] <= self[i+1] for i in range(len(self)-1))"</span>)
+<span class="kw">class</span> <span class="ty">SortedList</span>:
+    <span class="dc">@guarantee</span>(<span class="st">"value in self"</span>)
+    <span class="kw">def</span> <span class="fn">add</span>(self, value): ...</code></pre>
+
+    <p>
+      When LSP is violated — say someone overrides <code>append</code>
+      without maintaining sorted order — SynHoPy catches it:
+    </p>
+
+    <pre><code><span class="kw">class</span> <span class="ty">BrokenSortedList</span>(<span class="ty">SortedList</span>):
+    <span class="kw">def</span> <span class="fn">append</span>(self, value: <span class="ty">int</span>) <span class="op">-></span> <span class="nb">None</span>:
+        <span class="cm"># Appends without checking order — breaks invariant!</span>
+        super().append(value)</code></pre>
+
+    <pre><code><span class="cm">  ✗ BrokenSortedList.append — invariant violated</span>
+<span class="cm">    Counterexample: self = [1, 3, 5], value = 2</span>
+<span class="cm">    After append: [1, 3, 5, 2]  — not sorted</span>
+<span class="cm">    LSP violation: BrokenSortedList cannot substitute SortedList</span></code></pre>
+
+    <h2 id="verified-bst">Verified Binary Search Tree</h2>
+
+    <p>
+      Binary search trees are a classic test of verification tools. The
+      BST invariant — all left descendants are smaller, all right
+      descendants are larger — must be preserved across insertions and
+      deletions. Here is a complete implementation:
+    </p>
+
+    <pre><code><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> <span class="ty">Optional</span>
+
+<span class="kw">class</span> <span class="ty">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, value: <span class="ty">int</span>) <span class="op">-></span> <span class="nb">None</span>:
+        self.value, self.left, self.right <span class="op">=</span> value, <span class="nb">None</span>, <span class="nb">None</span>
+
+<span class="kw">class</span> <span class="ty">BST</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self) <span class="op">-></span> <span class="nb">None</span>:
+        self.root: <span class="ty">Optional</span>[<span class="ty">Node</span>] <span class="op">=</span> <span class="nb">None</span>
+
+    <span class="kw">def</span> <span class="fn">_is_bst</span>(self, node: <span class="ty">Optional</span>[<span class="ty">Node</span>], lo: <span class="ty">float</span>, hi: <span class="ty">float</span>) <span class="op">-></span> <span class="ty">bool</span>:
+        <span class="kw">if</span> node <span class="kw">is</span> <span class="nb">None</span>: <span class="kw">return</span> <span class="nb">True</span>
+        <span class="kw">if</span> <span class="kw">not</span> (lo <span class="op"><</span> node.value <span class="op"><</span> hi): <span class="kw">return</span> <span class="nb">False</span>
+        <span class="kw">return</span> (self._is_bst(node.left, lo, node.value)
+                <span class="kw">and</span> self._is_bst(node.right, node.value, hi))
+
+    <span class="kw">def</span> <span class="fn">_insert</span>(self, node: <span class="ty">Optional</span>[<span class="ty">Node</span>], value: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">Node</span>:
+        <span class="kw">if</span> node <span class="kw">is</span> <span class="nb">None</span>: <span class="kw">return</span> Node(value)
+        <span class="kw">if</span> value <span class="op"><</span> node.value:   node.left <span class="op">=</span> self._insert(node.left, value)
+        <span class="kw">elif</span> value <span class="op">></span> node.value: node.right <span class="op">=</span> self._insert(node.right, value)
+        <span class="kw">return</span> node
+
+    <span class="kw">def</span> <span class="fn">insert</span>(self, value: <span class="ty">int</span>) <span class="op">-></span> <span class="nb">None</span>:
+        self.root <span class="op">=</span> self._insert(self.root, value)
+
+    <span class="kw">def</span> <span class="fn">search</span>(self, value: <span class="ty">int</span>, node: <span class="ty">Optional</span>[<span class="ty">Node</span>] <span class="op">=</span> <span class="nb">None</span>) <span class="op">-></span> <span class="ty">bool</span>:
+        n <span class="op">=</span> node <span class="kw">if</span> node <span class="kw">is</span> <span class="kw">not</span> <span class="nb">None</span> <span class="kw">else</span> self.root
+        <span class="kw">if</span> n <span class="kw">is</span> <span class="nb">None</span>: <span class="kw">return</span> <span class="nb">False</span>
+        <span class="kw">if</span> value <span class="op">==</span> n.value: <span class="kw">return</span> <span class="nb">True</span>
+        <span class="kw">return</span> self.search(value, n.left <span class="kw">if</span> value <span class="op"><</span> n.value <span class="kw">else</span> n.right)
+
+    <span class="kw">def</span> <span class="fn">_find_min</span>(self, node: <span class="ty">Node</span>) <span class="op">-></span> <span class="ty">int</span>:
+        <span class="kw">while</span> node.left <span class="kw">is</span> <span class="kw">not</span> <span class="nb">None</span>: node <span class="op">=</span> node.left
+        <span class="kw">return</span> node.value
+
+    <span class="kw">def</span> <span class="fn">_delete</span>(self, node: <span class="ty">Optional</span>[<span class="ty">Node</span>], value: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">Optional</span>[<span class="ty">Node</span>]:
+        <span class="kw">if</span> node <span class="kw">is</span> <span class="nb">None</span>: <span class="kw">return</span> <span class="nb">None</span>
+        <span class="kw">if</span> value <span class="op"><</span> node.value:
+            node.left <span class="op">=</span> self._delete(node.left, value)
+        <span class="kw">elif</span> value <span class="op">></span> node.value:
+            node.right <span class="op">=</span> self._delete(node.right, value)
+        <span class="kw">else</span>:
+            <span class="kw">if</span> node.left <span class="kw">is</span> <span class="nb">None</span>:  <span class="kw">return</span> node.right
+            <span class="kw">if</span> node.right <span class="kw">is</span> <span class="nb">None</span>: <span class="kw">return</span> node.left
+            successor <span class="op">=</span> self._find_min(node.right)
+            node.value <span class="op">=</span> successor
+            node.right <span class="op">=</span> self._delete(node.right, successor)
+        <span class="kw">return</span> node
+
+    <span class="kw">def</span> <span class="fn">delete</span>(self, value: <span class="ty">int</span>) <span class="op">-></span> <span class="nb">None</span>:
+        self.root <span class="op">=</span> self._delete(self.root, value)</code></pre>
+
+    <p>
+      The sidecar proof specifies the BST invariant and method contracts:
+    </p>
+
+    <pre><code><span class="cm"># bst_spec.synhopy — sidecar proof for BST</span>
+<span class="dc">@invariant</span>(<span class="st">"self._is_bst(self.root, float('-inf'), float('inf'))"</span>)
+<span class="kw">class</span> <span class="ty">BST</span>:
+    <span class="dc">@guarantee</span>(<span class="st">"self.search(value)"</span>)
+    <span class="kw">def</span> <span class="fn">insert</span>(self, value): ...
+
+    <span class="dc">@guarantee</span>(<span class="st">"result implies self._contains(self.root, value)"</span>)
+    <span class="dc">@guarantee</span>(<span class="st">"not result implies not self._contains(self.root, value)"</span>)
+    <span class="kw">def</span> <span class="fn">search</span>(self, value): ...
+
+    <span class="dc">@guarantee</span>(<span class="st">"not self.search(value)"</span>)
+    <span class="kw">def</span> <span class="fn">delete</span>(self, value): ...</code></pre>
+
+    <p>
+      Verification proceeds structurally — SynHoPy assumes the invariant
+      on entry (inductive hypothesis), symbolically executes the method
+      body, then proves the invariant and all guarantees hold on exit:
+    </p>
+
+    <pre><code><span class="cm">  ✓ BST.__init__       — invariant established (trivial: root is None)</span>
+<span class="cm">  ✓ BST.insert         — invariant preserved, guarantee proved</span>
+<span class="cm">                         (structural induction on tree depth, Z3, 0.23s)</span>
+<span class="cm">  ✓ BST.search         — 2 guarantees proved (Z3, 0.08s)</span>
+<span class="cm">  ✓ BST.delete         — invariant preserved, guarantee proved</span>
+<span class="cm">                         (case split: 0/1/2 children, Z3, 0.41s)</span>
+<span class="cm">  ────────────────────────────────────────────</span>
+<span class="cm">  4/4 obligations discharged  ·  Z3_PROVEN</span></code></pre>
+
+    <p>
+      The <code>delete</code> case is the most complex — SynHoPy reasons
+      about the in-order successor replacement via a case split over
+      the three deletion scenarios (leaf, one child, two children).
+    </p>
+
+    <h2 id="practical-notes">Practical Notes</h2>
+
+    <div class="note">
+      <strong>Immutable vs. mutable data structures.</strong>
+      Immutable data structures (e.g., <code>@dataclass(frozen=True)</code>,
+      tuples, frozensets) are significantly easier to verify. Because
+      their state never changes after construction, the invariant only
+      needs to be checked once — at creation time.
+    </div>
+
+    <div class="warning">
+      <strong>Aliasing can break invariants.</strong>
+      If two variables refer to the same mutable object, a mutation
+      through one reference can silently break the invariant observed
+      through the other:
+      <pre><code class="example">s <span class="op">=</span> Stack()
+alias <span class="op">=</span> s
+alias._items.append(<span class="nb">42</span>)  <span class="cm"># bypasses Stack.push — invariant unchecked!</span></code></pre>
+      SynHoPy's default analysis is <em>per-reference</em>. For shared
+      mutable state, use the separation logic extensions in
+      <a href="../part6/separation.html">Part 6</a>.
+    </div>
+
+    <div class="tip">
+      <strong>Start with <code>@dataclass(frozen=True)</code>.</strong>
+      When designing new data structures, prefer frozen dataclasses
+      wherever possible. They are trivially alias-safe, hashable by
+      default, and SynHoPy can verify their invariants in a single pass.
+    </div>
+
+    <h2 id="exercise">Exercise</h2>
+
+    <div class="exercise">
+      <strong>Exercise — Verified MinHeap.</strong>
+      <p>
+        Implement a <code>MinHeap</code> class with the following methods:
+      </p>
+      <ul>
+        <li><code>insert(value: int) -&gt; None</code> — adds a value</li>
+        <li><code>extract_min() -&gt; int</code> — removes and returns the smallest element</li>
+        <li><code>peek_min() -&gt; int</code> — returns the smallest element without removing it</li>
+      </ul>
+      <p>
+        Use a list with the standard array-based heap layout (parent at
+        index <code>i</code>, children at <code>2i+1</code> and
+        <code>2i+2</code>). Then write a sidecar specification with:
+      </p>
+      <ul>
+        <li>An <code>@invariant</code> expressing the heap property:
+            every parent is &le; its children</li>
+        <li>A <code>@guarantee</code> on <code>insert</code> that the heap
+            is non-empty after insertion</li>
+        <li>An <code>@assume</code> on <code>extract_min</code> and
+            <code>peek_min</code> that the heap is non-empty</li>
+        <li>A <code>@guarantee</code> on <code>peek_min</code> that the
+            result is &le; every element in the heap</li>
+      </ul>
+      <p>
+        Verify with <code>synhopy verify minheap.py</code>.
+      </p>
+      <details>
+        <summary>Hint</summary>
+        <p>
+          The heap invariant can be expressed as:
+          <code>"all(self._data[i] &lt;= self._data[2*i+1] for i in range(len(self._data)//2)
+          if 2*i+1 &lt; len(self._data)) and all(self._data[i] &lt;= self._data[2*i+2]
+          for i in range(len(self._data)//2) if 2*i+2 &lt; len(self._data))"</code>.
+          Use <code>_sift_up</code> and <code>_sift_down</code> helpers for rebalancing.
+        </p>
+      </details>
+    </div>
+
+    <h2 id="next-steps">Next Steps</h2>
+
+    <p>
+      You now know how to verify data structures with class invariants,
+      method contracts, and inheritance checks. In the next chapter we
+      tackle <strong>termination</strong> — proving that recursive and
+      iterative algorithms always finish.
+    </p>
+
+    <nav class="page-nav">
+      <a href="z3_integration.html">
+        <span class="label">← Previous</span>
+        <span class="title">Z3 Integration</span>
+      </a>
+      <a href="termination.html">
+        <span class="label">Next →</span>
+        <span class="title">Termination</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

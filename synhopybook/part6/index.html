@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 6 — Heap &amp; Concurrency · SynHoPy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>SynHoPy</h1>
+    <div class="subtitle">Synthetic Homotopy Python — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="index.html" class="active">Overview</a></li>
+      <li><a href="separation.html">Separation Logic</a></li>
+      <li><a href="references.html">Mutable References</a></li>
+      <li><a href="arrays.html">Arrays</a></li>
+      <li><a href="threading.html">Threading &amp; GIL</a></li>
+      <li><a href="async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How SynHoPy Uses Z3</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Part 6 — Heap &amp; Concurrency</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.1rem; margin-bottom:2rem;">
+      Separation logic, mutable state, and verified concurrent Python
+    </p>
+
+    <!-- ─── Motivation ─── -->
+    <h2>Why This Part Matters</h2>
+    <p>
+      Everything in Python is an object on the heap. Every variable is a reference. Every
+      assignment is a pointer copy. This makes Python wonderfully flexible — and
+      fiendishly hard to reason about formally. In this part we bring <strong>separation
+      logic</strong> to Python so that you can prove properties of mutable state,
+      concurrent threads, and asynchronous tasks with the same rigour we applied to pure
+      functions in Parts&nbsp;1–5.
+    </p>
+
+    <div class="note">
+      This part mirrors the "Pulse" chapters in the F* tutorial but adapts every concept
+      to Python's memory model — reference counting, the GIL, <code>asyncio</code>, and
+      dynamic typing. Where Pulse invents a new language, SynHoPy works <em>inside</em>
+      existing Python with decorators and a Z3-backed proof engine.
+    </div>
+
+    <!-- ─── Python's Memory Model ─── -->
+    <h2>Python's Memory Model</h2>
+    <p>
+      CPython's runtime has three properties that distinguish it from the C / Rust /
+      F* worlds where separation logic was originally developed:
+    </p>
+
+    <h3>1. Everything Is an Object</h3>
+    <p>
+      Integers, strings, functions, classes — every value lives on the heap and is
+      accessed through a reference (a <code>PyObject*</code> in C terms). There is no
+      "stack allocation" of primitives.
+    </p>
+<pre><code><span class="cm"># x and y refer to the *same* heap object</span>
+<span class="kw">x</span> = [<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>]
+<span class="kw">y</span> = x
+<span class="kw">y</span>.append(<span class="nb">4</span>)
+<span class="kw">assert</span> x == [<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>, <span class="nb">4</span>]  <span class="cm"># surprise!</span></code></pre>
+
+    <h3>2. Reference Counting + Cycle GC</h3>
+    <p>
+      Each object carries a reference count. When the count drops to zero, CPython
+      deallocates immediately. A supplementary tracing GC catches reference cycles.
+      For verification, this means:
+    </p>
+    <ul>
+      <li><strong>Deterministic destruction</strong> of acyclic data — useful for
+          resource-cleanup proofs.</li>
+      <li><strong>Non-deterministic collection</strong> of cycles — we must be careful
+          when reasoning about finaliser order.</li>
+    </ul>
+
+    <h3>3. The Global Interpreter Lock (GIL)</h3>
+    <p>
+      Only one thread executes Python bytecode at a time. The GIL guarantees
+      <strong>atomicity of individual bytecodes</strong> but <em>not</em> atomicity of
+      compound operations. A statement like <code>counter += 1</code> compiles to
+      multiple bytecodes — <code>LOAD_FAST</code>, <code>BINARY_ADD</code>,
+      <code>STORE_FAST</code> — and a thread switch can occur between any two of them.
+    </p>
+
+    <div class="warning">
+      The GIL does <strong>not</strong> make your code thread-safe. It prevents
+      segfaults and corrupted interpreter state, but logical data races are still
+      possible. SynHoPy's separation logic proofs catch exactly these races.
+    </div>
+
+<pre><code><span class="cm"># Classic GIL misconception — this is NOT thread-safe</span>
+<span class="kw">import</span> threading
+
+counter = <span class="nb">0</span>
+
+<span class="kw">def</span> <span class="fn">bump</span>():
+    <span class="kw">global</span> counter
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="nb">100_000</span>):
+        counter += <span class="nb">1</span>   <span class="cm"># LOAD, ADD, STORE — not atomic!</span>
+
+threads = [threading.<span class="fn">Thread</span>(target=bump) <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="nb">4</span>)]
+<span class="kw">for</span> t <span class="kw">in</span> threads: t.<span class="fn">start</span>()
+<span class="kw">for</span> t <span class="kw">in</span> threads: t.<span class="fn">join</span>()
+<span class="kw">print</span>(counter)  <span class="cm"># Almost certainly != 400_000</span></code></pre>
+
+    <!-- ─── Why Separation Logic? ─── -->
+    <h2>Why Separation Logic?</h2>
+    <p>
+      Classical Hoare logic describes a heap as a monolithic map from addresses to
+      values. Separation logic adds a critical operator — the <strong>separating
+      conjunction ★</strong> — that asserts two sub-heaps are <em>disjoint</em>.
+      This lets you reason <strong>locally</strong>: a function that operates on
+      its own slice of the heap cannot corrupt yours.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>Classical Hoare Logic</th>
+          <th>Separation Logic (SynHoPy)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Heap model</td>
+          <td>One big map</td>
+          <td>Disjoint sub-heaps composed with ★</td>
+        </tr>
+        <tr>
+          <td>Frame rule</td>
+          <td>❌ Must mention entire state</td>
+          <td>✅ Unmentioned state is preserved</td>
+        </tr>
+        <tr>
+          <td>Aliasing</td>
+          <td>Must track globally</td>
+          <td>Ownership types guarantee non-aliasing</td>
+        </tr>
+        <tr>
+          <td>Concurrency</td>
+          <td>Requires global invariant</td>
+          <td>Lock invariants own disjoint resources</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      For Python, separation logic is a natural fit because every object reference is
+      a potential alias. By tracking <strong>ownership</strong> — which references a
+      function is permitted to read or write — we can verify that mutations are safe
+      even in the presence of shared mutable state.
+    </p>
+
+    <!-- ─── SynHoPy's Approach ─── -->
+    <h2>SynHoPy's Approach</h2>
+    <p>
+      SynHoPy expresses separation-logic specifications as Python decorators. The
+      proof engine discharges obligations to Z3 (for decidable fragments) or to an
+      LLM oracle (for domain-specific semantics), exactly as in earlier parts of
+      this book. The key new ingredients are:
+    </p>
+
+    <ol>
+      <li><strong><code>SLProp</code></strong> — a type of separation-logic propositions
+          (analogous to F*'s <code>slprop</code>).</li>
+      <li><strong><code>pts_to(ref, value)</code></strong> — the fundamental "points-to"
+          assertion: <code>ref</code> currently holds <code>value</code>.</li>
+      <li><strong><code>@requires</code> / <code>@ensures</code></strong> — pre- and
+          post-conditions in separation logic.</li>
+      <li><strong><code>Lock(invariant)</code></strong> — locks that own a piece of
+          the heap described by an <code>SLProp</code>.</li>
+      <li><strong><code>@parallel_safe</code></strong> — proof that a function can be
+          called from multiple threads without data races.</li>
+    </ol>
+
+<pre><code><span class="kw">from</span> synhopy.separation <span class="kw">import</span> SLProp, pts_to, emp
+<span class="kw">from</span> synhopy.heap <span class="kw">import</span> Ref, requires, ensures
+
+<span class="dc">@requires</span>(pts_to(x, <span class="st">'v'</span>))
+<span class="dc">@ensures</span>(<span class="kw">lambda</span> result: pts_to(x, <span class="st">'v + 1'</span>))
+<span class="kw">def</span> <span class="fn">incr</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    <span class="st">"""Increment a heap-allocated integer."""</span>
+    x.value += <span class="nb">1</span></code></pre>
+
+    <p>
+      The body of <code>incr</code> is ordinary Python. The decorators express the
+      contract in separation logic, and SynHoPy verifies that the implementation
+      satisfies the contract at import time (or via <code>synhopy check</code>).
+    </p>
+
+    <!-- ─── Road Map ─── -->
+    <h2>What You'll Learn</h2>
+    <p>This part contains five chapters:</p>
+
+    <table>
+      <thead>
+        <tr><th>Chapter</th><th>Topic</th><th>F* Parallel</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="separation.html">6.1</a></td>
+          <td><strong>Separation Logic Basics</strong> — SLProp, pts_to, ★, frame rule</td>
+          <td>Pulse Ch. 1</td>
+        </tr>
+        <tr>
+          <td><a href="references.html">6.2</a></td>
+          <td><strong>Mutable References</strong> — aliasing, ownership, fractional permissions</td>
+          <td>Pulse Ch. 2</td>
+        </tr>
+        <tr>
+          <td><a href="arrays.html">6.3</a></td>
+          <td><strong>Arrays</strong> — Python lists, bounds proofs, NumPy sidecars</td>
+          <td>Pulse Ch. 3</td>
+        </tr>
+        <tr>
+          <td><a href="threading.html">6.4</a></td>
+          <td><strong>Threading &amp; GIL</strong> — locks, spin locks, race-freedom proofs</td>
+          <td><em>No equivalent</em></td>
+        </tr>
+        <tr>
+          <td><a href="async.html">6.5</a></td>
+          <td><strong>Async / Await</strong> — event loops, coroutine proofs, structured concurrency</td>
+          <td><em>No equivalent</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      Chapters 6.4 and 6.5 are <strong>unique to SynHoPy</strong>. They have no direct
+      counterpart in the F* tutorial because Python's concurrency model (GIL + asyncio)
+      is fundamentally different from the extracted C code that Pulse targets.
+    </div>
+
+    <!-- ─── Prerequisites ─── -->
+    <h2>Prerequisites</h2>
+    <p>
+      Before starting Part 6 you should be comfortable with:
+    </p>
+    <ul>
+      <li>Refinement types and Z3 integration (Part 1)</li>
+      <li>Dependent types and inductive proofs (Part 2)</li>
+      <li>Python's decorator and metaclass machinery (Part 3)</li>
+      <li>Basic homotopy type theory — path types and transport (Part 5)</li>
+    </ul>
+    <p>
+      No prior knowledge of separation logic is assumed — we build it from scratch.
+    </p>
+
+    <!-- ─── Comparison with Pulse ─── -->
+    <h2>Comparison with F*'s Pulse</h2>
+    <p>
+      Pulse is a <em>separate DSL</em> embedded in F* for writing verified low-level
+      code that extracts to C. SynHoPy takes a different approach:
+    </p>
+    <div class="compare">
+      <div>
+        <h4>Pulse (F*)</h4>
+<pre><code><span class="cm">(* Pulse syntax *)</span>
+<span class="kw">fn</span> <span class="fn">incr</span> (x: ref int)
+  <span class="kw">requires</span> pts_to x <span class="st">'i'</span>
+  <span class="kw">ensures</span>  pts_to x <span class="st">'i+1'</span>
+{
+  <span class="kw">let</span> v = !x;
+  x := v + <span class="nb">1</span>;
+}</code></pre>
+      </div>
+      <div>
+        <h4>SynHoPy (Python)</h4>
+<pre><code><span class="cm"># SynHoPy syntax</span>
+<span class="dc">@requires</span>(pts_to(x, <span class="st">'i'</span>))
+<span class="dc">@ensures</span>(pts_to(x, <span class="st">'i+1'</span>))
+<span class="kw">def</span> <span class="fn">incr</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
+    x.value += <span class="nb">1</span></code></pre>
+      </div>
+    </div>
+
+    <p>
+      Key differences:
+    </p>
+    <ul>
+      <li><strong>No new syntax</strong> — SynHoPy specifications are valid Python
+          decorators and type annotations.</li>
+      <li><strong>GIL-aware</strong> — SynHoPy's concurrency model understands the
+          GIL and can exploit its guarantees.</li>
+      <li><strong>Async-native</strong> — built-in support for <code>asyncio</code>,
+          coroutines, and structured concurrency.</li>
+      <li><strong>Dynamic types</strong> — SynHoPy handles Python's gradual typing
+          via the cubical type theory from Part 5.</li>
+    </ul>
+
+    <!-- ─── Key Concepts Preview ─── -->
+    <h2>Key Concepts at a Glance</h2>
+
+    <h3>SLProp — Heap Propositions</h3>
+    <p>
+      A value of type <code>SLProp</code> describes a region of the Python heap.
+      The primitives are <code>emp</code> (empty heap), <code>pts_to(ref, val)</code>
+      (a reference holding a value), and the separating conjunction <code>**</code>
+      (two disjoint heap regions). These compose to describe arbitrarily complex
+      heap states.
+    </p>
+
+    <h3>Ownership Transfer</h3>
+    <p>
+      When you call a function whose precondition mentions <code>pts_to(x, v)</code>,
+      you <em>transfer</em> ownership of <code>x</code> to that function. It gives
+      you back ownership via its postcondition. This is how SynHoPy prevents
+      data races and use-after-free without runtime overhead.
+    </p>
+
+    <h3>The Frame Rule</h3>
+    <p>
+      If <code>{P} f {Q}</code>, then <code>{P ** R} f {Q ** R}</code> for any
+      <code>R</code>. In words: anything the function doesn't mention is automatically
+      preserved. This enables <strong>local reasoning</strong> — you never have to
+      describe the entire heap in a specification.
+    </p>
+
+    <h3>Lock Invariants</h3>
+    <p>
+      A lock <em>owns</em> a heap region described by its invariant. Acquiring the
+      lock transfers that region to the acquiring thread; releasing returns it.
+      This is how shared mutable state is safely partitioned among threads.
+    </p>
+
+    <!-- ─── Exercises ─── -->
+    <div class="exercise">
+      <strong>Exercise 6.0.1:</strong> Run the <code>counter</code> threading example above
+      with 4 threads and 100,000 iterations each. What value do you get? Run it five
+      times and record the variation. This demonstrates why formal verification of
+      concurrent code matters.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.0.2:</strong> Consider the following Python code:
+<pre><code>a = [<span class="nb">1</span>, <span class="nb">2</span>, <span class="nb">3</span>]
+b = a
+b[<span class="nb">0</span>] = <span class="nb">99</span>
+<span class="kw">print</span>(a[<span class="nb">0</span>])</code></pre>
+      What does it print? Write an informal separation-logic specification that would
+      make the aliasing explicit. What would <code>pts_to(a, ???) ★ pts_to(b, ???)</code>
+      mean here? (Hint: it can't hold — <code>a</code> and <code>b</code> point to the
+      same object.)
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 6.0.3:</strong> List three Python standard-library modules that
+      perform heap mutation internally (e.g., <code>collections.deque</code>). For each,
+      sketch what separation-logic pre/post-conditions might look like for their most
+      common operation.
+    </div>
+
+    <!-- ─── Navigation ─── -->
+    <nav class="page-nav">
+      <a href="../part5/tactics.html">
+        <span class="label">← Previous</span>
+        <span class="title">Homotopy Tactics</span>
+      </a>
+      <a href="separation.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Separation Logic Basics</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>
