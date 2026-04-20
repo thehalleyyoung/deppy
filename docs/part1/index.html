@@ -294,8 +294,11 @@
 python3 <span class="op">-</span>m venv .venv
 source .venv/bin/activate
 
-<span class="cm"># Install Deppy (pulls in z3-solver automatically)</span>
-pip install deppy</code></pre>
+<span class="cm"># Install Deppy from GitHub</span>
+pip install git+https://github.com/thehalleyyoung/deppy.git
+
+<span class="cm"># Optional: Z3 for strongest verification</span>
+pip install z3-solver</code></pre>
     </div>
 
     <!-- ── A Peek at Refinement Types ────────────────────── -->

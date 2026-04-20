@@ -104,10 +104,15 @@
     <!-- ──────────────────────────────────────────────── -->
     <h2 id="installation">Installation</h2>
 
-    <p>Install Deppy from PyPI:</p>
+    <p>Install Deppy from GitHub:</p>
 
-    <pre><code><span class="cm"># Core verifier</span>
-pip install deppy
+    <pre><code><span class="cm"># Install directly from GitHub</span>
+pip install git+https://github.com/thehalleyyoung/deppy.git
+
+<span class="cm"># — or — clone and install in editable mode (for development)</span>
+git clone https://github.com/thehalleyyoung/deppy.git
+cd deppy
+pip install -e .
 
 <span class="cm"># Optional but strongly recommended — enables Z3-backed proofs</span>
 pip install z3-solver</code></pre>
@@ -119,14 +124,8 @@ pip install z3-solver</code></pre>
 
     <p>Confirm the installation:</p>
 
-    <pre><code>deppy --version
-<span class="cm"># deppy 0.4.0 (z3 available: yes)</span></code></pre>
-
-    <p>
-      If you see <code>z3 available: yes</code> you are ready to go.
-      If it says <code>no</code>, double-check that <code>z3-solver</code>
-      is installed in the same environment.
-    </p>
+    <pre><code>python3 -c "from deppy import guarantee, verify; print('ready')"
+<span class="cm"># ready</span></code></pre>
 
     <!-- ──────────────────────────────────────────────── -->
     <h2 id="first-verified-function">Your First Verified Function</h2>

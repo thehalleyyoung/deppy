@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deppy"
+version = "0.1.0"
+description = "Deppy: Python with Dependent Types — formal verification for ordinary Python"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Halley Young" },
+]
+keywords = ["verification", "dependent-types", "formal-methods", "z3", "lean", "homotopy"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Typing :: Typed",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+z3 = ["z3-solver"]
+sympy = ["sympy"]
+all = ["z3-solver", "sympy"]
+dev = ["z3-solver", "sympy", "pytest"]
+
+[project.urls]
+Homepage = "https://thehalleyyoung.github.io/deppy"
+Repository = "https://github.com/thehalleyyoung/deppy"
+Documentation = "https://thehalleyyoung.github.io/deppy"
+
+[tool.setuptools.packages.find]
+include = ["deppy*"]
+exclude = ["docs*", "tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["deppy/tests", "deppy/lean"]

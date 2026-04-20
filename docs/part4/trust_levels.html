@@ -384,7 +384,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Deppy run: pip install deppy[z3]
+      - name: Install Deppy run: pip install git+https://github.com/thehalleyyoung/deppy.git && pip install z3-solver
 
       - name: Run verification
         run: |

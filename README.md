@@ -24,10 +24,23 @@ print(cert.render())
 ## Quick Start
 
 ```bash
-pip install z3-solver
+# Install from GitHub
+pip install git+https://github.com/thehalleyyoung/deppy.git
+
+# — or — clone and install in editable mode (for development)
 git clone https://github.com/thehalleyyoung/deppy.git
 cd deppy
-PYTHONPATH=. python3 -c "from deppy import guarantee, verify; print('ready')"
+pip install -e .
+
+# Optional: Z3 for strongest verification
+pip install z3-solver
+```
+
+Verify the install:
+
+```python
+from deppy import guarantee, verify
+print('ready')
 ```
 
 ## Features
@@ -86,8 +99,8 @@ docs/               Tutorial book (thehalleyyoung.github.io/deppy)
 ## Running Tests
 
 ```bash
-PYTHONPATH=. python3 -m pytest deppy/tests/ deppy/lean/ -q
-# 517 passed
+python3 -m pytest deppy/tests/ deppy/lean/ -q
+# 754 passed
 ```
 
 ## Tutorial Book

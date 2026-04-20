@@ -385,7 +385,8 @@
 </p>
 
 <pre><code class="output"><span class="cm"># Install Deppy with Z3 backend</span>
-pip install deppy[z3]
+pip install git+https://github.com/thehalleyyoung/deppy.git
+pip install z3-solver
 
 <span class="cm"># Verify a file with Python-specific checks enabled</span>
 deppy verify --python-specifics my_module.py

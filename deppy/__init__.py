@@ -93,3 +93,5 @@ def trust_boundary(fn):
     """Decorator marking a function as a trust boundary (FFI/external call)."""
     fn._deppy_trust_boundary = True
     return fn
+
+from deppy.equivalence import check_equiv, check_inequiv, check_adherence, EquivResult, AdherenceResult  # noqa: F401,E402
