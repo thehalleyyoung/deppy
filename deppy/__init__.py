@@ -94,4 +94,8 @@ def trust_boundary(fn):
     fn._deppy_trust_boundary = True
     return fn
 
-from deppy.equivalence import check_equiv, check_inequiv, check_adherence, EquivResult, AdherenceResult  # noqa: F401,E402
+from deppy.equivalence import (  # noqa: F401,E402
+    check_equiv, check_inequiv, check_adherence,
+    check_spec_equiv, equiv_to_lean,
+    EquivResult, AdherenceResult, SpecEquivResult,
+)

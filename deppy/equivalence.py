@@ -52,6 +52,8 @@ class EquivResult:
     counterexample: dict | None = None   # witness when inequivalent
     confidence: float = 1.0       # 1.0 for z3, <1 for testing
     details: str = ""
+    lean_proof: str | None = None        # Lean 4 proof script (when Z3 succeeds)
+    spec_info: str | None = None         # supplementary spec comparison info
 
     def __bool__(self) -> bool:
         return self.equivalent is True
@@ -63,6 +65,8 @@ class EquivResult:
             s += f", counterexample={self.counterexample}"
         if self.confidence < 1.0:
             s += f", confidence={self.confidence:.2f}"
+        if self.lean_proof:
+            s += ", lean_proof=..."
         s += ")"
         return s
 
@@ -100,6 +104,12 @@ def _get_z3_var(name: str, annotation: type | str | None) -> Any:
 def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
     """Evaluate a Python AST expression with Z3 symbolic values."""
     if isinstance(node, ast.Name):
+        if node.id == 'True':
+            return True
+        if node.id == 'False':
+            return False
+        if node.id == 'None':
+            return 0  # treat None as 0 for int context
         if node.id in env:
             return env[node.id]
         raise ValueError(f"Unknown variable: {node.id}")
@@ -116,6 +126,11 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
             ast.Mult: lambda a, b: a * b,
             ast.FloorDiv: lambda a, b: a / b,  # Z3 Int division
             ast.Mod: lambda a, b: a % b,
+            ast.BitAnd: lambda a, b: a & b,
+            ast.BitOr: lambda a, b: a | b,
+            ast.BitXor: lambda a, b: a ^ b,
+            ast.LShift: lambda a, b: a << b,
+            ast.RShift: lambda a, b: a >> b,
         }
         op_type = type(node.op)
         if op_type in ops:
@@ -188,6 +203,31 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 a = _eval_expr_z3(node.args[0], env)
                 b = _eval_expr_z3(node.args[1], env)
                 return z3.If(a >= b, a, b)
+            if node.func.id == "min" and len(node.args) == 3:
+                a = _eval_expr_z3(node.args[0], env)
+                b = _eval_expr_z3(node.args[1], env)
+                c = _eval_expr_z3(node.args[2], env)
+                return z3.If(a <= b, z3.If(a <= c, a, c), z3.If(b <= c, b, c))
+            if node.func.id == "max" and len(node.args) == 3:
+                a = _eval_expr_z3(node.args[0], env)
+                b = _eval_expr_z3(node.args[1], env)
+                c = _eval_expr_z3(node.args[2], env)
+                return z3.If(a >= b, z3.If(a >= c, a, c), z3.If(b >= c, b, c))
+            if node.func.id == "pow" and len(node.args) == 2:
+                base = _eval_expr_z3(node.args[0], env)
+                exp = _eval_expr_z3(node.args[1], env)
+                if isinstance(exp, int) and 0 <= exp <= 6:
+                    if exp == 0:
+                        return 1
+                    result = base
+                    for _ in range(exp - 1):
+                        result = result * base
+                    return result
+            if node.func.id == "bool" and len(node.args) == 1:
+                arg = _eval_expr_z3(node.args[0], env)
+                return z3.If(arg != 0, 1, 0)
+            if node.func.id == "int" and len(node.args) == 1:
+                return _eval_expr_z3(node.args[0], env)
         raise ValueError(f"Unsupported call: {ast.dump(node)}")
 
     raise ValueError(f"Unsupported expression: {type(node).__name__}")
@@ -219,6 +259,11 @@ def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
                 ast.Add: lambda a, b: a + b,
                 ast.Sub: lambda a, b: a - b,
                 ast.Mult: lambda a, b: a * b,
+                ast.FloorDiv: lambda a, b: a / b,
+                ast.Mod: lambda a, b: a % b,
+                ast.BitAnd: lambda a, b: a & b,
+                ast.BitOr: lambda a, b: a | b,
+                ast.BitXor: lambda a, b: a ^ b,
             }
             op_fn = aug_ops.get(type(stmt.op))
             if op_fn is None:
@@ -249,7 +294,7 @@ def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
                         if old is None:
                             raise ValueError(f"AugAssign to unknown: {nm}")
                         val = _eval_expr_z3(s.value, then_env)
-                        aug_ops = {ast.Add: lambda a, b: a + b, ast.Sub: lambda a, b: a - b, ast.Mult: lambda a, b: a * b}
+                        aug_ops = {ast.Add: lambda a, b: a + b, ast.Sub: lambda a, b: a - b, ast.Mult: lambda a, b: a * b, ast.FloorDiv: lambda a, b: a / b, ast.Mod: lambda a, b: a % b, ast.BitAnd: lambda a, b: a & b, ast.BitOr: lambda a, b: a | b, ast.BitXor: lambda a, b: a ^ b}
                         fn = aug_ops.get(type(s.op))
                         if fn is None:
                             raise ValueError(f"Unsupported augassign: {type(s.op).__name__}")
@@ -624,6 +669,378 @@ def _spec_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
 
 
 # ═══════════════════════════════════════════════════════════════════
+#  Lean 4 proof script generation
+# ═══════════════════════════════════════════════════════════════════
+
+_LEAN_TYPE_MAP = {'int': 'Int', 'float': 'Float', 'bool': 'Bool', 'str': 'String'}
+
+_LEAN_BINOP = {
+    ast.Add: '+', ast.Sub: '-', ast.Mult: '*',
+    ast.FloorDiv: '/', ast.Mod: '%',
+}
+
+_LEAN_CMPOP = {
+    ast.Lt: '<', ast.LtE: '≤', ast.Gt: '>', ast.GtE: '≥',
+    ast.Eq: '=', ast.NotEq: '≠',
+}
+
+
+def _lean_expr(node: ast.expr) -> str | None:
+    """Translate a Python expression AST to Lean 4 syntax. Returns None if unsupported."""
+    if isinstance(node, ast.Constant):
+        v = node.value
+        if isinstance(v, bool):
+            return 'true' if v else 'false'
+        if isinstance(v, int):
+            return f'({v})' if v < 0 else str(v)
+        return None
+
+    if isinstance(node, ast.Name):
+        return node.id
+
+    if isinstance(node, ast.BinOp):
+        op_str = _LEAN_BINOP.get(type(node.op))
+        if isinstance(node.op, ast.Pow):
+            right = _lean_expr(node.right)
+            left = _lean_expr(node.left)
+            if left is None or right is None:
+                return None
+            return f'({left} ^ {right})'
+        if op_str is None:
+            return None
+        left = _lean_expr(node.left)
+        right = _lean_expr(node.right)
+        if left is None or right is None:
+            return None
+        return f'({left} {op_str} {right})'
+
+    if isinstance(node, ast.UnaryOp):
+        if isinstance(node.op, ast.USub):
+            operand = _lean_expr(node.operand)
+            return f'(-{operand})' if operand else None
+        if isinstance(node.op, ast.Not):
+            operand = _lean_expr(node.operand)
+            return f'(¬{operand})' if operand else None
+        return None
+
+    if isinstance(node, ast.Compare):
+        if len(node.ops) != 1:
+            return None
+        op_str = _LEAN_CMPOP.get(type(node.ops[0]))
+        if op_str is None:
+            return None
+        left = _lean_expr(node.left)
+        right = _lean_expr(node.comparators[0])
+        if left is None or right is None:
+            return None
+        return f'({left} {op_str} {right})'
+
+    if isinstance(node, ast.IfExp):
+        c = _lean_expr(node.test)
+        t = _lean_expr(node.body)
+        e = _lean_expr(node.orelse)
+        if c and t and e:
+            return f'if {c} then {t} else {e}'
+        return None
+
+    if isinstance(node, ast.BoolOp):
+        parts = [_lean_expr(v) for v in node.values]
+        if any(p is None for p in parts):
+            return None
+        op = '∧' if isinstance(node.op, ast.And) else '∨'
+        return f' {op} '.join(parts)
+
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+        fn = node.func.id
+        if fn == 'abs' and len(node.args) == 1:
+            a = _lean_expr(node.args[0])
+            return f'(Int.natAbs {a})' if a else None
+        if fn in ('min', 'max') and len(node.args) == 2:
+            a = _lean_expr(node.args[0])
+            b = _lean_expr(node.args[1])
+            if a and b:
+                return f'({fn} {a} {b})'
+            return None
+
+    return None
+
+
+def _lean_body(stmts: list[ast.stmt]) -> str | None:
+    """Translate function body statements to Lean 4."""
+    for i, stmt in enumerate(stmts):
+        if isinstance(stmt, ast.Expr):
+            continue
+        if isinstance(stmt, ast.Return) and stmt.value:
+            return _lean_expr(stmt.value)
+        if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 and isinstance(stmt.targets[0], ast.Name):
+            name = stmt.targets[0].id
+            val = _lean_expr(stmt.value)
+            rest = _lean_body(stmts[i + 1:])
+            if val and rest:
+                return f'let {name} := {val}\n    {rest}'
+            return None
+        if isinstance(stmt, ast.If):
+            cond = _lean_expr(stmt.test)
+            if cond is None:
+                return None
+            then = _lean_body(stmt.body)
+            if then is None:
+                return None
+            if stmt.orelse:
+                else_ = _lean_body(stmt.orelse)
+            elif i + 1 < len(stmts):
+                else_ = _lean_body(stmts[i + 1:])
+            else:
+                return None
+            if else_ is None:
+                return None
+            return f'if {cond} then {then} else {else_}'
+    return None
+
+
+def _classify_lean_tactic(params: list[str], has_nonlinear: bool) -> str:
+    """Choose the best Lean tactic for an equivalence proof."""
+    if has_nonlinear:
+        return 'by ring'
+    return 'by omega'
+
+
+def _has_nonlinear(node: ast.expr) -> bool:
+    """Check if an expression contains nonlinear arithmetic (x*y, x**n)."""
+    if isinstance(node, ast.BinOp):
+        if isinstance(node.op, ast.Pow):
+            return True
+        if isinstance(node.op, ast.Mult):
+            # x * y where both contain variables is nonlinear
+            left_has = _has_vars(node.left)
+            right_has = _has_vars(node.right)
+            if left_has and right_has:
+                return True
+        return _has_nonlinear(node.left) or _has_nonlinear(node.right)
+    if isinstance(node, ast.UnaryOp):
+        return _has_nonlinear(node.operand)
+    if isinstance(node, ast.IfExp):
+        return _has_nonlinear(node.body) or _has_nonlinear(node.orelse) or _has_nonlinear(node.test)
+    if isinstance(node, ast.BoolOp):
+        return any(_has_nonlinear(v) for v in node.values)
+    if isinstance(node, ast.Compare):
+        return _has_nonlinear(node.left) or any(_has_nonlinear(c) for c in node.comparators)
+    if isinstance(node, ast.Call):
+        return any(_has_nonlinear(a) for a in node.args)
+    return False
+
+
+def _has_vars(node: ast.expr) -> bool:
+    """Check if an expression contains any variables."""
+    if isinstance(node, ast.Name):
+        return True
+    if isinstance(node, ast.Constant):
+        return False
+    if isinstance(node, ast.BinOp):
+        return _has_vars(node.left) or _has_vars(node.right)
+    if isinstance(node, ast.UnaryOp):
+        return _has_vars(node.operand)
+    if isinstance(node, ast.Call):
+        return any(_has_vars(a) for a in node.args)
+    return False
+
+
+def _generate_lean_equiv(f: Callable, g: Callable, result: EquivResult) -> str | None:
+    """Generate a Lean 4 proof script for a Z3-proved equivalence/inequivalence."""
+    if result.method != 'z3':
+        return None
+
+    try:
+        src_f = textwrap.dedent(inspect.getsource(f))
+        src_g = textwrap.dedent(inspect.getsource(g))
+        tree_f = ast.parse(src_f).body[0]
+        tree_g = ast.parse(src_g).body[0]
+    except (OSError, TypeError, SyntaxError):
+        return None
+
+    if not isinstance(tree_f, ast.FunctionDef) or not isinstance(tree_g, ast.FunctionDef):
+        return None
+
+    hints_f = {k: v for k, v in (inspect.get_annotations(f) or {}).items() if k != 'return'}
+    params_f = [a.arg for a in tree_f.args.args]
+
+    # Build Lean parameter declarations
+    lean_params = []
+    for p in params_f:
+        ann = hints_f.get(p, int)
+        if isinstance(ann, str):
+            ann = _STR_TO_TYPE.get(ann, ann)
+        lean_type = _LEAN_TYPE_MAP.get(getattr(ann, '__name__', str(ann)), 'Int')
+        lean_params.append(f'({p} : {lean_type})')
+
+    params_str = ' '.join(lean_params)
+
+    # Translate function bodies
+    body_f = _lean_body(tree_f.body)
+    body_g = _lean_body(tree_g.body)
+    if body_f is None or body_g is None:
+        return None
+
+    fname = f.__name__
+    gname = g.__name__
+
+    # Detect nonlinearity for tactic choice
+    nonlinear = any(_has_nonlinear(s.value) for s in tree_f.body
+                     if isinstance(s, ast.Return) and s.value)
+    nonlinear = nonlinear or any(_has_nonlinear(s.value) for s in tree_g.body
+                                  if isinstance(s, ast.Return) and s.value)
+
+    lines = [
+        '/-!',
+        f'  Auto-generated by Deppy equivalence checker',
+        f'  Z3 verdict: {"EQUIVALENT" if result.equivalent else "INEQUIVALENT"}',
+        '-/',
+        '',
+        'import Mathlib.Tactic',
+        '',
+    ]
+
+    if result.equivalent is True:
+        # Emit function definitions + equivalence theorem
+        tactic = _classify_lean_tactic(params_f, nonlinear)
+        lines += [
+            f'def {fname} {params_str} : Int :=',
+            f'  {body_f}',
+            '',
+            f'def {gname} {params_str} : Int :=',
+            f'  {body_g}',
+            '',
+            f'-- Z3 proved: ∀ inputs, {fname} = {gname}',
+            f'theorem {fname}_eq_{gname} {params_str} :',
+            f'    {fname} {" ".join(params_f)} = {gname} {" ".join(params_f)} := by',
+            f'  unfold {fname} {gname}',
+            f'  {tactic.replace("by ", "")}',
+        ]
+    elif result.equivalent is False:
+        # Emit counterexample witness
+        cex = result.counterexample or {}
+        witness_args = ' '.join(str(cex.get(p, 0)) for p in params_f)
+        lines += [
+            f'def {fname} {params_str} : Int :=',
+            f'  {body_f}',
+            '',
+            f'def {gname} {params_str} : Int :=',
+            f'  {body_g}',
+            '',
+            f'-- Z3 found counterexample: {cex}',
+            f'theorem {fname}_neq_{gname} :',
+            f'    {fname} {witness_args} ≠ {gname} {witness_args} := by',
+            f'  unfold {fname} {gname}',
+            f'  decide',
+        ]
+    else:
+        return None
+
+    return '\n'.join(lines) + '\n'
+
+
+def _generate_lean_adherence(fn: Callable, spec: str, result: 'AdherenceResult') -> str | None:
+    """Generate a Lean 4 proof script for a Z3-proved spec adherence."""
+    if result.method != 'z3':
+        return None
+
+    try:
+        src = textwrap.dedent(inspect.getsource(fn))
+        tree = ast.parse(src).body[0]
+    except (OSError, TypeError, SyntaxError):
+        return None
+
+    if not isinstance(tree, ast.FunctionDef):
+        return None
+
+    hints = {k: v for k, v in (inspect.get_annotations(fn) or {}).items() if k != 'return'}
+    params = [a.arg for a in tree.args.args]
+
+    lean_params = []
+    for p in params:
+        ann = hints.get(p, int)
+        if isinstance(ann, str):
+            ann = _STR_TO_TYPE.get(ann, ann)
+        lean_type = _LEAN_TYPE_MAP.get(getattr(ann, '__name__', str(ann)), 'Int')
+        lean_params.append(f'({p} : {lean_type})')
+
+    params_str = ' '.join(lean_params)
+    body = _lean_body(tree.body)
+    if body is None:
+        return None
+
+    fname = fn.__name__
+
+    # Translate spec to Lean proposition
+    lean_spec = spec.strip()
+    lean_spec = lean_spec.replace('result', f'({fname} {" ".join(params)})')
+    lean_spec = lean_spec.replace('>=', '≥').replace('<=', '≤').replace('!=', '≠')
+    lean_spec = lean_spec.replace('==', '=')
+    lean_spec = lean_spec.replace(' and ', ' ∧ ').replace(' or ', ' ∨ ')
+
+    nonlinear = any(_has_nonlinear(s.value) for s in tree.body
+                     if isinstance(s, ast.Return) and s.value)
+
+    lines = [
+        '/-!',
+        f'  Auto-generated by Deppy adherence checker',
+        f'  Spec: {spec}',
+        f'  Z3 verdict: {"ADHERES" if result.adheres else "VIOLATES"}',
+        '-/',
+        '',
+        'import Mathlib.Tactic',
+        '',
+        f'def {fname} {params_str} : Int :=',
+        f'  {body}',
+        '',
+    ]
+
+    if result.adheres is True:
+        tactic = _classify_lean_tactic(params, nonlinear)
+        lines += [
+            f'-- Z3 proved: ∀ inputs, spec holds',
+            f'theorem {fname}_adheres {params_str} :',
+            f'    {lean_spec} := by',
+            f'  unfold {fname}',
+            f'  {tactic.replace("by ", "")}',
+        ]
+    elif result.adheres is False:
+        cex = result.counterexample or {}
+        witness_args = ' '.join(str(cex.get(p, 0)) for p in params)
+        witness_spec = lean_spec
+        for p in params:
+            witness_spec = witness_spec.replace(p, str(cex.get(p, 0)))
+        lines += [
+            f'-- Z3 found violation at {cex}',
+            f'theorem {fname}_violates :',
+            f'    ¬ ({lean_spec.replace(" ".join(params), witness_args)}) := by',
+            f'  unfold {fname}',
+            f'  decide',
+        ]
+    else:
+        return None
+
+    return '\n'.join(lines) + '\n'
+
+
+def equiv_to_lean(f: Callable, g: Callable) -> str | None:
+    """Check equivalence and return a Lean 4 proof script.
+
+    Convenience wrapper that runs check_equiv and returns the
+    generated Lean proof script if Z3 succeeds.
+
+    Example::
+
+        >>> def f(x: int) -> int: return x * 2
+        >>> def g(x: int) -> int: return x + x
+        >>> print(equiv_to_lean(f, g))
+        # Lean 4 proof script...
+    """
+    result = check_equiv(f, g)
+    return result.lean_proof
+
+
+# ═══════════════════════════════════════════════════════════════════
 #  Main API
 # ═══════════════════════════════════════════════════════════════════
 
@@ -632,6 +1049,7 @@ def check_equiv(f: Callable, g: Callable, *, use_z3: bool = True,
     """Check whether two functions are semantically equivalent.
 
     Tries Z3 symbolic proof first, falls back to property-based testing.
+    If both functions have @guarantee specs, includes spec comparison info.
 
     Args:
         f, g: Two Python functions to compare.
@@ -640,7 +1058,8 @@ def check_equiv(f: Callable, g: Callable, *, use_z3: bool = True,
         num_trials: Number of random inputs for testing.
 
     Returns:
-        EquivResult with .equivalent (True/False/None) and .method.
+        EquivResult with .equivalent (True/False/None), .method, and
+        optionally .lean_proof (Lean 4 proof script when Z3 succeeds).
 
     Example::
 
@@ -653,11 +1072,22 @@ def check_equiv(f: Callable, g: Callable, *, use_z3: bool = True,
     if use_z3:
         result = _z3_check_equiv(f, g)
         if result is not None:
+            # Generate Lean proof script for Z3 results
+            result.lean_proof = _generate_lean_equiv(f, g, result)
+            # Enrich with spec comparison if available
+            spec_info = _spec_check_equiv(f, g)
+            if spec_info is not None:
+                result.spec_info = spec_info.details
             return result
 
     # Strategy 2: Property-based testing
     if use_testing:
-        return _testing_check_equiv(f, g, num_trials=num_trials)
+        result = _testing_check_equiv(f, g, num_trials=num_trials)
+        # Enrich with spec comparison if available
+        spec_info = _spec_check_equiv(f, g)
+        if spec_info is not None:
+            result.spec_info = spec_info.details
+        return result
 
     return EquivResult(None, 'inconclusive', details="No verification method available")
 
@@ -684,6 +1114,7 @@ class AdherenceResult:
     counterexample: dict | None = None
     confidence: float = 1.0
     details: str = ""
+    lean_proof: str | None = None        # Lean 4 proof script (when Z3 succeeds)
 
     def __bool__(self) -> bool:
         return self.adheres is True
@@ -905,6 +1336,7 @@ def check_adherence(fn: Callable, spec: str | None = None, *,
         if use_z3:
             r = _z3_check_adherence(fn, s)
             if r is not None:
+                r.lean_proof = _generate_lean_adherence(fn, s, r)
                 results.append(r)
                 continue
 
