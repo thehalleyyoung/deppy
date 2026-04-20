@@ -62,6 +62,10 @@ from synhopy.proofs.tactics import ProofBuilder
 
 F = TypeVar("F", bound=Callable)
 
+# Fallback registry for objects that don't support attribute assignment
+# (e.g. built-in / C-extension types).
+_SPEC_REGISTRY: dict[int, "_SpecMetadata"] = {}
+
 
 # ═══════════════════════════════════════════════════════════════════
 #  §1  Decorator-based Specifications
@@ -80,39 +84,70 @@ class _SpecMetadata:
     library_axioms_used: list[str] = field(default_factory=list)
 
 
-def _get_spec(f: Callable) -> _SpecMetadata:
-    if not hasattr(f, "_synhopy_spec"):
-        f._synhopy_spec = _SpecMetadata()  # type: ignore[attr-defined]
-    return f._synhopy_spec  # type: ignore[attr-defined]
+def _get_spec(f: Any) -> _SpecMetadata:
+    """Return (or create) the _SpecMetadata for *f*.
+
+    Works for functions **and** classes (including dataclasses and
+    built-in types that disallow arbitrary attribute assignment).
+    """
+    if hasattr(f, "_synhopy_spec"):
+        return f._synhopy_spec  # type: ignore[attr-defined]
+
+    # Check the fallback registry (for immutable types)
+    obj_id = id(f)
+    if obj_id in _SPEC_REGISTRY:
+        return _SPEC_REGISTRY[obj_id]
+
+    spec = _SpecMetadata()
+    try:
+        f._synhopy_spec = spec  # type: ignore[attr-defined]
+    except (AttributeError, TypeError):
+        # Immutable / C-extension types — fall back to id-keyed registry
+        _SPEC_REGISTRY[obj_id] = spec
+    return spec
 
 
-def guarantee(description: str) -> Callable[[F], F]:
+def guarantee(description: str, *, adds_guarantee: bool = False) -> Callable:
     """Attach a natural-language postcondition guarantee.
 
-    Usage::
+    Works on both **functions** and **classes** (including dataclasses)::
 
         @guarantee("returns a sorted list with no duplicates")
         def unique_sorted(xs: list[int]) -> list[int]:
             return sorted(set(xs))
+
+        @guarantee("self.x >= 0")
+        @dataclass
+        class Point:
+            x: float
+
+        @guarantee("wrapped preserves original spec", adds_guarantee=True)
+        def wrapper(fn):
+            ...
     """
-    def decorator(f: F) -> F:
+    def decorator(f):
         spec = _get_spec(f)
         spec.guarantees.append(description)
+        if adds_guarantee:
+            try:
+                f._synhopy_adds_guarantee = True  # type: ignore[attr-defined]
+            except (AttributeError, TypeError):
+                pass
         return f
     return decorator
 
 
-def requires(predicate: Callable | str) -> Callable[[F], F]:
+def requires(predicate: Callable | str) -> Callable:
     """Attach a precondition.
 
-    Usage::
+    Works on both **functions** and **classes**::
 
         @requires(lambda xs: len(xs) > 0)
         @requires("xs is non-empty")
         def head(xs: list) -> Any:
             return xs[0]
     """
-    def decorator(f: F) -> F:
+    def decorator(f):
         spec = _get_spec(f)
         if callable(predicate) and not isinstance(predicate, str):
             spec.preconditions.append(predicate)
@@ -122,16 +157,16 @@ def requires(predicate: Callable | str) -> Callable[[F], F]:
     return decorator
 
 
-def ensures(predicate: Callable | str) -> Callable[[F], F]:
+def ensures(predicate: Callable | str) -> Callable:
     """Attach a formal postcondition (a callable predicate on args + result).
 
-    Usage::
+    Works on both **functions** and **classes**::
 
         @ensures(lambda xs, result: len(result) == len(xs))
         def identity(xs: list) -> list:
             return xs[:]
     """
-    def decorator(f: F) -> F:
+    def decorator(f):
         spec = _get_spec(f)
         if callable(predicate) and not isinstance(predicate, str):
             spec.postconditions.append(predicate)
@@ -142,28 +177,25 @@ def ensures(predicate: Callable | str) -> Callable[[F], F]:
 
 
 def pure(f: F) -> F:
-    """Mark a function as pure (no side effects)."""
-    spec = _get_spec(f)
-    spec.effect = "Pure"
+    """Mark a function or class as pure (no side effects)."""
+    _get_spec(f).effect = "Pure"
     return f
 
 
 def reads(f: F) -> F:
-    """Mark a function as read-only (no mutation)."""
-    spec = _get_spec(f)
-    spec.effect = "Reads"
+    """Mark a function or class as read-only (no mutation)."""
+    _get_spec(f).effect = "Reads"
     return f
 
 
 def mutates(f: F) -> F:
-    """Mark a function as mutating."""
-    spec = _get_spec(f)
-    spec.effect = "Mutates"
+    """Mark a function or class as mutating."""
+    _get_spec(f).effect = "Mutates"
     return f
 
 
 def total(f: F) -> F:
-    """Mark a function as total (always terminates, never raises).
+    """Mark a function or class as total (always terminates, never raises).
 
     F*-style: the return type IS the proof obligation.
     """
@@ -174,33 +206,54 @@ def total(f: F) -> F:
 
 
 def partial_fn(f: F) -> F:
-    """Mark a function as partial (may not terminate or may raise)."""
-    spec = _get_spec(f)
-    spec.is_partial = True
+    """Mark a function or class as partial (may not terminate or may raise)."""
+    _get_spec(f).is_partial = True
     return f
 
 
-def invariant(description: str) -> Callable[[F], F]:
-    """Attach a class/loop invariant."""
-    def decorator(f: F) -> F:
+def invariant(description: str) -> Callable:
+    """Attach a class/loop invariant.  Works on functions and classes."""
+    def decorator(f):
         spec = _get_spec(f)
         spec.invariants.append(description)
         return f
     return decorator
 
 
-def decreases(*args: str) -> Callable[[F], F]:
+def decreases(*args) -> Callable:
     """Specify a termination measure (variant) for recursive/looping functions.
 
-    Usage::
+    Accepts strings *or* lambdas (converted to their source representation)::
 
-        @decreases("len(xs)")
-        def quicksort(xs: list[int]) -> list[int]: ...
+        @decreases("len(xs)")          # string form
+        @decreases(lambda xs: len(xs)) # lambda form — equally valid
     """
-    def decorator(f: F) -> F:
+    def decorator(f):
         spec = _get_spec(f)
-        spec.invariants.append(f"decreases({', '.join(args)})")
+        parts = []
+        for a in args:
+            if callable(a) and not isinstance(a, str):
+                # Lambda or function — try to extract source, fallback to repr
+                try:
+                    src = inspect.getsource(a).strip()
+                    parts.append(src)
+                except (OSError, TypeError):
+                    parts.append(repr(a))
+            else:
+                parts.append(str(a))
+        spec.invariants.append(f"decreases({', '.join(parts)})")
         return f
+    # If called with a single callable that looks like the decorated function
+    # itself (e.g. @decreases applied without arguments), handle that edge case
+    if len(args) == 1 and callable(args[0]) and not isinstance(args[0], str):
+        # Could be @decreases used as bare decorator or @decreases(lambda ...)
+        # Check if it's a lambda (has __name__ == '<lambda>') vs a full function
+        if getattr(args[0], '__name__', '') != '<lambda>':
+            # Bare decorator: @decreases applied directly to function
+            f = args[0]
+            spec = _get_spec(f)
+            spec.invariants.append("decreases(auto)")
+            return f
     return decorator
 
 
@@ -877,35 +930,65 @@ def get_global_kernel() -> ProofKernel:
     return _GLOBAL_KERNEL
 
 
-def verify(f: F) -> F:
+def verify(f_or_target=None):
     """Decorator that runs verification at decoration time.
 
-    Usage::
+    Two usage modes:
+
+    1. Bare decorator (verifies decorated function)::
 
         @verify
         @guarantee("result >= 0")
-        @pure
         def abs_val(x: int) -> int:
             return abs(x)
+
+    2. Sidecar target (marks as spec for an external function)::
+
+        @verify("math_utils.factorial")
+        def factorial_spec(n: Nat) -> Pos:
+            ...
 
     The function is usable normally; verification results are stored
     in f._synhopy_verification.
     """
-    spec = _get_spec(f)
-    kernel = get_global_kernel()
+    def _do_verify(f):
+        spec = _get_spec(f)
+        kernel = get_global_kernel()
 
-    results: list[VerificationResult] = []
-    for g in spec.guarantees:
-        result = (
-            Proof(g)
-            .using(kernel)
-            .by_structural(f"auto-verify: {g}")
-            .qed()
-        )
-        results.append(result)
+        results: list[VerificationResult] = []
+        for g in spec.guarantees:
+            result = (
+                Proof(g)
+                .using(kernel)
+                .by_structural(f"auto-verify: {g}")
+                .qed()
+            )
+            results.append(result)
 
-    f._synhopy_verification = results  # type: ignore[attr-defined]
-    return f
+        try:
+            f._synhopy_verification = results  # type: ignore[attr-defined]
+        except (AttributeError, TypeError):
+            pass
+        return f
+
+    # @verify("module.func") — called with a string target
+    if isinstance(f_or_target, str):
+        target = f_or_target
+        def decorator(f):
+            try:
+                f._synhopy_verify_target = target
+            except (AttributeError, TypeError):
+                pass
+            return _do_verify(f)
+            return _do_verify(f)
+        return decorator
+
+    # @verify — bare decorator (f_or_target is the function itself)
+    if callable(f_or_target):
+        return _do_verify(f_or_target)
+
+    # @verify() — called with no args
+    return _do_verify
 
 
 # ═══════════════════════════════════════════════════════════════════
