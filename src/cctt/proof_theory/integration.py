@@ -197,12 +197,14 @@ def _load_python_proof(path: str) -> Optional[ProofDocument]:
 def enhanced_check_equivalence(source_f: str, source_g: str,
                                timeout_ms: int = 5000,
                                proof: Optional[ProofTerm] = None,
-                               proof_file: Optional[str] = None) -> Any:
+                               proof_file: Optional[str] = None,
+                               equiv_proof_text: Optional[str] = None) -> Any:
     """Drop-in replacement for ``check_equivalence()`` that tries
     explicit proofs before falling back to heuristics.
 
     Strategy ordering:
     0.  Explicit proof verification (if proof/proof_file given)
+    0.25 Equiv proof script (LLM-written proof bridging different algorithms)
     0.5 Proof file discovery (look for *.proof.json / *.proof.py)
     1+  Original CCTT pipeline (denotational, Z3, Čech, bounded test)
 
@@ -216,6 +218,8 @@ def enhanced_check_equivalence(source_f: str, source_g: str,
         Explicit proof term.
     proof_file : str, optional
         Path to a proof file.
+    equiv_proof_text : str, optional
+        LLM-written equiv proof script (Lean-like surface syntax).
 
     Returns
     -------
@@ -232,6 +236,23 @@ def enhanced_check_equivalence(source_f: str, source_g: str,
                 explanation=f'proof verified: {vr.reason}',
                 h0=1, h1=0, confidence=1.0,
             )
+
+    # ── Strategy 0.25: Equiv proof script ──
+    if equiv_proof_text is not None:
+        try:
+            from cctt.proof_theory.equiv_proof_language import try_equiv_proof
+            verdict = try_equiv_proof(source_f, source_g, equiv_proof_text)
+            if verdict is not None and verdict.equivalent:
+                return Result(
+                    equivalent=True,
+                    explanation=(
+                        f'equiv proof verified: {verdict.trust_level}'
+                        f' ({verdict.detail})'
+                    ),
+                    h0=1, h1=0, confidence=1.0,
+                )
+        except Exception:
+            pass  # Fall through to other strategies
 
     # ── Strategy 0.5: Proof file ──
     if proof_file is not None:

@@ -161,6 +161,19 @@ from cctt.proof_theory.library_prover import (
     emit_annotated_library,
 )
 
+from cctt.proof_theory.equiv_proof_language import (
+    EquivScript, EquivStep, EquivTactic, EquivTacticKind,
+    EffectClaim, EffectVerdict, EquivVerdict,
+    parse_equiv_script, compile_equiv_proof,
+    verify_effect_claim, verify_equiv_proof,
+    try_equiv_proof, render_equiv_obligation,
+)
+
+from cctt.proof_theory.integration import (
+    check_with_proof, enhanced_check_equivalence,
+    register_proof, lookup_proof,
+)
+
 __all__ = [
     # Terms
     'ProofTerm',
@@ -229,4 +242,13 @@ __all__ = [
     'introspect_library', 'build_nerve', 'generate_presheaf',
     'compile_presheaf', 'compute_cohomology',
     'emit_annotated_library',
+    # Equivalence proof language
+    'EquivScript', 'EquivStep', 'EquivTactic', 'EquivTacticKind',
+    'EffectClaim', 'EffectVerdict', 'EquivVerdict',
+    'parse_equiv_script', 'compile_equiv_proof',
+    'verify_effect_claim', 'verify_equiv_proof',
+    'try_equiv_proof', 'render_equiv_obligation',
+    # Integration
+    'check_with_proof', 'enhanced_check_equivalence',
+    'register_proof', 'lookup_proof',
 ]
