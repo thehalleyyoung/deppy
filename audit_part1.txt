@@ -1,0 +1,1227 @@
+================================================================================
+SynHoPy Part 1 Code Block Audit Report
+================================================================================
+
+
+============================================================
+File: getting_started.html
+============================================================
+  Total code blocks found: 19
+  Block 1: NON_PYTHON (skipped)
+  Block 2: NON_PYTHON (skipped)
+  Block 3: PASS
+  Block 4: NON_PYTHON (skipped)
+  Block 5: NON_PYTHON (skipped)
+  Block 6: PASS
+  Block 7: PASS
+  Block 8: NON_PYTHON (skipped)
+  Block 9: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 1)
+    Code: @requires(lambda xs: len(xs) > 0)  # formal
+  Block 10: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 2)
+    Code: @guarantee("returns the sorted, deduplicated version of xs")
+@ensures(lambda xs, r: len(r)  len(xs))
+@ensures(lambda xs, r: all(r[i]  r[i+1] for i in range(len(r)-1)))
+  ... (5 lines total)
+  Block 11: PASS
+  Block 12: NON_PYTHON (skipped)
+  Block 13: PASS
+  Block 14: COMPILE_FAIL
+    Error: SyntaxError: invalid character '✅' (U+2705) (<test>, line 3)
+    Code: max_of(a: int, b: int) -> int
+  Proof obligations:
+    1. result >= a            ✅  Z3_PROVEN
+  ... (16 lines total)
+  Block 15: PASS
+  Block 16: NON_PYTHON (skipped)
+  Block 17: NON_PYTHON (skipped)
+  Block 18: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 10) (<test>, line 10)
+    Code: from __future__ import annotations
+from synhopy import guarantee, assume
+
+  ... (28 lines total)
+  Block 19: COMPILE_FAIL
+    Error: SyntaxError: invalid character '─' (U+2500) (<test>, line 1)
+    Code: ──────────────────────────────────────────────────
+ SynHoPy v0.4.0 — verifying utils.py
+──────────────────────────────────────────────────
+  ... (26 lines total)
+
+  Summary for getting_started.html:
+    Total blocks: 19
+    Python blocks: 11
+    Non-Python: 8
+    PASS: 6
+    SNIPPET: 0
+    COMPILE_FAIL: 5
+    EXEC_FAIL: 0
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: refinement_types.html
+============================================================
+  Total code blocks found: 19
+  Block 1: PASS
+  Block 2: PASS
+  Block 3: PASS
+  Block 4: PASS
+  Block 5: PASS
+  Block 6: EXEC_FAIL
+    Error: NameError: name 'ensures' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'ensures' is not defined
+    Code: @ensures(lambda x, result: result >= 0)
+def absolute(x: int) -> int: ...
+  Block 7: PASS
+  Block 8: EXEC_FAIL
+    Error: ZeroDivisionError: division by zero
+  File "<test>", line 5, in <module>
+  File "<test>", line 5, in reciprocal
+ZeroDivisionError: division by zero
+    Code: # ✓ SynHoPy accepts — 42 > 0 is trivially true
+x = reciprocal(42)
+
+  ... (11 lines total)
+  Block 9: PASS
+  Block 10: PASS
+  Block 11: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 1)
+    Code: int  (λx. True)
+             /   \
+          Nat     Neg
+  ... (7 lines total)
+  Block 12: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 2)
+    Code: # A percentage: integer between 0 and 100 inclusive
+Percentage = refined(int, lambda x: x >= 0 and x  100)
+
+  ... (8 lines total)
+  Block 13: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 4)
+    Code: # Sorted list: every adjacent pair is in non-decreasing order
+SortedList = refined(
+    list[int],
+  ... (11 lines total)
+  Block 14: PASS
+  Block 15: PASS
+  Block 16: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 1) (<test>, line 1)
+    Code: @assume("lo )
+@guarantee("lo )
+def clamp(x: int, lo: int, hi: int) -> int:
+  ... (8 lines total)
+  Block 17: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 4)
+    Code: @guarantee("len(result) == len(xs) + 1")
+def sorted_insert(xs: SortedList, v: int) -> SortedList:
+    for i in range(len(xs)):
+  ... (6 lines total)
+  Block 18: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 2)
+    Code: # Hard to read
+def f(x: refined(int, lambda x: x >= 0 and x  100)) -> int: ...
+
+  ... (7 lines total)
+  Block 19: PASS
+
+  Summary for refinement_types.html:
+    Total blocks: 19
+    Python blocks: 19
+    Non-Python: 0
+    PASS: 11
+    SNIPPET: 0
+    COMPILE_FAIL: 6
+    EXEC_FAIL: 2
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: equality.html
+============================================================
+  Total code blocks found: 15
+  Block 1: PASS
+  Block 2: PASS
+  Block 3: NON_PYTHON (skipped)
+  Block 4: PASS
+  Block 5: NON_PYTHON (skipped)
+  Block 6: PASS
+  Block 7: PASS
+  Block 8: PASS
+  Block 9: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 17)
+    Code: def insertion_sort(lst: list[int]) -> list[int]:
+    result = list(lst)
+    for i in range(1, len(result)):
+  ... (25 lines total)
+  Block 10: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 12)
+    Code: from typing import Protocol, Iterator
+
+class Iterable(Protocol):
+  ... (19 lines total)
+  Block 11: SNIPPET_COMPILES
+  Block 12: PASS
+  Block 13: PASS
+  Block 14: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 13)
+    Code: from typing import Protocol
+
+class Comparable(Protocol):
+  ... (26 lines total)
+  Block 15: NON_PYTHON (skipped)
+
+  Summary for equality.html:
+    Total blocks: 15
+    Python blocks: 12
+    Non-Python: 3
+    PASS: 8
+    SNIPPET: 1
+    COMPILE_FAIL: 3
+    EXEC_FAIL: 0
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: z3_integration.html
+============================================================
+  Total code blocks found: 16
+  Block 1: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 2)
+    Code: def clamp(x: int, lo: int, hi: int) -> int:
+    if x  lo:
+        return lo
+  ... (7 lines total)
+  Block 2: NON_PYTHON (skipped)
+  Block 3: NON_PYTHON (skipped)
+  Block 4: PASS
+  Block 5: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 1)
+    Code: ;; abs_value: guarantee result >= 0
+(declare-const x Int)
+(define-fun result () Int
+  ... (7 lines total)
+  Block 6: PASS
+  Block 7: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 3)
+    Code: # Z3 times out on this — needs an inductive lemma
+def triangle(n: int) -> int:
+    if n  0:
+  ... (8 lines total)
+  Block 8: EXEC_FAIL
+    Error: NameError: name 'z3' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'z3' is not defined
+    Code: # synhopy.toml — project-wide Z3 settings
+[z3]
+timeout = 10000       # milliseconds (10 seconds)
+  ... (5 lines total)
+  Block 9: EXEC_FAIL
+    Error: TypeError: 'dict' object is not callable
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 5, in <module>
+TypeError: 'dict' object is not callable
+    Code: # my_module_proof.py — sidecar proof for my_module.py
+from synhopy.sidecar import proof_for, z3_config
+
+  ... (17 lines total)
+  Block 10: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 4)
+    Code: # Original Python — no modification
+def all_positive(lst: list[int]) -> bool:
+    for x in lst:
+  ... (6 lines total)
+  Block 11: EXEC_FAIL
+    Error: TypeError: z3_hint() got an unexpected keyword argument 'pattern'
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 5, in <module>
+TypeError: z3_hint() got an unexpected keyword argument 'pattern'
+    Code: # all_positive_proof.py — sidecar
+from synhopy.sidecar import proof_for, z3_hint
+
+  ... (14 lines total)
+  Block 12: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 7)
+    Code: # binary_search.py — ordinary Python, no annotations
+def binary_search(arr: list[int], target: int) -> int:
+    """Return index of target in sorted arr, or -1 if absent."""
+  ... (17 lines total)
+  Block 13: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 5) (<test>, line 5)
+    Code: # binary_search_proof.py — sidecar
+from synhopy.sidecar import proof_for, guarantee, loop_invariant
+
+  ... (15 lines total)
+  Block 14: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 2)
+    Code: # Show the exact Z3 query SynHoPy generates
+$ synhopy verify --show-z3 my_module.py
+
+  ... (15 lines total)
+  Block 15: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 2)
+    Code: # Ask Z3 for a concrete counterexample
+$ synhopy verify --counterexample buggy_module.py
+
+  ... (9 lines total)
+  Block 16: PASS
+
+  Summary for z3_integration.html:
+    Total blocks: 16
+    Python blocks: 14
+    Non-Python: 2
+    PASS: 3
+    SNIPPET: 0
+    COMPILE_FAIL: 8
+    EXEC_FAIL: 3
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: data_structures.html
+============================================================
+  Total code blocks found: 19
+  Block 1: PASS
+  Block 2: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 2) (<test>, line 2)
+    Code: # point_spec.synhopy
+@guarantee("self.x ** 2 + self.y ** 2 )
+class Point: ...
+  Block 3: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 7) (<test>, line 7)
+    Code: @dataclass
+class Range:
+    lo: int
+  ... (8 lines total)
+  Block 4: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 7)
+    Code: class BoundedList:
+    def __init__(self, capacity: int) -> None:
+        self.capacity = capacity
+  ... (11 lines total)
+  Block 5: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 2) (<test>, line 2)
+    Code: # bounded_list_spec.synhopy
+@invariant("len(self.items) )
+class BoundedList: ...
+  Block 6: EXEC_FAIL
+    Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+    Code: # stack_spec.synhopy
+@invariant("len(self._items) >= 0")
+class Stack:
+  ... (12 lines total)
+  Block 7: PASS
+  Block 8: EXEC_FAIL
+    Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+    Code: # stack_spec.synhopy — sidecar proof for Stack
+@invariant("len(self._items) >= 0")
+class Stack:
+  ... (19 lines total)
+  Block 9: NON_PYTHON (skipped)
+  Block 10: PASS
+  Block 11: EXEC_FAIL
+    Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+    Code: # queue_spec.synhopy
+@invariant("not self._front implies not self._back")
+class Queue:
+  ... (8 lines total)
+  Block 12: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 4)
+    Code: class SortedList(list[int]):
+    def add(self, value: int) -> None:
+        for i, item in enumerate(self):
+  ... (7 lines total)
+  Block 13: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 2) (<test>, line 2)
+    Code: # sorted_list_spec.synhopy
+@invariant("all(self[i] )
+class SortedList:
+  ... (5 lines total)
+  Block 14: EXEC_FAIL
+    Error: NameError: name 'SortedList' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'SortedList' is not defined
+    Code: class BrokenSortedList(SortedList):
+    def append(self, value: int) -> None:
+        # Appends without checking order — breaks invariant!
+  ... (4 lines total)
+  Block 15: NON_PYTHON (skipped)
+  Block 16: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 14)
+    Code: from __future__ import annotations
+from typing import Optional
+
+  ... (52 lines total)
+  Block 17: EXEC_FAIL
+    Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+    Code: # bst_spec.synhopy — sidecar proof for BST
+@invariant("self._is_bst(self.root, float('-inf'), float('inf'))")
+class BST:
+  ... (12 lines total)
+  Block 18: COMPILE_FAIL
+    Error: SyntaxError: invalid character '✓' (U+2713) (<test>, line 1)
+    Code: ✓ BST.__init__       — invariant established (trivial: root is None)
+  ✓ BST.insert         — invariant preserved, guarantee proved
+                         (structural induction on tree depth, Z3, 0.23s)
+  ... (8 lines total)
+  Block 19: NON_PYTHON (skipped)
+
+  Summary for data_structures.html:
+    Total blocks: 19
+    Python blocks: 16
+    Non-Python: 3
+    PASS: 3
+    SNIPPET: 0
+    COMPILE_FAIL: 8
+    EXEC_FAIL: 5
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: termination.html
+============================================================
+  Total code blocks found: 20
+  Block 1: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 3)
+    Code: def factorial(n: int) -> int:
+    # n decreases by 1 on every recursive call
+    if n  0:
+  ... (5 lines total)
+  Block 2: PASS
+  Block 3: NON_PYTHON (skipped)
+  Block 4: PASS
+  Block 5: NON_PYTHON (skipped)
+  Block 6: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 17)
+    Code: from synhopy import decreases
+
+@decreases(lambda xs, target, lo, hi: hi - lo)
+  ... (20 lines total)
+  Block 7: NON_PYTHON (skipped)
+  Block 8: PASS
+  Block 9: NON_PYTHON (skipped)
+  Block 10: PASS
+  Block 11: NON_PYTHON (skipped)
+  Block 12: COMPILE_FAIL
+    Error: SyntaxError: unterminated string literal (detected at line 3) (<test>, line 3)
+    Code: from synhopy import loop_variant, guarantee
+
+@guarantee("returns (quotient, remainder) such that a == b * q + r and 0 )
+  ... (14 lines total)
+  Block 13: COMPILE_FAIL
+    Error: SyntaxError: invalid character '✓' (U+2713) (<test>, line 2)
+    Code: $ synhopy verify examples/divmod_sub.py
+  ✓ divmod_sub: while loop variant r
+    — r decreases: r − b  0    ✓
+  ... (6 lines total)
+  Block 14: PASS
+  Block 15: NON_PYTHON (skipped)
+  Block 16: PASS
+  Block 17: PASS
+  Block 18: NON_PYTHON (skipped)
+  Block 19: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 9)
+    Code: from synhopy import decreases, guarantee
+
+@decreases(lambda xs, ys: len(xs) + len(ys))
+  ... (22 lines total)
+  Block 20: NON_PYTHON (skipped)
+
+  Summary for termination.html:
+    Total blocks: 20
+    Python blocks: 12
+    Non-Python: 8
+    PASS: 7
+    SNIPPET: 0
+    COMPILE_FAIL: 5
+    EXEC_FAIL: 0
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: lemmas.html
+============================================================
+  Total code blocks found: 14
+  Block 1: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+    Code: @lemma
+def add_zero_right(x: int) -> Proof[x + 0 == x]:
+    # x + 0 is definitionally equal to x
+  ... (4 lines total)
+  Block 2: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+    Code: @lemma
+def add_comm_zero(x: int) -> Proof[0 + x == x + 0]:
+    # Both sides equal x, so transitivity through Refl
+  ... (6 lines total)
+  Block 3: PASS
+  Block 4: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+    Code: @lemma
+@induction("n")
+def triangle_formula(n: int) -> Proof[triangle(n) == n * (n + 1) // 2]:
+  ... (17 lines total)
+  Block 5: PASS
+  Block 6: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'lemma' is not defined
+    Code: # Helper lemma: reverse distributes over append
+@lemma
+@induction("xs", over="list")
+  ... (39 lines total)
+  Block 7: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+    Code: @lemma
+@induction("xs", over="list")
+def append_length(xs: list, ys: list) -> Proof[
+  ... (16 lines total)
+  Block 8: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 6, in <module>
+NameError: name 'lemma' is not defined
+    Code: def mirror(t):
+    if t is None:      # Leaf
+        return None
+  ... (23 lines total)
+  Block 9: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+    Code: @lemma
+@proof_by_contradiction
+def no_largest_int(n: int) -> Proof[Exists(int, lambda m: m > n)]:
+  ... (8 lines total)
+  Block 10: NON_PYTHON (skipped)
+  Block 11: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 8, in <module>
+NameError: name 'lemma' is not defined
+    Code: def sum_odds(n: int) -> int:
+    """Sum of first n odd numbers: 1 + 3 + 5 + ... + (2n-1)."""
+    total = 0
+  ... (26 lines total)
+  Block 12: EXEC_FAIL
+    Error: NameError: name 'guarantee' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'guarantee' is not defined
+    Code: @guarantee("result has same total length as inputs combined")
+@uses(append_length)
+def interleave(xs: list, ys: list) -> list:
+  ... (9 lines total)
+  Block 13: NON_PYTHON (skipped)
+  Block 14: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+    Code: @lemma
+@induction("xs", over="list")
+def map_append(f, xs: list, ys: list) -> Proof[
+  ... (17 lines total)
+
+  Summary for lemmas.html:
+    Total blocks: 14
+    Python blocks: 12
+    Non-Python: 2
+    PASS: 2
+    SNIPPET: 0
+    COMPILE_FAIL: 0
+    EXEC_FAIL: 10
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: quicksort.html
+============================================================
+  Total code blocks found: 12
+  Block 1: SNIPPET_COMPILES
+  Block 2: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 2)
+    Code: def quicksort(xs: list[int]) -> list[int]:
+    if len(xs)  1:
+        return xs
+  ... (7 lines total)
+  Block 3: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 4)
+    Code: from collections import Counter
+
+def is_sorted(xs: list[int]) -> bool:
+  ... (13 lines total)
+  Block 4: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 4)
+    Code: @guarantee("all_leq(lo, pivot) and all_gt(hi, pivot)")
+@guarantee("is_permutation(lo + hi, xs)")
+def partition(xs: list[int], pivot: int) -> tuple[list[int], list[int]]:
+  ... (6 lines total)
+  Block 5: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 12)
+    Code: @lemma
+def partition_preserves_multiset(
+    xs: list[int], pivot: int
+  ... (15 lines total)
+  Block 6: NON_PYTHON (skipped)
+  Block 7: EXEC_FAIL
+    Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+    Code: @lemma
+def concat_sorted(
+    left: list[int],
+  ... (14 lines total)
+  Block 8: SNIPPET
+  Block 9: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 5)
+    Code: @guarantee("is_sorted(result) and is_permutation(result, xs)")
+@decreases(lambda xs: len(xs))
+@uses(partition_preserves_multiset, concat_sorted)
+  ... (10 lines total)
+  Block 10: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 10)
+    Code: from collections import Counter
+from synhopy import (
+    guarantee, decreases, lemma, uses,
+  ... (69 lines total)
+  Block 11: NON_PYTHON (skipped)
+  Block 12: COMPILE_FAIL
+    Error: SyntaxError: invalid syntax (<test>, line 9)
+    Code: @lemma
+def merge_preserves_sorted(
+    left: list[int], right: list[int]
+  ... (23 lines total)
+
+  Summary for quicksort.html:
+    Total blocks: 12
+    Python blocks: 10
+    Non-Python: 2
+    PASS: 0
+    SNIPPET: 2
+    COMPILE_FAIL: 7
+    EXEC_FAIL: 1
+    EXEC_FAIL (Import): 0
+
+============================================================
+File: index.html
+============================================================
+  Total code blocks found: 6
+  Block 1: PASS
+  Block 2: PASS
+  Block 3: PASS
+  Block 4: NON_PYTHON (skipped)
+  Block 5: NON_PYTHON (skipped)
+  Block 6: PASS
+
+  Summary for index.html:
+    Total blocks: 6
+    Python blocks: 4
+    Non-Python: 2
+    PASS: 4
+    SNIPPET: 0
+    COMPILE_FAIL: 0
+    EXEC_FAIL: 0
+    EXEC_FAIL (Import): 0
+
+
+================================================================================
+GRAND SUMMARY
+================================================================================
+  Total code blocks: 140
+  Non-Python (skipped): 30
+  PASS: 44
+  SNIPPET: 3
+  COMPILE_FAIL: 42
+  EXEC_FAIL: 21
+  EXEC_FAIL (Import): 0
+
+
+================================================================================
+ALL FAILURES (detailed)
+================================================================================
+
+--- getting_started.html Block 9 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 1)
+Code preview:
+@requires(lambda xs: len(xs) > 0)  # formal
+
+--- getting_started.html Block 10 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 2)
+Code preview:
+@guarantee("returns the sorted, deduplicated version of xs")
+@ensures(lambda xs, r: len(r)  len(xs))
+@ensures(lambda xs, r: all(r[i]  r[i+1] for i in range(len(r)-1)))
+  ... (5 lines total)
+
+--- getting_started.html Block 14 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid character '✅' (U+2705) (<test>, line 3)
+Code preview:
+max_of(a: int, b: int) -> int
+  Proof obligations:
+    1. result >= a            ✅  Z3_PROVEN
+  ... (16 lines total)
+
+--- getting_started.html Block 18 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 10) (<test>, line 10)
+Code preview:
+from __future__ import annotations
+from synhopy import guarantee, assume
+
+  ... (28 lines total)
+
+--- getting_started.html Block 19 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid character '─' (U+2500) (<test>, line 1)
+Code preview:
+──────────────────────────────────────────────────
+ SynHoPy v0.4.0 — verifying utils.py
+──────────────────────────────────────────────────
+  ... (26 lines total)
+
+--- refinement_types.html Block 6 [EXEC_FAIL] ---
+Error: NameError: name 'ensures' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'ensures' is not defined
+Code preview:
+@ensures(lambda x, result: result >= 0)
+def absolute(x: int) -> int: ...
+
+--- refinement_types.html Block 8 [EXEC_FAIL] ---
+Error: ZeroDivisionError: division by zero
+  File "<test>", line 5, in <module>
+  File "<test>", line 5, in reciprocal
+ZeroDivisionError: division by zero
+Code preview:
+# ✓ SynHoPy accepts — 42 > 0 is trivially true
+x = reciprocal(42)
+
+  ... (11 lines total)
+
+--- refinement_types.html Block 11 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 1)
+Code preview:
+int  (λx. True)
+             /   \
+          Nat     Neg
+  ... (7 lines total)
+
+--- refinement_types.html Block 12 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 2)
+Code preview:
+# A percentage: integer between 0 and 100 inclusive
+Percentage = refined(int, lambda x: x >= 0 and x  100)
+
+  ... (8 lines total)
+
+--- refinement_types.html Block 13 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 4)
+Code preview:
+# Sorted list: every adjacent pair is in non-decreasing order
+SortedList = refined(
+    list[int],
+  ... (11 lines total)
+
+--- refinement_types.html Block 16 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 1) (<test>, line 1)
+Code preview:
+@assume("lo )
+@guarantee("lo )
+def clamp(x: int, lo: int, hi: int) -> int:
+  ... (8 lines total)
+
+--- refinement_types.html Block 17 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 4)
+Code preview:
+@guarantee("len(result) == len(xs) + 1")
+def sorted_insert(xs: SortedList, v: int) -> SortedList:
+    for i in range(len(xs)):
+  ... (6 lines total)
+
+--- refinement_types.html Block 18 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 2)
+Code preview:
+# Hard to read
+def f(x: refined(int, lambda x: x >= 0 and x  100)) -> int: ...
+
+  ... (7 lines total)
+
+--- equality.html Block 9 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 17)
+Code preview:
+def insertion_sort(lst: list[int]) -> list[int]:
+    result = list(lst)
+    for i in range(1, len(result)):
+  ... (25 lines total)
+
+--- equality.html Block 10 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 12)
+Code preview:
+from typing import Protocol, Iterator
+
+class Iterable(Protocol):
+  ... (19 lines total)
+
+--- equality.html Block 14 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 13)
+Code preview:
+from typing import Protocol
+
+class Comparable(Protocol):
+  ... (26 lines total)
+
+--- z3_integration.html Block 1 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 2)
+Code preview:
+def clamp(x: int, lo: int, hi: int) -> int:
+    if x  lo:
+        return lo
+  ... (7 lines total)
+
+--- z3_integration.html Block 5 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 1)
+Code preview:
+;; abs_value: guarantee result >= 0
+(declare-const x Int)
+(define-fun result () Int
+  ... (7 lines total)
+
+--- z3_integration.html Block 7 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 3)
+Code preview:
+# Z3 times out on this — needs an inductive lemma
+def triangle(n: int) -> int:
+    if n  0:
+  ... (8 lines total)
+
+--- z3_integration.html Block 8 [EXEC_FAIL] ---
+Error: NameError: name 'z3' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'z3' is not defined
+Code preview:
+# synhopy.toml — project-wide Z3 settings
+[z3]
+timeout = 10000       # milliseconds (10 seconds)
+  ... (5 lines total)
+
+--- z3_integration.html Block 9 [EXEC_FAIL] ---
+Error: TypeError: 'dict' object is not callable
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 5, in <module>
+TypeError: 'dict' object is not callable
+Code preview:
+# my_module_proof.py — sidecar proof for my_module.py
+from synhopy.sidecar import proof_for, z3_config
+
+  ... (17 lines total)
+
+--- z3_integration.html Block 10 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 4)
+Code preview:
+# Original Python — no modification
+def all_positive(lst: list[int]) -> bool:
+    for x in lst:
+  ... (6 lines total)
+
+--- z3_integration.html Block 11 [EXEC_FAIL] ---
+Error: TypeError: z3_hint() got an unexpected keyword argument 'pattern'
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 5, in <module>
+TypeError: z3_hint() got an unexpected keyword argument 'pattern'
+Code preview:
+# all_positive_proof.py — sidecar
+from synhopy.sidecar import proof_for, z3_hint
+
+  ... (14 lines total)
+
+--- z3_integration.html Block 12 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 7)
+Code preview:
+# binary_search.py — ordinary Python, no annotations
+def binary_search(arr: list[int], target: int) -> int:
+    """Return index of target in sorted arr, or -1 if absent."""
+  ... (17 lines total)
+
+--- z3_integration.html Block 13 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 5) (<test>, line 5)
+Code preview:
+# binary_search_proof.py — sidecar
+from synhopy.sidecar import proof_for, guarantee, loop_invariant
+
+  ... (15 lines total)
+
+--- z3_integration.html Block 14 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 2)
+Code preview:
+# Show the exact Z3 query SynHoPy generates
+$ synhopy verify --show-z3 my_module.py
+
+  ... (15 lines total)
+
+--- z3_integration.html Block 15 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 2)
+Code preview:
+# Ask Z3 for a concrete counterexample
+$ synhopy verify --counterexample buggy_module.py
+
+  ... (9 lines total)
+
+--- data_structures.html Block 2 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 2) (<test>, line 2)
+Code preview:
+# point_spec.synhopy
+@guarantee("self.x ** 2 + self.y ** 2 )
+class Point: ...
+
+--- data_structures.html Block 3 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 7) (<test>, line 7)
+Code preview:
+@dataclass
+class Range:
+    lo: int
+  ... (8 lines total)
+
+--- data_structures.html Block 4 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 7)
+Code preview:
+class BoundedList:
+    def __init__(self, capacity: int) -> None:
+        self.capacity = capacity
+  ... (11 lines total)
+
+--- data_structures.html Block 5 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 2) (<test>, line 2)
+Code preview:
+# bounded_list_spec.synhopy
+@invariant("len(self.items) )
+class BoundedList: ...
+
+--- data_structures.html Block 6 [EXEC_FAIL] ---
+Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+Code preview:
+# stack_spec.synhopy
+@invariant("len(self._items) >= 0")
+class Stack:
+  ... (12 lines total)
+
+--- data_structures.html Block 8 [EXEC_FAIL] ---
+Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+Code preview:
+# stack_spec.synhopy — sidecar proof for Stack
+@invariant("len(self._items) >= 0")
+class Stack:
+  ... (19 lines total)
+
+--- data_structures.html Block 11 [EXEC_FAIL] ---
+Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+Code preview:
+# queue_spec.synhopy
+@invariant("not self._front implies not self._back")
+class Queue:
+  ... (8 lines total)
+
+--- data_structures.html Block 12 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 4)
+Code preview:
+class SortedList(list[int]):
+    def add(self, value: int) -> None:
+        for i, item in enumerate(self):
+  ... (7 lines total)
+
+--- data_structures.html Block 13 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 2) (<test>, line 2)
+Code preview:
+# sorted_list_spec.synhopy
+@invariant("all(self[i] )
+class SortedList:
+  ... (5 lines total)
+
+--- data_structures.html Block 14 [EXEC_FAIL] ---
+Error: NameError: name 'SortedList' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'SortedList' is not defined
+Code preview:
+class BrokenSortedList(SortedList):
+    def append(self, value: int) -> None:
+        # Appends without checking order — breaks invariant!
+  ... (4 lines total)
+
+--- data_structures.html Block 16 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 14)
+Code preview:
+from __future__ import annotations
+from typing import Optional
+
+  ... (52 lines total)
+
+--- data_structures.html Block 17 [EXEC_FAIL] ---
+Error: NameError: name 'invariant' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'invariant' is not defined
+Code preview:
+# bst_spec.synhopy — sidecar proof for BST
+@invariant("self._is_bst(self.root, float('-inf'), float('inf'))")
+class BST:
+  ... (12 lines total)
+
+--- data_structures.html Block 18 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid character '✓' (U+2713) (<test>, line 1)
+Code preview:
+✓ BST.__init__       — invariant established (trivial: root is None)
+  ✓ BST.insert         — invariant preserved, guarantee proved
+                         (structural induction on tree depth, Z3, 0.23s)
+  ... (8 lines total)
+
+--- termination.html Block 1 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 3)
+Code preview:
+def factorial(n: int) -> int:
+    # n decreases by 1 on every recursive call
+    if n  0:
+  ... (5 lines total)
+
+--- termination.html Block 6 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 17)
+Code preview:
+from synhopy import decreases
+
+@decreases(lambda xs, target, lo, hi: hi - lo)
+  ... (20 lines total)
+
+--- termination.html Block 12 [COMPILE_FAIL] ---
+Error: SyntaxError: unterminated string literal (detected at line 3) (<test>, line 3)
+Code preview:
+from synhopy import loop_variant, guarantee
+
+@guarantee("returns (quotient, remainder) such that a == b * q + r and 0 )
+  ... (14 lines total)
+
+--- termination.html Block 13 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid character '✓' (U+2713) (<test>, line 2)
+Code preview:
+$ synhopy verify examples/divmod_sub.py
+  ✓ divmod_sub: while loop variant r
+    — r decreases: r − b  0    ✓
+  ... (6 lines total)
+
+--- termination.html Block 19 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 9)
+Code preview:
+from synhopy import decreases, guarantee
+
+@decreases(lambda xs, ys: len(xs) + len(ys))
+  ... (22 lines total)
+
+--- lemmas.html Block 1 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+@lemma
+def add_zero_right(x: int) -> Proof[x + 0 == x]:
+    # x + 0 is definitionally equal to x
+  ... (4 lines total)
+
+--- lemmas.html Block 2 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+@lemma
+def add_comm_zero(x: int) -> Proof[0 + x == x + 0]:
+    # Both sides equal x, so transitivity through Refl
+  ... (6 lines total)
+
+--- lemmas.html Block 4 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+@lemma
+@induction("n")
+def triangle_formula(n: int) -> Proof[triangle(n) == n * (n + 1) // 2]:
+  ... (17 lines total)
+
+--- lemmas.html Block 6 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 2, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+# Helper lemma: reverse distributes over append
+@lemma
+@induction("xs", over="list")
+  ... (39 lines total)
+
+--- lemmas.html Block 7 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+@lemma
+@induction("xs", over="list")
+def append_length(xs: list, ys: list) -> Proof[
+  ... (16 lines total)
+
+--- lemmas.html Block 8 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 6, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+def mirror(t):
+    if t is None:      # Leaf
+        return None
+  ... (23 lines total)
+
+--- lemmas.html Block 9 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+@lemma
+@proof_by_contradiction
+def no_largest_int(n: int) -> Proof[Exists(int, lambda m: m > n)]:
+  ... (8 lines total)
+
+--- lemmas.html Block 11 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 8, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+def sum_odds(n: int) -> int:
+    """Sum of first n odd numbers: 1 + 3 + 5 + ... + (2n-1)."""
+    total = 0
+  ... (26 lines total)
+
+--- lemmas.html Block 12 [EXEC_FAIL] ---
+Error: NameError: name 'guarantee' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'guarantee' is not defined
+Code preview:
+@guarantee("result has same total length as inputs combined")
+@uses(append_length)
+def interleave(xs: list, ys: list) -> list:
+  ... (9 lines total)
+
+--- lemmas.html Block 14 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+@lemma
+@induction("xs", over="list")
+def map_append(f, xs: list, ys: list) -> Proof[
+  ... (17 lines total)
+
+--- quicksort.html Block 2 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 2)
+Code preview:
+def quicksort(xs: list[int]) -> list[int]:
+    if len(xs)  1:
+        return xs
+  ... (7 lines total)
+
+--- quicksort.html Block 3 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 4)
+Code preview:
+from collections import Counter
+
+def is_sorted(xs: list[int]) -> bool:
+  ... (13 lines total)
+
+--- quicksort.html Block 4 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 4)
+Code preview:
+@guarantee("all_leq(lo, pivot) and all_gt(hi, pivot)")
+@guarantee("is_permutation(lo + hi, xs)")
+def partition(xs: list[int], pivot: int) -> tuple[list[int], list[int]]:
+  ... (6 lines total)
+
+--- quicksort.html Block 5 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 12)
+Code preview:
+@lemma
+def partition_preserves_multiset(
+    xs: list[int], pivot: int
+  ... (15 lines total)
+
+--- quicksort.html Block 7 [EXEC_FAIL] ---
+Error: NameError: name 'lemma' is not defined
+    ~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<test>", line 1, in <module>
+NameError: name 'lemma' is not defined
+Code preview:
+@lemma
+def concat_sorted(
+    left: list[int],
+  ... (14 lines total)
+
+--- quicksort.html Block 9 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 5)
+Code preview:
+@guarantee("is_sorted(result) and is_permutation(result, xs)")
+@decreases(lambda xs: len(xs))
+@uses(partition_preserves_multiset, concat_sorted)
+  ... (10 lines total)
+
+--- quicksort.html Block 10 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax. Perhaps you forgot a comma? (<test>, line 10)
+Code preview:
+from collections import Counter
+from synhopy import (
+    guarantee, decreases, lemma, uses,
+  ... (69 lines total)
+
+--- quicksort.html Block 12 [COMPILE_FAIL] ---
+Error: SyntaxError: invalid syntax (<test>, line 9)
+Code preview:
+@lemma
+def merge_preserves_sorted(
+    left: list[int], right: list[int]
+  ... (23 lines total)

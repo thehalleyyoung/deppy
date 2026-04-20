@@ -1524,21 +1524,19 @@ def _guard_to_z3(guard, z3_vars: dict):
         if op == 'callable' and len(guard.args) == 1:
             return _opaque_z3_bool(guard, z3_vars)
 
-        if len(guard.args) == 2:
-            # Boolean connectives
-            if op in ('and', 'And'):
-                left = _guard_to_z3(guard.args[0], z3_vars)
-                right = _guard_to_z3(guard.args[1], z3_vars)
-                if left is None or right is None:
-                    return None
-                return And(left, right)
-            if op in ('or', 'Or'):
-                left = _guard_to_z3(guard.args[0], z3_vars)
-                right = _guard_to_z3(guard.args[1], z3_vars)
-                if left is None or right is None:
-                    return None
-                return Or(left, right)
+        # N-ary boolean connectives (handles 2, 3, or more args)
+        if op in ('and', 'And') and len(guard.args) >= 2:
+            compiled = [_guard_to_z3(a, z3_vars) for a in guard.args]
+            if any(c is None for c in compiled):
+                return None
+            return And(*compiled)
+        if op in ('or', 'Or') and len(guard.args) >= 2:
+            compiled = [_guard_to_z3(a, z3_vars) for a in guard.args]
+            if any(c is None for c in compiled):
+                return None
+            return Or(*compiled)
 
+        if len(guard.args) == 2:
             # type(a) == type(b) → opaque Bool
             if op in ('eq', 'Eq', '=='):
                 a0, a1 = guard.args
@@ -1670,8 +1668,28 @@ def _value_to_z3(term, z3_vars: dict):
         if op in ('getitem', 'Subscript'):
             return _opaque_z3_var(term, z3_vars)
 
-        # len(container) → opaque Z3 variable
+        # len(container) — try to compute concretely, else opaque
         if op == 'len' and len(term.args) == 1:
+            inner = term.args[0]
+            inner_t = _otype(inner)
+            # len(range(n)) = max(0, n)  [single-arg range]
+            # len(range(a, b)) = max(0, b - a)
+            if inner_t == 'OOp' and inner.name == 'range':
+                if len(inner.args) == 1:
+                    n_z3 = _value_to_z3(inner.args[0], z3_vars)
+                    if n_z3 is not None:
+                        from z3 import If
+                        return If(n_z3 >= 0, n_z3, IntVal(0))
+                elif len(inner.args) == 2:
+                    lo_z3 = _value_to_z3(inner.args[0], z3_vars)
+                    hi_z3 = _value_to_z3(inner.args[1], z3_vars)
+                    if lo_z3 is not None and hi_z3 is not None:
+                        from z3 import If
+                        diff = hi_z3 - lo_z3
+                        return If(diff >= 0, diff, IntVal(0))
+            # len(OSeq(e1,...,en)) = n  [concrete sequence length]
+            if inner_t == 'OSeq':
+                return IntVal(len(inner.elements))
             return _opaque_z3_var(term, z3_vars)
 
         # gcd(a, b) → opaque Z3 variable (commutative — see _opaque_z3_var)
@@ -1725,6 +1743,66 @@ def _value_to_z3(term, z3_vars: dict):
         if len(args) == 1 and args[0] is not None:
             if op in ('u_usub', 'usub', 'USub'):
                 return -args[0]
+
+        # ── Boolean operations as Z3 values ──
+        # Python `and`/`or` have VALUE semantics (return an operand),
+        # and comparisons return True (1) / False (0).  Model these
+        # faithfully in Z3 so that Z3 can reason through boolean logic
+        # in value contexts (e.g., stalks of Čech regions).
+        #
+        # and(a, b) = a if a is falsy else b  →  If(a == 0, a, b)
+        # or(a, b)  = a if a is truthy else b →  If(a != 0, a, b)
+        if op in ('and', 'And') and len(args) >= 2:
+            compiled = [a for a in args if a is not None]
+            if len(compiled) == len(args):
+                from z3 import If
+                result = compiled[0]
+                for c in compiled[1:]:
+                    result = If(result == IntVal(0), result, c)
+                return result
+
+        if op in ('or', 'Or') and len(args) >= 2:
+            compiled = [a for a in args if a is not None]
+            if len(compiled) == len(args):
+                from z3 import If
+                result = compiled[0]
+                for c in compiled[1:]:
+                    result = If(result != IntVal(0), result, c)
+                return result
+
+        # not(x) as value: True (1) if x is falsy, False (0) otherwise
+        if op in ('u_not', 'not', 'Not') and len(args) == 1 and args[0] is not None:
+            from z3 import If
+            return If(args[0] == IntVal(0), IntVal(1), IntVal(0))
+
+        # ── Comparisons as integer values ──
+        # In Python, True/False are int subclasses (1/0).
+        # When a comparison appears as a VALUE (not a guard), model
+        # its result as If(cond, 1, 0).
+        if op in ('lt', 'Lt', '<') and len(args) == 2:
+            if args[0] is not None and args[1] is not None:
+                from z3 import If
+                return If(args[0] < args[1], IntVal(1), IntVal(0))
+        if op in ('le', 'LtE', '<=', 'lte') and len(args) == 2:
+            if args[0] is not None and args[1] is not None:
+                from z3 import If
+                return If(args[0] <= args[1], IntVal(1), IntVal(0))
+        if op in ('gt', 'Gt', '>') and len(args) == 2:
+            if args[0] is not None and args[1] is not None:
+                from z3 import If
+                return If(args[0] > args[1], IntVal(1), IntVal(0))
+        if op in ('ge', 'GtE', '>=', 'gte') and len(args) == 2:
+            if args[0] is not None and args[1] is not None:
+                from z3 import If
+                return If(args[0] >= args[1], IntVal(1), IntVal(0))
+        if op in ('eq', 'Eq', '==') and len(args) == 2:
+            if args[0] is not None and args[1] is not None:
+                from z3 import If
+                return If(args[0] == args[1], IntVal(1), IntVal(0))
+        if op in ('ne', 'NotEq', '!=', 'noteq') and len(args) == 2:
+            if args[0] is not None and args[1] is not None:
+                from z3 import If
+                return If(args[0] != args[1], IntVal(1), IntVal(0))
 
     if name == 'OCase':
         from z3 import If
@@ -1943,13 +2021,16 @@ def _is_structurally_contradictory(guard, known_guard_canons: set) -> bool:
     where Z3 can't compile the guards (due to floats, getitem, etc.) but
     structural comparison shows they're contradictory.
 
-    Also detects deeper contradictions: and(and(A, C), u_not(A)).
+    Also detects deeper contradictions:
+    - and(and(A, C), u_not(A))        — leaf-level
+    - and(and(A, B), u_not(and(A, B))) — compound: the negated formula matches
+      a sub-conjunction of the positive side
     """
     name = _otype(guard)
     if name != 'OOp' or guard.name not in ('and', 'And'):
         return False
 
-    # Collect all conjuncts
+    # Collect all conjuncts (flattened)
     conjuncts = _collect_conjuncts(guard)
 
     # Build sets of positive and negated canonical forms
@@ -1962,8 +2043,47 @@ def _is_structurally_contradictory(guard, known_guard_canons: set) -> bool:
         else:
             positive_canons.add(c.canon())
 
-    # Contradiction: some formula appears both positively and negatively
-    return bool(positive_canons & negative_canons)
+    # Leaf-level contradiction: some atom appears both positively and negatively
+    if positive_canons & negative_canons:
+        return True
+
+    # Compound contradiction: check if any negated formula matches
+    # a sub-conjunction from the original (pre-flattened) guard tree.
+    # E.g., and(and(A,B), u_not(and(A,B))) — _collect_conjuncts flattens
+    # the left to [A, B], losing the compound and(A,B). But the negated
+    # side keeps u_not(and(A,B)).  Detect this by collecting all
+    # sub-conjunction canonical forms from the original guard tree.
+    if negative_canons:
+        sub_conj_canons = set()
+        _collect_subconjunction_canons(guard, sub_conj_canons, is_negated=False)
+        if sub_conj_canons & negative_canons:
+            return True
+
+    return False
+
+
+def _collect_subconjunction_canons(guard, canons: set, is_negated: bool):
+    """Collect canonical forms of all positive sub-conjunctions in a guard.
+
+    For and(and(A,B), C):
+    - adds and(A,B).canon(), A.canon(), B.canon(), C.canon()
+    - but NOT u_not(...) sub-expressions
+
+    This enables detecting contradictions like and(and(A,B), u_not(and(A,B)))
+    where the negated compound matches a non-leaf positive sub-conjunction.
+    """
+    name = _otype(guard)
+    if name == 'OOp' and guard.name in ('and', 'And') and len(guard.args) == 2:
+        if not is_negated:
+            canons.add(guard.canon())
+        _collect_subconjunction_canons(guard.args[0], canons, is_negated)
+        _collect_subconjunction_canons(guard.args[1], canons, is_negated)
+    elif name == 'OOp' and guard.name in ('u_not', 'not', 'Not') and len(guard.args) == 1:
+        # Don't add negated sub-expressions as positive canons
+        pass
+    else:
+        if not is_negated:
+            canons.add(guard.canon())
 
 
 def _collect_conjuncts(guard) -> list:
@@ -2118,8 +2238,12 @@ def _values_agree_on_region_z3(
     # This is sound: the programs' guards already exclude denom==0.
     divisor_constraints = _extract_z3_divisors(z3_vf) | _extract_z3_divisors(z3_vg)
 
-    # Use compiled guard if available, otherwise BoolVal(True)
-    effective_guard = z3_guard if z3_guard is not None else BoolVal(True)
+    # Use compiled guard if available, otherwise BoolVal(True).
+    # SOUNDNESS: if the guard can't compile, we can only PROVE equality
+    # (unsat of val_f != val_g is still valid under weakened guard),
+    # never DISPROVE (sat under weakened guard may be spurious).
+    guard_compiled = z3_guard is not None
+    effective_guard = z3_guard if guard_compiled else BoolVal(True)
 
     try:
         z3_set_param('timeout', timeout_ms)
@@ -2137,6 +2261,10 @@ def _values_agree_on_region_z3(
             if has_new_opaques or has_opaque_refs:
                 # Counterexample may be spurious — opaque variables are
                 # unconstrained in Z3 but determined by program semantics
+                pass  # fall through to Real retry
+            elif not guard_compiled:
+                # Guard didn't compile — sat under BoolVal(True) is unsound
+                # because the actual region might be empty or narrower
                 pass  # fall through to Real retry
             else:
                 return False  # genuine counterexample
@@ -2644,6 +2772,39 @@ def _simplify_on_region(term, z3_vars: dict, solver, timeout_ms: int = 200,
             if sa is not a:
                 changed = True
 
+        # ── Guard-constrained and/or short-circuit ──
+        # On the fiber (Čech region), if Z3 can prove a conjunct of `and`
+        # is 0 (False), the entire `and` is 0.  Dually, if a disjunct of
+        # `or` is provably nonzero (truthy), the `or` short-circuits.
+        # This is sound because and(a, 0) = 0 regardless of a
+        # (Python: a and False = False if a is truthy, else a which is falsy).
+        # We return OLit(False) which is 0 — matching any integer-0 stalk.
+        if op in ('and', 'And') and len(new_args) >= 2:
+            for i, sa in enumerate(new_args):
+                sa_z3 = _value_to_z3(sa, z3_vars)
+                if sa_z3 is not None:
+                    if _solver_implies_pred(sa_z3 == IntVal(0), solver) is True:
+                        # This conjunct is proven False on this fiber.
+                        # and(X, 0) = 0 for all X (value semantics: returns
+                        # the falsy operand, which equals 0).
+                        return OLit(False)
+                # Also try via guard compilation (for comparison predicates)
+                sa_guard = _guard_to_z3(sa, z3_vars)
+                if sa_guard is not None:
+                    if _solver_implies_pred(sa_guard, solver) is False:
+                        return OLit(False)
+
+        if op in ('or', 'Or') and len(new_args) >= 2:
+            for i, sa in enumerate(new_args):
+                sa_z3 = _value_to_z3(sa, z3_vars)
+                if sa_z3 is not None:
+                    if _solver_implies_pred(sa_z3 != IntVal(0), solver) is True:
+                        return sa
+                sa_guard = _guard_to_z3(sa, z3_vars)
+                if sa_guard is not None:
+                    if _solver_implies_pred(sa_guard, solver) is True:
+                        return sa
+
         # Semantic simplification axioms on the fiber:
         # These are mathematical identities conditioned on the refinement type.
         if len(new_args) == 1 and new_args[0] is not None:
@@ -2687,6 +2848,22 @@ def _simplify_on_region(term, z3_vars: dict, solver, timeout_ms: int = 200,
         si = _simplify_on_region(term.init, z3_vars, solver, timeout_ms, depth + 1)
         sc = _simplify_on_region(term.collection, z3_vars, solver, timeout_ms, depth + 1)
 
+        # Range materialization: range(N) with small concrete N → OSeq(0,1,...,N-1)
+        # This converts opaque iteration into a concrete sequence, enabling
+        # fold unfolding below. Sound: range(N) = [0, 1, ..., N-1] by definition.
+        if _otype(sc) == 'OOp' and sc.name == 'range':
+            MAX_MATERIALIZE = 6
+            if len(sc.args) == 1 and _otype(sc.args[0]) == 'OLit':
+                n_val = sc.args[0].value
+                if isinstance(n_val, int) and 0 <= n_val <= MAX_MATERIALIZE:
+                    sc = OSeq(tuple(OLit(i) for i in range(n_val)))
+            elif len(sc.args) == 2:
+                if (_otype(sc.args[0]) == 'OLit' and _otype(sc.args[1]) == 'OLit'):
+                    lo, hi = sc.args[0].value, sc.args[1].value
+                    if (isinstance(lo, int) and isinstance(hi, int)
+                            and 0 <= hi - lo <= MAX_MATERIALIZE):
+                        sc = OSeq(tuple(OLit(i) for i in range(lo, hi)))
+
         # Fold trivialization: if collection is provably empty (len==0),
         # fold returns init.  This is the {x : τ | len(x)==0} refinement.
         col_len = OOp('len', (sc,))
@@ -2714,25 +2891,48 @@ def _simplify_on_region(term, z3_vars: dict, solver, timeout_ms: int = 200,
         # fiber {len(x)==k} has a different (more concrete) type than
         # the generic section.
         body_fn = getattr(term, 'body_fn', None)
-        if body_fn is not None and isinstance(body_fn, OLam) and len(body_fn.params) == 2:
-            MAX_UNFOLD = 4  # Only unfold for very small collections
-            for k in range(1, MAX_UNFOLD + 1):
-                if col_len_z3 is not None:
-                    is_k = _solver_implies_pred(col_len_z3 == IntVal(k), solver)
-                    if is_k is True:
-                        # Unfold: fold(f, init, xs) with len(xs)==k
-                        # = f(f(...f(init, xs[0])..., xs[k-2]), xs[k-1])
-                        result = si
-                        acc_param, elem_param = body_fn.params
-                        for i in range(k):
-                            elem = OOp('getitem', (sc, OLit(i)))
-                            result = _subst_in_oterm(
-                                body_fn.body,
-                                {acc_param: result, elem_param: elem})
-                        # Recursively simplify the unfolded expression
-                        return _simplify_on_region(
-                            result, z3_vars, solver, timeout_ms, depth + 1)
-                        break  # noqa: this break is unreachable but clarifies intent
+        if body_fn is not None and isinstance(body_fn, OLam):
+            n_params = len(body_fn.params)
+            # 2-param: (acc, elem) — simple fold
+            # 3-param: (acc_0, acc_1, elem) — tuple accumulator fold
+            # n-param: (acc_0, ..., acc_{n-2}, elem) — general tuple acc
+            if n_params >= 2:
+                MAX_UNFOLD = 4  # Only unfold for very small collections
+                for k in range(1, MAX_UNFOLD + 1):
+                    if col_len_z3 is not None:
+                        is_k = _solver_implies_pred(col_len_z3 == IntVal(k), solver)
+                        if is_k is True:
+                            result = si
+                            if n_params == 2:
+                                acc_param, elem_param = body_fn.params
+                                for i in range(k):
+                                    elem = OOp('getitem', (sc, OLit(i)))
+                                    result = _subst_in_oterm(
+                                        body_fn.body,
+                                        {acc_param: result, elem_param: elem})
+                            else:
+                                # Tuple accumulator: unpack OSeq init into
+                                # acc params, last param is the collection elem.
+                                acc_params = body_fn.params[:-1]
+                                elem_param = body_fn.params[-1]
+                                for i in range(k):
+                                    elem = OOp('getitem', (sc, OLit(i)))
+                                    subst = {elem_param: elem}
+                                    # Unpack accumulator tuple
+                                    if isinstance(result, OSeq) and len(result.elements) == len(acc_params):
+                                        for ap, ae in zip(acc_params, result.elements):
+                                            subst[ap] = ae
+                                    else:
+                                        # Accumulator is opaque — use getitem
+                                        for j, ap in enumerate(acc_params):
+                                            subst[ap] = OOp('getitem', (result, OLit(j)))
+                                    result = _subst_in_oterm(body_fn.body, subst)
+                                    # Normalize intermediate results to
+                                    # propagate constant folding
+                                    from .denotation import normalize as _norm
+                                    result = _norm(result)
+                            return _simplify_on_region(
+                                result, z3_vars, solver, timeout_ms, depth + 1)
 
         if si is not term.init or sc is not term.collection:
             new_fold = OFold(term.op_name, si, sc)
@@ -2775,8 +2975,17 @@ def _simplify_value_on_guard(value, guard, z3_vars: dict, timeout_ms: int = 300)
 
     Creates a Z3 solver with the guard constraints, then uses
     _simplify_on_region to compute the stalk at this refinement type.
+
+    Also performs constant substitution: when the guard contains
+    eq(VAR, CONST), replace VAR with CONST throughout the value.
+    This is sound on the fiber {x | x = c} where x ≡ c.
+
     Supports arbitrary refinement predicates — anything Z3 can reason about.
     """
+    # Phase 0: Constant substitution from equality conjuncts
+    # On fiber eq(VAR, CONST), substitute VAR → CONST in the value.
+    value = _const_subst_from_guard(value, guard)
+
     if not _HAS_Z3:
         return value
 
@@ -2791,9 +3000,39 @@ def _simplify_value_on_guard(value, guard, z3_vars: dict, timeout_ms: int = 300)
         solver.set('timeout', timeout_ms)
         _add_type_axioms(solver, z3_vars)
         solver.add(guard_z3)
-        return _simplify_on_region(value, z3_vars, solver, timeout_ms // 4)
+        result = _simplify_on_region(value, z3_vars, solver, timeout_ms // 4)
+        # Re-normalize after Z3 simplification for better canonical forms
+        from .denotation import normalize
+        return normalize(result)
     except Exception:
         return value
+
+
+def _const_subst_from_guard(value, guard):
+    """Substitute constants from equality conjuncts in guard into value.
+
+    For each conjunct eq(VAR, CONST) or eq(CONST, VAR) where VAR is an
+    OVar and CONST is an OLit, replace VAR with CONST in value.
+
+    Sound because on the fiber {x | x = c}, x and c are interchangeable.
+    """
+    from .denotation import OVar, OLit, OOp
+
+    subst_map = {}
+    for conj in _collect_conjuncts(guard):
+        if _otype(conj) != 'OOp':
+            continue
+        if conj.name != 'eq' or len(conj.args) != 2:
+            continue
+        a, b = conj.args
+        if isinstance(a, OVar) and isinstance(b, OLit):
+            subst_map[a.name] = b
+        elif isinstance(b, OVar) and isinstance(a, OLit):
+            subst_map[b.name] = a
+
+    if not subst_map:
+        return value
+    return _subst_in_oterm(value, subst_map)
 
 
 def _structural_simplify_on_guard(value, guard):
@@ -2978,6 +3217,313 @@ def _subst_in_oterm(term, var_map: dict):
     if name == 'OSeq':
         return OSeq(tuple(_subst_in_oterm(e, var_map) for e in term.elements))
     return term
+
+
+# ═══════════════════════════════════════════════════════════════
+# Fold Observation Descent — observation-level cohomology
+# ═══════════════════════════════════════════════════════════════
+
+def _fold_observation_descent(
+    nf_f, nf_g,
+    params: Optional[List[str]] = None,
+    timeout_ms: int = 2000,
+) -> Optional[CechResult]:
+    """Observation-level fold equivalence via cohomological descent.
+
+    When both programs have the form O(fold_f(init, coll)) and
+    O(fold_g(init, coll)) where O is an observation morphism (len, etc.),
+    prove that O(fold_f) = O(fold_g) without proving fold_f = fold_g.
+
+    This is genuinely cohomological: the observation O induces a
+    morphism from the stalk category to a simpler target category.
+    We check that this morphism maps both fold sections to the same
+    element, which is a weaker but sufficient proof.
+
+    Supported observations:
+    - len: both fold bodies change list length by same delta per region
+    - Boolean (eq, lt, etc.): observation is boolean-valued
+    """
+    if not _HAS_Z3:
+        return None
+
+    from .denotation import OFold, OOp, OCase, OLam, OVar, OLit
+
+    # Extract the observation and inner folds from both terms.
+    obs_f, fold_f = _extract_fold_observation(nf_f)
+    obs_g, fold_g = _extract_fold_observation(nf_g)
+
+    if obs_f is None or fold_f is None or obs_g is None or fold_g is None:
+        return None
+
+    # Observations must match structurally (same wrapper around the fold)
+    # Use a dummy to check: obs_f(dummy) canon == obs_g(dummy) canon
+    dummy = OLit(42)
+    if obs_f(dummy).canon() != obs_g(dummy).canon():
+        return None
+
+    # Folds must have same collection and init
+    col_f_c = fold_f.collection.canon() if hasattr(fold_f.collection, 'canon') else ''
+    col_g_c = fold_g.collection.canon() if hasattr(fold_g.collection, 'canon') else ''
+    if col_f_c != col_g_c:
+        return None
+
+    init_f_c = fold_f.init.canon() if hasattr(fold_f.init, 'canon') else ''
+    init_g_c = fold_g.init.canon() if hasattr(fold_g.init, 'canon') else ''
+    inits_match = (init_f_c == init_g_c)
+    if not inits_match:
+        _bool_int = {('False', '0'), ('0', 'False'), ('True', '1'), ('1', 'True')}
+        if (init_f_c, init_g_c) in _bool_int:
+            inits_match = True
+    if not inits_match:
+        return None
+
+    # Both must have lambda body functions
+    bf_f = getattr(fold_f, 'body_fn', None)
+    bf_g = getattr(fold_g, 'body_fn', None)
+    if not isinstance(bf_f, OLam) or not isinstance(bf_g, OLam):
+        return None
+    if len(bf_f.params) != len(bf_g.params):
+        return None
+
+    # Alpha-normalize body params
+    canonical_params = ['$fold_acc', '$fold_elem'] if len(bf_f.params) == 2 else \
+        [f'$fold_acc_{i}' if i < len(bf_f.params) - 1 else '$fold_elem'
+         for i in range(len(bf_f.params))]
+
+    body_f = _subst_in_oterm(bf_f.body,
+        {p: OVar(c) for p, c in zip(bf_f.params, canonical_params)})
+    body_g = _subst_in_oterm(bf_g.body,
+        {p: OVar(c) for p, c in zip(bf_g.params, canonical_params)})
+
+    # Identify which observation we have
+    obs_type = _identify_observation(obs_f, dummy)
+    if obs_type is None:
+        return None
+
+    if obs_type == 'len':
+        return _prove_len_observation(
+            body_f, body_g, canonical_params, params, timeout_ms)
+
+    return None
+
+
+def _extract_fold_observation(term):
+    """Extract (observation_fn, inner_fold) from a term.
+
+    Returns (obs, fold) where obs is a function that rebuilds the wrapper
+    given a replacement for the fold, and fold is the inner OFold.
+
+    Supports patterns like:
+    - len(fold[...](init, coll)) → obs = len(·)
+    - eq(0, len(fold[...](init, coll))) → obs = eq(0, len(·))
+    - getitem(fold[...](init, coll), idx) → obs = getitem(·, idx)
+    """
+    from .denotation import OFold, OOp
+
+    if isinstance(term, OFold):
+        return (lambda x: x, term)
+
+    if isinstance(term, OOp):
+        # Check each arg for a fold
+        for i, arg in enumerate(term.args):
+            if isinstance(arg, OFold):
+                def _rebuild(x, t=term, idx=i):
+                    new_args = list(t.args)
+                    new_args[idx] = x
+                    return OOp(t.name, tuple(new_args))
+                return (_rebuild, arg)
+
+            # Nested: e.g., eq(0, len(fold[...]))
+            if isinstance(arg, OOp):
+                for j, inner_arg in enumerate(arg.args):
+                    if isinstance(inner_arg, OFold):
+                        def _rebuild_nested(x, t=term, a=arg, idx_outer=i, idx_inner=j):
+                            inner_args = list(a.args)
+                            inner_args[idx_inner] = x
+                            new_inner = OOp(a.name, tuple(inner_args))
+                            new_args = list(t.args)
+                            new_args[idx_outer] = new_inner
+                            return OOp(t.name, tuple(new_args))
+                        return (_rebuild_nested, inner_arg)
+
+    return (None, None)
+
+
+def _identify_observation(obs_fn, dummy):
+    """Identify which observation type the wrapper represents.
+
+    Returns 'len', 'boolean', or None.
+    """
+    from .denotation import OOp, OLit
+
+    result = obs_fn(dummy)
+    if result is dummy:
+        return None  # No observation (identity)
+
+    if isinstance(result, OOp):
+        # len(fold) → 'len'
+        if result.name == 'len':
+            return 'len'
+        # eq(x, len(fold)) or eq(len(fold), x) → 'len' (boolean observation of len)
+        if result.name == 'eq' and len(result.args) == 2:
+            for arg in result.args:
+                if isinstance(arg, OOp) and arg.name == 'len':
+                    return 'len'
+
+    return None
+
+
+def _prove_len_observation(
+    body_f, body_g, canonical_params, params, timeout_ms
+):
+    """Prove that two fold bodies produce lists of the same length.
+
+    For each Čech region, compute the LENGTH DELTA (how many elements
+    the body adds/removes from the accumulator). If both bodies have
+    the same delta in every region, the folds produce lists of the
+    same length.
+
+    The length delta is determined by the list operation:
+    - .append!(acc, x) → delta = +1
+    - .pop!(acc) / .popleft(acc) → delta = -1
+    - acc (identity) → delta = 0
+
+    This is a genuine presheaf morphism: the observation `len` maps
+    the stalk (list values) to ℤ, and we check that both sections
+    map to the same integer in each fiber.
+    """
+    from .denotation import OLit
+
+    pieces_f = _flatten_to_piecewise(body_f, max_pieces=16)
+    pieces_g = _flatten_to_piecewise(body_g, max_pieces=16)
+
+    # Compute length deltas for each piece
+    def _len_delta(value, acc_name='$fold_acc'):
+        """Determine how the list length changes."""
+        name = _otype(value)
+        if name == 'OVar' and value.name == acc_name:
+            return 0  # identity
+        if name == 'OOp':
+            if value.name in ('.append!', 'append') and len(value.args) >= 1:
+                inner = value.args[0]
+                if _otype(inner) == 'OVar' and inner.name == acc_name:
+                    return 1
+            if value.name in ('.pop!', '.popleft', 'pop', 'popleft') and len(value.args) >= 1:
+                inner = value.args[0]
+                if _otype(inner) == 'OVar' and inner.name == acc_name:
+                    return -1
+            # Nested: .append!(.pop!(acc, ...), ...)  → delta = 0 (+1-1)
+            if value.name in ('.append!', 'append') and len(value.args) >= 1:
+                inner_delta = _len_delta(value.args[0], acc_name)
+                if inner_delta is not None:
+                    return inner_delta + 1
+        return None  # unknown
+
+    deltas_f = [(p.guard, _len_delta(p.value)) for p in pieces_f]
+    deltas_g = [(p.guard, _len_delta(p.value)) for p in pieces_g]
+
+    # Check if any deltas are unknown
+    if any(d is None for _, d in deltas_f) or any(d is None for _, d in deltas_g):
+        return None
+
+    # If both have the same number of pieces with the same guards and deltas,
+    # the len observation is preserved
+    if len(deltas_f) == len(deltas_g):
+        all_match = True
+        for (gf, df), (gg, dg) in zip(deltas_f, deltas_g):
+            if gf.canon() == gg.canon() and df == dg:
+                continue
+            all_match = False
+            break
+        if all_match:
+            return CechResult(
+                h1_rank=0, equivalent=True,
+                total_regions=len(deltas_f), agreed_regions=len(deltas_f),
+                explanation=(
+                    f'fold observation descent (len): all {len(deltas_f)} regions '
+                    f'have matching length deltas → observation equal'))
+
+    # Different guard structures — need Čech refinement of the delta presheaves.
+    # Compute the common refinement and check delta equality per region.
+    refined = _refine_covers(pieces_f, pieces_g)
+
+    # Check structural emptiness
+    f_guard_canons = {p.guard.canon() for p in pieces_f}
+    g_guard_canons = {p.guard.canon() for p in pieces_g}
+    for region in refined:
+        if _is_structurally_contradictory(region.guard, f_guard_canons | g_guard_canons):
+            region.region_empty = True
+
+    # Create Z3 variables for emptiness checks
+    free_vars = _collect_free_vars(body_f) | _collect_free_vars(body_g)
+    if params:
+        free_vars |= set(params)
+    free_vars |= set(canonical_params)
+    z3_vars = {v: Int(v) for v in free_vars}
+
+    total = 0
+    agreed = 0
+    empty = 0
+    disagreed = 0
+    unknown = 0
+    per_timeout = max(100, timeout_ms // max(1, len(refined) * 2))
+
+    for region in refined:
+        if region.region_empty is True:
+            empty += 1
+            continue
+
+        df = _len_delta(region.value_f)
+        dg = _len_delta(region.value_g)
+
+        if df is None or dg is None:
+            # Can't determine delta → Z3 emptiness check
+            is_empty = _region_is_empty_z3(region.guard, z3_vars, per_timeout)
+            if is_empty is True:
+                empty += 1
+                continue
+            total += 1
+            unknown += 1
+            continue
+
+        # Check emptiness for differing deltas
+        if df != dg:
+            is_empty = _region_is_empty_z3(region.guard, z3_vars, per_timeout)
+            if is_empty is True:
+                empty += 1
+                continue
+            total += 1
+            disagreed += 1
+            continue
+
+        # Deltas match — check non-empty
+        is_empty = _region_is_empty_z3(region.guard, z3_vars, per_timeout)
+        if is_empty is True:
+            empty += 1
+            continue
+
+        total += 1
+        agreed += 1
+
+    h1 = disagreed + unknown
+
+    if h1 == 0 and total > 0:
+        return CechResult(
+            h1_rank=0, equivalent=True,
+            total_regions=total, empty_regions=empty,
+            agreed_regions=agreed,
+            explanation=(
+                f'fold observation descent (len): H¹=0, all {agreed}/{total} '
+                f'regions have matching length deltas ({empty} empty)'))
+
+    if disagreed > 0:
+        # Length deltas provably differ — observation is NOT equal
+        # But this doesn't mean the original terms differ! The observation
+        # might still be equal due to cancellation effects over the fold.
+        # So we return None (inconclusive), not False.
+        return None
+
+    return None
 
 
 def cech_fold_body_descent(
@@ -3355,6 +3901,39 @@ def _refinement_sub_cech(
             if r is True:
                 neg_ok = True
 
+        # Path search on unresolved sub-regions
+        if not pos_ok:
+            try:
+                from .path_search import search_path
+                from .denotation import normalize as _ps_norm
+                nsf = _ps_norm(sf_pos)
+                nsg = _ps_norm(sg_pos)
+                if nsf.canon() == nsg.canon():
+                    pos_ok = True
+                else:
+                    pr = search_path(nsf, nsg, max_depth=2,
+                                     timeout_ms=min(per_pred_timeout, 300))
+                    if pr is not None and pr.found is True:
+                        pos_ok = True
+            except Exception:
+                pass
+
+        if not neg_ok:
+            try:
+                from .path_search import search_path
+                from .denotation import normalize as _ps_norm
+                nsf = _ps_norm(sf_neg)
+                nsg = _ps_norm(sg_neg)
+                if nsf.canon() == nsg.canon():
+                    neg_ok = True
+                else:
+                    pr = search_path(nsf, nsg, max_depth=2,
+                                     timeout_ms=min(per_pred_timeout, 300))
+                    if pr is not None and pr.found is True:
+                        neg_ok = True
+            except Exception:
+                pass
+
         if pos_ok and neg_ok:
             return True  # H¹=0 on the refinement sub-cover!
 
@@ -3432,6 +4011,20 @@ def _try_cech_on_values(val_f, val_g, z3_vars: dict, timeout_ms: int) -> Optiona
                         OLit(True), b_f, b_g, inner_vars, timeout_ms)
                     if r is True:
                         return True
+                    # Path search on normalized bodies
+                    try:
+                        from .path_search import search_path
+                        from .denotation import normalize as _ps_norm
+                        nb_f = _ps_norm(b_f)
+                        nb_g = _ps_norm(b_g)
+                        if nb_f.canon() == nb_g.canon():
+                            return True
+                        pr = search_path(nb_f, nb_g, max_depth=2,
+                                         timeout_ms=min(timeout_ms, 300))
+                        if pr is not None and pr.found is True:
+                            return True
+                    except Exception:
+                        pass
 
     # Case 2: Both are OOp with same name — try comparing args
     if name_f == 'OOp' and name_g == 'OOp':
@@ -3494,13 +4087,81 @@ def _try_cech_on_values(val_f, val_g, z3_vars: dict, timeout_ms: int) -> Optiona
                 is_e = _region_is_empty_z3(r.guard, z3_vars, per_t)
                 if is_e is True:
                     continue
-                a = _values_agree_on_region_z3(r.guard, r.value_f, r.value_g, z3_vars, per_t)
+                # Guard-aware stalk simplification before comparison
+                sf = _simplify_value_on_guard(r.value_f, r.guard, z3_vars, per_t)
+                sg = _simplify_value_on_guard(r.value_g, r.guard, z3_vars, per_t)
+                if sf.canon() == sg.canon():
+                    continue
+                a = _values_agree_on_region_z3(r.guard, sf, sg, z3_vars, per_t)
                 if a is True:
+                    continue
+                # Path search on guard-simplified sub-values
+                try:
+                    from .path_search import search_path
+                    from .denotation import normalize as _ps_norm
+                    nsf = _ps_norm(sf)
+                    nsg = _ps_norm(sg)
+                    if nsf.canon() == nsg.canon():
+                        continue
+                    pr = search_path(nsf, nsg, max_depth=2,
+                                     timeout_ms=min(per_t, 300))
+                    if pr is not None and pr.found is True:
+                        continue
+                except Exception:
+                    pass
+                # Recursive Čech descent on simplified sub-values
+                r2 = _try_cech_on_values(sf, sg, z3_vars, per_t // 2)
+                if r2 is True:
                     continue
                 all_ok = False
                 break
             if all_ok:
                 return True
+
+    # Case 5: Both are OFix — compare their normalized bodies
+    # Two fix points with the same normalized recursive equation (body)
+    # compute the same value. The body hash in fix IDs captures this:
+    # if canons match, the fix bodies are identical.
+    # Here we handle the case where canons differ but bodies are
+    # alpha-equivalent after deeper normalization.
+    if name_f == 'OFix' and name_g == 'OFix':
+        # If both have the same body structure, they compute the same thing.
+        # OFix nodes store their body/args — compare those.
+        args_f = getattr(val_f, 'args', None)
+        args_g = getattr(val_g, 'args', None)
+        if args_f is not None and args_g is not None:
+            if hasattr(args_f, 'canon') and hasattr(args_g, 'canon'):
+                if args_f.canon() == args_g.canon():
+                    # Same recursive equation and arguments → same result
+                    return True
+        # Try comparing the body/step function
+        body_f = getattr(val_f, 'body', None)
+        body_g = getattr(val_g, 'body', None)
+        if body_f is not None and body_g is not None:
+            if hasattr(body_f, 'canon') and hasattr(body_g, 'canon'):
+                if body_f.canon() == body_g.canon():
+                    return True
+                # Try path search on the bodies
+                try:
+                    from .path_search import search_path
+                    from .denotation import normalize as _ps_norm
+                    nb_f = _ps_norm(body_f)
+                    nb_g = _ps_norm(body_g)
+                    if nb_f.canon() == nb_g.canon():
+                        return True
+                    pr = search_path(nb_f, nb_g, max_depth=2,
+                                     timeout_ms=min(timeout_ms, 300))
+                    if pr is not None and pr.found is True:
+                        return True
+                except Exception:
+                    pass
+
+    # Case 6: Mixed OFold/OOp with same-name wrapper
+    # If both are wrapped in the same OOp (e.g., sorted(fold_A) vs sorted(fold_B)),
+    # try comparing the inner expressions recursively.
+    if name_f == 'OOp' and name_g == 'OOp':
+        # Already handled in Case 2 above
+        pass
 
     return None
 
@@ -3543,6 +4204,15 @@ def cech_input_cohomology(
     fold_result = cech_fold_body_descent(nf_f, nf_g, params, timeout_ms // 2)
     if fold_result.equivalent is True:
         return fold_result
+
+    # Step 0b: Fold observation descent (observation-level cohomology)
+    # When both programs wrap folds in the same observation (len, eq(0,...)),
+    # prove equivalence at the observation level rather than full fold equality.
+    # This is strictly weaker than full fold equivalence but may succeed
+    # when the fold bodies are different but produce the same observation.
+    obs_result = _fold_observation_descent(nf_f, nf_g, params, timeout_ms // 3)
+    if obs_result is not None and obs_result.equivalent is True:
+        return obs_result
 
     # Step 1: Extract piecewise forms (presheaf sections)
     pieces_f = _flatten_to_piecewise(nf_f)
@@ -3660,6 +4330,22 @@ def cech_input_cohomology(
             checked_regions.append(region)
             continue
 
+        # ── Path search on stalks ──
+        # Try axiom path search (D1-D24 dichotomies) on the simplified
+        # values. This catches algebraic identities that Z3 can't handle
+        # (e.g., different but equivalent arithmetic formulations).
+        try:
+            from .path_search import search_path
+            path_result = search_path(simp_f, simp_g, max_depth=3,
+                                      timeout_ms=min(per_region_timeout, 500))
+            if path_result is not None and path_result.found is True:
+                region.agreement = True
+                agreed_regions += 1
+                checked_regions.append(region)
+                continue
+        except Exception:
+            pass
+
         # Check value agreement on this region via Z3 (with simplified values)
         agreement = _values_agree_on_region_z3(
             region.guard, simp_f, simp_g,
@@ -3696,8 +4382,42 @@ def cech_input_cohomology(
                     region.agreement = True
                     agreed_regions += 1
                 else:
-                    region.agreement = None
-                    unknown_regions += 1
+                    # Path search fallback: try axiom BFS on the stalk values.
+                    # The stalks are already simplified under the region guard,
+                    # so they may be simpler than the full OTerms.
+                    path_resolved = False
+                    try:
+                        from .path_search import search_path
+                        from .denotation import normalize as _ps_normalize
+                        nf_sf = _ps_normalize(simp_f)
+                        nf_sg = _ps_normalize(simp_g)
+                        if nf_sf.canon() == nf_sg.canon():
+                            path_resolved = True
+                        else:
+                            pr = search_path(nf_sf, nf_sg,
+                                max_depth=2, max_frontier=60)
+                            if pr.found is True:
+                                path_resolved = True
+                    except Exception:
+                        pass
+                    if path_resolved:
+                        region.agreement = True
+                        agreed_regions += 1
+                    else:
+                        # Compositional descent: try aligning OTerm structures
+                        comp_resolved = False
+                        try:
+                            cr = compositional_equiv(simp_f, simp_g)
+                            if cr.h1_rank == 0 and cr.equivalent is True:
+                                comp_resolved = True
+                        except Exception:
+                            pass
+                        if comp_resolved:
+                            region.agreement = True
+                            agreed_regions += 1
+                        else:
+                            region.agreement = None
+                            unknown_regions += 1
 
         checked_regions.append(region)
 

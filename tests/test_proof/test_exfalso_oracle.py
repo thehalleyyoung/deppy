@@ -1,8 +1,8 @@
-"""Tests for F*-style ExFalso, ProofOracle, and proof-code binding.
+"""Tests for F*-style ExFalso, ProofLanguage, and proof-code binding.
 
 Tests the F*-style tactic pipeline:
   Tactic 0:  ExFalso — hypotheses contradictory → any goal
-  Tactic 4:  ProofOracle — LLM/automated proof term generation
+  Tactic 4:  ProofScript — LLM-written Lean-like proof, code-attached
 
 And the proof-code binding: proof terms reference actual code
 variables and the C4 compiler verifies independently.
@@ -417,187 +417,270 @@ class TestProofObligation:
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Test ProofOracle
+# Test Proof Language — Lean-like proof scripts attached to code
 # ═══════════════════════════════════════════════════════════════════
 
-class TestProofOracle:
-    """Test the proof oracle framework."""
+class TestProofLanguage:
+    """Test the Lean-like proof language for C4."""
 
-    def test_mock_oracle_returns_none(self):
-        from cctt.proof_theory.proof_oracle import MockProofOracle
-        from cctt.proof_theory.terms import ProofObligation
+    def test_parse_tactic_contradiction(self):
+        from cctt.proof_theory.proof_oracle import parse_tactic, TacticKind
+        t = parse_tactic("contradiction")
+        assert t is not None
+        assert t.kind == TacticKind.CONTRADICTION
 
-        oracle = MockProofOracle()
-        obl = ProofObligation(
-            hypotheses=("x > 0",),
-            goal="result > 0",
-            return_expr="x",
-            func_name="f",
-            source="",
-            params=("x",),
-            var_sorts={"x": "Int"},
-        )
-        assert oracle.generate_proof(obl) is None
+    def test_parse_tactic_omega(self):
+        from cctt.proof_theory.proof_oracle import parse_tactic, TacticKind
+        t = parse_tactic("omega")
+        assert t is not None
+        assert t.kind == TacticKind.OMEGA
 
-    def test_automated_oracle_detects_contradiction(self):
-        from cctt.proof_theory.proof_oracle import AutomatedProofOracle
-        from cctt.proof_theory.terms import ProofObligation, ExFalso
+    def test_parse_tactic_with_comment(self):
+        from cctt.proof_theory.proof_oracle import parse_tactic, TacticKind
+        t = parse_tactic("contradiction -- y % 2 == 0 contradicts negation")
+        assert t is not None
+        assert t.kind == TacticKind.CONTRADICTION
+        assert "contradicts" in t.comment
 
-        oracle = AutomatedProofOracle()
-        obl = ProofObligation(
+    def test_parse_tactic_simp_with_rules(self):
+        from cctt.proof_theory.proof_oracle import parse_tactic, TacticKind
+        t = parse_tactic("simp [list_length, sorted_len]")
+        assert t is not None
+        assert t.kind == TacticKind.SIMP
+        assert t.args == ("list_length", "sorted_len")
+
+    def test_parse_tactic_apply_theorem(self):
+        from cctt.proof_theory.proof_oracle import parse_tactic, TacticKind
+        t = parse_tactic("apply sorted_preserves_length")
+        assert t is not None
+        assert t.kind == TacticKind.APPLY
+        assert t.args == ("sorted_preserves_length",)
+
+    def test_parse_tactic_unknown_returns_none(self):
+        from cctt.proof_theory.proof_oracle import parse_tactic
+        t = parse_tactic("magic_wand")
+        assert t is None
+
+
+class TestProofScriptParsing:
+    """Test parsing complete proof scripts."""
+
+    def test_parse_simple_proof(self):
+        from cctt.proof_theory.proof_oracle import parse_proof_script
+
+        text = """
+proof simple_pos for f
+  given x : Int
+  assuming x > 0
+  show result > 0
+  on path (x > 0) returning x + 1:
+    by omega
+qed
+"""
+        script = parse_proof_script(text)
+        assert script is not None
+        assert script.name == "simple_pos"
+        assert script.func_name == "f"
+        assert script.given == {"x": "Int"}
+        assert script.assuming == ("x > 0",)
+        assert script.goal == "result > 0"
+        assert len(script.path_proofs) == 1
+        assert script.path_proofs[0].guard == "x > 0"
+        assert script.path_proofs[0].return_expr == "x + 1"
+
+    def test_parse_egypt_proof(self):
+        from cctt.proof_theory.proof_oracle import parse_proof_script, TacticKind
+
+        text = """
+proof egypt_len2 for egypt_takenouchi
+  given x : Int, y : Int
+  assuming x == 3, y % 2 == 0
+  show len(result) == 2
+  on path (x == 3 and y % 2 == 0) returning [y // 2, y]:
+    by structural  -- [a, b] has length 2
+  on path (x == 3 and not (y % 2 == 0)) returning [j, k, j * k]:
+    by contradiction  -- y % 2 == 0 contradicts not (y % 2 == 0)
+  on path (not (x == 3)) returning sorted(l):
+    by contradiction  -- x == 3 contradicts not (x == 3)
+qed
+"""
+        script = parse_proof_script(text)
+        assert script is not None
+        assert script.func_name == "egypt_takenouchi"
+        assert len(script.path_proofs) == 3
+        assert script.path_proofs[0].tactic.kind == TacticKind.STRUCTURAL
+        assert script.path_proofs[1].tactic.kind == TacticKind.CONTRADICTION
+        assert script.path_proofs[2].tactic.kind == TacticKind.CONTRADICTION
+
+    def test_pretty_roundtrip(self):
+        from cctt.proof_theory.proof_oracle import parse_proof_script
+
+        text = """
+proof test for f
+  given x : Int
+  show result > 0
+  on path (True) returning x + 1:
+    by omega
+qed
+"""
+        script = parse_proof_script(text)
+        assert script is not None
+        pretty = script.pretty()
+        assert "proof test for f" in pretty
+        assert "by omega" in pretty
+
+    def test_parse_no_returning(self):
+        from cctt.proof_theory.proof_oracle import parse_proof_script
+
+        text = """
+proof test for f
+  given x : Int
+  show result > 0
+  on path (x > 0):
+    by omega
+qed
+"""
+        script = parse_proof_script(text)
+        assert script is not None
+        assert len(script.path_proofs) == 1
+        assert script.path_proofs[0].return_expr == ""
+
+
+class TestTacticCompilation:
+    """Test tactic → C4 ProofTerm compilation."""
+
+    def test_contradiction_compiles_to_exfalso(self):
+        from cctt.proof_theory.proof_oracle import compile_tactic, Tactic, TacticKind
+        from cctt.proof_theory.terms import ExFalso
+
+        t = Tactic(kind=TacticKind.CONTRADICTION)
+        proof = compile_tactic(
+            tactic=t,
             hypotheses=("x == 3", "not (x == 3)"),
-            goal="len(result) == 999",  # doesn't matter — contradiction
-            return_expr="[1, 2, 3]",
-            func_name="f",
-            source="",
-            params=("x",),
+            goal="len(result) == 2",
+            return_expr="[y, z]",
             var_sorts={"x": "Int"},
+            func_name="f",
         )
-        proof = oracle.generate_proof(obl)
-        assert proof is not None
         assert isinstance(proof, ExFalso)
+        assert "x == 3" in proof.context_formula
 
-    def test_automated_oracle_no_contradiction(self):
-        from cctt.proof_theory.proof_oracle import AutomatedProofOracle
-        from cctt.proof_theory.terms import ProofObligation
+    def test_omega_compiles_to_z3discharge(self):
+        from cctt.proof_theory.proof_oracle import compile_tactic, Tactic, TacticKind
+        from cctt.proof_theory.terms import Z3Discharge
 
-        oracle = AutomatedProofOracle()
-        obl = ProofObligation(
-            hypotheses=("x > 0", "x < 10"),
-            goal="result > 0",
-            return_expr="x",
-            func_name="f",
-            source="",
-            params=("x",),
-            var_sorts={"x": "Int"},
-        )
-        proof = oracle.generate_proof(obl)
-        assert proof is None  # Not a contradiction, can't auto-prove
-
-    def test_llm_oracle_falls_back_to_automated(self):
-        from cctt.proof_theory.proof_oracle import LLMProofOracle
-        from cctt.proof_theory.terms import ProofObligation, ExFalso
-
-        oracle = LLMProofOracle(spec_oracle=None)
-        obl = ProofObligation(
-            hypotheses=("x > 10", "x < 5"),
-            goal="anything",
-            return_expr="42",
-            func_name="f",
-            source="",
-            params=("x",),
-            var_sorts={"x": "Int"},
-        )
-        proof = oracle.generate_proof(obl)
-        assert isinstance(proof, ExFalso)
-
-    def test_llm_oracle_no_proof_without_llm(self):
-        from cctt.proof_theory.proof_oracle import LLMProofOracle
-        from cctt.proof_theory.terms import ProofObligation
-
-        oracle = LLMProofOracle(spec_oracle=None)
-        obl = ProofObligation(
+        t = Tactic(kind=TacticKind.OMEGA)
+        proof = compile_tactic(
+            tactic=t,
             hypotheses=("x > 0",),
-            goal="result > 0",
-            return_expr="x",
-            func_name="f",
-            source="",
-            params=("x",),
+            goal="x + 1 > 0",
+            return_expr="x + 1",
             var_sorts={"x": "Int"},
-        )
-        proof = oracle.generate_proof(obl)
-        # No contradiction, no LLM → None
-        assert proof is None
-
-
-# ═══════════════════════════════════════════════════════════════════
-# Test proof JSON parsing
-# ═══════════════════════════════════════════════════════════════════
-
-class TestProofJsonParsing:
-    """Test parse_proof_json for LLM-generated proof terms."""
-
-    def test_parse_exfalso_json(self):
-        from cctt.proof_theory.proof_oracle import parse_proof_json
-        from cctt.proof_theory.terms import ProofObligation, ExFalso
-
-        obl = ProofObligation(
-            hypotheses=("x > 0",),
-            goal="result > 0",
-            return_expr="x",
             func_name="f",
-            source="",
-            params=("x",),
-            var_sorts={"x": "Int"},
         )
-        data = {
-            "tactic": "ExFalso",
-            "context_formula": "x > 0 and x < 0",
-            "variables": {"x": "Int"},
-            "absurdity": "test contradiction",
-        }
-        proof = parse_proof_json(data, obl)
-        assert isinstance(proof, ExFalso)
-        assert proof.context_formula == "x > 0 and x < 0"
-
-    def test_parse_z3discharge_json(self):
-        from cctt.proof_theory.proof_oracle import parse_proof_json
-        from cctt.proof_theory.terms import ProofObligation, Z3Discharge
-
-        obl = ProofObligation(
-            hypotheses=("x > 0",),
-            goal="result > 0",
-            return_expr="x",
-            func_name="f",
-            source="",
-            params=("x",),
-            var_sorts={"x": "Int"},
-        )
-        data = {
-            "tactic": "Z3Discharge",
-            "formula": "x > 0",
-            "fragment": "QF_LIA",
-        }
-        proof = parse_proof_json(data, obl)
         assert isinstance(proof, Z3Discharge)
+        assert proof.fragment == "QF_LIA"
 
-    def test_parse_listsim_json(self):
-        from cctt.proof_theory.proof_oracle import parse_proof_json
-        from cctt.proof_theory.terms import ProofObligation, ListSimp
+    def test_structural_compiles_to_tautology(self):
+        from cctt.proof_theory.proof_oracle import compile_tactic, Tactic, TacticKind
+        from cctt.proof_theory.terms import Z3Discharge
 
-        obl = ProofObligation(
+        t = Tactic(kind=TacticKind.STRUCTURAL)
+        proof = compile_tactic(
+            tactic=t,
+            hypotheses=(),
+            goal="isinstance(result, list)",
+            return_expr="[1, 2, 3]",
+            var_sorts={},
+            func_name="f",
+        )
+        assert isinstance(proof, Z3Discharge)
+        assert proof.fragment == "TAUTOLOGY"
+
+    def test_list_length_compiles_to_listsimp(self):
+        from cctt.proof_theory.proof_oracle import compile_tactic, Tactic, TacticKind
+        from cctt.proof_theory.terms import ListSimp
+
+        t = Tactic(kind=TacticKind.LIST_LENGTH)
+        proof = compile_tactic(
+            tactic=t,
             hypotheses=(),
             goal="len(result) == 3",
-            return_expr="[1, 2, 3]",
-            func_name="f",
-            source="",
-            params=(),
+            return_expr="[a, b, c]",
             var_sorts={},
+            func_name="f",
         )
-        data = {
-            "tactic": "ListSimp",
-            "rule": "literal_len",
-            "target": "len([1,2,3]) == 3",
-        }
-        proof = parse_proof_json(data, obl)
+        assert isinstance(proof, ListSimp)
+        assert proof.rule == "list_literal_length"
+
+    def test_simp_with_list_rules(self):
+        from cctt.proof_theory.proof_oracle import compile_tactic, Tactic, TacticKind
+        from cctt.proof_theory.terms import ListSimp
+
+        t = Tactic(kind=TacticKind.SIMP, args=("list_length",))
+        proof = compile_tactic(
+            tactic=t,
+            hypotheses=(),
+            goal="len(result) == 2",
+            return_expr="[a, b]",
+            var_sorts={},
+            func_name="f",
+        )
         assert isinstance(proof, ListSimp)
 
-    def test_parse_unknown_tactic_returns_none(self):
-        from cctt.proof_theory.proof_oracle import parse_proof_json
-        from cctt.proof_theory.terms import ProofObligation
 
-        obl = ProofObligation(
-            hypotheses=(),
-            goal="result > 0",
-            return_expr="1",
-            func_name="f",
-            source="",
-            params=(),
-            var_sorts={},
+class TestProofScriptCompilation:
+    """Test full proof script → per-path C4 ProofTerms."""
+
+    def test_compile_egypt_proof(self):
+        from cctt.proof_theory.proof_oracle import (
+            parse_proof_script, compile_proof_script,
         )
-        data = {"tactic": "MagicWand"}
-        proof = parse_proof_json(data, obl)
-        assert proof is None
+        from cctt.proof_theory.terms import ExFalso, Z3Discharge
+
+        text = """
+proof egypt_len2 for egypt_takenouchi
+  given x : Int, y : Int
+  assuming x == 3, y % 2 == 0
+  show len(result) == 2
+  on path (x == 3 and y % 2 == 0) returning [y // 2, y]:
+    by structural
+  on path (x == 3 and not (y % 2 == 0)) returning [j, k, j * k]:
+    by contradiction
+  on path (not (x == 3)) returning sorted(l):
+    by contradiction
+qed
+"""
+        script = parse_proof_script(text)
+        assert script is not None
+        compiled = compile_proof_script(script)
+        assert len(compiled) == 3
+        # First path: structural → Z3Discharge(TAUTOLOGY)
+        assert isinstance(compiled["x == 3 and y % 2 == 0"], Z3Discharge)
+        # Other paths: contradiction → ExFalso
+        assert isinstance(compiled["x == 3 and not (y % 2 == 0)"], ExFalso)
+        assert isinstance(compiled["not (x == 3)"], ExFalso)
+
+
+class TestRenderObligation:
+    """Test rendering proof obligations for the LLM."""
+
+    def test_render_simple_obligation(self):
+        from cctt.proof_theory.proof_oracle import render_proof_obligation
+
+        text = render_proof_obligation(
+            func_name="f",
+            params=["x", "y"],
+            param_sorts={"x": "Int", "y": "Int"},
+            clause="result > 0",
+            requires=["x > 0"],
+            paths=[],
+            source="def f(x, y): return x + y",
+        )
+        assert "proof" in text
+        assert "f" in text
+        assert "result > 0" in text
+        assert "Available tactics" in text
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -612,69 +695,76 @@ class TestC4StrategyEnum:
         assert hasattr(C4Strategy, 'EX_FALSO')
         assert C4Strategy.EX_FALSO.value == "ExFalso"
 
-    def test_proof_oracle_strategy_exists(self):
+    def test_proof_script_strategy_exists(self):
         from cctt.proof_theory.c4_llm_verifier import C4Strategy
-        assert hasattr(C4Strategy, 'PROOF_ORACLE')
-        assert C4Strategy.PROOF_ORACLE.value == "ProofOracle"
+        assert hasattr(C4Strategy, 'PROOF_SCRIPT')
+        assert C4Strategy.PROOF_SCRIPT.value == "ProofScript"
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Test _compile_oracle_proof
+# Test _compile_proof_term (proof script verification through C4)
 # ═══════════════════════════════════════════════════════════════════
 
-class TestCompileOracleProof:
-    """Test that oracle proofs are compiled through C4 for verification."""
+class TestCompileProofTerm:
+    """Test that proof script terms are compiled through C4 for verification."""
 
     def test_valid_exfalso_compiled_successfully(self):
-        from cctt.proof_theory.c4_llm_verifier import _compile_oracle_proof, C4Strategy
+        from cctt.proof_theory.c4_llm_verifier import _compile_proof_term, C4Strategy
         from cctt.proof_theory.terms import ExFalso
 
         proof = ExFalso(
             context_formula="(x == 1) and (x == 2)",
             variables={"x": "Int"},
         )
-        result = _compile_oracle_proof(proof, {"x": "Int"})
+        result = _compile_proof_term(proof, {"x": "Int"})
         assert result is not None
         verdict, detail, strategy, proof_term = result
         assert verdict == "verified"
-        assert strategy == C4Strategy.PROOF_ORACLE
+        assert strategy == C4Strategy.PROOF_SCRIPT
         assert isinstance(proof_term, ExFalso)
 
     def test_invalid_exfalso_rejected(self):
-        from cctt.proof_theory.c4_llm_verifier import _compile_oracle_proof
+        from cctt.proof_theory.c4_llm_verifier import _compile_proof_term
         from cctt.proof_theory.terms import ExFalso
 
         proof = ExFalso(
             context_formula="(x > 0) and (x < 10)",
             variables={"x": "Int"},
         )
-        result = _compile_oracle_proof(proof, {"x": "Int"})
+        result = _compile_proof_term(proof, {"x": "Int"})
         assert result is None  # Compiler rejects: not a contradiction
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Test verify_c4_spec with proof oracle
+# Test verify_c4_spec with proof script
 # ═══════════════════════════════════════════════════════════════════
 
-class TestVerifyC4SpecWithOracle:
-    """Test that verify_c4_spec passes proof_oracle through."""
+class TestVerifyC4SpecWithProofScript:
+    """Test that verify_c4_spec accepts proof_script parameter."""
 
-    def test_oracle_parameter_accepted(self):
-        """verify_c4_spec accepts proof_oracle parameter."""
+    def test_proof_script_parameter_accepted(self):
+        """verify_c4_spec accepts proof_script parameter."""
         from cctt.proof_theory.c4_llm_verifier import verify_c4_spec
-        from cctt.proof_theory.proof_oracle import AutomatedProofOracle
+        from cctt.proof_theory.proof_oracle import parse_proof_script
 
         source = '''
 def simple(x):
     return x + 1
 '''
-        oracle = AutomatedProofOracle()
+        script = parse_proof_script("""
+proof simple_pos for simple
+  given x : Int
+  show result > x
+  on path (True) returning x + 1:
+    by omega
+qed
+""")
         result = verify_c4_spec(
             source=source,
             func_name="simple",
             params=["x"],
             spec={"ensures": ["result > x"]},
-            proof_oracle=oracle,
+            proof_script=script,
         )
         assert result is not None
 

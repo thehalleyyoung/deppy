@@ -1,0 +1,491 @@
+\contentsline {part}{I\hspace {1em}Foundations}{12}{part.1}%
+\contentsline {chapter}{\numberline {1}Introduction}{13}{chapter.1}%
+\contentsline {section}{\numberline {1.1}The Problem: Verifying a Dynamic Language}{13}{section.1.1}%
+\contentsline {section}{\numberline {1.2}The Solution: Homotopy Type Theory for Python}{14}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Comparison Philosophy: \textsc {SynHoPy}{} vs.\ F$^{*}${}}{14}{section.1.3}%
+\contentsline {section}{\numberline {1.4}A Brief History of Dependent Type Systems}{15}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Martin-L\"of Type Theory (1971--1984)}{15}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Coq (1984--present)}{15}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}Agda (1999--present)}{15}{subsection.1.4.3}%
+\contentsline {subsection}{\numberline {1.4.4}Lean (2013--present)}{15}{subsection.1.4.4}%
+\contentsline {subsection}{\numberline {1.4.5}F$^*$ (2011--present)}{15}{subsection.1.4.5}%
+\contentsline {subsection}{\numberline {1.4.6}Idris (2007--present)}{16}{subsection.1.4.6}%
+\contentsline {subsection}{\numberline {1.4.7}Where \textsc {SynHoPy}{} Fits}{16}{subsection.1.4.7}%
+\contentsline {section}{\numberline {1.5}Why Not F$^{*}${}?}{16}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Program 1: Duck-Typed Polymorphism}{16}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Program 2: Monkey-Patched Method}{16}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Program 3: Decorator Composition}{17}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Program 4: Generator with State}{17}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.5}Program 5: Multiple Inheritance with \texttt {super()}}{17}{subsection.1.5.5}%
+\contentsline {section}{\numberline {1.6}The Key Insight: Dynamism as Feature}{17}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Contributions}{18}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Roadmap}{19}{section.1.8}%
+\contentsline {paragraph}{Part I: Foundations.}{19}{section*.2}%
+\contentsline {paragraph}{Part II: Python Semantics.}{19}{section*.3}%
+\contentsline {paragraph}{Part III: Soundness.}{20}{section*.4}%
+\contentsline {paragraph}{Part IV: Proof Automation.}{20}{section*.5}%
+\contentsline {paragraph}{Part V: Case Studies.}{20}{section*.6}%
+\contentsline {chapter}{\numberline {2}The \textsc {SynHoPy}{} Type Theory}{21}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Judgments}{21}{section.2.1}%
+\contentsline {section}{\numberline {2.2}The Universe $\mathsf {PyObj}$}{21}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Type Formers}{22}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}The Python Class Type $\mathsf {PyClass}$}{22}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}The Function Type}{23}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}The Path Type}{23}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Transport and the Specification Transfer Principle}{23}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}Kan Operations and Composition}{24}{subsection.2.3.5}%
+\contentsline {subsection}{\numberline {2.3.6}Higher Inductive Types for Python Constructs}{24}{subsection.2.3.6}%
+\contentsline {section}{\numberline {2.4}Contexts and the Python State}{25}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Identity Types and Path Types: Computation Rules}{25}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Dependent Function Types ($\Pi $-Types)}{26}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Dependent Pair Types ($\Sigma $-Types)}{26}{section.2.7}%
+\contentsline {section}{\numberline {2.8}The Interval Type $\mathbb {I}$ and Cubical Machinery}{27}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}The Interval}{27}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Face Lattice and Partial Elements}{27}{subsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.8.3}Composition and Filling}{28}{subsection.2.8.3}%
+\contentsline {subsection}{\numberline {2.8.4}Transport Along Paths --- Python-Specific Rules}{28}{subsection.2.8.4}%
+\contentsline {section}{\numberline {2.9}Cumulative Universe Hierarchy}{29}{section.2.9}%
+\contentsline {section}{\numberline {2.10}Python Type Formers: Detailed Mapping}{30}{section.2.10}%
+\contentsline {chapter}{\numberline {3}The Effect System}{31}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Effect Lattice}{31}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Comparison: F$^{*}${}'s Dijkstra Monads}{31}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Effects as $\Omega $-Endomorphisms}{31}{section.3.2}%
+\contentsline {section}{\numberline {3.3}The Blakers--Massey Theorem for Effect Composition}{32}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Spectral Sequences for Multi-Effect Analysis}{32}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Effect Inference Algorithm}{33}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Equational Reasoning Under Effects}{33}{section.3.6}%
+\contentsline {section}{\numberline {3.7}The Full Effect Lattice}{34}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Effect Polymorphism}{34}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Effect Masking}{35}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Effect Handlers: Algebraic Effects Perspective}{35}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Effect Inference: Worked Example}{36}{section.3.11}%
+\contentsline {section}{\numberline {3.12}The Dijkstra Monad Connection}{37}{section.3.12}%
+\contentsline {section}{\numberline {3.13}Effect Composition Rules for Python Constructs}{37}{section.3.13}%
+\contentsline {section}{\numberline {3.14}Spectral Sequences: A Concrete Computation}{37}{section.3.14}%
+\contentsline {chapter}{\numberline {4}The Proof Kernel}{39}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Proof Terms}{39}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Kernel Typing Rules}{39}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Reflexivity}{39}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Transitivity}{40}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Cut (Lemma Introduction)}{40}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Duck-Type Path Construction}{40}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Z3 Discharge}{40}{subsection.4.2.5}%
+\contentsline {section}{\numberline {4.3}Middle-Term Inference}{40}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Structural Chain Verification}{40}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Trust Lattice}{41}{section.4.5}%
+\contentsline {section}{\numberline {4.6}The Complete Verification Algorithm}{41}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Proof Term Normalization}{43}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Proof Size Bounds}{44}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Proof Term Serialization}{45}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Worked Example: From Obligation to Kernel-Accepted Proof}{46}{section.4.10}%
+\contentsline {subsection}{\numberline {4.10.1}Source Code}{46}{subsection.4.10.1}%
+\contentsline {subsection}{\numberline {4.10.2}Step 1: Obligation Generation}{46}{subsection.4.10.2}%
+\contentsline {subsection}{\numberline {4.10.3}Step 2: Effect Analysis}{46}{subsection.4.10.3}%
+\contentsline {subsection}{\numberline {4.10.4}Step 3: LLM Proof Sketch}{46}{subsection.4.10.4}%
+\contentsline {subsection}{\numberline {4.10.5}Step 4: Proof Term Construction}{47}{subsection.4.10.5}%
+\contentsline {subsection}{\numberline {4.10.6}Step 5: Normalization}{47}{subsection.4.10.6}%
+\contentsline {subsection}{\numberline {4.10.7}Step 6: Kernel Verification}{47}{subsection.4.10.7}%
+\contentsline {section}{\numberline {4.11}Kernel Error Messages}{48}{section.4.11}%
+\contentsline {section}{\numberline {4.12}Proof Term Composition}{49}{section.4.12}%
+\contentsline {section}{\numberline {4.13}Congruence Closure}{50}{section.4.13}%
+\contentsline {section}{\numberline {4.14}Comparison with F$^{*}${}'s SMT-Based Kernel}{50}{section.4.14}%
+\contentsline {section}{\numberline {4.15}Proof Term Optimization}{51}{section.4.15}%
+\contentsline {subsection}{\numberline {4.15.1}Redundant Transitivity Elimination}{52}{subsection.4.15.1}%
+\contentsline {subsection}{\numberline {4.15.2}Congruence Factoring}{52}{subsection.4.15.2}%
+\contentsline {subsection}{\numberline {4.15.3}Cut Inlining}{52}{subsection.4.15.3}%
+\contentsline {subsection}{\numberline {4.15.4}Symmetry Pushing}{52}{subsection.4.15.4}%
+\contentsline {section}{\numberline {4.16}Decidability Results}{53}{section.4.16}%
+\contentsline {part}{II\hspace {1em}Verifying Python Semantics}{55}{part.2}%
+\contentsline {chapter}{\numberline {5}Pure Functions and Refinement Types}{56}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Refinement Types}{56}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Specification Checking for Pure Functions}{56}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Equivalence of Algorithms}{57}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Binary Search Verification}{58}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Merge Sort Correctness}{59}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Termination Checking and Well-Founded Recursion}{60}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Partial Functions and Optional Return Types}{60}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Precondition/Postcondition Propagation}{61}{section.5.8}%
+\contentsline {chapter}{\numberline {6}Duck Typing}{63}{chapter.6}%
+\contentsline {section}{\numberline {6.1}The Duck-Typing Problem}{63}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Typing Rule for Duck-Typed Functions}{63}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Proving Duck-Type Equivalence}{63}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Structural Subtyping versus Nominal Subtyping}{64}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Protocol Inference Algorithm}{65}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Multiple Protocol Composition}{66}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Runtime Protocol Checking}{66}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Duck Typing for Dunder Methods}{67}{section.6.8}%
+\contentsline {chapter}{\numberline {7}Monkey-Patching}{69}{chapter.7}%
+\contentsline {section}{\numberline {7.1}The Monkey-Patching Problem}{69}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Typing Rules for Monkey-Patching}{69}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Specification Checking for Monkey-Patched Code}{69}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Temporal Reasoning: Specs Before and After the Patch}{70}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Testing with Monkey-Patching}{71}{section.7.5}%
+\contentsline {section}{\numberline {7.6}Scope of Patches}{72}{section.7.6}%
+\contentsline {section}{\numberline {7.7}Reversible Patches and the Patch Context Manager}{72}{section.7.7}%
+\contentsline {section}{\numberline {7.8}Verifying Behavioral Subtyping Under Patches}{73}{section.7.8}%
+\contentsline {chapter}{\numberline {8}Decorators and Fiber Bundles}{75}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Decorators as Fiber Bundles}{75}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Decorator Commutativity}{75}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Class Decorators}{76}{section.8.3}%
+\contentsline {section}{\numberline {8.4}\texttt {@dataclass} as a Method-Generating Decorator}{77}{section.8.4}%
+\contentsline {section}{\numberline {8.5}\texttt {@property} as a Descriptor-Creating Decorator}{78}{section.8.5}%
+\contentsline {section}{\numberline {8.6}Decorator Stacking Semantics}{79}{section.8.6}%
+\contentsline {section}{\numberline {8.7}Preserving Function Metadata with \texttt {@functools.wraps}}{80}{section.8.7}%
+\contentsline {section}{\numberline {8.8}Worked Examples: Caching, Retry, and Timing}{80}{section.8.8}%
+\contentsline {chapter}{\numberline {9}Exceptions and Classifying Spaces}{84}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Python's Exception Hierarchy}{84}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Exceptions as Eilenberg--MacLane Spaces}{84}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Exception Handling as Sections}{84}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Exception Chaining}{85}{section.9.4}%
+\contentsline {section}{\numberline {9.5}The \texttt {finally} Block}{85}{section.9.5}%
+\contentsline {section}{\numberline {9.6}Exception Groups and Structured Concurrency}{86}{section.9.6}%
+\contentsline {section}{\numberline {9.7}Custom Exception Classes as Dependent Records}{87}{section.9.7}%
+\contentsline {section}{\numberline {9.8}Exception Safety Levels}{87}{section.9.8}%
+\contentsline {section}{\numberline {9.9}Exhaustive Exception Handling}{88}{section.9.9}%
+\contentsline {section}{\numberline {9.10}Exception Hierarchy as a Poset}{89}{section.9.10}%
+\contentsline {section}{\numberline {9.11}Worked Example: Retry with Backoff}{90}{section.9.11}%
+\contentsline {chapter}{\numberline {10}Generators and Coroutines}{93}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Generators as Paths in State Space}{93}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Verifying Generator Properties}{93}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Generator Composition}{94}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Infinite Generators and Coinduction}{94}{section.10.4}%
+\contentsline {section}{\numberline {10.5}Async Generators}{95}{section.10.5}%
+\contentsline {section}{\numberline {10.6}Generator-Based Pipelines}{95}{section.10.6}%
+\contentsline {section}{\numberline {10.7}Generators as Lazy Evaluation}{96}{section.10.7}%
+\contentsline {section}{\numberline {10.8}Verifying Memory Efficiency}{97}{section.10.8}%
+\contentsline {section}{\numberline {10.9}\texttt {send()} and \texttt {throw()}: Bidirectional Communication}{98}{section.10.9}%
+\contentsline {section}{\numberline {10.10}Worked Example: Paginated API Client}{98}{section.10.10}%
+\contentsline {chapter}{\numberline {11}Closures and Late Binding}{101}{chapter.11}%
+\contentsline {section}{\numberline {11.1}The Late-Binding Problem}{101}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Closure Type with Scope Fiber}{101}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Proving Late-Binding Bugs}{101}{section.11.3}%
+\contentsline {section}{\numberline {11.4}The Default-Argument Fix}{102}{section.11.4}%
+\contentsline {section}{\numberline {11.5}Closure Serialization and Type-Theoretic Implications}{102}{section.11.5}%
+\contentsline {section}{\numberline {11.6}\texttt {nonlocal} and Multi-Level Scope Chains}{103}{section.11.6}%
+\contentsline {section}{\numberline {11.7}Closures in Decorators: The Closure-Decorator Duality}{104}{section.11.7}%
+\contentsline {section}{\numberline {11.8}Partial Application: Closures vs.\ \texttt {functools.partial}}{105}{section.11.8}%
+\contentsline {section}{\numberline {11.9}Memory Leak Prevention: Closure Reference Cycles}{106}{section.11.9}%
+\contentsline {section}{\numberline {11.10}Worked Example: Callback-Based Event System}{107}{section.11.10}%
+\contentsline {chapter}{\numberline {12}Multiple Inheritance and the MRO}{110}{chapter.12}%
+\contentsline {section}{\numberline {12.1}C3 Linearization}{110}{section.12.1}%
+\contentsline {section}{\numberline {12.2}MRO as Section of Class Bundle}{110}{section.12.2}%
+\contentsline {section}{\numberline {12.3}\texttt {super()} and Cooperative Inheritance}{111}{section.12.3}%
+\contentsline {section}{\numberline {12.4}C3 Linearization: Formal Specification}{111}{section.12.4}%
+\contentsline {section}{\numberline {12.5}The Diamond Problem}{112}{section.12.5}%
+\contentsline {section}{\numberline {12.6}Method Resolution as Topological Sort}{113}{section.12.6}%
+\contentsline {section}{\numberline {12.7}Mixin Classes and Their Verification}{113}{section.12.7}%
+\contentsline {section}{\numberline {12.8}\texttt {\_\_mro\_entries\_\_} and Custom MRO Hooks}{114}{section.12.8}%
+\contentsline {section}{\numberline {12.9}Worked Example: Verified Plugin System}{115}{section.12.9}%
+\contentsline {chapter}{\numberline {13}Metaclasses and Runtime Class Creation}{117}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Metaclasses as 2-Types}{117}{section.13.1}%
+\contentsline {section}{\numberline {13.2}\texttt {\_\_init\_subclass\_\_} and Class Registration}{117}{section.13.2}%
+\contentsline {section}{\numberline {13.3}\texttt {type()} as the Default Metaclass}{118}{section.13.3}%
+\contentsline {section}{\numberline {13.4}Abstract Base Classes and Interface Enforcement}{119}{section.13.4}%
+\contentsline {section}{\numberline {13.5}\texttt {\_\_prepare\_\_} and Ordered Namespaces}{119}{section.13.5}%
+\contentsline {section}{\numberline {13.6}Runtime Type Creation and Verification}{120}{section.13.6}%
+\contentsline {section}{\numberline {13.7}Metaclass Conflicts and Resolution}{121}{section.13.7}%
+\contentsline {section}{\numberline {13.8}Worked Example: Verified ORM Metaclass}{121}{section.13.8}%
+\contentsline {chapter}{\numberline {14}\texttt {*args, **kwargs} and the Dict Sheaf}{123}{chapter.14}%
+\contentsline {section}{\numberline {14.1}Variable Arguments as Dependent Types}{123}{section.14.1}%
+\contentsline {section}{\numberline {14.2}Specification via \v {C}ech Descent}{123}{section.14.2}%
+\contentsline {section}{\numberline {14.3}Worked Example: Decorator Factory}{123}{section.14.3}%
+\contentsline {section}{\numberline {14.4}Positional-Only and Keyword-Only Parameters}{124}{section.14.4}%
+\contentsline {section}{\numberline {14.5}Parameter Inspection via \texttt {inspect.signature}}{125}{section.14.5}%
+\contentsline {section}{\numberline {14.6}TypedDict for Typed \texttt {**kwargs}}{126}{section.14.6}%
+\contentsline {section}{\numberline {14.7}Overloaded Functions and Variadic Dispatch}{126}{section.14.7}%
+\contentsline {section}{\numberline {14.8}Verifying the Argument Binding Algorithm}{127}{section.14.8}%
+\contentsline {section}{\numberline {14.9}Worked Example: Verified CLI Argument Parser}{128}{section.14.9}%
+\contentsline {chapter}{\numberline {15}Context Managers}{131}{chapter.15}%
+\contentsline {section}{\numberline {15.1}The Resource Bundle}{131}{section.15.1}%
+\contentsline {section}{\numberline {15.2}Nested Context Managers}{131}{section.15.2}%
+\contentsline {section}{\numberline {15.3}\texttt {contextlib} Generators}{132}{section.15.3}%
+\contentsline {section}{\numberline {15.4}Async Context Managers}{132}{section.15.4}%
+\contentsline {section}{\numberline {15.5}ExitStack and Dynamic Composition}{133}{section.15.5}%
+\contentsline {section}{\numberline {15.6}Exception Suppression in \texttt {\_\_exit\_\_}}{133}{section.15.6}%
+\contentsline {section}{\numberline {15.7}Verifying Resource Leak Freedom}{134}{section.15.7}%
+\contentsline {section}{\numberline {15.8}Context Managers as a Monad}{134}{section.15.8}%
+\contentsline {section}{\numberline {15.9}Worked Example: Database Transaction Manager}{135}{section.15.9}%
+\contentsline {chapter}{\numberline {16}The ``Everything Is a Dict'' Principle}{137}{chapter.16}%
+\contentsline {section}{\numberline {16.1}Object Attribute Access}{137}{section.16.1}%
+\contentsline {section}{\numberline {16.2}Attribute Resolution as Fibration}{137}{section.16.2}%
+\contentsline {section}{\numberline {16.3}Dynamic Attribute Addition}{138}{section.16.3}%
+\contentsline {section}{\numberline {16.4}Module Namespaces as Dicts}{138}{section.16.4}%
+\contentsline {section}{\numberline {16.5}\texttt {\_\_slots\_\_} as Closed Records}{138}{section.16.5}%
+\contentsline {section}{\numberline {16.6}The Full Attribute Lookup Protocol}{139}{section.16.6}%
+\contentsline {section}{\numberline {16.7}Proxy Objects and Delegation Chains}{139}{section.16.7}%
+\contentsline {section}{\numberline {16.8}Namespace Packages and \texttt {sys.modules}}{140}{section.16.8}%
+\contentsline {section}{\numberline {16.9}The \texttt {vars()} Function}{141}{section.16.9}%
+\contentsline {section}{\numberline {16.10}Worked Example: Nested Dict Configuration with Dotted Access}{141}{section.16.10}%
+\contentsline {chapter}{\numberline {17}Async/Await and Concurrency}{143}{chapter.17}%
+\contentsline {section}{\numberline {17.1}The Concurrency Problem}{143}{section.17.1}%
+\contentsline {section}{\numberline {17.2}Coroutines as Paths with Suspension Points}{143}{section.17.2}%
+\contentsline {section}{\numberline {17.3}Proving Properties of Gathered Tasks}{143}{section.17.3}%
+\contentsline {section}{\numberline {17.4}Race Condition Detection via Spectral Sequences}{144}{section.17.4}%
+\contentsline {section}{\numberline {17.5}\texttt {asyncio.gather} and Concurrent Composition}{144}{section.17.5}%
+\contentsline {section}{\numberline {17.6}Cancellation and Timeouts}{145}{section.17.6}%
+\contentsline {section}{\numberline {17.7}Async Iterators and \texttt {async for}}{146}{section.17.7}%
+\contentsline {section}{\numberline {17.8}The Event Loop as a Scheduler}{146}{section.17.8}%
+\contentsline {section}{\numberline {17.9}Structured Concurrency with \texttt {TaskGroup}}{147}{section.17.9}%
+\contentsline {section}{\numberline {17.10}Verifying Mutual Exclusion with \texttt {asyncio.Lock}}{148}{section.17.10}%
+\contentsline {section}{\numberline {17.11}Worked Example: Async Rate Limiter}{148}{section.17.11}%
+\contentsline {chapter}{\numberline {18}Descriptors, Properties, and Slots}{151}{chapter.18}%
+\contentsline {section}{\numberline {18.1}Python's Descriptor Protocol}{151}{section.18.1}%
+\contentsline {section}{\numberline {18.2}Descriptors as Fibrations}{151}{section.18.2}%
+\contentsline {section}{\numberline {18.3}Proving Descriptor Invariants}{151}{section.18.3}%
+\contentsline {section}{\numberline {18.4}Slots and Memory Layout}{152}{section.18.4}%
+\contentsline {section}{\numberline {18.5}Non-Data vs.\ Data Descriptors: The Priority Rule}{152}{section.18.5}%
+\contentsline {section}{\numberline {18.6}The \texttt {\_\_set\_name\_\_} Hook}{153}{section.18.6}%
+\contentsline {section}{\numberline {18.7}Descriptors as Vertical Morphisms in the Attribute Bundle}{153}{section.18.7}%
+\contentsline {section}{\numberline {18.8}Computed Properties and Lazy Evaluation}{153}{section.18.8}%
+\contentsline {section}{\numberline {18.9}Validation Descriptors}{154}{section.18.9}%
+\contentsline {section}{\numberline {18.10}Worked Example: Verifying a Validated Model Class}{155}{section.18.10}%
+\contentsline {chapter}{\numberline {19}Comprehensions, Map, Filter, and Reduce}{156}{chapter.19}%
+\contentsline {section}{\numberline {19.1}List Comprehensions as Dependent Products}{156}{section.19.1}%
+\contentsline {section}{\numberline {19.2}Map--Filter--Comprehension Equivalence}{156}{section.19.2}%
+\contentsline {section}{\numberline {19.3}Reduce / Fold and the \v {C}ech Connection}{156}{section.19.3}%
+\contentsline {section}{\numberline {19.4}Dictionary and Set Comprehensions}{157}{section.19.4}%
+\contentsline {section}{\numberline {19.5}Walrus Operator in Comprehensions}{157}{section.19.5}%
+\contentsline {section}{\numberline {19.6}Generator Expressions vs.\ List Comprehensions}{158}{section.19.6}%
+\contentsline {section}{\numberline {19.7}Nested Comprehension Flattening}{158}{section.19.7}%
+\contentsline {section}{\numberline {19.8}Multiple \texttt {if} Clauses as Conjunction}{159}{section.19.8}%
+\contentsline {section}{\numberline {19.9}Performance Equivalence: Comprehension vs.\ Loop}{159}{section.19.9}%
+\contentsline {section}{\numberline {19.10}Worked Example: Data Transformation Pipeline}{160}{section.19.10}%
+\contentsline {chapter}{\numberline {20}Type Narrowing and Control Flow Analysis}{162}{chapter.20}%
+\contentsline {section}{\numberline {20.1}Type Narrowing via isinstance}{162}{section.20.1}%
+\contentsline {section}{\numberline {20.2}\v {C}ech Cover from Exhaustive Narrowing}{162}{section.20.2}%
+\contentsline {section}{\numberline {20.3}Truthiness Narrowing}{162}{section.20.3}%
+\contentsline {section}{\numberline {20.4}Type Guards: \texttt {TypeGuard} and \texttt {TypeIs}}{163}{section.20.4}%
+\contentsline {section}{\numberline {20.5}Assertion-Based Narrowing}{163}{section.20.5}%
+\contentsline {section}{\numberline {20.6}Pattern Matching Exhaustiveness}{164}{section.20.6}%
+\contentsline {section}{\numberline {20.7}Narrowing Through Assignment}{165}{section.20.7}%
+\contentsline {section}{\numberline {20.8}Narrowing Composition Across Function Boundaries}{165}{section.20.8}%
+\contentsline {section}{\numberline {20.9}Worked Example: JSON Schema Validator}{165}{section.20.9}%
+\contentsline {chapter}{\numberline {21}Denotational Semantics of Core Python}{168}{chapter.21}%
+\contentsline {section}{\numberline {21.1}The Semantic Function}{168}{section.21.1}%
+\contentsline {subsection}{\numberline {21.1.1}Expressions}{168}{subsection.21.1.1}%
+\contentsline {subsection}{\numberline {21.1.2}Statements}{168}{subsection.21.1.2}%
+\contentsline {subsection}{\numberline {21.1.3}Loops}{169}{subsection.21.1.3}%
+\contentsline {subsection}{\numberline {21.1.4}Try/Except}{169}{subsection.21.1.4}%
+\contentsline {section}{\numberline {21.2}Soundness of the Denotation}{169}{section.21.2}%
+\contentsline {section}{\numberline {21.3}Class Definitions}{169}{section.21.3}%
+\contentsline {section}{\numberline {21.4}Decorators}{170}{section.21.4}%
+\contentsline {section}{\numberline {21.5}Generators}{170}{section.21.5}%
+\contentsline {section}{\numberline {21.6}With-Statements}{170}{section.21.6}%
+\contentsline {section}{\numberline {21.7}Comprehensions}{170}{section.21.7}%
+\contentsline {section}{\numberline {21.8}Augmented Assignment}{171}{section.21.8}%
+\contentsline {section}{\numberline {21.9}Del Statements}{171}{section.21.9}%
+\contentsline {section}{\numberline {21.10}Import Statements}{171}{section.21.10}%
+\contentsline {section}{\numberline {21.11}Assert Statements}{172}{section.21.11}%
+\contentsline {section}{\numberline {21.12}Multiple Assignment and Tuple Unpacking}{172}{section.21.12}%
+\contentsline {section}{\numberline {21.13}Global and Nonlocal Declarations}{173}{section.21.13}%
+\contentsline {section}{\numberline {21.14}Pattern Matching (Match/Case)}{173}{section.21.14}%
+\contentsline {section}{\numberline {21.15}Fixed-Point Semantics}{174}{section.21.15}%
+\contentsline {section}{\numberline {21.16}Domain Theory Connection}{175}{section.21.16}%
+\contentsline {section}{\numberline {21.17}Well-Definedness of the Denotation}{176}{section.21.17}%
+\contentsline {chapter}{\numberline {22}String Operations and Regular Expressions}{177}{chapter.22}%
+\contentsline {section}{\numberline {22.1}Strings as Free Monoids}{177}{section.22.1}%
+\contentsline {section}{\numberline {22.2}Verifying String-Processing Functions}{177}{section.22.2}%
+\contentsline {section}{\numberline {22.3}F-strings and Format Specifications}{177}{section.22.3}%
+\contentsline {section}{\numberline {22.4}String Methods and Algebraic Properties}{178}{section.22.4}%
+\contentsline {section}{\numberline {22.5}Regular Expression Verification}{178}{section.22.5}%
+\contentsline {section}{\numberline {22.6}Bytes vs.\ Str: Encoding and Decoding}{179}{section.22.6}%
+\contentsline {section}{\numberline {22.7}String Interpolation Safety}{179}{section.22.7}%
+\contentsline {section}{\numberline {22.8}Unicode Normalization and Comparison}{179}{section.22.8}%
+\contentsline {section}{\numberline {22.9}Template Strings and \texttt {format\_map}}{180}{section.22.9}%
+\contentsline {section}{\numberline {22.10}Worked Example: SQL Query Builder with Injection Prevention}{180}{section.22.10}%
+\contentsline {part}{III\hspace {1em}Soundness}{183}{part.3}%
+\contentsline {chapter}{\numberline {23}The $\infty $-Topos Model}{184}{chapter.23}%
+\contentsline {section}{\numberline {23.1}The Site of Python Execution Contexts}{184}{section.23.1}%
+\contentsline {section}{\numberline {23.2}The $\infty $-Topos $\mathsf {Sh}_\infty (\mathsf {Ctx})$}{184}{section.23.2}%
+\contentsline {section}{\numberline {23.3}Validating the Duck-Typing Axiom}{185}{section.23.3}%
+\contentsline {section}{\numberline {23.4}Effects in the Model}{185}{section.23.4}%
+\contentsline {section}{\numberline {23.5}Python Values as Sheaf Sections}{185}{section.23.5}%
+\contentsline {section}{\numberline {23.6}The Čech Cohomology Connection}{186}{section.23.6}%
+\contentsline {section}{\numberline {23.7}The Universe Hierarchy in the Model}{186}{section.23.7}%
+\contentsline {section}{\numberline {23.8}Univalence Axiom Validation}{187}{section.23.8}%
+\contentsline {section}{\numberline {23.9}Higher Inductive Types in the Model}{187}{section.23.9}%
+\contentsline {section}{\numberline {23.10}The Interval Type and Path Spaces}{188}{section.23.10}%
+\contentsline {section}{\numberline {23.11}Propositional Truncation and Mere Propositions}{189}{section.23.11}%
+\contentsline {section}{\numberline {23.12}Function Extensionality}{189}{section.23.12}%
+\contentsline {section}{\numberline {23.13}Relationship with Presheaf Models}{190}{section.23.13}%
+\contentsline {chapter}{\numberline {24}Consistency and Conservativity}{191}{chapter.24}%
+\contentsline {section}{\numberline {24.1}Consistency}{191}{section.24.1}%
+\contentsline {section}{\numberline {24.2}Conservativity over CCTT}{191}{section.24.2}%
+\contentsline {section}{\numberline {24.3}Anti-Hallucination}{191}{section.24.3}%
+\contentsline {section}{\numberline {24.4}Trusted Computing Base}{192}{section.24.4}%
+\contentsline {section}{\numberline {24.5}Normalization}{193}{section.24.5}%
+\contentsline {section}{\numberline {24.6}Canonicity}{193}{section.24.6}%
+\contentsline {section}{\numberline {24.7}Axioms and Canonicity}{194}{section.24.7}%
+\contentsline {section}{\numberline {24.8}Decidability of Type Checking}{194}{section.24.8}%
+\contentsline {section}{\numberline {24.9}Proof Irrelevance for Propositions}{195}{section.24.9}%
+\contentsline {section}{\numberline {24.10}Conservativity over Plain MLTT}{195}{section.24.10}%
+\contentsline {section}{\numberline {24.11}Classical vs.\ Intuitionistic Logic}{196}{section.24.11}%
+\contentsline {section}{\numberline {24.12}The Interpretation Theorem}{197}{section.24.12}%
+\contentsline {part}{IV\hspace {1em}Proof Automation}{198}{part.4}%
+\contentsline {chapter}{\numberline {25}LLM-as-Tactic Framework}{199}{chapter.25}%
+\contentsline {section}{\numberline {25.1}Architecture}{199}{section.25.1}%
+\contentsline {section}{\numberline {25.2}The Proof Obligation Rendering}{199}{section.25.2}%
+\contentsline {section}{\numberline {25.3}Proof Compilation}{200}{section.25.3}%
+\contentsline {section}{\numberline {25.4}Retry and Refinement}{200}{section.25.4}%
+\contentsline {section}{\numberline {25.5}Proof Caching via Univalence}{200}{section.25.5}%
+\contentsline {section}{\numberline {25.6}LLM Proof Strategy Classification}{201}{section.25.6}%
+\contentsline {section}{\numberline {25.7}Worked Example: Complete Proof Search}{201}{section.25.7}%
+\contentsline {section}{\numberline {25.8}Prompt Engineering for Proof Generation}{202}{section.25.8}%
+\contentsline {section}{\numberline {25.9}Temperature and Sampling Strategies}{203}{section.25.9}%
+\contentsline {section}{\numberline {25.10}Multi-Model Ensemble}{203}{section.25.10}%
+\contentsline {section}{\numberline {25.11}Proof Simplification}{203}{section.25.11}%
+\contentsline {section}{\numberline {25.12}Tactic DSL Formal Grammar}{204}{section.25.12}%
+\contentsline {section}{\numberline {25.13}Soundness of the Tactic Layer}{205}{section.25.13}%
+\contentsline {section}{\numberline {25.14}Benchmarks: Proof Success Rates}{205}{section.25.14}%
+\contentsline {section}{\numberline {25.15}Comparison with Lean's Tactic Framework}{206}{section.25.15}%
+\contentsline {section}{\numberline {25.16}Comparison with Coq's Ltac}{207}{section.25.16}%
+\contentsline {chapter}{\numberline {26}The Complete Verification Pipeline}{208}{chapter.26}%
+\contentsline {section}{\numberline {26.1}End-to-End Workflow}{208}{section.26.1}%
+\contentsline {section}{\numberline {26.2}Comparison: F$^{*}${} Pipeline}{208}{section.26.2}%
+\contentsline {section}{\numberline {26.3}Incremental Verification}{209}{section.26.3}%
+\contentsline {section}{\numberline {26.4}Parallel Verification}{209}{section.26.4}%
+\contentsline {section}{\numberline {26.5}Error Reporting}{210}{section.26.5}%
+\contentsline {section}{\numberline {26.6}CI/CD Integration}{211}{section.26.6}%
+\contentsline {section}{\numberline {26.7}Configuration}{211}{section.26.7}%
+\contentsline {section}{\numberline {26.8}Verification Report Format}{212}{section.26.8}%
+\contentsline {chapter}{\numberline {27}Library Axiom System}{214}{chapter.27}%
+\contentsline {section}{\numberline {27.1}The Problem of Library Verification}{214}{section.27.1}%
+\contentsline {section}{\numberline {27.2}Axiom Registry}{214}{section.27.2}%
+\contentsline {section}{\numberline {27.3}Trust Propagation}{215}{section.27.3}%
+\contentsline {section}{\numberline {27.4}Per-Library Type Theories}{215}{section.27.4}%
+\contentsline {section}{\numberline {27.5}Axiom Generation from Documentation}{215}{section.27.5}%
+\contentsline {section}{\numberline {27.6}Axiom Testing}{216}{section.27.6}%
+\contentsline {section}{\numberline {27.7}Versioned Axioms}{217}{section.27.7}%
+\contentsline {section}{\numberline {27.8}Community Axiom Repositories}{217}{section.27.8}%
+\contentsline {section}{\numberline {27.9}Axiom Composition}{218}{section.27.9}%
+\contentsline {section}{\numberline {27.10}Worked Example: NumPy Linear Algebra Axiom Set}{218}{section.27.10}%
+\contentsline {part}{V\hspace {1em}Case Studies}{221}{part.5}%
+\contentsline {chapter}{\numberline {28}Verifying a Web Framework Route Handler}{222}{chapter.28}%
+\contentsline {section}{\numberline {28.1}The Code}{222}{section.28.1}%
+\contentsline {section}{\numberline {28.2}Verification}{222}{section.28.2}%
+\contentsline {section}{\numberline {28.3}Request Validation and Input Sanitization}{223}{section.28.3}%
+\contentsline {section}{\numberline {28.4}Authentication and Authorization Middleware}{224}{section.28.4}%
+\contentsline {section}{\numberline {28.5}Database Query Safety}{225}{section.28.5}%
+\contentsline {section}{\numberline {28.6}CORS and Security Header Verification}{225}{section.28.6}%
+\contentsline {section}{\numberline {28.7}Error Handler Completeness}{226}{section.28.7}%
+\contentsline {section}{\numberline {28.8}Worked Example: Complete REST API Endpoint}{227}{section.28.8}%
+\contentsline {chapter}{\numberline {29}Verifying a Data Processing Pipeline}{229}{chapter.29}%
+\contentsline {section}{\numberline {29.1}The Code}{229}{section.29.1}%
+\contentsline {section}{\numberline {29.2}Verification}{229}{section.29.2}%
+\contentsline {section}{\numberline {29.3}CSV Parsing and Schema Validation}{230}{section.29.3}%
+\contentsline {section}{\numberline {29.4}Data Transformation Pipeline Composition}{230}{section.29.4}%
+\contentsline {section}{\numberline {29.5}Null and NaN Handling Verification}{231}{section.29.5}%
+\contentsline {section}{\numberline {29.6}Type Coercion Safety}{232}{section.29.6}%
+\contentsline {section}{\numberline {29.7}Aggregation Correctness}{232}{section.29.7}%
+\contentsline {section}{\numberline {29.8}Worked Example: Verifying an ETL Pipeline}{233}{section.29.8}%
+\contentsline {chapter}{\numberline {30}Verifying SymPy Computations}{235}{chapter.30}%
+\contentsline {section}{\numberline {30.1}The Challenge}{235}{section.30.1}%
+\contentsline {section}{\numberline {30.2}The Code}{235}{section.30.2}%
+\contentsline {section}{\numberline {30.3}Verification}{235}{section.30.3}%
+\contentsline {section}{\numberline {30.4}Symbolic Simplification Correctness}{236}{section.30.4}%
+\contentsline {section}{\numberline {30.5}Integration and Differentiation Verification}{237}{section.30.5}%
+\contentsline {section}{\numberline {30.6}Equation Solving Soundness}{237}{section.30.6}%
+\contentsline {section}{\numberline {30.7}Matrix Operations Verification}{238}{section.30.7}%
+\contentsline {section}{\numberline {30.8}SymPy Expression Tree as an Algebraic Data Type}{239}{section.30.8}%
+\contentsline {section}{\numberline {30.9}Worked Example: Verifying a Physics Simulation}{239}{section.30.9}%
+\contentsline {chapter}{\numberline {31}Verifying a Machine Learning Pipeline}{242}{chapter.31}%
+\contentsline {section}{\numberline {31.1}The Code}{242}{section.31.1}%
+\contentsline {section}{\numberline {31.2}Verification}{242}{section.31.2}%
+\contentsline {section}{\numberline {31.3}Feature Engineering Verification}{243}{section.31.3}%
+\contentsline {section}{\numberline {31.4}Cross-Validation Correctness}{244}{section.31.4}%
+\contentsline {section}{\numberline {31.5}Model Serialization Roundtrip}{244}{section.31.5}%
+\contentsline {section}{\numberline {31.6}Prediction Pipeline Type Safety}{245}{section.31.6}%
+\contentsline {section}{\numberline {31.7}Hyperparameter Search Space Verification}{246}{section.31.7}%
+\contentsline {section}{\numberline {31.8}Worked Example: Verifying a scikit-learn Pipeline}{247}{section.31.8}%
+\contentsline {chapter}{\numberline {32}Verifying a Concurrent Task Queue}{250}{chapter.32}%
+\contentsline {section}{\numberline {32.1}The Code}{250}{section.32.1}%
+\contentsline {section}{\numberline {32.2}Verification: Concurrency Invariants}{250}{section.32.2}%
+\contentsline {section}{\numberline {32.3}Priority Queue Semantics}{252}{section.32.3}%
+\contentsline {section}{\numberline {32.4}Worker Pool Scaling}{252}{section.32.4}%
+\contentsline {section}{\numberline {32.5}Task Dependency DAGs}{253}{section.32.5}%
+\contentsline {section}{\numberline {32.6}Deadlock Detection via Cycle Detection}{254}{section.32.6}%
+\contentsline {section}{\numberline {32.7}Graceful Shutdown Verification}{255}{section.32.7}%
+\contentsline {section}{\numberline {32.8}Worked Example: Distributed Task Queue with Redis}{256}{section.32.8}%
+\contentsline {chapter}{\numberline {33}Verifying Design Patterns}{259}{chapter.33}%
+\contentsline {section}{\numberline {33.1}The Observer Pattern}{259}{section.33.1}%
+\contentsline {section}{\numberline {33.2}Verifying the Observer Contract}{259}{section.33.2}%
+\contentsline {section}{\numberline {33.3}The Strategy Pattern}{260}{section.33.3}%
+\contentsline {section}{\numberline {33.4}The Factory Pattern}{260}{section.33.4}%
+\contentsline {section}{\numberline {33.5}The Decorator Pattern (GoF)}{262}{section.33.5}%
+\contentsline {section}{\numberline {33.6}The Iterator Pattern}{263}{section.33.6}%
+\contentsline {section}{\numberline {33.7}The Builder Pattern}{265}{section.33.7}%
+\contentsline {chapter}{\numberline {34}Copy Semantics, Object Identity, and Aliasing}{267}{chapter.34}%
+\contentsline {section}{\numberline {34.1}Object Identity as a Fiber}{267}{section.34.1}%
+\contentsline {section}{\numberline {34.2}The Heap as a Dependent Context}{267}{section.34.2}%
+\contentsline {section}{\numberline {34.3}Aliasing Analysis}{268}{section.34.3}%
+\contentsline {section}{\numberline {34.4}Copy Semantics}{268}{section.34.4}%
+\contentsline {section}{\numberline {34.5}Pickle and Serialization Roundtrips}{269}{section.34.5}%
+\contentsline {section}{\numberline {34.6}Weak References}{269}{section.34.6}%
+\contentsline {section}{\numberline {34.7}Mutable Default Arguments}{270}{section.34.7}%
+\contentsline {chapter}{\numberline {35}Functional Combinators and Algebraic Laws of the Standard Library}{271}{chapter.35}%
+\contentsline {section}{\numberline {35.1}Functorial Structure of Built-in Combinators}{271}{section.35.1}%
+\contentsline {section}{\numberline {35.2}\texttt {functools.reduce} as Catamorphism}{271}{section.35.2}%
+\contentsline {section}{\numberline {35.3}\texttt {itertools} Combinators}{272}{section.35.3}%
+\contentsline {subsection}{\numberline {35.3.1}Chain as Coproduct}{272}{subsection.35.3.1}%
+\contentsline {subsection}{\numberline {35.3.2}Product as Categorical Product}{272}{subsection.35.3.2}%
+\contentsline {subsection}{\numberline {35.3.3}Groupby as Kernel Partition}{272}{subsection.35.3.3}%
+\contentsline {subsection}{\numberline {35.3.4}Permutations and Combinations}{272}{subsection.35.3.4}%
+\contentsline {subsection}{\numberline {35.3.5}Accumulate as Scan}{272}{subsection.35.3.5}%
+\contentsline {section}{\numberline {35.4}\texttt {functools} Higher-Order Functions}{273}{section.35.4}%
+\contentsline {subsection}{\numberline {35.4.1}\texttt {@lru\_cache} and Memoization}{273}{subsection.35.4.1}%
+\contentsline {subsection}{\numberline {35.4.2}\texttt {@singledispatch}}{273}{subsection.35.4.2}%
+\contentsline {subsection}{\numberline {35.4.3}\texttt {functools.partial}}{273}{subsection.35.4.3}%
+\contentsline {subsection}{\numberline {35.4.4}\texttt {functools.wraps}}{274}{subsection.35.4.4}%
+\contentsline {section}{\numberline {35.5}The \texttt {operator} Module}{274}{section.35.5}%
+\contentsline {section}{\numberline {35.6}\texttt {collections.abc} as a Type-Theoretic Hierarchy}{274}{section.35.6}%
+\contentsline {chapter}{\numberline {36}Scalable Verification for Production Codebases}{276}{chapter.36}%
+\contentsline {section}{\numberline {36.1}The Scalability Challenge}{276}{section.36.1}%
+\contentsline {section}{\numberline {36.2}Stratified Abstraction}{276}{section.36.2}%
+\contentsline {section}{\numberline {36.3}Effect-Based Obligation Pruning}{277}{section.36.3}%
+\contentsline {section}{\numberline {36.4}Batch Z3 with Shared Axiom Context}{278}{section.36.4}%
+\contentsline {section}{\numberline {36.5}Proof Template Library}{279}{section.36.5}%
+\contentsline {section}{\numberline {36.6}Sheaf-Theoretic Memoization}{280}{section.36.6}%
+\contentsline {section}{\numberline {36.7}Modular Verification with Specification Interfaces}{280}{section.36.7}%
+\contentsline {section}{\numberline {36.8}Incremental Re-verification with Proof Patching}{281}{section.36.8}%
+\contentsline {section}{\numberline {36.9}Z3 Timeout Strategies and Fallback}{282}{section.36.9}%
+\contentsline {section}{\numberline {36.10}Worked Example: Verifying a 1,000-Function Library}{282}{section.36.10}%
+\contentsline {chapter}{\numberline {37}Abstract Interpretation as Lightweight Verification}{283}{chapter.37}%
+\contentsline {section}{\numberline {37.1}Abstract Domains for Python}{283}{section.37.1}%
+\contentsline {section}{\numberline {37.2}Abstract Interpretation Meets Effect Analysis}{284}{section.37.2}%
+\contentsline {section}{\numberline {37.3}Widening and Loop Analysis}{284}{section.37.3}%
+\contentsline {section}{\numberline {37.4}Taint Analysis for Security Properties}{285}{section.37.4}%
+\contentsline {section}{\numberline {37.5}Combining Abstract Domains}{285}{section.37.5}%
+\contentsline {chapter}{Conclusion}{286}{chapter*.8}%
+\contentsline {chapter}{\numberline {A}Complete Typing Rules}{287}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Core Rules}{287}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Path Rules}{287}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Python-Specific Rules}{287}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Statement Rules}{288}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Class and Decorator Rules}{288}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Generator and Async Rules}{288}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Effect-Annotated Rules}{289}{section.A.7}%
+\contentsline {section}{\numberline {A.8}Subtyping and Conversion Rules}{289}{section.A.8}%
+\contentsline {chapter}{\numberline {B}Comparison Table: \textsc {SynHoPy}{} vs.\ F$^{*}${}}{290}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Future Work}{292}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Verified Package Ecosystem}{292}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Self-Verification}{292}{section.C.2}%
+\contentsline {section}{\numberline {C.3}LLM Advancement Integration}{292}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Formalization in Lean}{293}{section.C.4}%
+\contentsline {section}{\numberline {C.5}Beyond Python}{293}{section.C.5}%
+\contentsline {section}{\numberline {C.6}Gradual Verification Adoption}{293}{section.C.6}%
+\contentsline {subsection}{\numberline {C.6.1}The Adoption Path}{293}{subsection.C.6.1}%
+\contentsline {subsection}{\numberline {C.6.2}Incremental Re-verification}{293}{subsection.C.6.2}%
+\contentsline {section}{\numberline {C.7}Integration with mypy and pyright}{294}{section.C.7}%
+\contentsline {section}{\numberline {C.8}Formal Verification of Machine Learning Models}{294}{section.C.8}%
+\contentsline {subsection}{\numberline {C.8.1}Fairness Verification}{294}{subsection.C.8.1}%
+\contentsline {subsection}{\numberline {C.8.2}Robustness Verification}{295}{subsection.C.8.2}%
+\contentsline {subsection}{\numberline {C.8.3}Pipeline Invariants}{295}{subsection.C.8.3}%
+\contentsline {section}{\numberline {C.9}Quantum Computing Verification}{295}{section.C.9}%
+\contentsline {subsection}{\numberline {C.9.1}Circuit Correctness}{295}{subsection.C.9.1}%
+\contentsline {subsection}{\numberline {C.9.2}Entanglement Verification}{295}{subsection.C.9.2}%
+\contentsline {subsection}{\numberline {C.9.3}Hybrid Classical-Quantum Verification}{296}{subsection.C.9.3}%
+\contentsline {section}{\numberline {C.10}Blockchain Smart Contract Verification}{296}{section.C.10}%
+\contentsline {section}{\numberline {C.11}Educational Applications}{296}{section.C.11}%
+\contentsline {subsection}{\numberline {C.11.1}Curriculum Integration}{296}{subsection.C.11.1}%
+\contentsline {subsection}{\numberline {C.11.2}Interactive Feedback}{297}{subsection.C.11.2}%
+\contentsline {chapter}{\numberline {D}References}{298}{appendix.D}%

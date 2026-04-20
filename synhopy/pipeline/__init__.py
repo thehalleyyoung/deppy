@@ -11,4 +11,8 @@ __all__ = [
     "AutoSpecGenerator",
     "ParallelScheduler", "VerificationGraph",
     "GradualChecker", "GradualReport", "VerificationCoverage",
+    "CounterexampleFinder", "CounterexampleResult",
+    "PropertyTester", "HypothesisBridge",
+    "DiagnosticEngine", "Diagnosis",
+    "BoundaryAnalyzer", "BoundaryViolation",
 ]

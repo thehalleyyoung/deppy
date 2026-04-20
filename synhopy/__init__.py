@@ -63,6 +63,8 @@ def protocol_spec(cls_or_str=None):
             return cls
         return decorator
     return cls_or_str
+from synhopy.lean.compiler import compile_to_lean  # noqa: F401
+
 loop_variant = decreases
 fuel = decreases
 may_diverge = total        # marks intent (opposite semantics — placeholder)
