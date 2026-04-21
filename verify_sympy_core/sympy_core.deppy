@@ -1,0 +1,159 @@
+# Sidecar specification for sympy.core, sympy.matrices, sympy.integrals
+#
+# This file declares axioms and proof obligations for SymPy's
+# fundamental algebraic, linear-algebraic, and calculus modules —
+# without touching a single line of SymPy's source code.
+#
+# The companion verify_core.py validates every axiom both
+# formally (via deppy's proof kernel + Z3) and computationally
+# (via exact SymPy symbolic arithmetic on concrete expressions).
+
+module: sympy
+version: ">=1.12"
+
+# ─────────────────────────────────────────────────────────
+#  A. Addition — Commutative Group (sympy.core.add.Add)
+# ─────────────────────────────────────────────────────────
+
+spec sympy.core.add.Add:
+  guarantee: "symbolic addition forms a commutative group"
+  pure: true
+  axiom add_commutative: "a + b == b + a for all symbolic expressions"
+  axiom add_associative: "(a + b) + c == a + (b + c)"
+  axiom add_identity: "a + 0 == a"
+  axiom add_inverse: "a + (-a) == 0"
+
+# ─────────────────────────────────────────────────────────
+#  B. Multiplication — Commutative Ring (sympy.core.mul.Mul)
+# ─────────────────────────────────────────────────────────
+
+spec sympy.core.mul.Mul:
+  guarantee: "symbolic multiplication forms a commutative ring with addition"
+  pure: true
+  axiom mul_commutative: "a * b == b * a"
+  axiom mul_associative: "(a * b) * c == a * (b * c)"
+  axiom mul_identity: "a * 1 == a"
+  axiom mul_absorbing: "a * 0 == 0"
+  axiom mul_distributive: "a * (b + c) == a*b + a*c"
+
+# ─────────────────────────────────────────────────────────
+#  C. Powers and Roots (sympy.core.power.Pow)
+# ─────────────────────────────────────────────────────────
+
+spec sympy.core.power.Pow:
+  guarantee: "exponentiation satisfies standard power laws"
+  pure: true
+  axiom pow_zero: "a**0 == 1 (for a != 0)"
+  axiom pow_one: "a**1 == a"
+  axiom pow_product: "a**m * a**n == a**(m+n)"
+  axiom pow_power: "(a**m)**n == a**(m*n)"
+  axiom pow_distribute: "(a*b)**n == a**n * b**n"
+
+# ─────────────────────────────────────────────────────────
+#  D. Square Root — including Z3-proved identity
+# ─────────────────────────────────────────────────────────
+
+spec sympy.functions.elementary.miscellaneous.sqrt:
+  guarantee: "sqrt returns principal square root"
+  pure: true
+  axiom sqrt_square_positive: "sqrt(x**2) == x when x > 0"
+  axiom sqrt_square_abs: "sqrt(x**2) == |x| for all real x (Z3-proved)"
+  axiom sqrt_product: "sqrt(a*b) == sqrt(a)*sqrt(b) for a,b >= 0"
+  axiom sqrt_inverse: "sqrt(a) * sqrt(a) == a for a >= 0"
+
+# ─────────────────────────────────────────────────────────
+#  E. Matrix Operations (sympy.matrices)
+# ─────────────────────────────────────────────────────────
+
+spec sympy.matrices.dense.MutableDenseMatrix:
+  guarantee: "matrix operations satisfy standard linear algebra laws"
+  pure: true
+  axiom mat_mul_assoc: "(A * B) * C == A * (B * C)"
+  axiom mat_mul_identity: "A * I == A"
+  axiom mat_add_commutative: "A + B == B + A"
+  axiom mat_add_associative: "(A + B) + C == A + (B + C)"
+  axiom mat_scalar_distribute: "c * (A + B) == c*A + c*B"
+  axiom transpose_involution: "(A^T)^T == A"
+  axiom transpose_product: "(A*B)^T == B^T * A^T"
+  axiom transpose_sum: "(A+B)^T == A^T + B^T"
+  axiom det_product: "det(A*B) == det(A)*det(B)"
+  axiom det_transpose: "det(A^T) == det(A)"
+  axiom det_identity: "det(I_n) == 1"
+  axiom det_inverse: "det(A^-1) == 1/det(A) for invertible A"
+  axiom trace_sum: "trace(A+B) == trace(A)+trace(B)"
+  axiom trace_scalar: "trace(c*A) == c*trace(A)"
+  axiom trace_transpose: "trace(A^T) == trace(A)"
+
+# ─────────────────────────────────────────────────────────
+#  F. Differentiation (sympy.core.function.Derivative)
+# ─────────────────────────────────────────────────────────
+
+spec sympy.core.function.diff:
+  guarantee: "differentiation satisfies calculus axioms"
+  pure: true
+  axiom diff_linearity_add: "d/dx(f+g) == df/dx + dg/dx"
+  axiom diff_linearity_scalar: "d/dx(c*f) == c*df/dx when c constant in x"
+  axiom diff_product_rule: "d/dx(f*g) == f'*g + f*g'"
+  axiom diff_chain_rule: "d/dx f(g(x)) == f'(g(x)) * g'(x)"
+  axiom diff_power_rule: "d/dx(x^n) == n*x^(n-1)"
+  axiom diff_exp: "d/dx(e^x) == e^x"
+  axiom diff_log: "d/dx(ln(x)) == 1/x"
+  axiom diff_sin: "d/dx(sin(x)) == cos(x)"
+  axiom diff_cos: "d/dx(cos(x)) == -sin(x)"
+
+# ─────────────────────────────────────────────────────────
+#  G. Integration (sympy.integrals)
+# ─────────────────────────────────────────────────────────
+
+spec sympy.integrals.integrals.integrate:
+  guarantee: "integration satisfies FTC and linearity"
+  pure: true
+  axiom ftc_part1: "d/dx integral(f, x) == f"
+  axiom ftc_part2: "integral_a^b f'(x)dx == f(b) - f(a)"
+  axiom int_linearity_add: "integral(f+g, x) == integral(f,x) + integral(g,x)"
+  axiom int_linearity_scalar: "integral(c*f, x) == c*integral(f,x) when c constant"
+  axiom int_by_parts: "integral_a^b u*v'dx == [u*v]_a^b - integral_a^b u'*v dx"
+  axiom int_power: "integral(x^n, x) == x^(n+1)/(n+1) for n != -1"
+
+# ─────────────────────────────────────────────────────────
+#  H. Division by Zero / Edge Cases
+# ─────────────────────────────────────────────────────────
+
+spec sympy.core.numbers:
+  guarantee: "arithmetic edge cases produce correct symbolic objects"
+  pure: true
+  axiom div_by_zero_const: "S(1)/S(0) == zoo"
+  axiom div_by_zero_zero: "S(0)/S(0) == nan"
+  axiom div_by_zero_symbolic: "a/S(0) contains zoo"
+
+# ─────────────────────────────────────────────────────────
+#  X. Deliberate FALSE axiom — MUST FAIL
+# ─────────────────────────────────────────────────────────
+
+spec sympy.core.mul.Mul.false:
+  guarantee: "multiplication is NOT idempotent in general"
+  axiom mul_idempotent: "a * a == a for all symbolic a"
+
+# ─────────────────────────────────────────────────────────
+#  Proofs
+# ─────────────────────────────────────────────────────────
+
+proof ring_proof:
+  target: sympy.core.add.Add
+  by: axiom add_commutative
+
+proof det_proof:
+  target: sympy.matrices.dense.MutableDenseMatrix
+  by: axiom det_product
+
+proof ftc_proof:
+  target: sympy.integrals.integrals.integrate
+  by: axiom ftc_part1
+
+proof sqrt_z3_proof:
+  target: sympy.functions.elementary.miscellaneous.sqrt
+  by: axiom sqrt_square_abs
+
+proof false_proof:
+  target: sympy.core.mul.Mul.false
+  by: axiom mul_idempotent

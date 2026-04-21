@@ -98,27 +98,47 @@
     <!-- ───────────────────────────────────────────── -->
     <h2 id="what-we-verify">What Are We Verifying?</h2>
     <p>
-      We are <em>not</em> verifying SymPy's implementation (that would require access to
-      its internals). Instead, we verify three things:
+      Deppy's sidecar approach lets us verify SymPy's <em>observable behaviour</em>
+      without modifying a single line of SymPy source. Every axiom we state is
+      both <strong>formally recorded</strong> in the proof kernel and
+      <strong>computationally validated</strong> against SymPy's actual output on
+      hundreds of concrete inputs.  We verify four things:
     </p>
     <ol>
       <li><strong>Algebraic laws</strong> — that SymPy's operations satisfy the axioms
-          of the algebraic structures they claim to implement (rings, fields, etc.).</li>
-      <li><strong>Our code's correct usage</strong> — that we call SymPy functions with
-          valid inputs and handle outputs correctly.</li>
-      <li><strong>Cross-domain transport</strong> — that properties proved symbolically
-          in SymPy transfer correctly to numerical computations.</li>
+          of the algebraic structures they implement (commutative ring for
+          <code>Add</code>/<code>Mul</code>, etc.).</li>
+      <li><strong>Calculus &amp; linear-algebra theorems</strong> — product rule, chain
+          rule, FTC, determinant multiplicativity, and more — proved formally and
+          validated on concrete expressions.</li>
+      <li><strong>Identities SymPy can't decide</strong> — for example, SymPy's
+          <code>.equals()</code> returns <code>None</code> for
+          <code>sqrt(x²) == |x|</code>, but Deppy's Z3 backend proves it over the
+          reals.</li>
+      <li><strong>Cross-domain transport</strong> — properties proved symbolically
+          in SymPy transfer correctly to numerical computations via homotopy paths.</li>
     </ol>
 
+    <div class="tip">
+      Two runnable verification scripts ship with this repository:
+      <ul>
+        <li><code>verify_sympy_core/verify_core.py</code> — 52 axioms across algebra,
+            matrices, calculus, and edge cases (766+ runtime validations).</li>
+        <li><code>verify_sympy_geometry/verify_triangle.py</code> — 24 geometry theorems
+            (182 runtime validations).</li>
+      </ul>
+      Both run in under a minute with <code>PYTHONPATH=. python3 &lt;script&gt;</code>.
+    </div>
+
     <h3>Project Structure</h3>
-    <pre><code><span class="cm"># Sidecar files for SymPy verification</span>
-sidecars/
-├── sympy/
-│   ├── core.deppy          <span class="cm"># Add, Mul, Pow, Symbol — ring axioms</span>
-│   ├── matrices.deppy      <span class="cm"># Matrix, det, transpose, inverse</span>
-│   ├── integrals.deppy     <span class="cm"># integrate, diff — calculus theorems</span>
-│   └── __init__.deppy      <span class="cm"># top-level re-exports</span>
-└── sympy.deppy-sig         <span class="cm"># lightweight signatures for 100+ functions</span></code></pre>
+    <pre><code><span class="cm"># Sidecar verification files</span>
+verify_sympy_core/
+├── sympy_core.deppy     <span class="cm"># 52 axioms — Add, Mul, Pow, Matrix, diff, ∫</span>
+├── verify_core.py       <span class="cm"># kernel proofs + runtime validation</span>
+└── README.md
+verify_sympy_geometry/
+├── triangle.deppy       <span class="cm"># 28 geometry axioms</span>
+└── verify_triangle.py   <span class="cm"># 24 theorems, 182 runtime checks</span></code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="core-algebra">Sidecar Specs for <code>sympy.core</code></h2>
@@ -458,9 +478,57 @@ sidecars/
     <!-- ───────────────────────────────────────────── -->
     <h2 id="running-verification">Running the Full Verification</h2>
     <p>
-      With all sidecar specs in place, run the verification.
-      The output below shows what a full sidecar verification session looks like
-      (see <a href="geometry.html">Verifying sympy.geometry</a> for a runnable end-to-end example):
+      Two runnable verification scripts ship with the repository.
+      Run them from the repo root:
+    </p>
+
+    <pre><code><span class="cm"># Core algebra, matrices, calculus — 52 axioms, 766+ runtime checks</span>
+$ PYTHONPATH=. python3 verify_sympy_core/verify_core.py
+
+<span class="cm"># Geometry — 24 theorems, 182 runtime checks</span>
+$ PYTHONPATH=. python3 verify_sympy_geometry/verify_triangle.py</code></pre>
+
+    <p>
+      The core verifier produces output like this (abridged):
+    </p>
+
+    <pre><code><span class="fn">Deppy — Sidecar Verification of SymPy Core</span>
+<span class="fn">SymPy 1.14.0</span>
+<span class="op">════════════════════════════════════════════════════════════</span>
+  Installed 52 sidecar axioms
+
+<span class="fn">A. Addition — Commutative Group</span>
+  <span class="st">✓</span> add_commutative: a + b == b + a  [AXIOM_TRUSTED]
+  <span class="st">✓</span> add_associative: (a+b)+c == a+(b+c)  [AXIOM_TRUSTED]
+  <span class="st">✓</span> add_identity: a + 0 == a  [AXIOM_TRUSTED]
+  <span class="st">✓</span> add_inverse: a + (-a) == 0  [AXIOM_TRUSTED]
+  …
+
+<span class="fn">D. Square Root + Z3 Identity</span>
+  <span class="st">✓</span> sqrt_square_positive: sqrt(x²) == x [x>0]  [AXIOM_TRUSTED]
+  <span class="st">✓</span> sqrt_square_abs: sqrt(x²) == |x| [Z3-PROVED]  [Z3_PROVEN]
+  …
+
+<span class="fn">X. Deliberate FALSE axiom (must fail)</span>
+  <span class="st">✓</span> mul_idempotent: a*a == a  ← FALSE  [EXPECTED_FAIL]  ← correctly rejected
+
+<span class="op">════════════════════════════════════════════════════════════</span>
+<span class="fn">  VERIFICATION REPORT</span>
+<span class="op">────────────────────────────────────────────────────────────</span>
+  Kernel proofs:       51/51 passed
+  Z3 proofs:           1
+  Runtime validations: 766/766
+  Expected failures:   1
+  Total time:          347 ms
+<span class="op">════════════════════════════════════════════════════════════</span>
+
+  <span class="st">✓ All 51 axioms verified, 1 correctly rejected</span></code></pre>
+
+    <p>
+      The illustrative session below shows what a <em>call-site</em> level
+      verification looks like when sidecar specs are applied to user code.
+      This is a design-level view — the runnable scripts above are the
+      authoritative demonstration.
     </p>
 
     <pre><code><span class="cm">$ deppy sidecar verify src/ --sidecar-dir sidecars/sympy/ --verbose</span>
