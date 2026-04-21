@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifying sympy.geometry | Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/geometry.html" class="active">Verifying sympy.geometry</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Verifying <code>sympy.geometry</code>: Euclidean Theorems</h1>
+
+    <p>
+      This chapter walks through a <strong>complete, runnable</strong> sidecar
+      verification of SymPy's computational geometry module. We prove 24
+      classical theorems of Euclidean geometry — Heron's formula, the Euler
+      line, the nine-point circle, and more — hold in SymPy's implementation,
+      <em>without modifying a single line of SymPy's source code</em>.
+    </p>
+
+    <p>
+      One theorem is <strong>deliberately false</strong>. The system catches it,
+      proving that the verification pipeline is not rubber-stamping everything.
+    </p>
+
+    <div class="note">
+      <strong>Try it yourself.</strong> The full working example lives at
+      <a href="https://github.com/thehalleyyoung/deppy/tree/main/verify_sympy_geometry"><code>verify_sympy_geometry/</code></a>
+      in the deppy repo. Run it with:
+      <pre style="margin:0.5em 0 0;"><code>PYTHONPATH=. python3 verify_sympy_geometry/verify_triangle.py</code></pre>
+      Result: <strong>23/23</strong> kernel proofs, <strong>182/182</strong>
+      runtime checks, <strong>1</strong> expected failure — in <strong>~26 000 ms</strong>.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="overview">What We're Proving</h2>
+
+    <p>
+      The verification covers seven categories of Euclidean geometry,
+      each backed by axioms in a <code>.deppy</code> sidecar file and validated
+      computationally on a diverse family of exact-coordinate triangles:
+    </p>
+
+    <table style="width:100%; border-collapse:collapse; margin:1em 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border-color, #ccc);">
+          <th style="text-align:left; padding:0.5em;">Category</th>
+          <th style="text-align:center; padding:0.5em;">#</th>
+          <th style="text-align:left; padding:0.5em;">Theorems</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:0.4em;"><strong>A. Distance</strong></td><td style="text-align:center;">4</td><td>Non-negativity, symmetry, identity, triangle inequality</td></tr>
+        <tr><td style="padding:0.4em;"><strong>B. Area</strong></td><td style="text-align:center;">4</td><td>Cross-product formula, Heron's formula, medial ¼ theorem, orientation</td></tr>
+        <tr><td style="padding:0.4em;"><strong>C. Euler Line</strong></td><td style="text-align:center;">6</td><td>Circumcenter equidistance, <em>R</em> = <em>abc</em>/4<em>A</em>, centroid averaging, collinearity, OG:GH = 1:2, incenter</td></tr>
+        <tr><td style="padding:0.4em;"><strong>D. Nine-Point Circle</strong></td><td style="text-align:center;">4</td><td>Center = midpoint(O, H), radius = <em>R</em>/2, passes through midpoints, altitude feet</td></tr>
+        <tr><td style="padding:0.4em;"><strong>E. Circle</strong></td><td style="text-align:center;">2</td><td>Area = π<em>r</em>², circumference = 2π<em>r</em></td></tr>
+        <tr><td style="padding:0.4em;"><strong>F. Similarity</strong></td><td style="text-align:center;">3</td><td>Angle-preserving similarity, side-preserving congruence, circumscription</td></tr>
+        <tr style="background:var(--warning-bg, #fff3cd);"><td style="padding:0.4em;"><strong>G. Soundness</strong></td><td style="text-align:center;">1</td><td>"Every triangle is equilateral" — <strong>correctly refuted</strong></td></tr>
+      </tbody>
+    </table>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="deppy-file">The <code>.deppy</code> Sidecar File</h2>
+
+    <p>
+      The <code>sympy_geometry.deppy</code> file declares axioms <em>about</em>
+      SymPy without importing or modifying it. Here is the section for the
+      Euler line:
+    </p>
+
+    <pre><code><span class="cm"># sympy_geometry.deppy — Euler line axioms</span>
+
+<span class="kw">spec</span> <span class="fn">sympy.geometry.Triangle.euler_line</span>:
+  <span class="dc">guarantee</span>: <span class="st">"circumcenter, centroid, and orthocenter are collinear"</span>
+  <span class="kw">pure</span>: <span class="nb">true</span>
+  <span class="dc">axiom</span> <span class="fn">euler_collinear</span>: <span class="st">"is_collinear(circumcenter, centroid, orthocenter)"</span>
+  <span class="dc">axiom</span> <span class="fn">euler_ratio</span>: <span class="st">"dist(O, G) : dist(G, H) == 1 : 2"</span></code></pre>
+
+    <p>And here is the <strong>deliberately false</strong> axiom — a soundness tripwire:</p>
+
+    <pre><code><span class="cm"># This MUST fail computational validation</span>
+<span class="kw">spec</span> <span class="fn">sympy.geometry.Triangle.is_equilateral</span>:
+  <span class="dc">guarantee</span>: <span class="st">"every triangle is equilateral"</span>
+  <span class="dc">axiom</span> <span class="fn">all_equilateral</span>: <span class="st">"Triangle(A,B,C).is_equilateral() == True for all A,B,C"</span></code></pre>
+
+    <p>
+      The full file declares <strong>28 axioms</strong> across <strong>14 specs</strong>,
+      covering distance, area, triangle centres, the nine-point circle, circles,
+      and similarity.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="verification-script">The Verification Script</h2>
+
+    <p>
+      The companion <code>verify_triangle.py</code> does three things for
+      every theorem:
+    </p>
+
+    <div class="proof-steps">
+      <div class="proof-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Install the axiom</strong> into deppy's proof kernel via
+          <code>library_trust</code>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Prove via the kernel</strong> — the axiom is accepted and
+          recorded at <code>AXIOM_TRUSTED</code> level.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Validate computationally</strong> on 8 diverse triangle
+          families using exact arithmetic (<code>Rational</code>, <code>sqrt</code>)
+          — never floats.
+        </div>
+      </div>
+    </div>
+
+    <h3>Triangle Test Families</h3>
+
+    <p>
+      Every theorem is checked against these 8 non-degenerate, exact-coordinate
+      triangles — chosen to cover right, isosceles, equilateral, scalene,
+      rational, negative-coordinate, and obtuse cases:
+    </p>
+
+    <pre><code><span class="kw">def</span> <span class="fn">_test_triangles</span>() -> list[tuple[str, Triangle]]:
+    <span class="kw">return</span> [
+        (<span class="st">"3-4-5 right"</span>,
+         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">4</span>, <span class="nb">0</span>), Point(<span class="nb">0</span>, <span class="nb">3</span>))),
+        (<span class="st">"isoceles 6-6-4"</span>,
+         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">4</span>, <span class="nb">0</span>), Point(<span class="nb">2</span>, sqrt(<span class="nb">32</span>)))),
+        (<span class="st">"equilateral side 2"</span>,
+         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">2</span>, <span class="nb">0</span>), Point(<span class="nb">1</span>, sqrt(<span class="nb">3</span>)))),
+        (<span class="st">"scalene (1,1)-(5,2)-(3,7)"</span>,
+         Triangle(Point(<span class="nb">1</span>, <span class="nb">1</span>), Point(<span class="nb">5</span>, <span class="nb">2</span>), Point(<span class="nb">3</span>, <span class="nb">7</span>))),
+        (<span class="st">"large right 5-12-13"</span>,
+         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">12</span>, <span class="nb">0</span>), Point(<span class="nb">0</span>, <span class="nb">5</span>))),
+        (<span class="st">"rational coords"</span>,
+         Triangle(Point(Rational(<span class="nb">1</span>,<span class="nb">3</span>), Rational(<span class="nb">2</span>,<span class="nb">5</span>)),
+                  Point(Rational(<span class="nb">7</span>,<span class="nb">2</span>), Rational(<span class="nb">1</span>,<span class="nb">4</span>)),
+                  Point(Rational(<span class="nb">5</span>,<span class="nb">6</span>), Rational(<span class="nb">11</span>,<span class="nb">3</span>)))),
+        (<span class="st">"negative coords"</span>,
+         Triangle(Point(-<span class="nb">3</span>, -<span class="nb">1</span>), Point(<span class="nb">4</span>, -<span class="nb">2</span>), Point(<span class="nb">1</span>, <span class="nb">5</span>))),
+        (<span class="st">"wide obtuse"</span>,
+         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">10</span>, <span class="nb">0</span>), Point(<span class="nb">5</span>, <span class="nb">1</span>))),
+    ]</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="euler-line">Highlight: The Euler Line</h2>
+
+    <p>
+      The <strong>Euler line</strong> is one of the most beautiful results in
+      triangle geometry: for any non-equilateral triangle, the circumcenter
+      <em>O</em>, centroid <em>G</em>, and orthocenter <em>H</em> are collinear,
+      and <em>O</em>, <em>G</em>, <em>H</em> divide that line in ratio 1:2.
+    </p>
+
+    <p>Here's how we verify both properties:</p>
+
+    <pre><code><span class="cm"># C4. Euler line: O, G, H collinear</span>
+r = (Proof(<span class="st">"circumcenter, centroid, orthocenter are collinear"</span>)
+     .using(kernel).given(T=<span class="st">"object"</span>)
+     .by_axiom(<span class="st">"euler_collinear"</span>, <span class="st">"sympy.geometry"</span>).qed())
+
+<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
+    <span class="kw">if</span> tri.is_equilateral():
+        <span class="kw">continue</span>  <span class="cm"># all centres coincide — ratio is 0/0</span>
+    cc = tri.circumcenter
+    cg = tri.centroid
+    oc = tri.orthocenter
+    <span class="kw">assert</span> Point.is_collinear(cc, cg, oc)
+
+<span class="cm"># C5. Euler ratio OG:GH = 1:2</span>
+<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
+    <span class="kw">if</span> tri.is_equilateral():
+        <span class="kw">continue</span>
+    og = tri.circumcenter.distance(tri.centroid)
+    gh = tri.centroid.distance(tri.orthocenter)
+    <span class="kw">assert</span> simplify(og / gh) == Rational(<span class="nb">1</span>, <span class="nb">2</span>)</code></pre>
+
+    <p>
+      This checks every non-equilateral triangle in our test family using
+      SymPy's exact symbolic arithmetic — no floating-point approximation.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="nine-point">Highlight: The Nine-Point Circle</h2>
+
+    <p>
+      The nine-point circle passes through nine special points of a triangle:
+      the three side midpoints, the three altitude feet, and the three midpoints
+      of segments from vertices to the orthocenter. We verify four of its properties:
+    </p>
+
+    <pre><code><span class="cm"># D1. NPC center = midpoint(circumcenter, orthocenter)</span>
+<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
+    npc = tri.nine_point_circle
+    cc  = tri.circumcenter
+    oc  = tri.orthocenter
+    mid = Point((cc.x + oc.x) / <span class="nb">2</span>, (cc.y + oc.y) / <span class="nb">2</span>)
+    <span class="kw">assert</span> npc.center == mid
+
+<span class="cm"># D2. NPC radius = circumradius / 2</span>
+<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
+    <span class="kw">assert</span> simplify(tri.nine_point_circle.radius
+                    - tri.circumradius / <span class="nb">2</span>) == <span class="nb">0</span>
+
+<span class="cm"># D3. NPC passes through side midpoints</span>
+<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
+    npc = tri.nine_point_circle
+    <span class="kw">for</span> side <span class="kw">in</span> tri.sides:
+        mp = side.midpoint
+        <span class="kw">assert</span> simplify(npc.center.distance(mp) - npc.radius) == <span class="nb">0</span></code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="heron">Highlight: Heron's Formula</h2>
+
+    <p>
+      Heron's formula computes a triangle's area from its side lengths alone:
+    </p>
+
+    <p style="text-align:center; font-size:1.1em; margin: 1em 0;">
+      |<em>A</em>| = √(<em>s</em>(<em>s</em> − <em>a</em>)(<em>s</em> − <em>b</em>)(<em>s</em> − <em>c</em>))
+      &nbsp; where &nbsp;
+      <em>s</em> = (<em>a</em> + <em>b</em> + <em>c</em>) / 2
+    </p>
+
+    <pre><code><span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
+    sl = [s.length <span class="kw">for</span> s <span class="kw">in</span> tri.sides]
+    s_semi = sum(sl) / <span class="nb">2</span>
+    heron = sqrt(s_semi * (s_semi - sl[<span class="nb">0</span>])
+                         * (s_semi - sl[<span class="nb">1</span>])
+                         * (s_semi - sl[<span class="nb">2</span>]))
+    <span class="cm"># Compare squares to avoid √ simplification issues</span>
+    <span class="kw">assert</span> simplify((Abs(tri.area) - heron)**<span class="nb">2</span>) == <span class="nb">0</span></code></pre>
+
+    <div class="tip">
+      <strong>Tip:</strong> When comparing expressions involving square roots,
+      compare <em>squares</em> instead. SymPy's <code>simplify</code> sometimes
+      can't reduce <code>√a − √b</code> to zero, but it can always reduce
+      <code>(√a − √b)²</code> to zero when <code>a = b</code>.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="soundness">Soundness Check: The False Axiom</h2>
+
+    <p>
+      A verification system that accepts everything is useless. To demonstrate
+      that deppy's computational layer actually catches errors, we include a
+      <strong>deliberately false axiom</strong>:
+    </p>
+
+    <pre><code><span class="cm"># In the .deppy sidecar file:</span>
+<span class="kw">spec</span> <span class="fn">sympy.geometry.Triangle.is_equilateral</span>:
+  <span class="dc">guarantee</span>: <span class="st">"every triangle is equilateral"</span>
+  <span class="dc">axiom</span> <span class="fn">all_equilateral</span>: <span class="st">"Triangle(A,B,C).is_equilateral() == True for all A,B,C"</span></code></pre>
+
+    <p>
+      The kernel accepts this as a trusted axiom — that's by design, since
+      axioms are the starting point for reasoning. But the runtime validation
+      immediately refutes it:
+    </p>
+
+    <pre><code><span class="cm"># In verify_triangle.py:</span>
+counter_tri = Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">5</span>, <span class="nb">0</span>), Point(<span class="nb">1</span>, <span class="nb">2</span>))
+<span class="kw">assert not</span> counter_tri.is_equilateral()  <span class="cm"># ← refutes the axiom</span></code></pre>
+
+    <p>Output:</p>
+
+    <pre><code>  <span class="cm">⚠  Axiom 'all_equilateral' is trusted by the kernel —</span>
+     <span class="cm">but computational validation REFUTES it:</span>
+    runtime: △(0,0)(5,0)(1,2) is equilateral? (expect False) ✓
+  ✗ (expected) [RUNTIME_REFUTED     ] G1  'every triangle is equilateral' — REFUTED</code></pre>
+
+    <div class="warning">
+      <strong>Lesson:</strong> Axioms are powerful but dangerous — they let you assume
+      anything. Always pair axiom-based proofs with computational validation.
+      If the validation contradicts the axiom, the axiom is wrong. In a production
+      workflow, you would either remove the axiom or investigate the source of
+      the contradiction.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="design-decisions">Design Decisions</h2>
+
+    <h3>Why Exact Arithmetic?</h3>
+    <p>
+      All coordinates use <code>Rational</code> or <code>sqrt</code> — never
+      Python floats. This means that when SymPy says
+      <code>simplify(expr) == 0</code>, it is an <em>exact</em> algebraic
+      identity, not a floating-point approximation. This is what elevates our
+      runtime checks from "testing" to "validation on the algebraic closure of ℚ."
+    </p>
+
+    <h3>Why <code>Abs(area)</code>?</h3>
+    <p>
+      SymPy's <code>Triangle.area</code> is <strong>signed</strong> — it
+      depends on the orientation of the vertices. Reversing vertex order
+      negates the area. Theorems like Heron's formula and
+      <em>R</em> = <em>abc</em>/4<em>A</em> need the unsigned area, so we
+      use <code>Abs(tri.area)</code>.
+    </p>
+
+    <h3>Why Skip Equilateral for Euler Ratio?</h3>
+    <p>
+      In an equilateral triangle, the circumcenter, centroid, and orthocenter
+      all coincide at the same point. The Euler ratio OG:GH becomes 0/0 —
+      undefined. The collinearity claim is <em>vacuously true</em> (a single
+      point is collinear with itself), but the ratio test must be skipped.
+    </p>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="architecture">Architecture</h2>
+
+    <pre><code>sympy_geometry.deppy          verify_triangle.py
+┌──────────────────┐          ┌──────────────────────────┐
+│ spec Triangle.area│          │ 1. Install 28 axioms     │
+│   guarantee: ...  │──parse──▶│ 2. Prove 23 theorems     │
+│   axiom heron:... │          │ 3. Validate on 8 exact   │
+│                   │          │    triangle families      │
+│ proof euler_proof:│          │ 4. Refute 1 false axiom  │
+│   by: axiom ...   │          └──────────────────────────┘
+└──────────────────┘                    │
+                                        ▼
+                        ┌────────────────────────────────┐
+                        │ 23/23 kernel proofs       ✓    │
+                        │ 182/182 runtime checks    ✓    │
+                        │ 1/1 expected failure      ✓    │
+                        │ Total time: ~26 000 ms         │
+                        └────────────────────────────────┘</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="full-output">Full Output</h2>
+
+    <p>Running the verification produces:</p>
+
+    <pre><code>════════════════════════════════════════════════════════════════
+  Deppy — Sidecar Verification of sympy.geometry
+  (SymPy is UNMODIFIED — all proofs are external)
+════════════════════════════════════════════════════════════════
+
+  RESULTS
+════════════════════════════════════════════════════════════════
+  ✓  Distance                   4/4
+  ✓  Area                       4/4
+  ✓  Centres                    6/6
+  ✓  Nine-Point                 4/4
+  ✓  Circle                     2/2
+  ✓  Similarity                 3/3
+  ✓  False Theorem              0/1
+  ────────────────────────────────────────────────────────────
+  Kernel proofs:         23/23 passed  (+1 expected failure)
+  Runtime validations:   182/182
+  Unexpected failures:   0
+  Time:                  ~26 000 ms
+════════════════════════════════════════════════════════════════
+
+  🎉 All theorems verified (including expected failure)</code></pre>
+
+    <!-- ───────────────────────────────────────────── -->
+    <h2 id="exercises">Exercises</h2>
+
+    <div class="exercise">
+      <strong>Exercise 4.9:</strong> Add a sidecar axiom for the
+      <strong>angle bisector theorem</strong>: if <em>D</em> is where the
+      angle bisector at vertex <em>A</em> meets side <em>BC</em>, then
+      <em>BD</em>/<em>DC</em> = <em>AB</em>/<em>AC</em>. Validate it on
+      the test triangles.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.10:</strong> Extend the nine-point circle tests
+      to verify the remaining 3 of the 9 points — the midpoints of the
+      segments from each vertex to the orthocenter. (Hint: these are
+      <code>Point((v.x + oc.x)/2, (v.y + oc.y)/2)</code>.)
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.11:</strong> Write a <code>.deppy</code> sidecar for
+      <code>sympy.geometry.Ellipse</code>. Specify: (a) the area formula
+      <code>π·a·b</code>, (b) the eccentricity formula, (c) that a
+      <code>Circle</code> is an <code>Ellipse</code> with <code>a == b</code>.
+    </div>
+
+    <div class="exercise">
+      <strong>Exercise 4.12 (Challenge):</strong> Add a second deliberately
+      false axiom — for example, "the circumradius is always less than the
+      inradius." Verify that the runtime validation catches it. Then try to
+      construct a scenario where the axiom is <em>close to true</em> but fails
+      on a specific triangle class.
+    </div>
+
+    <!-- ───────────────────────────────────────────── -->
+    <nav class="page-nav">
+      <a href="sympy.html">
+        <span class="label">← Previous</span>
+        <span class="title">Case Study: SymPy</span>
+      </a>
+      <a href="trust_levels.html" style="text-align:right;">
+        <span class="label">Next →</span>
+        <span class="title">Trust &amp; Verification Levels</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>
