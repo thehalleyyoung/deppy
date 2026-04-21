@@ -99,3 +99,5 @@ from deppy.equivalence import (  # noqa: F401,E402
     check_spec_equiv, equiv_to_lean,
     EquivResult, AdherenceResult, SpecEquivResult,
 )
+
+from deppy.z3_bridge import z3_prove_real_identity  # noqa: F401,E402

@@ -57,17 +57,32 @@ class Sigma:
 
 # Symbolic types for SymPy sidecar proofs
 class SymExpr:
-    """A symbolic expression type (for sidecar proofs over SymPy)."""
-    pass
+    """A symbolic expression type (for sidecar proofs over SymPy).
+
+    Supports assumption annotations: ``SymExpr("positive")`` creates
+    a type marker for positivity-constrained expressions.
+    """
+    def __init__(self, *assumptions: str):
+        self.assumptions = assumptions
+
+    def __class_getitem__(cls, params):
+        """Allow SymExpr[...] subscript for parameterized types."""
+        return cls
 
 class SymVar(SymExpr):
     """A symbolic variable."""
     def __init__(self, name: str):
+        super().__init__()
         self.name = name
 
 class SymMatrix:
-    """A symbolic matrix type."""
-    pass
+    """A symbolic matrix type with optional dimension annotations.
+
+    ``SymMatrix["n", "m"]`` is syntactic sugar for an n×m matrix type.
+    """
+    def __class_getitem__(cls, params):
+        """Allow SymMatrix["n", "m"] subscript for dependent dimension types."""
+        return cls
 
 class NatLiteral:
     """A natural number literal with compile-time value."""

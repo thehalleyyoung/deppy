@@ -458,7 +458,9 @@ sidecars/
     <!-- ───────────────────────────────────────────── -->
     <h2 id="running-verification">Running the Full Verification</h2>
     <p>
-      With all sidecar specs in place, run the verification:
+      With all sidecar specs in place, run the verification.
+      The output below shows what a full sidecar verification session looks like
+      (see <a href="geometry.html">Verifying sympy.geometry</a> for a runnable end-to-end example):
     </p>
 
     <pre><code><span class="cm">$ deppy sidecar verify src/ --sidecar-dir sidecars/sympy/ --verbose</span>
@@ -545,14 +547,15 @@ Recommendation: Add sidecar specs for:
     </p>
 
     <h3>Undefined Expressions</h3>
-    <pre><code><span class="cm"># Division by zero yields zoo (complex infinity) or nan</span>
+    <pre><code><span class="cm"># Division by zero yields zoo (complex infinity) scaled by the numerator</span>
 <span class="dc">@about</span>(<span class="st">"sympy.core.mul.Mul"</span>)
 <span class="kw">class</span> <span class="fn">MulEdgeCases</span>(<span class="ty">ExternalSpec</span>):
     <span class="dc">@law</span>
     <span class="kw">def</span> <span class="fn">div_by_zero</span>(<span class="kw">self</span>, a: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""a / 0 is zoo (complex infinity), not an error."""</span>
+        <span class="st">"""a / 0 produces zoo*a (complex infinity), not an error.
+        For constants: 1/0 == zoo, 0/0 == nan."""</span>
         <span class="kw">from</span> sympy <span class="kw">import</span> S, zoo
-        <span class="kw">return</span> (a / S.Zero) == zoo <span class="kw">or</span> (a / S.Zero) == S.NaN</code></pre>
+        <span class="kw">return</span> zoo <span class="kw">in</span> (a / S.Zero).atoms()</code></pre>
 
     <h3>Assumptions System</h3>
     <pre><code><span class="cm"># SymPy's assumptions affect simplification</span>
@@ -578,14 +581,25 @@ x = Symbol(<span class="st">'x'</span>, positive=<span class="nb">True</span>)
 
     <span class="dc">@law</span>
     <span class="kw">def</span> <span class="fn">sqrt_square_general</span>(<span class="kw">self</span>, x: <span class="ty">SymExpr</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""sqrt(x²) == |x| in general."""</span>
-        <span class="kw">from</span> sympy <span class="kw">import</span> sqrt, Abs
-        <span class="kw">return</span> sqrt(x**<span class="nb">2</span>).equals(Abs(x))</code></pre>
+        <span class="st">"""sqrt(x²) == |x| in general.
+        SymPy's .equals() cannot decide this without assumptions,
+        but Deppy's Z3 backend proves it over the reals."""</span>
+        <span class="kw">from</span> deppy.z3_bridge <span class="kw">import</span> z3_prove_real_identity
+        <span class="kw">return</span> z3_prove_real_identity(<span class="kw">lambda</span> R: [
+            <span class="cm"># y = sqrt(x²) means y ≥ 0 ∧ y² = x².</span>
+            <span class="cm"># Negation: ∃ x,y. y≥0 ∧ y²=x² ∧ y ≠ |x|</span>
+            R(<span class="st">'y'</span>) >= <span class="nb">0</span>,
+            R(<span class="st">'y'</span>) * R(<span class="st">'y'</span>) == R(<span class="st">'x'</span>) * R(<span class="st">'x'</span>),
+            R(<span class="st">'y'</span>) != __import__(<span class="st">'z3'</span>).If(
+                R(<span class="st">'x'</span>) >= <span class="nb">0</span>, R(<span class="st">'x'</span>), -R(<span class="st">'x'</span>)),
+        ])</code></pre>
 
-    <div class="warning">
-      SymPy's <code>.equals()</code> method can be slow for complex expressions — it
-      tries multiple simplification strategies. For large-scale verification, use the
-      <code>--timeout</code> flag and consider splitting specs into smaller units.
+    <div class="note">
+      This is a key example of Deppy's value: SymPy's <code>.equals()</code> returns
+      <code>None</code> for <code>sqrt(x²) == |x|</code> without positivity assumptions,
+      but Deppy's Z3 backend proves the identity over the reals by showing the negation
+      is unsatisfiable. Deppy bridges the gap between a computer algebra system's
+      simplifier and a formal prover.
     </div>
 
     <h3>Version Compatibility</h3>

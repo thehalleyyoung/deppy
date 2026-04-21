@@ -77,6 +77,23 @@ F = TypeVar("F", bound=Callable)
 #  §1  ExternalSpec — bind a spec to an existing function
 # ═══════════════════════════════════════════════════════════════════
 
+def _resolve_target(dotted_path: str) -> Any:
+    """Try to import and return the object at *dotted_path*."""
+    if not dotted_path:
+        return None
+    parts = dotted_path.split('.')
+    for i in range(len(parts), 0, -1):
+        module_path = '.'.join(parts[:i])
+        try:
+            mod = __import__(module_path, fromlist=[parts[i]] if i < len(parts) else [''])
+            obj = mod
+            for attr in parts[i:]:
+                obj = getattr(obj, attr)
+            return obj
+        except (ImportError, AttributeError):
+            continue
+    return None
+
 @dataclass
 class ExternalSpec:
     """A specification bound to an external (library) function.
@@ -84,11 +101,20 @@ class ExternalSpec:
     The spec lives *outside* the target library and does not modify it.
     It records guarantees, pre/postconditions, and purity for an
     existing callable.
+
+    Can be used as a dataclass (passing target/target_name/module_name)
+    or subclassed with ``@about`` to declare laws::
+
+        @about("sympy.core.add.Add")
+        class AddSpec(ExternalSpec):
+            @law
+            def commutative(self, a, b):
+                return self.call(a, b).equals(self.call(b, a))
     """
 
-    target: Any                                 # the actual function/method
-    target_name: str                            # qualified name ("sympy.expand")
-    module_name: str                            # library name ("sympy")
+    target: Any = None                          # the actual function/method
+    target_name: str = ""                       # qualified name ("sympy.expand")
+    module_name: str = ""                       # library name ("sympy")
     guarantees: list[str] = field(default_factory=list)
     preconditions: list[Callable | str] = field(default_factory=list)
     postconditions: list[Callable | str] = field(default_factory=list)
@@ -98,6 +124,26 @@ class ExternalSpec:
     axioms: list[str] = field(default_factory=list)  # axiom names bound here
     verified: bool = False
     trust_level: TrustLevel = TrustLevel.UNTRUSTED
+
+    def __post_init__(self):
+        # Auto-resolve target from @about annotation if not provided
+        about_path = getattr(self.__class__, '_deppy_about', None)
+        if about_path and not self.target_name:
+            self.target_name = about_path
+            self.module_name = about_path.rsplit('.', 1)[0] if '.' in about_path else about_path
+        if about_path and self.target is None:
+            self.target = _resolve_target(about_path)
+
+    def call(self, *args, **kwargs):
+        """Call the target function.  Used in @law method bodies."""
+        if self.target is not None:
+            return self.target(*args, **kwargs)
+        about_path = getattr(self.__class__, '_deppy_about', self.target_name)
+        resolved = _resolve_target(about_path)
+        if resolved is not None:
+            self.target = resolved
+            return resolved(*args, **kwargs)
+        raise RuntimeError(f"Cannot resolve target {about_path!r}")
 
     @property
     def qualified_name(self) -> str:
