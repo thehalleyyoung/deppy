@@ -1,0 +1,137 @@
+# Sidecar specification for sympy.geometry
+#
+# This file declares axioms, guarantees, and proof obligations
+# for SymPy's computational geometry module — without touching
+# a single line of SymPy's source code.
+#
+# Each axiom encodes a classical theorem of Euclidean geometry.
+# The companion verify_triangle.py validates every axiom both
+# formally (via deppy's proof kernel) and computationally
+# (via exact SymPy arithmetic on concrete triangle families).
+
+module: sympy.geometry
+version: ">=1.12"
+
+# ─────────────────────────────────────────────────────────
+#  A. Point / Distance Axioms
+# ─────────────────────────────────────────────────────────
+
+spec sympy.geometry.Point.distance:
+  guarantee: "distance(P, Q) >= 0 for all points P, Q"
+  guarantee: "distance(P, Q) == distance(Q, P)"
+  guarantee: "distance(P, P) == 0"
+  pure: true
+  axiom dist_nonneg: "distance(P, Q) >= 0"
+  axiom dist_symmetric: "distance(P, Q) == distance(Q, P)"
+  axiom dist_self_zero: "distance(P, P) == 0"
+  axiom triangle_inequality: "distance(P, R) <= distance(P, Q) + distance(Q, R)"
+
+spec sympy.geometry.Point.is_collinear:
+  guarantee: "returns True iff the points lie on a single line"
+  pure: true
+  axiom collinear_two: "any two distinct points are collinear"
+  axiom collinear_area: "points are collinear iff Triangle area == 0"
+
+# ─────────────────────────────────────────────────────────
+#  B. Triangle Area Axioms
+# ─────────────────────────────────────────────────────────
+
+spec sympy.geometry.Triangle.area:
+  guarantee: "area is a signed real number (orientation-dependent)"
+  pure: true
+  axiom area_cross: "area == (1/2) * |cross(B-A, C-A)| for abs(area)"
+  axiom heron: "abs(area) == sqrt(s*(s-a)*(s-b)*(s-c)) where s = (a+b+c)/2"
+  axiom medial_quarter: "area(medial_triangle) == area(parent) / 4"
+  axiom area_positive_orientation: "area > 0 for CCW-ordered vertices"
+
+# ─────────────────────────────────────────────────────────
+#  C. Triangle Center Axioms (Euler Line)
+# ─────────────────────────────────────────────────────────
+
+spec sympy.geometry.Triangle.circumcenter:
+  guarantee: "equidistant from all three vertices"
+  pure: true
+  axiom circumcenter_equidist: "dist(O, A) == dist(O, B) == dist(O, C)"
+  axiom circumradius_formula: "R == (a*b*c) / (4 * abs(area))"
+
+spec sympy.geometry.Triangle.centroid:
+  guarantee: "average of the three vertices"
+  pure: true
+  axiom centroid_average: "G == ((Ax+Bx+Cx)/3, (Ay+By+Cy)/3)"
+  axiom centroid_divides_medians: "centroid divides each median in ratio 2:1 from vertex"
+
+spec sympy.geometry.Triangle.orthocenter:
+  guarantee: "intersection of the three altitudes"
+  pure: true
+  axiom orthocenter_altitude: "line(vertex, orthocenter) is perpendicular to opposite side"
+
+spec sympy.geometry.Triangle.incenter:
+  guarantee: "equidistant from all three sides"
+  pure: true
+  axiom incenter_equidist: "dist(I, side_j) is equal for j = 0, 1, 2"
+
+# The central theorem of classical triangle geometry:
+spec sympy.geometry.Triangle.euler_line:
+  guarantee: "circumcenter, centroid, and orthocenter are collinear"
+  pure: true
+  axiom euler_collinear: "is_collinear(circumcenter, centroid, orthocenter)"
+  axiom euler_ratio: "dist(O, G) : dist(G, H) == 1 : 2"
+
+# ─────────────────────────────────────────────────────────
+#  D. Nine-Point Circle
+# ─────────────────────────────────────────────────────────
+
+spec sympy.geometry.Triangle.nine_point_circle:
+  guarantee: "passes through 9 distinguished points"
+  pure: true
+  axiom npc_center: "center == midpoint(circumcenter, orthocenter)"
+  axiom npc_radius: "radius == circumradius / 2"
+  axiom npc_contains_midpoints: "passes through side midpoints"
+  axiom npc_contains_feet: "passes through altitude feet"
+
+# ─────────────────────────────────────────────────────────
+#  E. Circle Axioms
+# ─────────────────────────────────────────────────────────
+
+spec sympy.geometry.Circle.area:
+  guarantee: "area == pi * r**2"
+  pure: true
+  axiom circle_area: "area == pi * radius**2"
+
+spec sympy.geometry.Circle.circumference:
+  guarantee: "circumference == 2 * pi * r"
+  pure: true
+  axiom circle_circumference: "circumference == 2 * pi * radius"
+
+# ─────────────────────────────────────────────────────────
+#  F. Deliberate FALSE axiom — must FAIL verification
+# ─────────────────────────────────────────────────────────
+
+spec sympy.geometry.Triangle.is_equilateral:
+  guarantee: "every triangle is equilateral"
+  axiom all_equilateral: "Triangle(A,B,C).is_equilateral() == True for all A,B,C"
+
+# ─────────────────────────────────────────────────────────
+#  Proofs
+# ─────────────────────────────────────────────────────────
+
+proof dist_symm_proof:
+  target: sympy.geometry.Point.distance
+  by: axiom dist_symmetric
+
+proof euler_proof:
+  target: sympy.geometry.Triangle.euler_line
+  by: axiom euler_collinear
+
+proof npc_center_proof:
+  target: sympy.geometry.Triangle.nine_point_circle
+  by: axiom npc_center
+
+proof circle_area_proof:
+  target: sympy.geometry.Circle.area
+  by: axiom circle_area
+
+# This one references the deliberately false axiom:
+proof all_equilateral_proof:
+  target: sympy.geometry.Triangle.is_equilateral
+  by: axiom all_equilateral
