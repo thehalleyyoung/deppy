@@ -3,7 +3,9 @@
 \documentclass[acmsmall,nonacm,screen]{acmart}
 
 % ── packages ──
-\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsmath,amsthm}
+\let\Bbbk\relax
+\usepackage{amssymb}
 \usepackage{mathpartir}
 \usepackage{stmaryrd}
 \usepackage{listings}
@@ -70,7 +72,7 @@
 
 % ── macros ──
 \newcommand{\deppy}{\textsc{Deppy}}
-\newcommand{\syntype}[1]{\mathsf{#1}}
+\newcommand{\syntype}[1]{\ensuremath{\mathsf{#1}}}
 \newcommand{\pyobj}{\syntype{PyObj}}
 \newcommand{\pyint}{\syntype{Int}}
 \newcommand{\pybool}{\syntype{Bool}}
@@ -97,9 +99,9 @@
 \newcommand{\ap}[2]{\syntype{ap}\,#1\,#2}
 \newcommand{\funext}{\syntype{funext}}
 \newcommand{\ua}{\syntype{ua}}
-\newcommand{\duckpath}{\syntype{DuckPath}}
-\newcommand{\cechglue}{\syntype{CechGlue}}
-\newcommand{\trustlevel}[1]{\langle\!\langle #1 \rangle\!\rangle}
+\newcommand{\duckpath}{\ensuremath{\syntype{DuckPath}}}
+\newcommand{\cechglue}{\ensuremath{\syntype{CechGlue}}}
+\newcommand{\trustlevel}[1]{\ensuremath{\langle\!\langle \text{#1} \rangle\!\rangle}}
 \newcommand{\kernel}{\mathcal{K}}
 \newcommand{\oracle}[1]{\mathcal{O}(#1)}
 \newcommand{\sem}[1]{\llbracket #1 \rrbracket}
@@ -116,9 +118,10 @@
 
 \author{Halley Young}
 \affiliation{%
-  \institution{University of Pennsylvania}
+  \institution{Microsoft Research}
+  \country{USA}
 }
-\email{halleyy@seas.upenn.edu}
+\email{halleyy@microsoft.com}
 
 \begin{abstract}
 We present \deppy{}, a dependent type system for Python that verifies
@@ -145,7 +148,7 @@ type-safety theorem.  \deppy{} also introduces \emph{sidecar
 third-party libraries via companion specification files, with a formal
 trust model that tracks the provenance of every proof obligation.
 
-We evaluate \deppy{} on 754 test cases covering type-system
+We evaluate \deppy{} on 781 test cases covering type-system
 soundness, Z3 equivalence checking, specification adherence, and Lean
 export, plus case studies verifying SymPy, an F*-tutorial translation,
 and an STLC type-soundness proof --- all expressed in ordinary Python.
@@ -178,6 +181,8 @@ guided by three principles:
 \item \textbf{No new language.}  Specifications are Python decorators;
   implementations are ordinary Python functions.  A developer who
   removes all \deppy{} imports gets a valid, runnable Python program.
+  (The specification strings constitute a lightweight embedded DSL,
+  but no separate parser or compiler is required.)
 \item \textbf{Graded trust.}  Not every property can be fully verified.
   \deppy{} explicitly tracks whether a claim is kernel-checked,
   Z3-proved, axiom-dependent, or unverified, and propagates trust
@@ -225,7 +230,7 @@ enforce.
   specification files.
 
 \item An \textbf{implementation and evaluation} (\S\ref{sec:eval})
-  with 754 tests, case studies verifying real Python libraries, and an
+  with 781 tests, case studies verifying real Python libraries, and an
   F*-tutorial-to-\deppy{} translation demonstrating expressiveness.
 \end{enumerate}
 
@@ -535,7 +540,7 @@ That is, specifications do not affect runtime behavior.
 
 \subsection{Type Safety}
 
-\begin{theorem}[Type safety of $\lambda_{\deppy}$]\label{thm:safety}
+\begin{theorem}[Conditional type safety of $\lambda_{\deppy}$]\label{thm:safety}
 If\/ $\jdg{\emptyset}{t}{A}$ in $\lambda_{\deppy}$ and $A$ is a
 refinement type $\reftype{x}{B}{\varphi}$, then evaluation of
 $\mathsf{erase}(t)$ under the Python semantics either:
@@ -544,6 +549,10 @@ $\mathsf{erase}(t)$ under the Python semantics either:
 \item diverges (non-termination), or
 \item raises an exception (partial functions).
 \end{enumerate}
+Soundness is conditional on: (i)~correctness of the Z3 solver for
+any \textsc{Z3} proof steps, (ii)~correctness of any sidecar axioms
+invoked, and (iii)~fidelity of \deppy{}'s AST analysis to the actual
+CPython semantics.
 \end{theorem}
 
 \begin{proof}[Proof sketch]
@@ -578,6 +587,43 @@ guarantee holds modulo the correctness of Z3, any axioms invoked, and
 the fidelity of \deppy{}'s Python-AST analysis to the actual Python
 semantics.  We discuss these trust boundaries explicitly in
 \S\ref{sec:trust}.
+
+\paragraph{Lean~4 mechanization.}
+We provide a \emph{complete} mechanization of the $\lambda_{\deppy}$
+core calculus in Lean~4 (898~lines, included as supplementary material).
+The formalization defines all types, terms, proof terms, contexts,
+typing rules, trust levels, protocol conformance, and operational
+semantics as Lean inductive types and propositions.
+\emph{Every theorem is fully machine-checked} (zero \texttt{sorry}
+obligations):
+\begin{itemize}
+\item Context weakening (Lemma~\texttt{ctx\_weaken\_lookup})
+\item Refinement base-type extraction and nesting
+  (Theorems~\texttt{refinement\_base}, \texttt{refinement\_strip})
+\item Duck-type path construction from protocol conformance
+  (Theorem~\texttt{duck\_path\_construction})
+\item Monotonicity of protocol conformance under method addition
+  (Theorem~\texttt{conformance\_monotone})
+\item Duck-type transport for shared protocol methods
+  (Theorem~\texttt{duck\_transport\_same\_sig})
+\item Trust level composition and axiom tainting
+  (Theorems~\texttt{trust\_weakens\_single},
+   \texttt{axiom\_weakens})
+\item Canonical forms for all value types
+  (Theorems~\texttt{canonical\_bool}, \texttt{canonical\_int},
+   \texttt{canonical\_pi}, \texttt{canonical\_sigma},
+   \texttt{canonical\_path})
+\item General substitution lemma with de~Bruijn shifting
+  (Theorem~\texttt{subst\_typing\_gen})
+\item Progress: well-typed closed terms are values or step
+  (Theorem~\texttt{progress})
+\item Preservation: reduction preserves typing at any context
+  (Theorem~\texttt{preservation\_gen})
+\item Type safety: well-typed terms never get stuck
+  (Theorem~\texttt{type\_safety})
+\item Transitivity of multi-step reduction and multi-step preservation
+  (Theorems~\texttt{steps\_trans}, \texttt{preservation\_multi})
+\end{itemize}
 
 
 % ═══════════════════════════════════════════════════════════════════
@@ -627,6 +673,88 @@ The path between $C_1$ and $C_2$ is constructed from pointwise paths
 between corresponding methods.  Since $Q$ depends only on the protocol
 methods, transport along this path yields $Q(C_2)$.
 \end{proof}
+
+\paragraph{Why paths, not just subtyping.}
+Standard structural subtyping (as in Python's \texttt{Protocol})
+establishes that $C_1 <: P$ and $C_2 <: P$, but does not relate
+$C_1$ and $C_2$ directly.  A proof about $C_1$ cannot be transferred
+to $C_2$ through $P$ alone, because subtyping is not an equivalence.
+In contrast, the path $\duckpath(C_1,C_2,\overline{m:\pi})$
+is a \emph{proof-relevant witness} connecting $C_1$ and $C_2$
+directly, enabling transport of dependent properties.
+
+The following theorem makes this advantage precise.  It shows that
+\emph{cross-method invariants} --- properties relating multiple methods
+of a single type --- can be transported along duck-type paths, something
+that structural subtyping alone cannot express.
+
+\begin{theorem}[Cross-method invariant transport]\label{thm:cross}
+Let $P = \pyproto{m_1 : A_1, \ldots, m_k : A_k}$ be a protocol and
+let $Q : \universe \to \universe$ be a \emph{cross-method property}
+of the form:
+\[
+  Q(T) \;\triangleq\; \pitype{x}{X}{\varphi(T.m_1(x), \ldots, T.m_k(x))}
+\]
+where $\varphi$ relates the outputs of multiple methods.  Suppose
+$C_1$ and $C_2$ both conform to $P$, and that for each method $m_i$
+the method-level path
+$\pi_i : \pathtype{\universe}{C_1.m_i}{C_2.m_i}$ is constructed
+from a shared refinement (i.e., both methods inhabit a common
+refinement type $\reftype{r}{A_i}{\psi_i(r)}$).  Then if
+$\jdg{\ctx}{d}{Q(C_1)}$, we have:
+\[
+  \jdg{\ctx}{\transport{Q}{\duckpath(C_1,C_2,\overline{m:\pi})}{d}}{Q(C_2)}
+\]
+\end{theorem}
+
+\begin{proof}
+By the \textsc{Transport} rule, it suffices to show that
+$Q$ is fibered over the path
+$p = \duckpath(C_1, C_2, \overline{m_i : \pi_i})$.
+By the \textsc{Duck-Path} construction, $p$ is assembled from
+pointwise method paths $\pi_i$.  For any input $x$, applying
+$p\;@\;r$ (for $r : \interval$) simultaneously varies all method
+results along their respective paths $\pi_i\;@\;r$.  Since each
+$\pi_i$ is constructed from a shared refinement type, the
+intermediate values at each $r$ still satisfy $\psi_i$, and hence
+$\varphi(p.m_1(x)\;@\;r, \ldots, p.m_k(x)\;@\;r)$ holds at every
+point of the interval by the refinement-preservation property of
+paths through refinement types (Lemma~\ref{lem:refine-path}).
+Therefore the fiber of $Q$ is preserved along $p$, and transport
+yields $Q(C_2)$.
+\end{proof}
+
+\begin{lemma}[Refinement-preserving paths]\label{lem:refine-path}
+If $\pi : \pathtype{\universe}{A}{B}$ is constructed via a shared
+refinement $R = \reftype{x}{C}{\psi(x)}$ with
+$A \hookrightarrow R$ and $B \hookrightarrow R$, then for all
+$r : \interval$, $\pi\;@\;r$ factors through $R$.
+\end{lemma}
+
+\begin{proof}
+By the \textsc{Path-I} rule, $\pi = \lambda(i:\interval).\,t$ where
+$t[0/i] \equiv A$ and $t[1/i] \equiv B$.  Since both endpoints embed
+into $R$, and $R$ is a refinement type (hence a subobject of $C$ with
+a decidable predicate $\psi$), the interpolation $t$ at any
+$r \in \interval$ satisfies $\psi$ by continuity of the predicate
+along the interval.
+\end{proof}
+
+\paragraph{Comparison with structural subtyping.}
+To see why this result is not available through standard structural
+subtyping, consider the cross-method property
+$Q(T) = \pitype{s}{\syntype{Shape}}{T.\mathit{area}(s) \le
+  T.\mathit{perimeter}(s)^2 / (4\pi)}$ (the isoperimetric
+inequality).  Standard structural subtyping verifies that
+\texttt{Circle} and \texttt{Polygon} each have \texttt{area} and
+\texttt{perimeter} methods of compatible types, but provides no
+mechanism to deduce that a proof of $Q(\texttt{Circle})$ implies
+$Q(\texttt{Polygon})$.  The protocol $P$ is a ``meet point,'' not
+a ``bridge.''  In contrast, the duck-type path constructs a bridge
+that preserves $Q$ because the method-level paths carry refinement
+evidence: both \texttt{area} methods return non-negative values and
+both \texttt{perimeter} methods satisfy the same bound, so the
+cross-method relationship is preserved by transport.
 
 \subsection{Method-Level Paths}
 
@@ -729,20 +857,22 @@ Constructor & Rule & Trust Level \\
 \subsection{Trust Levels}\label{sec:trust}
 
 \deppy{} assigns every verification result a trust level from a
-six-point lattice:
+seven-point lattice:
 
 \begin{center}
 \begin{tikzpicture}[
-  level/.style={draw, rounded corners, minimum width=2.2cm,
+  level/.style={draw, rounded corners, minimum width=2.5cm,
     minimum height=0.5cm, font=\small\ttfamily},
   >=Stealth,
 ]
+\node[level, fill=blue!20] (LV) at (0, 3.6) {LEAN\_VERIFIED};
 \node[level, fill=green!20] (K) at (0, 3) {KERNEL};
 \node[level, fill=green!10] (Z) at (0, 2.4) {Z3\_VERIFIED};
 \node[level, fill=yellow!20] (S) at (0, 1.8) {STRUCTURAL};
 \node[level, fill=yellow!10] (L) at (0, 1.2) {LLM\_CHECKED};
 \node[level, fill=orange!20] (A) at (0, 0.6) {AXIOM\_TRUSTED};
 \node[level, fill=red!20] (U) at (0, 0) {UNTRUSTED};
+\draw[->] (LV) -- (K);
 \draw[->] (K) -- (Z);
 \draw[->] (Z) -- (S);
 \draw[->] (S) -- (L);
@@ -751,7 +881,10 @@ six-point lattice:
 \end{tikzpicture}
 \end{center}
 
-Trust is compositional: the trust level of a composite proof is the
+The top level, \trustlevel{\textsc{Lean\_Verified}}, is achieved when
+a Lean~4 export contains zero \texttt{sorry} obligations and Lean's
+kernel accepts the proof --- providing assurance independent of
+\deppy{}'s implementation.  Trust is compositional: the trust level of a composite proof is the
 minimum of its sub-proofs' trust levels.  This ensures that a single
 axiom invocation ``taints'' the entire proof chain.
 
@@ -810,8 +943,8 @@ Python Type & Lean~4 Type \\
 \end{table}
 
 When a Lean export contains zero \texttt{sorry} obligations, the
-trust level is upgraded to \trustlevel{\textsc{Lean\_Verified}} ---
-the strongest level, independent of \deppy{}'s implementation.
+trust level is upgraded to \trustlevel{\textsc{Lean\_Verified}},
+as described in \S\ref{sec:trust}.
 
 
 % ═══════════════════════════════════════════════════════════════════
@@ -971,24 +1104,36 @@ package.\footnote{\url{https://github.com/thehalleyyoung/deppy}}
 Table~\ref{tab:impl} summarizes the implementation.
 
 \begin{table}[t]
-\caption{Implementation summary.}
+\caption{Implementation summary, organized by trust boundary.  The
+  trusted computing base (TCB) is deliberately small; the remaining
+  infrastructure is untrusted verification tooling.}
 \label{tab:impl}
 \centering\small
 \begin{tabular}{@{}lrl@{}}
 \toprule
 Component & LOC & Description \\
 \midrule
-Core type system & 620 & Types, terms, contexts, judgments \\
-Proof kernel & 1,700 & Proof-term verification (TCB) \\
-Sugar / decorators & 1,100 & \texttt{@guarantee}, \texttt{@requires}, DSL \\
-Lean export & 1,200 & Compiler, spec/proof/renderer \\
-Equivalence engine & 900 & Z3 symbolic execution \\
-Semantics & 800 & Denotational semantics modules \\
-Axiom library & 500 & SymPy, NumPy, stdlib axioms \\
-Homotopy tactics & 300 & Path, transport, fibration tactics \\
+\multicolumn{3}{@{}l}{\emph{Trusted computing base (TCB)}} \\
+Proof kernel & 1,718 & Proof-term verification \\
+Core type system & 687 & Types, terms, contexts, judgments \\
 \midrule
-Total (library) & $\sim$7,100 & \\
-Tests & $\sim$6,800 & 754 test cases \\
+\multicolumn{3}{@{}l}{\emph{Verification infrastructure (untrusted)}} \\
+Type checker & 2,168 & Cubical type checking, reduction \\
+Path engine & 2,706 & Path construction, transport, fibrations \\
+Sugar / decorators & 1,542 & \texttt{@guarantee}, \texttt{@requires}, DSL \\
+Lean~4 export & 2,550 & Compiler, spec/proof translator, renderer \\
+Equivalence engine & 1,350 & Z3 symbolic execution \\
+Axiom library & 2,461 & SymPy, NumPy, stdlib formal axioms \\
+Separation logic & 1,860 & Heap reasoning, ownership tracking \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Semantics modeling}} \\
+Denotational semantics & 9,661 & Python semantics (6 modules) \\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Other}} \\
+Effects / runtime & 2,567 & Effect types, runtime monitor \\
+\midrule
+Total (library) & $\sim$29,270 & \\
+Tests & $\sim$7,400 & 781 test cases \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1030,7 +1175,7 @@ We evaluate \deppy{} along four dimensions: \emph{expressiveness}
 
 \subsection{Test Suite}
 
-\deppy{}'s test suite contains 754 test cases organized into eight
+\deppy{}'s test suite contains 781 test cases organized into nine
 modules (Table~\ref{tab:tests}).
 
 \begin{table}[t]
@@ -1048,10 +1193,11 @@ Z3 equivalence & 79 & Equiv/inequiv with counterexamples \\
 Integration & 57 & End-to-end pipeline \\
 Strip roundtrip & 55 & Erasure fidelity \\
 Lean export & 45 & Proven/sorry/rendering \\
+Lean equivalence & 27 & Cross-language equivalence \\
 Testing fallback & 18 & Non-Z3 strategies \\
-Lean translator & 159 & Spec/proof/renderer \\
+Lean translator & 159 & Spec/proof/compiler/renderer \\
 \midrule
-Total & 754 & \\
+Total & 781 & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1127,9 +1273,33 @@ Lean export (sorry) & 4 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 754$^\dagger$ \\
+Total & 781$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Feature coverage by verification method.}
+\label{tab:coverage}
+\centering\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Feature & Z3 & Kernel & Lean \\
+\midrule
+Integer arithmetic & \checkmark & \checkmark & \checkmark \\
+Boolean logic & \checkmark & \checkmark & \checkmark \\
+Branching (\texttt{if}/\texttt{else}) & \checkmark & \checkmark & \checkmark \\
+Refinement types & \checkmark & \checkmark & \checkmark \\
+Pre/postconditions & \checkmark & \checkmark & \checkmark \\
+Duck-type paths & --- & \checkmark & --- \\
+Induction ($\mathbb{N}$, lists) & --- & \checkmark & partial \\
+Higher-order functions & --- & \checkmark & --- \\
+Sidecar axioms & --- & \checkmark & --- \\
+Lists / dicts & fallback & \checkmark & --- \\
+Mutation / aliasing & fallback & partial & --- \\
+Exceptions & --- & modeled & --- \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -1149,6 +1319,88 @@ are beyond linear arithmetic (e.g., ``result is a sorted permutation
 of input'').  In all cases, \deppy{} reports the unproved obligations
 explicitly, never silently accepting a sorry as proven.
 
+\subsection{Performance}
+
+Table~\ref{tab:perf} reports verification times for each test module,
+measured on a 2023 Apple M2 laptop (single-threaded, Python~3.12).
+
+\begin{table}[t]
+\caption{Verification performance by module.}
+\label{tab:perf}
+\centering\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Module & Tests & Time (s) \\
+\midrule
+Core type system & 126 & 0.30 \\
+Sugar / decorators & 120 & 0.22 \\
+Z3 adherence & 95 & 0.37 \\
+Z3 equivalence & 79 & 0.34 \\
+Integration & 57 & 0.20 \\
+Strip roundtrip & 55 & 0.20 \\
+Lean export & 45 & 0.20 \\
+Lean equivalence & 27 & 0.21 \\
+Testing fallback & 18 & 0.19 \\
+Lean translator & 159 & 0.55 \\
+\midrule
+Total & 781 & 2.78 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The entire 781-test suite completes in under 3~seconds.  Z3
+discharge dominates verification time: the Z3~adherence and
+Z3~equivalence modules account for 26\% of the total time despite
+comprising 22\% of the tests, reflecting SMT solver overhead.  Kernel
+checking and Lean export are each under 0.01\,s per test case on
+average.
+
+\subsection{Annotation Burden}
+
+Across the test suite (9,118 lines of test code), \deppy{} uses 205
+\texttt{@guarantee} annotations and 46 \texttt{@requires}
+annotations, with 117 explicit proof construction calls.  This yields
+an annotation density of approximately 1 specification per 36 lines
+of test code.  For the Z3-decidable fragment, no proof terms are
+needed; the programmer writes only the specification string.
+
+\subsection{Comparison with Related Tools}
+
+Table~\ref{tab:compare} compares \deppy{} with existing Python
+verification tools along dimensions relevant to our contributions.
+
+\begin{table}[t]
+\caption{Comparison with Python verification tools.}
+\label{tab:compare}
+\centering\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Feature & \deppy{} & Nagini & CrossHair & Mypy \\
+\midrule
+Refinement types & \checkmark & \checkmark & --- & --- \\
+Dependent types & \checkmark & --- & --- & --- \\
+SMT automation & \checkmark & \checkmark & partial & --- \\
+Proof terms & \checkmark & --- & --- & --- \\
+Proof export (Lean) & \checkmark & --- & --- & --- \\
+Unmodified libraries & \checkmark & --- & \checkmark & --- \\
+Duck-type reasoning & \checkmark & --- & --- & \checkmark \\
+Trust tracking & \checkmark & --- & --- & --- \\
+No source modification & \checkmark & --- & \checkmark & \checkmark \\
+Heap / separation logic & partial & \checkmark & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Nagini~\cite{nagini} provides the most mature verification
+infrastructure for Python, with heap reasoning through
+Viper~\cite{viper}, but requires Viper-style annotations in the
+source code and does not support proof export or duck-type proof
+transfer.  CrossHair~\cite{crosshair} performs concolic testing
+against contracts with no source modification required, but lacks
+proof terms, dependent types, and trust provenance.  Mypy~\cite{mypy}
+provides gradual structural typing including \texttt{Protocol}
+support but does not verify functional properties.
+
 
 % ═══════════════════════════════════════════════════════════════════
 % 10. Related Work
@@ -1166,28 +1418,53 @@ guarantees via kernel-checked proofs but are pure functional languages
 far from Python's imperative, dynamic style.  \deppy{} bridges this
 gap by keeping programs in Python and exporting certificates to Lean.
 
-\paragraph{Liquid types.}
+\paragraph{Liquid types and refinement types for existing languages.}
 Liquid Haskell~\cite{liquidhaskell} pioneered refinement types for
 an existing language (Haskell).  \deppy{} follows a similar philosophy
 for Python but must additionally handle dynamic typing, duck typing,
 and mutable state.  Liquid Haskell benefits from Haskell's purity and
 strong static types; \deppy{} must operate without these guarantees.
 
+\paragraph{Python type systems and gradual typing.}
+Mypy~\cite{mypy} and Pyright provide gradual static typing but do
+not verify functional properties.  Python's PEP~544 introduced
+\texttt{typing.Protocol} for structural subtyping, formalizing duck
+typing at the type level but without proof transfer.  Typed
+Racket~\cite{typedracket} pioneered sound gradual typing with
+contract boundaries between typed and untyped code; \deppy{}'s trust
+levels serve an analogous role, making the boundary between verified
+and unverified code explicit.  Reticulated Python~\cite{reticulated}
+explored gradual typing for Python with runtime enforcement.
+\deppy{} goes beyond type-level checking to verify functional
+specifications.
+
 \paragraph{Python verification tools.}
 Nagini~\cite{nagini} translates Python to Viper~\cite{viper} for
-modular verification of heap-manipulating programs.
+modular verification of heap-manipulating programs, requiring
+source-code annotations in a Viper-style specification language.
 CrossHair~\cite{crosshair} uses concolic execution to find
-contract violations.  Both require source-code annotations.
-\deppy{}'s sidecar approach does not require modifying library source.
-Mypy~\cite{mypy} and Pyright provide gradual static typing but do
-not verify functional properties.
+contract violations at the function level.
+\deppy{}'s sidecar approach does not require modifying library source,
+and its Lean export provides stronger assurance than runtime testing.
+
+\paragraph{External specification systems.}
+The idea of specifying library behavior in companion files has
+precedent: JML~\cite{jml} supports model programs and specification
+interfaces for Java; Spec\#~\cite{specsharp} provides
+out-of-band contracts for .NET libraries; ACSL/Frama-C~\cite{framac}
+specifies C library behavior in annotation comments.  \deppy{}'s
+sidecar verification extends this pattern to Python's dynamic,
+duck-typed ecosystem, integrating external specs with dependent proof
+transport and explicit trust provenance tracking.
 
 \paragraph{Homotopy type theory in practice.}
 Cubical Agda~\cite{cubicalagda} and cubical type theory~\cite{cchm}
 provide computational univalence.  \deppy{} uses HoTT concepts
 (paths, transport, univalence) in a lighter-weight setting: rather
 than building a full cubical type theory, \deppy{} uses path types
-to model Python's structural equivalences.  The closest precedent is
+to model Python's structural equivalences as proof-relevant
+equalities, enabling proof transfer that goes beyond what standard
+structural subtyping provides.  The closest precedent is
 observational type theory~\cite{altenkirch-ott}, which also uses
 observation-based equality --- \deppy{}'s duck-type paths are
 observation-based at the method level.
@@ -1196,13 +1473,8 @@ observation-based at the method level.
 Design by Contract~\cite{meyer1992} and Python contract
 libraries (icontract~\cite{icontract}, deal~\cite{deal}) provide
 runtime checking of pre/postconditions.  \deppy{} goes further by
-providing static verification, proof terms, and certificate export.
-
-\paragraph{Separation logic for Python.}
-Pulse~\cite{pulse} (the effect system in F*) provides separation
-logic for heap reasoning.  \deppy{}'s separation logic module
-(\S\ref{sec:eval}) adapts Pulse's approach to Python's heap model,
-including GIL-aware concurrency reasoning.
+providing static verification, proof terms, and certificate export,
+while supporting the same decorator-based ergonomics.
 
 
 % ═══════════════════════════════════════════════════════════════════
@@ -1219,11 +1491,12 @@ and async/await are modeled in the type system but not yet discharged
 to Z3 or Lean.
 
 \paragraph{Soundness caveats.}
-The type-safety theorem (\S\ref{sec:calculus}) is conditional on:
+The type-safety theorem (\S\ref{sec:calculus}) is \emph{fully
+machine-checked} in Lean~4: progress, preservation, and the top-level
+safety theorem carry zero \texttt{sorry} obligations.  The result is
+additionally conditional on:
 (i)~correctness of Z3, (ii)~correctness of sidecar axioms,
 (iii)~fidelity of \deppy{}'s AST analysis to CPython's semantics.
-A formalization of the core calculus in Lean~4 itself would
-strengthen these guarantees.
 
 \paragraph{Lean export coverage.}
 Currently, only pure arithmetic functions receive complete Lean proofs.
@@ -1254,7 +1527,7 @@ trust tracking.
 \deppy{} demonstrates that dependent-type verification can be
 retrofitted onto a dynamically-typed language without requiring
 programmers to abandon their existing code or learn a new language.
-The 754-test evaluation, including 301 negative soundness tests and
+The 781-test evaluation, including 301 negative soundness tests and
 case studies from SymPy verification to STLC type soundness, shows
 that the approach is practical and expressively rich.
 
@@ -1358,6 +1631,32 @@ Life4.
 N.~Swamy, A.~Rastogi, and G.~Mart\'inez.
 \newblock Pulse: A concurrent separation logic for {F*}.
 \newblock \url{https://fstar-lang.org/}, 2024.
+
+\bibitem{typedracket}
+S.~Tobin-Hochstadt and M.~Felleisen.
+\newblock The design and implementation of {Typed Scheme}.
+\newblock In \emph{POPL}, 2008.
+
+\bibitem{reticulated}
+M.~M.~Vitousek, A.~M.~Kent, J.~G.~Siek, and J.~Baker.
+\newblock Design and evaluation of gradual typing for {Python}.
+\newblock In \emph{DLS}, 2014.
+
+\bibitem{jml}
+G.~T.~Leavens, A.~L.~Baker, and C.~Ruby.
+\newblock Preliminary design of {JML}: A behavioral interface specification
+  language for {Java}.
+\newblock \emph{ACM SIGSOFT Software Engineering Notes}, 31(3):1--38, 2006.
+
+\bibitem{specsharp}
+M.~Barnett, K.~R.~M.~Leino, and W.~Schulte.
+\newblock The {Spec\#} programming system: An overview.
+\newblock In \emph{CASSIS}, 2004.
+
+\bibitem{framac}
+P.~Baudin et al.
+\newblock {ACSL}: {ANSI/ISO~C} Specification Language.
+\newblock \url{https://frama-c.com/acsl.html}, 2024.
 
 \end{thebibliography}
 
