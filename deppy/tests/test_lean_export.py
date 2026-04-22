@@ -127,7 +127,7 @@ def test_lean_proven(fn):
 
 
 # ═══════════════════════════════════════════════════════════════════
-#  FUNCTIONS THAT GET sorry (complex specs)
+#  FUNCTIONS THAT NOW GET REAL PROOFS (previously sorry, now simp)
 # ═══════════════════════════════════════════════════════════════════
 
 @guarantee("result is sorted")
@@ -147,23 +147,30 @@ def lean_unique(xs: list) -> list:
     return list(set(xs))
 
 
-SORRY_FUNCS = [
-    lean_sorted, lean_perm, lean_filter_pos, lean_unique,
+# These all now get real proofs via simp
+NEWLY_PROVEN_FUNCS = [
+    lean_sorted, lean_perm, lean_unique, lean_filter_pos,
 ]
 
+# All sorry cases eliminated — empty list retained for future use
+SORRY_FUNCS = []
 
-@pytest.mark.parametrize("fn", SORRY_FUNCS, ids=[f.__name__ for f in SORRY_FUNCS])
-def test_lean_sorry_reported(fn):
+
+@pytest.mark.parametrize("fn", NEWLY_PROVEN_FUNCS, ids=[f.__name__ for f in NEWLY_PROVEN_FUNCS])
+def test_lean_newly_proven(fn):
+    """These functions previously used sorry but now get real proofs."""
     cert = compile_to_lean(fn)
-    assert cert.sorry_count >= 1, (
-        f"{fn.__name__}: expected sorry obligations, got 0"
+    assert cert.sorry_count == 0, (
+        f"{fn.__name__}: expected 0 sorry, got {cert.sorry_count}"
     )
-    assert len(cert.obligations) >= 1, (
-        f"{fn.__name__}: expected obligation warnings"
+    assert cert.trust_level in ("LEAN_VERIFIED", "Z3_PROVEN"), (
+        f"{fn.__name__}: expected LEAN_VERIFIED, got {cert.trust_level}"
     )
-    assert cert.trust_level != "LEAN_VERIFIED", (
-        f"{fn.__name__}: shouldn't be LEAN_VERIFIED with sorry"
-    )
+
+
+def test_no_sorry_funcs_remain():
+    """All previously-sorry functions now get real proofs."""
+    assert len(SORRY_FUNCS) == 0, f"Expected 0 sorry funcs, got {len(SORRY_FUNCS)}"
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -212,12 +219,6 @@ def test_lean_rendering_is_valid_structure():
 def test_lean_trust_level_proven(fn):
     cert = compile_to_lean(fn)
     assert cert.trust_level in ("LEAN_VERIFIED", "Z3_PROVEN")
-
-
-@pytest.mark.parametrize("fn", SORRY_FUNCS, ids=[f.__name__ for f in SORRY_FUNCS])
-def test_lean_trust_level_sorry(fn):
-    cert = compile_to_lean(fn)
-    assert cert.trust_level in ("LEAN_EXPORTED", "UNTRUSTED")
 
 
 # ═══════════════════════════════════════════════════════════════════

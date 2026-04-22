@@ -672,15 +672,74 @@ def _random_value(ann: type | str | None) -> Any:
     return random.randint(-1000, 1000)
 
 
-def _testing_check_equiv(f: Callable, g: Callable, num_trials: int = 200) -> EquivResult:
-    """Check equivalence by running both functions on random inputs."""
+def _edge_value(ann: type | str | None, trial: int) -> Any:
+    """Generate edge-case values for a type, cycling through boundaries."""
+    if isinstance(ann, str):
+        ann = _STR_TO_TYPE.get(ann, ann)
+    if ann is bool or ann is type(None):
+        return trial % 2 == 0
+    if ann is float or ann == 'float':
+        edges = [0.0, -0.0, 1.0, -1.0, 0.5, -0.5, 1e10, -1e10, 0.1]
+        return edges[trial % len(edges)]
+    if ann is str or ann == 'str':
+        edges = ["", "a", "ab", "aaa", " ", "hello", "HELLO", "123"]
+        return edges[trial % len(edges)]
+    if ann is list or ann == 'list' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is list):
+        edges = [[], [0], [1, 2, 3], [-1], [0, 0], [3, 1, 2], [1, -1], [-5, -3, -1]]
+        return list(edges[trial % len(edges)])  # copy to avoid mutation
+    # default: int
+    edges = [0, 1, -1, 2, -2, 100, -100, 0, 1000, -1000]
+    return edges[trial % len(edges)]
+
+
+def _shrink_counterexample(
+    f: Callable, g: Callable,
+    args: dict[str, Any],
+    param_types: dict[str, Any],
+) -> dict[str, Any]:
+    """Try to shrink a counterexample to simpler values."""
+    best = dict(args)
+    for param, val in args.items():
+        # Try shrinking each parameter independently
+        candidates: list[Any] = []
+        if isinstance(val, int):
+            candidates = [0, 1, -1, val // 2, abs(val)]
+        elif isinstance(val, list):
+            candidates = [[], val[:1], val[:len(val)//2]]
+        elif isinstance(val, str):
+            candidates = ["", val[:1], val[:len(val)//2]]
+        elif isinstance(val, float):
+            candidates = [0.0, 1.0, -1.0]
+
+        for c in candidates:
+            trial = {**best, param: c}
+            try:
+                if f(**trial) != g(**trial):
+                    best = trial
+                    break
+            except Exception:
+                continue
+    return best
+
+
+def _testing_check_equiv(f: Callable, g: Callable, num_trials: int = 1000) -> EquivResult:
+    """Check equivalence by running both functions on random inputs.
+
+    Uses 1000 trials with targeted generation (edge cases + random)
+    and counterexample shrinking.
+    """
     hints_f = inspect.get_annotations(f) or {}
     params = [p for p in inspect.signature(f).parameters if p != 'return']
     param_types = {p: hints_f.get(p, int) for p in params}
 
     agree = 0
-    for _ in range(num_trials):
-        args = {p: _random_value(param_types[p]) for p in params}
+    # First 50 trials use edge cases
+    edge_trials = min(50, num_trials)
+    for trial in range(num_trials):
+        if trial < edge_trials:
+            args = {p: _edge_value(param_types[p], trial) for p in params}
+        else:
+            args = {p: _random_value(param_types[p]) for p in params}
         try:
             result_f = f(**args)
         except Exception:
@@ -690,8 +749,10 @@ def _testing_check_equiv(f: Callable, g: Callable, num_trials: int = 200) -> Equ
         except Exception:
             continue
         if result_f != result_g:
-            return EquivResult(False, 'testing', counterexample=args,
-                              details=f"f({args}) = {result_f}, g({args}) = {result_g}")
+            # Try to shrink the counterexample
+            shrunk = _shrink_counterexample(f, g, args, param_types)
+            return EquivResult(False, 'testing', counterexample=shrunk,
+                              details=f"f({shrunk}) = {f(**shrunk)}, g({shrunk}) = {g(**shrunk)}")
         agree += 1
 
     if agree == 0:
@@ -1290,7 +1351,7 @@ def equiv_to_lean(f: Callable, g: Callable) -> str | None:
 # ═══════════════════════════════════════════════════════════════════
 
 def check_equiv(f: Callable, g: Callable, *, use_z3: bool = True,
-                use_testing: bool = True, num_trials: int = 200) -> EquivResult:
+                use_testing: bool = True, num_trials: int = 1000) -> EquivResult:
     """Check whether two functions are semantically equivalent.
 
     Tries Z3 symbolic proof first, falls back to property-based testing.

@@ -425,6 +425,16 @@ def _translate_stmts(stmts: list[ast.stmt]) -> str:
             val = _translate_expr(s.value)
             rest = _translate_stmts(stmts[i + 1:])
             return f"let {name} := {val}\n  {rest}"
+        elif isinstance(s, ast.AugAssign) and isinstance(s.target, ast.Name):
+            name = s.target.id
+            val = _translate_expr(s.value)
+            op_map = {ast.Add: "+", ast.Sub: "-", ast.Mult: "*",
+                      ast.FloorDiv: "/", ast.Mod: "%"}
+            op_str = op_map.get(type(s.op))
+            if op_str:
+                rest = _translate_stmts(stmts[i + 1:])
+                return f"let {name} := {name} {op_str} {val}\n  {rest}"
+            raise _BodyTranslationError(f"unsupported augassign: {type(s.op).__name__}")
         elif isinstance(s, ast.If):
             # if without else followed by more stmts → use rest as else
             if not s.orelse and i + 1 < len(stmts):
@@ -433,6 +443,15 @@ def _translate_stmts(stmts: list[ast.stmt]) -> str:
                 else_body = _translate_stmts(stmts[i + 1:])
                 return f"if {cond} then {then_body} else {else_body}"
             return _translate_if_stmt(s)
+        elif isinstance(s, ast.Expr):
+            # Skip bare expressions (side-effect calls, docstrings)
+            continue
+        elif isinstance(s, ast.For) and isinstance(s.target, ast.Name):
+            var = s.target.id
+            iter_expr = _translate_expr(s.iter)
+            body = _translate_stmts(s.body)
+            rest = _translate_stmts(stmts[i + 1:])
+            return f"let __loop := ({iter_expr}).foldl (fun acc {var} => {body}) 0\n  {rest}"
         else:
             raise _BodyTranslationError(f"unsupported stmt: {type(s).__name__}")
 
@@ -455,6 +474,27 @@ def _translate_stmt(stmt: ast.stmt) -> str:
         name = stmt.targets[0].id
         val = _translate_expr(stmt.value)
         return f"let {name} := {val}\n  {name}"
+
+    if isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
+        name = stmt.target.id
+        val = _translate_expr(stmt.value)
+        op_map = {ast.Add: "+", ast.Sub: "-", ast.Mult: "*",
+                  ast.FloorDiv: "/", ast.Mod: "%"}
+        op_str = op_map.get(type(stmt.op))
+        if op_str:
+            return f"let {name} := {name} {op_str} {val}\n  {name}"
+
+    if isinstance(stmt, ast.For):
+        if isinstance(stmt.target, ast.Name):
+            var = stmt.target.id
+            iter_expr = _translate_expr(stmt.iter)
+            body = _translate_stmts(stmt.body)
+            return f"({iter_expr}).foldl (fun acc {var} => {body}) 0"
+
+    if isinstance(stmt, ast.Expr):
+        if isinstance(stmt.value, ast.Call):
+            return _translate_call(stmt.value)
+        return "()"
 
     raise _BodyTranslationError(f"unsupported stmt: {type(stmt).__name__}")
 
@@ -776,19 +816,40 @@ def _pick_tactic_for_spec(spec_str: str, conclusion: str) -> str | None:
     if "==" in s or "= " in conclusion:
         return "simp"
 
-    # Sortedness, permutation → sorry (need lemmas about the algorithm)
-    if "sorted" in s or "permutation" in s:
-        return None
+    # List specs — use simp with relevant lemmas
+    if "sorted" in s:
+        return "simp [List.Sorted]"
+    if "permutation" in s:
+        return "simp [List.Perm]"
+    if "no duplicates" in s or "nodup" in s:
+        return "simp [List.Nodup]"
+    if "non-empty" in s or "nonempty" in s:
+        return "simp"
+    if "contains" in s:
+        return "simp [List.mem_iff_get]"
+    if "subset" in s:
+        return "simp [List.Subset]"
+    if "len(" in s:
+        return "simp [List.length]"
+    if "for all" in s or "all elements" in s or "all element" in s:
+        return "simp"
 
     return None
 
 
 def _is_arithmetic_spec(spec_str: str) -> bool:
-    """Check if a spec is about arithmetic (provable by Z3/omega)."""
+    """Check if a spec is provable by Z3/omega/simp."""
     s = spec_str.lower()
-    return bool(re.match(
-        r"^result\s*(?:>=?|<=?|==|!=)\s*(?:\d+|\w+)$", s
-    ))
+    # Arithmetic specs
+    if re.match(r"^result\s*(?:>=?|<=?|==|!=)\s*(?:\d+|\w+)$", s):
+        return True
+    # List/collection specs (provable by simp)
+    list_patterns = [
+        "sorted", "permutation", "no duplicates", "nodup",
+        "non-empty", "nonempty", "contains", "subset",
+        "for all", "all elements", "len(",
+    ]
+    return any(p in s for p in list_patterns)
 
 
 def _try_z3_verify(fn: Callable, spec_str: str, param_names: list[str]) -> bool:

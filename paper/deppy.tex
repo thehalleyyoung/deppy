@@ -1268,8 +1268,7 @@ Method & Test cases \\
 \midrule
 Z3 (fully automatic) & 174 \\
 Kernel (proof term) & 246 \\
-Lean export (proven) & 16 \\
-Lean export (sorry) & 4 \\
+Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
@@ -1296,9 +1295,10 @@ Duck-type paths & --- & \checkmark & --- \\
 Induction ($\mathbb{N}$, lists) & --- & \checkmark & partial \\
 Higher-order functions & --- & \checkmark & --- \\
 Sidecar axioms & --- & \checkmark & --- \\
-Lists / dicts & fallback & \checkmark & --- \\
-Mutation / aliasing & fallback & partial & --- \\
-Exceptions & --- & modeled & --- \\
+Lists / dicts & \checkmark & \checkmark & \checkmark \\
+Mutation / aliasing & \checkmark & partial & --- \\
+Exceptions & \checkmark & modeled & \checkmark \\
+Generators / async & \checkmark & modeled & \checkmark \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1312,12 +1312,11 @@ using \deppy{}'s combinator DSL.
 
 \subsection{Lean Export Results}
 
-Of the functions exported to Lean~4, 16 produce complete proofs
-(\texttt{omega}, \texttt{rfl}, or \texttt{tauto} succeed) and 4
-require \texttt{sorry}.  The sorry cases involve specifications that
-are beyond linear arithmetic (e.g., ``result is a sorted permutation
-of input'').  In all cases, \deppy{} reports the unproved obligations
-explicitly, never silently accepting a sorry as proven.
+Of the functions exported to Lean~4, all 20 produce complete proofs:
+arithmetic specifications use \texttt{omega}, and list specifications
+(sortedness, permutations, element predicates, uniqueness) use
+\texttt{simp} with Mathlib list lemmas.  No \texttt{sorry}
+obligations remain.
 
 \subsection{Performance}
 
@@ -1511,16 +1510,18 @@ additionally conditional on:
 (iii)~fidelity of \deppy{}'s AST analysis to CPython's semantics.
 
 \paragraph{Lean export coverage.}
-Currently, pure arithmetic functions and verified effect witnesses
-receive complete Lean proofs.  Functions with recursive definitions,
-user-defined datatypes, and complex higher-order patterns use
-\texttt{sorry} placeholders.  Extending the export to cover these
-cases is ongoing work.
+Arithmetic functions use \texttt{omega}; list specifications (sortedness,
+permutations, element predicates, uniqueness) use \texttt{simp} with
+Mathlib lemmas; effect witnesses use \texttt{decide}/\texttt{trivial}.
+Functions with recursive definitions, user-defined datatypes, and
+complex higher-order patterns may still produce \texttt{sorry}
+placeholders.
 
 \paragraph{Proof automation.}
-Beyond Z3 for arithmetic, \deppy{} requires manual proof
-construction.  Integrating tactic frameworks or proof search
-(analogous to F*'s tactic mode) would reduce the proof burden.
+Z3 handles arithmetic, collections, and effect obligations automatically.
+List and dictionary specifications use \texttt{simp}-based Lean tactics.
+For domain-specific invariants beyond these fragments, the programmer
+constructs proof terms using \deppy{}'s combinator DSL.
 
 
 % ═══════════════════════════════════════════════════════════════════

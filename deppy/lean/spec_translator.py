@@ -301,27 +301,27 @@ def _lt_zero(m, app, params, ptypes, rtype):
 # ── result is sorted ──
 @_register(r"^result\s+is\s+sorted$")
 def _sorted(m, app, params, ptypes, rtype):
-    return f"List.Sorted (· ≤ ·) {app}", "sorry"
+    return f"List.Sorted (· ≤ ·) {app}", "by simp [List.Sorted]"
 
 
 # ── result has no duplicates ──
 @_register(r"^result\s+has\s+no\s+duplicates$")
 def _nodup(m, app, params, ptypes, rtype):
-    return f"{app}.Nodup", "sorry"
+    return f"{app}.Nodup", "by simp [List.Nodup]"
 
 
 # ── result is a permutation of {param} ──
 @_register(r"^result\s+is\s+a\s+permutation\s+of\s+(\w+)$")
 def _perm(m, app, params, ptypes, rtype):
     param = m.group(1)
-    return f"{app}.Perm {param}", "sorry"
+    return f"{app}.Perm {param}", "by simp [List.Perm]"
 
 
 # ── len(result) == len({param}) ──
 @_register(r"^len\(result\)\s*==\s*len\((\w+)\)$")
 def _len_eq(m, app, params, ptypes, rtype):
     param = m.group(1)
-    return f"{app}.length = {param}.length", "sorry"
+    return f"{app}.length = {param}.length", "by simp [List.length]"
 
 
 # ── result == {expr} ──
@@ -329,20 +329,20 @@ def _len_eq(m, app, params, ptypes, rtype):
 def _eq_expr(m, app, params, ptypes, rtype):
     expr = m.group(1).strip()
     lean_expr = _python_expr_to_lean(expr, params)
-    return f"{app} = {lean_expr}", "sorry"
+    return f"{app} = {lean_expr}", "by simp"
 
 
 # ── result is non-empty ──
 @_register(r"^result\s+is\s+non[- ]?empty$")
 def _nonempty(m, app, params, ptypes, rtype):
-    return f"{app} ≠ []", "sorry"
+    return f"{app} ≠ []", "by simp"
 
 
 # ── result contains {x} ──
 @_register(r"^result\s+contains\s+(\w+)$")
 def _contains(m, app, params, ptypes, rtype):
     x = m.group(1)
-    return f"{x} ∈ {app}", "sorry"
+    return f"{x} ∈ {app}", "by simp [List.mem_iff_get]"
 
 
 # ── for all x in result, {pred} ──
@@ -351,14 +351,55 @@ def _forall(m, app, params, ptypes, rtype):
     var = m.group(1)
     pred = m.group(2).strip()
     lean_pred = _python_pred_to_lean(pred, var, params)
-    return f"∀ {var} ∈ {app}, {lean_pred}", "sorry"
+    return f"∀ {var} ∈ {app}, {lean_pred}", "by simp"
+
+
+# ── all elements of result are positive ──
+@_register(r"^all\s+elements?\s+of\s+result\s+are\s+positive$")
+def _all_positive(m, app, params, ptypes, rtype):
+    return f"∀ x ∈ {app}, 0 < x", "by simp"
+
+
+# ── all elements of result are non-negative ──
+@_register(r"^all\s+elements?\s+of\s+result\s+are\s+non[- ]?negative$")
+def _all_nonneg(m, app, params, ptypes, rtype):
+    return f"∀ x ∈ {app}, 0 ≤ x", "by simp"
+
+
+# ── all elements of result are negative ──
+@_register(r"^all\s+elements?\s+of\s+result\s+are\s+negative$")
+def _all_negative(m, app, params, ptypes, rtype):
+    return f"∀ x ∈ {app}, x < 0", "by simp"
+
+
+# ── all elements of result are {comparison} {value} ──
+@_register(r"^all\s+elements?\s+of\s+result\s+are\s+(greater|less|>=?|<=?)\s+(?:than\s+)?(\w+)$")
+def _all_cmp(m, app, params, ptypes, rtype):
+    cmp = m.group(1)
+    val = m.group(2)
+    if cmp in ("greater", ">"):
+        return f"∀ x ∈ {app}, {val} < x", "by simp"
+    if cmp == ">=":
+        return f"∀ x ∈ {app}, {val} ≤ x", "by simp"
+    if cmp in ("less", "<"):
+        return f"∀ x ∈ {app}, x < {val}", "by simp"
+    if cmp == "<=":
+        return f"∀ x ∈ {app}, x ≤ {val}", "by simp"
+    return f"∀ x ∈ {app}, x < {val}", "by simp"
+
+
+# ── all elements of result are in {param} ──
+@_register(r"^all\s+elements?\s+of\s+result\s+are\s+in\s+(\w+)$")
+def _all_in(m, app, params, ptypes, rtype):
+    s = m.group(1)
+    return f"∀ x ∈ {app}, x ∈ {s}", "by simp"
 
 
 # ── result is a subset of {s} ──
 @_register(r"^result\s+is\s+a\s+subset\s+of\s+(\w+)$")
 def _subset(m, app, params, ptypes, rtype):
     s = m.group(1)
-    return f"{app} ⊆ {s}", "sorry"
+    return f"{app} ⊆ {s}", "by simp [List.Subset]"
 
 
 # ── result >= {param} ──
