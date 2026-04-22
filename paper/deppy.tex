@@ -1272,7 +1272,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 816$^\dagger$ \\
+Total & 821$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1507,16 +1507,21 @@ usage patterns (e.g., \texttt{.append()} implies \texttt{list},
 \texttt{/} implies \texttt{float}).
 The following Python features remain outside the verified fragment:
 \begin{enumerate}
-\item \textbf{Unbounded loops.}  \texttt{while} loops and
-  \texttt{for} loops over symbolic-length iterables are not modeled;
-  functions containing them fall back to property-based testing
-  (1\,000 trials with edge-case generation and counterexample shrinking).
-\item \textbf{Inheritance and dispatch.}  \texttt{class} definitions
-  are supported per-method, but inheritance, \texttt{super()},
-  and dynamic dispatch are not analyzed.
-\item \textbf{Deep recursion.}  Beyond the unroll depth, recursive
-  calls produce uninterpreted boundary values, which may cause
-  false negatives in adherence checking.
+\item \textbf{Unbounded symbolic iteration.}  \texttt{while} loops are
+  unrolled up to 8~iterations and \texttt{for} loops over
+  symbolic-length collections up to 8~iterations (with
+  \texttt{z3.If}-guarded merging).  Loops exceeding the bound produce
+  approximate results; functions whose correctness depends on longer
+  execution fall back to property-based testing.
+\item \textbf{Dynamic dispatch.}  Single inheritance with
+  \texttt{super().\_\_init\_\_()}, MRO-based method resolution, and
+  field accumulation across the hierarchy are supported.
+  Multiple inheritance, metaclasses, \texttt{\_\_getattr\_\_}, and
+  descriptor protocols are not analyzed.
+\item \textbf{Recursive boundary.}  Recursive calls are unrolled to
+  depth~8 with inductive boundary constraints (boundary values are
+  constrained to satisfy the current spec).  For specs that are not
+  structurally inductive, this may be unsound.
 \end{enumerate}
 
 \paragraph{Lean export gaps.}

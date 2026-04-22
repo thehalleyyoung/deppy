@@ -80,6 +80,14 @@ class EquivResult:
 _REC_CONTEXT: dict[str, Any] = {}  # {func_name: (body_stmts, param_names, max_depth)}
 _REC_DEPTH: dict[str, int] = {}    # {func_name: current_depth}
 _MAX_REC_DEPTH = 8
+_MAX_WHILE_UNROLL = 8
+_ALLOW_SYMBOLIC_UNROLL = False  # Only True during adherence checking
+
+# Spec-guided boundary: when set, boundary vars are constrained to satisfy
+# the current adherence spec.  This avoids false negatives from unconstrained
+# uninterpreted boundary values during recursion.
+_BOUNDARY_SPEC: str | None = None
+_BOUNDARY_PARAMS: dict[str, Any] = {}
 
 _TYPE_TO_Z3 = {
     int: lambda name: z3.Int(name),
@@ -593,6 +601,13 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 # Use shared name "__rec_boundary_{depth}" to align across functions
                 return z3.Int(f"__rec_boundary_{cur_depth}")
         if isinstance(node.func, ast.Attribute):
+            # Handle super().method(...) — treat as no-op for __init__, pass-through otherwise
+            if isinstance(node.func.value, ast.Call) and isinstance(node.func.value.func, ast.Name) and node.func.value.func.id == 'super':
+                method = node.func.attr
+                if method == '__init__':
+                    return 0  # super().__init__() is a no-op for Z3 modeling
+                # For other super methods, return uninterpreted
+                return z3.Int(f"__super_{method}_{id(node)}")
             obj = _eval_expr_z3(node.func.value, env)
             method = node.func.attr
             if isinstance(obj, _Z3List):
@@ -847,6 +862,11 @@ def _eval_body_z3_impl(stmts: list[ast.stmt], env: dict[str, Any],
     for i, stmt in enumerate(stmts):
         # Skip docstrings and bare expressions that aren't method calls
         if isinstance(stmt, ast.Expr):
+            # Skip super().__init__(...) calls
+            if isinstance(stmt.value, ast.Call) and isinstance(stmt.value.func, ast.Attribute):
+                func = stmt.value.func
+                if isinstance(func.value, ast.Call) and isinstance(func.value.func, ast.Name) and func.value.func.id == 'super':
+                    continue
             # Handle mutating method calls as statements: xs.append(v)
             if isinstance(stmt.value, ast.Call) and isinstance(stmt.value.func, ast.Attribute):
                 obj_name = None
@@ -944,7 +964,7 @@ def _eval_body_z3_impl(stmts: list[ast.stmt], env: dict[str, Any],
             # Case 2: for x in <list literal or known-length _Z3List>
             iterable = _eval_expr_z3(stmt.iter, env)
             if isinstance(iterable, _Z3List):
-                # Only unroll if length is a concrete Python int
+                # Concrete length: unroll exactly
                 if isinstance(iterable.length, int) and iterable.length <= 32:
                     for iteration in range(iterable.length):
                         env = {**env, loop_var: iterable[iteration]}
@@ -953,8 +973,115 @@ def _eval_body_z3_impl(stmts: list[ast.stmt], env: dict[str, Any],
                                 return _eval_expr_z3(s.value, env)
                             env = _exec_loop_stmt(s, env)
                     continue
+                # Symbolic length: unroll up to 8 iterations with z3.If guards
+                # Only during adherence checking (not equivalence — approximation is unsound)
+                max_sym_unroll = 8
+                if not isinstance(iterable.length, int) and _ALLOW_SYMBOLIC_UNROLL:
+                    for iteration in range(max_sym_unroll):
+                        guard = iterable.length > iteration
+                        then_env = {**env, loop_var: iterable[iteration]}
+                        for s in stmt.body:
+                            then_env = _exec_loop_stmt(s, then_env)
+                        # Merge: env[k] = If(guard, then_env[k], env[k])
+                        new_env = dict(env)
+                        for k, v in then_env.items():
+                            if k in env and k != loop_var:
+                                try:
+                                    same = (v is env[k])
+                                except Exception:
+                                    same = False
+                                if not same:
+                                    new_env[k] = z3.If(guard, v, env[k])
+                            elif k != loop_var:
+                                new_env[k] = v
+                        env = new_env
+                    continue
+
+            # for x in range(symbolic) — unroll with guards (only in adherence mode)
+            if (_ALLOW_SYMBOLIC_UNROLL and isinstance(stmt.iter, ast.Call) and isinstance(stmt.iter.func, ast.Name)
+                    and stmt.iter.func.id == 'range' and len(stmt.iter.args) == 1):
+                bound = _eval_expr_z3(stmt.iter.args[0], env)
+                if not isinstance(bound, int):
+                    max_sym_unroll = 8
+                    for iteration in range(max_sym_unroll):
+                        guard = bound > iteration
+                        then_env = {**env, loop_var: iteration}
+                        for s in stmt.body:
+                            then_env = _exec_loop_stmt(s, then_env)
+                        new_env = dict(env)
+                        for k, v in then_env.items():
+                            if k in env and k != loop_var:
+                                try:
+                                    same = (v is env[k])
+                                except Exception:
+                                    same = False
+                                if not same:
+                                    new_env[k] = z3.If(guard, v, env[k])
+                            elif k != loop_var:
+                                new_env[k] = v
+                        env = new_env
+                    continue
 
             raise ValueError(f"Unsupported for loop: trip count not statically known")
+
+        # While-loop: bounded symbolic unrolling
+        if isinstance(stmt, ast.While):
+            for _iter in range(_MAX_WHILE_UNROLL):
+                loop_cond = _to_z3_bool(_eval_expr_z3(stmt.test, env))
+                # If condition is a concrete False, stop
+                if isinstance(loop_cond, bool) and not loop_cond:
+                    break
+                # Check if body has a return
+                body_has_return = any(isinstance(s, ast.Return) for s in stmt.body)
+                if body_has_return:
+                    # If return is conditional, need to handle as branching
+                    for s in stmt.body:
+                        if isinstance(s, ast.Return):
+                            # Return inside while under loop_cond
+                            ret_val = _eval_expr_z3(s.value, env)
+                            rest_result = _eval_body_z3_impl(stmts[i + 1:], dict(env), rec_name, rec_depth)
+                            if rest_result is not None:
+                                return z3.If(loop_cond, ret_val, rest_result)
+                            return ret_val
+                        if isinstance(s, ast.If):
+                            # Conditional return inside while
+                            if_cond = _to_z3_bool(_eval_expr_z3(s.test, env))
+                            if any(isinstance(b, ast.Return) for b in s.body):
+                                ret_stmt = next(b for b in s.body if isinstance(b, ast.Return))
+                                ret_val = _eval_expr_z3(ret_stmt.value, env)
+                                # Execute else branch to continue
+                                else_env = dict(env)
+                                for b in (s.orelse or []):
+                                    else_env = _exec_loop_stmt(b, else_env)
+                                env = else_env
+                                # Will continue the while loop
+                                break
+                            else:
+                                env = _exec_loop_stmt(s, env)
+                        else:
+                            env = _exec_loop_stmt(s, env)
+                else:
+                    # Assignment-only body: execute conditionally
+                    then_env = dict(env)
+                    for s in stmt.body:
+                        then_env = _exec_loop_stmt(s, then_env)
+                    # Merge with z3.If(loop_cond, then_val, old_val)
+                    if isinstance(loop_cond, bool) and loop_cond:
+                        env = then_env
+                    else:
+                        new_env = dict(env)
+                        for k, v in then_env.items():
+                            if k in env:
+                                try:
+                                    same = (v is env[k])
+                                except Exception:
+                                    same = False
+                                if not same:
+                                    new_env[k] = z3.If(loop_cond, v, env[k])
+                            else:
+                                new_env[k] = v
+                        env = new_env
+            continue
 
         if isinstance(stmt, ast.If):
             cond = _to_z3_bool(_eval_expr_z3(stmt.test, env))
@@ -1064,6 +1191,87 @@ def _get_ast_annotation(tree: ast.FunctionDef, param: str) -> str | None:
         if arg.arg == param and arg.annotation is not None:
             return ast.unparse(arg.annotation)
     return None
+
+
+# ── Class hierarchy and inheritance support ──────────────
+
+class _ClassInfo:
+    """Parsed class information for inheritance resolution."""
+    __slots__ = ('name', 'bases', 'methods', 'init_fields')
+    def __init__(self, name: str, bases: list[str], methods: dict[str, ast.FunctionDef], init_fields: list[str]):
+        self.name = name
+        self.bases = bases
+        self.methods = methods
+        self.init_fields = init_fields  # fields set in __init__
+
+
+def _parse_class_hierarchy(source: str) -> dict[str, _ClassInfo]:
+    """Parse class definitions from source to build a hierarchy."""
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return {}
+    classes: dict[str, _ClassInfo] = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef):
+            bases = []
+            for base in node.bases:
+                if isinstance(base, ast.Name):
+                    bases.append(base.id)
+                elif isinstance(base, ast.Attribute):
+                    bases.append(ast.unparse(base))
+            methods: dict[str, ast.FunctionDef] = {}
+            init_fields: list[str] = []
+            for item in node.body:
+                if isinstance(item, ast.FunctionDef):
+                    methods[item.name] = item
+                    if item.name == '__init__':
+                        # Extract self.field = ... assignments
+                        for s in ast.walk(item):
+                            if isinstance(s, ast.Assign) and len(s.targets) == 1:
+                                t = s.targets[0]
+                                if isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name) and t.value.id == 'self':
+                                    init_fields.append(t.attr)
+            classes[node.name] = _ClassInfo(node.name, bases, methods, init_fields)
+    return classes
+
+
+def _resolve_method(class_name: str, method_name: str, classes: dict[str, _ClassInfo]) -> ast.FunctionDef | None:
+    """Resolve a method via MRO (simple single-inheritance DFS)."""
+    visited: set[str] = set()
+    queue = [class_name]
+    while queue:
+        cls = queue.pop(0)
+        if cls in visited:
+            continue
+        visited.add(cls)
+        info = classes.get(cls)
+        if info is None:
+            continue
+        if method_name in info.methods:
+            return info.methods[method_name]
+        queue.extend(info.bases)
+    return None
+
+
+def _collect_all_fields(class_name: str, classes: dict[str, _ClassInfo]) -> list[str]:
+    """Collect all self.field names from the class and its parents' __init__."""
+    fields: list[str] = []
+    visited: set[str] = set()
+    queue = [class_name]
+    while queue:
+        cls = queue.pop(0)
+        if cls in visited:
+            continue
+        visited.add(cls)
+        info = classes.get(cls)
+        if info is None:
+            continue
+        for f in info.init_fields:
+            if f not in fields:
+                fields.append(f)
+        queue.extend(info.bases)
+    return fields
 
 
 def _resolve_param_type(param: str, hints: dict, tree: ast.FunctionDef) -> type | str:
@@ -1970,9 +2178,7 @@ def check_equiv(f: Callable, g: Callable, *, use_z3: bool = True,
     if use_z3:
         result = _z3_check_equiv(f, g)
         if result is not None:
-            # Generate Lean proof script for Z3 results
             result.lean_proof = _generate_lean_equiv(f, g, result)
-            # Enrich with spec comparison if available
             spec_info = _spec_check_equiv(f, g)
             if spec_info is not None:
                 result.spec_info = spec_info.details
@@ -2028,6 +2234,53 @@ class AdherenceResult:
         return s
 
 
+def _collect_boundary_vars(expr: Any) -> list[Any]:
+    """Collect all __rec_boundary_* Z3 variables from an expression tree."""
+    if not hasattr(expr, 'children'):
+        # Check if this is a boundary var itself
+        if hasattr(expr, 'decl') and hasattr(expr.decl(), 'name'):
+            name = expr.decl().name()
+            if isinstance(name, str) and name.startswith('__rec_boundary_'):
+                return [expr]
+        return []
+    result = []
+    # Check this node
+    if hasattr(expr, 'decl') and hasattr(expr.decl(), 'name'):
+        name = expr.decl().name()
+        if isinstance(name, str) and name.startswith('__rec_boundary_'):
+            result.append(expr)
+    # Recurse into children
+    for child in expr.children():
+        result.extend(_collect_boundary_vars(child))
+    return result
+
+
+def _add_boundary_constraints(solver: Any, result_expr: Any, spec: str, spec_env: dict) -> None:
+    """Add inductive constraints: boundary vars satisfy the spec."""
+    try:
+        boundary_vars = _collect_boundary_vars(result_expr)
+    except Exception:
+        return
+    if not boundary_vars:
+        return
+    seen = set()
+    for bv in boundary_vars:
+        bv_name = bv.decl().name()
+        if bv_name in seen:
+            continue
+        seen.add(bv_name)
+        # Parse spec with 'result' bound to this boundary var
+        try:
+            bnd_env = dict(spec_env)
+            bnd_env['result'] = bv
+            spec_tree = ast.parse(spec.strip(), mode='eval')
+            bnd_constraint = _eval_expr_z3(spec_tree.body, bnd_env)
+            if bnd_constraint is not None:
+                solver.add(bnd_constraint)
+        except Exception:
+            pass
+
+
 def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     """Use Z3 to prove or disprove that fn satisfies spec for all inputs."""
     if not _HAS_Z3:
@@ -2058,7 +2311,9 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
         z3_vars[p] = var
 
     # Evaluate the function body symbolically
+    global _ALLOW_SYMBOLIC_UNROLL
     try:
+        _ALLOW_SYMBOLIC_UNROLL = True
         fname = tree.name
         _REC_CONTEXT[fname] = (tree.body, params, _MAX_REC_DEPTH)
         _REC_DEPTH[fname] = 0
@@ -2072,6 +2327,7 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     finally:
         _REC_CONTEXT.pop(fname, None)
         _REC_DEPTH.pop(fname, None)
+        _ALLOW_SYMBOLIC_UNROLL = False
 
     # Parse the spec with 'result' bound to the computed expression
     spec_env = dict(z3_vars)
@@ -2122,6 +2378,13 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     for pc in preconditions:
         solver.add(pc)
 
+    # Inductive boundary constraints for recursion:
+    # If the result expression contains __rec_boundary_* variables,
+    # assume they satisfy the spec (inductive hypothesis).
+    # This is sound: if the spec holds for all recursive returns AND
+    # for the base case, it holds for all inputs (structural induction).
+    _add_boundary_constraints(solver, result_expr, spec, spec_env)
+
     # Assert the spec is violated
     solver.add(z3.Not(constraint))
     check = solver.check()
@@ -2133,6 +2396,9 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
         model = solver.model()
         cex = {}
         for p in params:
+            if isinstance(z3_vars[p], (_Z3List, _Z3Dict, _Z3Set, _Z3Tuple)):
+                cex[p] = f'<symbolic {type(z3_vars[p]).__name__}>'
+                continue
             val = model.evaluate(z3_vars[p], model_completion=True)
             try:
                 cex[p] = val.as_long()

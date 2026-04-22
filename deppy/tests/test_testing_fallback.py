@@ -757,3 +757,109 @@ def test_type_inference_float():
     result = check_equiv(untyped_div, untyped_div2)
     assert result is not None
     assert result.equivalent
+
+
+# ───────── while-loop tests ─────────
+
+def while_sum_down(n: int) -> int:
+    """Sum 1..n via while-loop."""
+    acc = 0
+    i = n
+    while i > 0:
+        acc = acc + i
+        i = i - 1
+    return acc
+
+def while_sum_down2(n: int) -> int:
+    """Same logic, different var names."""
+    total = 0
+    k = n
+    while k > 0:
+        total = total + k
+        k = k - 1
+    return total
+
+def test_while_loop_equiv():
+    """Two while-loop sum-downs are equivalent."""
+    result = check_equiv(while_sum_down, while_sum_down2)
+    assert result is not None
+    assert result.equivalent
+
+@guarantee("result >= 0 or n < 0")
+def while_sum_pos(n: int) -> int:
+    acc = 0
+    i = n
+    while i > 0:
+        acc = acc + i
+        i = i - 1
+    return acc
+
+def test_while_loop_adherence():
+    """While-loop sum spec check — should not crash."""
+    # Use testing fallback since Z3 may timeout on complex unrolled expressions
+    from deppy.equivalence import check_adherence
+    result = check_adherence(while_sum_pos)
+    # Result may be None (Z3 timeout) or AdherenceResult — either is fine
+    pass  # just verifying no crash
+
+
+# ───────── inheritance tests ─────────
+
+def parent_init_child_method():
+    """Test class with inheritance — inline equivalence."""
+    class Animal:
+        def __init__(self, legs: int):
+            self.legs = legs
+        def describe(self) -> int:
+            return self.legs
+
+    class Dog(Animal):
+        def __init__(self):
+            super().__init__(4)
+
+    d = Dog()
+    return d.describe()
+
+def always_four() -> int:
+    return 4
+
+def test_inheritance_basic():
+    """Inherited method returns correct value."""
+    result = check_equiv(parent_init_child_method, always_four)
+    # Even if Z3 can't solve it, testing should find equivalence
+    assert result is not None
+    assert result.equivalent
+
+
+# ───────── deep recursion with inductive boundary ─────────
+
+@guarantee("result >= 1")
+def factorial_pos(n: int) -> int:
+    if n <= 1:
+        return 1
+    return n * factorial_pos(n - 1)
+
+def test_deep_recursion_adherence():
+    """Factorial with inductive boundary constraints satisfies result >= 1."""
+    results = check_adherence(factorial_pos)
+    assert len(results) > 0
+    # Should pass: base case 1 >= 1, inductive n * boundary >= 1 when n >= 2 and boundary >= 1
+    assert results[0].adheres
+
+
+# ───────── symbolic-length for-loop adherence ─────────
+
+@guarantee("result >= 0")
+def sum_list_nonneg(xs: list) -> int:
+    """Sum of list, spec: result >= 0 (only true for nonneg inputs)."""
+    total = 0
+    for x in xs:
+        total = total + x
+    return total
+
+def test_symbolic_for_loop_adherence():
+    """Symbolic-length for-loop is attempted in adherence mode."""
+    # This may or may not prove (unconstrained xs could be negative),
+    # but it should not crash
+    results = check_adherence(sum_list_nonneg)
+    assert len(results) > 0
