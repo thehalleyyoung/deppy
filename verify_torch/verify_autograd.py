@@ -1108,6 +1108,49 @@ def verify_edge_cases():
     report.add(r)
     _show_result(r)
 
+    # where gradient leak: inactive branch should not pollute gradient
+    print()
+    print("  torch.where inactive branch gradient leak:")
+
+    x = torch.tensor(1.0, dtype=torch.float64, requires_grad=True)
+    zero = torch.tensor(0.0, dtype=torch.float64)
+    # Active: sin(x), Inactive: x/0 (would be inf → gradient should not flow here)
+    y = torch.where(torch.tensor(True), torch.sin(x), x / zero)
+    y.backward()
+    g = x.grad.item()
+    expected_g = math.cos(1.0)
+    ok = _close(g, expected_g, RTOL, ATOL)
+    r = TheoremResult(
+        name="where_inactive_branch_leak",
+        mathlib_ref="ite_inactive_branch_no_grad",
+        verdict=Verdict.PASS if ok else Verdict.BUG,
+        detail=(f"where(True, sin(x), x/0): grad={g} "
+                f"{'← NaN leaked from inactive branch!' if math.isnan(g) else ''}"
+                f"(expected cos(1)={expected_g:.10g})"))
+    report.add(r)
+    _show_result(r)
+
+    x = torch.tensor(1.0, dtype=torch.float64, requires_grad=True)
+    nan_t = torch.tensor(float('nan'), dtype=torch.float64)
+    y = torch.where(torch.tensor(True), torch.sin(x), nan_t * x)
+    y.backward()
+    g = x.grad.item()
+    ok = _close(g, expected_g, RTOL, ATOL)
+    r = TheoremResult(
+        name="where_nan_inactive_leak",
+        mathlib_ref="ite_inactive_branch_no_grad",
+        verdict=Verdict.PASS if ok else Verdict.BUG,
+        detail=(f"where(True, sin(x), nan*x): grad={g} "
+                f"{'← NaN leaked!' if math.isnan(g) else ''}"
+                f"(expected cos(1)={expected_g:.10g})"))
+    report.add(r)
+    _show_result(r)
+
+    if math.isnan(g):
+        print("    → torch.where evaluates BOTH branches before selecting!")
+        print("      Gradient flows through inactive branch, causing NaN pollution.")
+        print("      Affects any torch.where used as safe conditional in AD.")
+
 
 # ═══════════════════════════════════════════════════════════════
 #  I. torch.compile Differential Testing
