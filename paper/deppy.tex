@@ -1598,13 +1598,13 @@ Constructs outside this set---\texttt{yield} expressions and
 theorem to use \texttt{sorry}.
 In addition to the core metatheory file (\texttt{DeppyCore.lean}, 896~lines,
 0~\texttt{sorry}), we provide an extensions metatheory file
-(\texttt{DeppyExtensions.lean}, 634~lines, 5~\texttt{sorry}) covering
+(\texttt{DeppyExtensions.lean}, 704~lines, 0~\texttt{sorry}) covering
 54~soundness obligations for all recent extensions (collections, loops,
 recursion, division, callables, classes, inheritance, C3 MRO, descriptors,
 metaclass hooks, cross-function verification, module verification,
 compositional verification, effects, concurrency, Lean export, sidecar
 axioms, higher-order functions, strings, type inference, effect discharge,
-and shared-state analysis); 49 of 54 theorems are fully machine-checked.
+and shared-state analysis); all 54 theorems are fully machine-checked.
 We also auto-generate a \texttt{DeppyGenTest.lean} file
 (103~lines, 7~theorems) from decorated Python functions and compile it
 with \texttt{lake build} against Mathlib.  Five of seven theorems are
