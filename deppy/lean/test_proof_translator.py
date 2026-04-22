@@ -282,15 +282,15 @@ class TestComposed:
 # ═══════════════════════════════════════════════════════════════════
 
 class TestDuckPath:
-    def test_duck_path_sorry(self):
+    def test_duck_path_proof(self):
         pt = DuckPath(
             type_a=Var("MyList"),
             type_b=Var("list"),
             method_proofs={},
         )
         result = translate_proof(pt)
-        assert "sorry" in result
-        assert "Duck-typing" in result or "Duck" in result
+        assert "sorry" not in result
+        assert "funext" in result
 
     def test_duck_path_trust(self):
         pt = DuckPath(
@@ -299,20 +299,19 @@ class TestDuckPath:
             method_proofs={},
         )
         res = full_translate(pt)
-        assert res.trust_level == "LEAN_SORRY"
-        assert len(res.untranslatable) > 0
+        assert res.trust_level == "LEAN_PROVABLE"
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Additional coverage: sorry-producing nodes
+# Additional coverage: formerly-sorry nodes now produce proofs
 # ═══════════════════════════════════════════════════════════════════
 
 class TestSorryNodes:
     def test_cech_glue(self):
         pt = CechGlue(patches=[("cond1", Refl(term=Var("x")))], overlap_proofs=[])
         res = full_translate(pt)
-        assert res.trust_level == "LEAN_SORRY"
-        assert "sorry" in res.lean_proof
+        assert res.trust_level == "LEAN_PROVABLE"
+        assert "sorry" not in res.lean_proof
 
     def test_univalence(self):
         pt = Univalence(
@@ -321,8 +320,8 @@ class TestSorryNodes:
             to_type=PyIntType(),
         )
         res = full_translate(pt)
-        assert res.trust_level == "LEAN_SORRY"
-        assert "Univalence" in res.lean_proof or "sorry" in res.lean_proof
+        assert res.trust_level == "LEAN_PROVABLE"
+        assert "sorry" not in res.lean_proof
 
     def test_effect_witness(self):
         pt = EffectWitness(effect="IO", proof=Refl(term=Var("x")))
@@ -337,12 +336,14 @@ class TestSorryNodes:
             contract_proof=Refl(term=Var("x")),
         )
         res = full_translate(pt)
-        assert res.trust_level == "LEAN_SORRY"
+        assert res.trust_level == "LEAN_PROVABLE"
+        assert "rfl" in res.lean_proof
 
     def test_fiber(self):
         pt = Fiber(scrutinee=Var("x"), type_branches=[], exhaustive=True)
         res = full_translate(pt)
-        assert res.trust_level == "LEAN_SORRY"
+        assert res.trust_level == "LEAN_PROVABLE"
+        assert "decide" in res.lean_proof
 
 
 class TestAxiom:

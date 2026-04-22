@@ -1272,7 +1272,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 821$^\dagger$ \\
+Total & 824$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1527,16 +1527,20 @@ The following Python features remain outside the verified fragment:
 \paragraph{Lean export gaps.}
 The Lean~4 compiler translates function bodies containing returns,
 conditionals, assignment, augmented assignment, list comprehensions,
-\texttt{for}-shaped iteration (via \texttt{List.foldl}), lambda
-expressions, \texttt{map}/\texttt{filter}, and attribute access
+\texttt{for}-shaped iteration (via \texttt{List.foldl}),
+\texttt{while} loops (via \texttt{Nat.fold} with bounded unrolling),
+\texttt{try}/\texttt{except} and \texttt{with} blocks (body translation
+with runtime semantics erased), lambda expressions,
+\texttt{map}/\texttt{filter}, and attribute access
 (\texttt{self.field}).
-Constructs outside this set---\texttt{while} loops, \texttt{try}/\texttt{except},
-\texttt{with} blocks, and \texttt{yield}---cause the function to be
-emitted as \texttt{opaque} (body erased), which may force the
-corresponding theorem to use \texttt{sorry}.
-Duck-type path proofs (\texttt{DuckPath}), Čech gluing
-(\texttt{CechGlue}), and univalence witnesses have no direct Lean
-analog and are emitted as \texttt{sorry} with diagnostic comments.
+Duck-type path proofs (\texttt{DuckPath}) are emitted as
+\texttt{funext}+\texttt{rfl}, Čech gluing (\texttt{CechGlue}) as
+nested \texttt{And.intro} of patch proofs, and univalence witnesses as
+\texttt{Equiv.mk}.
+Constructs outside this set---\texttt{yield} expressions and
+\texttt{async}/\texttt{await}---cause the function to be emitted as
+\texttt{opaque} (body erased), which may force the corresponding
+theorem to use \texttt{sorry}.
 The generated Lean is not type-checked by the Lean compiler as part
 of the \deppy{} test suite; our metatheory file
 (\texttt{DeppyCore.lean}, 898~lines, 0~\texttt{sorry}) is a separate

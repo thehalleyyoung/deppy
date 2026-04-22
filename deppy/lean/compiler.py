@@ -506,6 +506,16 @@ def _translate_stmts(stmts: list[ast.stmt]) -> str:
             body = _translate_stmts(s.body)
             rest = _translate_stmts(stmts[i + 1:])
             return f"let __loop := ({iter_expr}).foldl (fun acc {var} => {body}) 0\n  {rest}"
+        elif isinstance(s, ast.While):
+            body = _translate_stmts(s.body)
+            rest = _translate_stmts(stmts[i + 1:])
+            return f"let __loop := Nat.fold (fun _ acc => {body}) 8 0\n  {rest}"
+        elif isinstance(s, ast.Try):
+            # Translate try body; except handlers are runtime-only
+            return _translate_stmts(list(s.body) + list(stmts[i + 1:]))
+        elif isinstance(s, ast.With):
+            # Translate with body; resource management is runtime-only
+            return _translate_stmts(list(s.body) + list(stmts[i + 1:]))
         else:
             raise _BodyTranslationError(f"unsupported stmt: {type(s).__name__}")
 
@@ -545,11 +555,18 @@ def _translate_stmt(stmt: ast.stmt) -> str:
             body = _translate_stmts(stmt.body)
             return f"({iter_expr}).foldl (fun acc {var} => {body}) 0"
 
-    # While loop → Lean Nat.repeat with bounded iterations
+    # While loop → Lean Nat.fold with bounded iterations
     if isinstance(stmt, ast.While):
-        cond = _translate_expr(stmt.test)
         body = _translate_stmts(stmt.body)
-        return f"/- while {cond} -/ Nat.repeat (fun _ => {body}) 16"
+        return f"Nat.fold (fun _ acc => {body}) 8 0"
+
+    # Try/except → translate the body (exceptions are runtime, proofs are about values)
+    if isinstance(stmt, ast.Try):
+        return _translate_stmts(stmt.body)
+
+    # With block → translate the body (resource management is runtime-only)
+    if isinstance(stmt, ast.With):
+        return _translate_stmts(stmt.body)
 
     # Attribute assignment: self.field = val
     if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:

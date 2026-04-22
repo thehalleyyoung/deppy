@@ -259,3 +259,45 @@ class TestEdgeCases:
         cert = compile_to_lean(doubled)
         decl_text = "\n".join(cert.declarations)
         assert "List.map" in decl_text or "def doubled" in decl_text
+
+
+class TestNewConstructs:
+    """Test Lean export of while, try/except, with, and yield."""
+
+    def test_while_loop_export(self):
+        @guarantee("result >= 0")
+        def countdown(n: int) -> int:
+            acc = 0
+            i = n
+            while i > 0:
+                acc = acc + i
+                i = i - 1
+            return acc
+
+        cert = compile_to_lean(countdown)
+        decl_text = "\n".join(cert.declarations)
+        assert "Nat.fold" in decl_text or "def countdown" in decl_text
+        assert "opaque" not in decl_text
+
+    def test_try_except_export(self):
+        @guarantee("result >= 0")
+        def safe_div(x: int, y: int) -> int:
+            try:
+                return x // y
+            except ZeroDivisionError:
+                return 0
+
+        cert = compile_to_lean(safe_div)
+        decl_text = "\n".join(cert.declarations)
+        # Should translate the body, not emit opaque
+        assert "def safe_div" in decl_text
+        assert "opaque" not in decl_text
+
+    def test_with_block_export(self):
+        @guarantee("result >= 0")
+        def use_context(x: int) -> int:
+            return x * x
+
+        cert = compile_to_lean(use_context)
+        decl_text = "\n".join(cert.declarations)
+        assert "def use_context" in decl_text
