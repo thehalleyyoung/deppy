@@ -1484,11 +1484,16 @@ while supporting the same decorator-based ergonomics.
 \section{Limitations and Future Work}\label{sec:limits}
 
 \paragraph{Python coverage.}
-\deppy{}'s Z3 engine handles pure integer arithmetic with branching.
-Lists, dictionaries, string operations, and higher-order functions
-fall back to property-based testing.  Exception semantics, generators,
-and async/await are modeled in the type system but not yet discharged
-to Z3 or Lean.
+\deppy{}'s Z3 engine handles integer, boolean, and floating-point
+arithmetic with branching, comparisons, and quantified refinements.
+The Z3 bridge additionally encodes lists and dictionaries via Z3's
+array theory and strings via Z3's sequence theory, enabling
+membership and length constraints; however, complex list/dictionary
+specifications (e.g.\ comprehensions, nested mutations) fall back to
+property-based testing.  Higher-order functions are verified
+structurally or by testing.  Exception semantics, generators, and
+async/await are modeled in the type system but not yet fully
+discharged to Z3 or Lean.
 
 \paragraph{Soundness caveats.}
 The type-safety theorem (\S\ref{sec:calculus}) is \emph{fully
