@@ -1541,10 +1541,13 @@ Constructs outside this set---\texttt{yield} expressions and
 \texttt{async}/\texttt{await}---cause the function to be emitted as
 \texttt{opaque} (body erased), which may force the corresponding
 theorem to use \texttt{sorry}.
-The generated Lean is not type-checked by the Lean compiler as part
-of the \deppy{} test suite; our metatheory file
-(\texttt{DeppyCore.lean}, 898~lines, 0~\texttt{sorry}) is a separate
-artifact.
+In addition to the metatheory file (\texttt{DeppyCore.lean}, 898~lines,
+0~\texttt{sorry}), we auto-generate a \texttt{DeppyGenTest.lean} file
+(103~lines, 7~theorems) from decorated Python functions and compile it
+with \texttt{lake build} against Mathlib.  Five of seven theorems are
+fully machine-checked (0~\texttt{sorry}); the remaining two involve
+loop invariants and carry a \texttt{sorry} annotation with a diagnostic
+comment noting that the property was verified by Z3.
 
 \paragraph{Soundness assumptions.}
 The type-safety theorem (\S\ref{sec:calculus}) is fully

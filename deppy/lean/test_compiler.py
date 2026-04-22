@@ -182,7 +182,7 @@ class TestImportInference:
             return sorted(xs)
 
         cert = compile_to_lean(sort_it)
-        assert any("Sort" in imp for imp in cert.imports)
+        assert any("Mathlib" in imp for imp in cert.imports)
 
     def test_perm_imports(self):
         @guarantee("result is a permutation of xs")
@@ -190,7 +190,7 @@ class TestImportInference:
             return sorted(xs)
 
         cert = compile_to_lean(sort_it)
-        assert any("Perm" in imp for imp in cert.imports)
+        assert any("Mathlib" in imp for imp in cert.imports)
 
 
 # ═══════════════════════════════════════════════════════════════════

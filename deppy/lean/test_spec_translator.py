@@ -58,19 +58,19 @@ class TestTranslatePythonType:
         assert translate_python_type(list[list[int]]) == "List (List Int)"
 
     def test_bare_list(self):
-        assert translate_python_type(list) == "List α"
+        assert translate_python_type(list) == "List Int"
 
     def test_dict_int_str(self):
         assert translate_python_type(dict[int, str]) == "Int → String"
 
     def test_bare_dict(self):
-        assert translate_python_type(dict) == "α → β"
+        assert translate_python_type(dict) == "Int → Int"
 
     def test_tuple_int_bool(self):
         assert translate_python_type(tuple[int, bool]) == "Int × Bool"
 
     def test_bare_tuple(self):
-        assert translate_python_type(tuple) == "α × β"
+        assert translate_python_type(tuple) == "Int × Int"
 
     def test_optional_int(self):
         result = translate_python_type(Optional[int])
@@ -80,7 +80,7 @@ class TestTranslatePythonType:
         assert translate_python_type(set[int]) == "Finset Int"
 
     def test_bare_set(self):
-        assert translate_python_type(set) == "Finset α"
+        assert translate_python_type(set) == "Finset Int"
 
     def test_callable_int_to_bool(self):
         result = translate_python_type(Callable[[int], bool])

@@ -160,13 +160,13 @@ def translate_python_type(annotation: Any) -> str:
 
     # Bare generic types (list, dict, set, tuple without parameters)
     if annotation is list:
-        return "List α"
+        return "List Int"
     if annotation is dict:
-        return "α → β"
+        return "Int → Int"
     if annotation is set or annotation is frozenset:
-        return "Finset α"
+        return "Finset Int"
     if annotation is tuple:
-        return "α × β"
+        return "Int × Int"
 
     # Optional type from typing module
     if hasattr(typing, "Optional") and annotation is typing.Optional:
@@ -209,7 +209,7 @@ def _translate_string_annotation(s: str) -> str:
         inner = _translate_string_annotation(m.group(1))
         return f"List {_paren_if_needed(inner)}"
     if s.lower() == "list":
-        return "List α"
+        return "List Int"
 
     # Optional[T]
     m = re.match(r"Optional\[(.+)\]$", s)
