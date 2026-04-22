@@ -863,3 +863,142 @@ def test_symbolic_for_loop_adherence():
     # but it should not crash
     results = check_adherence(sum_list_nonneg)
     assert len(results) > 0
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  CROSS-FUNCTION VERIFICATION (modular reasoning)
+# ═══════════════════════════════════════════════════════════════════
+
+from deppy.proofs.sugar import guarantee as _guarantee_deco
+
+@_guarantee_deco("result >= 0")
+def _helper_nonneg(x: int) -> int:
+    return x * x
+
+@_guarantee_deco("result >= 0")
+def _caller_uses_helper(x: int) -> int:
+    return _helper_nonneg(x) + 1
+
+def test_cross_function_guarantee_propagation():
+    """Caller should be proved via callee's @guarantee axiom."""
+    results = check_adherence(_caller_uses_helper)
+    assert len(results) == 1
+    r = results[0]
+    assert r.adheres is True, f"Expected proved, got {r}"
+
+@_guarantee_deco("result >= 1")
+def _helper_positive(x: int) -> int:
+    return abs(x) + 1
+
+@_guarantee_deco("result >= 2")
+def _caller_adds_helpers(x: int) -> int:
+    return _helper_positive(x) + _helper_positive(x)
+
+def test_cross_function_two_calls():
+    """Two calls to the same callee should both contribute axioms."""
+    results = check_adherence(_caller_adds_helpers)
+    assert len(results) == 1
+    assert results[0].adheres is True
+
+@_guarantee_deco("result >= 0")
+def _callee_same_args(x: int) -> int:
+    return x * x
+
+@_guarantee_deco("result == 0")
+def _caller_diff_same_call(x: int) -> int:
+    return _callee_same_args(x) - _callee_same_args(x)
+
+def test_cross_function_same_args_same_result():
+    """Same callee with same args should return the same result (pure)."""
+    results = check_adherence(_caller_diff_same_call)
+    assert len(results) == 1
+    assert results[0].adheres is True
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  CROSS-MODULE VERIFICATION
+# ═══════════════════════════════════════════════════════════════════
+
+def test_verify_module():
+    """verify_module should find and check all @guarantee functions."""
+    from deppy.equivalence import verify_module
+    import types
+
+    mod = types.ModuleType('_test_mod')
+    @_guarantee_deco("result >= 0")
+    def sq(x: int) -> int:
+        return x * x
+    mod.sq = sq
+    mod.sq.__module__ = '_test_mod'
+
+    results = verify_module(mod)
+    assert 'sq' in results
+    assert results['sq'][0].adheres is True
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  SHARED-STATE ANALYSIS (concurrency)
+# ═══════════════════════════════════════════════════════════════════
+
+_global_counter = 0
+
+def _unguarded_writer(x: int) -> int:
+    global _global_counter
+    _global_counter += x
+    return _global_counter
+
+def test_shared_state_unguarded_write():
+    """Detect unguarded write to global variable."""
+    from deppy.equivalence import analyze_shared_state
+    warnings = analyze_shared_state(_unguarded_writer)
+    writes = [w for w in warnings if w.access_type == 'write']
+    assert len(writes) >= 1
+    assert any(not w.guarded for w in writes)
+    assert all(w.variable == '_global_counter' for w in writes)
+
+_shared_val = 0
+
+def _guarded_writer(x: int) -> int:
+    global _shared_val
+    import threading
+    lock = threading.Lock()
+    with lock:
+        _shared_val += x
+    return _shared_val
+
+def test_shared_state_guarded_write():
+    """Write inside `with lock:` should be marked as guarded."""
+    from deppy.equivalence import analyze_shared_state
+    warnings = analyze_shared_state(_guarded_writer)
+    writes = [w for w in warnings if w.access_type == 'write']
+    assert any(w.guarded for w in writes)
+
+def _no_shared_state(x: int) -> int:
+    total = x + 1
+    return total
+
+def test_shared_state_none():
+    """Pure function should produce no shared-state warnings."""
+    from deppy.equivalence import analyze_shared_state
+    warnings = analyze_shared_state(_no_shared_state)
+    assert len(warnings) == 0
+
+_counter2 = 0
+
+def _mixed_access(x: int) -> int:
+    global _counter2
+    import threading
+    lock = threading.Lock()
+    # Unguarded read
+    old = _counter2
+    with lock:
+        # Guarded write
+        _counter2 = old + x
+    return _counter2
+
+def test_shared_state_mixed():
+    """Detect both guarded and unguarded accesses."""
+    from deppy.equivalence import analyze_shared_state
+    warnings = analyze_shared_state(_mixed_access)
+    assert any(not w.guarded for w in warnings)
+    assert any(w.guarded for w in warnings)

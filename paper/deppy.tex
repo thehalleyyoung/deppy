@@ -148,7 +148,7 @@ type-safety theorem.  \deppy{} also introduces \emph{sidecar
 third-party libraries via companion specification files, with a formal
 trust model that tracks the provenance of every proof obligation.
 
-We evaluate \deppy{} on 824 test cases covering type-system
+We evaluate \deppy{} on 832 test cases covering type-system
 soundness, Z3 equivalence checking, specification adherence, and Lean
 export, plus case studies verifying SymPy, an F*-tutorial translation,
 and an STLC type-soundness proof --- all expressed in ordinary Python.
@@ -230,7 +230,7 @@ enforce.
   specification files.
 
 \item An \textbf{implementation and evaluation} (\S\ref{sec:eval})
-  with 824 tests, case studies verifying real Python libraries, and an
+  with 832 tests, case studies verifying real Python libraries, and an
   F*-tutorial-to-\deppy{} translation demonstrating expressiveness.
 \end{enumerate}
 
@@ -1133,7 +1133,7 @@ Denotational semantics & 9,661 & Python semantics (6 modules) \\
 Effects / runtime & 2,567 & Effect types, runtime monitor \\
 \midrule
 Total (library) & $\sim$29,270 & \\
-Tests & $\sim$7,400 & 824 test cases \\
+Tests & $\sim$7,400 & 832 test cases \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1175,7 +1175,7 @@ We evaluate \deppy{} along four dimensions: \emph{expressiveness}
 
 \subsection{Test Suite}
 
-\deppy{}'s test suite contains 824 test cases organized into nine
+\deppy{}'s test suite contains 832 test cases organized into nine
 modules (Table~\ref{tab:tests}).
 
 \begin{table}[t]
@@ -1197,7 +1197,7 @@ Lean equivalence & 27 & Cross-language equivalence \\
 Testing fallback & 18 & Non-Z3 strategies \\
 Lean translator & 159 & Spec/proof/compiler/renderer \\
 \midrule
-Total & 824 & \\
+Total & 832 & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1272,7 +1272,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 824$^\dagger$ \\
+Total & 832$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1351,12 +1351,12 @@ Lean equivalence & 27 & 0.21 \\
 Testing fallback & 18 & 0.19 \\
 Lean translator & 159 & 0.55 \\
 \midrule
-Total & 824 & 2.78 \\
+Total & 832 & 2.78 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The entire 824-test suite completes in under 3~seconds.  Z3
+The entire 832-test suite completes in under 3~seconds.  Z3
 discharge dominates verification time: the Z3~adherence and
 Z3~equivalence modules account for 26\% of the total time despite
 comprising 22\% of the tests, reflecting SMT solver overhead.  Kernel
@@ -1561,9 +1561,21 @@ semantics---we do not have a CPython conformance test suite, and
 (iv)~the assumption that unannotated parameters behave as integers.
 
 \paragraph{Verification scope.}
-Verification is per-function: \deppy{} does not track information flow
-across module boundaries, verify concurrent programs, or model the
-Python import system.  The testing fallback provides probabilistic
+Verification is modular: when a function~$A$ calls a function~$B$ that
+carries \texttt{@guarantee} annotations, \deppy{} uses $B$'s
+postcondition as an axiom when verifying~$A$, binding callee formals to
+caller actuals and modeling pure calls as uninterpreted functions
+(same arguments~$\Rightarrow$~same result).  This extends across module
+boundaries---\texttt{import} resolution follows Python's runtime
+\texttt{\_\_globals\_\_} to discover callee specs in other packages.
+\texttt{verify\_module(m)} checks all annotated functions in a module
+with cross-function propagation enabled.
+For concurrency, \texttt{analyze\_shared\_state(f)} performs a static
+analysis that detects \texttt{global} variable accesses and classifies
+each as \emph{guarded} (inside a \texttt{with lock:} block) or
+\emph{unguarded}, enabling data-race warnings without requiring full
+thread-safety proofs.
+The testing fallback provides probabilistic
 assurance for constructs beyond Z3's reach, but cannot guarantee
 the absence of counterexamples.  Proof automation is limited to
 Z3 for decidable theories, \texttt{omega}/\texttt{simp} for Lean
@@ -1589,7 +1601,7 @@ trust tracking.
 \deppy{} demonstrates that dependent-type verification can be
 retrofitted onto a dynamically-typed language without requiring
 programmers to abandon their existing code or learn a new language.
-The 824-test evaluation, including 301 negative soundness tests and
+The 832-test evaluation, including 301 negative soundness tests and
 case studies from SymPy verification to STLC type soundness, shows
 that the approach is practical and expressively rich.
 

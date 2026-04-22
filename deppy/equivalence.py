@@ -89,6 +89,15 @@ _ALLOW_SYMBOLIC_UNROLL = False  # Only True during adherence checking
 _BOUNDARY_SPEC: str | None = None
 _BOUNDARY_PARAMS: dict[str, Any] = {}
 
+# Cross-function context: maps callee function names to their guarantee
+# specs and function objects, populated from the caller's module globals.
+# This enables modular verification: callee postconditions become axioms.
+_CALLEE_SPECS: dict[str, tuple[Callable, list[str], list[str]]] = {}
+# {name: (fn_obj, [guarantee_strs], [param_names])}
+
+# Uninterpreted function cache: same callee + same args → same result
+_CALLEE_FUNC_CACHE: dict[str, Any] = {}
+
 _TYPE_TO_Z3 = {
     int: lambda name: z3.Int(name),
     float: lambda name: z3.Real(name),
@@ -352,6 +361,58 @@ def _to_z3_bool(val: Any) -> Any:
     return val
 
 
+# Constraints from cross-function calls, accumulated during body evaluation.
+# Added to the solver before checking.
+_CALLEE_CONSTRAINTS: list[Any] = []
+
+
+def _resolve_callee_call(callee_name: str, call_args: list[ast.expr],
+                         env: dict[str, Any]) -> Any:
+    """Model a cross-function call using the callee's @guarantee specs.
+
+    Uses an uninterpreted function so that same args → same result (pure).
+    Adds the callee's guarantee as a constraint via _CALLEE_CONSTRAINTS.
+    """
+    if callee_name not in _CALLEE_SPECS:
+        return None
+
+    callee_fn, guarantees, callee_params = _CALLEE_SPECS[callee_name]
+
+    # Evaluate actual arguments
+    try:
+        actual_args = [_eval_expr_z3(a, env) for a in call_args]
+    except Exception:
+        return None
+
+    # Build a deterministic cache key from callee + arg expressions
+    # For pure functions, same args → same result (uninterpreted function)
+    arg_key = (callee_name, tuple(str(a) for a in actual_args))
+    if arg_key in _CALLEE_FUNC_CACHE:
+        return _CALLEE_FUNC_CACHE[arg_key]
+
+    # Create an uninterpreted function for this callee
+    call_id = len(_CALLEE_FUNC_CACHE)
+    result_var = z3.Int(f"__call_{callee_name}_{call_id}")
+
+    # Bind callee formals to caller actuals for spec instantiation
+    spec_env: dict[str, Any] = {'result': result_var}
+    for pname, aval in zip(callee_params, actual_args):
+        spec_env[pname] = aval
+
+    # Collect guarantee constraints
+    for guar in guarantees:
+        try:
+            spec_tree = ast.parse(guar.strip(), mode='eval')
+            constraint = _eval_expr_z3(spec_tree.body, spec_env)
+            if constraint is not None:
+                _CALLEE_CONSTRAINTS.append(constraint)
+        except Exception:
+            pass
+
+    _CALLEE_FUNC_CACHE[arg_key] = result_var
+    return result_var
+
+
 def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
     """Evaluate a Python AST expression with Z3 symbolic values."""
     if isinstance(node, ast.Name):
@@ -600,6 +661,11 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 # At depth limit, return uninterpreted value
                 # Use shared name "__rec_boundary_{depth}" to align across functions
                 return z3.Int(f"__rec_boundary_{cur_depth}")
+            # Cross-function call: use callee's @guarantee as axiom
+            if node.func.id in _CALLEE_SPECS:
+                result = _resolve_callee_call(node.func.id, node.args, env)
+                if result is not None:
+                    return result
         if isinstance(node.func, ast.Attribute):
             # Handle super().method(...) — treat as no-op for __init__, pass-through otherwise
             if isinstance(node.func.value, ast.Call) and isinstance(node.func.value.func, ast.Name) and node.func.value.func.id == 'super':
@@ -2281,6 +2347,58 @@ def _add_boundary_constraints(solver: Any, result_expr: Any, spec: str, spec_env
             pass
 
 
+def _discover_callee_specs(fn: Callable) -> None:
+    """Populate _CALLEE_SPECS from fn's module globals and closure.
+
+    For each callable in the function's visible scope that has deppy
+    guarantees, register its name → (fn_obj, guarantees, param_names)
+    so that _eval_expr_z3 can use the guarantee as an axiom.
+    """
+    global _CALLEE_SPECS
+    _CALLEE_SPECS = {}
+
+    try:
+        from deppy.proofs.sugar import _get_spec, Spec
+    except ImportError:
+        return
+
+    # Collect callables from the function's module globals
+    mod = inspect.getmodule(fn)
+    candidates: dict[str, Callable] = {}
+    if mod is not None:
+        for name, obj in vars(mod).items():
+            if callable(obj) and hasattr(obj, '__name__'):
+                candidates[name] = obj
+
+    # Also check the function's own globals (covers imports)
+    try:
+        fn_globals = fn.__globals__  # type: ignore[attr-defined]
+        for name, obj in fn_globals.items():
+            if callable(obj) and hasattr(obj, '__name__') and name not in candidates:
+                candidates[name] = obj
+    except AttributeError:
+        pass
+
+    for name, callee in candidates.items():
+        # Skip the function being verified (handled by recursion)
+        if callee is fn:
+            continue
+        try:
+            spec = _get_spec(callee)
+            if not spec.guarantees:
+                continue
+            # Get callee parameter names
+            try:
+                sig = inspect.signature(callee)
+                callee_params = [p for p in sig.parameters
+                                 if p not in ('self', 'cls')]
+            except (ValueError, TypeError):
+                callee_params = []
+            _CALLEE_SPECS[name] = (callee, spec.guarantees, callee_params)
+        except Exception:
+            pass
+
+
 def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     """Use Z3 to prove or disprove that fn satisfies spec for all inputs."""
     if not _HAS_Z3:
@@ -2311,9 +2429,12 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
         z3_vars[p] = var
 
     # Evaluate the function body symbolically
-    global _ALLOW_SYMBOLIC_UNROLL
+    global _ALLOW_SYMBOLIC_UNROLL, _CALLEE_SPECS, _CALLEE_FUNC_CACHE, _CALLEE_CONSTRAINTS
     try:
         _ALLOW_SYMBOLIC_UNROLL = True
+        _CALLEE_FUNC_CACHE = {}
+        _CALLEE_CONSTRAINTS = []
+        _discover_callee_specs(fn)
         fname = tree.name
         _REC_CONTEXT[fname] = (tree.body, params, _MAX_REC_DEPTH)
         _REC_DEPTH[fname] = 0
@@ -2328,6 +2449,8 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
         _REC_CONTEXT.pop(fname, None)
         _REC_DEPTH.pop(fname, None)
         _ALLOW_SYMBOLIC_UNROLL = False
+        _CALLEE_SPECS = {}
+        _CALLEE_FUNC_CACHE = {}
 
     # Parse the spec with 'result' bound to the computed expression
     spec_env = dict(z3_vars)
@@ -2377,6 +2500,10 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     # Assert preconditions hold
     for pc in preconditions:
         solver.add(pc)
+
+    # Cross-function callee guarantee constraints
+    for cc in _CALLEE_CONSTRAINTS:
+        solver.add(cc)
 
     # Inductive boundary constraints for recursion:
     # If the result expression contains __rec_boundary_* variables,
@@ -2524,3 +2651,192 @@ def check_adherence(fn: Callable, spec: str | None = None, *,
                                           details="No method available"))
 
     return results
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Cross-module verification
+# ═══════════════════════════════════════════════════════════════════
+
+
+def verify_module(module) -> dict[str, list[AdherenceResult]]:
+    """Verify all @guarantee-decorated functions in a module.
+
+    Performs cross-function verification: callee guarantees are used as
+    axioms when verifying callers, enabling modular compositional reasoning.
+
+    Returns a dict mapping function names to their adherence results.
+    """
+    from deppy.proofs.sugar import _get_spec
+
+    results: dict[str, list[AdherenceResult]] = {}
+    for name in dir(module):
+        obj = getattr(module, name, None)
+        if not callable(obj) or not hasattr(obj, '__name__'):
+            continue
+        try:
+            spec = _get_spec(obj)
+            if spec.guarantees:
+                results[name] = check_adherence(obj)
+        except Exception:
+            pass
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Shared-state analysis (concurrency)
+# ═══════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class SharedStateWarning:
+    """A warning about potentially unsafe shared state access."""
+    function: str
+    variable: str
+    access_type: str   # 'read' or 'write'
+    guarded: bool      # True if access is inside a lock context
+    line: int | None = None
+    message: str = ""
+
+
+def analyze_shared_state(fn: Callable) -> list[SharedStateWarning]:
+    """Analyze a function for shared state accesses and lock usage.
+
+    Detects:
+    - Module-level variable reads/writes (global state)
+    - Accesses inside vs outside `with lock:` blocks
+    - `global` declarations
+
+    Returns a list of SharedStateWarning for each shared state access.
+    """
+    try:
+        src = textwrap.dedent(inspect.getsource(fn))
+        tree = ast.parse(src).body[0]
+    except (OSError, TypeError, SyntaxError):
+        return []
+
+    if not isinstance(tree, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        return []
+
+    # Collect declared globals
+    globals_declared: set[str] = set()
+    _collect_globals(tree.body, globals_declared)
+
+    # Collect parameters and local assignments (not shared)
+    local_vars: set[str] = {a.arg for a in tree.args.args}
+    _collect_locals(tree.body, local_vars)
+
+    # Walk the body looking for shared state accesses
+    warnings: list[SharedStateWarning] = []
+    _analyze_stmts(tree.body, globals_declared, local_vars,
+                   fn.__name__, warnings, guarded=False)
+    return warnings
+
+
+def _collect_globals(stmts: list[ast.stmt], out: set[str]) -> None:
+    """Collect all `global x` declarations in a function body."""
+    for s in stmts:
+        if isinstance(s, ast.Global):
+            out.update(s.names)
+        for child in ast.iter_child_nodes(s):
+            if isinstance(child, ast.Global):
+                out.update(child.names)
+
+
+def _collect_locals(stmts: list[ast.stmt], out: set[str]) -> None:
+    """Collect locally assigned variable names."""
+    for s in stmts:
+        if isinstance(s, ast.Assign):
+            for t in s.targets:
+                if isinstance(t, ast.Name):
+                    out.add(t.id)
+        elif isinstance(s, ast.AugAssign):
+            if isinstance(s.target, ast.Name):
+                out.add(s.target.id)
+        elif isinstance(s, ast.For):
+            if isinstance(s.target, ast.Name):
+                out.add(s.target.id)
+            _collect_locals(s.body, out)
+        elif isinstance(s, (ast.If, ast.While)):
+            _collect_locals(s.body, out)
+            _collect_locals(s.orelse, out)
+        elif isinstance(s, ast.With):
+            _collect_locals(s.body, out)
+        elif isinstance(s, ast.Try):
+            _collect_locals(s.body, out)
+            for h in s.handlers:
+                _collect_locals(h.body, out)
+
+
+def _is_lock_context(s: ast.With) -> bool:
+    """Check if a `with` statement uses a lock/Lock context manager."""
+    for item in s.items:
+        ctx = item.context_expr
+        if isinstance(ctx, ast.Name) and 'lock' in ctx.id.lower():
+            return True
+        if isinstance(ctx, ast.Attribute) and 'lock' in ctx.attr.lower():
+            return True
+        if isinstance(ctx, ast.Call):
+            if isinstance(ctx.func, ast.Name) and 'Lock' in ctx.func.id:
+                return True
+            if isinstance(ctx.func, ast.Attribute) and 'Lock' in ctx.func.attr:
+                return True
+    return False
+
+
+def _analyze_stmts(stmts: list[ast.stmt], globals_decl: set[str],
+                   locals_: set[str], fn_name: str,
+                   warnings: list[SharedStateWarning],
+                   guarded: bool) -> None:
+    """Walk statements checking for shared state accesses."""
+    for s in stmts:
+        if isinstance(s, ast.With):
+            lock_guard = guarded or _is_lock_context(s)
+            _analyze_stmts(s.body, globals_decl, locals_, fn_name,
+                          warnings, guarded=lock_guard)
+            continue
+        if isinstance(s, ast.If):
+            _analyze_stmts(s.body, globals_decl, locals_, fn_name,
+                          warnings, guarded)
+            _analyze_stmts(s.orelse, globals_decl, locals_, fn_name,
+                          warnings, guarded)
+            continue
+        if isinstance(s, (ast.For, ast.While)):
+            _analyze_stmts(s.body, globals_decl, locals_, fn_name,
+                          warnings, guarded)
+            continue
+        if isinstance(s, ast.Try):
+            _analyze_stmts(s.body, globals_decl, locals_, fn_name,
+                          warnings, guarded)
+            for h in s.handlers:
+                _analyze_stmts(h.body, globals_decl, locals_, fn_name,
+                              warnings, guarded)
+            continue
+
+        # Check for writes to global variables
+        if isinstance(s, (ast.Assign, ast.AugAssign)):
+            targets = s.targets if isinstance(s, ast.Assign) else [s.target]
+            for t in targets:
+                if isinstance(t, ast.Name) and t.id in globals_decl:
+                    warnings.append(SharedStateWarning(
+                        function=fn_name,
+                        variable=t.id,
+                        access_type='write',
+                        guarded=guarded,
+                        line=getattr(s, 'lineno', None),
+                        message=f"{'Guarded' if guarded else 'UNGUARDED'} write "
+                                f"to global '{t.id}'"
+                    ))
+
+        # Check for reads from global variables in expressions
+        for node in ast.walk(s):
+            if isinstance(node, ast.Name) and node.id in globals_decl:
+                if isinstance(node.ctx, ast.Load):
+                    warnings.append(SharedStateWarning(
+                        function=fn_name,
+                        variable=node.id,
+                        access_type='read',
+                        guarded=guarded,
+                        line=getattr(node, 'lineno', None),
+                        message=f"{'Guarded' if guarded else 'UNGUARDED'} read "
+                                f"of global '{node.id}'"
+                    ))
