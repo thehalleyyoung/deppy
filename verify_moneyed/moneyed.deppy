@@ -1,0 +1,117 @@
+# Sidecar specification for py-moneyed (https://github.com/py-moneyed/py-moneyed)
+#
+# py-moneyed is a production finance library (1.2k+ GitHub stars) used in
+# Django/Saleor e-commerce for monetary arithmetic.  This sidecar declares
+# 28 axioms and proof obligations for its core Money class — without
+# touching a single line of py-moneyed's source code.
+#
+# The companion verify_moneyed.py validates every axiom both
+# formally (via Deppy's proof kernel + Z3) and computationally
+# (via exact Decimal arithmetic on concrete Money instances).
+
+module: moneyed
+version: ">=3.0"
+
+# ─────────────────────────────────────────────────────────
+#  A. Currency Safety — Money never silently mixes currencies
+# ─────────────────────────────────────────────────────────
+
+spec moneyed.Money.__add__:
+  guarantee: "addition of same-currency Money is closed"
+  pure: true
+  axiom add_same_currency: "Money(a, C) + Money(b, C) == Money(a+b, C)"
+  axiom add_cross_currency_raises: "Money(a, C1) + Money(b, C2) raises TypeError when C1 != C2"
+  axiom add_zero_identity: "Money(a, C) + 0 == Money(a, C)"
+
+spec moneyed.Money.__sub__:
+  guarantee: "subtraction of same-currency Money is closed"
+  pure: true
+  axiom sub_same_currency: "Money(a, C) - Money(b, C) == Money(a-b, C)"
+  axiom sub_cross_currency_raises: "Money(a, C1) - Money(b, C2) raises TypeError when C1 != C2"
+
+# ─────────────────────────────────────────────────────────
+#  B. Arithmetic Soundness — Money forms an abelian group under +
+# ─────────────────────────────────────────────────────────
+
+spec moneyed.Money.group:
+  guarantee: "Money addition is a commutative group (same currency)"
+  pure: true
+  axiom add_commutative: "Money(a,C) + Money(b,C) == Money(b,C) + Money(a,C)"
+  axiom add_associative: "(Money(a,C) + Money(b,C)) + Money(c,C) == Money(a,C) + (Money(b,C) + Money(c,C))"
+  axiom add_identity_zero: "Money(a,C) + Money(0,C) == Money(a,C)"
+  axiom add_inverse: "Money(a,C) + Money(-a,C) == Money(0,C)"
+  axiom neg_involution: "-(-Money(a,C)) == Money(a,C)"
+
+# ─────────────────────────────────────────────────────────
+#  C. Scalar Multiplication — Money is a Decimal-module
+# ─────────────────────────────────────────────────────────
+
+spec moneyed.Money.__mul__:
+  guarantee: "scalar multiplication preserves currency"
+  pure: true
+  axiom mul_preserves_currency: "Money(a,C) * k has currency C"
+  axiom mul_identity: "Money(a,C) * 1 == Money(a,C)"
+  axiom mul_zero: "Money(a,C) * 0 == Money(0,C)"
+  axiom mul_distributes: "Money(a,C) * k + Money(b,C) * k == Money(a+b,C) * k"
+  axiom mul_money_raises: "Money(a,C) * Money(b,C) raises TypeError"
+
+# ─────────────────────────────────────────────────────────
+#  D. Comparison — Total order within same currency
+# ─────────────────────────────────────────────────────────
+
+spec moneyed.Money.__lt__:
+  guarantee: "comparison is a total order on same-currency Money"
+  pure: true
+  axiom lt_reflects_amount: "Money(a,C) < Money(b,C) iff a < b"
+  axiom lt_cross_currency_raises: "Money(a,C1) < Money(b,C2) raises TypeError when C1 != C2"
+  axiom eq_iff_same: "Money(a,C1) == Money(b,C2) iff a == b and C1 == C2"
+
+# ─────────────────────────────────────────────────────────
+#  E. Absolute Value and Sign
+# ─────────────────────────────────────────────────────────
+
+spec moneyed.Money.__abs__:
+  guarantee: "absolute value is non-negative and preserves currency"
+  pure: true
+  axiom abs_nonneg: "abs(Money(a,C)).amount >= 0"
+  axiom abs_preserves_currency: "abs(Money(a,C)).currency == C"
+  axiom abs_of_nonneg: "abs(Money(a,C)) == Money(a,C) when a >= 0"
+  axiom abs_of_neg: "abs(Money(a,C)) == Money(-a,C) when a < 0"
+
+# ─────────────────────────────────────────────────────────
+#  F. Bool / Zero Detection
+# ─────────────────────────────────────────────────────────
+
+spec moneyed.Money.__bool__:
+  guarantee: "bool(Money) is False iff amount is zero"
+  pure: true
+  axiom bool_zero: "bool(Money(0,C)) == False"
+  axiom bool_nonzero: "bool(Money(a,C)) == True when a != 0"
+
+# ─────────────────────────────────────────────────────────
+#  X. Deliberate FALSE axiom — MUST FAIL
+# ─────────────────────────────────────────────────────────
+
+spec moneyed.Money.false:
+  guarantee: "addition is NOT idempotent (deliberate failure)"
+  axiom add_idempotent: "Money(a,C) + Money(a,C) == Money(a,C) for all a"
+
+# ─────────────────────────────────────────────────────────
+#  Proofs
+# ─────────────────────────────────────────────────────────
+
+proof currency_safety:
+  target: moneyed.Money.__add__
+  by: axiom add_cross_currency_raises
+
+proof group_structure:
+  target: moneyed.Money.group
+  by: axiom add_commutative
+
+proof scalar_module:
+  target: moneyed.Money.__mul__
+  by: axiom mul_distributes
+
+proof false_proof:
+  target: moneyed.Money.false
+  by: axiom add_idempotent
