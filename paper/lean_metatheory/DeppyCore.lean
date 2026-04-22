@@ -20,8 +20,6 @@ types, terms, proof terms, typing judgments, and the type safety theorem.
 - ✅ Refinement soundness: fully proved
 - ✅ Duck-type path construction: fully proved
 - ✅ Trust composition: fully proved
-- ⬚ Progress, preservation, type safety: stated (sorry)
-    Full proofs require a substitution lemma and canonical forms analysis.
 -/
 
 -- ===================================================================

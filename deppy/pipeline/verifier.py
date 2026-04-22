@@ -744,12 +744,16 @@ class Z3Strategy(ProofStrategy):
 
     @staticmethod
     def _is_arithmetic(pred: str) -> bool:
-        """Check if predicate is simple arithmetic/logic."""
+        """Check if predicate is simple arithmetic/logic or collection operations."""
         arithmetic_ops = {"+", "-", "*", "/", "%", "==", "!=",
-                          "<", ">", "<=", ">=", "and", "or", "not"}
-        tokens = pred.replace("(", " ").replace(")", " ").split()
+                          "<", ">", "<=", ">=", "and", "or", "not",
+                          "in", "len", "append", "sorted", "sum",
+                          "keys", "values", "items", "get",
+                          "[", "]", ".", ","}
+        tokens = pred.replace("(", " ").replace(")", " ").replace("[", " [ ").replace("]", " ] ").split()
         return all(
             t.isidentifier() or t.isdigit() or t in arithmetic_ops
+            or t.startswith('"') or t.startswith("'")
             for t in tokens
         )
 

@@ -79,6 +79,7 @@ _TYPE_TO_Z3 = {
     int: lambda name: z3.Int(name),
     float: lambda name: z3.Real(name),
     bool: lambda name: z3.Bool(name),
+    str: lambda name: z3.String(name),
 }
 
 # String → type mapping for PEP 563 (from __future__ import annotations)
@@ -86,19 +87,99 @@ _STR_TO_TYPE = {
     'int': int,
     'float': float,
     'bool': bool,
+    'str': str,
 }
+
+# List/dict Z3 variable creation helpers
+def _make_list_z3_var(name: str) -> Any:
+    """Create a Z3 Array variable representing a list[int] with a length."""
+    arr = z3.Array(name, z3.IntSort(), z3.IntSort())
+    length = z3.Int(f"{name}__len")
+    return _Z3List(arr, length)
+
+def _make_dict_z3_var(name: str) -> Any:
+    """Create a Z3 Array variable representing a dict[str, int] with key presence."""
+    vals = z3.Array(name, z3.IntSort(), z3.IntSort())
+    has_key = z3.Array(f"{name}__has", z3.IntSort(), z3.BoolSort())
+    return _Z3Dict(vals, has_key)
+
+
+class _Z3List:
+    """Z3 model of a Python list: (elements array, length)."""
+    __slots__ = ('arr', 'length')
+    def __init__(self, arr: Any, length: Any):
+        self.arr = arr
+        self.length = length
+    def __getitem__(self, idx: Any) -> Any:
+        return z3.Select(self.arr, idx)
+    def store(self, idx: Any, val: Any) -> '_Z3List':
+        return _Z3List(z3.Store(self.arr, idx, val), self.length)
+    def append(self, val: Any) -> '_Z3List':
+        new_arr = z3.Store(self.arr, self.length, val)
+        return _Z3List(new_arr, self.length + 1)
+
+
+class _Z3Dict:
+    """Z3 model of a Python dict: (values array, key-presence array)."""
+    __slots__ = ('vals', 'has_key')
+    def __init__(self, vals: Any, has_key: Any):
+        self.vals = vals
+        self.has_key = has_key
+    def __getitem__(self, key: Any) -> Any:
+        return z3.Select(self.vals, key)
+    def store(self, key: Any, val: Any) -> '_Z3Dict':
+        new_vals = z3.Store(self.vals, key, val)
+        new_has = z3.Store(self.has_key, key, True)
+        return _Z3Dict(new_vals, new_has)
+    def contains(self, key: Any) -> Any:
+        return z3.Select(self.has_key, key)
 
 
 def _get_z3_var(name: str, annotation: type | str | None) -> Any:
     """Create a Z3 variable from a type annotation."""
     # Resolve string annotations (from __future__ import annotations)
     if isinstance(annotation, str):
-        annotation = _STR_TO_TYPE.get(annotation)
+        resolved = _STR_TO_TYPE.get(annotation)
+        if resolved is not None:
+            annotation = resolved
+        elif annotation == 'list' or annotation.startswith('list['):
+            return _make_list_z3_var(name)
+        elif annotation == 'dict' or annotation.startswith('dict['):
+            return _make_dict_z3_var(name)
     if annotation in _TYPE_TO_Z3:
         return _TYPE_TO_Z3[annotation](name)
+    if annotation is list or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) is list):
+        return _make_list_z3_var(name)
+    if annotation is dict or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) is dict):
+        return _make_dict_z3_var(name)
     if annotation is None:
         return z3.Int(name)  # default to Int
     return None  # unsupported type
+
+
+def _to_z3_bool(val: Any) -> Any:
+    """Coerce a Z3 value to a boolean expression.
+
+    - _Z3List → length > 0 (truthy list)
+    - _Z3Dict → True (approximate)
+    - Z3 String → Length > 0
+    - int/bool → val != 0
+    """
+    if isinstance(val, _Z3List):
+        return val.length > 0
+    if isinstance(val, _Z3Dict):
+        return True  # approximate
+    if isinstance(val, bool):
+        return val
+    # For Z3 expressions, check if it's a BoolRef already
+    try:
+        if hasattr(val, 'sort') and val.sort() == z3.BoolSort():
+            return val
+        if hasattr(val, 'sort') and val.sort() == z3.StringSort():
+            return z3.Length(val) > 0
+    except Exception:
+        pass
+    return val
 
 
 def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
@@ -169,15 +250,36 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 ast.GtE: lambda a, b: a >= b,
             }
             cmp = cmp_ops.get(type(op))
-            if cmp is None:
+            if isinstance(op, ast.In):
+                if isinstance(right, _Z3List):
+                    i = z3.Int(f"__in_idx_{id(node)}")
+                    clause = z3.Exists([i], z3.And(i >= 0, i < right.length, right[i] == left))
+                elif isinstance(right, _Z3Dict):
+                    clause = right.contains(left)
+                elif hasattr(right, 'sort') and right.sort() == z3.StringSort():
+                    clause = z3.Contains(right, left)
+                else:
+                    raise ValueError("Unsupported 'in' target")
+            elif isinstance(op, ast.NotIn):
+                if isinstance(right, _Z3List):
+                    i = z3.Int(f"__notin_idx_{id(node)}")
+                    clause = z3.Not(z3.Exists([i], z3.And(i >= 0, i < right.length, right[i] == left)))
+                elif isinstance(right, _Z3Dict):
+                    clause = z3.Not(right.contains(left))
+                elif hasattr(right, 'sort') and right.sort() == z3.StringSort():
+                    clause = z3.Not(z3.Contains(right, left))
+                else:
+                    raise ValueError("Unsupported 'not in' target")
+            elif cmp is None:
                 raise ValueError(f"Unsupported compare: {type(op).__name__}")
-            clause = cmp(left, right)
+            else:
+                clause = cmp(left, right)
             result = clause if result is None else z3.And(result, clause)
             left = right
         return result
 
     if isinstance(node, ast.IfExp):
-        cond = _eval_expr_z3(node.test, env)
+        cond = _to_z3_bool(_eval_expr_z3(node.test, env))
         then = _eval_expr_z3(node.body, env)
         else_ = _eval_expr_z3(node.orelse, env)
         return z3.If(cond, then, else_)
@@ -228,7 +330,92 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 return z3.If(arg != 0, 1, 0)
             if node.func.id == "int" and len(node.args) == 1:
                 return _eval_expr_z3(node.args[0], env)
+            if node.func.id == "len" and len(node.args) == 1:
+                arg = _eval_expr_z3(node.args[0], env)
+                if isinstance(arg, _Z3List):
+                    return arg.length
+                if isinstance(arg, _Z3Dict):
+                    return z3.Int(f"__dict_len_{id(arg)}")
+                if hasattr(arg, 'sort') and arg.sort() == z3.StringSort():
+                    return z3.Length(arg)
+                raise ValueError(f"len() on unsupported type")
+            if node.func.id == "sorted" and len(node.args) >= 1:
+                arg = _eval_expr_z3(node.args[0], env)
+                if isinstance(arg, _Z3List):
+                    # Check for reverse= keyword argument
+                    reverse = False
+                    for kw in node.keywords:
+                        if kw.arg == "reverse":
+                            if isinstance(kw.value, ast.Constant):
+                                reverse = bool(kw.value.value)
+                    suffix = "rev" if reverse else "asc"
+                    sorted_arr = z3.Array(f"__sorted_{suffix}_{id(arg)}", z3.IntSort(), z3.IntSort())
+                    return _Z3List(sorted_arr, arg.length)
+            if node.func.id == "sum" and len(node.args) == 1:
+                arg = _eval_expr_z3(node.args[0], env)
+                if isinstance(arg, _Z3List):
+                    return z3.Int(f"__sum_{id(arg)}")
+            if node.func.id == "list" and len(node.args) == 1:
+                arg = _eval_expr_z3(node.args[0], env)
+                if isinstance(arg, _Z3List):
+                    return arg
+        if isinstance(node.func, ast.Attribute):
+            obj = _eval_expr_z3(node.func.value, env)
+            method = node.func.attr
+            if isinstance(obj, _Z3List):
+                if method == "append" and len(node.args) == 1:
+                    val = _eval_expr_z3(node.args[0], env)
+                    return obj.append(val)
+                if method == "count" and len(node.args) == 1:
+                    return z3.Int(f"__count_{id(obj)}")
+            if isinstance(obj, _Z3Dict):
+                if method == "get" and len(node.args) >= 1:
+                    key = _eval_expr_z3(node.args[0], env)
+                    if len(node.args) >= 2:
+                        default = _eval_expr_z3(node.args[1], env)
+                        return z3.If(obj.contains(key), obj[key], default)
+                    return obj[key]
+                if method == "keys":
+                    return obj
+            if hasattr(obj, 'sort') and obj.sort() == z3.StringSort():
+                if method == "upper":
+                    return z3.String(f"__upper_{id(obj)}")
+                if method == "lower":
+                    return z3.String(f"__lower_{id(obj)}")
+                if method == "strip":
+                    return z3.String(f"__strip_{id(obj)}")
         raise ValueError(f"Unsupported call: {ast.dump(node)}")
+
+    if isinstance(node, ast.Subscript):
+        obj = _eval_expr_z3(node.value, env)
+        idx = _eval_expr_z3(node.slice, env)
+        if isinstance(obj, _Z3List):
+            return obj[idx]
+        if isinstance(obj, _Z3Dict):
+            return obj[idx]
+        raise ValueError(f"Unsupported subscript on {type(obj)}")
+
+    if isinstance(node, ast.List):
+        # List literal: build a concrete Z3 list
+        elts = [_eval_expr_z3(e, env) for e in node.elts]
+        arr = z3.K(z3.IntSort(), 0)  # default value
+        for i, v in enumerate(elts):
+            arr = z3.Store(arr, i, v)
+        return _Z3List(arr, len(elts))
+
+    if isinstance(node, ast.ListComp):
+        # Simple list comprehensions: [expr for x in iterable]
+        if len(node.generators) == 1:
+            gen = node.generators[0]
+            iterable = _eval_expr_z3(gen.iter, env)
+            if isinstance(iterable, _Z3List):
+                result_arr = z3.Array(f"__comp_{id(node)}", z3.IntSort(), z3.IntSort())
+                result_len = iterable.length
+                if gen.ifs:
+                    # Filtered comprehension — model as uninterpreted
+                    return _Z3List(result_arr, z3.Int(f"__complen_{id(node)}"))
+                # Map comprehension: [f(x) for x in xs]
+                return _Z3List(result_arr, result_len)
 
     raise ValueError(f"Unsupported expression: {type(node).__name__}")
 
@@ -236,17 +423,48 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
 def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
     """Evaluate a function body with Z3 symbolic values, returning the result expression."""
     for i, stmt in enumerate(stmts):
-        # Skip docstrings and bare expressions
+        # Skip docstrings and bare expressions that aren't method calls
         if isinstance(stmt, ast.Expr):
+            # Handle mutating method calls as statements: xs.append(v)
+            if isinstance(stmt.value, ast.Call) and isinstance(stmt.value.func, ast.Attribute):
+                obj_name = None
+                if isinstance(stmt.value.func.value, ast.Name):
+                    obj_name = stmt.value.func.value.id
+                method = stmt.value.func.attr
+                if obj_name and obj_name in env:
+                    obj = env[obj_name]
+                    if isinstance(obj, _Z3List) and method == "append" and len(stmt.value.args) == 1:
+                        val = _eval_expr_z3(stmt.value.args[0], env)
+                        env = {**env, obj_name: obj.append(val)}
+                        continue
+                    if isinstance(obj, _Z3Dict) and method == "update" and len(stmt.value.args) == 1:
+                        continue  # approximate: skip dict.update
+                    if isinstance(obj, _Z3Dict) and method == "pop" and len(stmt.value.args) >= 1:
+                        continue  # approximate: skip dict.pop
             continue
 
         if isinstance(stmt, ast.Return) and stmt.value is not None:
             return _eval_expr_z3(stmt.value, env)
 
-        if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 and isinstance(stmt.targets[0], ast.Name):
-            name = stmt.targets[0].id
-            env = {**env, name: _eval_expr_z3(stmt.value, env)}
-            continue
+        if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+            target = stmt.targets[0]
+            if isinstance(target, ast.Name):
+                name = target.id
+                env = {**env, name: _eval_expr_z3(stmt.value, env)}
+                continue
+            # Subscript assignment: xs[i] = v, d[k] = v
+            if isinstance(target, ast.Subscript) and isinstance(target.value, ast.Name):
+                obj_name = target.value.id
+                if obj_name in env:
+                    obj = env[obj_name]
+                    idx = _eval_expr_z3(target.slice, env)
+                    val = _eval_expr_z3(stmt.value, env)
+                    if isinstance(obj, _Z3List):
+                        env = {**env, obj_name: obj.store(idx, val)}
+                        continue
+                    if isinstance(obj, _Z3Dict):
+                        env = {**env, obj_name: obj.store(idx, val)}
+                        continue
 
         # AugAssign: x += expr, x -= expr, etc.
         if isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
@@ -271,8 +489,13 @@ def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
             env = {**env, name: op_fn(old, val)}
             continue
 
+        if isinstance(stmt, ast.For):
+            # For loops over collections are not yet fully modeled symbolically.
+            # Fall back to testing for soundness.
+            raise ValueError(f"Unsupported for loop")
+
         if isinstance(stmt, ast.If):
-            cond = _eval_expr_z3(stmt.test, env)
+            cond = _to_z3_bool(_eval_expr_z3(stmt.test, env))
 
             # Check if this is a "mutating if" (no return in body, just assigns)
             # Pattern: `if cond: x = val` — conditional variable update, execution continues
@@ -386,7 +609,25 @@ def _z3_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
     # Check ∀ params. f(params) == g(params)
     solver = z3.Solver()
     solver.set("timeout", 5000)
-    solver.add(result_f != result_g)
+
+    # Build equality constraint, handling Z3List/Z3Dict
+    if isinstance(result_f, _Z3List) and isinstance(result_g, _Z3List):
+        # Two lists equal iff same length and same elements
+        solver.add(z3.Or(
+            result_f.length != result_g.length,
+            z3.Exists([z3.Int('__eq_idx')],
+                z3.And(z3.Int('__eq_idx') >= 0,
+                       z3.Int('__eq_idx') < result_f.length,
+                       result_f[z3.Int('__eq_idx')] != result_g[z3.Int('__eq_idx')]))
+        ))
+    elif isinstance(result_f, _Z3Dict) and isinstance(result_g, _Z3Dict):
+        k = z3.Int('__eq_key')
+        solver.add(z3.Exists([k], z3.Or(
+            result_f.contains(k) != result_g.contains(k),
+            z3.And(result_f.contains(k), result_f[k] != result_g[k])
+        )))
+    else:
+        solver.add(result_f != result_g)
 
     check = solver.check()
     if check == z3.unsat:
@@ -395,11 +636,15 @@ def _z3_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
         model = solver.model()
         cex = {}
         for p in params_f:
-            val = model.evaluate(z3_vars[p], model_completion=True)
-            try:
-                cex[p] = val.as_long()
-            except (AttributeError, ValueError):
-                cex[p] = str(val)
+            v = z3_vars[p]
+            if isinstance(v, (_Z3List, _Z3Dict)):
+                cex[p] = f"<symbolic {type(v).__name__}>"
+            else:
+                val = model.evaluate(v, model_completion=True)
+                try:
+                    cex[p] = val.as_long()
+                except (AttributeError, ValueError):
+                    cex[p] = str(val)
         return EquivResult(False, 'z3', counterexample=cex,
                           details=f"Z3 found counterexample: {cex}")
     else:

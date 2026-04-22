@@ -666,8 +666,6 @@ class ProofKernel:
         try:
             from z3 import Solver, Int, Real, Bool, sat, unsat, parse_smt2_string
             s = Solver()
-            # Try to parse as a simple arithmetic expression
-            # For now, support basic integer arithmetic
             return self._z3_check_arithmetic(formula_str)
         except ImportError:
             return False
@@ -675,49 +673,47 @@ class ProofKernel:
             return False
 
     def _z3_check_arithmetic(self, formula_str: str) -> bool:
-        """Check arithmetic formulas with Z3."""
+        """Check arithmetic and collection formulas with Z3."""
         try:
             from z3 import Solver, Int, unsat, ForAll, Implies
-            s = Solver()
 
-            # Parse simple formulas like "a + b == b + a"
-            # or "n >= 0 => n * (n+1) / 2 >= 0"
             parts = formula_str.split("=>")
             if len(parts) == 2:
-                # Implication
                 return self._z3_check_implication(parts[0].strip(), parts[1].strip())
 
-            # Simple equality/inequality
             return self._z3_check_simple(formula_str)
         except Exception:
             return False
 
     def _z3_check_simple(self, formula: str) -> bool:
-        """Check simple arithmetic formula."""
+        """Check arithmetic/collection formula."""
         try:
-            from z3 import Solver, Int, unsat, Not, And, Or
-
-            # Extract variable names
+            from z3 import (Solver, Int, Array, IntSort, BoolSort, StringSort,
+                            Select, Store, Length, unsat, Not, And, Or, String)
             import re
+
             var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', formula))
-            var_names -= {'True', 'False', 'and', 'or', 'not', 'if', 'else'}
+            var_names -= {'True', 'False', 'and', 'or', 'not', 'if', 'else',
+                          'len', 'in', 'sorted', 'sum', 'append', 'get'}
 
             z3_vars = {name: Int(name) for name in var_names}
 
-            # Build Z3 expression by eval in z3 context
             env = dict(z3_vars)
             env['__builtins__'] = {}
-
-            # Replace == with z3 equality
-            z3_formula = formula.replace('==', '==')
+            env['len'] = lambda x: Length(x) if hasattr(x, 'sort') and x.sort() == StringSort() else Int(f'__len_{id(x)}')
+            env['Select'] = Select
+            env['Store'] = Store
+            env['Array'] = Array
+            env['IntSort'] = IntSort
+            env['BoolSort'] = BoolSort
 
             try:
-                expr = eval(z3_formula, env)
+                expr = eval(formula, env)
             except Exception:
                 return False
 
-            # Check validity: formula is valid iff ¬formula is unsat
             s = Solver()
+            s.set("timeout", 5000)
             s.add(Not(expr))
             return s.check() == unsat
         except Exception:

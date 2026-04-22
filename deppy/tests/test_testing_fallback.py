@@ -2,7 +2,7 @@
 Deppy testing-fallback equivalence/adherence suite.
 
 ~30 test cases that exercise the property-based testing path for
-types Z3 can't handle (lists, strings) and unsupported AST forms.
+types Z3 can't handle, plus cases where Z3 now handles lists/strings.
 Uses seeded randomness for deterministic results.
 """
 from __future__ import annotations
@@ -94,7 +94,8 @@ TESTING_EQUIV_PAIRS = [
 def test_testing_equiv(name, f, g):
     r = check_equiv(f, g)
     assert r.equivalent is True, f"{name}: expected EQUIVALENT, got {r}"
-    assert r.method == 'testing', f"{name}: expected method='testing', got '{r.method}'"
+    # Z3 now handles list types via Array theory — accept either method
+    assert r.method in ('testing', 'z3'), f"{name}: got unexpected method '{r.method}'"
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -139,7 +140,8 @@ TESTING_INEQUIV_PAIRS = [
 def test_testing_inequiv(name, f, g):
     r = check_equiv(f, g)
     assert r.equivalent is False, f"{name}: expected INEQUIVALENT, got {r}"
-    assert r.method == 'testing', f"{name}: expected method='testing', got '{r.method}'"
+    # Z3 now handles list types — accept either method
+    assert r.method in ('testing', 'z3'), f"{name}: got unexpected method '{r.method}'"
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -191,9 +193,10 @@ def test_method_z3_for_arithmetic():
     assert r.method == 'z3'
 
 
-def test_method_testing_for_lists():
+def test_method_z3_for_lists():
+    """Z3 now handles list types via Array theory."""
     r = check_equiv(method_list_f, method_list_g)
-    assert r.method == 'testing'
+    assert r.method == 'z3'
 
 
 def test_method_z3_disabled():
@@ -237,3 +240,123 @@ def unsup_listcomp2(x: int) -> list:
 def test_unsupported_listcomp_falls_to_testing():
     r = check_equiv(unsup_listcomp, unsup_listcomp2)
     assert r.method == 'testing'
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Z3 COLLECTION TESTS — verify list/dict operations via Z3
+# ═══════════════════════════════════════════════════════════════════
+
+def z3_list_len_identity(xs: list) -> int:
+    """len(list(xs)) == len(xs)"""
+    return len(list(xs))
+
+def z3_list_len_direct(xs: list) -> int:
+    return len(xs)
+
+
+def test_z3_list_len_equiv():
+    """Z3 should prove len(list(xs)) == len(xs) via Array theory."""
+    r = check_equiv(z3_list_len_identity, z3_list_len_direct)
+    assert r.equivalent is True
+    assert r.method == 'z3'
+
+
+def z3_list_head_same_a(xs: list) -> int:
+    return xs[0] if xs else 0
+
+def z3_list_head_same_b(xs: list) -> int:
+    if xs:
+        return xs[0]
+    else:
+        return 0
+
+
+def test_z3_list_head_equiv():
+    """Z3 should prove xs[0] if xs else 0 ≡ if xs: return xs[0] else 0."""
+    r = check_equiv(z3_list_head_same_a, z3_list_head_same_b)
+    assert r.equivalent is True
+    assert r.method == 'z3'
+
+
+def z3_list_head_zero(xs: list) -> int:
+    return xs[0] if xs else 0
+
+def z3_list_head_one(xs: list) -> int:
+    return xs[0] if xs else 1
+
+
+def test_z3_list_head_inequiv():
+    """Z3 should find counterexample for head_or_0 vs head_or_1."""
+    r = check_equiv(z3_list_head_zero, z3_list_head_one)
+    assert r.equivalent is False
+    assert r.method == 'z3'
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  EFFECT Z3 DISCHARGE TESTS
+# ═══════════════════════════════════════════════════════════════════
+
+from deppy.effects.effect_types import EffectZ3Discharger, Effect
+
+
+def test_effect_exception_free_no_raise():
+    """Function with no raise → exception-free by absence."""
+    src = '''
+def safe_add(x: int, y: int) -> int:
+    return x + y
+'''
+    d = EffectZ3Discharger()
+    result = d.discharge_exception_freedom(src)
+    assert result.verified is True
+    assert result.proof_term == "exception_free_by_absence"
+
+
+def test_effect_exception_guarded_raise():
+    """Raise under condition contradicted by precondition → exception-free."""
+    src = '''
+def safe_div(x: int, y: int) -> int:
+    if y == 0:
+        raise ValueError("division by zero")
+    return x // y
+'''
+    d = EffectZ3Discharger()
+    result = d.discharge_exception_freedom(src, preconditions=["y != 0"])
+    assert result.verified is True
+    assert result.proof_term == "exception_free_by_z3"
+
+
+def test_effect_exception_unguarded():
+    """Raise without guard → cannot prove exception-free."""
+    src = '''
+def always_raises(x: int) -> int:
+    raise ValueError("always")
+'''
+    d = EffectZ3Discharger()
+    result = d.discharge_exception_freedom(src)
+    assert result.verified is False
+
+
+def test_effect_generator_bounded():
+    """Generator with for-loop over finite iterable → bounded."""
+    src = '''
+def gen(xs):
+    for x in xs:
+        yield x * 2
+'''
+    d = EffectZ3Discharger()
+    result = d.discharge_generator_safety(src)
+    assert result.verified is True
+
+
+def test_effect_async_bounded():
+    """Async function with finite awaits → bounded suspensions."""
+    src = '''
+async def fetch(url):
+    result = await get(url)
+    data = await parse(result)
+    return data
+'''
+    d = EffectZ3Discharger()
+    result = d.discharge_async_safety(src)
+    assert result.verified is True
+    assert "2 bounded" in result.message

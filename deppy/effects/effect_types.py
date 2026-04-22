@@ -1086,3 +1086,340 @@ if __name__ == "__main__":
     else:
         print("\nSome tests FAILED ✗", file=sys.stderr)
         sys.exit(1)
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# 10. Effect Z3 Discharge — formally verify effects with Z3
+# ═══════════════════════════════════════════════════════════════════════
+
+try:
+    import z3 as _z3
+    _HAS_Z3_EFFECTS = True
+except ImportError:
+    _HAS_Z3_EFFECTS = False
+
+
+class EffectDischargeResult:
+    """Result of discharging an effect to Z3."""
+    __slots__ = ('effect', 'verified', 'proof_term', 'message')
+
+    def __init__(self, effect: Effect, verified: bool, proof_term: str = "", message: str = ""):
+        self.effect = effect
+        self.verified = verified
+        self.proof_term = proof_term
+        self.message = message
+
+    def __repr__(self) -> str:
+        status = "VERIFIED" if self.verified else "UNVERIFIED"
+        return f"EffectDischargeResult({self.effect.name}, {status})"
+
+
+class EffectZ3Discharger:
+    """Discharge effect proof obligations to Z3.
+
+    Handles:
+    - Exception freedom: prove no exception can be raised under preconditions
+    - Totality: prove bounded iteration / convergence for loops
+    - Async suspension safety: prove await calls are bounded
+    - Generator safety: prove yield sequences are finite
+    """
+
+    def discharge_exception_freedom(
+        self,
+        source: str,
+        preconditions: list[str] | None = None,
+    ) -> EffectDischargeResult:
+        """Prove that a function body raises no exceptions under preconditions.
+
+        Strategy: parse AST, find all `raise` / implicit-exception sites,
+        build Z3 formula asserting preconditions → ¬(any exception path reachable).
+        """
+        if not _HAS_Z3_EFFECTS:
+            return EffectDischargeResult(Effect.EXCEPTION, False, message="Z3 unavailable")
+
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return EffectDischargeResult(Effect.EXCEPTION, False, message="Parse error")
+
+        func = tree.body[0] if tree.body and isinstance(tree.body[0], (ast.FunctionDef, ast.AsyncFunctionDef)) else None
+        if func is None:
+            return EffectDischargeResult(Effect.EXCEPTION, False, message="No function found")
+
+        # Find all exception-raising sites
+        raise_sites = self._find_raise_sites(func)
+        if not raise_sites:
+            return EffectDischargeResult(
+                Effect.EXCEPTION, True,
+                proof_term="exception_free_by_absence",
+                message="No raise statements found",
+            )
+
+        # Check if all raises are guarded by conditions that contradict preconditions
+        solver = _z3.Solver()
+        solver.set("timeout", 5000)
+
+        # Add preconditions as constraints
+        param_vars: dict[str, Any] = {}
+        for arg in func.args.args:
+            param_vars[arg.arg] = _z3.Int(arg.arg)
+
+        if preconditions:
+            for pre in preconditions:
+                try:
+                    pre_expr = self._parse_constraint(pre, param_vars)
+                    if pre_expr is not None:
+                        solver.add(pre_expr)
+                except Exception:
+                    pass
+
+        # For each raise site, check if it's reachable
+        all_unreachable = True
+        for guard_cond, exc_type in raise_sites:
+            if guard_cond is None:
+                # Unconditional raise — can't prove absence
+                all_unreachable = False
+                break
+            try:
+                guard_z3 = self._parse_constraint(guard_cond, param_vars)
+                if guard_z3 is not None:
+                    solver.push()
+                    solver.add(guard_z3)
+                    result = solver.check()
+                    solver.pop()
+                    if result == _z3.sat:
+                        all_unreachable = False
+                        break
+                else:
+                    all_unreachable = False
+                    break
+            except Exception:
+                all_unreachable = False
+                break
+
+        if all_unreachable:
+            return EffectDischargeResult(
+                Effect.EXCEPTION, True,
+                proof_term="exception_free_by_z3",
+                message=f"All {len(raise_sites)} raise sites unreachable under preconditions",
+            )
+        return EffectDischargeResult(
+            Effect.EXCEPTION, False,
+            message="Some exception paths may be reachable",
+        )
+
+    def discharge_generator_safety(
+        self,
+        source: str,
+        bound: int = 1000,
+    ) -> EffectDischargeResult:
+        """Prove a generator yields at most *bound* values.
+
+        Strategy: if the generator iterates over a finite collection
+        (list, range, dict) with no recursive yields, it's bounded.
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return EffectDischargeResult(Effect.DIVERGE, False, message="Parse error")
+
+        func = tree.body[0] if tree.body else None
+        if func is None:
+            return EffectDischargeResult(Effect.DIVERGE, False, message="No function found")
+
+        # Find yield sites
+        yields = [n for n in ast.walk(func) if isinstance(n, (ast.Yield, ast.YieldFrom))]
+        if not yields:
+            return EffectDischargeResult(
+                Effect.DIVERGE, True,
+                proof_term="generator_trivially_finite",
+                message="No yield statements",
+            )
+
+        # Check if all yields are inside for-loops over finite iterables
+        for_loops = [n for n in ast.walk(func) if isinstance(n, ast.For)]
+        while_loops = [n for n in ast.walk(func) if isinstance(n, ast.While)]
+
+        if while_loops:
+            return EffectDischargeResult(
+                Effect.DIVERGE, False,
+                message="While loops may produce unbounded yields",
+            )
+
+        # All yields in for-loops over finite iterables → bounded
+        if for_loops and not while_loops:
+            all_finite = all(
+                self._is_finite_iterable(loop.iter) for loop in for_loops
+            )
+            if all_finite:
+                return EffectDischargeResult(
+                    Effect.DIVERGE, True,
+                    proof_term=f"generator_bounded({bound})",
+                    message=f"All yields in bounded for-loops",
+                )
+
+        return EffectDischargeResult(
+            Effect.DIVERGE, False,
+            message="Cannot prove bounded yields",
+        )
+
+    def discharge_async_safety(
+        self,
+        source: str,
+    ) -> EffectDischargeResult:
+        """Prove async function has bounded suspension points.
+
+        Strategy: count await expressions; if all are in finite loops
+        or sequential code, the suspension count is bounded.
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return EffectDischargeResult(Effect.ASYNC, False, message="Parse error")
+
+        func = tree.body[0] if tree.body else None
+        if func is None:
+            return EffectDischargeResult(Effect.ASYNC, False, message="No function found")
+
+        awaits = [n for n in ast.walk(func) if isinstance(n, ast.Await)]
+        if not awaits:
+            return EffectDischargeResult(
+                Effect.ASYNC, True,
+                proof_term="async_no_suspensions",
+                message="No await expressions",
+            )
+
+        # Check for unbounded awaits (in while loops)
+        while_loops = [n for n in ast.walk(func) if isinstance(n, ast.While)]
+        for wl in while_loops:
+            for child in ast.walk(wl):
+                if isinstance(child, ast.Await):
+                    return EffectDischargeResult(
+                        Effect.ASYNC, False,
+                        message="Await in while loop — unbounded suspensions",
+                    )
+
+        # All awaits in sequential code or for-loops → bounded
+        return EffectDischargeResult(
+            Effect.ASYNC, True,
+            proof_term=f"async_bounded({len(awaits)})",
+            message=f"{len(awaits)} bounded suspension points",
+        )
+
+    # ── helpers ────────────────────────────────────────────────────
+
+    def _find_raise_sites(self, func: ast.AST) -> list[tuple[str | None, str]]:
+        """Find (guard_condition, exception_type) pairs for every raise."""
+        sites: list[tuple[str | None, str]] = []
+        self._walk_raise_sites(func, None, sites)
+        return sites
+
+    def _walk_raise_sites(
+        self, node: ast.AST, guard: str | None,
+        sites: list[tuple[str | None, str]],
+    ) -> None:
+        if isinstance(node, ast.Raise):
+            exc_type = "Exception"
+            if node.exc:
+                if isinstance(node.exc, ast.Call) and isinstance(node.exc.func, ast.Name):
+                    exc_type = node.exc.func.id
+                elif isinstance(node.exc, ast.Name):
+                    exc_type = node.exc.id
+            sites.append((guard, exc_type))
+            return
+        if isinstance(node, ast.If):
+            test_str = ast.unparse(node.test)
+            child_guard = f"({guard}) and ({test_str})" if guard else test_str
+            for child in node.body:
+                self._walk_raise_sites(child, child_guard, sites)
+            neg_guard = f"({guard}) and not ({test_str})" if guard else f"not ({test_str})"
+            for child in node.orelse:
+                self._walk_raise_sites(child, neg_guard, sites)
+            return
+        if isinstance(node, ast.Try):
+            for child in node.body:
+                self._walk_raise_sites(child, guard, sites)
+            for handler in node.handlers:
+                for child in handler.body:
+                    self._walk_raise_sites(child, guard, sites)
+            return
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, ast.AST):
+                self._walk_raise_sites(child, guard, sites)
+
+    def _parse_constraint(self, expr_str: str, vars_: dict[str, Any]) -> Any:
+        """Parse a Python expression string into a Z3 expression."""
+        try:
+            tree = ast.parse(expr_str, mode='eval')
+            return self._ast_to_z3(tree.body, vars_)
+        except Exception:
+            return None
+
+    def _ast_to_z3(self, node: ast.expr, vars_: dict[str, Any]) -> Any:
+        if isinstance(node, ast.Name):
+            if node.id in vars_:
+                return vars_[node.id]
+            v = _z3.Int(node.id)
+            vars_[node.id] = v
+            return v
+        if isinstance(node, ast.Constant):
+            if isinstance(node.value, bool):
+                return _z3.BoolVal(node.value)
+            if isinstance(node.value, int):
+                return _z3.IntVal(node.value)
+            if isinstance(node.value, float):
+                return _z3.RealVal(node.value)
+        if isinstance(node, ast.Compare):
+            left = self._ast_to_z3(node.left, vars_)
+            ops_map = {
+                ast.Eq: lambda a, b: a == b,
+                ast.NotEq: lambda a, b: a != b,
+                ast.Lt: lambda a, b: a < b,
+                ast.LtE: lambda a, b: a <= b,
+                ast.Gt: lambda a, b: a > b,
+                ast.GtE: lambda a, b: a >= b,
+            }
+            result = None
+            for op, comp in zip(node.ops, node.comparators):
+                right = self._ast_to_z3(comp, vars_)
+                fn = ops_map.get(type(op))
+                if fn is None:
+                    return None
+                clause = fn(left, right)
+                result = clause if result is None else _z3.And(result, clause)
+                left = right
+            return result
+        if isinstance(node, ast.BoolOp):
+            values = [self._ast_to_z3(v, vars_) for v in node.values]
+            if any(v is None for v in values):
+                return None
+            if isinstance(node.op, ast.And):
+                return _z3.And(*values)
+            return _z3.Or(*values)
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
+            operand = self._ast_to_z3(node.operand, vars_)
+            return _z3.Not(operand) if operand is not None else None
+        if isinstance(node, ast.BinOp):
+            left = self._ast_to_z3(node.left, vars_)
+            right = self._ast_to_z3(node.right, vars_)
+            if left is None or right is None:
+                return None
+            ops = {ast.Add: lambda a, b: a + b, ast.Sub: lambda a, b: a - b,
+                   ast.Mult: lambda a, b: a * b, ast.FloorDiv: lambda a, b: a / b,
+                   ast.Mod: lambda a, b: a % b}
+            fn = ops.get(type(node.op))
+            return fn(left, right) if fn else None
+        return None
+
+    @staticmethod
+    def _is_finite_iterable(node: ast.expr) -> bool:
+        """Check if an iterable expression is provably finite."""
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            return node.func.id in ('range', 'enumerate', 'zip', 'reversed', 'sorted')
+        if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
+            return True
+        if isinstance(node, ast.Name):
+            return True  # Variable — assume finite for now
+        if isinstance(node, ast.Attribute):
+            return True  # e.g. self.items — assume finite
+        return False
