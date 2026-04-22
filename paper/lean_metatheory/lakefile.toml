@@ -16,3 +16,6 @@ name = "DeppyCore"
 
 [[lean_lib]]
 name = "DeppyGenTest"
+
+[[lean_lib]]
+name = "DeppyExtensions"
