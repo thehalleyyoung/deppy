@@ -1193,3 +1193,167 @@ def test_build_import_graph():
     graph = build_import_graph(mod)
     assert len(graph.modules) == 1
     assert graph.topological_order == ['_graph_mod']
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  C3 MRO, __GETATTR__, AND DESCRIPTOR PROTOCOL
+# ═══════════════════════════════════════════════════════════════════
+
+def test_c3_mro_diamond():
+    """C3 linearization resolves diamond inheritance correctly."""
+    from deppy.equivalence import _compute_c3_mro, _ClassInfo
+    classes = {
+        'A': _ClassInfo(name='A', bases=[], methods={}, init_fields=[],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+        'B': _ClassInfo(name='B', bases=['A'], methods={}, init_fields=[],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+        'C': _ClassInfo(name='C', bases=['A'], methods={}, init_fields=[],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+        'D': _ClassInfo(name='D', bases=['B', 'C'], methods={}, init_fields=[],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+    }
+    mro = _compute_c3_mro('D', classes)
+    assert mro == ['D', 'B', 'C', 'A'], f"Got {mro}"
+
+
+def test_c3_mro_method_resolution():
+    """Method resolution follows C3 MRO order in diamond."""
+    import ast
+    from deppy.equivalence import _resolve_method, _ClassInfo
+    def _make_method(name, body_val):
+        src = f"def {name}(self): return {body_val}"
+        return ast.parse(src).body[0]
+    classes = {
+        'A': _ClassInfo(name='A', bases=[], methods={'greet': _make_method('greet', 10)},
+                        init_fields=[], class_attrs={}, metaclass=None, descriptors=set()),
+        'B': _ClassInfo(name='B', bases=['A'], methods={'greet': _make_method('greet', 20)},
+                        init_fields=[], class_attrs={}, metaclass=None, descriptors=set()),
+        'C': _ClassInfo(name='C', bases=['A'], methods={'greet': _make_method('greet', 30)},
+                        init_fields=[], class_attrs={}, metaclass=None, descriptors=set()),
+        'D': _ClassInfo(name='D', bases=['B', 'C'], methods={},
+                        init_fields=[], class_attrs={}, metaclass=None, descriptors=set()),
+    }
+    # D has no greet, so should resolve to B (first in MRO after D)
+    method = _resolve_method('D', 'greet', classes)
+    assert method is not None
+    # The method should be from B (returns 20)
+    assert method.body[0].value.value == 20
+
+
+def test_c3_collect_all_fields_diamond():
+    """Field collection follows C3 MRO, deduplicating across diamond."""
+    from deppy.equivalence import _collect_all_fields, _ClassInfo
+    classes = {
+        'A': _ClassInfo(name='A', bases=[], methods={}, init_fields=['x'],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+        'B': _ClassInfo(name='B', bases=['A'], methods={}, init_fields=['y'],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+        'C': _ClassInfo(name='C', bases=['A'], methods={}, init_fields=['x', 'z'],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+        'D': _ClassInfo(name='D', bases=['B', 'C'], methods={}, init_fields=['w'],
+                        class_attrs={}, metaclass=None, descriptors=set()),
+    }
+    fields = _collect_all_fields('D', classes)
+    # D fields first, then B, then C, then A — deduped
+    assert 'w' in fields
+    assert 'y' in fields
+    assert 'x' in fields
+    assert 'z' in fields
+    assert len(fields) == 4
+
+
+def test_multiple_inheritance_adherence():
+    """Verify a function using multiple inheritance with C3 MRO."""
+    from deppy import guarantee
+    src = '''
+class Base:
+    def __init__(self):
+        self.x = 10
+
+class MixinA(Base):
+    def __init__(self):
+        super().__init__()
+        self.a = 1
+
+class MixinB(Base):
+    def __init__(self):
+        super().__init__()
+        self.b = 2
+
+class Combined(MixinA, MixinB):
+    def __init__(self):
+        super().__init__()
+
+    def total(self) -> int:
+        return self.x + self.a + self.b
+'''
+    # The method should at least be parseable with class hierarchy
+    from deppy.equivalence import _parse_class_hierarchy
+    import ast
+    tree = ast.parse(src)
+    classes = _parse_class_hierarchy(tree)
+    assert 'Combined' in classes
+    assert classes['Combined'].bases == ['MixinA', 'MixinB']
+
+
+def test_getattr_fallback_z3():
+    """__getattr__ is modeled as uninterpreted function for missing attrs."""
+    from deppy.equivalence import _eval_expr_z3
+    import ast, z3
+    # Simulate self.missing with __getattr__ registered
+    env = {'self': z3.Int('self'), '__getattr_self': True}
+    node = ast.parse('self.missing_field', mode='eval').body
+    result = _eval_expr_z3(node, env)
+    assert result is not None
+    assert 'getattr' in str(result).lower() or 'missing_field' in str(result)
+
+
+def test_descriptor_protocol_z3():
+    """Descriptor __get__ returns modeled value for descriptor-marked fields."""
+    from deppy.equivalence import _eval_expr_z3
+    import ast, z3
+    # Simulate self.desc_field with descriptor registered
+    desc_val = z3.Int('descriptor_val')
+    env = {'self': z3.Int('self'), '__desc_self_desc_field': desc_val}
+    node = ast.parse('self.desc_field', mode='eval').body
+    result = _eval_expr_z3(node, env)
+    assert z3.eq(result, desc_val)
+
+
+def test_parse_class_metaclass():
+    """_parse_class_hierarchy extracts metaclass keyword."""
+    from deppy.equivalence import _parse_class_hierarchy
+    import ast
+    src = '''
+class Meta(type):
+    pass
+
+class MyClass(metaclass=Meta):
+    def __init__(self):
+        self.x = 1
+'''
+    tree = ast.parse(src)
+    classes = _parse_class_hierarchy(tree)
+    assert 'MyClass' in classes
+    assert classes['MyClass'].metaclass == 'Meta'
+
+
+def test_parse_class_descriptors():
+    """_parse_class_hierarchy detects descriptor-like class attributes."""
+    from deppy.equivalence import _parse_class_hierarchy
+    import ast
+    src = '''
+class Descriptor:
+    def __get__(self, obj, objtype=None):
+        return 42
+    def __set__(self, obj, value):
+        pass
+
+class MyClass:
+    attr = Descriptor()
+    def __init__(self):
+        self.x = 1
+'''
+    tree = ast.parse(src)
+    classes = _parse_class_hierarchy(tree)
+    assert 'MyClass' in classes

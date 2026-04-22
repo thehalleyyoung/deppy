@@ -148,7 +148,7 @@ type-safety theorem.  \deppy{} also introduces \emph{sidecar
 third-party libraries via companion specification files, with a formal
 trust model that tracks the provenance of every proof obligation.
 
-We evaluate \deppy{} on 844 test cases covering type-system
+We evaluate \deppy{} on 852 test cases covering type-system
 soundness, Z3 equivalence checking, specification adherence, and Lean
 export, plus case studies verifying SymPy, an F*-tutorial translation,
 and an STLC type-soundness proof --- all expressed in ordinary Python.
@@ -230,7 +230,7 @@ enforce.
   specification files.
 
 \item An \textbf{implementation and evaluation} (\S\ref{sec:eval})
-  with 844 tests, case studies verifying real Python libraries, and an
+  with 852 tests, case studies verifying real Python libraries, and an
   F*-tutorial-to-\deppy{} translation demonstrating expressiveness.
 \end{enumerate}
 
@@ -1092,6 +1092,54 @@ Preconditions are added as Z3 hypotheses.  If Z3 finds a
 counterexample satisfying the precondition but violating the
 specification, the counterexample values are reported.
 
+\subsection{Modular and Compositional Verification}\label{sec:modular}
+
+Verification in \deppy{} is \emph{modular and compositional}: each
+function is verified in isolation, but callee contracts are propagated
+as axioms so that inter-procedural reasoning is sound.
+
+\paragraph{Cross-function guarantee propagation.}
+When function~$A$ calls function~$B$ carrying \texttt{@guarantee}
+annotations, \deppy{} uses $B$'s postcondition as an axiom when
+verifying~$A$, binding callee formals to caller actuals and modeling
+pure calls as uninterpreted functions
+(same arguments~$\Rightarrow$~same result).
+Cross-module import resolution follows Python's runtime
+\texttt{\_\_globals\_\_} to discover callee specs in other packages.
+
+\paragraph{Module and import-graph verification.}
+\texttt{verify\_module(m)} checks every annotated function in
+dependency-topological order (callees before callers);
+\texttt{verify\_import\_graph(m$_1$, \ldots, m$_k$)} extends this
+across module boundaries by building a directed dependency graph
+from \texttt{import} statements and verifying each module in
+topological order.
+
+\paragraph{Compositional verification and module paths.}
+\texttt{verify\_composition(f, g, spec)} verifies that $f \circ g$
+satisfies \texttt{spec} by composing inner and outer proofs
+(Z3 symbolic composition with testing fallback).
+\texttt{check\_module\_paths(M, N)} constructs path equivalences
+between every shared function in two modules, enabling verified
+module substitution---a direct application of the cubical path
+framework to software evolution.
+
+\paragraph{Effect analysis.}
+\texttt{analyze\_effects(f)} infers a function's position in the
+effect lattice
+(\textsc{pure} $\le$ \textsc{reads} $\le$ \textsc{mutates} $\le$
+\textsc{io}, plus \textsc{exception}, \textsc{nondet},
+\textsc{async}), and \texttt{analyze\_call\_chain\_effects(f)} traces
+effects transitively through the call graph.
+
+\paragraph{Concurrent safety.}
+\texttt{verify\_concurrent\_safety(f)} combines three analyses:
+(i)~shared-state access patterns (guarded vs.\ unguarded global
+writes), (ii)~effect purity classification, and
+(iii)~separation-logic ownership checking.
+A function is reported safe when it is pure, when all shared-state
+writes are lock-guarded, or when separation-logic entailment holds.
+
 
 % ═══════════════════════════════════════════════════════════════════
 % 8. Implementation
@@ -1122,7 +1170,7 @@ Type checker & 2,168 & Cubical type checking, reduction \\
 Path engine & 2,706 & Path construction, transport, fibrations \\
 Sugar / decorators & 1,542 & \texttt{@guarantee}, \texttt{@requires}, DSL \\
 Lean~4 export & 2,550 & Compiler, spec/proof translator, renderer \\
-Equivalence engine & 1,350 & Z3 symbolic execution \\
+Equivalence engine & 3,524 & Z3 symbolic execution \\
 Axiom library & 2,461 & SymPy, NumPy, stdlib formal axioms \\
 Separation logic & 1,860 & Heap reasoning, ownership tracking \\
 \midrule
@@ -1132,8 +1180,8 @@ Denotational semantics & 9,661 & Python semantics (6 modules) \\
 \multicolumn{3}{@{}l}{\emph{Other}} \\
 Effects / runtime & 2,567 & Effect types, runtime monitor \\
 \midrule
-Total (library) & $\sim$29,270 & \\
-Tests & $\sim$7,400 & 844 test cases \\
+Total (library) & $\sim$31,450 & \\
+Tests & $\sim$15,800 & 852 test cases \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1175,7 +1223,7 @@ We evaluate \deppy{} along four dimensions: \emph{expressiveness}
 
 \subsection{Test Suite}
 
-\deppy{}'s test suite contains 844 test cases organized into nine
+\deppy{}'s test suite contains 852 test cases organized into nine
 modules (Table~\ref{tab:tests}).
 
 \begin{table}[t]
@@ -1197,7 +1245,7 @@ Lean equivalence & 27 & Cross-language equivalence \\
 Testing fallback & 18 & Non-Z3 strategies \\
 Lean translator & 159 & Spec/proof/compiler/renderer \\
 \midrule
-Total & 844 & \\
+Total & 852 & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1272,7 +1320,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 844$^\dagger$ \\
+Total & 852$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1351,12 +1399,12 @@ Lean equivalence & 27 & 0.21 \\
 Testing fallback & 18 & 0.19 \\
 Lean translator & 159 & 0.55 \\
 \midrule
-Total & 844 & 2.78 \\
+Total & 852 & 2.78 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The entire 844-test suite completes in under 3~seconds.  Z3
+The entire 852-test suite completes in under 3~seconds.  Z3
 discharge dominates verification time: the Z3~adherence and
 Z3~equivalence modules account for 26\% of the total time despite
 comprising 22\% of the tests, reflecting SMT solver overhead.  Kernel
@@ -1513,11 +1561,14 @@ The following Python features remain outside the verified fragment:
   \texttt{z3.If}-guarded merging).  Loops exceeding the bound produce
   approximate results; functions whose correctness depends on longer
   execution fall back to property-based testing.
-\item \textbf{Dynamic dispatch.}  Single inheritance with
-  \texttt{super().\_\_init\_\_()}, MRO-based method resolution, and
-  field accumulation across the hierarchy are supported.
-  Multiple inheritance, metaclasses, \texttt{\_\_getattr\_\_}, and
-  descriptor protocols are not analyzed.
+\item \textbf{Dynamic dispatch.}  Single and multiple inheritance with
+  C3~linearization (MRO), \texttt{super()},
+  field accumulation across the hierarchy, \texttt{\_\_getattr\_\_}
+  fallback (modeled as uninterpreted functions), and descriptor
+  protocol access (\texttt{\_\_get\_\_}/\texttt{\_\_set\_\_}) are
+  supported.  Metaclass \texttt{\_\_new\_\_}/\texttt{\_\_init\_\_},
+  \texttt{\_\_init\_subclass\_\_}, and \texttt{\_\_class\_getitem\_\_}
+  are not yet analyzed.
 \item \textbf{Recursive boundary.}  Recursive calls are unrolled to
   depth~8 with inductive boundary constraints (boundary values are
   constrained to satisfy the current spec).  For specs that are not
@@ -1560,37 +1611,8 @@ End-to-end soundness additionally depends on:
 semantics---we do not have a CPython conformance test suite, and
 (iv)~the assumption that unannotated parameters behave as integers.
 
-\paragraph{Verification scope.}
-Verification is \emph{modular and compositional}.
-When function~$A$ calls function~$B$ carrying \texttt{@guarantee}
-annotations, \deppy{} uses $B$'s postcondition as an axiom when
-verifying~$A$, binding callee formals to caller actuals and modeling
-pure calls as uninterpreted functions
-(same arguments~$\Rightarrow$~same result).
-Cross-module import resolution follows Python's runtime
-\texttt{\_\_globals\_\_} to discover callee specs in other packages.
-\texttt{verify\_module(m)} checks every annotated function in
-dependency-topological order (callees before callers);
-\texttt{verify\_import\_graph(m$_1$, \ldots, m$_k$)} extends this
-across module boundaries.
-\texttt{verify\_composition(f, g, spec)} verifies that $f \circ g$
-satisfies \texttt{spec} by composing inner and outer proofs
-(Z3 symbolic composition with testing fallback).
-\texttt{check\_module\_paths(M, N)} constructs path equivalences
-between every shared function in two modules, enabling verified
-module substitution.
-For effects, \texttt{analyze\_effects(f)} infers a function's position
-in the effect lattice
-(PURE $\le$ READS $\le$ MUTATES $\le$ IO, plus EXCEPTION,
-NONDET, ASYNC), and \texttt{analyze\_call\_chain\_effects(f)} traces
-effects transitively through the call graph.
-For concurrency, \texttt{verify\_concurrent\_safety(f)} combines
-three analyses: (i)~shared-state access patterns (guarded vs.\
-unguarded global writes), (ii)~effect purity classification, and
-(iii)~separation-logic ownership checking.
-A function is reported safe when it is pure, when all shared-state
-writes are lock-guarded, or when separation-logic entailment holds.
-The testing fallback provides probabilistic
+\paragraph{Proof automation.}
+The testing fallback (\S\ref{sec:equiv}) provides probabilistic
 assurance for constructs beyond Z3's reach, but cannot guarantee
 the absence of counterexamples.  Proof automation is limited to
 Z3 for decidable theories, \texttt{omega}/\texttt{simp} for Lean
@@ -1616,7 +1638,7 @@ trust tracking.
 \deppy{} demonstrates that dependent-type verification can be
 retrofitted onto a dynamically-typed language without requiring
 programmers to abandon their existing code or learn a new language.
-The 844-test evaluation, including 301 negative soundness tests and
+The 852-test evaluation, including 301 negative soundness tests and
 case studies from SymPy verification to STLC type soundness, shows
 that the approach is practical and expressively rich.
 

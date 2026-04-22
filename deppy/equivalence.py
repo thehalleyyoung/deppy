@@ -444,6 +444,16 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 key = f"{obj_name}_{field}"
                 if key in env:
                     return env[key]
+                # Check for descriptor protocol in class info
+                desc_key = f"__desc_{obj_name}_{field}"
+                if desc_key in env:
+                    # Descriptor's __get__ returns a value
+                    return env[desc_key]
+                # Check for __getattr__ fallback in class info
+                getattr_key = f"__getattr_{obj_name}"
+                if getattr_key in env:
+                    # __getattr__ is called for missing attributes
+                    return z3.Int(f"__getattr_{obj_name}_{field}")
                 # Create fresh var for the field
                 return z3.Int(key)
             # Unknown object — create placeholder
@@ -1263,12 +1273,79 @@ def _get_ast_annotation(tree: ast.FunctionDef, param: str) -> str | None:
 
 class _ClassInfo:
     """Parsed class information for inheritance resolution."""
-    __slots__ = ('name', 'bases', 'methods', 'init_fields')
-    def __init__(self, name: str, bases: list[str], methods: dict[str, ast.FunctionDef], init_fields: list[str]):
+    __slots__ = ('name', 'bases', 'methods', 'init_fields', 'class_attrs',
+                 'metaclass', 'descriptors')
+    def __init__(self, name: str, bases: list[str],
+                 methods: dict[str, ast.FunctionDef],
+                 init_fields: list[str],
+                 class_attrs: dict[str, Any] | None = None,
+                 metaclass: str | None = None,
+                 descriptors: dict[str, str] | None = None):
         self.name = name
         self.bases = bases
         self.methods = methods
-        self.init_fields = init_fields  # fields set in __init__
+        self.init_fields = init_fields
+        self.class_attrs = class_attrs or {}
+        self.metaclass = metaclass
+        self.descriptors = descriptors or {}  # attr -> descriptor_type
+
+
+def _compute_c3_mro(class_name: str, classes: dict[str, _ClassInfo]) -> list[str]:
+    """Compute the C3 linearization (Python's MRO) for a class.
+
+    This implements the C3 linearization algorithm used by Python for
+    multiple inheritance method resolution.
+    """
+    info = classes.get(class_name)
+    if info is None:
+        return [class_name]
+
+    if not info.bases:
+        return [class_name]
+
+    # Get parent MROs
+    parent_mros = []
+    for base in info.bases:
+        parent_mros.append(_compute_c3_mro(base, classes))
+
+    # C3 merge
+    result = [class_name]
+    remaining = [list(m) for m in parent_mros] + [list(info.bases)]
+
+    while any(remaining):
+        # Find a candidate: head of some list that doesn't appear in
+        # the tail of any other list
+        candidate = None
+        for seq in remaining:
+            if not seq:
+                continue
+            head = seq[0]
+            # Check head doesn't appear in tail of any list
+            in_tail = False
+            for other in remaining:
+                if head in other[1:]:
+                    in_tail = True
+                    break
+            if not in_tail:
+                candidate = head
+                break
+
+        if candidate is None:
+            # Inconsistent hierarchy — append remaining in order
+            for seq in remaining:
+                for item in seq:
+                    if item not in result:
+                        result.append(item)
+            break
+
+        result.append(candidate)
+        # Remove candidate from all lists
+        for seq in remaining:
+            if seq and seq[0] == candidate:
+                seq.pop(0)
+        remaining = [s for s in remaining if s]
+
+    return result
 
 
 def _parse_class_hierarchy(source: str) -> dict[str, _ClassInfo]:
@@ -1281,62 +1358,84 @@ def _parse_class_hierarchy(source: str) -> dict[str, _ClassInfo]:
     for node in ast.walk(tree):
         if isinstance(node, ast.ClassDef):
             bases = []
+            metaclass = None
             for base in node.bases:
                 if isinstance(base, ast.Name):
                     bases.append(base.id)
                 elif isinstance(base, ast.Attribute):
                     bases.append(ast.unparse(base))
+            # Check for metaclass keyword
+            for kw in node.keywords:
+                if kw.arg == 'metaclass' and isinstance(kw.value, ast.Name):
+                    metaclass = kw.value.id
+
             methods: dict[str, ast.FunctionDef] = {}
             init_fields: list[str] = []
+            class_attrs: dict[str, Any] = {}
+            descriptors: dict[str, str] = {}
+
             for item in node.body:
                 if isinstance(item, ast.FunctionDef):
                     methods[item.name] = item
                     if item.name == '__init__':
-                        # Extract self.field = ... assignments
                         for s in ast.walk(item):
                             if isinstance(s, ast.Assign) and len(s.targets) == 1:
                                 t = s.targets[0]
-                                if isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name) and t.value.id == 'self':
+                                if (isinstance(t, ast.Attribute) and
+                                    isinstance(t.value, ast.Name) and
+                                    t.value.id == 'self'):
                                     init_fields.append(t.attr)
-            classes[node.name] = _ClassInfo(node.name, bases, methods, init_fields)
+                elif isinstance(item, ast.Assign):
+                    # Class-level attributes (potential descriptors)
+                    for t in item.targets:
+                        if isinstance(t, ast.Name):
+                            class_attrs[t.id] = item.value
+                            # Detect descriptor pattern: attr = SomeDescriptor()
+                            if isinstance(item.value, ast.Call):
+                                if isinstance(item.value.func, ast.Name):
+                                    desc_name = item.value.func.id
+                                    if any(k in desc_name.lower()
+                                           for k in ('descriptor', 'property',
+                                                     'cached', 'field')):
+                                        descriptors[t.id] = desc_name
+                elif isinstance(item, ast.AnnAssign) and isinstance(item.target, ast.Name):
+                    class_attrs[item.target.id] = item.value
+
+            # Detect __get__/__set__/__delete__ to identify descriptor classes
+            has_get = '__get__' in methods
+            has_set = '__set__' in methods
+            if has_get or has_set:
+                # This class IS a descriptor
+                pass
+
+            classes[node.name] = _ClassInfo(
+                node.name, bases, methods, init_fields,
+                class_attrs, metaclass, descriptors
+            )
     return classes
 
 
 def _resolve_method(class_name: str, method_name: str, classes: dict[str, _ClassInfo]) -> ast.FunctionDef | None:
-    """Resolve a method via MRO (simple single-inheritance DFS)."""
-    visited: set[str] = set()
-    queue = [class_name]
-    while queue:
-        cls = queue.pop(0)
-        if cls in visited:
-            continue
-        visited.add(cls)
-        info = classes.get(cls)
-        if info is None:
-            continue
-        if method_name in info.methods:
+    """Resolve a method via C3 MRO (supports multiple inheritance)."""
+    mro = _compute_c3_mro(class_name, classes)
+    for cls_name in mro:
+        info = classes.get(cls_name)
+        if info is not None and method_name in info.methods:
             return info.methods[method_name]
-        queue.extend(info.bases)
     return None
 
 
 def _collect_all_fields(class_name: str, classes: dict[str, _ClassInfo]) -> list[str]:
-    """Collect all self.field names from the class and its parents' __init__."""
+    """Collect all self.field names from the class and its parents' __init__ (C3 MRO)."""
     fields: list[str] = []
-    visited: set[str] = set()
-    queue = [class_name]
-    while queue:
-        cls = queue.pop(0)
-        if cls in visited:
-            continue
-        visited.add(cls)
-        info = classes.get(cls)
+    mro = _compute_c3_mro(class_name, classes)
+    for cls_name in mro:
+        info = classes.get(cls_name)
         if info is None:
             continue
         for f in info.init_fields:
             if f not in fields:
                 fields.append(f)
-        queue.extend(info.bases)
     return fields
 
 
