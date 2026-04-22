@@ -109,10 +109,26 @@ def _make_dict_z3_var(name: str) -> Any:
     has_key = z3.Array(f"{name}__has", z3.IntSort(), z3.BoolSort())
     return _Z3Dict(vals, has_key)
 
-def _make_callable_z3_var(name: str) -> Any:
-    """Create a Z3 Array variable representing a Callable[[int], int]."""
-    func = z3.Array(name, z3.IntSort(), z3.IntSort())
-    return _Z3Callable(func, name)
+def _make_callable_z3_var(name: str, arity: int = 1) -> Any:
+    """Create a Z3 variable representing a Callable with given arity."""
+    if arity == 1:
+        func = z3.Array(name, z3.IntSort(), z3.IntSort())
+        return _Z3Callable(func, name, 1)
+    # Multi-arg: use Z3 Function (uninterpreted)
+    sorts = [z3.IntSort()] * arity + [z3.IntSort()]
+    func = z3.Function(name, *sorts)
+    return _Z3Callable(func, name, arity)
+
+def _make_tuple_z3_var(name: str, length: int = 2) -> Any:
+    """Create a Z3 tuple variable with given length."""
+    elements = [z3.Int(f"{name}_{i}") for i in range(length)]
+    return _Z3Tuple(elements)
+
+def _make_set_z3_var(name: str) -> Any:
+    """Create a Z3 set variable."""
+    members = z3.Array(name, z3.IntSort(), z3.BoolSort())
+    size = z3.Int(f"{name}__size")
+    return _Z3Set(members, size)
 
 
 class _Z3List:
@@ -157,13 +173,101 @@ class _Z3Dict:
 
 
 class _Z3Callable:
-    """Z3 model of a Callable[[int], int] — uninterpreted function via Z3 Array."""
-    __slots__ = ('func', 'name')
-    def __init__(self, func: Any, name: str):
+    """Z3 model of a Callable — uninterpreted function via Z3 functions."""
+    __slots__ = ('func', 'name', 'arity')
+    def __init__(self, func: Any, name: str, arity: int = 1):
         self.func = func
         self.name = name
-    def __call__(self, arg: Any) -> Any:
-        return z3.Select(self.func, arg)
+        self.arity = arity
+    def __call__(self, *args: Any) -> Any:
+        if self.arity == 1:
+            return z3.Select(self.func, args[0])
+        # Multi-arg: use the Z3 Function directly
+        return self.func(*args[:self.arity])
+
+
+class _Z3Tuple:
+    """Z3 model of a Python tuple: fixed-length, heterogeneous (modeled as Int)."""
+    __slots__ = ('elements',)
+    def __init__(self, elements: list[Any]):
+        self.elements = elements
+    def __getitem__(self, idx: Any) -> Any:
+        if isinstance(idx, int):
+            if 0 <= idx < len(self.elements):
+                return self.elements[idx]
+            raise ValueError(f"Tuple index {idx} out of range")
+        # Symbolic index: build if-chain
+        result = self.elements[0] if self.elements else z3.IntVal(0)
+        for i in range(1, len(self.elements)):
+            result = z3.If(idx == i, self.elements[i], result)
+        return result
+    @property
+    def length(self) -> int:
+        return len(self.elements)
+
+
+class _Z3Set:
+    """Z3 model of a Python set: membership array + size."""
+    __slots__ = ('members', 'size')
+    def __init__(self, members: Any, size: Any):
+        self.members = members  # Array(IntSort, BoolSort)
+        self.size = size
+    def contains(self, elem: Any) -> Any:
+        return z3.Select(self.members, elem)
+    def add(self, elem: Any) -> '_Z3Set':
+        new_members = z3.Store(self.members, elem, True)
+        new_size = z3.If(self.contains(elem), self.size, self.size + 1)
+        return _Z3Set(new_members, new_size)
+    def discard(self, elem: Any) -> '_Z3Set':
+        new_members = z3.Store(self.members, elem, False)
+        new_size = z3.If(self.contains(elem), self.size - 1, self.size)
+        return _Z3Set(new_members, new_size)
+
+
+def _parse_tuple_length(ann_str: str) -> int:
+    """Parse 'tuple[int, int, str]' → 3. Default 2."""
+    if '[' not in ann_str:
+        return 2
+    inner = ann_str[ann_str.index('[') + 1:ann_str.rindex(']')]
+    # Count top-level commas (not inside nested brackets)
+    depth, count = 0, 1
+    for c in inner:
+        if c in '([':
+            depth += 1
+        elif c in ')]':
+            depth -= 1
+        elif c == ',' and depth == 0:
+            count += 1
+    return count
+
+def _parse_callable_arity(ann_str: str) -> int:
+    """Parse 'Callable[[int, int], int]' → 2. Default 1."""
+    # Find the inner [[...]] part
+    idx = ann_str.find('[[')
+    if idx < 0:
+        return 1
+    # Find matching ]]
+    inner_start = idx + 2
+    depth, i = 1, inner_start
+    while i < len(ann_str) and depth > 0:
+        if ann_str[i] == '[':
+            depth += 1
+        elif ann_str[i] == ']':
+            depth -= 1
+        i += 1
+    inner = ann_str[inner_start:i - 1]
+    if not inner.strip():
+        return 0
+    # Count top-level commas
+    depth, count = 0, 1
+    for c in inner:
+        if c in '([':
+            depth += 1
+        elif c in ')]':
+            depth -= 1
+        elif c == ',' and depth == 0:
+            count += 1
+    return count
 
 
 def _get_z3_var(name: str, annotation: type | str | None) -> Any:
@@ -177,20 +281,35 @@ def _get_z3_var(name: str, annotation: type | str | None) -> Any:
             return _make_list_z3_var(name)
         elif annotation == 'dict' or annotation.startswith('dict['):
             return _make_dict_z3_var(name)
+        elif annotation == 'tuple' or annotation.startswith('tuple['):
+            # Parse tuple[int, int] → count commas for length
+            length = _parse_tuple_length(annotation)
+            return _make_tuple_z3_var(name, length)
+        elif annotation == 'set' or annotation.startswith('set[') or annotation == 'frozenset' or annotation.startswith('frozenset['):
+            return _make_set_z3_var(name)
         elif annotation.startswith('Callable') or annotation.startswith('typing.Callable'):
-            return _make_callable_z3_var(name)
+            arity = _parse_callable_arity(annotation)
+            return _make_callable_z3_var(name, arity)
     if annotation in _TYPE_TO_Z3:
         return _TYPE_TO_Z3[annotation](name)
     if annotation is list or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) is list):
         return _make_list_z3_var(name)
     if annotation is dict or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) is dict):
         return _make_dict_z3_var(name)
-    # typing.Callable[[int], int] → Z3 callable
+    if annotation is tuple or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) is tuple):
+        args = getattr(annotation, '__args__', None)
+        length = len(args) if args else 2
+        return _make_tuple_z3_var(name, length)
+    if annotation is set or annotation is frozenset or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) in (set, frozenset)):
+        return _make_set_z3_var(name)
+    # typing.Callable[[int], int] → Z3 callable (with arity)
     origin = getattr(annotation, '__origin__', None)
     if origin is not None:
         import collections.abc
         if origin is collections.abc.Callable:
-            return _make_callable_z3_var(name)
+            args = getattr(annotation, '__args__', None)
+            arity = len(args) - 1 if args and len(args) > 1 else 1
+            return _make_callable_z3_var(name, arity)
     if annotation is None:
         return z3.Int(name)  # default to Int
     return None  # unsupported type
@@ -208,6 +327,10 @@ def _to_z3_bool(val: Any) -> Any:
         return val.length > 0
     if isinstance(val, _Z3Dict):
         return True  # approximate
+    if isinstance(val, _Z3Tuple):
+        return len(val.elements) > 0
+    if isinstance(val, _Z3Set):
+        return val.size > 0
     if isinstance(val, bool):
         return val
     # For Z3 expressions, check if it's a BoolRef already
@@ -260,6 +383,15 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
     if isinstance(node, ast.BinOp):
         left = _eval_expr_z3(node.left, env)
         right = _eval_expr_z3(node.right, env)
+        # True division: promote to Z3 Real
+        if isinstance(node.op, ast.Div):
+            def _to_real(v: Any) -> Any:
+                if isinstance(v, (int, float)):
+                    return z3.RealVal(v)
+                if hasattr(v, 'sort') and v.sort() == z3.IntSort():
+                    return z3.ToReal(v)
+                return v
+            return _to_real(left) / _to_real(right)
         ops = {
             ast.Add: lambda a, b: a + b,
             ast.Sub: lambda a, b: a - b,
@@ -315,6 +447,11 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                     clause = z3.Exists([i], z3.And(i >= 0, i < right.length, right[i] == left))
                 elif isinstance(right, _Z3Dict):
                     clause = right.contains(left)
+                elif isinstance(right, _Z3Set):
+                    clause = right.contains(left)
+                elif isinstance(right, _Z3Tuple):
+                    # x in (a, b, c) → x == a ∨ x == b ∨ x == c
+                    clause = z3.Or(*[left == e for e in right.elements]) if right.elements else False
                 elif hasattr(right, 'sort') and right.sort() == z3.StringSort():
                     clause = z3.Contains(right, left)
                 else:
@@ -325,6 +462,10 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                     clause = z3.Not(z3.Exists([i], z3.And(i >= 0, i < right.length, right[i] == left)))
                 elif isinstance(right, _Z3Dict):
                     clause = z3.Not(right.contains(left))
+                elif isinstance(right, _Z3Set):
+                    clause = z3.Not(right.contains(left))
+                elif isinstance(right, _Z3Tuple):
+                    clause = z3.And(*[left != e for e in right.elements]) if right.elements else True
                 elif hasattr(right, 'sort') and right.sort() == z3.StringSort():
                     clause = z3.Not(z3.Contains(right, left))
                 else:
@@ -503,6 +644,17 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 if method == "find" and len(node.args) == 1:
                     arg = _eval_expr_z3(node.args[0], env)
                     return z3.IndexOf(obj, arg, 0)
+            # Set methods
+            if isinstance(obj, _Z3Set):
+                if method == "add" and len(node.args) == 1:
+                    elem = _eval_expr_z3(node.args[0], env)
+                    return obj.add(elem)
+                if method == "discard" and len(node.args) == 1:
+                    elem = _eval_expr_z3(node.args[0], env)
+                    return obj.discard(elem)
+                if method == "remove" and len(node.args) == 1:
+                    elem = _eval_expr_z3(node.args[0], env)
+                    return obj.discard(elem)  # same as discard for Z3
         raise ValueError(f"Unsupported call: {ast.dump(node)}")
 
     if isinstance(node, ast.Subscript):
@@ -511,6 +663,8 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
         if isinstance(obj, _Z3List):
             return obj[idx]
         if isinstance(obj, _Z3Dict):
+            return obj[idx]
+        if isinstance(obj, _Z3Tuple):
             return obj[idx]
         raise ValueError(f"Unsupported subscript on {type(obj)}")
 
@@ -521,6 +675,19 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
         for i, v in enumerate(elts):
             arr = z3.Store(arr, i, v)
         return _Z3List(arr, len(elts))
+
+    if isinstance(node, ast.Tuple):
+        # Tuple literal: fixed-length collection
+        elts = [_eval_expr_z3(e, env) for e in node.elts]
+        return _Z3Tuple(elts)
+
+    if isinstance(node, ast.Set):
+        # Set literal: build from elements
+        members = z3.K(z3.IntSort(), False)
+        for e in node.elts:
+            v = _eval_expr_z3(e, env)
+            members = z3.Store(members, v, True)
+        return _Z3Set(members, len(node.elts))
 
     if isinstance(node, ast.ListComp):
         # Simple list comprehensions: [expr for x in iterable]
@@ -849,6 +1016,77 @@ def _eval_body_z3_impl(stmts: list[ast.stmt], env: dict[str, Any],
     return None
 
 
+def _infer_type_from_usage(param: str, tree: ast.FunctionDef) -> str | None:
+    """Infer a parameter's type from how it's used in the function body.
+
+    Returns a type string ('list', 'dict', 'str', 'float', 'set', 'tuple')
+    or None if no usage pattern is found (defaults to int).
+    """
+    list_methods = {'append', 'extend', 'insert', 'pop', 'remove', 'sort', 'reverse', 'count', 'index'}
+    dict_methods = {'keys', 'values', 'items', 'get', 'pop', 'update', 'setdefault'}
+    str_methods = {'upper', 'lower', 'strip', 'startswith', 'endswith', 'replace', 'find', 'split', 'join'}
+    set_methods = {'add', 'discard', 'remove', 'union', 'intersection', 'difference', 'issubset'}
+
+    for node in ast.walk(tree):
+        # Method calls: param.method(...)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
+            if isinstance(node.func.value, ast.Name) and node.func.value.id == param:
+                method = node.func.attr
+                if method in list_methods:
+                    return 'list'
+                if method in dict_methods:
+                    return 'dict'
+                if method in str_methods:
+                    return 'str'
+                if method in set_methods:
+                    return 'set'
+        # Subscript: param[x] with string key → dict, else could be list
+        # True division: param / x → float
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+            if isinstance(node.left, ast.Name) and node.left.id == param:
+                return 'float'
+            if isinstance(node.right, ast.Name) and node.right.id == param:
+                return 'float'
+        # len(param) → could be list/str/dict, prefer list
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            if node.func.id == 'len' and len(node.args) == 1:
+                if isinstance(node.args[0], ast.Name) and node.args[0].id == param:
+                    return 'list'  # most common
+        # Iteration: for x in param → list
+        if isinstance(node, ast.For) and isinstance(node.iter, ast.Name) and node.iter.id == param:
+            return 'list'
+    return None
+
+
+def _get_ast_annotation(tree: ast.FunctionDef, param: str) -> str | None:
+    """Get the string form of a parameter's AST annotation."""
+    for arg in tree.args.args:
+        if arg.arg == param and arg.annotation is not None:
+            return ast.unparse(arg.annotation)
+    return None
+
+
+def _resolve_param_type(param: str, hints: dict, tree: ast.FunctionDef) -> type | str:
+    """Resolve the type of a parameter using annotations, AST, and inference."""
+    # 1. Runtime annotations (highest priority)
+    if param in hints:
+        return hints[param]
+    # 2. AST annotations (handles from __future__ import annotations)
+    ast_ann = _get_ast_annotation(tree, param)
+    if ast_ann is not None:
+        resolved = _STR_TO_TYPE.get(ast_ann)
+        if resolved is not None:
+            return resolved
+        return ast_ann  # pass string to _get_z3_var which handles it
+    # 3. Usage-based inference
+    inferred = _infer_type_from_usage(param, tree)
+    if inferred is not None:
+        resolved = _STR_TO_TYPE.get(inferred)
+        return resolved if resolved is not None else inferred
+    # 4. Default to int
+    return int
+
+
 def _z3_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
     """Try to prove f ≡ g or find a counterexample using Z3."""
     if not _HAS_Z3:
@@ -875,14 +1113,13 @@ def _z3_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
     if len(params_f) != len(params_g):
         return EquivResult(False, 'z3', details="Different arity")
 
-    # Create Z3 symbolic variables (use f's param names)
+    # Create Z3 symbolic variables (use f's param names, with type inference)
     z3_vars: dict[str, Any] = {}
     for p in params_f:
         if p == 'self' or p == 'cls':
-            # For methods: 'self' is a marker; fields are created on demand
-            z3_vars[p] = z3.Int(f"__{p}_id")  # placeholder
+            z3_vars[p] = z3.Int(f"__{p}_id")
             continue
-        ann = hints_f.get(p, int)
+        ann = _resolve_param_type(p, hints_f, tree_f)
         var = _get_z3_var(p, ann)
         if var is None:
             return None  # unsupported type
@@ -982,6 +1219,10 @@ def _random_value(ann: type | str | None) -> Any:
         return [random.randint(-100, 100) for _ in range(random.randint(0, 10))]
     if ann is dict or ann == 'dict' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is dict):
         return {random.randint(-100, 100): random.randint(-100, 100) for _ in range(random.randint(0, 5))}
+    if ann is tuple or ann == 'tuple' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is tuple):
+        return tuple(random.randint(-100, 100) for _ in range(random.randint(1, 5)))
+    if ann is set or ann == 'set' or ann is frozenset or ann == 'frozenset' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) in (set, frozenset)):
+        return {random.randint(-100, 100) for _ in range(random.randint(0, 5))}
     # Callable → random pure function (int → int)
     if isinstance(ann, str) and ('Callable' in ann or 'callable' in ann):
         return _random_callable()
@@ -1026,6 +1267,15 @@ def _edge_value(ann: type | str | None, trial: int) -> Any:
     if ann is list or ann == 'list' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is list):
         edges = [[], [0], [1, 2, 3], [-1], [0, 0], [3, 1, 2], [1, -1], [-5, -3, -1]]
         return list(edges[trial % len(edges)])  # copy to avoid mutation
+    if ann is tuple or ann == 'tuple' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is tuple):
+        edges = [(), (0,), (1, 2, 3), (-1,), (0, 0), (3, 1, 2)]
+        return edges[trial % len(edges)]
+    if ann is set or ann == 'set' or ann is frozenset or ann == 'frozenset' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) in (set, frozenset)):
+        edges: list[Any] = [set(), {0}, {1, 2, 3}, {-1}, {0, 1}, {-1, 0, 1}]
+        return set(edges[trial % len(edges)])  # copy
+    if ann is dict or ann == 'dict' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is dict):
+        edges_d: list[Any] = [{}, {0: 0}, {1: 2, 3: 4}, {-1: 1}]
+        return dict(edges_d[trial % len(edges_d)])
     if isinstance(ann, str) and ('Callable' in ann or 'callable' in ann):
         fns = [lambda x: x, lambda x: x + 1, lambda x: -x, lambda x: abs(x), lambda x: 0]
         return fns[trial % len(fns)]
@@ -1795,13 +2045,13 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     hints = {k: v for k, v in (inspect.get_annotations(fn) or {}).items() if k != 'return'}
     params = [a.arg for a in tree.args.args]
 
-    # Create Z3 symbolic variables
+    # Create Z3 symbolic variables (with type inference)
     z3_vars: dict[str, Any] = {}
     for p in params:
         if p == 'self' or p == 'cls':
             z3_vars[p] = z3.Int(f"__{p}_id")
             continue
-        ann = hints.get(p, int)
+        ann = _resolve_param_type(p, hints, tree)
         var = _get_z3_var(p, ann)
         if var is None:
             return None

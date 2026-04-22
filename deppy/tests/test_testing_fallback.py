@@ -625,3 +625,135 @@ def test_class_method_equivalence():
     result = check_equiv(method_a, method_b)
     assert result is not None
     assert result.equivalent
+
+
+# ── True division Z3 tests ────────────────────────────────
+
+@guarantee("result >= 0")
+def true_div_nonneg(x: int) -> float:
+    return x / x  # always 1.0 when x != 0
+
+def test_true_division_z3():
+    """True division (/) uses Z3 Real, not integer division."""
+    r = check_adherence(true_div_nonneg, "result >= 0")
+    assert r and len(r) > 0
+
+def div_half_a(x: int) -> float:
+    return x / 2
+
+def div_half_b(x: int) -> float:
+    return x / 2
+
+def test_true_division_equiv():
+    """True division equivalence: x/2 ≡ x/2."""
+    result = check_equiv(div_half_a, div_half_b)
+    assert result is not None
+    assert result.equivalent
+
+def floor_div_a(x: int) -> int:
+    return x // 2
+
+def test_true_vs_floor_div():
+    """True division and floor division differ for odd integers."""
+    result = check_equiv(div_half_a, floor_div_a)
+    # They're NOT equivalent (e.g. 1/2=0.5 vs 1//2=0)
+    assert result is not None
+    assert not result.equivalent
+
+
+# ── Multi-arg Callable Z3 tests ──────────────────────────
+
+@guarantee("result == 0")
+def apply_multi(f: 'Callable[[int, int], int]', x: int) -> int:
+    return f(x, 0) - f(x, 0)
+
+def test_multi_arg_callable_z3():
+    """Multi-arg Callable[[int, int], int] is supported by Z3."""
+    r = check_adherence(apply_multi, "result == 0")
+    assert r and r[0].adheres
+
+def apply2_a(f: 'Callable[[int, int], int]', x: int, y: int) -> int:
+    return f(x, y)
+
+def apply2_b(f: 'Callable[[int, int], int]', x: int, y: int) -> int:
+    return f(x, y)
+
+def test_multi_arg_callable_equiv():
+    """Multi-arg callable equivalence."""
+    result = check_equiv(apply2_a, apply2_b)
+    assert result is not None
+    assert result.equivalent
+
+
+# ── Tuple Z3 tests ───────────────────────────────────────
+
+@guarantee("result >= 0")
+def tuple_sum_sq(t: tuple) -> int:
+    return t[0] * t[0] + t[1] * t[1]
+
+def test_tuple_z3_adherence():
+    """Tuple access: t[0]**2 + t[1]**2 >= 0."""
+    r = check_adherence(tuple_sum_sq, "result >= 0")
+    assert r and r[0].adheres
+
+def tuple_swap_a() -> int:
+    t = (1, 2, 3)
+    return t[0] + t[2]
+
+def tuple_swap_b() -> int:
+    t = (1, 2, 3)
+    return t[2] + t[0]
+
+def test_tuple_literal_equiv():
+    """Tuple literal access equivalence."""
+    result = check_equiv(tuple_swap_a, tuple_swap_b)
+    assert result is not None
+    assert result.equivalent
+
+
+# ── Set Z3 tests ─────────────────────────────────────────
+
+def set_contains_a(x: int) -> bool:
+    s = {1, 2, 3}
+    return x in s
+
+def set_contains_b(x: int) -> bool:
+    s = {3, 2, 1}
+    return x in s
+
+def test_set_literal_equiv():
+    """Set literals with same elements are equivalent regardless of order."""
+    result = check_equiv(set_contains_a, set_contains_b)
+    assert result is not None
+    assert result.equivalent
+
+
+# ── Type inference Z3 tests ──────────────────────────────
+
+def untyped_list_sum(xs):
+    """No type annotation — inferred as list from xs.append usage."""
+    xs.append(0)
+    return 0
+
+def untyped_list_sum2(xs):
+    xs.append(0)
+    return 0
+
+def test_type_inference_list():
+    """Type inference detects list from .append() usage."""
+    result = check_equiv(untyped_list_sum, untyped_list_sum2)
+    assert result is not None
+    assert result.equivalent
+
+def untyped_div(x, y):
+    """No annotation — x/y infers float for x."""
+    return x / y
+
+def untyped_div2(x, y):
+    return x / y
+
+def test_type_inference_float():
+    """Type inference detects float from / usage."""
+    result = check_equiv(untyped_div, untyped_div2)
+    assert result is not None
+    assert result.equivalent

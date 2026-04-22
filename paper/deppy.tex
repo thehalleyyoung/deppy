@@ -1272,7 +1272,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 806$^\dagger$ \\
+Total & 816$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1296,6 +1296,7 @@ Induction ($\mathbb{N}$, lists) & --- & \checkmark & partial \\
 Higher-order functions & partial & \checkmark & partial \\
 Sidecar axioms & --- & \checkmark & \checkmark \\
 Lists / dicts & \checkmark & \checkmark & \checkmark \\
+Tuples / sets & \checkmark & --- & --- \\
 Strings & \checkmark & \checkmark & --- \\
 Mutation (single-owner) & \checkmark & partial & --- \\
 Bounded \texttt{for}-loops & \checkmark & --- & \checkmark \\
@@ -1310,9 +1311,11 @@ Generators / async & \checkmark & modeled & \checkmark \\
 For the Z3-decidable fragment (integer arithmetic with branching),
 verification is fully automatic: the programmer writes only the
 specification, and \deppy{} discharges the obligation without any
-proof term.  For typed higher-order functions (\texttt{Callable[[int], int]}),
-Z3 models them as uninterpreted arrays, verifying properties of
-application and composition.  For richer properties (induction,
+proof term.  Higher-order functions (including multi-argument
+\texttt{Callable[[int, int], int]}) are modeled as Z3 uninterpreted
+functions, enabling verification of application and composition.
+Tuples and sets have native Z3 encodings, and true division (\texttt{/})
+uses Z3's Real arithmetic.  For richer properties (induction,
 domain-specific invariants), the programmer constructs proof terms
 using \deppy{}'s combinator DSL.
 
@@ -1491,13 +1494,17 @@ while supporting the same decorator-based ergonomics.
 \paragraph{Language fragment.}
 \deppy{} verifies a substantial fragment of Python.
 The Z3 engine handles arithmetic (integer, boolean, float comparisons),
-collections (lists, dictionaries, strings via array and sequence theories),
-conditionals, single-owner mutation, augmented assignment,
-typed higher-order functions (\texttt{Callable[[int], int]} modeled as
-uninterpreted arrays), bounded \texttt{for}-loops (via range-unrolling
-up to 32~iterations), recursive functions (via bounded unrolling up to
-depth~8), and per-method verification with symbolic \texttt{self}-field
-access.
+true division (\texttt{/} via Z3 Reals) and floor division (\texttt{//}),
+collections (lists, dictionaries, tuples, sets, strings via array and
+sequence theories), conditionals, single-owner mutation, augmented
+assignment, multi-argument callables
+(\texttt{Callable[[int, int], int]} via Z3 uninterpreted functions),
+bounded \texttt{for}-loops (via range-unrolling up to 32~iterations),
+recursive functions (via bounded unrolling up to depth~8), and
+per-method verification with symbolic \texttt{self}-field access.
+When type annotations are absent, \deppy{} infers parameter types from
+usage patterns (e.g., \texttt{.append()} implies \texttt{list},
+\texttt{/} implies \texttt{float}).
 The following Python features remain outside the verified fragment:
 \begin{enumerate}
 \item \textbf{Unbounded loops.}  \texttt{while} loops and
@@ -1511,11 +1518,6 @@ The following Python features remain outside the verified fragment:
   calls produce uninterpreted boundary values, which may cause
   false negatives in adherence checking.
 \end{enumerate}
-Additionally, true division (\texttt{/}) maps to Z3 integer division
-rather than IEEE~754 floats, multi-argument callables
-(\texttt{Callable[[int, int], int]}) are not modeled, and tuple/set
-types lack Z3 encodings.  Unannotated parameters default to
-\texttt{Int}---\deppy{} does not infer types from usage.
 
 \paragraph{Lean export gaps.}
 The Lean~4 compiler translates function bodies containing returns,
