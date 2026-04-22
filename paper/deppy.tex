@@ -1272,7 +1272,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 798$^\dagger$ \\
+Total & 806$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1298,6 +1298,9 @@ Sidecar axioms & --- & \checkmark & \checkmark \\
 Lists / dicts & \checkmark & \checkmark & \checkmark \\
 Strings & \checkmark & \checkmark & --- \\
 Mutation (single-owner) & \checkmark & partial & --- \\
+Bounded \texttt{for}-loops & \checkmark & --- & \checkmark \\
+Recursion (unrolling) & \checkmark & \checkmark & partial \\
+Methods / \texttt{self} & \checkmark & --- & \checkmark \\
 Exceptions & \checkmark & modeled & \checkmark \\
 Generators / async & \checkmark & modeled & \checkmark \\
 \bottomrule
@@ -1486,25 +1489,27 @@ while supporting the same decorator-based ergonomics.
 \section{Limitations and Future Work}\label{sec:limits}
 
 \paragraph{Language fragment.}
-\deppy{} verifies a substantial but incomplete fragment of Python.
+\deppy{} verifies a substantial fragment of Python.
 The Z3 engine handles arithmetic (integer, boolean, float comparisons),
 collections (lists, dictionaries, strings via array and sequence theories),
-conditionals, single-owner mutation, augmented assignment, and
+conditionals, single-owner mutation, augmented assignment,
 typed higher-order functions (\texttt{Callable[[int], int]} modeled as
-uninterpreted arrays).
-Three significant Python features remain outside the verified fragment:
+uninterpreted arrays), bounded \texttt{for}-loops (via range-unrolling
+up to 32~iterations), recursive functions (via bounded unrolling up to
+depth~8), and per-method verification with symbolic \texttt{self}-field
+access.
+The following Python features remain outside the verified fragment:
 \begin{enumerate}
-\item \textbf{Loops.}  \texttt{for} and \texttt{while} loops are not
-  symbolically modeled; functions containing them fall back to
-  property-based testing (1\,000 trials with edge-case generation and
-  counterexample shrinking).
-\item \textbf{Classes and OOP.}  \texttt{class} definitions, method
-  dispatch, \texttt{self}, and inheritance are not analyzed.
-  Verification operates per-function, not per-class.
-\item \textbf{Recursion.}  The Z3 engine does not unroll or summarize
-  recursive calls.  The kernel verifies recursive proofs via
-  \texttt{NatInduction}/\texttt{ListInduction} proof terms, but
-  these are not yet auto-generated from Python ASTs.
+\item \textbf{Unbounded loops.}  \texttt{while} loops and
+  \texttt{for} loops over symbolic-length iterables are not modeled;
+  functions containing them fall back to property-based testing
+  (1\,000 trials with edge-case generation and counterexample shrinking).
+\item \textbf{Inheritance and dispatch.}  \texttt{class} definitions
+  are supported per-method, but inheritance, \texttt{super()},
+  and dynamic dispatch are not analyzed.
+\item \textbf{Deep recursion.}  Beyond the unroll depth, recursive
+  calls produce uninterpreted boundary values, which may cause
+  false negatives in adherence checking.
 \end{enumerate}
 Additionally, true division (\texttt{/}) maps to Z3 integer division
 rather than IEEE~754 floats, multi-argument callables
@@ -1515,13 +1520,13 @@ types lack Z3 encodings.  Unannotated parameters default to
 \paragraph{Lean export gaps.}
 The Lean~4 compiler translates function bodies containing returns,
 conditionals, assignment, augmented assignment, list comprehensions,
-\texttt{for}-shaped iteration, lambda expressions, and
-\texttt{map}/\texttt{filter}.
-Constructs outside this set---\texttt{while} loops, class methods,
-\texttt{try}/\texttt{except}, \texttt{with} blocks, and
-\texttt{yield}---cause the function to be emitted as \texttt{opaque}
-(body erased), which may force the corresponding theorem to use
-\texttt{sorry}.
+\texttt{for}-shaped iteration (via \texttt{List.foldl}), lambda
+expressions, \texttt{map}/\texttt{filter}, and attribute access
+(\texttt{self.field}).
+Constructs outside this set---\texttt{while} loops, \texttt{try}/\texttt{except},
+\texttt{with} blocks, and \texttt{yield}---cause the function to be
+emitted as \texttt{opaque} (body erased), which may force the
+corresponding theorem to use \texttt{sorry}.
 Duck-type path proofs (\texttt{DuckPath}), Čech gluing
 (\texttt{CechGlue}), and univalence witnesses have no direct Lean
 analog and are emitted as \texttt{sorry} with diagnostic comments.

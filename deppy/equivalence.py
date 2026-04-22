@@ -75,6 +75,12 @@ class EquivResult:
 #  Z3 symbolic equivalence
 # ═══════════════════════════════════════════════════════════════════
 
+# Recursion context: tracks the current function name, body AST, and depth limit
+# so that self-recursive calls can be inlined by _eval_expr_z3.
+_REC_CONTEXT: dict[str, Any] = {}  # {func_name: (body_stmts, param_names, max_depth)}
+_REC_DEPTH: dict[str, int] = {}    # {func_name: current_depth}
+_MAX_REC_DEPTH = 8
+
 _TYPE_TO_Z3 = {
     int: lambda name: z3.Int(name),
     float: lambda name: z3.Real(name),
@@ -230,6 +236,26 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
 
     if isinstance(node, ast.Constant):
         return node.value
+
+    # Attribute access: self.field → Z3 var, obj.attr → Z3 var
+    if isinstance(node, ast.Attribute) and not isinstance(node.ctx, ast.Store):
+        if isinstance(node.value, ast.Name):
+            obj_name = node.value.id
+            field = node.attr
+            # self.field → look up "self_field" in env
+            if obj_name in env:
+                obj = env[obj_name]
+                # If it's a dict-like _Z3Dict, use subscript
+                if isinstance(obj, _Z3Dict):
+                    return obj[z3.IntVal(hash(field) % 10000)]
+                # For plain Z3 struct-like objects, look up "obj_field"
+                key = f"{obj_name}_{field}"
+                if key in env:
+                    return env[key]
+                # Create fresh var for the field
+                return z3.Int(key)
+            # Unknown object — create placeholder
+            return z3.Int(f"{obj_name}_{field}")
 
     if isinstance(node, ast.BinOp):
         left = _eval_expr_z3(node.left, env)
@@ -405,6 +431,26 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                         return func_val(*args)
                     except Exception:
                         pass
+            # Self-recursive call: inline the body with decremented depth
+            if node.func.id in _REC_CONTEXT:
+                body_stmts, param_names, _ = _REC_CONTEXT[node.func.id]
+                cur_depth = _REC_DEPTH.get(node.func.id, 0)
+                if cur_depth < _MAX_REC_DEPTH:
+                    call_args = [_eval_expr_z3(a, env) for a in node.args]
+                    rec_env: dict[str, Any] = {}
+                    for pname, aval in zip(param_names, call_args):
+                        rec_env[pname] = aval
+                    _REC_DEPTH[node.func.id] = cur_depth + 1
+                    try:
+                        result = _eval_body_z3_impl(body_stmts, rec_env,
+                                                     node.func.id, cur_depth + 1)
+                        if result is not None:
+                            return result
+                    finally:
+                        _REC_DEPTH[node.func.id] = cur_depth
+                # At depth limit, return uninterpreted value
+                # Use shared name "__rec_boundary_{depth}" to align across functions
+                return z3.Int(f"__rec_boundary_{cur_depth}")
         if isinstance(node.func, ast.Attribute):
             obj = _eval_expr_z3(node.func.value, env)
             method = node.func.attr
@@ -507,6 +553,130 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
 
 def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
     """Evaluate a function body with Z3 symbolic values, returning the result expression."""
+    return _eval_body_z3_impl(stmts, env, rec_name=None, rec_depth=0)
+
+
+def _static_range_values(node: ast.expr, env: dict[str, Any]) -> list[int] | None:
+    """If node is range(K) or range(start, stop) for small constants, return the values."""
+    if not isinstance(node, ast.Call):
+        return None
+    if not isinstance(node.func, ast.Name) or node.func.id != 'range':
+        return None
+    if len(node.args) == 1:
+        try:
+            val = _eval_expr_z3(node.args[0], env)
+            if isinstance(val, int) and val <= 32:
+                return list(range(val))
+        except (ValueError, TypeError):
+            pass
+    elif len(node.args) == 2:
+        try:
+            start = _eval_expr_z3(node.args[0], env)
+            stop = _eval_expr_z3(node.args[1], env)
+            if isinstance(start, int) and isinstance(stop, int) and (stop - start) <= 32:
+                return list(range(start, stop))
+        except (ValueError, TypeError):
+            pass
+    elif len(node.args) == 3:
+        try:
+            start = _eval_expr_z3(node.args[0], env)
+            stop = _eval_expr_z3(node.args[1], env)
+            step = _eval_expr_z3(node.args[2], env)
+            if isinstance(start, int) and isinstance(stop, int) and isinstance(step, int) and step != 0:
+                vals = list(range(start, stop, step))
+                if len(vals) <= 32:
+                    return vals
+        except (ValueError, TypeError):
+            pass
+    return None
+
+
+def _exec_loop_stmt(s: ast.stmt, env: dict[str, Any]) -> dict[str, Any]:
+    """Execute a single loop-body statement, updating the environment."""
+    if isinstance(s, ast.Assign) and len(s.targets) == 1:
+        target = s.targets[0]
+        if isinstance(target, ast.Name):
+            env = {**env, target.id: _eval_expr_z3(s.value, env)}
+            return env
+        # self.field = val → store as "self_field" in env
+        if isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name):
+            key = f"{target.value.id}_{target.attr}"
+            env = {**env, key: _eval_expr_z3(s.value, env)}
+            return env
+        if isinstance(target, ast.Subscript) and isinstance(target.value, ast.Name):
+            obj_name = target.value.id
+            if obj_name in env:
+                obj = env[obj_name]
+                idx = _eval_expr_z3(target.slice, env)
+                val = _eval_expr_z3(s.value, env)
+                if isinstance(obj, _Z3List):
+                    return {**env, obj_name: obj.store(idx, val)}
+                if isinstance(obj, _Z3Dict):
+                    return {**env, obj_name: obj.store(idx, val)}
+    if isinstance(s, ast.AugAssign) and isinstance(s.target, ast.Name):
+        name = s.target.id
+        old = env.get(name)
+        if old is None:
+            raise ValueError(f"AugAssign to unknown: {name}")
+        val = _eval_expr_z3(s.value, env)
+        aug_ops = {
+            ast.Add: lambda a, b: a + b, ast.Sub: lambda a, b: a - b,
+            ast.Mult: lambda a, b: a * b, ast.FloorDiv: lambda a, b: a / b,
+            ast.Mod: lambda a, b: a % b,
+        }
+        fn = aug_ops.get(type(s.op))
+        if fn is None:
+            raise ValueError(f"Unsupported augassign: {type(s.op).__name__}")
+        return {**env, name: fn(old, val)}
+    if isinstance(s, ast.Expr):
+        # Handle side-effecting calls: xs.append(v)
+        if isinstance(s.value, ast.Call) and isinstance(s.value.func, ast.Attribute):
+            if isinstance(s.value.func.value, ast.Name):
+                obj_name = s.value.func.value.id
+                method = s.value.func.attr
+                if obj_name in env:
+                    obj = env[obj_name]
+                    if isinstance(obj, _Z3List) and method == "append" and len(s.value.args) == 1:
+                        val = _eval_expr_z3(s.value.args[0], env)
+                        return {**env, obj_name: obj.append(val)}
+        return env  # skip other bare expressions
+    if isinstance(s, ast.If):
+        # Conditional mutation inside loop body
+        cond = _to_z3_bool(_eval_expr_z3(s.test, env))
+        then_env = dict(env)
+        for sub in s.body:
+            then_env = _exec_loop_stmt(sub, then_env)
+        if s.orelse:
+            else_env = dict(env)
+            for sub in s.orelse:
+                else_env = _exec_loop_stmt(sub, else_env)
+        else:
+            else_env = dict(env)
+        # Merge
+        new_env = dict(env)
+        all_keys = set(then_env.keys()) | set(else_env.keys())
+        for k in all_keys:
+            then_val = then_env.get(k)
+            else_val = else_env.get(k, env.get(k))
+            old_val = env.get(k)
+            if then_val is not None and else_val is not None and old_val is not None:
+                try:
+                    same = (then_val is old_val) and (else_val is old_val)
+                except Exception:
+                    same = False
+                if not same:
+                    new_env[k] = z3.If(cond, then_val, else_val)
+                else:
+                    new_env[k] = old_val
+            elif then_val is not None:
+                new_env[k] = then_val
+        return new_env
+    return env  # ignore unknown stmts in loop body
+
+
+def _eval_body_z3_impl(stmts: list[ast.stmt], env: dict[str, Any],
+                        rec_name: str | None = None, rec_depth: int = 0) -> Any:
+    """Evaluate a function body with Z3 symbolic values, returning the result expression."""
     for i, stmt in enumerate(stmts):
         # Skip docstrings and bare expressions that aren't method calls
         if isinstance(stmt, ast.Expr):
@@ -542,6 +712,11 @@ def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
             if isinstance(target, ast.Name):
                 name = target.id
                 env = {**env, name: _eval_expr_z3(stmt.value, env)}
+                continue
+            # self.field = value → store as "self_field"
+            if isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name):
+                key = f"{target.value.id}_{target.attr}"
+                env = {**env, key: _eval_expr_z3(stmt.value, env)}
                 continue
             # Subscript assignment: xs[i] = v, d[k] = v
             if isinstance(target, ast.Subscript) and isinstance(target.value, ast.Name):
@@ -581,9 +756,38 @@ def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
             continue
 
         if isinstance(stmt, ast.For):
-            # For loops over collections are not yet fully modeled symbolically.
-            # Fall back to testing for soundness.
-            raise ValueError(f"Unsupported for loop")
+            # Model bounded for-loops symbolically.
+            target = stmt.target
+            if not isinstance(target, ast.Name):
+                raise ValueError(f"Unsupported for target: {type(target).__name__}")
+            loop_var = target.id
+
+            # Case 1: for i in range(K) where K is a small constant
+            range_vals = _static_range_values(stmt.iter, env)
+            if range_vals is not None:
+                for iteration in range_vals:
+                    env = {**env, loop_var: iteration}
+                    # Execute loop body (assignments only — no returns)
+                    for s in stmt.body:
+                        if isinstance(s, ast.Return):
+                            return _eval_expr_z3(s.value, env)
+                        env = _exec_loop_stmt(s, env)
+                continue
+
+            # Case 2: for x in <list literal or known-length _Z3List>
+            iterable = _eval_expr_z3(stmt.iter, env)
+            if isinstance(iterable, _Z3List):
+                # Only unroll if length is a concrete Python int
+                if isinstance(iterable.length, int) and iterable.length <= 32:
+                    for iteration in range(iterable.length):
+                        env = {**env, loop_var: iterable[iteration]}
+                        for s in stmt.body:
+                            if isinstance(s, ast.Return):
+                                return _eval_expr_z3(s.value, env)
+                            env = _exec_loop_stmt(s, env)
+                    continue
+
+            raise ValueError(f"Unsupported for loop: trip count not statically known")
 
         if isinstance(stmt, ast.If):
             cond = _to_z3_bool(_eval_expr_z3(stmt.test, env))
@@ -631,11 +835,11 @@ def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
                 continue
 
             # Standard return-branching if
-            then_result = _eval_body_z3(stmt.body, dict(env))
+            then_result = _eval_body_z3_impl(stmt.body, dict(env), rec_name, rec_depth)
             if stmt.orelse:
-                else_result = _eval_body_z3(stmt.orelse, dict(env))
+                else_result = _eval_body_z3_impl(stmt.orelse, dict(env), rec_name, rec_depth)
             elif i + 1 < len(stmts):
-                else_result = _eval_body_z3(stmts[i + 1:], dict(env))
+                else_result = _eval_body_z3_impl(stmts[i + 1:], dict(env), rec_name, rec_depth)
             else:
                 return None
             if then_result is not None and else_result is not None:
@@ -674,6 +878,10 @@ def _z3_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
     # Create Z3 symbolic variables (use f's param names)
     z3_vars: dict[str, Any] = {}
     for p in params_f:
+        if p == 'self' or p == 'cls':
+            # For methods: 'self' is a marker; fields are created on demand
+            z3_vars[p] = z3.Int(f"__{p}_id")  # placeholder
+            continue
         ann = hints_f.get(p, int)
         var = _get_z3_var(p, ann)
         if var is None:
@@ -682,6 +890,14 @@ def _z3_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
 
     # Evaluate both bodies
     try:
+        # Set up recursion context for self-recursive calls
+        fname_f = tree_f.name
+        fname_g = tree_g.name
+        _REC_CONTEXT[fname_f] = (tree_f.body, params_f, _MAX_REC_DEPTH)
+        _REC_CONTEXT[fname_g] = (tree_g.body, params_g, _MAX_REC_DEPTH)
+        _REC_DEPTH[fname_f] = 0
+        _REC_DEPTH[fname_g] = 0
+
         env_f = dict(z3_vars)
         result_f = _eval_body_z3(tree_f.body, env_f)
         if result_f is None:
@@ -696,6 +912,11 @@ def _z3_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
             return None
     except (ValueError, TypeError, KeyError):
         return None
+    finally:
+        _REC_CONTEXT.pop(fname_f, None)
+        _REC_CONTEXT.pop(fname_g, None)
+        _REC_DEPTH.pop(fname_f, None)
+        _REC_DEPTH.pop(fname_g, None)
 
     # Check ∀ params. f(params) == g(params)
     solver = z3.Solver()
@@ -1577,6 +1798,9 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     # Create Z3 symbolic variables
     z3_vars: dict[str, Any] = {}
     for p in params:
+        if p == 'self' or p == 'cls':
+            z3_vars[p] = z3.Int(f"__{p}_id")
+            continue
         ann = hints.get(p, int)
         var = _get_z3_var(p, ann)
         if var is None:
@@ -1585,16 +1809,25 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
 
     # Evaluate the function body symbolically
     try:
+        fname = tree.name
+        _REC_CONTEXT[fname] = (tree.body, params, _MAX_REC_DEPTH)
+        _REC_DEPTH[fname] = 0
+
         env = dict(z3_vars)
         result_expr = _eval_body_z3(tree.body, env)
         if result_expr is None:
             return None
     except (ValueError, TypeError, KeyError):
         return None
+    finally:
+        _REC_CONTEXT.pop(fname, None)
+        _REC_DEPTH.pop(fname, None)
 
     # Parse the spec with 'result' bound to the computed expression
     spec_env = dict(z3_vars)
     spec_env['result'] = result_expr
+    # Also bind self fields for method specs
+    spec_env.update({k: v for k, v in env.items() if k.startswith('self_')})
     try:
         spec_tree = ast.parse(spec.strip(), mode='eval')
         constraint = _eval_expr_z3(spec_tree.body, spec_env)

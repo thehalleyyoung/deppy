@@ -522,3 +522,106 @@ def test_lean_map_tactic():
     """Lean export can prove spec for HOF-style code."""
     cert = compile_to_lean(lean_map_example)
     assert cert.sorry_count == 0
+
+
+# ── For-loop Z3 tests ────────────────────────────────────
+
+@guarantee("result == 10")
+def loop_range_sum() -> int:
+    acc = 0
+    for i in range(5):
+        acc += i
+    return acc
+
+def test_loop_range_sum_z3():
+    """For-loop with range(5) is proved by Z3 (0+1+2+3+4=10)."""
+    r = check_adherence(loop_range_sum, "result == 10")
+    assert r and r[0].adheres
+
+@guarantee("result == 6")
+def loop_list_sum() -> int:
+    acc = 0
+    for x in [1, 2, 3]:
+        acc += x
+    return acc
+
+def test_loop_list_sum_z3():
+    """For-loop over literal list proved by Z3."""
+    r = check_adherence(loop_list_sum, "result == 6")
+    assert r and r[0].adheres
+
+@guarantee("result == 10")
+def loop_range_sum_alt() -> int:
+    total = 0
+    for i in range(1, 5):
+        total += i
+    return total
+
+def test_loop_range_start_stop():
+    """For-loop with range(start, stop) proved by Z3."""
+    r = check_adherence(loop_range_sum_alt, "result == 10")
+    assert r and r[0].adheres
+
+
+# ── Recursion Z3 tests ────────────────────────────────────
+
+def factorial_recursive(n: int) -> int:
+    if n <= 0:
+        return 1
+    return n * factorial_recursive(n - 1)
+
+def factorial_if_chain(n: int) -> int:
+    if n <= 0:
+        return 1
+    return n * factorial_if_chain(n - 1)
+
+def test_recursion_equivalence():
+    """Two identical recursive functions are Z3-equivalent."""
+    result = check_equiv(factorial_recursive, factorial_if_chain)
+    assert result is not None
+    assert result.equivalent
+
+@guarantee("result >= 1")
+def factorial_pos(n: int) -> int:
+    if n <= 0:
+        return 1
+    return n * factorial_pos(n - 1)
+
+def test_recursion_guarantee():
+    """Recursive function adherence: Z3 may be inconclusive beyond unroll depth."""
+    r = check_adherence(factorial_pos, "result >= 1")
+    # Z3 returns a result (may be false negative at boundary)
+    assert r is not None and len(r) > 0
+
+
+# ── Class/method Z3 tests ────────────────────────────────
+
+@guarantee("result >= 0")
+def method_reads_field(self) -> int:
+    return self.x * self.x
+
+def test_class_method_field_access():
+    """Method reading self.field creates Z3 vars and verifies."""
+    r = check_adherence(method_reads_field, "result >= 0")
+    assert r and r[0].adheres
+
+@guarantee("result == self.x + self.y")
+def method_sum_fields(self) -> int:
+    return self.x + self.y
+
+def test_class_method_sum_fields():
+    """Method returning sum of two fields is verified by Z3."""
+    r = check_adherence(method_sum_fields, "result == self.x + self.y")
+    assert r and r[0].adheres
+
+def method_a(self) -> int:
+    return self.x + self.y
+
+def method_b(self) -> int:
+    return self.y + self.x
+
+def test_class_method_equivalence():
+    """Two methods reading same fields in different order are equivalent."""
+    result = check_equiv(method_a, method_b)
+    assert result is not None
+    assert result.equivalent

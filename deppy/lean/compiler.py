@@ -345,6 +345,13 @@ def _translate_expr(node: ast.expr) -> str:
         param_str = " ".join(params) if params else "_"
         return f"(fun {param_str} => {body})"
 
+    # Attribute access: self.field → self_field, obj.attr → obj_attr
+    if isinstance(node, ast.Attribute):
+        if isinstance(node.value, ast.Name):
+            return f"{node.value.id}_{node.attr}"
+        obj = _translate_expr(node.value)
+        return f"{obj}.{node.attr}"
+
     raise _BodyTranslationError(f"unsupported expr: {type(node).__name__}")
 
 
@@ -537,6 +544,20 @@ def _translate_stmt(stmt: ast.stmt) -> str:
             iter_expr = _translate_expr(stmt.iter)
             body = _translate_stmts(stmt.body)
             return f"({iter_expr}).foldl (fun acc {var} => {body}) 0"
+
+    # While loop → Lean Nat.repeat with bounded iterations
+    if isinstance(stmt, ast.While):
+        cond = _translate_expr(stmt.test)
+        body = _translate_stmts(stmt.body)
+        return f"/- while {cond} -/ Nat.repeat (fun _ => {body}) 16"
+
+    # Attribute assignment: self.field = val
+    if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1:
+        target = stmt.targets[0]
+        if isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name):
+            name = f"{target.value.id}_{target.attr}"
+            val = _translate_expr(stmt.value)
+            return f"let {name} := {val}\n  {name}"
 
     if isinstance(stmt, ast.Expr):
         if isinstance(stmt.value, ast.Call):
