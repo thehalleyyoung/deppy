@@ -98,6 +98,12 @@ from deppy.equivalence import (  # noqa: F401,E402
     check_equiv, check_inequiv, check_adherence,
     check_spec_equiv, equiv_to_lean,
     EquivResult, AdherenceResult, SpecEquivResult,
+    verify_module, verify_composition, check_module_paths,
+    analyze_effects, analyze_call_chain_effects,
+    analyze_shared_state, verify_concurrent_safety,
+    build_import_graph, verify_import_graph,
+    CompositionResult, ModulePathResult, EffectReport,
+    SharedStateWarning, ConcurrencyResult, ImportGraph,
 )
 
 from deppy.z3_bridge import z3_prove_real_identity  # noqa: F401,E402

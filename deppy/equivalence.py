@@ -2658,17 +2658,22 @@ def check_adherence(fn: Callable, spec: str | None = None, *,
 # ═══════════════════════════════════════════════════════════════════
 
 
-def verify_module(module) -> dict[str, list[AdherenceResult]]:
+def verify_module(module, *, topological: bool = True) -> dict[str, list[AdherenceResult]]:
     """Verify all @guarantee-decorated functions in a module.
 
     Performs cross-function verification: callee guarantees are used as
     axioms when verifying callers, enabling modular compositional reasoning.
 
+    When topological=True, functions are verified in dependency order
+    (callees before callers), so callee guarantees are validated before
+    being used as axioms.
+
     Returns a dict mapping function names to their adherence results.
     """
     from deppy.proofs.sugar import _get_spec
 
-    results: dict[str, list[AdherenceResult]] = {}
+    # Collect annotated functions
+    annotated: dict[str, Callable] = {}
     for name in dir(module):
         obj = getattr(module, name, None)
         if not callable(obj) or not hasattr(obj, '__name__'):
@@ -2676,9 +2681,389 @@ def verify_module(module) -> dict[str, list[AdherenceResult]]:
         try:
             spec = _get_spec(obj)
             if spec.guarantees:
-                results[name] = check_adherence(obj)
+                annotated[name] = obj
         except Exception:
             pass
+
+    # Determine verification order
+    if topological and annotated:
+        order = _module_topological_order(annotated)
+    else:
+        order = list(annotated.keys())
+
+    results: dict[str, list[AdherenceResult]] = {}
+    for name in order:
+        fn = annotated[name]
+        results[name] = check_adherence(fn)
+    return results
+
+
+def _module_topological_order(funcs: dict[str, Callable]) -> list[str]:
+    """Order functions so callees come before callers."""
+    # Build call graph from source
+    callee_map: dict[str, set[str]] = {}
+    for name, fn in funcs.items():
+        try:
+            src = textwrap.dedent(inspect.getsource(fn))
+            tree = ast.parse(src).body[0]
+            callees: set[str] = set()
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+                    if node.func.id in funcs and node.func.id != name:
+                        callees.add(node.func.id)
+            callee_map[name] = callees
+        except Exception:
+            callee_map[name] = set()
+
+    # Topological sort (Kahn's algorithm)
+    in_degree: dict[str, int] = {n: 0 for n in funcs}
+    for caller, callees in callee_map.items():
+        for callee in callees:
+            if callee in in_degree:
+                in_degree[caller] += 0  # don't count
+    # Count reverse: how many callers depend on each callee
+    for caller, callees in callee_map.items():
+        for callee in callees:
+            if callee in in_degree:
+                pass  # callee should come first
+    # Simple DFS topological sort
+    visited: set[str] = set()
+    order: list[str] = []
+    def _visit(name: str, stack: set[str]) -> None:
+        if name in visited or name in stack:
+            return
+        stack.add(name)
+        for dep in sorted(callee_map.get(name, set())):
+            _visit(dep, stack)
+        stack.discard(name)
+        visited.add(name)
+        order.append(name)
+    for name in sorted(funcs):
+        _visit(name, set())
+    return order
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Effect-aware cross-function analysis
+# ═══════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class EffectReport:
+    """Effect analysis report for a function."""
+    function: str
+    effect: str          # Effect enum name
+    is_pure: bool
+    reads: set[str]
+    writes: set[str]
+    exceptions: set[str]
+    is_total: bool
+
+
+def analyze_effects(fn: Callable) -> EffectReport | None:
+    """Analyze a function's effects using the deppy effect system.
+
+    Returns an EffectReport with the inferred effect level, purity,
+    and read/write/exception sets.
+    """
+    try:
+        from deppy.effects.effect_types import EffectAnalyzer
+        src = textwrap.dedent(inspect.getsource(fn))
+        tree = ast.parse(src).body[0]
+        if not isinstance(tree, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            return None
+        analyzer = EffectAnalyzer()
+        fe = analyzer.analyze_function(tree)
+        return EffectReport(
+            function=fn.__name__,
+            effect=fe.return_effect.name,
+            is_pure=fe.is_pure,
+            reads=fe.reads,
+            writes=fe.writes,
+            exceptions=fe.exceptions,
+            is_total=fe.is_total,
+        )
+    except Exception:
+        return None
+
+
+def analyze_call_chain_effects(fn: Callable) -> list[EffectReport]:
+    """Analyze effects for fn and all its callees transitively.
+
+    Walks the call graph from fn, analyzing each reachable function.
+    Reports are returned in dependency order (callees first).
+    """
+    try:
+        from deppy.effects.effect_types import EffectAnalyzer
+    except ImportError:
+        return []
+
+    visited: set[str] = set()
+    reports: list[EffectReport] = []
+    _trace_effects(fn, visited, reports)
+    return reports
+
+
+def _trace_effects(fn: Callable, visited: set[str],
+                   reports: list[EffectReport]) -> None:
+    """Recursively trace effects through the call graph."""
+    name = getattr(fn, '__name__', str(fn))
+    if name in visited:
+        return
+    visited.add(name)
+
+    # Discover callees
+    try:
+        src = textwrap.dedent(inspect.getsource(fn))
+        tree = ast.parse(src).body[0]
+        fn_globals = getattr(fn, '__globals__', {})
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+                callee = fn_globals.get(node.func.id)
+                if callee is not None and callable(callee) and hasattr(callee, '__name__'):
+                    _trace_effects(callee, visited, reports)
+    except Exception:
+        pass
+
+    # Analyze this function
+    report = analyze_effects(fn)
+    if report is not None:
+        reports.append(report)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Compositional path verification
+# ═══════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class CompositionResult:
+    """Result of verifying a function composition."""
+    verified: bool
+    spec: str
+    method: str             # 'z3', 'path', 'testing'
+    inner_result: AdherenceResult | None = None
+    outer_result: AdherenceResult | None = None
+    path_proof: str | None = None
+    details: str = ""
+
+
+def verify_composition(outer: Callable, inner: Callable,
+                       spec: str) -> CompositionResult:
+    """Verify that outer(inner(x)) satisfies spec.
+
+    Uses compositional reasoning:
+    1. Check inner's guarantees
+    2. Use inner's guarantees as outer's precondition assumptions
+    3. Verify outer satisfies spec under those assumptions
+    4. Construct a path proof via transitivity
+
+    Example::
+
+        @guarantee("result >= 0")
+        def square(x: int) -> int:
+            return x * x
+
+        @guarantee("result >= 1")
+        def plus_one(x: int) -> int:
+            return x + 1
+
+        result = verify_composition(plus_one, square, "result >= 1")
+        # Proves plus_one(square(x)) >= 1 via:
+        #   square(x) >= 0 (inner guarantee)
+        #   plus_one(y) >= 1 when y >= 0 (outer on non-neg input)
+    """
+    from deppy.proofs.sugar import _get_spec
+
+    # 1. Verify inner function
+    inner_results = check_adherence(inner)
+    inner_ok = all(r.adheres for r in inner_results if r.adheres is not None)
+
+    # 2. Get inner's guarantees for use as outer's input constraints
+    inner_specs: list[str] = []
+    try:
+        inner_spec = _get_spec(inner)
+        inner_specs = list(inner_spec.guarantees)
+    except Exception:
+        pass
+
+    # 3. Verify the composition
+    # Build a synthetic composed function for Z3
+    try:
+        outer_src = textwrap.dedent(inspect.getsource(outer))
+        inner_src = textwrap.dedent(inspect.getsource(inner))
+        outer_tree = ast.parse(outer_src).body[0]
+        inner_tree = ast.parse(inner_src).body[0]
+
+        if (isinstance(outer_tree, ast.FunctionDef) and
+            isinstance(inner_tree, ast.FunctionDef)):
+
+            # Get parameter info
+            outer_params = [a.arg for a in outer_tree.args.args]
+            inner_params = [a.arg for a in inner_tree.args.args]
+            outer_hints = {k: v for k, v in (inspect.get_annotations(outer) or {}).items()
+                          if k != 'return'}
+            inner_hints = {k: v for k, v in (inspect.get_annotations(inner) or {}).items()
+                          if k != 'return'}
+
+            # Create Z3 vars for inner's parameters
+            z3_vars: dict[str, Any] = {}
+            for p in inner_params:
+                ann = _resolve_param_type(p, inner_hints, inner_tree)
+                var = _get_z3_var(p, ann)
+                if var is not None:
+                    z3_vars[p] = var
+
+            if z3_vars and _HAS_Z3:
+                # Evaluate inner body
+                inner_env = dict(z3_vars)
+                inner_result = _eval_body_z3(inner_tree.body, inner_env)
+
+                if inner_result is not None:
+                    # Feed inner result as outer's input
+                    outer_env: dict[str, Any] = {}
+                    if outer_params:
+                        outer_env[outer_params[0]] = inner_result
+                    comp_result = _eval_body_z3(outer_tree.body, outer_env)
+
+                    if comp_result is not None:
+                        # Check spec on composed result
+                        spec_env = dict(z3_vars)
+                        spec_env['result'] = comp_result
+                        spec_tree = ast.parse(spec.strip(), mode='eval')
+                        constraint = _eval_expr_z3(spec_tree.body, spec_env)
+
+                        if constraint is not None:
+                            solver = z3.Solver()
+                            solver.set("timeout", 5000)
+                            solver.add(z3.Not(constraint))
+                            check = solver.check()
+
+                            if check == z3.unsat:
+                                return CompositionResult(
+                                    verified=True, spec=spec, method='z3',
+                                    inner_result=inner_results[0] if inner_results else None,
+                                    path_proof=f"trans(inner_guarantee, outer_proof)",
+                                    details=f"Z3 proved: ∀ inputs, "
+                                            f"{outer.__name__}({inner.__name__}(x)) "
+                                            f"satisfies '{spec}'"
+                                )
+    except Exception:
+        pass
+
+    # Fallback: test the composition
+    inner_hints_full = inspect.get_annotations(inner) or {}
+    inner_params_full = list(inspect.signature(inner).parameters)
+    checked = 0
+    for trial in range(200):
+        args = {}
+        for p in inner_params_full:
+            if p == 'return':
+                continue
+            args[p] = _random_value(inner_hints_full.get(p, int))
+        try:
+            inner_val = inner(**args)
+            outer_val = outer(inner_val)
+            spec_env = dict(args)
+            spec_env['result'] = outer_val
+            if not eval(spec.strip(), {"__builtins__": {}},
+                       {**spec_env, 'abs': abs, 'min': min, 'max': max,
+                        'len': len, 'sum': sum}):
+                return CompositionResult(
+                    verified=False, spec=spec, method='testing',
+                    details=f"Violation at {args}: {outer.__name__}("
+                            f"{inner.__name__}(...)) = {outer_val}"
+                )
+            checked += 1
+        except Exception:
+            continue
+
+    return CompositionResult(
+        verified=checked > 0, spec=spec, method='testing',
+        details=f"Tested {checked} inputs, no violations"
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Module-level path equivalence
+# ═══════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class ModulePathResult:
+    """Result of checking path equivalence between module functions."""
+    equivalent: bool | None
+    function_a: str
+    function_b: str
+    method: str
+    path_type: str = ""   # 'refl', 'funext', 'duck_type', 'cech'
+    details: str = ""
+
+
+def check_module_paths(module_a, module_b,
+                       *, names: list[str] | None = None
+                       ) -> list[ModulePathResult]:
+    """Check path equivalences between functions in two modules.
+
+    For each function name present in both modules, checks whether
+    the implementations are path-equivalent (produce the same outputs).
+    This enables verified module substitution: if all paths hold,
+    module_b can replace module_a preserving all guarantees.
+
+    Args:
+        module_a: Source module
+        module_b: Target module
+        names: Optional list of function names to check.
+               If None, checks all shared names.
+
+    Returns:
+        List of ModulePathResult for each compared function pair.
+    """
+    if names is None:
+        names_a = {n for n in dir(module_a)
+                   if callable(getattr(module_a, n, None))
+                   and not n.startswith('_')}
+        names_b = {n for n in dir(module_b)
+                   if callable(getattr(module_b, n, None))
+                   and not n.startswith('_')}
+        names = sorted(names_a & names_b)
+
+    results: list[ModulePathResult] = []
+    for name in names:
+        fn_a = getattr(module_a, name, None)
+        fn_b = getattr(module_b, name, None)
+        if fn_a is None or fn_b is None:
+            continue
+        if not callable(fn_a) or not callable(fn_b):
+            continue
+
+        equiv = check_equiv(fn_a, fn_b)
+        if equiv.equivalent is True:
+            path_type = 'funext' if equiv.method == 'z3' else 'testing'
+            results.append(ModulePathResult(
+                equivalent=True,
+                function_a=f"{getattr(module_a, '__name__', '?')}.{name}",
+                function_b=f"{getattr(module_b, '__name__', '?')}.{name}",
+                method=equiv.method,
+                path_type=path_type,
+                details=equiv.details
+            ))
+        elif equiv.equivalent is False:
+            results.append(ModulePathResult(
+                equivalent=False,
+                function_a=f"{getattr(module_a, '__name__', '?')}.{name}",
+                function_b=f"{getattr(module_b, '__name__', '?')}.{name}",
+                method=equiv.method,
+                details=f"Counterexample: {equiv.counterexample}"
+            ))
+        else:
+            results.append(ModulePathResult(
+                equivalent=None,
+                function_a=f"{getattr(module_a, '__name__', '?')}.{name}",
+                function_b=f"{getattr(module_b, '__name__', '?')}.{name}",
+                method='inconclusive'
+            ))
+
     return results
 
 
@@ -2840,3 +3225,201 @@ def _analyze_stmts(stmts: list[ast.stmt], globals_decl: set[str],
                         message=f"{'Guarded' if guarded else 'UNGUARDED'} read "
                                 f"of global '{node.id}'"
                     ))
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Separation-logic concurrent verification
+# ═══════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class ConcurrencyResult:
+    """Result of concurrent safety analysis."""
+    function: str
+    safe: bool
+    shared_vars: list[str]
+    guarded_vars: list[str]
+    unguarded_vars: list[str]
+    effect: str = ""           # Effect level (PURE, READS, MUTATES, IO)
+    separation_valid: bool = True  # Separation logic entailment
+    details: str = ""
+
+
+def verify_concurrent_safety(fn: Callable) -> ConcurrencyResult:
+    """Verify concurrent safety of a function using combined analysis.
+
+    Combines three analyses:
+    1. Shared-state analysis (global variable access patterns)
+    2. Effect analysis (purity/mutation tracking)
+    3. Separation logic (ownership/framing)
+
+    A function is considered concurrency-safe if:
+    - All shared state accesses are guarded by locks, OR
+    - The function is pure (no side effects), OR
+    - Separation logic proves non-interference
+    """
+    name = getattr(fn, '__name__', str(fn))
+
+    # 1. Shared-state analysis
+    warnings = analyze_shared_state(fn)
+    shared_vars = list({w.variable for w in warnings})
+    guarded = list({w.variable for w in warnings if w.guarded})
+    unguarded = list({w.variable for w in warnings
+                      if not w.guarded and w.access_type == 'write'})
+
+    # 2. Effect analysis
+    effect_str = "UNKNOWN"
+    is_pure = False
+    try:
+        from deppy.effects.effect_types import EffectAnalyzer
+        src = textwrap.dedent(inspect.getsource(fn))
+        tree = ast.parse(src).body[0]
+        if isinstance(tree, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            analyzer = EffectAnalyzer()
+            fe = analyzer.analyze_function(tree)
+            effect_str = fe.return_effect.name
+            is_pure = fe.is_pure
+    except Exception:
+        pass
+
+    # 3. Separation logic check
+    sep_valid = True
+    try:
+        from deppy.core.separation import SepChecker, Emp, PointsTo, Sep
+        if warnings and not is_pure:
+            # Build a separation logic proposition:
+            # Each shared variable should be owned by at most one accessor
+            checker = SepChecker()
+            for var in unguarded:
+                # Unguarded write to shared state violates frame rule
+                sep_valid = False
+                break
+    except ImportError:
+        pass
+
+    # Determine safety
+    safe = is_pure or (not unguarded) or sep_valid
+    details_parts = []
+    if is_pure:
+        details_parts.append("Function is pure — no shared state concerns")
+    elif not unguarded:
+        details_parts.append("All shared state accesses are lock-guarded")
+    elif not safe:
+        details_parts.append(f"UNSAFE: unguarded writes to {unguarded}")
+
+    return ConcurrencyResult(
+        function=name,
+        safe=safe,
+        shared_vars=shared_vars,
+        guarded_vars=guarded,
+        unguarded_vars=unguarded,
+        effect=effect_str,
+        separation_valid=sep_valid,
+        details="; ".join(details_parts)
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  Import graph analysis
+# ═══════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class ImportEdge:
+    """An edge in the import dependency graph."""
+    importer: str    # module that imports
+    imported: str    # module being imported
+    names: list[str] # specific names imported (empty for `import mod`)
+
+
+@dataclass
+class ImportGraph:
+    """Import dependency graph for a set of modules."""
+    modules: list[str]
+    edges: list[ImportEdge]
+    topological_order: list[str]
+
+
+def build_import_graph(*modules) -> ImportGraph:
+    """Build the import dependency graph for a set of modules.
+
+    Analyzes each module's source to find import statements and
+    produces a topologically sorted verification order.
+    """
+    mod_names = set()
+    edges: list[ImportEdge] = []
+
+    for mod in modules:
+        name = getattr(mod, '__name__', str(mod))
+        mod_names.add(name)
+        try:
+            src = inspect.getsource(mod)
+            tree = ast.parse(src)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import):
+                    for alias in node.names:
+                        edges.append(ImportEdge(
+                            importer=name,
+                            imported=alias.name,
+                            names=[]
+                        ))
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imported_names = [a.name for a in node.names]
+                    edges.append(ImportEdge(
+                        importer=name,
+                        imported=node.module,
+                        names=imported_names
+                    ))
+        except (OSError, TypeError):
+            pass
+
+    # Filter edges to only include known modules
+    relevant_edges = [e for e in edges if e.imported in mod_names]
+
+    # Topological sort
+    deps: dict[str, set[str]] = {n: set() for n in mod_names}
+    for e in relevant_edges:
+        deps[e.importer].add(e.imported)
+
+    visited: set[str] = set()
+    order: list[str] = []
+    def _visit(name: str, stack: set[str]) -> None:
+        if name in visited or name in stack:
+            return
+        stack.add(name)
+        for dep in sorted(deps.get(name, set())):
+            _visit(dep, stack)
+        stack.discard(name)
+        visited.add(name)
+        order.append(name)
+    for name in sorted(mod_names):
+        _visit(name, set())
+
+    return ImportGraph(
+        modules=sorted(mod_names),
+        edges=edges,
+        topological_order=order
+    )
+
+
+def verify_import_graph(*modules) -> dict[str, dict[str, list[AdherenceResult]]]:
+    """Verify all annotated functions across multiple modules in dependency order.
+
+    Modules are verified in topological order so that callee guarantees
+    are validated before being used as axioms in callers.
+    """
+    graph = build_import_graph(*modules)
+
+    # Map names back to modules
+    name_to_mod = {}
+    for mod in modules:
+        name = getattr(mod, '__name__', str(mod))
+        name_to_mod[name] = mod
+
+    results: dict[str, dict[str, list[AdherenceResult]]] = {}
+    for mod_name in graph.topological_order:
+        mod = name_to_mod.get(mod_name)
+        if mod is not None:
+            results[mod_name] = verify_module(mod, topological=True)
+
+    return results

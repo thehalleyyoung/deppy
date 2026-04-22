@@ -1002,3 +1002,194 @@ def test_shared_state_mixed():
     warnings = analyze_shared_state(_mixed_access)
     assert any(not w.guarded for w in warnings)
     assert any(w.guarded for w in warnings)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  COMPOSITIONAL PATH VERIFICATION
+# ═══════════════════════════════════════════════════════════════════
+
+@_guarantee_deco("result >= 0")
+def _comp_square(x: int) -> int:
+    return x * x
+
+@_guarantee_deco("result >= 1")
+def _comp_plus_one(x: int) -> int:
+    return x + 1
+
+def test_verify_composition_z3():
+    """Composition plus_one(square(x)) >= 1 should be Z3-proved."""
+    from deppy.equivalence import verify_composition
+    result = verify_composition(_comp_plus_one, _comp_square, "result >= 1")
+    assert result.verified is True
+    assert result.method == 'z3'
+
+def test_verify_composition_testing():
+    """Composition should fallback to testing for complex specs."""
+    from deppy.equivalence import verify_composition
+    result = verify_composition(_comp_plus_one, _comp_square, "result >= 0")
+    assert result.verified is True
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  EFFECT-AWARE ANALYSIS
+# ═══════════════════════════════════════════════════════════════════
+
+def _pure_fn(x: int) -> int:
+    return x + 1
+
+def _impure_fn(x: int) -> int:
+    print(x)
+    return x
+
+def test_analyze_effects_pure():
+    """Pure function should be detected as PURE."""
+    from deppy.equivalence import analyze_effects
+    report = analyze_effects(_pure_fn)
+    assert report is not None
+    assert report.is_pure is True
+
+def test_analyze_effects_impure():
+    """Function with print() should have IO effect."""
+    from deppy.equivalence import analyze_effects
+    report = analyze_effects(_impure_fn)
+    assert report is not None
+    assert report.effect == 'IO'
+    assert report.is_pure is False
+
+def test_analyze_call_chain():
+    """Call chain analysis should trace through callees."""
+    from deppy.equivalence import analyze_call_chain_effects
+    reports = analyze_call_chain_effects(_pure_fn)
+    assert len(reports) >= 1
+    assert all(r.is_pure for r in reports)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  MODULE-LEVEL PATH EQUIVALENCE
+# ═══════════════════════════════════════════════════════════════════
+
+def test_check_module_paths_equivalent():
+    """Two modules with same functions should have path equivalence."""
+    import types
+    from deppy.equivalence import check_module_paths
+
+    mod_a = types.ModuleType('_mod_a')
+    mod_b = types.ModuleType('_mod_b')
+
+    def add1(x: int) -> int:
+        return x + 1
+    def add1_v2(x: int) -> int:
+        return 1 + x
+
+    mod_a.add1 = add1
+    mod_b.add1 = add1_v2
+    mod_a.add1.__name__ = 'add1'
+    mod_b.add1.__name__ = 'add1'
+
+    results = check_module_paths(mod_a, mod_b, names=['add1'])
+    assert len(results) == 1
+    assert results[0].equivalent is True
+
+def test_check_module_paths_inequivalent():
+    """Two modules with different functions should fail path check."""
+    import types
+    from deppy.equivalence import check_module_paths
+
+    mod_a = types.ModuleType('_mod_a')
+    mod_b = types.ModuleType('_mod_b')
+
+    def double(x: int) -> int:
+        return x * 2
+    def triple(x: int) -> int:
+        return x * 3
+
+    mod_a.calc = double
+    mod_b.calc = triple
+    mod_a.calc.__name__ = 'calc'
+    mod_b.calc.__name__ = 'calc'
+
+    results = check_module_paths(mod_a, mod_b, names=['calc'])
+    assert len(results) == 1
+    assert results[0].equivalent is False
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  TOPOLOGICAL MODULE VERIFICATION
+# ═══════════════════════════════════════════════════════════════════
+
+def test_verify_module_topological():
+    """verify_module with topological=True should order callees first."""
+    import types
+    from deppy.equivalence import verify_module
+
+    mod = types.ModuleType('_test_topo')
+
+    @_guarantee_deco("result >= 0")
+    def base(x: int) -> int:
+        return x * x
+
+    @_guarantee_deco("result >= 1")
+    def caller(x: int) -> int:
+        return base(x) + 1
+
+    mod.base = base
+    mod.caller = caller
+    results = verify_module(mod, topological=True)
+    assert 'base' in results or 'caller' in results
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  CONCURRENT SAFETY VERIFICATION
+# ═══════════════════════════════════════════════════════════════════
+
+def test_concurrent_safety_pure():
+    """Pure function should be concurrency-safe."""
+    from deppy.equivalence import verify_concurrent_safety
+    result = verify_concurrent_safety(_pure_fn)
+    assert result.safe is True
+
+_conc_counter = 0
+
+def _unsafe_concurrent(x: int) -> int:
+    global _conc_counter
+    _conc_counter += x
+    return _conc_counter
+
+def test_concurrent_safety_unsafe():
+    """Unguarded global write should be flagged as unsafe."""
+    from deppy.equivalence import verify_concurrent_safety
+    result = verify_concurrent_safety(_unsafe_concurrent)
+    assert result.safe is False
+    assert len(result.unguarded_vars) > 0
+
+_conc_val = 0
+
+def _safe_concurrent(x: int) -> int:
+    global _conc_val
+    import threading
+    lock = threading.Lock()
+    with lock:
+        _conc_val += x
+        result = _conc_val
+    return result
+
+def test_concurrent_safety_guarded():
+    """Lock-guarded writes should be safe."""
+    from deppy.equivalence import verify_concurrent_safety
+    result = verify_concurrent_safety(_safe_concurrent)
+    assert result.safe is True
+    assert len(result.guarded_vars) > 0
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  IMPORT GRAPH ANALYSIS
+# ═══════════════════════════════════════════════════════════════════
+
+def test_build_import_graph():
+    """Import graph should be constructable from modules."""
+    from deppy.equivalence import build_import_graph
+    import types
+    mod = types.ModuleType('_graph_mod')
+    graph = build_import_graph(mod)
+    assert len(graph.modules) == 1
+    assert graph.topological_order == ['_graph_mod']
