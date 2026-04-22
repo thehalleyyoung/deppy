@@ -1272,7 +1272,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 789$^\dagger$ \\
+Total & 798$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1293,10 +1293,11 @@ Refinement types & \checkmark & \checkmark & \checkmark \\
 Pre/postconditions & \checkmark & \checkmark & \checkmark \\
 Duck-type paths & --- & \checkmark & --- \\
 Induction ($\mathbb{N}$, lists) & --- & \checkmark & partial \\
-Higher-order functions & --- & \checkmark & --- \\
-Sidecar axioms & --- & \checkmark & --- \\
+Higher-order functions & partial & \checkmark & partial \\
+Sidecar axioms & --- & \checkmark & \checkmark \\
 Lists / dicts & \checkmark & \checkmark & \checkmark \\
-Mutation / aliasing & \checkmark & partial & --- \\
+Strings & \checkmark & \checkmark & --- \\
+Mutation (single-owner) & \checkmark & partial & --- \\
 Exceptions & \checkmark & modeled & \checkmark \\
 Generators / async & \checkmark & modeled & \checkmark \\
 \bottomrule
@@ -1306,7 +1307,9 @@ Generators / async & \checkmark & modeled & \checkmark \\
 For the Z3-decidable fragment (integer arithmetic with branching),
 verification is fully automatic: the programmer writes only the
 specification, and \deppy{} discharges the obligation without any
-proof term.  For richer properties (lists, higher-order functions,
+proof term.  For typed higher-order functions (\texttt{Callable[[int], int]}),
+Z3 models them as uninterpreted arrays, verifying properties of
+application and composition.  For richer properties (induction,
 domain-specific invariants), the programmer constructs proof terms
 using \deppy{}'s combinator DSL.
 
@@ -1486,11 +1489,17 @@ while supporting the same decorator-based ergonomics.
 \deppy{}'s Z3 engine handles integer, boolean, and floating-point
 arithmetic with branching, comparisons, and quantified refinements.
 The Z3 bridge encodes lists and dictionaries via Z3's array theory
-(elements + length model) and strings via Z3's sequence theory,
-enabling symbolic verification of indexing, membership, \texttt{len()},
-\texttt{append()}, subscript assignment, comprehensions, and
-nested mutations---without falling back to testing.  Higher-order
-functions are verified structurally or by testing.
+(elements + length model) and strings via Z3's sequence theory
+(\texttt{startswith}, \texttt{endswith}, \texttt{replace}, \texttt{find},
+\texttt{upper}/\texttt{lower}), enabling symbolic verification of
+indexing, membership, \texttt{len()}, \texttt{append()}, subscript
+assignment, comprehensions, and nested mutations---without falling back
+to testing.  Higher-order functions with typed \texttt{Callable} annotations
+are modeled as uninterpreted arrays (\texttt{Int} $\to$ \texttt{Int}),
+supporting direct application \texttt{f(x)} and lambda inlining.
+Mutation with single-owner semantics is fully tracked (list and
+dictionary operations including \texttt{pop} and \texttt{update});
+aliasing across multiple references remains unsupported.
 
 Exception semantics, generators, and async/await are discharged to Z3
 via the \emph{effect Z3 discharger}: exception freedom is proved by
@@ -1513,13 +1522,19 @@ additionally conditional on:
 Arithmetic functions use \texttt{omega}; list specifications (sortedness,
 permutations, element predicates, uniqueness) use \texttt{simp} with
 Mathlib lemmas; effect witnesses use \texttt{decide}/\texttt{trivial}.
+Higher-order functions with typed \texttt{Callable} annotations compile
+to Lean arrow types, and lambda expressions translate to \texttt{fun}.
+Sidecar axioms from the formal axiom registry emit Lean \texttt{axiom}
+declarations with dependency tracking.
 Functions with recursive definitions, user-defined datatypes, and
-complex higher-order patterns may still produce \texttt{sorry}
+multi-reference aliasing may still produce \texttt{sorry}
 placeholders.
 
 \paragraph{Proof automation.}
-Z3 handles arithmetic, collections, and effect obligations automatically.
-List and dictionary specifications use \texttt{simp}-based Lean tactics.
+Z3 handles arithmetic, collections, strings, higher-order application,
+and effect obligations automatically.  List and dictionary specifications
+use \texttt{simp}-based Lean tactics.  Sidecar axioms are exported as
+Lean \texttt{axiom} declarations, preserving the trust chain.
 For domain-specific invariants beyond these fragments, the programmer
 constructs proof terms using \deppy{}'s combinator DSL.
 

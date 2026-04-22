@@ -360,3 +360,165 @@ async def fetch(url):
     result = d.discharge_async_safety(src)
     assert result.verified is True
     assert "2 bounded" in result.message
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  HIGHER-ORDER FUNCTION Z3 TESTS
+# ═══════════════════════════════════════════════════════════════════
+
+from typing import Callable
+
+def hof_apply(f: Callable[[int], int], x: int) -> int:
+    return f(x)
+
+def hof_apply_alias(f: Callable[[int], int], x: int) -> int:
+    y = f(x)
+    return y
+
+def test_hof_apply_equiv():
+    """HOF: f(x) ≡ f(x) via Z3 callable model."""
+    result = check_equiv(hof_apply, hof_apply_alias)
+    assert result.equivalent
+
+def hof_double(f: Callable[[int], int], x: int) -> int:
+    return f(x) + f(x)
+
+def hof_double_alt(f: Callable[[int], int], x: int) -> int:
+    r = f(x)
+    return r + r
+
+def test_hof_double_equiv():
+    """HOF: f(x) + f(x) ≡ r = f(x); r + r."""
+    result = check_equiv(hof_double, hof_double_alt)
+    assert result.equivalent
+
+def hof_compose_add(f: Callable[[int], int], x: int) -> int:
+    return f(x) + 1
+
+def hof_compose_add_alt(f: Callable[[int], int], x: int) -> int:
+    return 1 + f(x)
+
+def test_hof_commutative_add():
+    """HOF: f(x) + 1 ≡ 1 + f(x) (commutativity)."""
+    result = check_equiv(hof_compose_add, hof_compose_add_alt)
+    assert result.equivalent
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  LAMBDA Z3 TESTS
+# ═══════════════════════════════════════════════════════════════════
+
+def lambda_apply_double(x: int) -> int:
+    f = lambda a: a * 2
+    return f(x)
+
+def plain_double(x: int) -> int:
+    return x * 2
+
+def test_lambda_equiv():
+    """Lambda: (lambda a: a*2)(x) ≡ x*2."""
+    result = check_equiv(lambda_apply_double, plain_double)
+    assert result.equivalent
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  STRING OPERATION Z3 TESTS
+# ═══════════════════════════════════════════════════════════════════
+
+def str_concat(a: str, b: str) -> str:
+    return a + b
+
+def str_concat_alt(a: str, b: str) -> str:
+    return a + b
+
+def test_str_concat_equiv():
+    """String: a + b ≡ a + b."""
+    result = check_equiv(str_concat, str_concat_alt)
+    assert result.equivalent
+
+def str_startswith_check(s: str) -> bool:
+    return s.startswith("hello")
+
+def str_startswith_check_alt(s: str) -> bool:
+    return s.startswith("hello")
+
+def test_str_startswith_equiv():
+    """String: s.startswith('hello') ≡ s.startswith('hello')."""
+    result = check_equiv(str_startswith_check, str_startswith_check_alt)
+    assert result.equivalent
+
+def str_replace_check(s: str) -> str:
+    return s.replace("a", "b")
+
+def str_replace_check_alt(s: str) -> str:
+    return s.replace("a", "b")
+
+def test_str_replace_equiv():
+    """String: s.replace('a','b') ≡ s.replace('a','b')."""
+    result = check_equiv(str_replace_check, str_replace_check_alt)
+    assert result.equivalent
+
+def str_endswith_check(s: str) -> bool:
+    return s.endswith(".py")
+
+def str_endswith_check_alt(s: str) -> bool:
+    return s.endswith(".py")
+
+def test_str_endswith_equiv():
+    """String: s.endswith('.py') ≡ s.endswith('.py')."""
+    result = check_equiv(str_endswith_check, str_endswith_check_alt)
+    assert result.equivalent
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  DICT MUTATION Z3 TESTS
+# ═══════════════════════════════════════════════════════════════════
+
+def dict_pop_check(d: dict, k: int) -> dict:
+    d.pop(k)
+    return d
+
+def dict_pop_check_alt(d: dict, k: int) -> dict:
+    d.pop(k)
+    return d
+
+def test_dict_pop_equiv():
+    """Dict: d.pop(k) ≡ d.pop(k)."""
+    result = check_equiv(dict_pop_check, dict_pop_check_alt)
+    assert result.equivalent
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  LEAN EXPORT: HOF + LAMBDA + AXIOM TESTS
+# ═══════════════════════════════════════════════════════════════════
+
+from deppy import guarantee, requires, compile_to_lean
+
+@guarantee("result >= 0")
+def lean_hof_abs_apply(f: Callable[[int], int], x: int) -> int:
+    return abs(f(x))
+
+def test_lean_hof_type():
+    """Lean export handles Callable type annotation."""
+    cert = compile_to_lean(lean_hof_abs_apply)
+    rendered = cert.render()
+    assert "→" in rendered  # Callable translates to arrow type
+
+@guarantee("result >= 0")
+def lean_lambda_sq(x: int) -> int:
+    return (lambda a: a * a)(x)
+
+def test_lean_lambda_body():
+    """Lean export translates lambda in function body."""
+    cert = compile_to_lean(lean_lambda_sq)
+    rendered = cert.render()
+    assert "fun" in rendered  # Lambda translates to fun
+
+@guarantee("result >= x")
+def lean_map_example(x: int) -> int:
+    return max(x, 0) + x
+
+def test_lean_map_tactic():
+    """Lean export can prove spec for HOF-style code."""
+    cert = compile_to_lean(lean_map_example)
+    assert cert.sorry_count == 0

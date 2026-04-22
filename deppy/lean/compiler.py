@@ -163,6 +163,24 @@ def _translate_type_annotation(ann: Any) -> str:
             return " × ".join(parts)
         return "Unit"
 
+    # Callable[[A], B] → (A → B)
+    import collections.abc
+    if origin is collections.abc.Callable:
+        if args and len(args) == 2:
+            # args[0] is the parameter types list, args[1] is return type
+            param_types = args[0]
+            ret = _translate_type_annotation(args[1])
+            if isinstance(param_types, (list, tuple)):
+                if len(param_types) == 1:
+                    p = _translate_type_annotation(param_types[0])
+                    return f"({p} → {ret})"
+                elif len(param_types) == 0:
+                    return f"(Unit → {ret})"
+                else:
+                    ps = [_translate_type_annotation(p) for p in param_types]
+                    return f"({' → '.join(ps)} → {ret})"
+        return "(α → β)"
+
     # Plain types
     name = getattr(ann, "__name__", None) or str(ann)
     return _PY_TO_LEAN_TYPE.get(name, name)
@@ -187,6 +205,13 @@ def _translate_type_str(s: str) -> str:
         k = _translate_type_str(m.group(1))
         v = _translate_type_str(m.group(2))
         return f"Std.HashMap {k} {v}"
+
+    # Callable[[int], int] → (Int → Int)
+    m = re.match(r"^Callable\[\[(.+)\],\s*(.+)\]$", s)
+    if m:
+        param = _translate_type_str(m.group(1).strip())
+        ret = _translate_type_str(m.group(2).strip())
+        return f"({param} → {ret})"
 
     return _PY_TO_LEAN_TYPE.get(s, s)
 
@@ -314,6 +339,12 @@ def _translate_expr(node: ast.expr) -> str:
         idx = _translate_expr(node.slice)
         return f"({value}.get! {idx})"
 
+    if isinstance(node, ast.Lambda):
+        params = [arg.arg for arg in node.args.args]
+        body = _translate_expr(node.body)
+        param_str = " ".join(params) if params else "_"
+        return f"(fun {param_str} => {body})"
+
     raise _BodyTranslationError(f"unsupported expr: {type(node).__name__}")
 
 
@@ -331,7 +362,17 @@ def _translate_call(node: ast.Call) -> str:
             a = _translate_expr(node.args[0])
             b = _translate_expr(node.args[1])
             return f"({lean_fn} {a} {b})"
-        # Generic call
+        # map(f, xs) → List.map f xs
+        if fname == "map" and len(node.args) == 2:
+            f = _translate_expr(node.args[0])
+            xs = _translate_expr(node.args[1])
+            return f"(List.map {f} {xs})"
+        # filter(f, xs) → List.filter f xs
+        if fname == "filter" and len(node.args) == 2:
+            f = _translate_expr(node.args[0])
+            xs = _translate_expr(node.args[1])
+            return f"(List.filter {f} {xs})"
+        # Generic call (includes HOF application: f(x))
         args_str = " ".join(_translate_expr(a) for a in node.args)
         return f"({fname} {args_str})" if args_str else fname
 
@@ -340,6 +381,12 @@ def _translate_call(node: ast.Call) -> str:
         method = node.func.attr
         args_str = " ".join(_translate_expr(a) for a in node.args)
         return f"({obj}.{method} {args_str})" if args_str else f"{obj}.{method}"
+
+    # Lambda called immediately: (lambda x: body)(arg) → (fun x => body) arg
+    if isinstance(node.func, ast.Lambda):
+        func_str = _translate_expr(node.func)
+        args_str = " ".join(_translate_expr(a) for a in node.args)
+        return f"({func_str} {args_str})"
 
     raise _BodyTranslationError(f"unsupported call: {ast.dump(node.func)}")
 
@@ -619,6 +666,48 @@ def _infer_imports(lean_text: str) -> list[str]:
     return list(needed)
 
 
+def _collect_axiom_decls(proof_term: Any, fname: str) -> list[str]:
+    """Collect Lean axiom declarations from a ProofTerm tree."""
+    decls: list[str] = []
+    seen: set[str] = set()
+    _walk_for_axioms(proof_term, decls, seen)
+    return decls
+
+
+def _walk_for_axioms(pt: Any, decls: list[str], seen: set[str]) -> None:
+    """Recursively walk a ProofTerm collecting AxiomInvocation declarations."""
+    if pt is None:
+        return
+    name = type(pt).__name__
+    if name == "AxiomInvocation":
+        ax_name = getattr(pt, "name", "")
+        module = getattr(pt, "module", "")
+        statement = getattr(pt, "statement", None)
+        key = f"{module}.{ax_name}" if module else ax_name
+        if key not in seen:
+            seen.add(key)
+            lean_name = ax_name.replace(".", "_").replace(" ", "_")
+            if statement:
+                decls.append(f"axiom {lean_name} : {statement}")
+            else:
+                decls.append(f"axiom {lean_name} : True /- {key}: statement not formalized -/")
+    # Recurse into sub-proof fields
+    for field_name in ("left_path", "right_path", "path_proof", "proof",
+                       "base_proof", "step_proof", "nil_proof", "cons_proof",
+                       "lemma"):
+        sub = getattr(pt, field_name, None)
+        if sub is not None:
+            _walk_for_axioms(sub, decls, seen)
+    for field_name in ("branches", "patches"):
+        subs = getattr(pt, field_name, None)
+        if isinstance(subs, list):
+            for item in subs:
+                if isinstance(item, tuple) and len(item) == 2:
+                    _walk_for_axioms(item[1], decls, seen)
+                else:
+                    _walk_for_axioms(item, decls, seen)
+
+
 # ═══════════════════════════════════════════════════════════════════
 #  Per-function compilation
 # ═══════════════════════════════════════════════════════════════════
@@ -656,6 +745,12 @@ def _compile_function(fn: Callable) -> tuple[list[str], list[str], int, int, lis
     else:
         decl = f"opaque {fname} {params_str} : {lean_ret}"
     decls.append(decl)
+
+    # ── Emit axiom declarations for sidecar axioms ───────────────
+    proof_term = getattr(fn, "_deppy_proof", None)
+    if proof_term is not None:
+        axiom_decls = _collect_axiom_decls(proof_term, fname)
+        decls.extend(axiom_decls)
 
     # ── Preconditions → Lean hypotheses ──────────────────────────
     hyp_parts: list[str] = []
@@ -772,9 +867,10 @@ def _infer_proof(fn: Callable, spec_str: str, conclusion: str,
     # 1. If the function has an attached ProofTerm, translate it
     proof_term = getattr(fn, "_deppy_proof", None)
     if proof_term is not None:
-        translated = translate_proof(proof_term)
-        if translated and "sorry" not in translated:
-            return translated
+        from deppy.lean.proof_translator import full_translate
+        result = full_translate(proof_term)
+        if result.lean_proof and "sorry" not in result.lean_proof:
+            return result.lean_proof
 
     # 2. If the body is translated AND the spec is arithmetic,
     #    try unfold + tactic
@@ -834,6 +930,20 @@ def _pick_tactic_for_spec(spec_str: str, conclusion: str) -> str | None:
     if "for all" in s or "all elements" in s or "all element" in s:
         return "simp"
 
+    # Higher-order function specs
+    if "map" in s or "filter" in s:
+        return "simp [List.map, List.filter]"
+    if "apply" in s or "compose" in s:
+        return "simp"
+
+    # String specs
+    if "startswith" in s or "starts with" in s:
+        return "simp"
+    if "endswith" in s or "ends with" in s:
+        return "simp"
+    if "length" in s and "string" in s:
+        return "simp [String.length]"
+
     return None
 
 
@@ -848,6 +958,8 @@ def _is_arithmetic_spec(spec_str: str) -> bool:
         "sorted", "permutation", "no duplicates", "nodup",
         "non-empty", "nonempty", "contains", "subset",
         "for all", "all elements", "len(",
+        "map", "filter", "apply", "compose",
+        "startswith", "starts with", "endswith", "ends with",
     ]
     return any(p in s for p in list_patterns)
 

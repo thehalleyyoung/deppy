@@ -103,6 +103,11 @@ def _make_dict_z3_var(name: str) -> Any:
     has_key = z3.Array(f"{name}__has", z3.IntSort(), z3.BoolSort())
     return _Z3Dict(vals, has_key)
 
+def _make_callable_z3_var(name: str) -> Any:
+    """Create a Z3 Array variable representing a Callable[[int], int]."""
+    func = z3.Array(name, z3.IntSort(), z3.IntSort())
+    return _Z3Callable(func, name)
+
 
 class _Z3List:
     """Z3 model of a Python list: (elements array, length)."""
@@ -133,6 +138,26 @@ class _Z3Dict:
         return _Z3Dict(new_vals, new_has)
     def contains(self, key: Any) -> Any:
         return z3.Select(self.has_key, key)
+    def pop(self, key: Any) -> tuple[Any, '_Z3Dict']:
+        """Remove key and return (value, new_dict)."""
+        val = z3.Select(self.vals, key)
+        new_has = z3.Store(self.has_key, key, False)
+        return val, _Z3Dict(self.vals, new_has)
+    def update_from(self, other: '_Z3Dict') -> '_Z3Dict':
+        """Merge another dict into this one (approximation: fresh arrays)."""
+        merged_vals = z3.Array(f"__merged_{id(self)}_{id(other)}", z3.IntSort(), z3.IntSort())
+        merged_has = z3.Array(f"__merged_has_{id(self)}_{id(other)}", z3.IntSort(), z3.BoolSort())
+        return _Z3Dict(merged_vals, merged_has)
+
+
+class _Z3Callable:
+    """Z3 model of a Callable[[int], int] — uninterpreted function via Z3 Array."""
+    __slots__ = ('func', 'name')
+    def __init__(self, func: Any, name: str):
+        self.func = func
+        self.name = name
+    def __call__(self, arg: Any) -> Any:
+        return z3.Select(self.func, arg)
 
 
 def _get_z3_var(name: str, annotation: type | str | None) -> Any:
@@ -146,12 +171,20 @@ def _get_z3_var(name: str, annotation: type | str | None) -> Any:
             return _make_list_z3_var(name)
         elif annotation == 'dict' or annotation.startswith('dict['):
             return _make_dict_z3_var(name)
+        elif annotation.startswith('Callable') or annotation.startswith('typing.Callable'):
+            return _make_callable_z3_var(name)
     if annotation in _TYPE_TO_Z3:
         return _TYPE_TO_Z3[annotation](name)
     if annotation is list or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) is list):
         return _make_list_z3_var(name)
     if annotation is dict or (hasattr(annotation, '__origin__') and getattr(annotation, '__origin__', None) is dict):
         return _make_dict_z3_var(name)
+    # typing.Callable[[int], int] → Z3 callable
+    origin = getattr(annotation, '__origin__', None)
+    if origin is not None:
+        import collections.abc
+        if origin is collections.abc.Callable:
+            return _make_callable_z3_var(name)
     if annotation is None:
         return z3.Int(name)  # default to Int
     return None  # unsupported type
@@ -359,6 +392,19 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 arg = _eval_expr_z3(node.args[0], env)
                 if isinstance(arg, _Z3List):
                     return arg
+            # Higher-order function application: f(x) where f is a _Z3Callable
+            if node.func.id in env:
+                func_val = env[node.func.id]
+                if isinstance(func_val, _Z3Callable) and len(node.args) == 1:
+                    arg = _eval_expr_z3(node.args[0], env)
+                    return func_val(arg)
+                if callable(func_val) and not isinstance(func_val, (_Z3List, _Z3Dict, _Z3Callable)):
+                    # Lambda captured in env
+                    args = [_eval_expr_z3(a, env) for a in node.args]
+                    try:
+                        return func_val(*args)
+                    except Exception:
+                        pass
         if isinstance(node.func, ast.Attribute):
             obj = _eval_expr_z3(node.func.value, env)
             method = node.func.attr
@@ -377,6 +423,20 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                     return obj[key]
                 if method == "keys":
                     return obj
+                if method == "pop" and len(node.args) >= 1:
+                    key = _eval_expr_z3(node.args[0], env)
+                    val, new_dict = obj.pop(key)
+                    # Side-effect: update env if possible
+                    if isinstance(node.func.value, ast.Name):
+                        env[node.func.value.id] = new_dict
+                    if len(node.args) >= 2:
+                        default = _eval_expr_z3(node.args[1], env)
+                        return z3.If(obj.contains(key), val, default)
+                    return val
+                if method == "update" and len(node.args) == 1:
+                    other = _eval_expr_z3(node.args[0], env)
+                    if isinstance(other, _Z3Dict):
+                        return obj.update_from(other)
             if hasattr(obj, 'sort') and obj.sort() == z3.StringSort():
                 if method == "upper":
                     return z3.String(f"__upper_{id(obj)}")
@@ -384,6 +444,19 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                     return z3.String(f"__lower_{id(obj)}")
                 if method == "strip":
                     return z3.String(f"__strip_{id(obj)}")
+                if method == "startswith" and len(node.args) == 1:
+                    arg = _eval_expr_z3(node.args[0], env)
+                    return z3.PrefixOf(arg, obj)
+                if method == "endswith" and len(node.args) == 1:
+                    arg = _eval_expr_z3(node.args[0], env)
+                    return z3.SuffixOf(arg, obj)
+                if method == "replace" and len(node.args) == 2:
+                    old_s = _eval_expr_z3(node.args[0], env)
+                    new_s = _eval_expr_z3(node.args[1], env)
+                    return z3.Replace(obj, old_s, new_s)
+                if method == "find" and len(node.args) == 1:
+                    arg = _eval_expr_z3(node.args[0], env)
+                    return z3.IndexOf(obj, arg, 0)
         raise ValueError(f"Unsupported call: {ast.dump(node)}")
 
     if isinstance(node, ast.Subscript):
@@ -417,6 +490,18 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
                 # Map comprehension: [f(x) for x in xs]
                 return _Z3List(result_arr, result_len)
 
+    # Lambda expression: lambda x: expr → closure that evaluates body with arg bound
+    if isinstance(node, ast.Lambda):
+        param_names = [arg.arg for arg in node.args.args]
+        body_node = node.body
+        captured_env = dict(env)
+        def _lambda_closure(*args):
+            local_env = dict(captured_env)
+            for pname, aval in zip(param_names, args):
+                local_env[pname] = aval
+            return _eval_expr_z3(body_node, local_env)
+        return _lambda_closure
+
     raise ValueError(f"Unsupported expression: {type(node).__name__}")
 
 
@@ -438,9 +523,15 @@ def _eval_body_z3(stmts: list[ast.stmt], env: dict[str, Any]) -> Any:
                         env = {**env, obj_name: obj.append(val)}
                         continue
                     if isinstance(obj, _Z3Dict) and method == "update" and len(stmt.value.args) == 1:
-                        continue  # approximate: skip dict.update
+                        other = _eval_expr_z3(stmt.value.args[0], env)
+                        if isinstance(other, _Z3Dict):
+                            env = {**env, obj_name: obj.update_from(other)}
+                        continue
                     if isinstance(obj, _Z3Dict) and method == "pop" and len(stmt.value.args) >= 1:
-                        continue  # approximate: skip dict.pop
+                        key = _eval_expr_z3(stmt.value.args[0], env)
+                        _val, new_dict = obj.pop(key)
+                        env = {**env, obj_name: new_dict}
+                        continue
             continue
 
         if isinstance(stmt, ast.Return) and stmt.value is not None:
@@ -668,8 +759,35 @@ def _random_value(ann: type | str | None) -> Any:
         return ''.join(random.choices('abcdefghij', k=random.randint(0, 10)))
     if ann is list or ann == 'list' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is list):
         return [random.randint(-100, 100) for _ in range(random.randint(0, 10))]
+    if ann is dict or ann == 'dict' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is dict):
+        return {random.randint(-100, 100): random.randint(-100, 100) for _ in range(random.randint(0, 5))}
+    # Callable → random pure function (int → int)
+    if isinstance(ann, str) and ('Callable' in ann or 'callable' in ann):
+        return _random_callable()
+    origin = getattr(ann, '__origin__', None)
+    if origin is not None:
+        import collections.abc
+        if origin is collections.abc.Callable:
+            return _random_callable()
     # default: int
     return random.randint(-1000, 1000)
+
+
+def _random_callable() -> Any:
+    """Generate a random int→int function for testing."""
+    kind = random.randint(0, 4)
+    if kind == 0:
+        return lambda x: x
+    elif kind == 1:
+        c = random.randint(-10, 10)
+        return lambda x, _c=c: x + _c
+    elif kind == 2:
+        c = random.randint(-3, 3)
+        return lambda x, _c=c: x * _c
+    elif kind == 3:
+        return lambda x: abs(x)
+    else:
+        return lambda x: -x
 
 
 def _edge_value(ann: type | str | None, trial: int) -> Any:
@@ -687,6 +805,9 @@ def _edge_value(ann: type | str | None, trial: int) -> Any:
     if ann is list or ann == 'list' or (hasattr(ann, '__origin__') and getattr(ann, '__origin__', None) is list):
         edges = [[], [0], [1, 2, 3], [-1], [0, 0], [3, 1, 2], [1, -1], [-5, -3, -1]]
         return list(edges[trial % len(edges)])  # copy to avoid mutation
+    if isinstance(ann, str) and ('Callable' in ann or 'callable' in ann):
+        fns = [lambda x: x, lambda x: x + 1, lambda x: -x, lambda x: abs(x), lambda x: 0]
+        return fns[trial % len(fns)]
     # default: int
     edges = [0, 1, -1, 2, -2, 100, -100, 0, 1000, -1000]
     return edges[trial % len(edges)]
