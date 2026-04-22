@@ -749,6 +749,16 @@ def _eval_expr_z3(node: ast.expr, env: dict[str, Any]) -> Any:
         raise ValueError(f"Unsupported call: {ast.dump(node)}")
 
     if isinstance(node, ast.Subscript):
+        # Handle __class_getitem__: ClassName[type_arg]
+        if isinstance(node.value, ast.Name) and node.value.id in env:
+            val = env[node.value.id]
+            if isinstance(val, str) and val.startswith('__class_'):
+                # This is a class reference — delegate to __class_getitem__
+                idx = _eval_expr_z3(node.slice, env)
+                type_args = [idx] if not isinstance(idx, list) else idx
+                classes = env.get('__classes__', {})
+                return _resolve_class_getitem(val.replace('__class_', ''),
+                                               type_args, classes, env)
         obj = _eval_expr_z3(node.value, env)
         idx = _eval_expr_z3(node.slice, env)
         if isinstance(obj, _Z3List):
@@ -1437,6 +1447,133 @@ def _collect_all_fields(class_name: str, classes: dict[str, _ClassInfo]) -> list
             if f not in fields:
                 fields.append(f)
     return fields
+
+
+def _resolve_metaclass_constraints(class_name: str,
+                                    classes: dict[str, _ClassInfo],
+                                    env: dict[str, Any]) -> list[Any]:
+    """Extract Z3 constraints from metaclass __new__/__init__.
+
+    When a class has ``metaclass=Meta`` and Meta defines ``__new__`` or
+    ``__init__``, we evaluate the metaclass methods symbolically to
+    discover constraints on class attributes and fields.  Constraints
+    are returned as Z3 expressions that should be added to the solver.
+    """
+    info = classes.get(class_name)
+    if info is None or info.metaclass is None:
+        return []
+    meta_info = classes.get(info.metaclass)
+    if meta_info is None:
+        return []
+
+    constraints: list[Any] = []
+    for hook_name in ('__new__', '__init__'):
+        hook = meta_info.methods.get(hook_name)
+        if hook is None:
+            continue
+        # Build a symbolic env for the metaclass hook:
+        #   cls/mcs -> class name tag, name -> class name string,
+        #   bases -> tuple of base names, namespace/attrs -> class attrs
+        hook_env = dict(env)
+        hook_env['__meta_class_name__'] = class_name
+        # Walk hook body for assignments to cls.attr or assertions
+        for stmt in ast.walk(hook):
+            # Track assertions as constraints
+            if isinstance(stmt, ast.Assert):
+                try:
+                    cond = _eval_expr_z3(stmt.test, hook_env)
+                    if z3.is_expr(cond):
+                        constraints.append(cond)
+                except Exception:
+                    pass
+            # Track cls.attr assignments as field existence constraints
+            if isinstance(stmt, ast.Assign):
+                for t in stmt.targets:
+                    if (isinstance(t, ast.Attribute) and
+                        isinstance(t.value, ast.Name) and
+                        t.value.id in ('cls', 'mcs')):
+                        key = f"self_{t.attr}"
+                        try:
+                            val = _eval_expr_z3(stmt.value, hook_env)
+                            hook_env[key] = val
+                            env[key] = val
+                        except Exception:
+                            pass
+    return constraints
+
+
+def _apply_init_subclass(class_name: str,
+                          classes: dict[str, _ClassInfo],
+                          env: dict[str, Any]) -> list[Any]:
+    """Model __init_subclass__ hooks from parent classes.
+
+    Python calls ``Parent.__init_subclass__()`` on every direct parent
+    when a subclass is defined.  We walk the MRO (excluding the class
+    itself) and evaluate each ``__init_subclass__`` body for constraints.
+    """
+    mro = _compute_c3_mro(class_name, classes)
+    constraints: list[Any] = []
+    for parent_name in mro[1:]:  # skip the class itself
+        parent_info = classes.get(parent_name)
+        if parent_info is None:
+            continue
+        hook = parent_info.methods.get('__init_subclass__')
+        if hook is None:
+            continue
+        hook_env = dict(env)
+        hook_env['__subclass_name__'] = class_name
+        # Extract keyword args from class definition as env bindings
+        info = classes.get(class_name)
+        if info is not None:
+            for attr_name, attr_val in info.class_attrs.items():
+                if attr_val is not None:
+                    try:
+                        hook_env[attr_name] = _eval_expr_z3(attr_val, hook_env)
+                    except Exception:
+                        pass
+        # Walk for assertions and attribute settings
+        for stmt in ast.walk(hook):
+            if isinstance(stmt, ast.Assert):
+                try:
+                    cond = _eval_expr_z3(stmt.test, hook_env)
+                    if z3.is_expr(cond):
+                        constraints.append(cond)
+                except Exception:
+                    pass
+    return constraints
+
+
+def _resolve_class_getitem(class_name: str,
+                            type_args: list[Any],
+                            classes: dict[str, _ClassInfo],
+                            env: dict[str, Any]) -> Any:
+    """Model __class_getitem__ for generic class syntax (e.g., MyClass[int]).
+
+    If the class defines ``__class_getitem__``, evaluate it symbolically.
+    Otherwise, return an uninterpreted Z3 value tagged with the class
+    and type arguments.
+    """
+    info = classes.get(class_name)
+    if info is not None:
+        hook = info.methods.get('__class_getitem__')
+        if hook is not None:
+            hook_env = dict(env)
+            hook_env['cls'] = class_name
+            if hook.args.args and len(hook.args.args) >= 2:
+                param_name = hook.args.args[1].arg  # first after cls
+                if len(type_args) == 1:
+                    hook_env[param_name] = type_args[0]
+                else:
+                    hook_env[param_name] = type_args
+            try:
+                result = _eval_body_z3_impl(hook.body, hook_env)
+                if result is not None:
+                    return result
+            except Exception:
+                pass
+    # Fallback: uninterpreted generic tag
+    tag = f"__{class_name}_getitem_{'_'.join(str(a) for a in type_args)}"
+    return z3.Int(tag)
 
 
 def _resolve_param_type(param: str, hints: dict, tree: ast.FunctionDef) -> type | str:
@@ -2603,6 +2740,25 @@ def _z3_check_adherence(fn: Callable, spec: str) -> AdherenceResult | None:
     # Cross-function callee guarantee constraints
     for cc in _CALLEE_CONSTRAINTS:
         solver.add(cc)
+
+    # Metaclass and __init_subclass__ constraints:
+    # If the function is a method, try to discover class hierarchy from source
+    # and add any constraints from metaclass hooks.
+    try:
+        full_src = textwrap.dedent(inspect.getsource(inspect.getmodule(fn) or fn))
+        class_hierarchy = _parse_class_hierarchy(full_src)
+        if class_hierarchy:
+            for cls_name, cls_info in class_hierarchy.items():
+                meta_constraints = _resolve_metaclass_constraints(
+                    cls_name, class_hierarchy, dict(z3_vars))
+                for mc in meta_constraints:
+                    solver.add(mc)
+                sub_constraints = _apply_init_subclass(
+                    cls_name, class_hierarchy, dict(z3_vars))
+                for sc in sub_constraints:
+                    solver.add(sc)
+    except Exception:
+        pass
 
     # Inductive boundary constraints for recursion:
     # If the result expression contains __rec_boundary_* variables,

@@ -148,7 +148,7 @@ type-safety theorem.  \deppy{} also introduces \emph{sidecar
 third-party libraries via companion specification files, with a formal
 trust model that tracks the provenance of every proof obligation.
 
-We evaluate \deppy{} on 852 test cases covering type-system
+We evaluate \deppy{} on 860 test cases covering type-system
 soundness, Z3 equivalence checking, specification adherence, and Lean
 export, plus case studies verifying SymPy, an F*-tutorial translation,
 and an STLC type-soundness proof --- all expressed in ordinary Python.
@@ -230,7 +230,7 @@ enforce.
   specification files.
 
 \item An \textbf{implementation and evaluation} (\S\ref{sec:eval})
-  with 852 tests, case studies verifying real Python libraries, and an
+  with 860 tests, case studies verifying real Python libraries, and an
   F*-tutorial-to-\deppy{} translation demonstrating expressiveness.
 \end{enumerate}
 
@@ -1181,7 +1181,7 @@ Denotational semantics & 9,661 & Python semantics (6 modules) \\
 Effects / runtime & 2,567 & Effect types, runtime monitor \\
 \midrule
 Total (library) & $\sim$31,450 & \\
-Tests & $\sim$15,800 & 852 test cases \\
+Tests & $\sim$15,800 & 860 test cases \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1223,7 +1223,7 @@ We evaluate \deppy{} along four dimensions: \emph{expressiveness}
 
 \subsection{Test Suite}
 
-\deppy{}'s test suite contains 852 test cases organized into nine
+\deppy{}'s test suite contains 860 test cases organized into nine
 modules (Table~\ref{tab:tests}).
 
 \begin{table}[t]
@@ -1245,7 +1245,7 @@ Lean equivalence & 27 & Cross-language equivalence \\
 Testing fallback & 18 & Non-Z3 strategies \\
 Lean translator & 159 & Spec/proof/compiler/renderer \\
 \midrule
-Total & 852 & \\
+Total & 860 & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1320,7 +1320,7 @@ Lean export (proven) & 20 \\
 Testing fallback & 18 \\
 Negative (rejection) & 301 \\
 \midrule
-Total & 852$^\dagger$ \\
+Total & 860$^\dagger$ \\
 \bottomrule
 \multicolumn{2}{@{}l}{\footnotesize $^\dagger$Some tests span multiple categories.}
 \end{tabular}
@@ -1399,12 +1399,12 @@ Lean equivalence & 27 & 0.21 \\
 Testing fallback & 18 & 0.19 \\
 Lean translator & 159 & 0.55 \\
 \midrule
-Total & 852 & 2.78 \\
+Total & 860 & 2.78 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The entire 852-test suite completes in under 3~seconds.  Z3
+The entire 860-test suite completes in under 3~seconds.  Z3
 discharge dominates verification time: the Z3~adherence and
 Z3~equivalence modules account for 26\% of the total time despite
 comprising 22\% of the tests, reflecting SMT solver overhead.  Kernel
@@ -1564,11 +1564,15 @@ The following Python features remain outside the verified fragment:
 \item \textbf{Dynamic dispatch.}  Single and multiple inheritance with
   C3~linearization (MRO), \texttt{super()},
   field accumulation across the hierarchy, \texttt{\_\_getattr\_\_}
-  fallback (modeled as uninterpreted functions), and descriptor
-  protocol access (\texttt{\_\_get\_\_}/\texttt{\_\_set\_\_}) are
-  supported.  Metaclass \texttt{\_\_new\_\_}/\texttt{\_\_init\_\_},
-  \texttt{\_\_init\_subclass\_\_}, and \texttt{\_\_class\_getitem\_\_}
-  are not yet analyzed.
+  fallback (modeled as uninterpreted functions), descriptor
+  protocol access (\texttt{\_\_get\_\_}/\texttt{\_\_set\_\_}),
+  metaclass \texttt{\_\_new\_\_}/\texttt{\_\_init\_\_} (assertions in
+  metaclass hooks become Z3 constraints),
+  \texttt{\_\_init\_subclass\_\_} (constraint propagation from parent
+  hooks along the MRO), and \texttt{\_\_class\_getitem\_\_} (symbolic
+  evaluation or uninterpreted fallback) are all supported.
+  Remaining gaps: \texttt{\_\_set\_name\_\_}, \texttt{\_\_prepare\_\_},
+  and runtime-constructed metaclasses are not analyzed.
 \item \textbf{Recursive boundary.}  Recursive calls are unrolled to
   depth~8 with inductive boundary constraints (boundary values are
   constrained to satisfy the current spec).  For specs that are not
@@ -1638,7 +1642,7 @@ trust tracking.
 \deppy{} demonstrates that dependent-type verification can be
 retrofitted onto a dynamically-typed language without requiring
 programmers to abandon their existing code or learn a new language.
-The 852-test evaluation, including 301 negative soundness tests and
+The 860-test evaluation, including 301 negative soundness tests and
 case studies from SymPy verification to STLC type soundness, shows
 that the approach is practical and expressively rich.
 

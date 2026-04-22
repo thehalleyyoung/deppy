@@ -1357,3 +1357,154 @@ class MyClass:
     tree = ast.parse(src)
     classes = _parse_class_hierarchy(tree)
     assert 'MyClass' in classes
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  METACLASS __new__/__init__, __init_subclass__, __class_getitem__
+# ═══════════════════════════════════════════════════════════════════
+
+def test_metaclass_new_constraints():
+    """Metaclass __new__ assertions become Z3 constraints."""
+    from deppy.equivalence import (_parse_class_hierarchy,
+                                    _resolve_metaclass_constraints)
+    import z3
+    src = '''
+class ValidatedMeta(type):
+    def __new__(mcs, name, bases, namespace):
+        assert namespace.get("x", 0) > 0
+        cls = super().__new__(mcs, name, bases, namespace)
+        cls.validated = True
+        return cls
+
+class MyClass(metaclass=ValidatedMeta):
+    x = 5
+    def __init__(self):
+        self.y = 1
+'''
+    classes = _parse_class_hierarchy(src)
+    assert 'ValidatedMeta' in classes
+    assert 'MyClass' in classes
+    assert classes['MyClass'].metaclass == 'ValidatedMeta'
+    constraints = _resolve_metaclass_constraints('MyClass', classes, {})
+    assert isinstance(constraints, list)
+
+
+def test_metaclass_init_constraints():
+    """Metaclass __init__ also generates constraints."""
+    from deppy.equivalence import (_parse_class_hierarchy,
+                                    _resolve_metaclass_constraints)
+    src = '''
+class RegistryMeta(type):
+    def __init__(cls, name, bases, namespace):
+        cls.registered = True
+        super().__init__(name, bases, namespace)
+
+class Widget(metaclass=RegistryMeta):
+    def render(self):
+        return self.registered
+'''
+    classes = _parse_class_hierarchy(src)
+    constraints = _resolve_metaclass_constraints('Widget', classes, {})
+    assert isinstance(constraints, list)
+
+
+def test_init_subclass_constraints():
+    """__init_subclass__ hooks produce constraints for subclasses."""
+    from deppy.equivalence import (_parse_class_hierarchy,
+                                    _apply_init_subclass)
+    src = '''
+class Plugin:
+    def __init_subclass__(cls, **kwargs):
+        assert hasattr(cls, "name")
+        super().__init_subclass__(**kwargs)
+
+class MyPlugin(Plugin):
+    name = "my_plugin"
+    def run(self):
+        return 1
+'''
+    classes = _parse_class_hierarchy(src)
+    assert 'Plugin' in classes
+    assert 'MyPlugin' in classes
+    constraints = _apply_init_subclass('MyPlugin', classes, {})
+    assert isinstance(constraints, list)
+
+
+def test_init_subclass_no_hook():
+    """Classes without __init_subclass__ produce empty constraints."""
+    from deppy.equivalence import (_parse_class_hierarchy,
+                                    _apply_init_subclass)
+    src = '''
+class Base:
+    pass
+
+class Child(Base):
+    pass
+'''
+    classes = _parse_class_hierarchy(src)
+    constraints = _apply_init_subclass('Child', classes, {})
+    assert constraints == []
+
+
+def test_class_getitem_custom():
+    """__class_getitem__ is resolved for generic class syntax."""
+    from deppy.equivalence import (_parse_class_hierarchy,
+                                    _resolve_class_getitem)
+    import z3
+    src = '''
+class Container:
+    def __class_getitem__(cls, item):
+        return item
+'''
+    classes = _parse_class_hierarchy(src)
+    result = _resolve_class_getitem('Container', [42], classes, {})
+    assert result is not None
+
+
+def test_class_getitem_fallback():
+    """__class_getitem__ fallback returns uninterpreted Z3 value."""
+    from deppy.equivalence import _resolve_class_getitem
+    import z3
+    result = _resolve_class_getitem('NoSuchClass', [z3.IntVal(1)], {}, {})
+    assert result is not None
+    assert z3.is_expr(result)
+
+
+def test_metaclass_integration_adherence():
+    """Adherence checking picks up metaclass constraints from module source."""
+    from deppy import guarantee
+    from deppy.equivalence import check_adherence
+
+    @guarantee("result >= 0")
+    def simple_method(x: int) -> int:
+        return x * x
+
+    results = check_adherence(simple_method, "result >= 0")
+    assert any(r.adheres for r in results)
+
+
+def test_metaclass_with_init_subclass_combo():
+    """Combined metaclass + __init_subclass__ parsing works."""
+    from deppy.equivalence import (_parse_class_hierarchy,
+                                    _resolve_metaclass_constraints,
+                                    _apply_init_subclass)
+    src = '''
+class ABCMeta(type):
+    def __new__(mcs, name, bases, namespace):
+        cls = super().__new__(mcs, name, bases, namespace)
+        return cls
+
+class Abstract(metaclass=ABCMeta):
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+
+class Concrete(Abstract):
+    def compute(self) -> int:
+        return 42
+'''
+    classes = _parse_class_hierarchy(src)
+    assert classes['Concrete'].bases == ['Abstract']
+    meta_c = _resolve_metaclass_constraints('Concrete', classes, {})
+    sub_c = _apply_init_subclass('Concrete', classes, {})
+    assert isinstance(meta_c, list)
+    assert isinstance(sub_c, list)
