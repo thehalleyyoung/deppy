@@ -697,6 +697,95 @@ class AbstractState:
 
 
 # ═══════════════════════════════════════════════════════════════════
+# Per-program-point abstract state tracking
+# ═══════════════════════════════════════════════════════════════════
+
+
+@dataclass
+class ProgramPointState:
+    """Abstract state at a specific program point (line number).
+
+    Used by the exception-freedom verifier to query abstract values
+    at the exact location of an exception source.
+    """
+    lineno: int
+    state: AbstractState
+    narrowed_by: str = ""  # description of any narrowing condition
+
+    def lookup(self, var: str) -> AbstractValue:
+        return self.state.lookup(var)
+
+
+@dataclass
+class FunctionAbstractTrace:
+    """Complete abstract trace of a function: states at every program point.
+
+    Maps line numbers to the abstract state *before* the statement at that
+    line is executed.  This enables per-point queries like "what is the
+    abstract value of variable `x` at line 42?"
+    """
+    function_name: str = ""
+    point_states: dict[int, ProgramPointState] = field(default_factory=dict)
+    final_state: AbstractState = field(default_factory=AbstractState)
+
+    def state_at(self, lineno: int) -> AbstractState:
+        """Return the abstract state at a given line (or final if unknown)."""
+        if lineno in self.point_states:
+            return self.point_states[lineno].state
+        # Find the closest preceding line
+        preceding = [ln for ln in self.point_states if ln <= lineno]
+        if preceding:
+            return self.point_states[max(preceding)].state
+        return self.final_state
+
+    def lookup_at(self, var: str, lineno: int) -> AbstractValue:
+        """Look up a variable's abstract value at a specific line."""
+        return self.state_at(lineno).lookup(var)
+
+    def can_prove_nonzero_at(self, var: str, lineno: int) -> bool:
+        """Can we prove *var* != 0 at the given program point?"""
+        av = self.lookup_at(var, lineno)
+        if av.sign in (SignDomain.POSITIVE, SignDomain.NEGATIVE):
+            return True
+        if av.interval and (av.interval.lo > 0 or av.interval.hi < 0):
+            return True
+        return False
+
+    def can_prove_nonneg_at(self, var: str, lineno: int) -> bool:
+        """Can we prove *var* >= 0 at the given program point?"""
+        av = self.lookup_at(var, lineno)
+        if SignDomain.can_prove_nonneg(av.sign):
+            return True
+        if av.interval and av.interval.can_prove_nonneg():
+            return True
+        return False
+
+    def can_prove_nonnull_at(self, var: str, lineno: int) -> bool:
+        """Can we prove *var* is not None at the given program point?"""
+        av = self.lookup_at(var, lineno)
+        return NullabilityDomain.can_prove_nonnull(av.null)
+
+    def can_prove_nonempty_at(self, var: str, lineno: int) -> bool:
+        """Can we prove *var* is non-empty at the given program point?"""
+        av = self.lookup_at(var, lineno)
+        return av.size is not None and av.size.can_prove_nonempty()
+
+    def can_prove_in_bounds_at(self, collection_var: str, index_var: str,
+                                lineno: int) -> bool:
+        """Can we prove index_var is in bounds for collection_var?"""
+        coll_av = self.lookup_at(collection_var, lineno)
+        idx_av = self.lookup_at(index_var, lineno)
+        if coll_av.size is None or idx_av.interval is None:
+            return False
+        coll_iv = coll_av.size.to_interval()
+        # index must be >= 0 and < len(collection)
+        if idx_av.interval.lo >= 0 and coll_iv.lo > 0:
+            if idx_av.interval.hi < coll_iv.lo:
+                return True
+        return False
+
+
+# ═══════════════════════════════════════════════════════════════════
 # 3.  Abstract Transfer Functions
 # ═══════════════════════════════════════════════════════════════════
 
@@ -912,17 +1001,38 @@ class AbstractInterpreter:
 
     def __init__(self) -> None:
         self.transfer = AbstractTransfer()
+        self._point_states: dict[int, ProgramPointState] = {}
 
     # -- top-level entry ---------------------------------------------------
 
     def analyze_function(self, func_ast: ast.FunctionDef
                          ) -> dict[str, AbstractValue]:
         """Analyze a function, returning abstract values at return points."""
+        self._point_states = {}
         state = AbstractState()
         for arg in func_ast.args.args:
             state = state.assign(arg.arg, AbstractValue.top())
         state = self._analyze_body(func_ast.body, state)
         return state.bindings
+
+    def analyze_function_trace(self, func_ast: ast.FunctionDef
+                               ) -> FunctionAbstractTrace:
+        """Analyze a function, returning per-program-point abstract states.
+
+        This is the extended version of ``analyze_function`` that records
+        the abstract state *before* each statement, enabling the exception-
+        freedom verifier to query "what is the abstract value of x at line N?"
+        """
+        self._point_states = {}
+        state = AbstractState()
+        for arg in func_ast.args.args:
+            state = state.assign(arg.arg, AbstractValue.top())
+        final = self._analyze_body(func_ast.body, state)
+        return FunctionAbstractTrace(
+            function_name=func_ast.name,
+            point_states=dict(self._point_states),
+            final_state=final,
+        )
 
     # -- statement list ----------------------------------------------------
 

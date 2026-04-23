@@ -40,7 +40,8 @@ from deppy.core.kernel import (
     ProofKernel, ProofTerm, TrustLevel, VerificationResult,
     Refl, Sym, Trans, Cong, Cut, Assume, Z3Proof,
     NatInduction, ListInduction, Cases, DuckPath,
-    EffectWitness, AxiomInvocation, Ext, Unfold, Rewrite,
+    EffectWitness, ConditionalEffectWitness, SafetyObligation,
+    AxiomInvocation, Ext, Unfold, Rewrite,
     Structural, TransportProof, min_trust,
     PathComp, Ap, FunExt, CechGlue, Univalence, Fiber, Patch,
 )

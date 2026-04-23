@@ -363,6 +363,70 @@ class ProofBuilder:
         """Wrap a proof in an effect witness."""
         return EffectWitness(effect=effect, proof=proof)
 
+    # ── safety tactics ───────────────────────────────────────────
+
+    def by_safety(
+        self,
+        precondition: str,
+        target: str,
+        evidence: Sequence[ProofTerm] | None = None,
+        effect: str = "exception_free",
+    ) -> ProofTerm:
+        """Compose safety evidence into a ConditionalEffectWitness.
+
+        ``evidence`` is a list of sub-proofs (typically ``SafetyObligation``s
+        from ``AbstractEvidenceBridge``, ``Z3Proof``s, or callee witnesses)
+        that together justify the safety claim under ``precondition``.
+
+        If multiple evidence items are supplied they are sequenced via
+        ``Cut`` nodes so the kernel checks each one and the outermost
+        result inherits the minimum trust.
+
+        Returns a ``ConditionalEffectWitness`` ready to feed to
+        ``kernel.verify``.
+        """
+        from deppy.core.kernel import (
+            ConditionalEffectWitness, SafetyObligation,
+        )
+        evidence = list(evidence or [])
+        if not evidence:
+            inner: ProofTerm = Structural(
+                description=f"safety: trivial under {precondition}"
+            )
+        elif len(evidence) == 1:
+            inner = evidence[0]
+        else:
+            head = evidence[-1]
+            for i, item in enumerate(reversed(evidence[:-1])):
+                claim = (
+                    item.safety_condition
+                    if isinstance(item, SafetyObligation)
+                    else f"evidence_{len(evidence) - 2 - i}"
+                )
+                head = Cut(
+                    hyp_name=f"safe_{len(evidence) - 2 - i}",
+                    hyp_type=RefinementType(
+                        base_type=PyBoolType(), predicate=claim,
+                    ),
+                    lemma_proof=item,
+                    body_proof=head,
+                )
+            inner = head
+
+        witness = ConditionalEffectWitness(
+            precondition=precondition,
+            effect=effect,
+            proof=inner,
+            target=target,
+        )
+        self._history.append(ProofStep(
+            tactic="by_safety",
+            args={"precondition": precondition, "target": target,
+                  "effect": effect, "n_evidence": len(evidence)},
+            sub_proofs=list(evidence),
+        ))
+        return witness
+
     # ── transport ────────────────────────────────────────────────
 
     def transport(

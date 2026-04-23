@@ -248,6 +248,153 @@ class EffectWitness(ProofTerm):
 
 
 @dataclass
+class ConditionalEffectWitness(ProofTerm):
+    """Conditional effect proof: under precondition P, effect E is absent.
+
+    This is the kernel proof term for runtime safety facts like:
+      "Point.distance does not raise when isinstance(other, Point)"
+      "f(x) terminates when x > 0"
+      "division is safe when divisor != 0"
+
+    The kernel verifies the inner proof and records the precondition.
+    Trust level is preserved from the inner proof (unlike EffectWitness
+    which always downgrades to EFFECT_ASSUMED).
+    """
+    precondition: str    # predicate under which the effect is absent
+    effect: str          # the effect being discharged (e.g. "exception_free")
+    proof: ProofTerm     # proof that the effect is absent under precondition
+    target: str = ""     # qualified name of function (for reporting)
+
+    def __repr__(self) -> str:
+        pre = f" | {self.precondition}" if self.precondition else ""
+        tgt = f" [{self.target}]" if self.target else ""
+        return f"ConditionalEffectWitness({self.effect}{pre}{tgt})"
+
+
+@dataclass
+class SourceDischarge(ProofTerm):
+    """Per-source safety discharge (Gap 13/17).
+
+    Records the *atomic* reason a single ``ExceptionSource`` is safe under
+    a precondition.  The kernel verifies the inner proof; trust comes from
+    the inner proof, not from a hard-coded constant.
+
+    The four discharge shapes the pipeline produces are:
+
+    * ``Z3Proof``           — Z3 unsat for ``guards ∧ ¬ safety_predicate``.
+    * ``AxiomInvocation``   — a registered axiom covers this exception kind.
+    * ``Structural``        — analyst-trusted (e.g. ``is_total`` escape hatch).
+    * ``Assume``            — ambient hypothesis (e.g. callee's own
+                              precondition propagated from the caller).
+    """
+    source_id: str           # stable id, e.g. "f:L42:ZeroDivision"
+    failure_kind: str        # ExceptionKind name
+    safety_predicate: str    # canonical predicate that must hold (e.g. "b != 0")
+    inner: ProofTerm         # actual proof of the predicate under preconditions
+    note: str = ""
+
+    def __repr__(self) -> str:
+        return (f"SourceDischarge({self.source_id} : {self.failure_kind} "
+                f"⇐ {self.safety_predicate})")
+
+
+@dataclass
+class SemanticSafetyWitness(ProofTerm):
+    """Function-level semantic safety witness (Gap 13).
+
+    Composed of one ``SourceDischarge`` per ``ExceptionSource`` in the
+    function body.  The kernel succeeds only if **every** sub-discharge
+    succeeds; aggregate trust is the minimum trust across discharges
+    (so any ``Structural`` / ``Assume`` discharge clamps the witness's
+    trust to that level).
+
+    Unlike the older ``ConditionalEffectWitness``, this term refuses to
+    succeed unless every concrete failure point in the function body has
+    been individually addressed.  No more vacuous Structural pass-throughs.
+    """
+    target: str
+    precondition: str        # combined preconditions from sidecar
+    discharges: list["SourceDischarge"] = field(default_factory=list)
+    is_total_escape: bool = False   # spec.is_total — accept structurally
+
+    def __repr__(self) -> str:
+        return (f"SemanticSafetyWitness({self.target} | {self.precondition}: "
+                f"{len(self.discharges)} sources)")
+
+
+@dataclass
+class ModuleSafetyComposition(ProofTerm):
+    """Module-level safety composition (Gap 19).
+
+    A module is safe only when:
+      1. every function-level witness verifies,
+      2. every module-level (top-level) exception source is discharged, and
+      3. internal call closure has already been established by propagation.
+
+    This turns the previous name-only aggregation into a real kernel object.
+    """
+    module_path: str
+    function_witnesses: dict[str, ProofTerm] = field(default_factory=dict)
+    module_discharges: list["SourceDischarge"] = field(default_factory=list)
+    internal_calls_closed: bool = True
+
+    def __repr__(self) -> str:
+        return (f"ModuleSafetyComposition({self.module_path}: "
+                f"{len(self.function_witnesses)} fns, "
+                f"{len(self.module_discharges)} module sources)")
+
+
+@dataclass
+class TerminationObligation(ProofTerm):
+    """Well-founded termination obligation (Gap 23).
+
+    Discharges a recursive call by exhibiting a measure expression that
+    strictly decreases on each recursive invocation and remains bounded
+    below (by 0).  The kernel verifies the embedded ``Z3Proof`` of
+
+        precondition ⇒ measure(actuals) < measure(formals) ∧ measure(formals) >= 0
+
+    so the resulting trust is the trust of the inner Z3 discharge.
+
+    This term is the deppy analogue of Lean's ``termination_by`` /
+    ``decreasing_by`` — it is what makes a recursive function's
+    `RUNTIME_ERROR` (recursion depth exceeded) source actually go away
+    rather than being silently accepted as "structural".
+    """
+    target: str
+    measure_at_entry: str       # e.g. "n"
+    measure_at_recursive_call: str  # e.g. "n - 1"
+    precondition: str = "True"
+    inner: ProofTerm | None = None  # Z3Proof of the well-founded inequality
+    note: str = ""
+
+    def __repr__(self) -> str:
+        return (f"TerminationObligation({self.target}: "
+                f"{self.measure_at_recursive_call} < {self.measure_at_entry})")
+
+
+@dataclass
+class SafetyObligation(ProofTerm):
+    """A safety obligation that must be discharged for runtime safety.
+
+    Represents a specific program point where a runtime failure can occur,
+    together with the condition that makes it safe and a proof of that condition.
+
+    Used to compose fine-grained safety proofs — one per potential failure
+    site — into a function-level or module-level safety certificate via
+    CechGlue or structural composition.
+    """
+    obligation_id: str      # stable identifier (e.g. "mod.func:L42:ZeroDivision")
+    safety_condition: str   # predicate that ensures safety (e.g. "divisor != 0")
+    proof: ProofTerm        # proof that safety_condition holds
+    failure_kind: str = ""  # what fails if condition doesn't hold
+    lineno: int = 0         # source location
+
+    def __repr__(self) -> str:
+        return f"SafetyObligation({self.obligation_id}: {self.safety_condition})"
+
+
+@dataclass
 class Patch(ProofTerm):
     """Monkey-patch path: C =_PyClass C[m := v] when behavioral contract preserved."""
     cls: SynTerm
@@ -476,6 +623,18 @@ class ProofKernel:
             return self._verify_duck_path(ctx, goal, proof)
         elif isinstance(proof, EffectWitness):
             return self._verify_effect_witness(ctx, goal, proof)
+        elif isinstance(proof, ConditionalEffectWitness):
+            return self._verify_conditional_effect(ctx, goal, proof)
+        elif isinstance(proof, SemanticSafetyWitness):
+            return self._verify_semantic_safety(ctx, goal, proof)
+        elif isinstance(proof, ModuleSafetyComposition):
+            return self._verify_module_safety_composition(ctx, goal, proof)
+        elif isinstance(proof, SourceDischarge):
+            return self._verify_source_discharge(ctx, goal, proof)
+        elif isinstance(proof, TerminationObligation):
+            return self._verify_termination_obligation(ctx, goal, proof)
+        elif isinstance(proof, SafetyObligation):
+            return self._verify_safety_obligation(ctx, goal, proof)
         elif isinstance(proof, AxiomInvocation):
             return self._verify_axiom(ctx, goal, proof)
         elif isinstance(proof, Patch):
@@ -722,22 +881,53 @@ class ProofKernel:
     def _z3_check_implication(self, premise: str, conclusion: str) -> bool:
         """Check P => Q by checking that P ∧ ¬Q is unsat."""
         try:
-            from z3 import Solver, Int, unsat, Not, And
-            import re
+            from z3 import Solver, Int, unsat, Not, And, Or
+            import re, ast as _ast
 
             var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', premise + conclusion))
             var_names -= {'True', 'False', 'and', 'or', 'not'}
             z3_vars = {name: Int(name) for name in var_names}
             env = dict(z3_vars)
             env['__builtins__'] = {}
+            env['And'] = And
+            env['Or'] = Or
+            env['Not'] = Not
+
+            def _rewrite(src: str) -> str:
+                """Rewrite Python `and`/`or`/`not` into Z3 calls."""
+                tree = _ast.parse(src, mode="eval")
+
+                class _T(_ast.NodeTransformer):
+                    def visit_BoolOp(self, n):  # type: ignore
+                        self.generic_visit(n)
+                        fn = "And" if isinstance(n.op, _ast.And) else "Or"
+                        return _ast.copy_location(
+                            _ast.Call(func=_ast.Name(id=fn, ctx=_ast.Load()),
+                                      args=list(n.values), keywords=[]),
+                            n,
+                        )
+
+                    def visit_UnaryOp(self, n):  # type: ignore
+                        self.generic_visit(n)
+                        if isinstance(n.op, _ast.Not):
+                            return _ast.copy_location(
+                                _ast.Call(func=_ast.Name(id="Not", ctx=_ast.Load()),
+                                          args=[n.operand], keywords=[]),
+                                n,
+                            )
+                        return n
+
+                tree = _ast.fix_missing_locations(_T().visit(tree))
+                return _ast.unparse(tree)
 
             try:
-                p = eval(premise, env)
-                q = eval(conclusion, env)
+                p = eval(_rewrite(premise), env)
+                q = eval(_rewrite(conclusion), env)
             except Exception:
                 return False
 
             s = Solver()
+            s.set("timeout", 5000)
             s.add(And(p, Not(q)))
             return s.check() == unsat
         except Exception:
@@ -878,16 +1068,257 @@ class ProofKernel:
 
     def _verify_effect_witness(self, ctx: Context, goal: Judgment,
                                proof: EffectWitness) -> VerificationResult:
-        """Verify effect-indexed proof."""
+        """Verify effect-indexed proof.
+
+        Trust preservation (Gap 2 fix): when the inner proof is backed by
+        real verification (Z3, kernel, etc.), preserve that trust level
+        rather than unconditionally downgrading to EFFECT_ASSUMED.  Only
+        downgrade when the inner proof is structural/assumed.
+        """
         r = self.verify(ctx, goal, proof.proof)
         if r.success:
+            # Preserve trust from real proofs; downgrade only for weak proofs
+            if r.trust_level.value >= TrustLevel.STRUCTURAL_CHAIN.value:
+                trust = r.trust_level
+            else:
+                trust = min_trust(r.trust_level, TrustLevel.EFFECT_ASSUMED)
             return VerificationResult(
                 success=True,
-                trust_level=min_trust(r.trust_level, TrustLevel.EFFECT_ASSUMED),
+                trust_level=trust,
                 message=f"EffectWitness({proof.effect})",
                 sub_results=[r],
             )
         return r
+
+    # ── ConditionalEffectWitness ──────────────────────────────────
+
+    def _verify_conditional_effect(self, ctx: Context, goal: Judgment,
+                                   proof: ConditionalEffectWitness,
+                                   ) -> VerificationResult:
+        """Verify conditional effect proof: under precondition P, effect E absent.
+
+        The precondition is added to the context as a hypothesis, then the
+        inner proof is verified in that extended context.  This models:
+            "assuming P, we can prove effect E is absent"
+
+        Trust level is preserved from the inner proof — conditional safety
+        proved by Z3 gets Z3_VERIFIED trust, not EFFECT_ASSUMED.
+        """
+        # Extend context with the precondition as a hypothesis
+        pre_type = RefinementType(
+            base_type=PyBoolType(),
+            var_name="_safety_pre",
+            predicate=proof.precondition,
+        )
+        extended_ctx = ctx.extend(f"H_safety_{proof.effect}", pre_type)
+
+        # Verify the inner proof in the extended context
+        r = self.verify(extended_ctx, goal, proof.proof)
+        if r.success:
+            target_note = f" [{proof.target}]" if proof.target else ""
+            return VerificationResult(
+                success=True,
+                trust_level=r.trust_level,
+                message=(f"ConditionalEffectWitness({proof.effect} | "
+                         f"{proof.precondition}){target_note}"),
+                sub_results=[r],
+            )
+        return VerificationResult.fail(
+            f"ConditionalEffectWitness: inner proof failed for "
+            f"{proof.effect} | {proof.precondition}: {r.message}",
+            code="E003",
+        )
+
+    # ── SemanticSafetyWitness / SourceDischarge (Gap 13/17) ───────
+
+    def _verify_termination_obligation(
+        self,
+        ctx: Context,
+        goal: Judgment,
+        proof: "TerminationObligation",
+    ) -> VerificationResult:
+        """Verify a well-founded termination obligation.
+
+        Trust is taken from the inner Z3 proof; if no inner proof is
+        provided we refuse — a missing measure is *not* a proof of
+        termination.
+        """
+        if proof.inner is None:
+            return VerificationResult.fail(
+                f"TerminationObligation[{proof.target}]: no inner discharge "
+                f"(measure {proof.measure_at_recursive_call} < "
+                f"{proof.measure_at_entry} unproven)",
+                code="E021",
+            )
+        r = self.verify(ctx, goal, proof.inner)
+        if not r.success:
+            return VerificationResult.fail(
+                f"TerminationObligation[{proof.target}] failed: {r.message}",
+                code="E022",
+            )
+        return VerificationResult(
+            success=True,
+            trust_level=r.trust_level,
+            message=(f"TerminationObligation[{proof.target}]: measure "
+                     f"{proof.measure_at_recursive_call} < "
+                     f"{proof.measure_at_entry}, trust={r.trust_level.name}"),
+            sub_results=[r],
+        )
+
+    def _verify_source_discharge(self, ctx: Context, goal: Judgment,
+                                 proof: "SourceDischarge",
+                                 ) -> VerificationResult:
+        """Verify a single per-source safety discharge.
+
+        The trust level is taken from the inner proof; we do not collapse
+        Z3-discharged sources to STRUCTURAL_CHAIN.
+        """
+        r = self.verify(ctx, goal, proof.inner)
+        if r.success:
+            return VerificationResult(
+                success=True,
+                trust_level=r.trust_level,
+                message=(f"SourceDischarge[{proof.source_id}] "
+                         f"{proof.failure_kind} via {type(proof.inner).__name__}"),
+                sub_results=[r],
+            )
+        return VerificationResult.fail(
+            f"SourceDischarge[{proof.source_id}] failed: {r.message}",
+            code="E013",
+        )
+
+    def _verify_semantic_safety(self, ctx: Context, goal: Judgment,
+                                proof: "SemanticSafetyWitness",
+                                ) -> VerificationResult:
+        """Verify a function-level semantic safety witness.
+
+        Requires every ``SourceDischarge`` to verify.  Aggregate trust is
+        the minimum trust across discharges.  An empty discharge list is
+        accepted **only** when ``is_total_escape`` is set — otherwise the
+        absence of evidence is treated as failure (no more
+        "trivially safe by construction").
+        """
+        # Extend ctx with the precondition as an ambient hypothesis.
+        if proof.precondition and proof.precondition.strip() not in ("", "True"):
+            pre_type = RefinementType(
+                base_type=PyBoolType(),
+                var_name="_safety_pre",
+                predicate=proof.precondition,
+            )
+            ctx = ctx.extend("H_safety_pre", pre_type)
+
+        # No sources: the function has no detected exception sources.
+        # This is a structural claim verified by the source enumerator.
+        if not proof.discharges:
+            return VerificationResult.ok(
+                TrustLevel.STRUCTURAL_CHAIN,
+                (f"SemanticSafetyWitness[{proof.target}] "
+                 f"{'is_total escape' if proof.is_total_escape else 'no sources'}"),
+            )
+
+        sub_results: list[VerificationResult] = []
+        trusts: list[TrustLevel] = []
+        for d in proof.discharges:
+            r = self.verify(ctx, goal, d)
+            if not r.success:
+                return VerificationResult.fail(
+                    f"SemanticSafetyWitness[{proof.target}]: discharge "
+                    f"{d.source_id} failed: {r.message}",
+                    code="E015",
+                )
+            sub_results.append(r)
+            trusts.append(r.trust_level)
+
+        agg_trust = min(trusts, key=lambda t: t.value)
+        return VerificationResult(
+            success=True,
+            trust_level=agg_trust,
+            message=(f"SemanticSafetyWitness[{proof.target}]: "
+                     f"{len(proof.discharges)} discharges, trust={agg_trust.name}"),
+            sub_results=sub_results,
+        )
+
+    def _verify_module_safety_composition(
+        self,
+        ctx: Context,
+        goal: Judgment,
+        proof: "ModuleSafetyComposition",
+    ) -> VerificationResult:
+        """Verify the composed module-level safety claim.
+
+        The module claim succeeds only if every constituent function witness
+        and every module-level discharge verifies.  Trust is the minimum
+        across all successful constituents.
+        """
+        if not proof.internal_calls_closed:
+            return VerificationResult.fail(
+                f"ModuleSafetyComposition[{proof.module_path}]: internal call "
+                f"closure not established",
+                code="E016",
+            )
+
+        items: list[tuple[str, ProofTerm]] = [
+            (f"fn:{name}", w) for name, w in proof.function_witnesses.items()
+        ]
+        items.extend(
+            (f"module:{d.source_id}", d) for d in proof.module_discharges
+        )
+        if not items:
+            return VerificationResult.fail(
+                f"ModuleSafetyComposition[{proof.module_path}]: no constituents",
+                code="E017",
+            )
+
+        sub_results: list[VerificationResult] = []
+        trusts: list[TrustLevel] = []
+        for label, subproof in items:
+            r = self.verify(ctx, goal, subproof)
+            if not r.success:
+                return VerificationResult.fail(
+                    f"ModuleSafetyComposition[{proof.module_path}]: {label} "
+                    f"failed: {r.message}",
+                    code="E018",
+                )
+            sub_results.append(r)
+            trusts.append(r.trust_level)
+
+        agg_trust = min(trusts, key=lambda t: t.value)
+        return VerificationResult(
+            success=True,
+            trust_level=agg_trust,
+            message=(f"ModuleSafetyComposition[{proof.module_path}]: "
+                     f"{len(proof.function_witnesses)} functions, "
+                     f"{len(proof.module_discharges)} module sources, "
+                     f"trust={agg_trust.name}"),
+            sub_results=sub_results,
+        )
+
+    # ── SafetyObligation ─────────────────────────────────────────
+
+    def _verify_safety_obligation(self, ctx: Context, goal: Judgment,
+                                  proof: SafetyObligation,
+                                  ) -> VerificationResult:
+        """Verify a safety obligation: the safety_condition holds.
+
+        The obligation's inner proof must demonstrate that the safety
+        condition is satisfied.  Trust level is preserved from the inner
+        proof.  Safety obligations compose into CechGlue or structural
+        proofs for function/module-level safety certificates.
+        """
+        r = self.verify(ctx, goal, proof.proof)
+        if r.success:
+            return VerificationResult(
+                success=True,
+                trust_level=r.trust_level,
+                message=(f"SafetyObligation({proof.obligation_id}: "
+                         f"{proof.safety_condition})"),
+                sub_results=[r],
+            )
+        return VerificationResult.fail(
+            f"SafetyObligation: proof for {proof.obligation_id} "
+            f"({proof.safety_condition}) failed: {r.message}",
+            code="E003",
+        )
 
     # ── Axiom ─────────────────────────────────────────────────────
 

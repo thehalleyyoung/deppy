@@ -99,8 +99,8 @@ class ExternalSpec:
     """A specification bound to an external (library) function.
 
     The spec lives *outside* the target library and does not modify it.
-    It records guarantees, pre/postconditions, and purity for an
-    existing callable.
+    It records guarantees, pre/postconditions, purity, and runtime safety
+    declarations for an existing callable.
 
     Can be used as a dataclass (passing target/target_name/module_name)
     or subclassed with ``@about`` to declare laws::
@@ -124,6 +124,13 @@ class ExternalSpec:
     axioms: list[str] = field(default_factory=list)  # axiom names bound here
     verified: bool = False
     trust_level: TrustLevel = TrustLevel.UNTRUSTED
+
+    # ── Runtime safety declarations ──────────────────────────────
+    exception_free_when: list[str] = field(default_factory=list)
+    raises_declarations: list[tuple[str, str]] = field(default_factory=list)
+    safe_when: list[str] = field(default_factory=list)
+    is_total: bool = False
+    decreases: list[str] = field(default_factory=list)
 
     def __post_init__(self):
         # Auto-resolve target from @about annotation if not provided
@@ -174,7 +181,7 @@ class ExternalSpec:
 
     def to_json(self) -> dict:
         """Serialize to JSON-compatible dict."""
-        return {
+        d = {
             "target_name": self.target_name,
             "module_name": self.module_name,
             "guarantees": self.guarantees,
@@ -191,10 +198,23 @@ class ExternalSpec:
             "verified": self.verified,
             "trust_level": self.trust_level.name,
         }
+        if self.exception_free_when:
+            d["exception_free_when"] = self.exception_free_when
+        if self.raises_declarations:
+            d["raises"] = [{"type": t, "when": w}
+                           for t, w in self.raises_declarations]
+        if self.safe_when:
+            d["safe_when"] = self.safe_when
+        if self.is_total:
+            d["is_total"] = True
+        if self.decreases:
+            d["decreases"] = self.decreases
+        return d
 
     @classmethod
     def from_json(cls, data: dict) -> ExternalSpec:
         """Deserialize from JSON dict."""
+        raises = [(r["type"], r["when"]) for r in data.get("raises", [])]
         return cls(
             target=None,
             target_name=data["target_name"],
@@ -208,6 +228,11 @@ class ExternalSpec:
             axioms=data.get("axioms", []),
             verified=data.get("verified", False),
             trust_level=TrustLevel[data.get("trust_level", "UNTRUSTED")],
+            exception_free_when=data.get("exception_free_when", []),
+            raises_declarations=raises,
+            safe_when=data.get("safe_when", []),
+            is_total=data.get("is_total", False),
+            decreases=data.get("decreases", []),
         )
 
 
@@ -390,6 +415,185 @@ class SidecarReport:
 
 
 # ═══════════════════════════════════════════════════════════════════
+#  §5b  SidecarVerificationBackend — discharge axioms instead of trusting
+# ═══════════════════════════════════════════════════════════════════
+
+class SidecarVerificationBackend:
+    """Backend that can discharge sidecar axioms via Z3, computation, or Lean.
+
+    Instead of blindly trusting axioms, the backend attempts to verify them
+    and assigns trust levels based on the verification method:
+
+      - Z3 discharge          → Z3_VERIFIED
+      - Computational testing → LLM_CHECKED (evidence from test execution)
+      - Counterexample found  → fail (axiom is false)
+      - Lean export           → KERNEL (when no sorry)
+      - Fallback: trusted     → AXIOM_TRUSTED
+    """
+
+    def __init__(
+        self,
+        *,
+        enable_z3: bool = True,
+        enable_computational: bool = True,
+        computational_samples: int = 50,
+        enable_counterexample: bool = True,
+        counterexample_samples: int = 100,
+    ) -> None:
+        self.enable_z3 = enable_z3
+        self.enable_computational = enable_computational
+        self.computational_samples = computational_samples
+        self.enable_counterexample = enable_counterexample
+        self.counterexample_samples = counterexample_samples
+        self._z3_available: bool | None = None
+
+    @property
+    def z3_available(self) -> bool:
+        if self._z3_available is None:
+            try:
+                import z3  # noqa: F401
+                self._z3_available = True
+            except ImportError:
+                self._z3_available = False
+        return self._z3_available
+
+    def discharge_axiom(
+        self,
+        axiom: AxiomDecl,
+        kernel: ProofKernel,
+        *,
+        test_fn: Any | None = None,
+    ) -> tuple[bool, TrustLevel, str]:
+        """Try to discharge an axiom. Returns (success, trust_level, message).
+
+        Attempts verification in this order:
+          1. Z3 (if formula is encodable)
+          2. Computational testing (if test_fn or target is callable)
+          3. Counterexample search
+          4. Fallback to trusted
+
+        Args:
+            axiom: The axiom to discharge.
+            kernel: The proof kernel.
+            test_fn: Optional callable that tests the axiom on concrete inputs.
+                     Should return True if the axiom holds, raise if it doesn't.
+        """
+        # 1. Try Z3 discharge
+        if self.enable_z3 and self.z3_available:
+            success, msg = self._try_z3_discharge(axiom)
+            if success:
+                return True, TrustLevel.Z3_VERIFIED, f"Z3 proved: {msg}"
+            # Z3 failure is not conclusive — formula may not be encodable
+
+        # 2. Try computational testing
+        if self.enable_computational and test_fn is not None:
+            success, msg = self._try_computational(axiom, test_fn)
+            if not success:
+                return False, TrustLevel.UNTRUSTED, f"Computational falsified: {msg}"
+            # Success upgrades to LLM_CHECKED (evidence from execution)
+            return True, TrustLevel.LLM_CHECKED, f"Computational ({msg})"
+
+        # 3. Try counterexample search on the target
+        if self.enable_counterexample:
+            target = _resolve_target(axiom.target) if axiom.target else None
+            if target is not None and callable(target):
+                found, msg = self._try_counterexample(axiom, target)
+                if found:
+                    return False, TrustLevel.UNTRUSTED, f"Counterexample: {msg}"
+
+        # 4. Fallback: trust the axiom
+        return True, TrustLevel.AXIOM_TRUSTED, f"Trusted axiom (not discharged)"
+
+    def _try_z3_discharge(self, axiom: AxiomDecl) -> tuple[bool, str]:
+        """Attempt to prove axiom via Z3."""
+        if not self.z3_available:
+            return False, "Z3 not available"
+        try:
+            from z3 import Solver, Int, Real, Bool, sat, unsat, unknown
+            # Try to parse the axiom as a Z3 formula
+            # We attempt common patterns: "a op b" style assertions
+            stmt = axiom.statement.strip()
+            # Skip complex / non-arithmetic axioms
+            if any(kw in stmt for kw in [
+                "for all", "for each", "iff", "returns", "passes through",
+                "collinear", "perpendicular", "intersection",
+            ]):
+                return False, "formula too complex for Z3 quick discharge"
+
+            # Try to evaluate as Z3 expression
+            solver = Solver()
+            # Create variables from any identifiers used
+            import re as _re
+            idents = set(_re.findall(r'\b([a-zA-Z_]\w*)\b', stmt))
+            reserved = {'True', 'False', 'None', 'and', 'or', 'not',
+                        'if', 'else', 'for', 'in', 'is', 'when', 'raises',
+                        'sqrt', 'abs', 'len', 'min', 'max', 'sum', 'pi'}
+            var_names = sorted(idents - reserved)
+            z3_vars = {}
+            for vn in var_names:
+                z3_vars[vn] = Real(vn)
+
+            # Try to build and negate the formula
+            try:
+                z3_expr = eval(stmt, {"__builtins__": {}}, z3_vars)
+                solver.add(z3_vars.get('__not__', lambda e: e)(z3_expr)
+                           if False else True)
+                # Actually: negate and check unsat
+                from z3 import Not
+                solver.push()
+                solver.add(Not(z3_expr))
+                result = solver.check()
+                solver.pop()
+                if result == unsat:
+                    return True, f"proved: {stmt[:60]}"
+                elif result == sat:
+                    return False, f"counterexample found"
+                return False, "Z3 returned unknown"
+            except Exception:
+                return False, "formula not Z3-encodable"
+        except Exception as e:
+            return False, f"Z3 error: {e}"
+
+    def _try_computational(
+        self, axiom: AxiomDecl, test_fn: Any,
+    ) -> tuple[bool, str]:
+        """Run computational tests on the axiom."""
+        passed = 0
+        failed = 0
+        for i in range(self.computational_samples):
+            try:
+                result = test_fn()
+                if result is False:
+                    failed += 1
+                    return False, f"test {i+1} returned False"
+                passed += 1
+            except AssertionError as e:
+                return False, f"test {i+1} assertion failed: {e}"
+            except Exception as e:
+                # Exception during testing — not necessarily a failure
+                # of the axiom, could be a test setup issue
+                failed += 1
+                if failed > self.computational_samples // 4:
+                    return False, f"too many test failures: {e}"
+        return True, f"{passed}/{passed + failed} tests passed"
+
+    def _try_counterexample(
+        self, axiom: AxiomDecl, target: Any,
+    ) -> tuple[bool, str]:
+        """Try to find a counterexample by calling the target."""
+        # Only attempt for simple function calls
+        import random
+        for _ in range(self.counterexample_samples):
+            try:
+                # Generate random inputs
+                args = [random.uniform(-100, 100) for _ in range(2)]
+                target(*args)
+            except TypeError:
+                break  # wrong arity / types — can't test this way
+            except Exception as e:
+                # Found an exception — might be a counterexample
+                return True, f"target raised {type(e).__name__}: {e}"
+        return False, "no counterexample found"
 #  §6  SidecarModule — the main container
 # ═══════════════════════════════════════════════════════════════════
 
@@ -647,8 +851,18 @@ class SidecarModule:
     def verify_all(
         self,
         kernel: ProofKernel | None = None,
+        *,
+        backend: SidecarVerificationBackend | None = None,
+        axiom_tests: dict[str, Any] | None = None,
     ) -> SidecarReport:
         """Verify all specs, axioms, and proofs in this sidecar module.
+
+        Args:
+            kernel: The proof kernel to use.
+            backend: Optional verification backend that can discharge
+                axioms via Z3/computational testing instead of trusting.
+            axiom_tests: Optional mapping from axiom name → test callable
+                for computational verification.
 
         Returns a SidecarReport with per-item results.
         """
@@ -656,6 +870,7 @@ class SidecarModule:
         self.install(kernel)
 
         results: list[SpecResult] = []
+        axiom_tests = axiom_tests or {}
 
         # Verify specs (structural check: the spec is well-formed)
         for name, es in self._specs.items():
@@ -671,16 +886,30 @@ class SidecarModule:
                     axioms_used=vr.axioms_used,
                 ))
 
-        # Axioms are trusted — record them as axiom_only
+        # Axioms — use backend to discharge if available, else trust
         for ax_name, ax in self._axioms.items():
-            results.append(SpecResult(
-                name=ax_name,
-                kind="axiom",
-                target_name=ax.target,
-                success=True,
-                trust_level=TrustLevel.AXIOM_TRUSTED,
-                message=f"Trusted axiom: {ax.statement[:60]}",
-            ))
+            if backend is not None:
+                test_fn = axiom_tests.get(ax_name)
+                success, trust, msg = backend.discharge_axiom(
+                    ax, kernel, test_fn=test_fn,
+                )
+                results.append(SpecResult(
+                    name=ax_name,
+                    kind="axiom",
+                    target_name=ax.target,
+                    success=success,
+                    trust_level=trust,
+                    message=msg,
+                ))
+            else:
+                results.append(SpecResult(
+                    name=ax_name,
+                    kind="axiom",
+                    target_name=ax.target,
+                    success=True,
+                    trust_level=TrustLevel.AXIOM_TRUSTED,
+                    message=f"Trusted axiom: {ax.statement[:60]}",
+                ))
 
         # Verify proofs
         for pd in self._proofs:
@@ -1073,12 +1302,41 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
                     current_data.setdefault("guarantees", []).append(val)
                 elif key == "pure":
                     current_data["pure"] = val.lower() in ("true", "yes", "1")
+                elif key == "total":
+                    current_data["total"] = val.lower() in ("true", "yes", "1")
+                elif key == "exception_free":
+                    # exception_free: when "cond"  OR  exception_free: true
+                    if val.lower() in ("true", "yes", "1"):
+                        current_data.setdefault("exception_free_when", []).append("true")
+                    elif val.lower().startswith("when "):
+                        cond = val[5:].strip().strip('"').strip("'")
+                        current_data.setdefault("exception_free_when", []).append(cond)
+                    else:
+                        current_data.setdefault("exception_free_when", []).append(val)
+                elif key == "safe_when":
+                    current_data.setdefault("safe_when", []).append(val)
+                elif key == "decreases":
+                    current_data.setdefault("decreases", []).append(val)
                 elif key == "target":
                     current_data["target"] = val
                 elif key == "by":
                     current_data["by"] = val
                 else:
                     current_data[key] = val
+                continue
+
+            # raises <ExcType>: when "condition"
+            m_raises = re.match(
+                r"^raises\s+([\w.]+)\s*:\s*(?:when\s+)?[\"']?(.+?)[\"']?\s*$",
+                line,
+            )
+            if m_raises and current_block == "spec":
+                exc_type = m_raises.group(1)
+                condition = m_raises.group(2).strip().strip('"').strip("'")
+                current_data.setdefault("raises", []).append({
+                    "type": exc_type,
+                    "when": condition,
+                })
                 continue
 
             # Axiom inside a spec block
@@ -1098,11 +1356,23 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
     sm = SidecarModule(module_name, version=version)
 
     for spec_target, spec_data in specs.items():
-        sm.spec(
+        es = sm.spec(
             spec_target,  # use string name — target library may not be imported
             guarantee=spec_data.get("guarantees"),
             pure=spec_data.get("pure", False),
         )
+        # Populate runtime safety fields
+        for cond in spec_data.get("exception_free_when", []):
+            es.exception_free_when.append(cond)
+        for r in spec_data.get("raises", []):
+            es.raises_declarations.append((r["type"], r["when"]))
+        for cond in spec_data.get("safe_when", []):
+            es.safe_when.append(cond)
+        if spec_data.get("total", False):
+            es.is_total = True
+        for measure in spec_data.get("decreases", []):
+            es.decreases.append(measure)
+
         for ax in spec_data.get("axioms", []):
             sm.axiom(
                 spec_target,

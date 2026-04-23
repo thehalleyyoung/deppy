@@ -374,6 +374,37 @@ def _translate(pt: Any, state: _TranslationState) -> str:
         state.comments.append(msg)
         return f"decide /- {msg} -/"
 
+    # ── ConditionalEffectWitness — translate to Lean implication ───
+    if name == "ConditionalEffectWitness":
+        precondition = getattr(pt, "precondition", "True")
+        effect = getattr(pt, "effect", "")
+        target = getattr(pt, "target", "")
+        inner = getattr(pt, "proof", None)
+        inner_lean = _translate(inner, state) if inner is not None else "sorry"
+        msg = (f"Conditional effect '{effect}' for {target}: "
+               f"holds when ({precondition})")
+        state.comments.append(msg)
+        # Encode as: assume the precondition, then discharge inner.
+        # Lean schema: ∀ (h : precondition), inner_proof
+        return (
+            f"(fun (h : /- {precondition} -/ True) => {inner_lean}) "
+            f"/- {msg} -/"
+        )
+
+    # ── SafetyObligation — translate to Lean theorem with proof ────
+    if name == "SafetyObligation":
+        oid = getattr(pt, "obligation_id", "")
+        cond = getattr(pt, "safety_condition", "True")
+        failure = getattr(pt, "failure_kind", "")
+        inner = getattr(pt, "proof", None)
+        inner_lean = _translate(inner, state) if inner is not None else "sorry"
+        msg = (f"Safety obligation [{oid}]: {cond} "
+               f"(prevents {failure})")
+        state.comments.append(msg)
+        # Encode as a witness of safety_condition; Lean schema:
+        #   theorem safe_<oid> : <cond> := <inner>
+        return f"({inner_lean}) /- safety: {cond} -/"
+
     # ── Fallback ────────────────────────────────────────────────
     state.sorry_count += 1
     state.untranslatable.append(f"Unknown proof term: {name}")

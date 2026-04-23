@@ -117,6 +117,40 @@ def effect_leq(a: Effect, b: Effect) -> bool:
 # ═══════════════════════════════════════════════════════════════════════
 
 @dataclass
+class ConditionalException:
+    """An exception that may be raised under a specific condition.
+
+    Unlike a bare exception class name, this records *when* and *where*
+    the exception can occur, enabling the exception-freedom verifier to
+    discharge individual sources via Z3 or abstract interpretation.
+
+    Attributes:
+        exception_type: The Python exception class name (e.g. "ValueError").
+        trigger_condition: A predicate string describing when this exception
+            is raised (e.g. "x < 0", "divisor == 0", "key not in d").
+            Empty string means "may always raise".
+        lineno: Source line where the exception can occur (0 = unknown).
+        description: Human-readable description.
+        is_explicit: True if from an explicit ``raise`` statement, False
+            if inferred from an operation (division, indexing, etc.).
+        caught: True if this exception is caught by a surrounding
+            try/except in the same function.
+    """
+    exception_type: str
+    trigger_condition: str = ""
+    lineno: int = 0
+    description: str = ""
+    is_explicit: bool = False
+    caught: bool = False
+
+    def __repr__(self) -> str:
+        cond = f" when {self.trigger_condition}" if self.trigger_condition else ""
+        caught = " [caught]" if self.caught else ""
+        loc = f" @L{self.lineno}" if self.lineno else ""
+        return f"ConditionalException({self.exception_type}{cond}{loc}{caught})"
+
+
+@dataclass
 class FunctionEffect:
     """The effect signature of a single function.
 
@@ -128,6 +162,8 @@ class FunctionEffect:
         reads:         Names of state variables / globals read.
         writes:        Names of state variables / globals written.
         exceptions:    Exception class names that may be raised.
+        conditional_exceptions:  Fine-grained exception sources with
+                       trigger conditions, locations, and caught status.
         is_total:      ``True`` when the function is guaranteed to
                        terminate for all valid inputs.
     """
@@ -138,6 +174,7 @@ class FunctionEffect:
     reads: set[str] = field(default_factory=set)
     writes: set[str] = field(default_factory=set)
     exceptions: set[str] = field(default_factory=set)
+    conditional_exceptions: list[ConditionalException] = field(default_factory=list)
     is_total: bool = True
 
     # ── helpers ────────────────────────────────────────────────────
@@ -152,6 +189,33 @@ class FunctionEffect:
             and not self.writes
             and not self.exceptions
         )
+
+    @property
+    def uncaught_exceptions(self) -> list[ConditionalException]:
+        """Conditional exceptions that escape the function (not caught)."""
+        return [ce for ce in self.conditional_exceptions if not ce.caught]
+
+    @property
+    def caught_exceptions(self) -> list[ConditionalException]:
+        """Conditional exceptions handled internally."""
+        return [ce for ce in self.conditional_exceptions if ce.caught]
+
+    @property
+    def exception_free_if(self) -> list[str]:
+        """Conditions under which this function is exception-free.
+
+        Returns a list of trigger conditions that must be false for the
+        function to never raise.  If empty and there are no uncaught
+        unconditional exceptions, the function is unconditionally
+        exception-free.
+        """
+        conditions: list[str] = []
+        for ce in self.uncaught_exceptions:
+            if ce.trigger_condition:
+                conditions.append(ce.trigger_condition)
+            else:
+                conditions.append(f"{ce.exception_type} may always raise")
+        return conditions
 
     @property
     def all_effects(self) -> set[Effect]:
@@ -171,6 +235,10 @@ class FunctionEffect:
             parts.append(f"writes={self.writes}")
         if self.exceptions:
             parts.append(f"exceptions={self.exceptions}")
+        if self.conditional_exceptions:
+            n_uncaught = len(self.uncaught_exceptions)
+            n_caught = len(self.caught_exceptions)
+            parts.append(f"cond_exceptions={n_uncaught} uncaught, {n_caught} caught")
         if not self.is_total:
             parts.append("may_diverge")
         return ", ".join(parts) + ")"
@@ -293,6 +361,8 @@ class EffectAnalyzer:
         self._reads: set[str] = set()
         self._writes: set[str] = set()
         self._exceptions: set[str] = set()
+        self._conditional_exceptions: list[ConditionalException] = []
+        self._try_depth: int = 0
         self._is_total: bool = True
         self._local_vars: set[str] = set()
         self._param_names: list[str] = []
@@ -329,6 +399,7 @@ class EffectAnalyzer:
             reads=set(self._reads),
             writes=set(self._writes),
             exceptions=set(self._exceptions),
+            conditional_exceptions=list(self._conditional_exceptions),
             is_total=self._is_total,
         )
 
@@ -349,6 +420,8 @@ class EffectAnalyzer:
         self._reads = set()
         self._writes = set()
         self._exceptions = set()
+        self._conditional_exceptions = []
+        self._try_depth = 0
         self._is_total = True
         self._local_vars = set()
         self._param_names = []
@@ -459,10 +532,20 @@ class EffectAnalyzer:
                 exc_name = self._extract_name(exc_node)
                 if exc_name:
                     self._exceptions.add(exc_name)
+                    self._conditional_exceptions.append(ConditionalException(
+                        exception_type=exc_name,
+                        trigger_condition="",
+                        lineno=node.lineno,
+                        description=f"explicit raise {exc_name}",
+                        is_explicit=True,
+                        caught=self._try_depth > 0,
+                    ))
 
         elif isinstance(node, ast.Try):
+            self._try_depth += 1
             for s in node.body:
                 self._visit_stmt(s)
+            self._try_depth -= 1
             for handler in node.handlers:
                 self._effects.add(Effect.EXCEPTION)
                 if handler.type:
@@ -500,6 +583,14 @@ class EffectAnalyzer:
             self._visit_expr(node.test)
             self._effects.add(Effect.EXCEPTION)
             self._exceptions.add("AssertionError")
+            self._conditional_exceptions.append(ConditionalException(
+                exception_type="AssertionError",
+                trigger_condition="assertion condition is False",
+                lineno=node.lineno,
+                description="assert statement",
+                is_explicit=True,
+                caught=self._try_depth > 0,
+            ))
 
         # TryStar (Python 3.11+)
         elif hasattr(ast, "TryStar") and isinstance(node, ast.TryStar):  # type: ignore[attr-defined]
@@ -527,6 +618,19 @@ class EffectAnalyzer:
         elif isinstance(node, ast.Subscript):
             self._visit_expr(node.value)
             self._visit_expr(node.slice)
+            # Subscript can raise IndexError or KeyError
+            if not isinstance(node.slice, ast.Slice):
+                self._effects.add(Effect.EXCEPTION)
+                self._exceptions.add("IndexError")
+                self._exceptions.add("KeyError")
+                self._conditional_exceptions.append(ConditionalException(
+                    exception_type="IndexError",
+                    trigger_condition="index out of range",
+                    lineno=getattr(node, 'lineno', 0),
+                    description="subscript access",
+                    is_explicit=False,
+                    caught=self._try_depth > 0,
+                ))
 
         elif isinstance(node, ast.BoolOp):
             for v in node.values:
@@ -535,6 +639,18 @@ class EffectAnalyzer:
         elif isinstance(node, ast.BinOp):
             self._visit_expr(node.left)
             self._visit_expr(node.right)
+            # Division / modulo / floor-division → ZeroDivisionError
+            if isinstance(node.op, (ast.Div, ast.FloorDiv, ast.Mod)):
+                self._effects.add(Effect.EXCEPTION)
+                self._exceptions.add("ZeroDivisionError")
+                self._conditional_exceptions.append(ConditionalException(
+                    exception_type="ZeroDivisionError",
+                    trigger_condition="divisor == 0",
+                    lineno=getattr(node, 'lineno', 0),
+                    description="division/modulo by zero",
+                    is_explicit=False,
+                    caught=self._try_depth > 0,
+                ))
 
         elif isinstance(node, ast.UnaryOp):
             self._visit_expr(node.operand)
