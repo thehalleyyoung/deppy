@@ -419,11 +419,38 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._sources = []
         self._in_function = True
 
-        self.generic_visit(node)
+        # ROUND 5 FIX: Split definition-time vs runtime hazards
+        # Definition-time: decorators, defaults, annotations execute at import
+        # Runtime: only the function body executes when called
+        
+        definition_sources = []
+        runtime_sources = []
+        
+        # Analyze definition-time elements
+        old_module_sources = list(self._module_sources)
+        for decorator in node.decorator_list:
+            self.visit(decorator)
+        for default in getattr(node, 'args', ast.arguments()).defaults:
+            self.visit(default)
+        for default in getattr(node, 'args', ast.arguments()).kw_defaults:
+            if default is not None:
+                self.visit(default)
+        if hasattr(node, 'returns') and node.returns:
+            self.visit(node.returns)
+        
+        # Collect definition-time sources as module-level
+        definition_sources = self._sources[:]
+        self._module_sources.extend(definition_sources)
+        self._sources = []
+        
+        # Analyze runtime body
+        for stmt in node.body:
+            self.visit(stmt)
+        runtime_sources = self._sources[:]
 
         summary = FunctionSourceSummary(
             name=node.name,
-            sources=list(self._sources),
+            sources=list(runtime_sources),  # Only runtime sources in function summary
             lineno=node.lineno,
             end_lineno=getattr(node, 'end_lineno', node.lineno),
             is_method=class_name is not None,

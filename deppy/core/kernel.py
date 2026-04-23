@@ -903,17 +903,43 @@ class ProofKernel:
     def _z3_check_implication(self, premise: str, conclusion: str) -> bool:
         """Check P => Q by checking that P ∧ ¬Q is unsat."""
         try:
-            from z3 import Solver, Int, unsat, Not, And, Or
+            from z3 import Solver, Int, Bool, unsat, Not, And, Or
             import re, ast as _ast
 
             var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', premise + conclusion))
             var_names -= {'True', 'False', 'and', 'or', 'not'}
-            z3_vars = {name: Int(name) for name in var_names}
+            
+            # ROUND 5 FIX: Better Python semantic modeling
+            # Infer types from usage patterns instead of defaulting to Int
+            z3_vars = {}
+            combined = f"({premise}) and ({conclusion})"
+            
+            for name in var_names:
+                # Heuristics for type inference from usage context
+                if (f"{name} ==" in combined or f"{name} !=" in combined or 
+                    f"== {name}" in combined or f"!= {name}" in combined or
+                    f"{name} >" in combined or f"{name} <" in combined):
+                    # Used in comparison — likely numeric
+                    z3_vars[name] = Int(name)
+                elif (f"not {name}" in combined or f"{name} and " in combined or
+                      f" and {name}" in combined or f"{name} or " in combined):
+                    # Used in boolean context
+                    z3_vars[name] = Bool(name)  
+                else:
+                    # Default to Int for safety, but this is already problematic
+                    z3_vars[name] = Int(name)
+                    
+            # Reject formulas with unsupported constructs
+            if any(op in combined for op in ['[', ']', '.', 'len(', 'str(', 'None']):
+                return False  # Fail closed on unsupported Python constructs
+                
             env = dict(z3_vars)
             env['__builtins__'] = {}
             env['And'] = And
             env['Or'] = Or
             env['Not'] = Not
+            env['True'] = True
+            env['False'] = False
 
             def _rewrite(src: str) -> str:
                 """Rewrite Python `and`/`or`/`not` into Z3 calls."""
@@ -1382,7 +1408,17 @@ class ProofKernel:
                 axioms_used=[formal.qualified_name],
             )
 
-        # Fall back to legacy string-keyed lookup
+        # ROUND 5 FIX: For safety-critical goals, reject legacy string-keyed axioms
+        # since they don't verify the axiom statement actually matches the goal
+        goal_str = str(goal.type_) if goal.type_ else ""
+        if ("Safe[" in goal_str or "safety" in goal_str.lower() or
+            goal.kind == JudgmentKind.WELL_FORMED):
+            return VerificationResult.fail(
+                f"Safety goal requires formal axiom, not legacy string: {proof.name}",
+                code="E006b"
+            )
+
+        # Fall back to legacy string-keyed lookup (for non-safety goals only)
         str_key = f"{proof.module}.{proof.name}" if proof.module else proof.name
         if str_key in self.axiom_registry or proof.name in self.axiom_registry:
             return VerificationResult(

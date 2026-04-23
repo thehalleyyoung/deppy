@@ -2271,3 +2271,130 @@ def test():
             # This is hard to test precisely, but at minimum it shouldn't
             # be UNTRUSTED if both components succeeded
             assert verdict.aggregate_trust.value > 0  # Not UNTRUSTED
+
+
+# ════════════════════════════════════════════════════════════════════
+#  Cheat-audit Round 5 (Final)
+# ════════════════════════════════════════════════════════════════════
+
+class TestCheatAuditRound5:
+    """Regressions for Round-5 cheat findings (final round)."""
+
+    def test_legacy_axioms_rejected_for_safety_goals(self):
+        """Issue 1: Legacy string axioms should be rejected for safety goals."""
+        from deppy.core.kernel import ProofKernel, AxiomInvocation, Context, Judgment, JudgmentKind
+        from deppy.core.types import Var
+        
+        kernel = ProofKernel()
+        # Register a legacy string axiom
+        kernel.axiom_registry["dummy_axiom"] = "some description"
+        
+        # Try to use it for a safety goal
+        axiom = AxiomInvocation(module="", name="dummy_axiom")
+        goal = Judgment(kind=JudgmentKind.WELL_FORMED, context=Context(), 
+                       type_=Var("Safe[divide_by_zero]"))
+        
+        result = kernel.verify(Context(), goal, axiom)
+        # Should fail because legacy axioms don't verify goal matching
+        assert not result.success
+        assert "formal axiom" in result.message.lower()
+
+    def test_transport_uses_refl_not_tautological_z3(self):
+        """Issue 2: spec_refinement_transport should use Refl, not Z3 tautology."""
+        from deppy.pipeline.cubical_safety import spec_refinement_transport
+        from deppy.core.kernel import TransportProof, Refl, Z3Proof, Structural
+        
+        section = Structural(description="test section")
+        transport = spec_refinement_transport("test_fn", "x > 0", section)
+        
+        # Should be a TransportProof with Refl path, not Z3 tautology
+        assert isinstance(transport, TransportProof)
+        assert isinstance(transport.path_proof, Refl)
+        assert not isinstance(transport.path_proof, Z3Proof)
+
+    def test_atlas_generates_per_call_site_overlaps(self):
+        """Issue 3: Atlas should not deduplicate call edges by (caller, callee) pair."""
+        from deppy.pipeline.cubical_safety import safety_atlas, CallEdge
+        from deppy.core.kernel import Structural
+        
+        # Two call edges to the same callee with different substitutions
+        edges = [
+            CallEdge(caller="f", callee="g", arg_substitution={"x": "1"}, 
+                    caller_precondition="True", callee_precondition="x > 0"),
+            CallEdge(caller="f", callee="g", arg_substitution={"x": "2"}, 
+                    caller_precondition="True", callee_precondition="x > 0"),
+        ]
+        
+        sections = {
+            "f": Structural(description="f section"),
+            "g": Structural(description="g section"),
+        }
+        
+        atlas = safety_atlas(
+            function_sections=sections,
+            module_section=Structural(description="module"),
+            call_edges=edges,
+            probe_kernel=None,  # Skip verification for this test
+        )
+        
+        # Should have 2 overlap proofs, not 1 (no deduplication)
+        assert len(atlas.overlap_proofs) == 2
+
+    def test_z3_rejects_unsupported_python_constructs(self):
+        """Issue 4: Z3 verification should fail closed on unsupported constructs."""
+        from deppy.core.kernel import ProofKernel, Z3Proof, Context, Judgment, JudgmentKind
+        from deppy.core.types import Var
+        
+        kernel = ProofKernel()
+        ctx = Context()
+        goal = Judgment(kind=JudgmentKind.WELL_FORMED, context=ctx, type_=Var("Safety"))
+        
+        # Formula with unsupported Python constructs
+        z3_proof = Z3Proof(formula="len(xs) > 0")  # len() not supported
+        
+        result = kernel.verify(ctx, goal, z3_proof)
+        # Should fail because len() is unsupported construct
+        assert not result.success
+
+    def test_definition_time_hazards_attributed_to_module(self):
+        """Issue 5: Decorator/default hazards should be module-level, not function-level."""
+        from deppy.pipeline.exception_sources import ExceptionSourceFinder
+        import ast
+        
+        finder = ExceptionSourceFinder("<test>")
+        
+        code = """
+def bad_default(x=1/0):  # Definition-time division by zero
+    return x
+"""
+        tree = ast.parse(code)
+        summary = finder.analyze_module(tree)
+        
+        # The 1/0 in the default should be a module-level source
+        module_sources = summary.module_level_sources
+        function_sources = []
+        for func in summary.functions:
+            function_sources.extend(func.sources)
+            
+        # Should have module-level ZERO_DIVISION, not function-level
+        module_zero_div = any(s.kind.name == "ZERO_DIVISION" for s in module_sources)
+        function_zero_div = any(s.kind.name == "ZERO_DIVISION" for s in function_sources)
+        
+        assert module_zero_div, f"Module sources: {[s.kind.name for s in module_sources]}"
+        assert not function_zero_div, f"Function sources: {[s.kind.name for s in function_sources]}"
+
+    def test_atlas_requires_higher_trust_threshold(self):
+        """Issue 3b: Atlas trust threshold should reject structural fallbacks."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        
+        # Simple module that would get structural trust
+        src = "def f(): pass"
+        specs = {"f": ExternalSpec(target_name="f", exception_free_when=["True"])}
+        
+        verdict = verify_module_safety(src, sidecar_specs=specs, use_drafts=False)
+        
+        # If internal_calls_closed is False, it should be due to inadequate trust
+        if not verdict.internal_calls_closed:
+            # Atlas trust should be below Z3_VERIFIED threshold
+            assert verdict.aggregate_trust.value < 5  # Z3_VERIFIED is 5

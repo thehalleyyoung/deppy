@@ -412,7 +412,8 @@ def verify_module_safety(
     # atlas's cocycle verification — not asserted.
     # ROUND 4 FIX: Only set internal_calls_closed when atlas is successful 
     # AND above minimum trust threshold
-    min_trust_threshold = TrustLevel.STRUCTURAL_CHAIN
+    # ROUND 5 FIX: Raise threshold to require genuinely proved overlaps
+    min_trust_threshold = TrustLevel.Z3_VERIFIED  # No structural fallbacks for closure
     atlas_adequate = (cubical_atlas_succeeded and 
                       cubical_atlas_trust.value >= min_trust_threshold.value)
     verdict.internal_calls_closed = atlas_adequate

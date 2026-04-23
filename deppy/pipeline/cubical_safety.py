@@ -264,19 +264,24 @@ def safety_atlas(
         # Provide a structural placeholder so CechGlue is well-formed.
         patches.append(("<empty>", Structural(description="no functions")))
 
+    # ROUND 5 FIX: Generate overlap proofs per call-site, not per (caller, callee) pair.
+    # Each CALL_PROPAGATION discharge should have a corresponding cocycle proof 
+    # for that specific call site with its substitution/precondition.
     overlap_proofs: list[tuple[int, int, ProofTerm]] = []
-    seen: set[tuple[int, int]] = set()
+    call_site_edges: dict[str, CallEdge] = {}  # map call_site_id -> edge
+    
     for edge in call_edges:
         if edge.caller not in index or edge.callee not in index:
             continue
         i, j = index[edge.caller], index[edge.callee]
         if i == j:
             continue
-        # Canonicalise i<j to avoid duplicate overlap entries.
-        key = (min(i, j), max(i, j))
-        if key in seen:
-            continue
-        seen.add(key)
+        
+        # Generate a unique call-site ID for this edge
+        call_site_id = f"{edge.caller}->{edge.callee}@{len(overlap_proofs)}"
+        call_site_edges[call_site_id] = edge
+        
+        # No deduplication — every call edge gets its own overlap proof
         overlap_proofs.append((i, j, _cocycle_proof(edge, probe_kernel)))
 
     return CechGlue(patches=patches, overlap_proofs=overlap_proofs)
@@ -381,14 +386,14 @@ def spec_refinement_transport(
     pred = (precondition or "True").strip() or "True"
     if pred == "True":
         return section  # type: ignore[return-value]
-    # The path proof is the *trivial* equality target=target, which we
-    # discharge via Z3 (a tautology) rather than Refl — Refl insists on
-    # the outer goal carrying left/right endpoints, while our outer
-    # goal is the function's safety *type*, not an equality.  Z3Proof
-    # ignores goal shape and the formula is unconditionally true.
+    
+    # ROUND 5 FIX: Use actual Refl proof instead of tautological Z3
+    # The refinement path should be reflexivity at the type level,
+    # not string equality in an SMT solver.
+    from deppy.core.kernel import Refl
     return TransportProof(
         type_family=Var(f"Safe[{target}]"),
-        path_proof=Z3Proof(formula=f"({target!r}) == ({target!r})"),
+        path_proof=Refl(term=Var(target)),  # proper reflexivity proof
         base_proof=section,
     )
 
