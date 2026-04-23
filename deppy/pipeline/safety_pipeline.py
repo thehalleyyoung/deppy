@@ -376,6 +376,29 @@ def verify_module_safety(
         cubical_atlas_succeeded = bool(atlas_result.success)
         cubical_atlas_message = atlas_result.message
         cubical_atlas_trust = atlas_result.trust_level
+
+        # CG7 / Round 3 Issue 2: every CALL_PROPAGATION discharge that
+        # defers via callee_safe[X] must point to a callee X for
+        # which the atlas actually contains a cocycle edge.  Without
+        # this, the per-function deferral is empty — the axiom fires
+        # but no atlas-level proof of X's safety exists.
+        cocycle_callees = {edge.callee for edge in call_edges}
+        for fn_name, dis in function_discharges.items():
+            for d in dis:
+                inner = d.inner
+                if isinstance(inner, AxiomInvocation) and \
+                        inner.name.startswith("callee_safe["):
+                    callee = inner.name[len("callee_safe["):-1]
+                    if callee not in cocycle_callees and callee in callee_pres:
+                        cubical_atlas_succeeded = False
+                        cubical_atlas_message = (
+                            f"callee_safe[{callee}] in {fn_name} has no "
+                            f"corresponding cocycle edge in the atlas"
+                        )
+                        break
+            if not cubical_atlas_succeeded:
+                break
+
         verdict.cubical_atlas_safe = cubical_atlas_succeeded
         verdict.cubical_atlas_message = cubical_atlas_message
         if not cubical_atlas_succeeded:

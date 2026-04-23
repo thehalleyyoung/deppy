@@ -1616,7 +1616,13 @@ class ProofKernel:
         """Heuristic: at least one of {path_proof, base_proof, type_family}
         mentions a term name in common with the goal.  This rules out
         Z3 tautologies whose formula is utterly unrelated to the
-        claim being transported."""
+        claim being transported.
+
+        CG7 / Round 3 Issue 3: comments are stripped before scanning,
+        and matching is by whole-token rather than substring, so an
+        attacker cannot satisfy the heuristic by embedding the goal's
+        name in a comment of an unrelated tautology."""
+        import re
         goal_names: set[str] = set()
         for term in (goal.left, goal.right, goal.term, goal.type_):
             if term is None:
@@ -1635,13 +1641,20 @@ class ProofKernel:
         proof_strs: list[str] = []
         for child in (proof.path_proof, proof.base_proof):
             if isinstance(child, Z3Proof):
-                proof_strs.append(child.formula)
+                # Strip Python-style comments (everything after '#' on a line).
+                f = child.formula or ""
+                f = re.sub(r"#.*?(?:\n|$)", " ", f)
+                # Strip string literals.
+                f = re.sub(r"'[^']*'|\"[^\"]*\"", " ", f)
+                proof_strs.append(f)
             else:
                 proof_strs.append(repr(child))
         if not goal_names:
-            return True  # nothing to check against
+            return True
         joined = " ".join(proof_strs)
-        return any(name and name in joined for name in goal_names if len(name) >= 2)
+        # Tokenise into identifier-like tokens.
+        tokens = set(re.findall(r"[A-Za-z_][A-Za-z0-9_\[\]\|]*", joined))
+        return any(name and name in tokens for name in goal_names if len(name) >= 2)
 
     # ── PathComp ───────────────────────────────────────────────────
 
@@ -1822,12 +1835,19 @@ class ProofKernel:
                     code="E001"
                 )
 
-            # The agreement proof should verify that patches agree on overlap
+            # CG7 / Round 3 Issue 1: the overlap_goal must encode the
+            # specific cocycle condition for patches (i, j) — namely
+            # that the two patch labels agree.  We construct an
+            # equality whose left/right are the patch labels.  This
+            # propagates into the formula-coherence heuristic so that
+            # an unrelated tautology cannot pose as the cocycle proof.
+            label_i = proof.patches[i][0]
+            label_j = proof.patches[j][0]
             overlap_goal = Judgment(
                 kind=JudgmentKind.EQUAL,
                 context=goal.context,
-                left=goal.left,
-                right=goal.right,
+                left=Var(str(label_i)),
+                right=Var(str(label_j)),
                 type_=goal.type_,
             )
             r = self.verify(ctx, overlap_goal, agreement_proof)
