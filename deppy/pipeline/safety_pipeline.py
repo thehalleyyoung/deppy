@@ -33,7 +33,7 @@ from typing import Any, Optional
 from deppy.core.kernel import (
     ProofKernel, ProofTerm, TrustLevel, ConditionalEffectWitness, Structural,
     SemanticSafetyWitness, ModuleSafetyComposition, SourceDischarge, Z3Proof,
-    AxiomInvocation, Assume, TerminationObligation,
+    AxiomInvocation, Assume, TerminationObligation, min_trust,
 )
 from deppy.core.types import (
     Context, Judgment, JudgmentKind, Var, PyObjType,
