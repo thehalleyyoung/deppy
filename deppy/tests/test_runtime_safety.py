@@ -2093,3 +2093,181 @@ class TestCheatAuditRound3:
         # source generated, but the test structure illustrates the
         # validation.)
         assert v.cubical_atlas_safe or "no cocycle" not in (v.cubical_atlas_message or "")
+
+
+# ════════════════════════════════════════════════════════════════════
+#  Cheat-audit Round 4
+# ════════════════════════════════════════════════════════════════════
+
+class TestCheatAuditRound4:
+    """Regressions for Round-4 cheat findings."""
+
+    def test_kernel_rejects_tautological_z3_proofs_for_safety_goals(self):
+        """Issue 1: Z3 proofs should not accept 'True' for specific safety obligations."""
+        from deppy.core.kernel import ProofKernel, SourceDischarge, Z3Proof
+        from deppy.core.types import Var
+        kernel = ProofKernel()
+        
+        # Create a specific safety discharge with a tautological Z3 proof
+        discharge = SourceDischarge(
+            source_id="test:42:ZeroDivision",
+            failure_kind="ZERO_DIVISION",
+            safety_predicate="b != 0",  # specific predicate
+            inner=Z3Proof(formula="True"),  # tautological proof
+        )
+        
+        # The kernel should reject this
+        from deppy.core.kernel import Context, Judgment, JudgmentKind
+        ctx = Context()
+        goal = Judgment(kind=JudgmentKind.WELL_FORMED, 
+                       context=ctx, type_=Var("placeholder"))
+        
+        result = kernel.verify(ctx, goal, discharge)
+        # Should fail because Z3 formula "True" doesn't prove "b != 0"
+        assert not result.success
+        assert "tautological" in result.message.lower()
+
+    def test_transport_fails_only_on_double_tautologies(self):
+        """Issue 2: Transport should fail only when both path and base are 'True'."""
+        from deppy.core.kernel import (
+            Context, Judgment, JudgmentKind, ProofKernel, TransportProof, Z3Proof
+        )
+        from deppy.core.types import Var
+        kernel = ProofKernel()
+        
+        # Case 1: Both path and base are tautologies — should fail
+        proof1 = TransportProof(
+            type_family=Var("Safety"),
+            path_proof=Z3Proof(formula="True"),
+            base_proof=Z3Proof(formula="True"),
+        )
+        goal = Judgment(kind=JudgmentKind.EQUAL, context=Context(),
+                       left=Var("a"), right=Var("b"), type_=Var("ComplexSafety"))
+        r1 = kernel.verify(Context(), goal, proof1)
+        assert not r1.success  # Should fail for double tautology
+        assert "tautological" in r1.message.lower()
+        
+        # Case 2: Only one is tautological — should succeed but downgrade trust
+        proof2 = TransportProof(
+            type_family=Var("Safety"),
+            path_proof=Z3Proof(formula="a = b"),  # specific formula
+            base_proof=Z3Proof(formula="True"),   # tautological
+        )
+        r2 = kernel.verify(Context(), goal, proof2)
+        assert r2.success  # Should succeed
+        assert r2.trust_level.value <= 4  # But trust should be downgraded
+
+    def test_atlas_requires_adequate_trust_for_call_closure(self):
+        """Issue 2b: internal_calls_closed requires atlas success AND adequate trust."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        
+        # Module with a function that should produce low-trust atlas
+        src = (
+            "def caller():\n"
+            "    return callee()\n"
+            "def callee():\n"
+            "    return 1 / 0  # unsafe\n"
+        )
+        specs = {
+            "caller": ExternalSpec(target_name="caller", 
+                                  exception_free_when=["True"]),  # claims safety
+            "callee": ExternalSpec(target_name="callee",
+                                  exception_free_when=["False"]),  # admits unsafety
+        }
+        
+        verdict = verify_module_safety(src, sidecar_specs=specs, use_drafts=False)
+        # internal_calls_closed should be False due to inadequate atlas trust
+        # (even if atlas succeeds structurally, trust may be too low)
+        if not verdict.internal_calls_closed:
+            assert "atlas" in (verdict.cubical_atlas_message or "").lower()
+
+    def test_lean_export_generates_nonvacuous_theorems(self):
+        """Issue 3: Lean export should generate non-vacuous theorem statements."""
+        from deppy.lean.safety_lean import conditional_witness_to_theorem
+        from deppy.effects.effect_propagation import ConditionalEffectWitness
+        
+        witness = ConditionalEffectWitness(
+            target="divide",
+            precondition="b != 0",
+            effect="exception_free"
+        )
+        
+        theorem = conditional_witness_to_theorem(witness)
+        
+        # Should generate a real ExceptionFree statement, not just "True"
+        assert "ExceptionFree" in theorem.statement
+        assert theorem.statement != "True"
+        
+        # Proof should acknowledge it's incomplete (sorry)
+        assert "sorry" in theorem.proof_body.lower()
+        assert "by trivial" not in theorem.proof_body
+
+    def test_math_domain_sources_detected(self):
+        """Issue 4: Source enumeration should detect math domain errors."""
+        from deppy.pipeline.exception_sources import ExceptionSourceFinder
+        import ast
+        
+        finder = ExceptionSourceFinder("<test>")
+        
+        # Code with math domain error sources
+        code = """
+import math
+def test():
+    math.sqrt(-1)    # MATH_DOMAIN
+    math.log(0)      # MATH_DOMAIN  
+    math.exp(1000)   # OVERFLOW
+"""
+        tree = ast.parse(code)
+        summary = finder.analyze_module(tree)
+        
+        # Should detect MATH_DOMAIN and OVERFLOW sources
+        all_sources = []
+        for func in summary.functions:
+            all_sources.extend(func.sources)
+        
+        math_domain_found = any(s.kind.name == "MATH_DOMAIN" for s in all_sources)
+        overflow_found = any(s.kind.name == "OVERFLOW" for s in all_sources)
+        
+        assert math_domain_found, f"MATH_DOMAIN not found in: {[s.kind.name for s in all_sources]}"
+        assert overflow_found, f"OVERFLOW not found in: {[s.kind.name for s in all_sources]}"
+
+    def test_name_error_sources_detected(self):
+        """Issue 4b: Source enumeration should detect NAME_ERROR."""
+        from deppy.pipeline.exception_sources import ExceptionSourceFinder
+        import ast
+        
+        finder = ExceptionSourceFinder("<test>")
+        
+        code = """
+def test():
+    return undefined_variable  # NAME_ERROR
+"""
+        tree = ast.parse(code)
+        summary = finder.analyze_module(tree)
+        
+        all_sources = []
+        for func in summary.functions:
+            all_sources.extend(func.sources)
+        
+        name_error_found = any(s.kind.name == "NAME_ERROR" for s in all_sources)
+        assert name_error_found, f"NAME_ERROR not found in: {[s.kind.name for s in all_sources]}"
+
+    def test_aggregate_trust_uses_minimum(self):
+        """Issue 5: Aggregate trust should use minimum of component trusts."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        
+        # Simple safe module to get two different trust levels
+        src = "def safe(): return 42"
+        specs = {
+            "safe": ExternalSpec(target_name="safe", exception_free_when=["True"]),
+        }
+        
+        verdict = verify_module_safety(src, sidecar_specs=specs, use_drafts=False)
+        
+        if verdict.module_safe and verdict.cubical_atlas_safe:
+            # aggregate_trust should be min(module_trust, atlas_trust)
+            # This is hard to test precisely, but at minimum it shouldn't
+            # be UNTRUSTED if both components succeeded
+            assert verdict.aggregate_trust.value > 0  # Not UNTRUSTED

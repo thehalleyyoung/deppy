@@ -410,21 +410,26 @@ def verify_module_safety(
 
     # CG7 cheat C1: ``internal_calls_closed`` is now derived from the
     # atlas's cocycle verification — not asserted.
-    verdict.internal_calls_closed = cubical_atlas_succeeded
+    # ROUND 4 FIX: Only set internal_calls_closed when atlas is successful 
+    # AND above minimum trust threshold
+    min_trust_threshold = TrustLevel.STRUCTURAL_CHAIN
+    atlas_adequate = (cubical_atlas_succeeded and 
+                      cubical_atlas_trust.value >= min_trust_threshold.value)
+    verdict.internal_calls_closed = atlas_adequate
+    
     module_proof = ModuleSafetyComposition(
         module_path=module_path,
         function_witnesses=function_proofs,
         module_discharges=module_discharges,
-        internal_calls_closed=cubical_atlas_succeeded,
+        internal_calls_closed=atlas_adequate,
     )
     module_result = kernel.verify(ctx, goal, module_proof)
     verdict.module_proof_payload = _serialize_module_composition(module_proof)
-    verdict.module_safe = bool(module_result.success) and cubical_atlas_succeeded
-    if module_result.success and cubical_atlas_succeeded:
-        verdict.aggregate_trust = (
-            module_result.trust_level
-            if module_result.trust_level.value >= cubical_atlas_trust.value
-            else cubical_atlas_trust
+    verdict.module_safe = bool(module_result.success) and atlas_adequate
+    if module_result.success and atlas_adequate:
+        # ROUND 4 FIX: Use minimum trust, not maximum
+        verdict.aggregate_trust = min_trust(
+            module_result.trust_level, cubical_atlas_trust
         )
     else:
         verdict.aggregate_trust = TrustLevel.UNTRUSTED

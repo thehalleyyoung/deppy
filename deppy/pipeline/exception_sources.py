@@ -310,6 +310,23 @@ _BUILTIN_EXCEPTION_MAP: dict[str, list[tuple[ExceptionKind, str, Severity]]] = {
     "enumerate": [],
     "reversed": [(ExceptionKind.TYPE_ERROR, "argument not reversible", Severity.LOW)],
     "super":   [(ExceptionKind.RUNTIME_ERROR, "super(): no arguments", Severity.LOW)],
+    
+    # ROUND 4 FIX: Add math functions that can raise MATH_DOMAIN and OVERFLOW
+    "math.sqrt": [(ExceptionKind.MATH_DOMAIN, "sqrt of negative number", Severity.MEDIUM)],
+    "math.log": [(ExceptionKind.MATH_DOMAIN, "log of non-positive number", Severity.MEDIUM)],
+    "math.log10": [(ExceptionKind.MATH_DOMAIN, "log10 of non-positive number", Severity.MEDIUM)],
+    "math.log2": [(ExceptionKind.MATH_DOMAIN, "log2 of non-positive number", Severity.MEDIUM)],
+    "math.acos": [(ExceptionKind.MATH_DOMAIN, "acos domain error", Severity.MEDIUM)],
+    "math.asin": [(ExceptionKind.MATH_DOMAIN, "asin domain error", Severity.MEDIUM)],
+    "math.atanh": [(ExceptionKind.MATH_DOMAIN, "atanh domain error", Severity.MEDIUM)],
+    "math.acosh": [(ExceptionKind.MATH_DOMAIN, "acosh domain error", Severity.MEDIUM)],
+    "math.gamma": [(ExceptionKind.MATH_DOMAIN, "gamma domain error", Severity.MEDIUM)],
+    "math.lgamma": [(ExceptionKind.MATH_DOMAIN, "lgamma domain error", Severity.MEDIUM)],
+    "math.exp": [(ExceptionKind.OVERFLOW, "exp result too large", Severity.MEDIUM)],
+    "math.exp2": [(ExceptionKind.OVERFLOW, "exp2 result too large", Severity.MEDIUM)],
+    "math.expm1": [(ExceptionKind.OVERFLOW, "expm1 result too large", Severity.MEDIUM)],
+    "math.pow": [(ExceptionKind.MATH_DOMAIN, "pow domain error", Severity.MEDIUM),
+                 (ExceptionKind.OVERFLOW, "pow result too large", Severity.MEDIUM)],
 }
 
 # Method calls known to raise specific exceptions
@@ -750,6 +767,47 @@ class ExceptionSourceFinder(ast.NodeVisitor):
 
     def visit_GeneratorExp(self, node: ast.GeneratorExp) -> None:
         self._add_comprehension_iter_sources(node)
+        self.generic_visit(node)
+
+    # ROUND 4 FIX: Add missing exception source visitors
+    
+    def visit_Name(self, node: ast.Name) -> None:
+        """Detect NAME_ERROR from undefined variable access."""
+        if isinstance(node.ctx, ast.Load):
+            # Variable read that could be undefined
+            self._add_source(
+                ExceptionKind.NAME_ERROR,
+                node,
+                trigger_condition=f"'{node.id}' not defined",
+                description=f"name '{node.id}' is not defined",
+            )
+        self.generic_visit(node)
+    
+    def visit_Await(self, node: ast.Await) -> None:
+        """Detect TIMEOUT_ERROR from async operations."""
+        # await can timeout in asyncio contexts
+        self._add_source(
+            ExceptionKind.TIMEOUT_ERROR,
+            node,
+            trigger_condition="await timeout",
+            description="await operation may timeout",
+        )
+        self.generic_visit(node)
+    
+    def visit_AsyncFor(self, node: ast.AsyncFor) -> None:
+        """Detect TIMEOUT_ERROR and ITERATION_ERROR from async iteration."""
+        self._add_source(
+            ExceptionKind.TIMEOUT_ERROR,
+            node,
+            trigger_condition="async iteration timeout",
+            description="async for loop may timeout",
+        )
+        self._add_source(
+            ExceptionKind.ITERATION_ERROR,
+            node,
+            trigger_condition="async iteration failure", 
+            description="async iterator may fail",
+        )
         self.generic_visit(node)
 
     # ── Helpers ───────────────────────────────────────────────────
