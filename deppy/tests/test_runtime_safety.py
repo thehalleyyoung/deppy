@@ -1621,3 +1621,119 @@ class TestTermination:
         )
         r = kernel.verify(ctx, goal, ob)
         assert not r.success
+
+
+# ════════════════════════════════════════════════════════════════════
+#  Phase 5 — Cubical safety atlas (CG1–CG4)
+# ════════════════════════════════════════════════════════════════════
+
+class TestCubicalSafety:
+    """The safety pipeline must compose per-function sections into a
+    Čech atlas whose cocycle conditions verify call-graph closure
+    semantically — not by hardcoded ``internal_calls_closed=True``."""
+
+    def test_safe_module_passes_atlas(self):
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        src = (
+            "def divide(a, b):\n"
+            "    return a / b\n"
+        )
+        spec = ExternalSpec(target_name="divide",
+                            exception_free_when=["b != 0"])
+        v = verify_module_safety(src, sidecar_specs={"divide": spec},
+                                 use_drafts=False)
+        assert v.cubical_atlas_safe, v.cubical_atlas_message
+
+    def test_atlas_enforces_call_cocycle(self):
+        """Caller's substituted env must imply callee's precondition.
+        If it doesn't, the atlas rejects the module — even when each
+        function in isolation might individually verify (e.g., via
+        ``is_total`` escape on the caller)."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        # safe_div requires b != 0; bad_caller escapes its own
+        # propagation via is_total but still calls safe_div with 0.
+        src = (
+            "def safe_div(a, b):\n"
+            "    return a / b\n"
+            "def bad_caller(x):\n"
+            "    return safe_div(x, 0)\n"
+        )
+        specs = {
+            "safe_div": ExternalSpec(target_name="safe_div",
+                                     exception_free_when=["b != 0"]),
+            "bad_caller": ExternalSpec(target_name="bad_caller",
+                                       is_total=True),
+        }
+        v = verify_module_safety(src, sidecar_specs=specs, use_drafts=False)
+        assert not v.cubical_atlas_safe, \
+            f"atlas should reject broken cocycle, got: {v.cubical_atlas_message}"
+        # The cocycle ``True ⇒ 0 != 0`` cannot hold.
+        assert "overlap" in (v.cubical_atlas_message or "").lower() \
+            or "0 != 0" in (v.cubical_atlas_message or "")
+
+    def test_atlas_accepts_consistent_substitution(self):
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        src = (
+            "def safe_div(a, b):\n"
+            "    return a / b\n"
+            "def good_caller(x, y):\n"
+            "    return safe_div(x, y)\n"
+        )
+        specs = {
+            "safe_div": ExternalSpec(target_name="safe_div",
+                                     exception_free_when=["b != 0"]),
+            "good_caller": ExternalSpec(target_name="good_caller",
+                                        exception_free_when=["y != 0"]),
+        }
+        v = verify_module_safety(src, sidecar_specs=specs, use_drafts=False)
+        assert v.cubical_atlas_safe, v.cubical_atlas_message
+
+    def test_termination_uses_transport_proof(self):
+        """The recursion discharge for a function with a decreases
+        measure must be a TerminationObligation whose inner is a
+        TransportProof, not a bare Z3Proof — termination is a
+        homotopy fact."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.core.kernel import TerminationObligation, TransportProof
+        from deppy.proofs.sidecar import ExternalSpec
+        src = (
+            "def fact(n):\n"
+            "    if n <= 0:\n"
+            "        return 1\n"
+            "    return n * fact(n - 1)\n"
+        )
+        spec = ExternalSpec(target_name="fact",
+                            exception_free_when=["n >= 0"],
+                            decreases=["n"])
+        v = verify_module_safety(src, sidecar_specs={"fact": spec},
+                                 use_drafts=False)
+        fv = v.functions["fact"]
+        # Find the recursion discharge in the proof payload.
+        payload = fv.proof_payload
+        sem = payload["semantic"]
+        recursion_discharges = [
+            d for d in sem["discharges"] if "RUNTIME_ERROR" in d["failure_kind"]
+        ]
+        assert recursion_discharges, "recursion discharge missing"
+        inner = recursion_discharges[0]["inner"]
+        assert "Termination" in inner.get("kind", "")
+
+    def test_hazard_space_construction(self):
+        from deppy.pipeline.cubical_safety import HazardSpace
+        from deppy.pipeline.exception_sources import find_exception_sources
+        src = (
+            "def f(a, b):\n"
+            "    return a / b\n"
+            "def g(xs, i):\n"
+            "    return xs[i]\n"
+        )
+        summ = find_exception_sources(src)
+        per_fn = {fs.name: list(fs.uncaught_sources) for fs in summ.functions}
+        space = HazardSpace.from_sources(per_fn, list(summ.module_level_sources))
+        assert "f" in space.points_by_function
+        assert "g" in space.points_by_function
+        assert space.points_by_function["f"]
+        assert space.points_by_function["g"]

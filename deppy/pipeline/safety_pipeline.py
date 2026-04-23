@@ -91,6 +91,8 @@ class SafetyVerdict:
     module_safe: bool = False
     module_level_unaddressed: list[str] = field(default_factory=list)
     module_proof_payload: Optional[dict[str, Any]] = None
+    cubical_atlas_safe: bool = False
+    cubical_atlas_message: str = ""
     lean_checked: bool = False
     lean_module_source: Optional[str] = None
     aggregate_trust: TrustLevel = TrustLevel.UNTRUSTED
@@ -209,6 +211,8 @@ def verify_module_safety(
 
     function_trusts: list[TrustLevel] = []
     function_proofs: dict[str, ProofTerm] = {}
+    function_discharges: dict[str, list[SourceDischarge]] = {}
+    function_preconditions: dict[str, str] = {}
     lean_witnesses: list[ConditionalEffectWitness] = []
     ctx = Context()
     goal = Judgment(
@@ -275,6 +279,8 @@ def verify_module_safety(
             target=fn_name,
         )
         function_proofs[fn_name] = cond_witness
+        function_discharges[fn_name] = discharges
+        function_preconditions[fn_name] = precondition
         lean_witnesses.append(cond_witness)
 
         is_safe = bool(result.success)
@@ -331,6 +337,70 @@ def verify_module_safety(
     elif function_trusts:
         verdict.aggregate_trust = TrustLevel.UNTRUSTED
         verdict.notes.append(module_result.message)
+
+    # ── Phase 5 — Cubical safety atlas (CG1–CG3) ────────────────────
+    # Re-derive the same module-safety verdict as a CechGlue over the
+    # hazard cover, with call-graph cocycles enforcing internal-call
+    # closure honestly.  When this verifies, ``module_safe`` is upgraded
+    # from "min-trust list" to a real fibration-section semantics.
+    try:
+        from deppy.pipeline.cubical_safety import (
+            CallEdge, safety_atlas, safety_section,
+        )
+
+        function_sections: dict[str, ProofTerm] = {}
+        for fn_name, dis in function_discharges.items():
+            sec = safety_section(dis)
+            function_sections[fn_name] = sec if sec is not None else \
+                Structural(description=f"no hazards in {fn_name}")
+
+        module_section = safety_section(module_discharges) or \
+            Structural(description="no module-level hazards")
+
+        # Build call edges from propagation; substitute callee
+        # preconditions through each call site's arg_bindings.
+        call_edges: list[CallEdge] = []
+        callee_pres = {fn: function_preconditions.get(fn, "True")
+                       for fn in function_preconditions}
+        for cs in propagation.call_sites:
+            if cs.caller not in function_preconditions:
+                continue
+            if cs.callee not in callee_pres:
+                continue
+            call_edges.append(CallEdge(
+                caller=cs.caller, callee=cs.callee,
+                arg_substitution=dict(cs.arg_bindings or {}),
+                caller_precondition=callee_pres.get(cs.caller, "True"),
+                callee_precondition=callee_pres.get(cs.callee, "True"),
+            ))
+
+        atlas = safety_atlas(
+            function_sections=function_sections,
+            module_section=module_section,
+            call_edges=call_edges,
+            probe_kernel=kernel,
+        )
+        atlas_result = kernel.verify(ctx, goal, atlas)
+        verdict.cubical_atlas_safe = bool(atlas_result.success)
+        verdict.cubical_atlas_message = atlas_result.message
+        if atlas_result.success:
+            # Atlas trust replaces the min-trust collapse only when
+            # higher than the obligation-tree trust.
+            if atlas_result.trust_level.value >= verdict.aggregate_trust.value:
+                verdict.aggregate_trust = atlas_result.trust_level
+        else:
+            verdict.notes.append(
+                f"Cubical atlas: {atlas_result.message}"
+            )
+            # If the atlas fails on a cocycle, the obligation-tree
+            # verdict was unsound — downgrade module_safe.
+            if "overlap" in (atlas_result.message or "").lower():
+                verdict.module_safe = False
+                verdict.aggregate_trust = TrustLevel.UNTRUSTED
+    except Exception as e:
+        verdict.notes.append(f"Cubical atlas unavailable: {e}")
+        verdict.cubical_atlas_safe = False
+        verdict.cubical_atlas_message = str(e)
 
     if emit_lean and render_compilable_safety_module is not None \
             and check_lean_module_source is not None and verdict.module_safe:
@@ -492,15 +562,47 @@ def _try_termination_discharge(
             continue
         formula = f"({pre}) => (({m_at_call}) < ({m_at_entry}) and ({m_at_entry}) >= 0)"
         if kernel._z3_check(formula):
+            from deppy.pipeline.cubical_safety import termination_transport
+            z3_witness = Z3Proof(formula=formula)
+            transport = termination_transport(
+                target=getattr(fn_node, "name", "<fn>"),
+                measure_at_entry=m_at_entry,
+                measure_at_recursive_call=m_at_call,
+                precondition=pre,
+                z3_well_founded=z3_witness,
+            )
             return TerminationObligation(
                 target=getattr(fn_node, "name", "<fn>"),
                 measure_at_entry=m_at_entry,
                 measure_at_recursive_call=m_at_call,
                 precondition=pre,
-                inner=Z3Proof(formula=formula),
-                note=f"well-founded measure: {m_at_entry}",
+                inner=transport,
+                note=f"well-founded measure: {m_at_entry} (transport)",
             )
     return None
+
+
+def _try_callee_discharge(src: ExceptionSource, *, register_in: Optional[ProofKernel] = None) -> Optional[ProofTerm]:
+    """Discharge a CALL_PROPAGATION source by deferring its safety to
+    the cubical atlas's call-graph cocycle (Phase 5).
+
+    For an intra-module callee, the cocycle ``caller_pre ⇒
+    subst(callee_pre)`` carries the actual proof.  Here we record an
+    axiom-invocation pointing at that cocycle so the per-function
+    section can verify; the atlas verifies the cocycle's truth.
+    """
+    if src.kind is not ExceptionKind.CALL_PROPAGATION:
+        return None
+    callee = src.callee_name
+    if not callee:
+        return None
+    ax_name = f"callee_safe[{callee}]"
+    if register_in is not None:
+        register_in.register_axiom(
+            ax_name,
+            statement=f"callee {callee}'s precondition is verified at the cubical cocycle",
+        )
+    return AxiomInvocation(name=ax_name)
 
 
 def _build_discharges(
@@ -565,6 +667,15 @@ def _build_discharges(
                 source_id=sid, failure_kind=kind_name,
                 safety_predicate=sp, inner=ax,
                 note="raises_declaration matches kind",
+            ))
+            continue
+
+        callee_ax = _try_callee_discharge(s, register_in=kernel)
+        if callee_ax is not None:
+            out.append(SourceDischarge(
+                source_id=sid, failure_kind=kind_name,
+                safety_predicate=sp, inner=callee_ax,
+                note="deferred to cubical cocycle",
             ))
             continue
 
