@@ -1737,3 +1737,86 @@ class TestCubicalSafety:
         assert "g" in space.points_by_function
         assert space.points_by_function["f"]
         assert space.points_by_function["g"]
+
+
+# ════════════════════════════════════════════════════════════════════
+#  CG5 / CG6 — spec ≃ impl as PathAbs;  callee paths, not text
+# ════════════════════════════════════════════════════════════════════
+
+class TestSpecRefinementPath:
+    """CG5: a sidecar precondition refines the implementation; the
+    safety claim is then a *transport* along the spec-refinement
+    path, not a flat assumption discharge."""
+
+    def test_path_endpoints(self):
+        from deppy.pipeline.cubical_safety import spec_refinement_path
+        p = spec_refinement_path("divide", "b != 0")
+        assert p.ivar == "i"
+        # PathAbs body should reference both endpoints symbolically.
+        body_repr = str(p.body)
+        assert "divide" in body_repr
+
+    def test_trivial_precondition_collapses(self):
+        from deppy.core.kernel import Structural
+        from deppy.pipeline.cubical_safety import spec_refinement_transport
+        sec = Structural(description="dummy")
+        # No genuine refinement — should return section unchanged.
+        out = spec_refinement_transport("f", "True", sec)
+        assert out is sec
+
+    def test_nontrivial_precondition_wraps_in_transport(self):
+        from deppy.core.kernel import Structural, TransportProof
+        from deppy.pipeline.cubical_safety import spec_refinement_transport
+        sec = Structural(description="dummy")
+        out = spec_refinement_transport("divide", "b != 0", sec)
+        assert isinstance(out, TransportProof)
+        assert out.base_proof is sec
+        assert "Safe[divide]" in str(out.type_family)
+
+    def test_kernel_verifies_spec_refinement_transport(self):
+        from deppy.core.kernel import (
+            Context, Judgment, JudgmentKind, ProofKernel, Structural,
+        )
+        from deppy.core.types import Var
+        from deppy.pipeline.cubical_safety import spec_refinement_transport
+        sec = Structural(description="dummy section")
+        wrapped = spec_refinement_transport("divide", "b != 0", sec)
+        kernel = ProofKernel()
+        goal = Judgment(kind=JudgmentKind.WELL_FORMED,
+                        context=Context(),
+                        type_=Var("Safe[divide]"))
+        r = kernel.verify(Context(), goal, wrapped)
+        assert r.success, r.message
+
+
+class TestCalleeEnvPath:
+    """CG6: the cocycle obligation at a call boundary is realised as
+    a transport along a path between the caller's and callee's
+    parameter environments — not as raw textual substitution."""
+
+    def test_cocycle_is_a_transport_proof(self):
+        from deppy.core.kernel import TransportProof
+        from deppy.pipeline.cubical_safety import (
+            CallEdge, _cocycle_proof,
+        )
+        from deppy.core.kernel import ProofKernel
+        edge = CallEdge(
+            caller="caller", callee="callee",
+            arg_substitution={"x": "n"},
+            caller_precondition="n > 0",
+            callee_precondition="x > 0",
+        )
+        p = _cocycle_proof(edge, ProofKernel())
+        assert isinstance(p, TransportProof)
+        assert "Pre[callee]" in str(p.type_family)
+
+    def test_env_path_construction(self):
+        from deppy.pipeline.cubical_safety import CallEdge, callee_env_path
+        edge = CallEdge(caller="f", callee="g",
+                        arg_substitution={"x": "n", "y": "m"})
+        path = callee_env_path(edge)
+        body = str(path.body)
+        assert "f" in body and "g" in body
+        # Substitution shows up in the env path label.
+        assert "x=n" in body
+        assert "y=m" in body
