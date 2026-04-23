@@ -1594,12 +1594,54 @@ class ProofKernel:
                         sub_results=[r_path, r_base],
                     )
 
+        # CG7 / Round 2 Issue 5: when path or base is a tautological
+        # Z3Proof whose formula mentions no term related to the goal
+        # or type_family, downgrade trust — the kernel cannot tell
+        # whether the proof actually witnesses the claim.
+        coherent = self._transport_formula_coherent(proof, goal)
+        result_trust = min_trust(r_path.trust_level, r_base.trust_level)
+        if not coherent:
+            result_trust = min_trust(result_trust, TrustLevel.STRUCTURAL_CHAIN)
+
         return VerificationResult(
             success=True,
-            trust_level=min_trust(r_path.trust_level, r_base.trust_level),
-            message="Transport",
+            trust_level=result_trust,
+            message="Transport" if coherent else "Transport (formula coherence unchecked)",
             sub_results=[r_path, r_base],
         )
+
+    def _transport_formula_coherent(
+        self, proof: TransportProof, goal: Judgment,
+    ) -> bool:
+        """Heuristic: at least one of {path_proof, base_proof, type_family}
+        mentions a term name in common with the goal.  This rules out
+        Z3 tautologies whose formula is utterly unrelated to the
+        claim being transported."""
+        goal_names: set[str] = set()
+        for term in (goal.left, goal.right, goal.term, goal.type_):
+            if term is None:
+                continue
+            try:
+                goal_names |= {n for n in term.free_vars()}
+            except Exception:
+                pass
+            goal_names.add(str(term))
+        if proof.type_family is not None:
+            try:
+                goal_names |= {n for n in proof.type_family.free_vars()}
+            except Exception:
+                pass
+            goal_names.add(str(proof.type_family))
+        proof_strs: list[str] = []
+        for child in (proof.path_proof, proof.base_proof):
+            if isinstance(child, Z3Proof):
+                proof_strs.append(child.formula)
+            else:
+                proof_strs.append(repr(child))
+        if not goal_names:
+            return True  # nothing to check against
+        joined = " ".join(proof_strs)
+        return any(name and name in joined for name in goal_names if len(name) >= 2)
 
     # ── PathComp ───────────────────────────────────────────────────
 

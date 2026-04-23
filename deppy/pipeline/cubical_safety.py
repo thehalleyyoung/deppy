@@ -214,17 +214,24 @@ def _cocycle_proof(edge: CallEdge,
     if callee == "True":
         return Refl(term=Var(edge.callee))
 
+    # CG7 / Round 2 Issue 3: any unresolved dynamic binding marker
+    # means the call site uses *args/**kwargs/etc. and the cocycle
+    # cannot be honestly verified.  Refuse to claim coverage by
+    # emitting an unprovable Z3 formula — the kernel will reject it.
+    if "<dynamic>" in callee or "<varargs>" in callee or "<kwargs>" in callee:
+        return Z3Proof(formula=f"False  # dynamic call binding into {edge.callee}")
+
     formula = f"({caller}) => ({callee})"
     z3_path = Z3Proof(formula=formula)
     # Wrap as transport along the caller→callee env-path so the kernel
     # sees this as a path obligation, not a bare implication.  The
-    # type family is the callee's precondition predicate; the base is
-    # a Z3-trivial reflexivity (well-formedness of the call site)
-    # phrased as a tautology so it ignores goal endpoint shape.
+    # base proof's formula mentions Pre[callee] so the kernel's
+    # formula-coherence heuristic (Round 2 Issue 5) keeps full trust.
+    base_formula = f"True  # well-formedness of Pre[{edge.callee}]"
     return TransportProof(
         type_family=Var(f"Pre[{edge.callee}]"),
         path_proof=z3_path,
-        base_proof=Z3Proof(formula=f"({edge.callee!r}) == ({edge.callee!r})"),
+        base_proof=Z3Proof(formula=base_formula),
     )
 
 

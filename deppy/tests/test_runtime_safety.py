@@ -1320,15 +1320,22 @@ class TestSemanticSafetyWitness:
         contractually equivalent to ``exception_free_when: not(b == 0)``
         — Z3 should discharge it."""
         from deppy.pipeline.safety_pipeline import verify_module_safety
+        # Provide a precondition that *implies* not(b == 0); only then
+        # can Z3 honestly discharge the raises_decl into safety.  When
+        # no precondition is given, the raises_decl is contractual
+        # only and yields AXIOM_TRUSTED — the previous Z3 tautology
+        # discharge was a Round-2 cheat (Issue 1) and has been
+        # removed.
         src = "def divide(a, b):\n    return a / b\n"
         spec = ExternalSpec(
             target_name="divide",
+            exception_free_when=["b > 0"],
             raises_declarations=[("ZeroDivisionError", "b == 0")],
         )
         v = verify_module_safety(src, sidecar_specs={"divide": spec},
                                  use_drafts=False)
         assert v.functions["divide"].is_safe
-        # Should be Z3-discharged from the raises_decl, not just axiom.
+        # Z3-discharged because (b > 0) ⇒ not(b == 0).
         assert v.functions["divide"].trust == TrustLevel.Z3_VERIFIED
 
     def test_is_total_escape_clamps_trust_to_structural(self):
@@ -1887,3 +1894,113 @@ class TestCheatAuditRound1:
         spec = ExternalSpec(target_name="divide",
                             exception_free_when=["b != 0"])
         assert _source_addressed_by_sidecar(sources[0], spec)
+
+
+# ════════════════════════════════════════════════════════════════════
+#  Cheat-audit Round 2
+# ════════════════════════════════════════════════════════════════════
+
+class TestCheatAuditRound2:
+    """Regressions for Round-2 cheat findings."""
+
+    def test_raises_decl_no_tautology_fallback(self):
+        """Issue 1: raises_decl without an implying precondition must
+        NOT be Z3-discharged via a self-tautology.  AXIOM_TRUSTED is
+        the honest verdict."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        from deppy.core.kernel import TrustLevel
+        src = "def divide(a, b):\n    return a / b\n"
+        spec = ExternalSpec(
+            target_name="divide",
+            raises_declarations=[("ZeroDivisionError", "b == 0")],
+        )
+        v = verify_module_safety(src, sidecar_specs={"divide": spec},
+                                 use_drafts=False)
+        assert v.functions["divide"].is_safe
+        assert v.functions["divide"].trust == TrustLevel.AXIOM_TRUSTED
+
+    def test_arg_binding_handles_defaults(self):
+        """Issue 3: a call site with fewer args than the callee has
+        params must use the callee's defaults — not silently leave the
+        param unsubstituted."""
+        from deppy.effects.effect_propagation import _bind_call_arguments
+        import ast
+        callee = ast.parse("def f(a, b=10):\n    pass\n").body[0]
+        call = ast.parse("f(1)").body[0].value
+        bindings = _bind_call_arguments(call, callee)
+        assert bindings["a"] == "1"
+        assert bindings["b"] == "10"
+
+    def test_arg_binding_handles_kwonly_defaults(self):
+        """Issue 3: keyword-only params with defaults are bound."""
+        from deppy.effects.effect_propagation import _bind_call_arguments
+        import ast
+        callee = ast.parse("def f(a, *, k=5):\n    pass\n").body[0]
+        call = ast.parse("f(1)").body[0].value
+        bindings = _bind_call_arguments(call, callee)
+        assert bindings["a"] == "1"
+        assert bindings["k"] == "5"
+
+    def test_arg_binding_marks_starred_dynamic(self):
+        """Issue 3: a *args call site marks unresolved bindings as
+        ``<dynamic>`` so the cocycle cannot silently succeed."""
+        from deppy.effects.effect_propagation import _bind_call_arguments
+        import ast
+        callee = ast.parse("def f(a, b):\n    pass\n").body[0]
+        call = ast.parse("f(*args)").body[0].value
+        bindings = _bind_call_arguments(call, callee)
+        # Both formals are unresolved (Starred consumed everything).
+        assert bindings.get("a") == "<dynamic>" or bindings.get("b") == "<dynamic>"
+
+    def test_dynamic_call_binding_rejects_cocycle(self):
+        """Issue 3 (downstream): a dynamic call site whose callee has a
+        non-trivial precondition must cause the atlas to reject the
+        module."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        src = (
+            "def callee(b):\n"
+            "    return 1 / b\n"
+            "def caller(*args):\n"
+            "    return callee(*args)\n"
+        )
+        specs = {
+            "callee": ExternalSpec(target_name="callee",
+                                   exception_free_when=["b != 0"]),
+            "caller": ExternalSpec(target_name="caller",
+                                   exception_free_when=["True"]),
+        }
+        v = verify_module_safety(src, sidecar_specs=specs, use_drafts=False)
+        assert not v.cubical_atlas_safe
+        assert not v.module_safe
+
+    def test_transport_formula_coherence_downgrade(self):
+        """Issue 5: a TransportProof whose Z3 children mention nothing
+        related to the goal must be downgraded below KERNEL trust."""
+        from deppy.core.kernel import (
+            Context, Judgment, JudgmentKind, ProofKernel, TransportProof,
+            TrustLevel, Z3Proof,
+        )
+        from deppy.core.types import Var
+        kernel = ProofKernel()
+        # Both child Z3 formulas mention only "purple_unicorn" — no
+        # term in common with the goal.
+        proof = TransportProof(
+            type_family=Var("Safe[divide]"),
+            path_proof=Z3Proof(formula="purple_unicorn == purple_unicorn"),
+            base_proof=Z3Proof(formula="purple_unicorn == purple_unicorn"),
+        )
+        goal = Judgment(kind=JudgmentKind.WELL_FORMED,
+                        context=Context(),
+                        type_=Var("Safe[divide]"))
+        # type_family Var("Safe[divide]") is mentioned, so coherence
+        # is OK here — adjust to no overlap by using disjoint Var.
+        proof2 = TransportProof(
+            type_family=Var("UnrelatedZeta"),
+            path_proof=Z3Proof(formula="aaa == aaa"),
+            base_proof=Z3Proof(formula="bbb == bbb"),
+        )
+        r = kernel.verify(Context(), goal, proof2)
+        assert r.success
+        assert r.trust_level.value <= TrustLevel.STRUCTURAL_CHAIN.value

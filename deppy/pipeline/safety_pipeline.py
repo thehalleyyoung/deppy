@@ -487,16 +487,11 @@ def _try_axiom_discharge(src: ExceptionSource, raises_decls: list,
             formula = f"({pre}) => (not ({cond}))"
             if not is_synthetic_predicate(cond) and kernel._z3_check(formula):
                 return Z3Proof(formula=formula)
-            # The raises_declaration is itself a contractual statement
-            # that pins the failure mode.  We Z3-discharge the
-            # tautological excluded-middle ``cond ∨ ¬cond`` to record
-            # that the contract is well-formed and applicable.  Real
-            # caller-side safety is the caller's obligation; here we
-            # certify that the callee has fully characterised its
-            # exceptional behaviour.
-            tautology = f"({cond}) or (not ({cond}))"
-            if not is_synthetic_predicate(cond) and kernel._z3_check(tautology):
-                return Z3Proof(formula=tautology)
+            # CG7 cheat sweep (Round 2 / Issue 1): no tautology
+            # fallback.  If precondition does not imply ``not(cond)``
+            # we cannot honestly Z3-discharge — register the contract
+            # as an axiom and rely on AxiomInvocation (AXIOM_TRUSTED
+            # trust), which is honest about its provenance.
             ax_name = f"raises_decl[{cls}|{cond}]"
             if register_in is not None:
                 register_in.register_axiom(

@@ -236,14 +236,60 @@ def _bind_call_arguments(
     call: ast.Call,
     callee_def: ast.FunctionDef | ast.AsyncFunctionDef,
 ) -> dict[str, str]:
-    """Best-effort parameter → actual-expression binding for a call site."""
-    params = [a.arg for a in callee_def.args.args]
+    """Parameter → actual-expression binding for a call site.
+
+    Honestly handles positional, keyword, default, keyword-only, and
+    positional-only parameters.  Returns a binding for every
+    parameter that the call site supplies *or* whose callee
+    declaration has a default.  When the call uses ``*args`` or
+    ``**kwargs`` (i.e. the call site can't be resolved statically),
+    we mark the binding as ``"<dynamic>"`` for any unresolved
+    parameter so downstream cocycle synthesis can refuse to claim
+    coverage rather than silently substituting nothing.
+    """
+    args_decl = callee_def.args
+    posonly = [a.arg for a in getattr(args_decl, "posonlyargs", [])]
+    pos = [a.arg for a in args_decl.args]
+    all_pos = posonly + pos
+    kwonly = [a.arg for a in getattr(args_decl, "kwonlyargs", [])]
+    pos_defaults = list(args_decl.defaults or [])
+    kw_defaults = list(getattr(args_decl, "kw_defaults", []) or [])
+    vararg = args_decl.vararg.arg if args_decl.vararg else None
+    kwarg = args_decl.kwarg.arg if args_decl.kwarg else None
+
+    # Map positional defaults to their parameters (defaults align with
+    # the trailing positional parameters).
+    default_for: dict[str, str] = {}
+    n_pos = len(all_pos)
+    for idx, default in enumerate(pos_defaults):
+        param = all_pos[n_pos - len(pos_defaults) + idx]
+        try:
+            default_for[param] = ast.unparse(default)
+        except Exception:
+            pass
+    for name, default in zip(kwonly, kw_defaults):
+        if default is None:
+            continue
+        try:
+            default_for[name] = ast.unparse(default)
+        except Exception:
+            pass
+
     bindings: dict[str, str] = {}
-    for param, arg in zip(params, call.args):
+
+    # Detect *args / **kwargs at the call site (Starred / **dict).
+    has_star = any(isinstance(a, ast.Starred) for a in call.args)
+    has_dstar = any(kw.arg is None for kw in call.keywords)
+
+    # Bind explicit positional args.
+    positional_args = [a for a in call.args if not isinstance(a, ast.Starred)]
+    for param, arg in zip(all_pos, positional_args):
         try:
             bindings[param] = ast.unparse(arg)
         except Exception:
             pass
+
+    # Bind keyword args by name.
     for kw in call.keywords:
         if kw.arg is None:
             continue
@@ -251,6 +297,22 @@ def _bind_call_arguments(
             bindings[kw.arg] = ast.unparse(kw.value)
         except Exception:
             pass
+
+    # Fill in defaults for unbound parameters.
+    for param in all_pos + kwonly:
+        if param in bindings:
+            continue
+        if param in default_for:
+            bindings[param] = default_for[param]
+        elif has_star or has_dstar:
+            # Dynamic call site — we can't resolve this binding.
+            bindings[param] = "<dynamic>"
+
+    if vararg is not None:
+        bindings[vararg] = "<varargs>"
+    if kwarg is not None:
+        bindings[kwarg] = "<kwargs>"
+
     return bindings
 
 
