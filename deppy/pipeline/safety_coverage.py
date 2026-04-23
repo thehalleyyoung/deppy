@@ -216,8 +216,32 @@ def _source_addressed_by_sidecar(src: ExceptionSource, spec) -> bool:
         return True
     if is_synthetic_predicate(safety_pred) or is_synthetic_predicate(combined):
         return False
+    # CG7 cheat sweep (Issue 5): the safety predicate's free variables
+    # must overlap the precondition's free variables.  Otherwise Z3
+    # treats them as fresh (existentially-interpreted) names and may
+    # spuriously prove ``(x>0) => (y!=0)`` when x,y are unrelated.
+    if not _variables_overlap(combined, safety_pred):
+        return False
     kernel = ProofKernel()
     return bool(kernel._z3_check(f"({combined}) => ({safety_pred})"))
+
+
+def _free_names(expr: str) -> set[str]:
+    """Best-effort free-name extraction; returns empty on parse failure."""
+    import ast as _ast
+    try:
+        tree = _ast.parse(expr, mode="eval")
+    except SyntaxError:
+        return set()
+    return {n.id for n in _ast.walk(tree) if isinstance(n, _ast.Name)}
+
+
+def _variables_overlap(pre: str, pred: str) -> bool:
+    pre_names = _free_names(pre) - {"True", "False", "None", "and", "or", "not"}
+    pred_names = _free_names(pred) - {"True", "False", "None", "and", "or", "not"}
+    if not pred_names:
+        return True  # predicate is constant; precondition cannot constrain it but vacuity OK
+    return bool(pre_names & pred_names)
 
 
 def _normalize_formula(text: str) -> str:

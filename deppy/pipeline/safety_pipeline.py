@@ -324,27 +324,14 @@ def verify_module_safety(
         if any(d.source_id == _source_id("<module>", s) and isinstance(d.inner, Assume)
                for d in module_discharges)
     ]
-    module_proof = ModuleSafetyComposition(
-        module_path=module_path,
-        function_witnesses=function_proofs,
-        module_discharges=module_discharges,
-        internal_calls_closed=True,
-    )
-    module_result = kernel.verify(ctx, goal, module_proof)
-    verdict.module_proof_payload = _serialize_module_composition(module_proof)
-    verdict.module_safe = bool(module_result.success)
-    if module_result.success:
-        verdict.aggregate_trust = module_result.trust_level
-    elif function_trusts:
-        verdict.aggregate_trust = TrustLevel.UNTRUSTED
-        verdict.notes.append(module_result.message)
 
     # ── Phase 5 — Cubical safety atlas (CG1–CG6) ────────────────────
-    # Re-derive the same module-safety verdict as a CechGlue over the
-    # hazard cover, with call-graph cocycles enforcing internal-call
-    # closure honestly.  When this verifies, ``module_safe`` is upgraded
-    # from "min-trust list" to a real fibration-section semantics.
+    # Build the atlas FIRST so that ``internal_calls_closed`` passed to
+    # ``ModuleSafetyComposition`` reflects whether the call-graph
+    # cocycles actually verify, rather than being hardcoded True.
     cubical_atlas_succeeded = False
+    cubical_atlas_message = ""
+    cubical_atlas_trust = TrustLevel.UNTRUSTED
     try:
         from deppy.pipeline.cubical_safety import (
             CallEdge, safety_atlas, safety_section,
@@ -356,8 +343,6 @@ def verify_module_safety(
             sec = safety_section(dis)
             base_section: ProofTerm = sec if sec is not None else \
                 Structural(description=f"no hazards in {fn_name}")
-            # CG5: wrap in spec-refinement transport when a sidecar
-            # precondition refines the target.
             pre = function_preconditions.get(fn_name, "True")
             function_sections[fn_name] = spec_refinement_transport(
                 fn_name, pre, base_section,
@@ -366,8 +351,6 @@ def verify_module_safety(
         module_section = safety_section(module_discharges) or \
             Structural(description="no module-level hazards")
 
-        # Build call edges from propagation; substitute callee
-        # preconditions through each call site's arg_bindings.
         call_edges: list[CallEdge] = []
         callee_pres = {fn: function_preconditions.get(fn, "True")
                        for fn in function_preconditions}
@@ -390,33 +373,40 @@ def verify_module_safety(
             probe_kernel=kernel,
         )
         atlas_result = kernel.verify(ctx, goal, atlas)
-        verdict.cubical_atlas_safe = bool(atlas_result.success)
-        verdict.cubical_atlas_message = atlas_result.message
         cubical_atlas_succeeded = bool(atlas_result.success)
-        if atlas_result.success:
-            # Atlas trust replaces the min-trust collapse only when
-            # higher than the obligation-tree trust.
-            if atlas_result.trust_level.value >= verdict.aggregate_trust.value:
-                verdict.aggregate_trust = atlas_result.trust_level
-        else:
-            verdict.notes.append(
-                f"Cubical atlas: {atlas_result.message}"
-            )
-            # CG7 cheat sweep: any atlas failure (cocycle, patch, or
-            # otherwise) means the obligation-tree verdict was
-            # unsound — the cocycles are exactly the
-            # internal_calls_closed condition.  Always downgrade.
-            verdict.module_safe = False
-            verdict.aggregate_trust = TrustLevel.UNTRUSTED
+        cubical_atlas_message = atlas_result.message
+        cubical_atlas_trust = atlas_result.trust_level
+        verdict.cubical_atlas_safe = cubical_atlas_succeeded
+        verdict.cubical_atlas_message = cubical_atlas_message
+        if not cubical_atlas_succeeded:
+            verdict.notes.append(f"Cubical atlas: {cubical_atlas_message}")
     except Exception as e:
         verdict.notes.append(f"Cubical atlas unavailable: {e}")
         verdict.cubical_atlas_safe = False
         verdict.cubical_atlas_message = str(e)
 
-    # CG7 cheat C1: internal_calls_closed is no longer a hardcoded
-    # True — it is exactly the cocycle condition the atlas verifies.
-    # Re-stamp the module composition payload with the truth.
+    # CG7 cheat C1: ``internal_calls_closed`` is now derived from the
+    # atlas's cocycle verification — not asserted.
     verdict.internal_calls_closed = cubical_atlas_succeeded
+    module_proof = ModuleSafetyComposition(
+        module_path=module_path,
+        function_witnesses=function_proofs,
+        module_discharges=module_discharges,
+        internal_calls_closed=cubical_atlas_succeeded,
+    )
+    module_result = kernel.verify(ctx, goal, module_proof)
+    verdict.module_proof_payload = _serialize_module_composition(module_proof)
+    verdict.module_safe = bool(module_result.success) and cubical_atlas_succeeded
+    if module_result.success and cubical_atlas_succeeded:
+        verdict.aggregate_trust = (
+            module_result.trust_level
+            if module_result.trust_level.value >= cubical_atlas_trust.value
+            else cubical_atlas_trust
+        )
+    else:
+        verdict.aggregate_trust = TrustLevel.UNTRUSTED
+        if not module_result.success:
+            verdict.notes.append(module_result.message)
 
     if emit_lean and render_compilable_safety_module is not None \
             and check_lean_module_source is not None and verdict.module_safe:

@@ -1820,3 +1820,70 @@ class TestCalleeEnvPath:
         # Substitution shows up in the env path label.
         assert "x=n" in body
         assert "y=m" in body
+
+
+# ════════════════════════════════════════════════════════════════════
+#  Cheat-audit Round 1
+# ════════════════════════════════════════════════════════════════════
+
+class TestCheatAuditRound1:
+    """Regressions for cheats found in the Round-1 audit."""
+
+    def test_internal_calls_closed_derived_from_atlas(self):
+        """C1: ``internal_calls_closed`` must come from the atlas, not
+        be hardcoded ``True``.  When the atlas rejects the cocycle,
+        ``module_safe`` must be ``False`` and the verdict's
+        ``internal_calls_closed`` must be ``False``."""
+        from deppy.pipeline.safety_pipeline import verify_module_safety
+        from deppy.proofs.sidecar import ExternalSpec
+        # Caller has weaker precondition than callee requires —
+        # cocycle must fail.
+        src = (
+            "def safe_div(a, b):\n"
+            "    return a / b\n"
+            "def caller(x):\n"
+            "    return safe_div(x, x - 1)\n"
+        )
+        specs = {
+            "safe_div": ExternalSpec(target_name="safe_div",
+                                     exception_free_when=["b != 0"]),
+            "caller": ExternalSpec(target_name="caller",
+                                   exception_free_when=["True"]),
+        }
+        v = verify_module_safety(src, sidecar_specs=specs, use_drafts=False)
+        # When cocycle is broken, the module is not safe.
+        assert not v.module_safe
+        assert not v.internal_calls_closed
+        assert not v.cubical_atlas_safe
+
+    def test_disjoint_var_precondition_does_not_cover(self):
+        """Issue 5: a precondition over unrelated variables must not
+        be treated as covering a safety predicate."""
+        from deppy.pipeline.safety_coverage import _source_addressed_by_sidecar
+        from deppy.pipeline.exception_sources import find_exception_sources
+        from deppy.proofs.sidecar import ExternalSpec
+        src = "def divide(a, b):\n    return a / b\n"
+        summ = find_exception_sources(src)
+        sources = [s for fs in summ.functions for s in fs.uncaught_sources]
+        assert sources, "expected a div-by-zero source"
+        spec = ExternalSpec(
+            target_name="divide",
+            exception_free_when=["unrelated_x > 0"],
+        )
+        # Z3 might *find* the implication trivially in a way that
+        # spuriously claims coverage.  The var-overlap guard must
+        # block this.
+        assert not _source_addressed_by_sidecar(sources[0], spec)
+
+    def test_overlapping_var_precondition_covers(self):
+        """Inverse: a precondition that *does* mention the same
+        variable must still be accepted."""
+        from deppy.pipeline.safety_coverage import _source_addressed_by_sidecar
+        from deppy.pipeline.exception_sources import find_exception_sources
+        from deppy.proofs.sidecar import ExternalSpec
+        src = "def divide(a, b):\n    return a / b\n"
+        summ = find_exception_sources(src)
+        sources = [s for fs in summ.functions for s in fs.uncaught_sources]
+        spec = ExternalSpec(target_name="divide",
+                            exception_free_when=["b != 0"])
+        assert _source_addressed_by_sidecar(sources[0], spec)
