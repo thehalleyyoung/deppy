@@ -70,6 +70,11 @@ class Certificate:
     cohomology_h0_size: int = 0
     cohomology_h1_size: int = 0
     cohomology_h2_size: int = 0
+    # Audit fix #7 — `@implies` accounting:
+    implies_count: int = 0
+    implies_auto_proved: int = 0
+    implies_user_supplied: int = 0
+    implies_unproved: int = 0  # honest sorries
 
 
 @dataclass
@@ -237,6 +242,18 @@ def write_certificate(
             safety_theorems.append(theorem_text)
 
     # ── 3) Implication theorems (@implies) ────────────────────────
+    # Audit fix #7: collect per-@implies audit entries so the
+    # certificate can render an audit summary block (and so the
+    # downstream verdict can count auto-proved vs sorry-emitted vs
+    # user-supplied obligations).
+    from deppy.lean.implies_tactics import (
+        ImpliesAuditEntry,
+        render_audit_summary,
+        count_unproved as _count_implies_unproved,
+        count_auto_proved as _count_implies_auto,
+        count_user_supplied as _count_implies_user,
+    )
+    implies_audit: list[ImpliesAuditEntry] = []
     for fn_name, fn_node in fn_nodes.items():
         fn_obj = fn_runtime.get(fn_name)
         if fn_obj is None:
@@ -247,6 +264,7 @@ def write_certificate(
                 fn_name=fn_name, idx=i, spec=spec,
                 fn_node=fn_node,
                 type_context=type_context, aux_decls=aux_decls,
+                audit_entries=implies_audit,
             )
             sorry_count += theorem_sorries
             implies_theorems.append(theorem_text)
@@ -301,6 +319,13 @@ def write_certificate(
         for t in safety_theorems:
             lines.append(t)
     if implies_theorems:
+        # Audit fix #7: lead with the audit summary so a reader sees
+        # at a glance which @implies obligations were auto-proved
+        # vs. sorry-emitted vs. user-supplied.
+        if implies_audit:
+            audit_block = render_audit_summary(implies_audit)
+            if audit_block:
+                lines.append(audit_block)
         lines.append("/-! ## ``@implies`` correctness theorems -/")
         lines.append("")
         for t in implies_theorems:
@@ -336,10 +361,18 @@ def write_certificate(
         cohomology_h0_size=len(cohomology.h0),
         cohomology_h1_size=len(cohomology.h1),
         cohomology_h2_size=len(cohomology.h2),
+        implies_count=len(implies_audit),
+        implies_auto_proved=_count_implies_auto(implies_audit),
+        implies_user_supplied=_count_implies_user(implies_audit),
+        implies_unproved=_count_implies_unproved(implies_audit),
     )
     # Attach the per-cocycle goal/proof metadata (Audit Fix #1)
     # so callers can audit which cocycles got real (non-True) goals.
     cert.cocycle_metadata = cocycle_report  # type: ignore[attr-defined]
+    # Attach the per-@implies audit log (Audit Fix #7) so callers can
+    # see exactly which obligations were classified how, which got
+    # honest sorries, and why.
+    cert.implies_audit = list(implies_audit)  # type: ignore[attr-defined]
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(text, encoding="utf-8")
@@ -460,18 +493,46 @@ def _render_implies_theorem(
     *,
     fn_name: str, idx: int, spec: dict,
     fn_node, type_context, aux_decls: list[str],
+    audit_entries: Optional[list] = None,
 ) -> tuple[str, int]:
     """Emit a Lean theorem corresponding to a ``@implies(X, Y)``
     decorator on ``fn_name``.
 
     Soundness: the theorem's statement is generated entirely by deppy
-    from the decorator arguments and the function's signature; the
-    user supplies only the proof body (or accepts the auto-deduced
-    ``Deppy.deppy_safe`` tactic).
+    from the decorator arguments and the function's signature.  The
+    proof body comes from one of three sources:
+
+    1. **User-supplied** (``spec["proof"]``) — the kernel validates;
+       deppy emits the user text directly.
+    2. **Auto-selected tactic** — :mod:`deppy.lean.implies_tactics`
+       analyses the pre / post AST, classifies the obligation, and
+       picks a specific Lean tactic (``omega`` for linear arithmetic,
+       ``decide`` for closed decidable propositions, ``intro h;
+       exact h`` for the identity, ``intro h; exact h.left`` for
+       conjunct-of-pre, etc.).  We refuse to use the catch-all
+       ``Deppy.deppy_safe`` because it makes the certificate
+       indistinguishable between "tactic worked" and "tactic gave up
+       silently".
+    3. **Honest sorry** — when the analyser can't find a plausible
+       tactic (the pre/post mention opaque predicates such as
+       ``hasattr``, ``defined``, or user-defined functions, or the
+       structure simply doesn't match any known pattern), deppy
+       emits ``sorry`` with a comment explaining why.
+
+    The ``audit_entries`` list, when provided, is appended to with an
+    :class:`ImpliesAuditEntry` describing the classification — the
+    final certificate then renders an audit summary at the top.
+
+    Audit fix #7 — this function used to emit ``by Deppy.deppy_safe``
+    unconditionally.  The new logic above is the honest replacement.
     """
     from deppy.lean.obligations import _safe_ident
     from deppy.lean.predicate_translation import translate as translate_pred
     from deppy.lean.type_translation import translate_annotation
+    from deppy.lean.implies_tactics import (
+        select_implies_tactic,
+        ImpliesAuditEntry,
+    )
 
     pre_py = spec.get("precondition", "True")
     post_py = spec.get("postcondition", "True")
@@ -516,16 +577,47 @@ def _render_implies_theorem(
         f"({pre_translated.lean_text}) → ({post_translated.lean_text})"
     )
 
-    if user_proof:
-        body = f"by {user_proof}"
-    else:
-        # Auto-deduce: try the strongest tactic.  For arithmetic
-        # implies we fall back to omega; otherwise deppy_safe.
-        body = "by Deppy.deppy_safe"
-    sorries = body.count("sorry")
+    # Audit fix #7: pick a real tactic instead of blanket
+    # ``Deppy.deppy_safe``.  When no plausible tactic exists, emit
+    # an honest ``sorry`` with a comment.
+    plan = select_implies_tactic(
+        pre_py, post_py, py_types=py_types,
+        user_proof=user_proof or None, fn_name=fn_name,
+    )
+    body = plan.tactic_text
+    sorries = 1 if plan.is_sorry else 0
 
+    if audit_entries is not None:
+        audit_entries.append(
+            ImpliesAuditEntry(
+                fn_name=fn_name, idx=idx,
+                pre_py=pre_py, post_py=post_py,
+                classification=plan.classification,
+                is_sorry=plan.is_sorry,
+                confidence=plan.confidence,
+                notes=list(plan.notes),
+                sorry_reason=plan.sorry_reason,
+                user_supplied=plan.is_user_supplied,
+            )
+        )
+
+    # Render rationale comment alongside the theorem.
+    rationale = ""
+    if plan.is_sorry:
+        rationale = (
+            f"-- ⚠ deppy could not auto-prove this @implies "
+            f"({plan.sorry_reason or 'unknown reason'}); "
+            f"emitting sorry honestly.  Add proof= argument or "
+            f"strengthen pre to remove the sorry.\n"
+        )
+    elif not plan.is_user_supplied:
+        rationale = (
+            f"-- auto-tactic: {plan.classification.value} "
+            f"(confidence {plan.confidence:.2f})\n"
+        )
     text = (
         f"-- @implies({pre_py!r}, {post_py!r}) on `{fn_name}`\n"
+        f"{rationale}"
         f"theorem {theorem_name} {binders_str} :\n"
         f"    {statement} := {body}\n"
     )
