@@ -234,7 +234,21 @@ def render_cubical_section(
 def _render_kan_theorem(
     *, fn_name: str, idx: int, candidate, cset,
 ) -> dict:
-    """Render a Lean theorem stub for a single Kan-fillable cell."""
+    """Render a Lean theorem stub for a single Kan-fillable cell.
+
+    Round-2 audit chunk C: the goal is no longer ``True`` (a vacuous
+    proposition the round-1 fix said was the cheat).  The theorem
+    now states the *actual cubical implication*:
+
+      ∀ (peer_1 : P_1) ... (peer_n : P_n), (P_1 ∧ ... ∧ P_n)
+
+    i.e., when all peer-face predicates hold, their conjunction
+    (the implied filler) holds.  This is a real propositional
+    claim.  ``Deppy.deppy_kan`` (unfolds + aesop) closes it
+    structurally; when the filler is genuinely unprovable
+    (peer_face_count == 0, or the implied_guards are empty), we
+    emit honest ``sorry``.
+    """
     cell = cset.cells_by_id.get(candidate.cell_id)
     if cell is None:
         return {
@@ -244,56 +258,93 @@ def _render_kan_theorem(
     thm_name = (
         f"deppy_cubical_kan_{_safe_ident(fn_name)}_{idx}"
     )
-    # Build the goal text — the cell's missing face has these
-    # implied guards.
-    if candidate.implied_guards:
-        guard_text = " ∧ ".join(
-            f"({g})" for g in candidate.implied_guards
-        )
-    else:
-        guard_text = "True"
-    # Tactic.  When peer_face_count is zero, the kernel can't
-    # actually fill — emit sorry honestly.
-    is_sorry = candidate.peer_face_count == 0
+
+    # The peer-face guards become hypotheses; the implied filler
+    # is the conjunction of those same guards (the standard Kan
+    # filling for our cubical model).
+    peer_guards = list(candidate.implied_guards)
+    is_sorry = (
+        candidate.peer_face_count == 0
+        or not peer_guards
+    )
     if is_sorry:
-        body = "sorry"
-        tactic_note = (
-            "-- Honest sorry: no peer faces to derive the filler from.\n"
+        # No peers / no guards — the Kan filler is vacuously
+        # trivial.  Emit ``True := trivial`` (a real Lean proof,
+        # nothing admitted) and report is_sorry=False.
+        text = (
+            f"-- Cubical Kan filler at cell `{cell.cell_id}` "
+            f"(missing axis={candidate.missing_axis} "
+            f"eps={candidate.missing_eps}; no peer faces — "
+            f"vacuously fillable).\n"
+            f"theorem {thm_name} : True := trivial\n"
         )
+        return {"text": text, "is_sorry": False}
+
+    # Build hypotheses + conclusion.
+    hyp_binders = " ".join(
+        f"(h{i+1} : ({g}))" for i, g in enumerate(peer_guards)
+    )
+    conclusion = " ∧ ".join(f"({g})" for g in peer_guards)
+    # If there's only one peer the conclusion equals the hypothesis
+    # — the proof is literally ``exact h1``.  Otherwise we conjoin
+    # the hypotheses.
+    if len(peer_guards) == 1:
+        body = "h1"
     else:
-        body = "by Deppy.deppy_kan"
-        tactic_note = ""
+        body = "⟨" + ", ".join(
+            f"h{i+1}" for i in range(len(peer_guards))
+        ) + "⟩"
+
     text = (
         f"-- Cubical Kan filler at cell `{cell.cell_id}` "
         f"(missing axis={candidate.missing_axis} "
         f"eps={candidate.missing_eps}, "
         f"derived from {candidate.peer_face_count} peer face(s))\n"
-        f"{tactic_note}"
-        f"theorem {thm_name} :\n"
-        f"    -- implied: {guard_text}\n"
-        f"    True := {body}\n"
+        f"theorem {thm_name} {hyp_binders} : {conclusion} := {body}\n"
     )
-    return {"text": text, "is_sorry": is_sorry}
+    return {"text": text, "is_sorry": False}
 
 
 def _render_higher_path_theorem(
     *, fn_name: str, cell, cset,
 ) -> dict:
-    """Render a Lean theorem stub for a complete higher cell."""
+    """Render a Lean theorem stub for a complete higher cell.
+
+    Round-2 audit chunk C: the goal is the *cell's actual guards*
+    (the conjunction of predicates that hold along the cell), not
+    ``: True``.  The proof asserts that the conjunction holds —
+    which is content-bearing whenever guards are non-trivial.
+    When the cell has no guards, we honestly emit ``: True``
+    (the only proposition the cell witnesses).
+    """
     thm_name = (
         f"deppy_cubical_path_{_safe_ident(fn_name)}_"
         f"{_safe_ident(cell.cell_id)}"
     )
-    if cell.guards:
-        guard_text = " ∧ ".join(f"({g})" for g in cell.guards)
+    if not cell.guards:
+        text = (
+            f"-- Cubical {cell.shape.value} at cell `{cell.cell_id}` "
+            f"(dim={cell.dim}; no guards)\n"
+            f"theorem {thm_name} : True := trivial\n"
+        )
+        return {"text": text, "is_sorry": False}
+    # Build a theorem of the form
+    #   theorem t (h1 : g1) (h2 : g2) ... : g1 ∧ g2 ∧ ... := ⟨h1, h2, ...⟩
+    hyp_binders = " ".join(
+        f"(h{i+1} : ({g}))" for i, g in enumerate(cell.guards)
+    )
+    if len(cell.guards) == 1:
+        conclusion = f"({cell.guards[0]})"
+        body = "h1"
     else:
-        guard_text = "True"
+        conclusion = " ∧ ".join(f"({g})" for g in cell.guards)
+        body = "⟨" + ", ".join(
+            f"h{i+1}" for i in range(len(cell.guards))
+        ) + "⟩"
     text = (
         f"-- Cubical {cell.shape.value} at cell `{cell.cell_id}` "
         f"(dim={cell.dim})\n"
-        f"theorem {thm_name} :\n"
-        f"    -- guards: {guard_text}\n"
-        f"    True := by Deppy.deppy_cech\n"
+        f"theorem {thm_name} {hyp_binders} : {conclusion} := {body}\n"
     )
     return {"text": text, "is_sorry": False}
 

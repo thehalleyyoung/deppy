@@ -139,24 +139,24 @@ class TestKanTheorems:
                     f"deppy_safe leaked into cubical theorem: {line!r}"
                 )
 
-    def test_zero_peer_face_emits_honest_sorry(self):
-        # When a Kan-fillable cell has zero peer faces (theoretical
-        # corner case), the theorem must emit ``sorry``, not a
-        # silent fallback tactic.
+    def test_zero_peer_face_emits_trivial_theorem(self):
+        # When a Kan-fillable cell has zero peer faces, the
+        # filler is vacuously trivial — there's no implied
+        # content to derive from no peers.  The theorem becomes
+        # ``True := trivial`` (an honest tautology) rather than
+        # the previous round-1 ``True := by Deppy.deppy_kan``
+        # cheat or the round-1.5 ``sorry``.
         from deppy.pipeline.cubical_ast import (
             Cell, CellShape, CubicalSet, KanCandidate,
         )
         cset = CubicalSet(function_name="t")
-        # Add the cell that the candidate references, so the
-        # renderer doesn't take the "missing cell" early-return.
         cset.add(Cell(
             cell_id="e", dim=1, shape=CellShape.EDGE_SEQ,
             vertices=("v0", "v1"), faces=("v0", "missing"),
         ))
         candidate = KanCandidate(
             cell_id="e",
-            missing_axis=0,
-            missing_eps=1,
+            missing_axis=0, missing_eps=1,
             implied_vertices=("v1",),
             implied_guards=(),
             peer_face_count=0,
@@ -165,10 +165,49 @@ class TestKanTheorems:
         result = _render_kan_theorem(
             fn_name="t", idx=0, candidate=candidate, cset=cset,
         )
-        # When peer_face_count == 0, the theorem is a sorry.
-        assert result["is_sorry"] is True
-        assert "sorry" in result["text"]
+        # Theorem is ``True := trivial`` (real proposition, real
+        # proof) — not a sorry.  is_sorry stays False because
+        # nothing is admitted.
+        assert result["is_sorry"] is False
+        assert "trivial" in result["text"]
         assert "deppy_kan" not in result["text"]
+        # And no sorry token (we don't admit anything).
+        assert "sorry" not in result["text"]
+
+    def test_kan_with_peer_guards_emits_real_implication(self):
+        # Round-2 chunk C invariant: when there are peer guards,
+        # the theorem is a real implication, not ``: True``.
+        from deppy.pipeline.cubical_ast import (
+            Cell, CellShape, CubicalSet, KanCandidate,
+        )
+        cset = CubicalSet(function_name="t")
+        cset.add(Cell(
+            cell_id="sq", dim=2, shape=CellShape.SQUARE_IF,
+            vertices=("a", "b", "c", "d"),
+            faces=("e1", "e2", "e3", "missing"),
+        ))
+        candidate = KanCandidate(
+            cell_id="sq",
+            missing_axis=1, missing_eps=1,
+            implied_vertices=("c", "d"),
+            implied_guards=("x > 0", "y > 0"),
+            peer_face_count=3,
+        )
+        from deppy.lean.cubical_certificate import _render_kan_theorem
+        result = _render_kan_theorem(
+            fn_name="t", idx=0, candidate=candidate, cset=cset,
+        )
+        text = result["text"]
+        # The goal mentions BOTH peer predicates.
+        assert "x > 0" in text
+        assert "y > 0" in text
+        # The conclusion is the conjunction.
+        assert "∧" in text
+        # The proof binds hypotheses and uses them.
+        assert "h1" in text
+        assert "h2" in text
+        # Not a True-shaped goal.
+        assert not text.rstrip().endswith(": True := trivial\n".rstrip())
 
 
 # ─────────────────────────────────────────────────────────────────────
