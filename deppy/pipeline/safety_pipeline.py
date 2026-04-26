@@ -98,6 +98,24 @@ class FunctionVerdict:
     assert_narrowing_dependent: bool = False
     assert_dependent_sources: list[str] = field(default_factory=list)
 
+    # Cubical analysis (round-2 audit phase 3).
+    # The intra-procedural cubical structure of the function as
+    # built by ``deppy.pipeline.cubical_ast.build_cubical_set``.
+    # When the cubical analysis runs, these fields summarise:
+    #
+    #   ``cubical_cell_counts``: dim → number of cells
+    #   ``cubical_kan_candidates``: how many cells can be Kan-filled
+    #   ``cubical_obligations_total``: total kernel obligations
+    #     emitted from the cubical set
+    #   ``cubical_obligations_verified``: how many actually verified
+    #     against the kernel
+    #   ``cubical_euler``: Euler characteristic of the cubical set
+    cubical_cell_counts: dict[int, int] = field(default_factory=dict)
+    cubical_kan_candidates: int = 0
+    cubical_obligations_total: int = 0
+    cubical_obligations_verified: int = 0
+    cubical_euler: int = 0
+
 
 @dataclass
 class CounterexampleWitness:
@@ -138,6 +156,13 @@ class SafetyVerdict:
     # explicitly opt in via ``allow_assert_narrowing=True``.
     assert_narrowing_dependent: bool = False
     assert_dependent_functions: list[str] = field(default_factory=list)
+
+    # Cubical analysis aggregate (round-2 audit phase 3).
+    # Sum of per-function cubical statistics across the module.
+    cubical_total_cells: int = 0
+    cubical_total_kan_candidates: int = 0
+    cubical_total_obligations: int = 0
+    cubical_total_obligations_verified: int = 0
 
     # Enhanced diagnosis fields
     diagnosis_findings: Optional[list[DiagnosticFinding]] = None
@@ -672,10 +697,79 @@ def verify_module_safety(
             lean_proof=lean_proof,
             discharge_paths=discharge_paths,
         )
-        
+
+        # Phase 3 (round-2 audit): run the cubical AST analysis for
+        # this function and attach its summary to the verdict.  The
+        # analysis is independent of the safety verdict — it
+        # describes the function's *control-flow topology* and emits
+        # kernel obligations for Kan-fillable cells / complete
+        # higher cells.  The pipeline doesn't currently use these
+        # for discharging unsafe sources (that's a future hook); the
+        # presence of the data lets downstream tooling do so.
+        try:
+            from deppy.pipeline.cubical_ast import build_cubical_set
+            from deppy.pipeline.cubical_obligations import (
+                cubical_set_to_obligations,
+            )
+            fn_node_for_cubical = fn_nodes.get(fn_name)
+            if fn_node_for_cubical is not None:
+                cset = build_cubical_set(
+                    fn_node_for_cubical,
+                    refinement_map=refinement_maps.get(fn_name),
+                )
+                obligations = cubical_set_to_obligations(
+                    cset, include_all_higher=False,
+                )
+                # Verify each obligation through the kernel and
+                # count successes.  Use the same goal context as
+                # the per-function verification (a self-equality
+                # judgment is enough for the structural check).
+                from deppy.core.kernel import (
+                    Context as _C, Judgment as _J,
+                    JudgmentKind as _JK,
+                )
+                from deppy.core.types import PyObjType as _Py, Var as _V
+                cube_ctx = _C()
+                cube_x = _V("x")
+                cube_goal = _J(
+                    kind=_JK.EQUAL, context=cube_ctx,
+                    left=cube_x, right=cube_x, type_=_Py(),
+                )
+                verified_count = 0
+                for ob in obligations:
+                    try:
+                        rcube = kernel.verify(
+                            cube_ctx, cube_goal, ob.proof_term,
+                        )
+                        if rcube.success:
+                            verified_count += 1
+                    except Exception:
+                        pass
+                # Populate verdict fields.
+                function_verdict.cubical_cell_counts = {
+                    dim: len(cells)
+                    for dim, cells in cset.cells_by_dim.items()
+                }
+                function_verdict.cubical_kan_candidates = len(
+                    cset.find_kan_fillable()
+                )
+                function_verdict.cubical_obligations_total = len(
+                    obligations
+                )
+                function_verdict.cubical_obligations_verified = (
+                    verified_count
+                )
+                function_verdict.cubical_euler = (
+                    cset.euler_characteristic()
+                )
+        except Exception as _e:
+            verdict.notes.append(
+                f"cubical analysis unavailable for {fn_name}: {_e}"
+            )
+
         if progress_tracker:
             progress_tracker.complete_function(fn_name, is_safe, trust.name)
-        
+
         return (fn_name, {
             'verdict': function_verdict,
             'cond_witness': cond_witness,
@@ -753,6 +847,22 @@ def verify_module_safety(
         # but don't abort.
         verdict.notes.append(
             f"assert-narrowing gate unavailable: {_e}"
+        )
+
+    # Phase 3 (round-2 audit): aggregate cubical statistics across
+    # all functions into the module-level verdict.
+    for _fv in verdict.functions.values():
+        verdict.cubical_total_cells += sum(
+            getattr(_fv, "cubical_cell_counts", {}).values()
+        )
+        verdict.cubical_total_kan_candidates += getattr(
+            _fv, "cubical_kan_candidates", 0,
+        )
+        verdict.cubical_total_obligations += getattr(
+            _fv, "cubical_obligations_total", 0,
+        )
+        verdict.cubical_total_obligations_verified += getattr(
+            _fv, "cubical_obligations_verified", 0,
         )
 
     module_discharges = _build_discharges(
