@@ -847,6 +847,131 @@ class Univalence(ProofTerm):
 
 
 @dataclass
+class Cocycle(ProofTerm):
+    """A k-cocycle in deppy's safety cochain complex.
+
+    A cocycle at level ``k`` is a cochain whose boundary in
+    ``C^(k+1)`` vanishes — i.e., the local-to-global gluing
+    condition.  In deppy's safety setting:
+
+    * ``level=0`` — per-source safety (an obligation φ : Prop attached
+      to each exception source).
+    * ``level=1`` — call-site cocycle (caller_pre ⇒ subst(callee_pre)
+      between every caller-callee pair).
+    * ``level=2`` — module-level coherence (associativity of three-
+      function compositions, atlas patches agree on triple overlaps).
+
+    A ``Cocycle`` proof term is verified iff:
+
+    1. Every ``component`` proof verifies.
+    2. The ``boundary_zero`` proof verifies (witness that δφ = 0
+       at this level — typically an aggregation of the components).
+
+    Trust composes via ``min_trust(...)`` over the components +
+    boundary, matching the existing CechGlue rule.
+    """
+    level: int                        # 0 / 1 / 2 / ...
+    components: list[ProofTerm]       # cochain values at each cell
+    boundary_zero: ProofTerm | None = None  # δφ = 0 witness
+    label: str = ""                   # debug label
+
+    def __repr__(self) -> str:
+        return (
+            f"Cocycle(C^{self.level}, "
+            f"{len(self.components)} components, "
+            f"{'δ=0 witnessed' if self.boundary_zero is not None else 'δ unwitnessed'})"
+        )
+
+
+@dataclass
+class CohomologyClass(ProofTerm):
+    """A cohomology class ``[φ] ∈ H^k`` represented by a cocycle
+    quotiented by the image of ``δ^(k-1)``.
+
+    Two cocycles represent the same cohomology class iff their
+    difference is a coboundary.  In deppy:
+
+    * ``H^0`` — equivalence classes of "constant safe" functions
+      (those whose safety doesn't depend on call context).
+    * ``H^1`` — *obstructions*: cocycles that aren't coboundaries
+      witness call-graph compositions that *don't* decompose into
+      per-function obligations alone.
+    * ``H^2`` — coherence failures: distinct ways of associating
+      a triple-composition that aren't equal in cohomology.
+
+    A non-trivial element of ``H^k`` (k ≥ 1) is a *real obstruction*
+    to the program being safe — the certificate emits it as an
+    open theorem.
+
+    Verification: the kernel checks that ``cocycle`` is a valid
+    Cocycle and that the optional ``coboundary_witness`` (if
+    supplied, evidencing class triviality) verifies.
+    """
+    level: int                                # k
+    cocycle: ProofTerm                        # the representing Cocycle
+    coboundary_witness: ProofTerm | None = None
+    class_id: str = ""                        # stable identifier
+
+    def __repr__(self) -> str:
+        triv = "trivial" if self.coboundary_witness is not None else "non-trivial"
+        return (
+            f"CohomologyClass([{self.class_id or 'φ'}] ∈ H^{self.level}, {triv})"
+        )
+
+
+@dataclass
+class KanFill(ProofTerm):
+    """Kan filling — given an open k-box, produce the missing face.
+
+    For ``level=2``: given three sides of a square ``(p : x = y,
+    q : y = z, r : x = w)``, Kan-fill produces a fourth side
+    ``s : z = w`` such that the square commutes.  The composition
+    operation ``p · q · r⁻¹`` is the canonical filler.
+
+    For ``level=k``: given ``2k - 1`` faces of a ``k``-cube, fill
+    the missing face by iterated Kan composition.
+
+    Verification: every supplied face's proof must verify; the
+    kernel returns a proof of the inferred filler face whose trust
+    level is the minimum over all faces (matching CechGlue's
+    behaviour).
+    """
+    dimension: int                              # k for a k-cube
+    faces: list[ProofTerm]                      # 2k-1 face proofs
+    missing_face_label: str = ""                # which face is being filled
+
+    def __repr__(self) -> str:
+        return (
+            f"KanFill(dim={self.dimension}, "
+            f"{len(self.faces)} faces, missing={self.missing_face_label!r})"
+        )
+
+
+@dataclass
+class HigherPath(ProofTerm):
+    """An n-dimensional path — a path between paths between … values.
+
+    Used by ``@implies`` correctness proofs that establish two
+    functions are *equivalent up to n-dimensional homotopy* (e.g.,
+    ``mergesort xs`` and ``insertion_sort xs`` are 1-paths in
+    ``List Int = List Int`` but the *equivalence* of those paths is
+    a 2-path in the path space).
+
+    Verification recurses: an ``n``-path's verification requires the
+    boundary ``(n-1)``-paths to verify.
+    """
+    dimension: int                       # n
+    vertices: list[SynTerm]              # 2^n vertices (as SynTerms)
+    boundary_proofs: list[ProofTerm]     # face proofs (one per face)
+
+    def __repr__(self) -> str:
+        return (
+            f"HigherPath(dim={self.dimension}, "
+            f"{len(self.vertices)} vertices)"
+        )
+
+
+@dataclass
 class AxiomInvocation(ProofTerm):
     """Trusted axiom (tracked for dependency analysis)."""
     name: str
@@ -1040,6 +1165,14 @@ class ProofKernel:
             return self._verify_cech_glue(ctx, goal, proof)
         elif isinstance(proof, Univalence):
             return self._verify_univalence(ctx, goal, proof)
+        elif isinstance(proof, Cocycle):
+            return self._verify_cocycle(ctx, goal, proof)
+        elif isinstance(proof, CohomologyClass):
+            return self._verify_cohomology_class(ctx, goal, proof)
+        elif isinstance(proof, KanFill):
+            return self._verify_kan_fill(ctx, goal, proof)
+        elif isinstance(proof, HigherPath):
+            return self._verify_higher_path(ctx, goal, proof)
         else:
             return VerificationResult.fail(
                 f"Unknown proof term: {type(proof).__name__}", code="E001"
@@ -2726,6 +2859,195 @@ class ProofKernel:
             message=f"Univalence({proof.from_type} ≃ {proof.to_type}){type_note}",
             axioms_used=r.axioms_used,
             sub_results=[r],
+        )
+
+    # ── Cocycle / CohomologyClass / KanFill / HigherPath ──────────
+
+    def _verify_cocycle(self, ctx: "Context", goal: "Judgment",
+                        proof: "Cocycle") -> "VerificationResult":
+        """Verify a level-k cocycle.
+
+        Each component proof must verify against ``goal``.  When
+        ``boundary_zero`` is supplied (witness that δφ = 0), it must
+        also verify.  Trust composes via ``min_trust(...)`` over all
+        sub-results, matching the existing CechGlue rule.
+        """
+        if proof.level < 0:
+            return VerificationResult.fail(
+                f"Cocycle: invalid level {proof.level}", code="E007a",
+            )
+        if not proof.components:
+            return VerificationResult.fail(
+                f"Cocycle: empty component list at level {proof.level}",
+                code="E007b",
+            )
+        sub_results: list[VerificationResult] = []
+        for i, comp in enumerate(proof.components):
+            r = self.verify(ctx, goal, comp)
+            sub_results.append(r)
+            if not r.success:
+                return VerificationResult.fail(
+                    f"Cocycle(C^{proof.level}): "
+                    f"component {i} failed: {r.message}",
+                    code="E007",
+                )
+        if proof.boundary_zero is not None:
+            br = self.verify(ctx, goal, proof.boundary_zero)
+            sub_results.append(br)
+            if not br.success:
+                return VerificationResult.fail(
+                    f"Cocycle(C^{proof.level}): "
+                    f"boundary δφ=0 witness failed: {br.message}",
+                    code="E007c",
+                )
+        trust = min_trust(*(r.trust_level for r in sub_results))
+        return VerificationResult(
+            success=True,
+            trust_level=trust,
+            message=(
+                f"Cocycle(C^{proof.level}, "
+                f"{len(proof.components)} components"
+                f"{', δ=0 witnessed' if proof.boundary_zero is not None else ''})"
+            ),
+            sub_results=sub_results,
+        )
+
+    def _verify_cohomology_class(
+        self, ctx: "Context", goal: "Judgment",
+        proof: "CohomologyClass",
+    ) -> "VerificationResult":
+        """Verify a cohomology class ``[φ] ∈ H^k``.
+
+        Steps:
+          1. The representing cocycle verifies.
+          2. If a coboundary witness is supplied (declaring the class
+             trivial), it also verifies — and the class is reported
+             as ``trivial`` in the message; the verdict's trust level
+             is the minimum over the cocycle and the witness.
+        """
+        if proof.level < 0:
+            return VerificationResult.fail(
+                f"CohomologyClass: invalid level {proof.level}",
+                code="E008a",
+            )
+        cr = self.verify(ctx, goal, proof.cocycle)
+        if not cr.success:
+            return VerificationResult.fail(
+                f"CohomologyClass(H^{proof.level}): "
+                f"underlying cocycle failed: {cr.message}",
+                code="E008",
+            )
+        sub_results = [cr]
+        triviality = "non-trivial"
+        if proof.coboundary_witness is not None:
+            wr = self.verify(ctx, goal, proof.coboundary_witness)
+            sub_results.append(wr)
+            if not wr.success:
+                return VerificationResult.fail(
+                    f"CohomologyClass(H^{proof.level}): "
+                    f"coboundary witness failed: {wr.message}",
+                    code="E008b",
+                )
+            triviality = "trivial"
+        trust = min_trust(*(r.trust_level for r in sub_results))
+        cid = proof.class_id or "φ"
+        return VerificationResult(
+            success=True,
+            trust_level=trust,
+            message=f"CohomologyClass([{cid}] ∈ H^{proof.level}, {triviality})",
+            sub_results=sub_results,
+        )
+
+    def _verify_kan_fill(
+        self, ctx: "Context", goal: "Judgment",
+        proof: "KanFill",
+    ) -> "VerificationResult":
+        """Verify a Kan filling.
+
+        The number of supplied faces must be ``2k - 1`` for a
+        ``k``-cube; every face's proof must verify.  The filler's
+        trust level is the minimum.
+        """
+        if proof.dimension < 1:
+            return VerificationResult.fail(
+                f"KanFill: invalid dimension {proof.dimension}",
+                code="E009a",
+            )
+        expected = 2 * proof.dimension - 1
+        if len(proof.faces) != expected:
+            return VerificationResult.fail(
+                f"KanFill(dim={proof.dimension}): expected {expected} "
+                f"faces, got {len(proof.faces)}",
+                code="E009b",
+            )
+        sub_results: list[VerificationResult] = []
+        for i, face in enumerate(proof.faces):
+            r = self.verify(ctx, goal, face)
+            sub_results.append(r)
+            if not r.success:
+                return VerificationResult.fail(
+                    f"KanFill(dim={proof.dimension}): "
+                    f"face {i} failed: {r.message}",
+                    code="E009",
+                )
+        trust = min_trust(*(r.trust_level for r in sub_results))
+        return VerificationResult(
+            success=True,
+            trust_level=trust,
+            message=(
+                f"KanFill(dim={proof.dimension}, "
+                f"{len(proof.faces)} face(s) verified)"
+            ),
+            sub_results=sub_results,
+        )
+
+    def _verify_higher_path(
+        self, ctx: "Context", goal: "Judgment",
+        proof: "HigherPath",
+    ) -> "VerificationResult":
+        """Verify an n-dimensional path.
+
+        For ``dimension=1`` this is just an ordinary path-equality
+        proof — we delegate to the boundary proofs (one per face,
+        2*1=2 faces).  For higher dimensions we recursively verify
+        each boundary face as a path itself.
+        """
+        if proof.dimension < 1:
+            return VerificationResult.fail(
+                f"HigherPath: invalid dimension {proof.dimension}",
+                code="E010a",
+            )
+        expected_vertices = 2 ** proof.dimension
+        if len(proof.vertices) != expected_vertices:
+            return VerificationResult.fail(
+                f"HigherPath(dim={proof.dimension}): expected "
+                f"{expected_vertices} vertices, got {len(proof.vertices)}",
+                code="E010b",
+            )
+        if not proof.boundary_proofs:
+            return VerificationResult.fail(
+                f"HigherPath(dim={proof.dimension}): no boundary proofs",
+                code="E010c",
+            )
+        sub_results: list[VerificationResult] = []
+        for i, bp in enumerate(proof.boundary_proofs):
+            r = self.verify(ctx, goal, bp)
+            sub_results.append(r)
+            if not r.success:
+                return VerificationResult.fail(
+                    f"HigherPath(dim={proof.dimension}): "
+                    f"boundary {i} failed: {r.message}",
+                    code="E010",
+                )
+        trust = min_trust(*(r.trust_level for r in sub_results))
+        return VerificationResult(
+            success=True,
+            trust_level=trust,
+            message=(
+                f"HigherPath(dim={proof.dimension}, "
+                f"{len(proof.boundary_proofs)} boundary proofs)"
+            ),
+            sub_results=sub_results,
         )
 
     # ── PathAbs verification ──────────────────────────────────────

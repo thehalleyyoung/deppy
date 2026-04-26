@@ -38,6 +38,7 @@ from deppy.core.kernel import (           # noqa: F401  — proof terms
     EffectWitness, AxiomInvocation, Ext, Unfold, Rewrite,
     Structural, TransportProof, PathComp, Ap, FunExt,
     CechGlue, Univalence, Fiber, Patch,
+    Cocycle, CohomologyClass, KanFill, HigherPath,
 )
 
 # Convenience aliases used in book examples
