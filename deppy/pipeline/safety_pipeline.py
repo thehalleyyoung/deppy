@@ -456,6 +456,22 @@ def verify_module_safety(
     try:
         from deppy.pipeline.refinement_inference import infer_refinements
         refinement_maps = infer_refinements(source)
+        # Soundness: warn when assert-narrowing was used because
+        # ``python -O`` strips asserts and the discharge would
+        # silently no-op in optimised mode.
+        assert_narrowed = sorted(
+            n for n, m in refinement_maps.items()
+            if getattr(m, "used_assert_narrowing", False)
+        )
+        if assert_narrowed:
+            verdict.notes.append(
+                "WARN: assert-based path narrowing used in "
+                f"{', '.join(assert_narrowed)}; "
+                "discharges that depend on those asserts are unsound "
+                "under `python -O` (asserts are stripped). "
+                "Replace with `if not P: raise AssertionError` for "
+                "PYTHONOPTIMIZE-safe verification."
+            )
     except Exception as e:
         verdict.notes.append(f"refinement-inference unavailable: {e}")
     try:
@@ -1139,7 +1155,11 @@ def _try_termination_discharge(
     return None
 
 
-def _try_callee_discharge(src: ExceptionSource, *, register_in: Optional[ProofKernel] = None) -> Optional[ProofTerm]:
+def _try_callee_discharge(
+    src: ExceptionSource, *,
+    register_in: Optional[ProofKernel] = None,
+    callee_summaries: Optional[dict] = None,
+) -> Optional[ProofTerm]:
     """Discharge a CALL_PROPAGATION source by deferring its safety to
     the cubical atlas's call-graph cocycle (Phase 5).
 
@@ -1147,12 +1167,31 @@ def _try_callee_discharge(src: ExceptionSource, *, register_in: Optional[ProofKe
     subst(callee_pre)`` carries the actual proof.  Here we record an
     axiom-invocation pointing at that cocycle so the per-function
     section can verify; the atlas verifies the cocycle's truth.
+
+    Soundness gate
+    --------------
+    When ``callee_summaries`` is supplied **and** the callee is in
+    the map **and** its summary is *not* ``is_safe`` and has no
+    preconditions to discharge, we **refuse** to register the axiom
+    — the cocycle check would unconditionally hold (``True ⇒
+    True``) but the callee's body has unaddressed runtime sources, so
+    accepting the axiom would let the caller falsely claim safety.
+    Returning ``None`` keeps the source as ``Assume`` and surfaces the
+    real gap.
     """
     if src.kind is not ExceptionKind.CALL_PROPAGATION:
         return None
     callee = src.callee_name
     if not callee:
         return None
+    if callee_summaries:
+        summary = callee_summaries.get(callee)
+        if (summary is not None
+                and not getattr(summary, "is_safe", False)
+                and not list(getattr(summary, "preconditions", None) or [])):
+            # Internal callee with no preconditions and unguarded
+            # internal sources — do not unsoundly axiom-discharge.
+            return None
     ax_name = f"callee_safe[{callee}]"
     if register_in is not None:
         register_in.register_axiom(
@@ -1277,7 +1316,9 @@ def _build_discharges(
             ))
             continue
 
-        callee_ax = _try_callee_discharge(s, register_in=kernel)
+        callee_ax = _try_callee_discharge(
+            s, register_in=kernel, callee_summaries=callee_summaries,
+        )
         if callee_ax is not None:
             out.append(SourceDischarge(
                 source_id=sid, failure_kind=kind_name,
@@ -1302,8 +1343,12 @@ def _build_discharges(
         # every entry whose ``failure_kind`` matches the source's
         # kind (or is the ``"*"`` wildcard) and uses the first one
         # that the kernel's :class:`LeanProof` term verifies.
+        # Soundness fix F1: the kernel synthesises the goal from
+        # ``sp`` (the safety predicate); the user cannot pick it.
         lean_proof = _try_user_lean_proof(
             src=s, lean_proofs=lean_proofs, kernel=probe_kernel,
+            fn_node=fn_node, safety_predicate=sp,
+            precondition=enriched_pre,
         )
         if lean_proof is not None:
             out.append(SourceDischarge(
@@ -1330,7 +1375,9 @@ def _build_discharges(
     # other should not block safety.  We flip undischarged peers at
     # the same location to a ``Structural`` follower carrying the
     # discharged kind's evidence.
-    out = _propagate_co_located_discharges(out, sources)
+    out = _propagate_co_located_discharges(
+        out, sources, fn_node=fn_node, refinement_map=refinement_map,
+    )
     return out
 
 
@@ -1339,15 +1386,31 @@ _CO_LOCATED_KINDS = frozenset({"INDEX_ERROR", "KEY_ERROR"})
 
 def _propagate_co_located_discharges(
     out: list[SourceDischarge], sources: list[ExceptionSource],
+    *,
+    fn_node=None,
+    refinement_map=None,
 ) -> list[SourceDischarge]:
     """Promote ``Assume`` discharges to ``Structural`` followers when a
-    co-located peer source of a related kind was discharged.
+    co-located peer source of a related kind was discharged **and** the
+    receiver's type is statically pinned.
 
-    Co-locating sources of *unrelated* kinds (a TypeError and an
-    IndexError on the same line) does not trigger the promotion —
-    the runtime can raise either, and we cannot drop one safely.
-    Only the explicitly co-located pair ``{INDEX_ERROR, KEY_ERROR}``
-    triggers promotion.
+    Soundness gate (F3)
+    -------------------
+    A ``d[k]`` source emits both ``INDEX_ERROR`` and ``KEY_ERROR``
+    because the AST visitor doesn't know whether ``d`` is a list or a
+    dict.  At runtime exactly one of those exceptions can fire — but
+    *which* one depends on the runtime type of ``d``.  Promoting one
+    discharge to cover the other is sound iff we can prove ``d`` is
+    of a type that rules out the *other* kind:
+
+    * ``isinstance(d, dict)`` (or annotation ``d: dict``)  →  ``INDEX_ERROR``
+      cannot fire, so a ``KEY_ERROR`` discharge covers both.
+    * ``isinstance(d, (list, tuple, str, bytes))`` (or matching
+      annotation)  →  ``KEY_ERROR`` cannot fire, so an ``INDEX_ERROR``
+      discharge covers both.
+
+    Without such evidence we leave the unguarded peer as ``Assume``
+    so the verdict honestly surfaces the open obligation.
     """
     if len(out) != len(sources):
         return out
@@ -1364,7 +1427,6 @@ def _propagate_co_located_discharges(
         kinds = {out[i].failure_kind for i in idxs}
         if not kinds.issubset(_CO_LOCATED_KINDS):
             continue
-        # Find the discharged peer (Z3Proof, AxiomInvocation, Structural).
         discharged_idx = None
         for i in idxs:
             if not isinstance(out[i].inner, Assume):
@@ -1373,6 +1435,29 @@ def _propagate_co_located_discharges(
         if discharged_idx is None:
             continue
         winner = out[discharged_idx]
+        # Type-evidence gate.  ``_subscript_type_evidence`` returns
+        # one of {"dict", "sequence", None}; we only promote when the
+        # evidence rules out the *other* kind.
+        receiver_node = None
+        for i in idxs:
+            src = sources[i]
+            ast_node = getattr(src, "ast_node", None)
+            if ast_node is not None:
+                receiver_node = getattr(ast_node, "value", None)
+                break
+        evidence = _subscript_type_evidence(
+            receiver_node=receiver_node,
+            fn_node=fn_node,
+            refinement_map=refinement_map,
+        )
+        if evidence is None:
+            # No type evidence — refuse to promote.  The unguarded
+            # peer stays ``Assume`` so the verdict is honest.
+            continue
+        if evidence == "dict" and winner.failure_kind != "KEY_ERROR":
+            continue  # winner is INDEX_ERROR but d is a dict — wrong direction
+        if evidence == "sequence" and winner.failure_kind != "INDEX_ERROR":
+            continue
         for i in idxs:
             if i == discharged_idx:
                 continue
@@ -1384,12 +1469,80 @@ def _propagate_co_located_discharges(
                     inner=Structural(
                         description=(
                             f"co-located with {winner.failure_kind} "
-                            f"discharged at {winner.source_id}"
+                            f"discharged at {winner.source_id}; "
+                            f"receiver type evidence: {evidence}"
                         ),
                     ),
                     note="co-located peer discharged",
                 )
     return out
+
+
+def _subscript_type_evidence(
+    *, receiver_node, fn_node, refinement_map,
+):
+    """Return ``"dict"``, ``"sequence"``, or ``None`` based on
+    statically-discoverable type evidence for the subscript receiver.
+
+    Three sources, in order of authority:
+
+    1. ``isinstance(<receiver>, T)`` test that has been added to the
+       path-sensitive guard set at the source.
+    2. The annotation on the matching function parameter (when
+       ``receiver_node`` is a ``Name`` and the function is
+       annotated).
+    3. None — caller falls through to the conservative behaviour.
+    """
+    import ast as _ast
+    if receiver_node is None:
+        return None
+    receiver_text = ""
+    try:
+        receiver_text = _ast.unparse(receiver_node)
+    except Exception:
+        return None
+
+    # 1. isinstance guard from the path-sensitive walk.
+    if refinement_map is not None:
+        for fact in refinement_map.per_source:
+            for g in fact.guards:
+                if (f"isinstance({receiver_text}, dict)" in g
+                        or f"isinstance({receiver_text}, Mapping)" in g
+                        or f"isinstance({receiver_text}, (dict" in g):
+                    return "dict"
+                if (f"isinstance({receiver_text}, list)" in g
+                        or f"isinstance({receiver_text}, tuple)" in g
+                        or f"isinstance({receiver_text}, str)" in g
+                        or f"isinstance({receiver_text}, bytes)" in g
+                        or f"isinstance({receiver_text}, (list" in g
+                        or f"isinstance({receiver_text}, (tuple" in g):
+                    return "sequence"
+
+    # 2. Function-parameter annotation.
+    if fn_node is not None and isinstance(receiver_node, _ast.Name):
+        for arg in getattr(fn_node, "args", _ast.arguments(args=[])).args:
+            if arg.arg != receiver_node.id:
+                continue
+            ann = arg.annotation
+            if ann is None:
+                continue
+            try:
+                ann_text = _ast.unparse(ann)
+            except Exception:
+                continue
+            ann_text = ann_text.replace(" ", "")
+            if (ann_text == "dict" or ann_text.startswith("dict[")
+                    or ann_text.startswith("Mapping")
+                    or ann_text.startswith("MutableMapping")):
+                return "dict"
+            if (ann_text == "list" or ann_text.startswith("list[")
+                    or ann_text == "tuple" or ann_text.startswith("tuple[")
+                    or ann_text == "str" or ann_text == "bytes"
+                    or ann_text.startswith("Sequence")
+                    or ann_text.startswith("Tuple")
+                    or ann_text.startswith("List")):
+                return "sequence"
+    return None
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -1459,9 +1612,22 @@ def _try_builtin_sidecar_discharge(
         return None
     for entry in entries:
         if entry.mode == "total":
-            return Structural(
-                description=f"builtin total: {entry.note or entry.exception_class}",
-            )
+            # Honest accounting (Soundness fix F8): the catalogue's
+            # ``total`` entries are *unverified facts about CPython*
+            # (e.g. ``str(x)`` never raises) — we have not proven
+            # them.  Emit an ``AxiomInvocation`` so the witness
+            # carries AXIOM_TRUSTED rather than the misleading
+            # KERNEL/STRUCTURAL_CHAIN trust a ``Structural`` would
+            # confer.
+            ax_name = f"builtin_total[{entry.exception_class}]"
+            try:
+                kernel.register_axiom(
+                    ax_name,
+                    statement=f"builtin total: {entry.note or entry.exception_class}",
+                )
+            except Exception:
+                pass
+            return AxiomInvocation(name=ax_name)
         if entry.mode == "safety_predicate":
             substituted = substitute_call_arguments(entry.predicate, call)
             if not substituted:
@@ -1484,10 +1650,12 @@ _DISCHARGE_TAGS = (
     "callee-summary",
     "raises-declaration",
     "callee-axiom",
+    "builtin-total-axiom",
     "is-total",
     "termination",
     "user-lean-proof",
     "co-located-peer",
+    "structural-unknown",
     "undischarged",
 )
 
@@ -1496,10 +1664,15 @@ def _classify_discharge(d: SourceDischarge) -> str:
     """Map a :class:`SourceDischarge` to one of :data:`_DISCHARGE_TAGS`.
 
     The tag is read from a small set of pattern matches against the
-    ``inner`` proof-term type and the human-readable ``note`` field.
-    Anything we cannot classify falls through to ``"undischarged"``
-    (matching the conservative default — a discharge whose mechanism
-    we cannot identify is treated as not-helping).
+    ``inner`` proof-term type, the human-readable ``note`` field, and
+    the :class:`AxiomInvocation` name (so we can tell
+    ``builtin_total[...]`` axioms from generic ``callee_safe[...]``
+    ones).
+
+    A :class:`Structural` whose origin we cannot positively identify
+    falls through to ``"structural-unknown"`` (Soundness fix F7) so
+    the breakdown distinguishes "Z3 proved an arithmetic fact" from
+    "the pipeline emitted a structural assumption we can't trace".
     """
     inner = d.inner
     note = (d.note or "").lower()
@@ -1510,65 +1683,140 @@ def _classify_discharge(d: SourceDischarge) -> str:
     if isinstance(inner, TerminationObligation):
         return "termination"
     if isinstance(inner, AxiomInvocation):
-        if "raises_declaration" in note:
+        ax_name = (getattr(inner, "name", "") or "").lower()
+        if ax_name.startswith("builtin_total["):
+            return "builtin-total-axiom"
+        if "raises_declaration" in note or ax_name.startswith("raises_decl["):
             return "raises-declaration"
         return "callee-axiom"
     if isinstance(inner, Z3Proof):
         return "z3-arithmetic"
     if isinstance(inner, Structural):
-        if "is_total" in note:
+        desc = (getattr(inner, "description", "") or "").lower()
+        if "is_total" in note or "is_total" in desc:
             return "is-total"
-        if "syntactic conjunct" in (
-            getattr(inner, "description", "") or ""
-        ).lower():
+        if "syntactic conjunct" in desc:
             return "z3-syntactic"
         if "co-located" in note:
             return "co-located-peer"
         if "callee" in note and "discharged" in note:
             return "callee-summary"
-        if "builtin" in note:
+        if "builtin" in note or "builtin" in desc:
             return "builtin-sidecar"
-        return "z3-syntactic"  # default for Structural is the syntactic shortcut
+        return "structural-unknown"
     return "undischarged"
 
 
 def _try_user_lean_proof(
-    *, src, lean_proofs, kernel,
+    *, src, lean_proofs, kernel, fn_node=None, safety_predicate=None,
+    precondition: str = "True",
 ):
     """Discharge ``src`` using a user-attached Lean proof.
+
+    Soundness fix F1
+    ----------------
+    The kernel synthesises the theorem from the source's safety
+    predicate (translated to Lean) plus the user's proof body.  The
+    user *cannot* fabricate a different goal — Lean will reject the
+    proof unless it inhabits ``deppy-generated-goal``.
 
     ``lean_proofs`` is the merged list of
     ``(failure_kind, theorem, proof_script, imports)`` tuples
     collected from ``@with_lean_proof`` decorators and from the
-    sidecar spec's ``lean_proofs`` field.  The function tries each
-    matching entry (kind ``"*"`` matches anything) and returns the
-    first :class:`LeanProof` whose kernel verification succeeds.
-
-    The kernel's :meth:`_verify_lean` actually invokes the local
-    ``lean`` toolchain; on success the discharge carries
-    ``LEAN_KERNEL_VERIFIED`` semantics.  When ``lean`` is not
-    available we return ``None`` (the source remains undischarged
-    so the verdict honestly reports the missing toolchain) rather
-    than fabricating a discharge.
+    sidecar spec's ``lean_proofs`` field.  We use the *proof_script*
+    field as the user's proof body; the ``theorem`` field is ignored
+    (the kernel synthesises the theorem itself).
     """
     if not lean_proofs:
         return None
+    if not safety_predicate:
+        return None
     kind = getattr(getattr(src, "kind", None), "name", "")
-    for failure_kind, theorem, proof_script, imports in lean_proofs:
+
+    from deppy.lean.predicate_translation import translate
+    goal_result = translate(safety_predicate)
+    pre_result = translate(precondition or "True")
+
+    # Build typed binders from the function signature.
+    binders = _lean_binders_for_fn(fn_node)
+    if pre_result.lean_text and pre_result.lean_text != "True":
+        binders = binders + (f"(h_pre : {pre_result.lean_text})",)
+
+    # Combined imports + auxiliary axiom declarations from both the
+    # goal and the precondition translation.
+    imports_set: list[str] = []
+    aux_set: list[str] = []
+    for lst, src_lst in (
+        (imports_set, goal_result.imports),
+        (imports_set, pre_result.imports),
+        (aux_set, goal_result.aux_decls),
+        (aux_set, pre_result.aux_decls),
+    ):
+        for line in src_lst:
+            if line not in lst:
+                lst.append(line)
+
+    for failure_kind, _theorem, proof_script, user_imports in lean_proofs:
         if failure_kind not in ("*", kind):
             continue
+        all_imports = tuple(imports_set + list(user_imports or []))
+        # Prepend aux Prop declarations to the proof script's
+        # surrounding source via a synthetic theorem name.
         candidate = LeanProof(
-            theorem=theorem, proof_script=proof_script,
-            imports=tuple(imports or ()),
+            expected_goal=goal_result.lean_text,
+            binders=binders,
+            proof_script=proof_script,
+            imports=tuple(list(all_imports) + aux_set),
+        )
+        # Run the kernel-level Lean check with the synthesised
+        # theorem so we honour Soundness fix F1: the user cannot
+        # change the goal.
+        from deppy.core.kernel import LeanProof as _LP  # already imported
+        # Re-use _lean_check with manually-built theorem so the cache
+        # key reflects the synthesised form.
+        synth_theorem = (
+            f"theorem deppy_obligation {' '.join(binders)} : "
+            f"({goal_result.lean_text})"
         )
         ok, _detail = kernel._lean_check(
-            theorem=theorem, proof_script=proof_script,
-            imports=tuple(imports or ()),
+            theorem=synth_theorem, proof_script=proof_script,
+            imports=tuple(list(all_imports) + aux_set),
             cache_into=candidate,
         )
         if ok:
             return candidate
     return None
+
+
+def _lean_binders_for_fn(fn_node) -> tuple[str, ...]:
+    """Translate a function's parameter list into Lean-4 binders.
+
+    Defaults to ``Int`` for un-annotated parameters; recognises
+    ``int``/``float``/``str``/``bool``/``list``/``dict`` directly.
+    Unrecognised annotations fall back to ``Int`` (the most common
+    runtime-safety case) — matching the obligation emitter.
+    """
+    import ast as _ast
+    if fn_node is None:
+        return ()
+    table = {
+        "int": "Int", "float": "Float", "str": "String",
+        "bool": "Bool", "list": "List Int",
+        "dict": "Std.HashMap String Int", "tuple": "List Int",
+        "None": "Unit",
+    }
+    binders: list[str] = []
+    for arg in getattr(fn_node, "args",
+                        _ast.arguments(args=[])).args:
+        ty = "Int"
+        if arg.annotation is not None:
+            try:
+                ann_text = _ast.unparse(arg.annotation).strip()
+            except Exception:
+                ann_text = ""
+            ty = table.get(ann_text, ty)
+        binders.append(f"({arg.arg} : {ty})")
+    return tuple(binders)
 
 
 def _try_callee_summary_discharge_v2(

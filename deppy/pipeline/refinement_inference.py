@@ -76,6 +76,11 @@ class RefinementMap:
     function_name: str
     function_wide_preconditions: list[str] = field(default_factory=list)
     per_source: list[RefinementFact] = field(default_factory=list)
+    # ``True`` when at least one ``assert P`` was used as a path-
+    # sensitive guard.  Because Python strips ``assert`` under ``-O``,
+    # discharges that depend on these guards are unsound in
+    # optimised mode — the safety pipeline surfaces a warning.
+    used_assert_narrowing: bool = False
 
     def conjoined_guards_for_source(
         self, lineno: int, col: int, kind: str,
@@ -273,6 +278,7 @@ class RefinementInferrer:
         self.function_name = function_name
         self._facts: list[RefinementFact] = []
         self._function_wide_preconditions: list[str] = []
+        self._used_assert_narrowing: bool = False
 
     # -- public entry point ---------------------------------------------
 
@@ -311,27 +317,29 @@ class RefinementInferrer:
             function_name=fn.name,
             function_wide_preconditions=list(self._function_wide_preconditions),
             per_source=list(self._facts),
+            used_assert_narrowing=self._used_assert_narrowing,
         )
 
     # -- leading guard extraction ---------------------------------------
 
     def _extract_leading_guard(self, stmt: ast.stmt) -> Optional[list[str]]:
-        """If ``stmt`` is a top-of-body guard whose failure exits the
-        function (``if BAD: raise`` or ``assert GOOD``), return the
-        conjuncts of the *post-guard* predicate.
+        """If ``stmt`` is a top-of-body ``if BAD: raise`` guard, return
+        the conjuncts of ``not BAD`` that hold for the rest of the
+        function.
 
-        * ``if x < 0: raise``  → returns ``["x >= 0"]``
-        * ``assert x > 0``     → returns ``["x > 0"]``
+        We deliberately do **not** treat a leading ``assert P`` as a
+        function-wide precondition.  Under ``python -O`` (or
+        ``PYTHONOPTIMIZE=1``) the interpreter strips ``assert``
+        statements entirely, so claims based on them would be unsound
+        in optimised mode.  The path-sensitive walker (``_walk_stmt``)
+        still records the assert's predicate as a guard *for sources
+        that follow it inside the same function* — discharges based
+        on those guards are flagged via a verdict note so the user
+        knows their soundness depends on running unoptimised.
 
-        We *only* fire on guards whose failure is unconditional — a
-        guard whose body returns a normal value isn't a precondition;
-        the function is just handling both branches.
+        ``None`` is returned when the statement isn't a leading
+        raise-guard.
         """
-        if isinstance(stmt, ast.Assert):
-            # ``assert P`` post-condition: P holds in the rest of the
-            # function (because if ¬P, AssertionError would have
-            # already exited).
-            return _split_conjuncts(stmt.test)
         if not isinstance(stmt, ast.If):
             return None
         if not self._body_raises(stmt.body):
@@ -418,10 +426,26 @@ class RefinementInferrer:
         for expr in self._immediate_expressions(stmt):
             self._record_expr_sources(expr, guards=guards)
 
+        # Soundness fix F2: drop guards that mention any name this
+        # statement mutates.  Mutation invalidates the previously-
+        # established membership / arithmetic / type evidence — e.g.,
+        # after ``del d[k]`` the guard ``k in d`` no longer holds.
+        # We compute the set of mutated names *before* the
+        # statement-specific narrowing so the new guard set is the
+        # intersection of pre-mutation guards (filtered) plus any
+        # guards this statement adds.
+        mutated = _mutated_names_in_stmt(stmt)
+        if mutated:
+            guards = tuple(
+                g for g in guards
+                if not _expr_mentions_any_name(g, mutated)
+            )
+
         # Statement-specific narrowing.
         if isinstance(stmt, ast.Assert):
             for c in _split_conjuncts(stmt.test):
                 guards = guards + (c,)
+            self._used_assert_narrowing = True
             return guards
 
         if isinstance(stmt, ast.If):
@@ -569,6 +593,127 @@ def infer_refinements(source: str) -> dict[str, RefinementMap]:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             out[node.name] = RefinementInferrer().analyze(node)
     return out
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  Mutation detection (Soundness fix F2)
+# ─────────────────────────────────────────────────────────────────────
+
+# Method names whose call mutates the receiver.  Conservative — list
+# matches the Python stdlib documentation for sequence / dict / set /
+# bytearray protocols; anything else is treated as non-mutating
+# (consistent with the rest of the safety pipeline's "if we don't
+# know, treat conservatively only when it makes us less liberal"
+# stance).  In doubt we lean toward dropping the guard rather than
+# keeping it — false-negatives become a few extra Assume sources, not
+# unsoundness.
+_MUTATING_METHODS: frozenset[str] = frozenset({
+    # list / sequence
+    "append", "extend", "insert", "remove", "pop", "sort", "reverse",
+    "clear",
+    # dict
+    "setdefault", "update", "popitem",
+    # set
+    "add", "discard", "intersection_update", "difference_update",
+    "symmetric_difference_update", "update",
+    # generic
+    "__setitem__", "__delitem__",
+})
+
+
+def _mutated_names_in_stmt(stmt: ast.AST) -> set[str]:
+    """Return the set of *top-level* names that ``stmt`` mutates.
+
+    A name is mutated when:
+
+    * it appears as the LHS of an ``Assign`` / ``AnnAssign`` /
+      ``AugAssign`` (``x = ...``, ``x: int = ...``, ``x += ...``);
+    * it appears as the receiver of a ``del`` (``del x`` or
+      ``del x[k]``);
+    * it appears as the receiver of a known-mutating method call
+      (``x.append(y)``, ``x.pop()``, …);
+    * it appears as the receiver of a subscript-assign (``x[k] = v``)
+      or subscript-del (``del x[k]``).
+
+    For nested attribute / subscript chains we recurse to the root
+    name (``x.y.z[0] = ...`` → ``"x"``).
+    """
+    out: set[str] = set()
+
+    def _root_name(node) -> Optional[str]:
+        if isinstance(node, ast.Name):
+            return node.id
+        if isinstance(node, ast.Attribute):
+            return _root_name(node.value)
+        if isinstance(node, ast.Subscript):
+            return _root_name(node.value)
+        if isinstance(node, ast.Starred):
+            return _root_name(node.value)
+        if isinstance(node, (ast.Tuple, ast.List)):
+            for elt in node.elts:
+                n = _root_name(elt)
+                if n:
+                    out.add(n)
+            return None
+        return None
+
+    if isinstance(stmt, ast.Assign):
+        for tgt in stmt.targets:
+            n = _root_name(tgt)
+            if n:
+                out.add(n)
+    elif isinstance(stmt, (ast.AnnAssign, ast.AugAssign)):
+        n = _root_name(stmt.target)
+        if n:
+            out.add(n)
+    elif isinstance(stmt, ast.Delete):
+        for tgt in stmt.targets:
+            n = _root_name(tgt)
+            if n:
+                out.add(n)
+    elif isinstance(stmt, (ast.For, ast.AsyncFor)):
+        n = _root_name(stmt.target)
+        if n:
+            out.add(n)
+
+    # Mutating method calls anywhere in the statement's expressions.
+    for child in ast.walk(stmt):
+        if isinstance(child, ast.Call):
+            func = child.func
+            if isinstance(func, ast.Attribute) and func.attr in _MUTATING_METHODS:
+                receiver = _root_name(func.value)
+                if receiver:
+                    out.add(receiver)
+
+    return out
+
+
+def _expr_mentions_any_name(expr_text: str, names: set[str]) -> bool:
+    """``True`` iff parsing ``expr_text`` yields an AST that mentions
+    any of the ``names`` as a free identifier.
+
+    Conservative: when parsing fails (or the predicate is opaque), we
+    return ``True`` so the guard is dropped — that's the safe
+    direction.
+    """
+    if not expr_text:
+        return False
+    if not names:
+        return False
+    try:
+        tree = ast.parse(expr_text, mode="eval")
+    except SyntaxError:
+        return True
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name) and node.id in names:
+            return True
+        if isinstance(node, ast.Attribute):
+            base = node
+            while isinstance(base, ast.Attribute):
+                base = base.value
+            if isinstance(base, ast.Name) and base.id in names:
+                return True
+    return False
 
 
 __all__ = [

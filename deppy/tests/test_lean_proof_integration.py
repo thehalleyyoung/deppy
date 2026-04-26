@@ -153,17 +153,17 @@ class TestWithLeanProofDecorator:
 
 class TestLeanProofPipelineIntegration:
     @needs_lean
-    def test_attached_lean_proof_discharges_source(self):
-        """A user who attaches a Lean proof for ZERO_DIVISION via
-        ``@with_lean_proof`` and whose proof Lean accepts should see
-        the function marked safe — even when no precondition was
-        supplied."""
+    def test_trivial_proof_does_not_discharge_real_obligation(self):
+        """Soundness fix F1 (audit): a Lean proof of ``True`` does
+        NOT discharge ZERO_DIVISION on ``a/b`` — the kernel
+        synthesises the goal from the safety predicate (``b ≠ 0``)
+        and Lean's ``trivial`` cannot inhabit it.
+        """
         from deppy.pipeline.safety_pipeline import verify_module_safety
         src = textwrap.dedent('''
             from deppy import with_lean_proof
 
             @with_lean_proof(
-                theorem="theorem deppy_pipe_safe : True",
                 proof="trivial",
                 for_kind="ZERO_DIVISION",
             )
@@ -172,9 +172,44 @@ class TestLeanProofPipelineIntegration:
         ''').strip()
         v = verify_module_safety(src, use_drafts=True)
         fv = v.functions["divide"]
-        assert fv.is_safe
-        # The discharge tag should be ``user-lean-proof``.
-        assert "user-lean-proof" in fv.discharge_paths.values()
+        # `trivial` cannot prove `b ≠ 0`, so the function remains unsafe.
+        assert not fv.is_safe
+
+    @needs_lean
+    def test_kernel_synthesises_goal_from_safety_predicate(self):
+        """Verify the soundness gate at the kernel level (without
+        going through the pipeline's Z3-first ordering): a
+        :class:`LeanProof` constructed in *sound mode* with
+        ``expected_goal`` synthesises the theorem itself, so a proof
+        body of ``trivial`` cannot inhabit ``b ≠ 0``.
+        """
+        from deppy import LeanProof, ProofKernel
+        from deppy.core.kernel import Judgment, JudgmentKind, Context, Var
+        from deppy.core.types import PyObjType
+        kernel = ProofKernel()
+        ctx = Context()
+        goal = Judgment(
+            kind=JudgmentKind.TYPE_CHECK, context=ctx,
+            term=Var("safety"), type_=PyObjType(),
+        )
+        # User says: prove ``b ≠ 0`` for any ``a, b : Int`` with
+        # ``trivial``.  Lean rejects.
+        bad = LeanProof(
+            expected_goal="b ≠ 0",
+            binders=("(a : Int)", "(b : Int)"),
+            proof_script="trivial", timeout_s=20,
+        )
+        r = kernel.verify(ctx, goal, bad)
+        assert not r.success
+        # The same shape with the right precondition + ``intro h;
+        # exact h`` succeeds.
+        good = LeanProof(
+            expected_goal="b ≠ 0",
+            binders=("(a : Int)", "(b : Int)", "(h : b ≠ 0)"),
+            proof_script="exact h", timeout_s=20,
+        )
+        r = kernel.verify(ctx, goal, good)
+        assert r.success, r.message
 
     def test_pipeline_safe_to_run_without_lean(self):
         """When ``lean`` is missing, the pipeline must not crash —

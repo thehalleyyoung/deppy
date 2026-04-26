@@ -89,53 +89,27 @@ _PY_TO_LEAN_REPLACEMENTS: list[tuple[str, str]] = [
 ]
 
 
-def _py_predicate_to_lean(pred: str) -> tuple[str, list[str]]:
-    """Best-effort Lean translation of a Python-syntax predicate.
+def _py_predicate_to_lean(pred: str) -> tuple[str, list[str], list[str]]:
+    """Lean translation of a Python-syntax predicate.
 
-    Returns ``(lean_text, notes)`` where ``notes`` lists informational
-    messages about translations the user should review.  Always
-    returns *some* string so the emitted theorem compiles
-    syntactically (with ``sorry``) — the user can refine it.
+    Soundness fix F4: never returns ``True`` as a fallback.  When
+    the predicate cannot be cleanly translated, we emit an *opaque
+    Lean Prop* (axiomatised via ``axiom deppy_pred_<hash> : Prop``)
+    so the user cannot accidentally discharge it with ``trivial``.
+
+    Returns
+    -------
+    ``(lean_text, aux_decls, notes)``
+
+    * ``lean_text`` — the Lean term to use as the theorem's goal.
+    * ``aux_decls`` — auxiliary ``axiom`` declarations the .lean file
+      must include (deterministic across runs).
+    * ``notes`` — informational comments the emitter inlines into
+      the theorem's preamble.
     """
-    pred = (pred or "").strip()
-    notes: list[str] = []
-    if not pred or pred == "True":
-        return "True", notes
-    if pred == "False":
-        return "False", notes
-
-    # Identifier-only predicates (e.g. ``defined("x")``,
-    # ``callee_safe(g)``, ``module_present``) are *synthetic* — we
-    # keep them as Lean opaque ``Prop`` constants the user can refine.
-    synthetic_markers = (
-        "callee_safe(", "has_next(", "module_present",
-        "io_resource_available", "completes_within_budget",
-        "custom_invariant_holds", "is_float_literal(",
-        "is_valid_for_op(", "defined(",
-        "iterable_exhaustible", "decreases_measure_provided",
-    )
-    if any(m in pred for m in synthetic_markers):
-        notes.append(
-            f"synthetic predicate {pred!r} — user must encode the "
-            "real invariant in Lean"
-        )
-        return f"-- {pred}\n  True  -- TODO: refine", notes
-
-    out = pred
-    for src_op, dst_op in _PY_TO_LEAN_REPLACEMENTS:
-        out = out.replace(src_op, dst_op)
-
-    # ``in`` / ``not in`` / ``is`` / ``is not`` aren't standard Lean
-    # syntax — flag them.
-    py_only = (" in ", " not in ", " is ", " is not ", "len(", "isinstance(")
-    if any(m in out for m in py_only):
-        notes.append(
-            f"predicate {pred!r} contains Python-only constructs "
-            "(in / isinstance / len) — user must restate in Lean"
-        )
-        return f"-- {pred}\n  True  -- TODO: restate in Lean", notes
-
-    return out, notes
+    from deppy.lean.predicate_translation import translate
+    result = translate(pred)
+    return result.lean_text, list(result.aux_decls), list(result.notes)
 
 
 def _python_param_type_to_lean(ann: Optional[str]) -> str:
@@ -178,9 +152,16 @@ def _render_obligation(
     precondition: str,
     parameters: list[str],
     fn_node=None,
+    aux_decls: list[str] | None = None,
 ) -> Obligation:
-    pre_lean, pre_notes = _py_predicate_to_lean(precondition)
-    goal_lean, goal_notes = _py_predicate_to_lean(safety_predicate)
+    pre_lean, pre_aux, pre_notes = _py_predicate_to_lean(precondition)
+    goal_lean, goal_aux, goal_notes = _py_predicate_to_lean(safety_predicate)
+
+    # Aggregate auxiliary axiom declarations for the parent emitter.
+    if aux_decls is not None:
+        for decl in pre_aux + goal_aux:
+            if decl not in aux_decls:
+                aux_decls.append(decl)
 
     theorem_name = _safe_ident(f"deppy_{fn_name}_{source_id}")
 
@@ -294,6 +275,7 @@ def emit_obligations(
 
     obligations: list[Obligation] = []
     notes: list[str] = []
+    aux_decls: list[str] = []
     for fn_name, fv in verdict.functions.items():
         if not fv.unaddressed:
             continue
@@ -328,25 +310,29 @@ def emit_obligations(
 
             source_id = f"{fn_name}_L{lineno}_{kind}"
             # The safety_predicate isn't on the verdict directly, but
-            # we can reconstruct it from the discharge payload — for
-            # now, fall back to "True" with a TODO note.
-            safety_pred = "True"
+            # we can reconstruct it from the discharge payload.
+            safety_pred = ""
             try:
                 disch = (fv.proof_payload or {}).get("semantic", {}).get(
                     "discharges", [],
                 )
                 for d in disch:
                     if d.get("source_id", "").endswith(f":L{lineno}:{kind}"):
-                        safety_pred = d.get("safety_predicate", "True")
+                        safety_pred = d.get("safety_predicate", "")
                         break
             except Exception:
                 pass
+            # Soundness fix F4: if we can't recover the safety
+            # predicate, emit an opaque Prop (NOT ``True``) so the
+            # user can't trivially discharge the obligation.
+            if not safety_pred:
+                safety_pred = f"undischarged_{kind}_at_L{lineno}"
 
             ob = _render_obligation(
                 fn_name=fn_name, source_id=source_id,
                 failure_kind=kind, safety_predicate=safety_pred,
                 precondition=precondition, parameters=params,
-                fn_node=node,
+                fn_node=node, aux_decls=aux_decls,
             )
             obligations.append(ob)
 
@@ -356,12 +342,30 @@ def emit_obligations(
         f"-- Module: {module_name}",
         f"-- Open obligations: {len(obligations)}",
         f"-- Edit ``sorry`` to provide a Lean proof, then attach with",
-        f"--    @with_lean_proof(theorem=..., proof=...)",
+        f"--    @with_lean_proof(proof=..., for_kind=...)",
         f"-- and re-run ``deppy check``.",
-        "",
-        "namespace " + _safe_ident(module_name),
+        f"--",
+        f"-- Soundness note: deppy synthesises the theorem statement",
+        f"-- from the safety predicate, so the user supplies *only* the",
+        f"-- proof body.  ``trivial`` will not work for predicates that",
+        f"-- translate to opaque ``Prop`` axioms — the user must produce",
+        f"-- a real witness or refine the axiom.",
         "",
     ]
+    if aux_decls:
+        out_lines.append(
+            "-- Auxiliary opaque-Prop declarations for predicates that")
+        out_lines.append(
+            "-- could not be cleanly translated to native Lean.")
+        out_lines.append(
+            "-- The user is expected to either replace them with a")
+        out_lines.append(
+            "-- concrete definition or provide a proof another way.")
+        for decl in aux_decls:
+            out_lines.append(decl)
+        out_lines.append("")
+    out_lines.append("namespace " + _safe_ident(module_name))
+    out_lines.append("")
     for ob in obligations:
         out_lines.append(ob.theorem_text)
         out_lines.append("")

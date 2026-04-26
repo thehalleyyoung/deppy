@@ -175,48 +175,67 @@ class Z3Proof(ProofTerm):
 class LeanProof(ProofTerm):
     """Lean 4 discharge: verify a theorem against the local Lean toolchain.
 
+    Two modes
+    ---------
+
+    Soundness fix F1: there are now two construction modes, and the
+    *sound* one is the default.
+
+    1. **Sound mode** — ``expected_goal`` is set.  The kernel
+       synthesises the theorem itself from
+       ``deppy-generated-goal := by <user_proof_script>``.  The user
+       supplies only the proof body; they cannot pick the goal.
+       This is the mode the safety pipeline uses when discharging an
+       open exception source.
+
+    2. **Legacy / trust-me mode** — only ``theorem`` is set.  The
+       kernel takes the user's theorem statement as-is.  Used by the
+       few places that need to certify a free-form Lean fact
+       (``deppy.lean.compiler``); emits a verdict note flagging the
+       weaker accountability.
+
+    Verdict
+    -------
     The kernel verifies this term by writing a self-contained Lean
-    file and invoking the ``lean`` binary.  The verdict is determined
-    by Lean's exit status:
-
-    * exit 0                       → :attr:`TrustLevel.KERNEL`
-      (Lean kernel-checked it; reuse the deppy-kernel rung
-      :attr:`TrustLevel.KERNEL` so the witness can compose with
-      ordinary kernel proofs)
-    * non-zero, lean ran           → ``failure``  (Lean rejected)
-    * binary missing / error       → ``failure`` with reason
-      ``lean-unavailable`` so callers can decide whether to treat it
-      as an obligation (rather than a hard fail)
-
-    The verification result also carries a ``LEAN_KERNEL_VERIFIED``
-    label on its message, which the Lean compiler picks up when
-    rendering the per-function trust banner.
+    file and invoking the ``lean`` binary.  Exit 0 →
+    :attr:`TrustLevel.KERNEL` with a ``LEAN_KERNEL_VERIFIED``
+    message marker.  Non-zero exit, timeout, or missing binary →
+    failure with a precise reason.
 
     Construction
     ------------
-    ``LeanProof(theorem=..., proof_script=..., imports=..., timeout_s=60)``
+    Sound::
 
-    * ``theorem``      — the theorem-statement source line; e.g.
-      ``"theorem f_safe (a b : Int) (h : b ≠ 0) : a / b = a / b := rfl"``
-    * ``proof_script`` — the *body* (may be empty when ``theorem``
-      already contains the body, e.g. ``... := rfl``).  Otherwise the
-      kernel concatenates ``theorem``, then a newline, then
-      ``proof_script``.
-    * ``imports``      — extra import lines prepended to the file.
-    * ``timeout_s``    — ``lean`` invocation timeout.
+        LeanProof(
+            expected_goal="b ≠ 0",
+            binders=("(a : Int)", "(b : Int)", "(h_pre : True)"),
+            proof_script="exact h_pre.elim ...",
+        )
+
+    Legacy::
+
+        LeanProof(theorem="theorem t : True := trivial")
 
     A small in-memory cache keyed on the canonical (theorem, proof,
     imports) triple avoids re-invoking ``lean`` for repeated proofs
     in the same run.
     """
-    theorem: str
+    theorem: str = ""
     proof_script: str = ""
+    # Sound-mode fields (Soundness fix F1).  When ``expected_goal``
+    # is non-empty, the kernel synthesises the theorem itself and
+    # ignores ``theorem``.
+    expected_goal: str = ""
+    binders: tuple[str, ...] = ()
+    theorem_name: str = ""  # optional override; default is "deppy_obligation"
     imports: tuple[str, ...] = ()
     timeout_s: int = 60
     _cached_result: tuple[bool, str] | None = field(default=None, repr=False)
 
     def __repr__(self) -> str:
-        head = self.theorem.split("\n", 1)[0][:60]
+        if self.expected_goal:
+            return f"Lean(goal={self.expected_goal[:60]}…)"
+        head = (self.theorem or "").split("\n", 1)[0][:60]
         return f"Lean({head}…)"
 
 
@@ -1355,30 +1374,48 @@ class ProofKernel:
         body) to a temporary directory, runs ``lean`` on it, and
         accepts the proof iff Lean's exit status is 0.
 
-        Successful Lean checks return :attr:`TrustLevel.KERNEL` —
-        Lean's metatheory is at least as strong as the deppy kernel,
-        and the witness should compose with other kernel-level proofs
-        without down-grading.  The ``message`` carries the
-        ``LEAN_KERNEL_VERIFIED`` label so the Lean compiler banner
-        renders correctly.
+        Soundness fix F1
+        ----------------
+        When ``proof.expected_goal`` is set, the kernel synthesises
+        the theorem itself — the user supplies only the proof body
+        and cannot fabricate a different goal.  When only
+        ``proof.theorem`` is set, the legacy "trust-me" mode is used
+        (the kernel takes the user's theorem as-is); a successful
+        verdict still requires Lean to type-check it.
 
+        Successful Lean checks return :attr:`TrustLevel.KERNEL`.
         When ``lean`` is not on ``PATH`` the result is *failure* with
         reason ``lean-unavailable`` so the safety pipeline can decide
-        whether to surface an obligation rather than treat the proof
-        as conclusively rejected.
+        whether to surface an obligation.
         """
+        # Sound mode: synthesise the theorem from expected_goal.
+        if proof.expected_goal:
+            name = proof.theorem_name or "deppy_obligation"
+            binders = " ".join(b for b in proof.binders if b.strip())
+            head = (
+                f"theorem {name} {binders} : ({proof.expected_goal})".rstrip()
+            )
+            theorem_text = head
+            body = proof.proof_script
+        else:
+            theorem_text = proof.theorem
+            body = proof.proof_script
+
         ok, detail = self._lean_check(
-            theorem=proof.theorem,
-            proof_script=proof.proof_script,
+            theorem=theorem_text,
+            proof_script=body,
             imports=proof.imports,
             timeout_s=proof.timeout_s,
             cache_into=proof,
         )
         if ok:
-            head = proof.theorem.split("\n", 1)[0][:80]
+            label_head = (
+                proof.expected_goal[:80] if proof.expected_goal
+                else theorem_text.split("\n", 1)[0][:80]
+            )
             return VerificationResult.ok(
                 TrustLevel.KERNEL,
-                f"LEAN_KERNEL_VERIFIED: {head}",
+                f"LEAN_KERNEL_VERIFIED: {label_head}",
             )
         if detail == "lean-unavailable":
             return VerificationResult.fail(

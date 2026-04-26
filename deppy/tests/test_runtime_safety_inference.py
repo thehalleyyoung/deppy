@@ -77,16 +77,24 @@ class TestRefinementInference:
         for fact in index_or_key:
             assert any("0 <= i" in g for g in fact.guards)
 
-    def test_assert_narrows_remainder_of_function(self):
+    def test_assert_narrows_path_but_not_function_wide(self):
+        """Soundness fix F5: ``assert P`` is *not* a function-wide
+        precondition (asserts are stripped under ``python -O``).  It
+        IS still a path-sensitive guard for sources that follow it,
+        and the inferrer flags ``used_assert_narrowing`` so the
+        pipeline can warn.
+        """
         src = (
             "def f(d, k):\n"
             "    assert k in d\n"
             "    return d[k]\n"
         )
         rmap = infer_refinements(src)["f"]
-        # The leading-guard scan should pick up the assert as a
-        # function-wide precondition.
-        assert "k in d" in rmap.function_wide_preconditions
+        assert rmap.function_wide_preconditions == []
+        assert rmap.used_assert_narrowing is True
+        # Path-sensitive guards still see the assert.
+        post_assert_guards = [list(f.guards) for f in rmap.per_source]
+        assert any("k in d" in gs for gs in post_assert_guards)
 
     def test_leading_raise_guard_becomes_function_wide_precondition(self):
         src = (
@@ -313,8 +321,12 @@ class TestAutoDischargePipeline:
         assert v.functions["f"].is_safe
 
     def test_guarded_dict_lookup_verifies(self):
+        # Soundness fix F3: the co-located INDEX_ERROR/KEY_ERROR pair
+        # can only be jointly discharged when the receiver type is
+        # statically known.  Annotate ``d: dict`` so the pipeline can
+        # rule out IndexError.
         src = (
-            "def f(d, k):\n"
+            "def f(d: dict, k):\n"
             "    if k in d:\n"
             "        return d[k]\n"
             "    return None\n"
@@ -322,14 +334,48 @@ class TestAutoDischargePipeline:
         v = self._verdict(src)
         assert v.functions["f"].is_safe
 
-    def test_assert_narrows_subsequent_access(self):
+    def test_assert_does_not_imply_unconditional_safety(self):
+        """Soundness fix F5: an assert *alone* is not sufficient to
+        certify a function safe — under ``python -O`` the assert is
+        stripped and the source can fire.  The verdict surfaces the
+        assert source itself as undischarged, and the verdict notes
+        a warning about ``-O``.
+        """
         src = (
             "def f(d, k):\n"
             "    assert k in d\n"
             "    return d[k]\n"
         )
         v = self._verdict(src)
-        assert v.functions["f"].is_safe
+        fv = v.functions["f"]
+        # Function is NOT marked safe (the assert source itself is
+        # unaddressed without a precondition).
+        assert not fv.is_safe
+        # The assert source is the gap.
+        assert any("ASSERTION_ERROR" in u for u in fv.unaddressed)
+        # The verdict surfaces the -O warning.
+        assert any("python -O" in n for n in v.notes)
+
+    def test_if_not_p_raise_is_sound_under_optimisation(self):
+        """The recommended replacement: ``if not P: raise
+        AssertionError`` is *not* stripped by ``-O``, so it acts as a
+        real function-wide precondition.  ``d: dict`` annotation
+        gives us the type evidence required for the co-located
+        promotion (Soundness fix F3).
+        """
+        src = (
+            "def f(d: dict, k):\n"
+            "    if k not in d:\n"
+            "        raise AssertionError\n"
+            "    return d[k]\n"
+        )
+        v = self._verdict(src)
+        fv = v.functions["f"]
+        # The d[k] source is now discharged via the function-wide
+        # precondition ``k in d`` (negation of ``k not in d``).
+        assert not any(
+            "KEY_ERROR" in u or "INDEX_ERROR" in u for u in fv.unaddressed
+        )
 
     def test_unguarded_division_remains_unsafe(self):
         src = "def f(a, b):\n    return a / b\n"
@@ -354,12 +400,6 @@ class TestAutoDischargePipeline:
         assert v.functions["safe"].is_safe
         assert v.functions["caller"].is_safe
 
-    @pytest.mark.xfail(
-        reason="The cubical atlas's deferred-axiom path discharges "
-               "internal CALL_PROPAGATION sources optimistically; "
-               "tightening this requires the atlas to consult callee "
-               "summaries before accepting the cocycle (future work).",
-    )
     def test_caller_of_unsafe_function_remains_unsafe(self):
         src = (
             "def unsafe(a, b):\n"
@@ -391,9 +431,12 @@ class TestAutoDischargePipeline:
         assert "b != 0" in rmap.function_wide_preconditions
 
     def test_chained_path_guards(self):
-        """Multiple narrowing checks compound."""
+        """Multiple narrowing checks compound.  ``d: dict`` annotation
+        is required after Soundness fix F3 so the co-located
+        INDEX/KEY pair on ``d[k]`` can be jointly discharged.
+        """
         src = (
-            "def f(a, b, d, k):\n"
+            "def f(a, b, d: dict, k):\n"
             "    if b != 0 and k in d:\n"
             "        return a / b + d[k]\n"
             "    return 0\n"
@@ -433,11 +476,11 @@ class TestAutoDischargePipeline:
 # ─────────────────────────────────────────────────────────────────────
 
 DEMO_SOURCE = '''\
-"""Tiny utility module — un-annotated Python.
+"""Tiny utility module — minimally-annotated Python.
 
-The demo is split into very small functions so the Z3 solver, which
-can segfault on deeply-nested non-arithmetic expressions when handed
-the whole module at once, processes each piece independently.
+The ``record: dict`` annotation is required after Soundness fix F3
+so the co-located INDEX_ERROR/KEY_ERROR pair on ``record[name]`` can
+be jointly discharged by the ``name in record`` guard.
 """
 
 def safe_divide(a, b):
@@ -445,7 +488,7 @@ def safe_divide(a, b):
         return a / b
     return 0
 
-def get_field(record, name):
+def get_field(record: dict, name):
     if name in record:
         return record[name]
     return ""
