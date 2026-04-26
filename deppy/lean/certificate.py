@@ -558,10 +558,15 @@ def _render_implies_theorem(
 
     pre_translated = translate_pred(pre_py, python_types=py_types)
     # Bind the result to the function call so the postcondition can
-    # reference it.
-    post_with_result = post_py.replace(
-        "result",
-        f"({fn_name} " + " ".join(arg.arg for arg in fn_node.args.args) + ")",
+    # reference it.  Audit fix #11: AST-based substitution that
+    # respects identifier boundaries and string-literal contents
+    # (the previous ``str.replace`` rewrote ``result_count`` to
+    # ``(f x)_count`` and substituted into ``"result is positive"``
+    # message strings).
+    from deppy.lean.result_substitution import substitute_result_lean
+    arg_names = [arg.arg for arg in fn_node.args.args]
+    post_with_result = substitute_result_lean(
+        post_py, fn_name=fn_name, arg_names=arg_names,
     )
     post_translated = translate_pred(
         post_with_result, python_types=py_types,
