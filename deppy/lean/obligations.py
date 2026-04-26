@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Iterable, Optional
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -112,15 +112,32 @@ def _py_predicate_to_lean(pred: str) -> tuple[str, list[str], list[str]]:
     return result.lean_text, list(result.aux_decls), list(result.notes)
 
 
-def _python_param_type_to_lean(ann: Optional[str]) -> str:
+def _python_param_type_to_lean(
+    ann: Optional[str],
+    *,
+    aux_decls: Optional[list[str]] = None,
+    notes: Optional[list[str]] = None,
+    known_classes: Iterable[str] = (),
+) -> str:
+    """Translate a Python annotation string to a Lean 4 type.
+
+    Delegates to :mod:`deppy.lean.type_translation` so the same rules
+    apply across the obligation emitter and the pipeline's
+    ``LeanProof`` discharge.  Handles ``Union``, ``Optional``,
+    ``Any``, ``Callable``, generic containers, and user-defined
+    classes.
+    """
     if ann is None or ann == "":
-        return "Int"  # default — user can refine
-    table = {
-        "int": "Int", "float": "Float", "str": "String",
-        "bool": "Bool", "list": "List Int", "dict": "Std.HashMap String Int",
-        "tuple": "List Int", "None": "Unit",
-    }
-    return table.get(ann.strip(), "Int")
+        return "Int"
+    from deppy.lean.type_translation import translate_annotation_str
+    result = translate_annotation_str(ann, known_classes=known_classes)
+    if aux_decls is not None:
+        for d in result.aux_decls:
+            if d not in aux_decls:
+                aux_decls.append(d)
+    if notes is not None:
+        notes.extend(result.notes)
+    return result.lean
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -165,8 +182,10 @@ def _render_obligation(
 
     theorem_name = _safe_ident(f"deppy_{fn_name}_{source_id}")
 
-    # Build the typed parameter list.  For un-annotated functions we
-    # default to ``Int``; the user can refine in the .lean file.
+    # Build the typed parameter list, threading any auxiliary
+    # axiom declarations from the type translator into the parent
+    # ``aux_decls`` list so the obligations file emits each unique
+    # opaque type / class declaration exactly once.
     typed_params: list[str] = []
     if fn_node is not None:
         try:
@@ -178,7 +197,9 @@ def _render_obligation(
                         ann = _ast.unparse(arg.annotation)
                     except Exception:
                         ann = None
-                ty = _python_param_type_to_lean(ann)
+                ty = _python_param_type_to_lean(
+                    ann, aux_decls=aux_decls,
+                )
                 typed_params.append(f"({arg.arg} : {ty})")
         except Exception:
             typed_params = [f"({p} : Int)" for p in parameters]

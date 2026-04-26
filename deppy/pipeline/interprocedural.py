@@ -115,31 +115,46 @@ class CallGraph:
 
 
 def build_call_graph(source: str) -> CallGraph:
-    """Parse ``source`` and return its intra-module call graph."""
+    """Parse ``source`` and return its intra-module call graph.
+
+    The graph covers both module-level functions and methods defined
+    inside ``ClassDef`` blocks.  Methods are stored under their bare
+    name (for compatibility with the call-site resolver, which only
+    sees the attribute name); when two classes have a method of the
+    same name the more-recent definition wins.  This matches Python's
+    own attribute-resolution model when two callables compete for the
+    same name.
+    """
     cg = CallGraph()
     try:
         tree = ast.parse(source)
     except SyntaxError:
         return cg
 
-    func_names: set[str] = {
-        n.name for n in ast.walk(tree)
-        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
-    }
+    func_names: set[str] = set()
+    for n in ast.walk(tree):
+        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            func_names.add(n.name)
 
-    for node in ast.walk(tree):
-        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            continue
-        cg.add_node(node.name)
-        for sub in ast.walk(node):
-            if isinstance(sub, ast.Call):
-                callee = _callee_name(sub.func)
-                if callee and callee in func_names and callee != node.name:
-                    cg.add_edge(node.name, callee, site=sub)
-                elif callee == node.name:
-                    # self-recursion — still record as edge so SCC
-                    # detection picks it up.
-                    cg.add_edge(node.name, callee, site=sub)
+    def walk(node: ast.AST) -> None:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            cg.add_node(node.name)
+            for sub in ast.walk(node):
+                if isinstance(sub, ast.Call):
+                    callee = _callee_name(sub.func)
+                    if callee and callee in func_names:
+                        cg.add_edge(node.name, callee, site=sub)
+            for child in node.body:
+                walk(child)
+            return
+        if isinstance(node, ast.ClassDef):
+            for child in node.body:
+                walk(child)
+            return
+        for child in ast.iter_child_nodes(node):
+            walk(child)
+
+    walk(tree)
     return cg
 
 
@@ -222,9 +237,21 @@ def compute_summaries(
         return {}
 
     fn_nodes: dict[str, ast.FunctionDef | ast.AsyncFunctionDef] = {}
-    for n in ast.walk(tree):
-        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            fn_nodes[n.name] = n
+
+    def collect(node: ast.AST) -> None:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            fn_nodes[node.name] = node
+            for child in node.body:
+                collect(child)
+            return
+        if isinstance(node, ast.ClassDef):
+            for child in node.body:
+                collect(child)
+            return
+        for child in ast.iter_child_nodes(node):
+            collect(child)
+
+    collect(tree)
 
     drafts = drafts or {}
     user_specs = user_specs or {}

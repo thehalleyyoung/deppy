@@ -582,16 +582,38 @@ class RefinementInferrer:
 def infer_refinements(source: str) -> dict[str, RefinementMap]:
     """Run the path-sensitive analyzer over a module source string.
 
-    Returns ``{function_name: RefinementMap}``.
+    Returns ``{name: RefinementMap}`` where ``name`` is either the
+    function's bare name (for module-level functions) or
+    ``ClassName.method`` (for methods defined inside a class).  Both
+    forms are also stored under the bare ``method`` name so existing
+    consumers that look up by bare name continue to work for
+    classes whose methods don't collide with module-level functions.
     """
     try:
         tree = ast.parse(source)
     except SyntaxError:
         return {}
     out: dict[str, RefinementMap] = {}
-    for node in ast.walk(tree):
+
+    def walk(scope: list[str], node: ast.AST) -> None:
+        if isinstance(node, ast.ClassDef):
+            for child in node.body:
+                walk(scope + [node.name], child)
+            return
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            out[node.name] = RefinementInferrer().analyze(node)
+            qual = ".".join(scope + [node.name]) if scope else node.name
+            out[qual] = RefinementInferrer().analyze(node)
+            # Bare-name alias for classes whose method names don't
+            # collide with another top-level binding.
+            if scope and node.name not in out:
+                out[node.name] = out[qual]
+            for child in node.body:
+                walk(scope, child)  # nested functions stay in module scope
+            return
+        for child in ast.iter_child_nodes(node):
+            walk(scope, child)
+
+    walk([], tree)
     return out
 
 

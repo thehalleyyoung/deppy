@@ -472,6 +472,22 @@ def verify_module_safety(
                 "Replace with `if not P: raise AssertionError` for "
                 "PYTHONOPTIMIZE-safe verification."
             )
+
+        # Any-type warning (Phase U4): when a function's parameter
+        # is annotated ``Any`` / ``object``, every operation on it
+        # is potentially unsafe, and the static analyzer cannot
+        # distinguish "the user wrote this carefully" from "the
+        # user erased the type".  Surface a verdict note so the
+        # user knows narrowing is needed.
+        any_typed = _functions_with_any_typed_params(tree)
+        if any_typed:
+            verdict.notes.append(
+                "WARN: parameter(s) annotated `Any` / `object` in "
+                f"{', '.join(sorted(any_typed))}; static safety "
+                "checks cannot reason about untyped values — use "
+                "isinstance(...) narrowing or a more specific "
+                "annotation."
+            )
     except Exception as e:
         verdict.notes.append(f"refinement-inference unavailable: {e}")
     try:
@@ -1484,14 +1500,20 @@ def _subscript_type_evidence(
     """Return ``"dict"``, ``"sequence"``, or ``None`` based on
     statically-discoverable type evidence for the subscript receiver.
 
-    Three sources, in order of authority:
+    Sources, in order of authority:
 
     1. ``isinstance(<receiver>, T)`` test that has been added to the
-       path-sensitive guard set at the source.
-    2. The annotation on the matching function parameter (when
-       ``receiver_node`` is a ``Name`` and the function is
-       annotated).
-    3. None — caller falls through to the conservative behaviour.
+       path-sensitive guard set at the source.  This handles
+       ``def f(d: dict | list, k): if isinstance(d, dict): return d[k]``
+       — the union annotation alone gives ``None`` (the receiver
+       could be either kind), but the isinstance guard *narrows* it
+       to ``dict``.
+    2. The annotation on the matching function parameter — including
+       union-typed annotations.  When the *every* alternative of a
+       union belongs to the same family (e.g. ``dict | dict[str, int]``),
+       we return that family.  Otherwise we conservatively return
+       ``None``.
+    3. None — caller falls through to the no-promotion behaviour.
     """
     import ast as _ast
     if receiver_node is None:
@@ -1506,19 +1528,12 @@ def _subscript_type_evidence(
     if refinement_map is not None:
         for fact in refinement_map.per_source:
             for g in fact.guards:
-                if (f"isinstance({receiver_text}, dict)" in g
-                        or f"isinstance({receiver_text}, Mapping)" in g
-                        or f"isinstance({receiver_text}, (dict" in g):
+                if _isinstance_g_says_dict(g, receiver_text):
                     return "dict"
-                if (f"isinstance({receiver_text}, list)" in g
-                        or f"isinstance({receiver_text}, tuple)" in g
-                        or f"isinstance({receiver_text}, str)" in g
-                        or f"isinstance({receiver_text}, bytes)" in g
-                        or f"isinstance({receiver_text}, (list" in g
-                        or f"isinstance({receiver_text}, (tuple" in g):
+                if _isinstance_g_says_sequence(g, receiver_text):
                     return "sequence"
 
-    # 2. Function-parameter annotation.
+    # 2. Function-parameter annotation — handle PEP 604 unions.
     if fn_node is not None and isinstance(receiver_node, _ast.Name):
         for arg in getattr(fn_node, "args", _ast.arguments(args=[])).args:
             if arg.arg != receiver_node.id:
@@ -1526,23 +1541,174 @@ def _subscript_type_evidence(
             ann = arg.annotation
             if ann is None:
                 continue
-            try:
-                ann_text = _ast.unparse(ann)
-            except Exception:
+            classes = _annotation_alternatives(ann)
+            if not classes:
                 continue
-            ann_text = ann_text.replace(" ", "")
-            if (ann_text == "dict" or ann_text.startswith("dict[")
-                    or ann_text.startswith("Mapping")
-                    or ann_text.startswith("MutableMapping")):
+            # Drop the "None" alternative (Optional[T] reduces to T
+            # for the purposes of subscript type evidence).
+            classes = [c for c in classes if c != "None"]
+            if not classes:
+                continue
+            # If every alternative is in the dict family, return
+            # ``"dict"``; if every is in the sequence family,
+            # ``"sequence"``; otherwise None.
+            if all(_is_dict_family(c) for c in classes):
                 return "dict"
-            if (ann_text == "list" or ann_text.startswith("list[")
-                    or ann_text == "tuple" or ann_text.startswith("tuple[")
-                    or ann_text == "str" or ann_text == "bytes"
-                    or ann_text.startswith("Sequence")
-                    or ann_text.startswith("Tuple")
-                    or ann_text.startswith("List")):
+            if all(_is_sequence_family(c) for c in classes):
                 return "sequence"
     return None
+
+
+def _isinstance_g_says_dict(guard_text: str, receiver_text: str) -> bool:
+    if (f"isinstance({receiver_text}, dict)" in guard_text
+            or f"isinstance({receiver_text}, Mapping)" in guard_text
+            or f"isinstance({receiver_text}, MutableMapping)" in guard_text):
+        return True
+    if f"isinstance({receiver_text}, (dict" in guard_text:
+        # Tuple form ``isinstance(x, (dict, ...))``.  Conservative:
+        # only return dict if every alternative is dict-family.
+        return _isinstance_tuple_all_dict(guard_text, receiver_text)
+    return False
+
+
+def _isinstance_g_says_sequence(
+    guard_text: str, receiver_text: str,
+) -> bool:
+    sequence_singletons = (
+        "list", "tuple", "str", "bytes", "Sequence", "List", "Tuple",
+    )
+    for cls in sequence_singletons:
+        if f"isinstance({receiver_text}, {cls})" in guard_text:
+            return True
+    if f"isinstance({receiver_text}, (" in guard_text:
+        return _isinstance_tuple_all_sequence(guard_text, receiver_text)
+    return False
+
+
+def _isinstance_tuple_args(guard_text: str, receiver_text: str) -> list[str]:
+    """Best-effort parser for ``isinstance(x, (A, B, …))``.
+
+    Returns the list of alternative class names.  When parsing fails
+    we return ``[]`` so callers can safely treat the guard as
+    inconclusive.
+    """
+    needle = f"isinstance({receiver_text}, ("
+    idx = guard_text.find(needle)
+    if idx < 0:
+        return []
+    rest = guard_text[idx + len(needle):]
+    end = rest.find("))")
+    if end < 0:
+        return []
+    body = rest[:end]
+    return [a.strip() for a in body.split(",") if a.strip()]
+
+
+def _isinstance_tuple_all_dict(
+    guard_text: str, receiver_text: str,
+) -> bool:
+    args = _isinstance_tuple_args(guard_text, receiver_text)
+    if not args:
+        return False
+    return all(_is_dict_family(a) for a in args)
+
+
+def _isinstance_tuple_all_sequence(
+    guard_text: str, receiver_text: str,
+) -> bool:
+    args = _isinstance_tuple_args(guard_text, receiver_text)
+    if not args:
+        return False
+    return all(_is_sequence_family(a) for a in args)
+
+
+def _is_dict_family(name: str) -> bool:
+    name = name.strip().rstrip("]").split("[", 1)[0]
+    return name in {"dict", "Mapping", "MutableMapping", "OrderedDict",
+                     "defaultdict", "Counter", "Dict",
+                     "typing.Dict", "typing.Mapping",
+                     "typing.MutableMapping", "collections.OrderedDict",
+                     "collections.defaultdict", "collections.Counter"}
+
+
+def _is_sequence_family(name: str) -> bool:
+    name = name.strip().rstrip("]").split("[", 1)[0]
+    return name in {"list", "tuple", "str", "bytes", "bytearray",
+                     "Sequence", "MutableSequence", "List", "Tuple",
+                     "typing.List", "typing.Tuple",
+                     "typing.Sequence", "typing.MutableSequence"}
+
+
+def _functions_with_any_typed_params(tree) -> set[str]:
+    """Return the names of functions / methods whose parameter list
+    contains an annotation of ``Any`` / ``object`` / ``typing.Any``.
+
+    Used by the safety pipeline (Phase U4) to surface a warning so
+    users see that ``Any`` opts out of static checks.
+    """
+    import ast as _ast
+    out: set[str] = set()
+    for node in _ast.walk(tree):
+        if not isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef)):
+            continue
+        for arg in node.args.args:
+            ann = arg.annotation
+            if ann is None:
+                continue
+            try:
+                text = _ast.unparse(ann).strip()
+            except Exception:
+                continue
+            if text in {"Any", "typing.Any", "object", "builtins.object"}:
+                out.add(node.name)
+                break
+    return out
+
+
+def _annotation_alternatives(ann) -> list[str]:
+    """Return the list of class-name alternatives in an annotation.
+
+    ``int | None`` → ``["int", "None"]``;  ``Union[A, B]`` →
+    ``["A", "B"]``;  ``Optional[T]`` → ``["T", "None"]``;  any other
+    annotation → ``[<dotted_name>]`` or ``[]`` if unrecognisable.
+    """
+    import ast as _ast
+
+    def _flatten(node) -> list[str]:
+        # PEP 604 ``A | B``
+        if isinstance(node, _ast.BinOp) and isinstance(node.op, _ast.BitOr):
+            return _flatten(node.left) + _flatten(node.right)
+        # ``None`` literal in a union.
+        if isinstance(node, _ast.Constant) and node.value is None:
+            return ["None"]
+        # ``Optional[T]`` / ``Union[A, B]``
+        if isinstance(node, _ast.Subscript):
+            base = _name_text(node.value)
+            slc = node.slice
+            if base in ("Optional", "typing.Optional"):
+                return _flatten(slc) + ["None"]
+            if base in ("Union", "typing.Union"):
+                if isinstance(slc, _ast.Tuple):
+                    out: list[str] = []
+                    for elt in slc.elts:
+                        out.extend(_flatten(elt))
+                    return out
+                return _flatten(slc)
+            # Generic ``list[T]`` / ``dict[K, V]`` — keep the base.
+            return [base] if base else []
+        return [_name_text(node)] if _name_text(node) else []
+
+    def _name_text(node) -> str:
+        if isinstance(node, _ast.Name):
+            return node.id
+        if isinstance(node, _ast.Attribute):
+            return _name_text(node.value) + "." + node.attr
+        try:
+            return _ast.unparse(node)
+        except Exception:
+            return ""
+
+    return _flatten(ann)
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -1737,13 +1903,14 @@ def _try_user_lean_proof(
     goal_result = translate(safety_predicate)
     pre_result = translate(precondition or "True")
 
-    # Build typed binders from the function signature.
-    binders = _lean_binders_for_fn(fn_node)
+    # Build typed binders + aux-decls from the function signature.
+    binder_aux: list[str] = []
+    binders = _lean_binders_for_fn(fn_node, aux_decls=binder_aux)
     if pre_result.lean_text and pre_result.lean_text != "True":
         binders = binders + (f"(h_pre : {pre_result.lean_text})",)
 
     # Combined imports + auxiliary axiom declarations from both the
-    # goal and the precondition translation.
+    # goal, the precondition, and the binder type translations.
     imports_set: list[str] = []
     aux_set: list[str] = []
     for lst, src_lst in (
@@ -1751,6 +1918,7 @@ def _try_user_lean_proof(
         (imports_set, pre_result.imports),
         (aux_set, goal_result.aux_decls),
         (aux_set, pre_result.aux_decls),
+        (aux_set, binder_aux),
     ):
         for line in src_lst:
             if line not in lst:
@@ -1788,34 +1956,32 @@ def _try_user_lean_proof(
     return None
 
 
-def _lean_binders_for_fn(fn_node) -> tuple[str, ...]:
+def _lean_binders_for_fn(
+    fn_node, *, aux_decls: Optional[list[str]] = None,
+) -> tuple[str, ...]:
     """Translate a function's parameter list into Lean-4 binders.
 
-    Defaults to ``Int`` for un-annotated parameters; recognises
-    ``int``/``float``/``str``/``bool``/``list``/``dict`` directly.
-    Unrecognised annotations fall back to ``Int`` (the most common
-    runtime-safety case) — matching the obligation emitter.
+    Delegates to :mod:`deppy.lean.type_translation` so the same
+    annotation rules apply across the whole system: ``Union`` /
+    ``Optional`` / ``Any`` / ``Callable`` / generic containers /
+    user-defined classes all translate consistently.  Auxiliary
+    type-axiom declarations are appended to ``aux_decls`` (when
+    supplied) so the kernel can prepend them to the synthesised
+    Lean source.
     """
     import ast as _ast
     if fn_node is None:
         return ()
-    table = {
-        "int": "Int", "float": "Float", "str": "String",
-        "bool": "Bool", "list": "List Int",
-        "dict": "Std.HashMap String Int", "tuple": "List Int",
-        "None": "Unit",
-    }
+    from deppy.lean.type_translation import translate_annotation
     binders: list[str] = []
     for arg in getattr(fn_node, "args",
                         _ast.arguments(args=[])).args:
-        ty = "Int"
-        if arg.annotation is not None:
-            try:
-                ann_text = _ast.unparse(arg.annotation).strip()
-            except Exception:
-                ann_text = ""
-            ty = table.get(ann_text, ty)
-        binders.append(f"({arg.arg} : {ty})")
+        result = translate_annotation(arg.annotation)
+        if aux_decls is not None:
+            for d in result.aux_decls:
+                if d not in aux_decls:
+                    aux_decls.append(d)
+        binders.append(f"({arg.arg} : {result.lean})")
     return tuple(binders)
 
 
