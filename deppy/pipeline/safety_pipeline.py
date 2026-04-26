@@ -451,6 +451,15 @@ def verify_module_safety(
     # Either input may fail (e.g. unparseable nested constructs); we
     # fall back to ``None`` / ``{}`` and let the existing logic handle
     # the unguarded case.
+    # Build a Context from the module source so the type translator
+    # picks up TypeVar / NewType / TypeAlias / class declarations
+    # (Phase U6).  This is a one-shot AST walk; cheap.
+    try:
+        from deppy.lean.type_translation import Context as _LeanCtx
+        type_context = _LeanCtx.from_module_source(source)
+    except Exception:
+        type_context = None
+
     refinement_maps: dict = {}
     callee_summaries: dict = {}
     try:
@@ -553,6 +562,7 @@ def verify_module_safety(
             refinement_map=refinement_maps.get(fn_name),
             callee_summaries=callee_summaries,
             lean_proofs=lean_proofs,
+            type_context=type_context,
         )
 
         # Construct the semantic witness — refuses to succeed unless every
@@ -1230,6 +1240,7 @@ def _build_discharges(
     refinement_map: Optional[Any] = None,
     callee_summaries: Optional[dict] = None,
     lean_proofs: Optional[list] = None,
+    type_context: Optional[Any] = None,
 ) -> list[SourceDischarge]:
     """Build one ``SourceDischarge`` per ``ExceptionSource``.
 
@@ -1365,6 +1376,7 @@ def _build_discharges(
             src=s, lean_proofs=lean_proofs, kernel=probe_kernel,
             fn_node=fn_node, safety_predicate=sp,
             precondition=enriched_pre,
+            type_context=type_context,
         )
         if lean_proof is not None:
             out.append(SourceDischarge(
@@ -1875,7 +1887,7 @@ def _classify_discharge(d: SourceDischarge) -> str:
 
 def _try_user_lean_proof(
     *, src, lean_proofs, kernel, fn_node=None, safety_predicate=None,
-    precondition: str = "True",
+    precondition: str = "True", type_context=None,
 ):
     """Discharge ``src`` using a user-attached Lean proof.
 
@@ -1905,7 +1917,9 @@ def _try_user_lean_proof(
 
     # Build typed binders + aux-decls from the function signature.
     binder_aux: list[str] = []
-    binders = _lean_binders_for_fn(fn_node, aux_decls=binder_aux)
+    binders = _lean_binders_for_fn(
+        fn_node, aux_decls=binder_aux, type_context=type_context,
+    )
     if pre_result.lean_text and pre_result.lean_text != "True":
         binders = binders + (f"(h_pre : {pre_result.lean_text})",)
 
@@ -1957,17 +1971,20 @@ def _try_user_lean_proof(
 
 
 def _lean_binders_for_fn(
-    fn_node, *, aux_decls: Optional[list[str]] = None,
+    fn_node, *,
+    aux_decls: Optional[list[str]] = None,
+    type_context=None,
 ) -> tuple[str, ...]:
     """Translate a function's parameter list into Lean-4 binders.
 
     Delegates to :mod:`deppy.lean.type_translation` so the same
     annotation rules apply across the whole system: ``Union`` /
     ``Optional`` / ``Any`` / ``Callable`` / generic containers /
-    user-defined classes all translate consistently.  Auxiliary
-    type-axiom declarations are appended to ``aux_decls`` (when
-    supplied) so the kernel can prepend them to the synthesised
-    Lean source.
+    user-defined classes all translate consistently.
+
+    ``type_context`` is an optional :class:`Context` carrying the
+    enclosing module's TypeVar / NewType / TypeAlias declarations
+    so polymorphic signatures translate accurately.
     """
     import ast as _ast
     if fn_node is None:
@@ -1976,7 +1993,9 @@ def _lean_binders_for_fn(
     binders: list[str] = []
     for arg in getattr(fn_node, "args",
                         _ast.arguments(args=[])).args:
-        result = translate_annotation(arg.annotation)
+        result = translate_annotation(
+            arg.annotation, context=type_context,
+        )
         if aux_decls is not None:
             for d in result.aux_decls:
                 if d not in aux_decls:

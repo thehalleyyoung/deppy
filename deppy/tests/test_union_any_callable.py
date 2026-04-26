@@ -45,10 +45,17 @@ class TestTypeTranslator:
         r = translate_annotation_str("int | str")
         assert r.lean == "(Sum Int String)"
 
-    def test_three_or_more_union_is_opaque(self):
+    def test_three_or_more_union_uses_nested_sum(self):
+        """Phase U6: 3+-element unions translate to nested
+        ``Sum`` rather than an opaque axiom."""
         r = translate_annotation_str("int | str | bytes")
-        assert r.lean.startswith("Deppy_Union")
-        assert any("axiom" in d for d in r.aux_decls)
+        assert r.lean == "(Sum (Sum Int String) ByteArray)"
+        # No opaque axiom required.
+        assert not any("Deppy_Union" in d for d in r.aux_decls)
+
+    def test_four_element_union_left_associative(self):
+        r = translate_annotation_str("int | str | bytes | float")
+        assert r.lean == "(Sum (Sum (Sum Int String) ByteArray) Float)"
 
     def test_any_is_polymorphic_alpha(self):
         assert translate_annotation_str("Any").lean == "α"
