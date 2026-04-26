@@ -144,26 +144,40 @@ class TestVerifyChainComplex:
         assert audit.c0_size == 0
         assert audit.image_d0_size == 0
 
-    def test_simple_call_chain(self):
+    def test_simple_call_chain_skips_non_transitive(self):
+        # δ²=0 verification: a chain f→g→h without a direct f→h
+        # edge has no 2-simplex face data for (f, h), so the triple
+        # is *skipped* (not a mismatch).  The audit reports skipped
+        # but still d2_squared_zero=True (no false claims).
         cx = ChainComplex.empty()
         cx.c0.add("f", "Pf")
         cx.c0.add("g", "Pg")
         cx.c0.add("h", "Ph")
-        cx.calls = {"f": {"g"}, "g": {"h"}}
-        # Materialise C^1 / C^2 from the call graph.
-        for caller, callees in cx.calls.items():
-            for callee in callees:
-                cx.c1.add((caller, callee), f"P_{caller}_{callee}")
-        for f, gs in cx.calls.items():
-            for g in gs:
-                for h in cx.calls.get(g, set()):
-                    cx.c2.add((f, g, h), "comp")
+        cx.calls = {"f": {"g"}, "g": {"h"}}  # no f→h
         audit = cx.verify_chain_complex()
         assert audit.d2_squared_zero
-        # Image of δ^0 covers each call edge; image of δ^1∘δ^0
-        # covers each composition triple (since the call graph
-        # has both).
         assert audit.image_d0_size == 2  # (f,g), (g,h)
+        # Skipped because (f, h) isn't a call edge, so δ¹(δ⁰(c0))
+        # has nothing to check for the (f, g, h) triple.
+        assert audit.triples_skipped >= 1
+        assert audit.triples_verified == 0
+        assert not audit.mismatch_simplices
+
+    def test_filled_triangle_actually_verifies(self):
+        # A "filled" triangle (f calls g, g calls h, AND f calls h)
+        # has all three faces in C¹, so δ¹(δ⁰(c0)) emits a value
+        # for (f, g, h) and ``verify_chain_complex`` actually
+        # exercises the tautology check.
+        cx = ChainComplex.empty()
+        cx.c0.add("f", "Pf")
+        cx.c0.add("g", "Pg")
+        cx.c0.add("h", "Ph")
+        cx.calls = {"f": {"g", "h"}, "g": {"h"}}  # f also calls h
+        audit = cx.verify_chain_complex()
+        assert audit.d2_squared_zero
+        # The triple (f, g, h) is now verifiable.
+        assert audit.triples_verified >= 1
+        assert not audit.mismatch_simplices
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -189,14 +203,29 @@ class TestCohomologyComputation:
         assert coh.h0_size == 1
 
     def test_function_with_satisfied_callee_in_h0(self):
+        # Audit fix (round 2): C¹ predicate must MATCH δ⁰(c0)
+        # canonically — not just have the same simplex key.  Build
+        # c1 with the same shape δ⁰ would emit.
         cx = ChainComplex.empty()
         cx.c0.add("f", "Pf")
         cx.c0.add("g", "Pg")
         cx.calls["f"] = {"g"}
-        cx.c1.add(("f", "g"), "Pfg")
+        cx.c1.add(("f", "g"), "(Pf) → (Pg)")
         coh = cx.compute_cohomology()
-        # f's outgoing edge has a C^1 entry → f is in H^0.
         assert "f" in coh.h0_representatives
+
+    def test_function_with_mismatched_callee_pred_NOT_in_h0(self):
+        # Audit-fix invariant: a C¹ predicate that doesn't match
+        # δ⁰(c0) on the edge means f is NOT in ker δ⁰.  Before the
+        # fix this would have wrongly placed f in H⁰ because the
+        # check only considered simplex membership.
+        cx = ChainComplex.empty()
+        cx.c0.add("f", "Pf")
+        cx.c0.add("g", "Pg")
+        cx.calls["f"] = {"g"}
+        cx.c1.add(("f", "g"), "Pfg")  # ≠ "(Pf) → (Pg)"
+        coh = cx.compute_cohomology()
+        assert "f" not in coh.h0_representatives
 
     def test_h1_obstruction_when_edge_not_in_image(self):
         # Edge (f, g) is in C^1 but C^0 is empty so im δ^0 doesn't
@@ -207,16 +236,28 @@ class TestCohomologyComputation:
         coh = cx.compute_cohomology()
         assert ("f", "g") in coh.h1_obstructions
 
-    def test_h1_no_obstruction_when_in_image(self):
+    def test_h1_no_obstruction_when_pred_matches(self):
+        # The C¹ predicate matches δ⁰(c0) canonically → trivial class.
+        cx = ChainComplex.empty()
+        cx.c0.add("f", "Pf")
+        cx.c0.add("g", "Pg")
+        cx.calls["f"] = {"g"}
+        cx.c1.add(("f", "g"), "(Pf) → (Pg)")
+        coh = cx.compute_cohomology()
+        assert ("f", "g") not in coh.h1_obstructions
+
+    def test_h1_obstruction_when_pred_mismatches(self):
+        # Audit-fix invariant: a C¹ predicate that's just a fresh
+        # name "Pfg" (with no relation to δ⁰(c0)) is correctly
+        # classified as an obstruction.  Before the fix this would
+        # have been a trivial class because the simplex was present.
         cx = ChainComplex.empty()
         cx.c0.add("f", "Pf")
         cx.c0.add("g", "Pg")
         cx.calls["f"] = {"g"}
         cx.c1.add(("f", "g"), "Pfg")
         coh = cx.compute_cohomology()
-        # The edge (f, g) is in im δ^0 → trivial class, NOT in
-        # h1_obstructions.
-        assert ("f", "g") not in coh.h1_obstructions
+        assert ("f", "g") in coh.h1_obstructions
 
 
 # ─────────────────────────────────────────────────────────────────────

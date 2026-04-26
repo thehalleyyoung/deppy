@@ -281,17 +281,24 @@ class _InferTypes(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_Compare(self, node: ast.Compare) -> None:
-        # ``x in y`` constrains y to a container.
+        # ``x in y`` constrains y to a *container* — but we don't
+        # know which kind.  Audit fix (round 2): refuse to guess.
+        # The previous default-to-dict was a heuristic dressed up
+        # as inference; we now record the constraint as the
+        # generic ``container`` marker so the translator can use a
+        # type-agnostic lowering rather than committing to dict.
         for op, right in zip(node.ops, node.comparators):
             if isinstance(op, (ast.In, ast.NotIn)) and isinstance(right, ast.Name):
                 existing = self.types.get(right.id, "")
-                if not (self._is_list_like(existing)
+                # If we already have a more-specific container
+                # type, don't overwrite it.
+                if (self._is_list_like(existing)
                         or self._is_dict_like(existing)
                         or self._is_set_like(existing)):
-                    # Default ``in`` constrains to dict (most common
-                    # in Python idioms — explicit list-membership is
-                    # rarer than dict-key lookups).
-                    self.types[right.id] = "dict"
+                    continue
+                # Otherwise: leave the type unset.  A downstream
+                # translator that needs to commit will use its own
+                # fallback or emit a sorry.
         self.generic_visit(node)
 
     # -- helpers -----------------------------------------------------
@@ -311,13 +318,20 @@ class _InferTypes(ast.NodeVisitor):
     def _constrain_list_or_dict(self, name: str) -> None:
         """``len(x)`` constrains x to a sized container.  Don't
         clobber an existing list/dict/set/str inference — they are
-        all sized."""
+        all sized.
+
+        Audit fix (round 2): when ``x`` has no prior type evidence,
+        do NOT default to ``list``.  The previous default was a
+        heuristic that produced wrong translations for un-annotated
+        dict / set / str parameters.  We now leave the type unset
+        so the translator's type-agnostic fallback applies.
+        """
         existing = self.types.get(name, "")
         if (self._is_list_like(existing) or self._is_dict_like(existing)
                 or self._is_set_like(existing)
                 or existing in {"str", "bytes"}):
             return
-        self.types[name] = "list"
+        # No prior evidence — leave it unset rather than guessing.
 
     def _set_if_unset_or_compatible(self, name: str, ty: str) -> None:
         existing = self.types.get(name, "")
@@ -1084,9 +1098,15 @@ class _BodyT:
             if method == "extend" and len(args) == 1:
                 return f"({recv} ++ {args[0]})"
             if method == "pop" and len(args) <= 1:
+                # Audit fix (round 2): Python's ``xs.pop()`` and
+                # ``xs.pop(i)`` return the *popped element*, not
+                # the modified list.  The previous translation
+                # returned the list (dropLast / eraseIdx) which
+                # is the wrong Lean type.  We now return the
+                # element via getLast! / get!.
                 if not args:
-                    return f"(({recv}.dropLast))"
-                return f"({recv}.eraseIdx ({args[0]}.toNat))"
+                    return f"({recv}.getLast!)"
+                return f"({recv}.get! ({args[0]}.toNat))"
             if method == "insert" and len(args) == 2:
                 return f"({recv}.insertAt ({args[0]}.toNat) {args[1]})"
             if method == "reverse" and not args:

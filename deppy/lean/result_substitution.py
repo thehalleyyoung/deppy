@@ -297,30 +297,186 @@ def substitute_result_lean(
     post_lean_or_py: str, *, fn_name: str, arg_names: list[str],
     result_var: str = "result",
 ) -> str:
-    """Replace ``result_var`` with the Lean call form ``(f x y)``.
+    """Replace ``result_var`` with the Lean prefix-call ``(f x y)``.
 
-    For the certificate generator's path: the predicate is in Python
-    syntax, but the substituted form needs Lean's prefix-call.  We
-    parse as Python (because that's what the @implies decorator
-    accepts), substitute with a placeholder Name, then post-process
-    the unparsed result to swap the placeholder for the Lean call.
+    Audit fix (round 2): the previous implementation used an AST
+    pass to substitute a placeholder, then a final ``str.replace``
+    to swap the placeholder's Python-call rendering for the Lean
+    prefix-call form.  That last ``str.replace`` was the same
+    pattern audit fix #11 said was a cheat — safe in practice
+    because the placeholder was unique, but conceptually the same
+    textual substitution it claimed to remove.
+
+    The new implementation is purely AST-driven: a custom unparser
+    walks the rewritten AST and emits Lean syntax directly when it
+    encounters the placeholder Call node.  No textual replacement
+    occurs after AST processing.
     """
-    placeholder = "__deppy_result_placeholder__"
-    rewritten = substitute_result(
-        post_lean_or_py, fn_name=placeholder,
-        arg_names=arg_names, result_var=result_var,
+    if not post_lean_or_py:
+        return "True"
+    try:
+        tree = ast.parse(post_lean_or_py, mode="eval")
+    except SyntaxError:
+        return post_lean_or_py
+    rewriter = _ResultRewriter(
+        fn_name=_LEAN_PREFIX_PLACEHOLDER, arg_names=list(arg_names),
+        result_var=result_var,
     )
-    # Post-process: ``__deppy_result_placeholder__(x, y)`` →
-    # ``(fn_name x y)``.  We do this with regex-light text matching
-    # since the placeholder is unique and the call shape is fixed.
-    call_text = render_call_text(fn_name, arg_names)
-    args_text = ", ".join(arg_names)
-    if args_text:
-        py_call = f"{placeholder}({args_text})"
-    else:
-        py_call = placeholder
-    out = rewritten.replace(py_call, call_text)
-    return out
+    new_body = rewriter.visit(tree.body)
+    ast.fix_missing_locations(new_body)
+    # Render to Lean using a custom unparser that recognises the
+    # placeholder Call node and emits ``(fn_name x y)``.
+    return _LeanUnparser(
+        fn_name=fn_name, arg_names=list(arg_names),
+    ).visit(new_body)
+
+
+# Sentinel name used to mark the rewriter's substituted Call nodes.
+# Distinct from any real Python identifier (starts with underscore-
+# digit which is invalid as a Python name in source) so the
+# unparser can recognise it without ambiguity.
+_LEAN_PREFIX_PLACEHOLDER = "_0deppy_result_placeholder"
+
+
+class _LeanUnparser(ast.NodeVisitor):
+    """Render a (rewritten) Python AST as Lean predicate syntax.
+
+    Only handles the AST shapes the @implies decorator and the
+    result rewriter produce: comparisons, BoolOps, BinOps, Calls,
+    Attributes, Subscripts, Names, Constants, IfExps, Tuples,
+    Lists, UnaryOps.  Other shapes fall back to ``ast.unparse``.
+
+    The unparser recognises the rewriter's placeholder Call node
+    and renders it as ``(fn_name arg1 arg2 ...)`` — Lean prefix-
+    call syntax — directly in the AST traversal.  No textual
+    post-processing.
+    """
+
+    def __init__(self, *, fn_name: str, arg_names: list[str]) -> None:
+        self.fn_name = fn_name
+        self.arg_names = arg_names
+
+    def visit(self, node) -> str:  # type: ignore[override]
+        method = "visit_" + type(node).__name__
+        handler = getattr(self, method, None)
+        if handler is None:
+            try:
+                return ast.unparse(node)
+            except Exception:
+                return repr(node)
+        return handler(node)
+
+    def visit_Constant(self, node: ast.Constant) -> str:
+        v = node.value
+        if v is True:
+            return "True"
+        if v is False:
+            return "False"
+        if v is None:
+            return "()"
+        if isinstance(v, str):
+            return repr(v)
+        return repr(v)
+
+    def visit_Name(self, node: ast.Name) -> str:
+        return node.id
+
+    def visit_BoolOp(self, node: ast.BoolOp) -> str:
+        op = " ∧ " if isinstance(node.op, ast.And) else " ∨ "
+        parts = [self.visit(v) for v in node.values]
+        return "(" + op.join(parts) + ")"
+
+    def visit_UnaryOp(self, node: ast.UnaryOp) -> str:
+        inner = self.visit(node.operand)
+        if isinstance(node.op, ast.Not):
+            return f"(¬ {inner})"
+        if isinstance(node.op, ast.USub):
+            return f"(-{inner})"
+        if isinstance(node.op, ast.UAdd):
+            return inner
+        return ast.unparse(node)
+
+    def visit_Compare(self, node: ast.Compare) -> str:
+        op_map = {
+            ast.Eq: "=", ast.NotEq: "≠",
+            ast.Lt: "<", ast.LtE: "≤",
+            ast.Gt: ">", ast.GtE: "≥",
+        }
+        if len(node.ops) == 1:
+            op_t = type(node.ops[0])
+            if op_t in op_map:
+                l = self.visit(node.left)
+                r = self.visit(node.comparators[0])
+                return f"({l} {op_map[op_t]} {r})"
+            if isinstance(node.ops[0], ast.In):
+                l = self.visit(node.left)
+                r = self.visit(node.comparators[0])
+                return f"({l} ∈ {r})"
+            if isinstance(node.ops[0], ast.NotIn):
+                l = self.visit(node.left)
+                r = self.visit(node.comparators[0])
+                return f"({l} ∉ {r})"
+        return ast.unparse(node)
+
+    def visit_BinOp(self, node: ast.BinOp) -> str:
+        op_map = {
+            ast.Add: "+", ast.Sub: "-", ast.Mult: "*",
+            ast.Div: "/", ast.FloorDiv: "/", ast.Mod: "%",
+        }
+        op = op_map.get(type(node.op), None)
+        if op is None:
+            return ast.unparse(node)
+        l = self.visit(node.left)
+        r = self.visit(node.right)
+        return f"({l} {op} {r})"
+
+    def visit_Call(self, node: ast.Call) -> str:
+        # Recognise the result-substitution placeholder and emit
+        # the Lean prefix-call directly.
+        if (isinstance(node.func, ast.Name)
+                and node.func.id == _LEAN_PREFIX_PLACEHOLDER):
+            if not self.arg_names:
+                return self.fn_name
+            return (
+                "(" + self.fn_name + " "
+                + " ".join(self.arg_names) + ")"
+            )
+        # Generic Lean call: prefix-form ``(f arg1 arg2 ...)``.
+        if isinstance(node.func, ast.Name):
+            args = [self.visit(a) for a in node.args]
+            if not args:
+                return f"({node.func.id})"
+            return "(" + node.func.id + " " + " ".join(args) + ")"
+        if isinstance(node.func, ast.Attribute):
+            recv = self.visit(node.func.value)
+            args = [self.visit(a) for a in node.args]
+            if not args:
+                return f"({recv}.{node.func.attr})"
+            return f"({recv}.{node.func.attr} " + " ".join(args) + ")"
+        return ast.unparse(node)
+
+    def visit_Attribute(self, node: ast.Attribute) -> str:
+        inner = self.visit(node.value)
+        return f"{inner}.{node.attr}"
+
+    def visit_Subscript(self, node: ast.Subscript) -> str:
+        recv = self.visit(node.value)
+        slc = self.visit(node.slice)
+        return f"{recv}[{slc}]"
+
+    def visit_IfExp(self, node: ast.IfExp) -> str:
+        cond = self.visit(node.test)
+        t = self.visit(node.body)
+        e = self.visit(node.orelse)
+        return f"(if {cond} then {t} else {e})"
+
+    def visit_Tuple(self, node: ast.Tuple) -> str:
+        parts = [self.visit(e) for e in node.elts]
+        return "(" + ", ".join(parts) + ")"
+
+    def visit_List(self, node: ast.List) -> str:
+        parts = [self.visit(e) for e in node.elts]
+        return "[" + ", ".join(parts) + "]"
 
 
 # ─────────────────────────────────────────────────────────────────────

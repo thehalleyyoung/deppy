@@ -103,13 +103,37 @@ class TestCocycleStructure:
         r = kernel.verify(ctx, goal, proof)
         assert r.success
 
-    def test_unstructured_cocycle_accepted_with_note(self):
-        # No boundary_pairs → structurally unchecked but still accepted.
+    def test_single_component_unstructured_keeps_kernel_trust(self):
+        # A *single*-component cocycle is trivially coherent — no
+        # overlap proofs are meaningful — so trust stays at KERNEL.
         kernel, ctx, goal = _kernel_and_goal()
         proof = Cocycle(level=0, components=[_Triv()])
         r = kernel.verify(ctx, goal, proof)
         assert r.success
+        # Single-component case: full trust preserved.
+        from deppy.core.kernel import TrustLevel
+        assert r.trust_level == TrustLevel.KERNEL
+        assert "trivially coherent" in r.message
+
+    def test_multi_component_unstructured_downgrades_trust(self):
+        # Audit fix (round 2): a multi-component cocycle without
+        # ``boundary_pairs`` gets its trust downgraded to
+        # STRUCTURAL_CHAIN so callers gating on ``trust_level``
+        # can see the structure wasn't verified.  Before the fix
+        # this returned KERNEL trust, masking the missing check.
+        kernel, ctx, goal = _kernel_and_goal()
+        proof = Cocycle(
+            level=0,
+            components=[_Triv(), _Triv()],
+            # No boundary_pairs.
+        )
+        r = kernel.verify(ctx, goal, proof)
+        assert r.success
+        from deppy.core.kernel import TrustLevel
+        # Downgraded — not KERNEL anymore.
+        assert r.trust_level == TrustLevel.STRUCTURAL_CHAIN
         assert "structurally unchecked" in r.message
+        assert "trust downgraded" in r.message
 
 
 # ─────────────────────────────────────────────────────────────────────

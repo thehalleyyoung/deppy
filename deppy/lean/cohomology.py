@@ -271,18 +271,42 @@ class CohomologyEmitter:
         )
 
         # Goal classification + tactic.
+        # Audit fix (round 2): the previous tactic selection used
+        # ``Deppy.deppy_safe`` as a silent fallback for non-arithmetic
+        # goals — exactly the cheat audit fix #7 removed from
+        # @implies.  We now route through the same honest tactic
+        # selector ``deppy.lean.implies_tactics.select_implies_tactic``.
+        # When no tactic is plausible we emit ``sorry`` honestly,
+        # so the certificate's open obligations are visible.
+        from deppy.lean.implies_tactics import (
+            ImpliesClassification, select_implies_tactic,
+        )
         if not any_real:
             goal_kind = "True"
             proof_mode = "trivial"
             body = "by trivial"
-        elif all_arithmetic and pre_lean.exact:
-            goal_kind = "real_arithmetic"
-            proof_mode = "omega"
-            body = "by intro _h_pre; (try omega) <;> Deppy.deppy_safe"
         else:
-            goal_kind = "real_mixed"
-            proof_mode = "deppy_safe"
-            body = "by intro _h_pre; Deppy.deppy_safe"
+            # Build a Python-syntax post-condition that's the
+            # conjunction of per-source safety predicates.  We pass
+            # the original Python predicate texts (from ``sources``
+            # / ``precondition``) so the analyser sees the actual
+            # AST shape.
+            post_py = (
+                " and ".join(f"({p})" for p in sources)
+                if sources else "True"
+            )
+            plan = select_implies_tactic(
+                precondition or "True", post_py,
+                py_types=py_types, fn_name=fn_name,
+            )
+            goal_kind = plan.classification.value
+            proof_mode = plan.classification.value
+            body = plan.tactic_text
+            # Soundness: if the analyser couldn't pick a tactic,
+            # emit ``sorry`` honestly — never silently fall back to
+            # ``deppy_safe``.
+            if plan.is_sorry:
+                proof_mode = "sorry"
 
         thm_name = f"deppy_c0_cocycle_{_safe_ident(fn_name)}"
         statement = (
@@ -367,21 +391,23 @@ class CohomologyEmitter:
             substituted_callee_pre, py_types,
         )
 
+        # Audit fix (round 2): use the honest tactic selector
+        # instead of falling back to ``Deppy.deppy_safe``.
+        from deppy.lean.implies_tactics import select_implies_tactic
         if pre_lean.lean_text == "True" and post_lean.lean_text == "True":
             goal_kind = "True"
             proof_mode = "trivial"
             body = "by trivial"
-        elif pre_lean.exact and post_lean.exact:
-            goal_kind = "real_arithmetic"
-            proof_mode = "omega"
-            body = (
-                "by intro _h_pre; "
-                "(try omega) <;> Deppy.deppy_safe"
-            )
         else:
-            goal_kind = "real_opaque" if not post_lean.exact else "real_mixed"
-            proof_mode = "deppy_safe"
-            body = "by intro _h_pre; Deppy.deppy_safe"
+            plan = select_implies_tactic(
+                caller_pre or "True", substituted_callee_pre or "True",
+                py_types=py_types, fn_name=caller,
+            )
+            goal_kind = plan.classification.value
+            proof_mode = plan.classification.value
+            body = plan.tactic_text
+            if plan.is_sorry:
+                proof_mode = "sorry"
 
         thm_name = (
             f"deppy_c1_cocycle_"
@@ -482,22 +508,23 @@ class CohomologyEmitter:
             composed_h_pre, py_types,
         )
 
+        # Audit fix (round 2): honest tactic selector for C² as well.
+        from deppy.lean.implies_tactics import select_implies_tactic
         if (f_pre_lean.lean_text == "True"
                 and composed_lean.lean_text == "True"):
             goal_kind = "True"
             proof_mode = "trivial"
             body = "by trivial"
-        elif f_pre_lean.exact and composed_lean.exact:
-            goal_kind = "real_arithmetic"
-            proof_mode = "omega"
-            body = (
-                "by intro _h_pre; "
-                "(try omega) <;> Deppy.deppy_safe"
-            )
         else:
-            goal_kind = "real_mixed"
-            proof_mode = "deppy_safe"
-            body = "by intro _h_pre; Deppy.deppy_safe"
+            plan = select_implies_tactic(
+                f_pre or "True", composed_h_pre or "True",
+                py_types=py_types, fn_name=f,
+            )
+            goal_kind = plan.classification.value
+            proof_mode = plan.classification.value
+            body = plan.tactic_text
+            if plan.is_sorry:
+                proof_mode = "sorry"
 
         thm_name = (
             f"deppy_c2_coherence_"

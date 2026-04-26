@@ -88,14 +88,31 @@ class TestInferLocalsTypes:
         types = infer_locals_types(fn)
         assert types["d"] == "dict"
 
-    def test_unannotated_param_inferred_from_in(self):
+    def test_unannotated_param_in_does_not_force_dict(self):
+        # Audit-fix invariant (round 2): ``k in d`` does NOT force
+        # d to ``dict`` — the inferrer used to default-to-dict, but
+        # ``in`` works on lists, sets, strs, and dicts.  The fix
+        # leaves the type unset so the translator's type-agnostic
+        # fallback applies, rather than committing to the wrong
+        # container kind for un-annotated parameters.
         fn = _parse_fn("""
             def f(d, k):
                 return k in d
         """)
         types = infer_locals_types(fn)
-        # ``k in d`` constrains d to dict (most common idiom).
-        assert types["d"] == "dict"
+        # ``d`` is NOT in the inferred types (no commitment) —
+        # OR if present, it's not "dict" (we accept either).
+        assert types.get("d", "") not in ("dict",)
+
+    def test_unannotated_param_in_explicit_dict_kept(self):
+        # When the user *did* annotate ``d`` as dict, the inference
+        # respects the annotation.
+        fn = _parse_fn("""
+            def f(d: dict[str, int], k):
+                return k in d
+        """)
+        types = infer_locals_types(fn)
+        assert "dict" in types["d"]
 
     def test_assign_propagates_type(self):
         fn = _parse_fn("""

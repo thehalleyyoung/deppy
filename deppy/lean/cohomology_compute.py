@@ -181,112 +181,208 @@ class ChainComplex:
         return out
 
     def coboundary_1(self, c1: Cochain) -> "Cochain":
-        """``δ^1 : C^1 → C^2`` — composition coherence.
+        """``δ¹ : C¹ → C²`` — composition coherence.
 
         For a 2-simplex ``(f, g, h)``:
 
-          (δ^1 ψ)(f, g, h) = ψ(g, h) ∧ ψ(f, h) → ψ(f, g)
+          (δ¹ ψ)(f, g, h) = ψ(f, g) ∧ ψ(g, h) → ψ(f, h)
 
-        This is the implication-form 2-cocycle condition matching
-        the topos-theoretic cohomology for Prop-valued cochains.
+        This is the *transitivity-shape* 2-cocycle condition
+        matching the topos-theoretic cohomology for Prop-valued
+        cochains.  When ``ψ = δ⁰(φ)`` for some ``φ ∈ C⁰``, each
+        ``ψ(x, y) = (φ(x) → φ(y))`` and the cocycle condition
+        becomes:
+
+          ((φ(f) → φ(g)) ∧ (φ(g) → φ(h))) → (φ(f) → φ(h))
+
+        which is the transitivity of implication — a classical
+        tautology.  Therefore ``δ² = 0`` holds structurally for
+        any ``φ``.
+
+        Audit fix (round 2): the previous implementation used
+        ``ψ(g, h) ∧ ψ(f, h) → ψ(f, g)`` which is *not* the
+        standard simplicial coboundary and is *not* a tautology
+        even for ``ψ = δ⁰(φ)``: try ``φ(f) = T``, ``φ(g) = F``,
+        ``φ(h) = T`` — antecedent holds but consequent fails.
+        The correct form encodes the transitivity face structure.
         """
         out = Cochain(level=2)
         for triple in self._all_c2_simplices():
             f, g, h = triple
+            psi_fg = c1.get((f, g))
             psi_gh = c1.get((g, h))
             psi_fh = c1.get((f, h))
-            psi_fg = c1.get((f, g))
-            if psi_gh is None or psi_fh is None or psi_fg is None:
+            if psi_fg is None or psi_gh is None or psi_fh is None:
                 continue
             out.add(
                 triple,
-                f"(({psi_gh}) ∧ ({psi_fh})) → ({psi_fg})",
+                f"(({psi_fg}) ∧ ({psi_gh})) → ({psi_fh})",
             )
         return out
 
     # ---------- chain complex axiom ------------------------------
 
     def verify_chain_complex(self) -> "ChainComplexAudit":
-        """Check that ``δ^1 ∘ δ^0 = 0`` (the chain-complex axiom).
+        """Check that ``δ¹ ∘ δ⁰ = 0`` on every 2-simplex.
 
-        For our implication-form coboundary the axiom holds
-        *propositionally*: applying δ^0 to a 0-cochain yields
-        ``(f → g)``-style implications, and δ^1 of those is the
-        triple-implication ``((g→h) ∧ (f→h)) → (f→g)``, which is a
-        tautology when the underlying ``f``, ``g``, ``h`` are
-        themselves propositions.
+        Audit fix (round 2): the previous implementation returned
+        ``d2_squared_zero=True`` unconditionally with a comment
+        deferring to "structural argument" — no actual check was
+        performed.  This version does a *predicate-level* structural
+        check.
 
-        We don't *prove* the tautology here (Lean does); we record
-        which triples were checked, and when the C^1 cochain comes
-        from δ^0(c0) we structurally verify that δ^1 produces a
-        tautology shape.
+        For each ``(f, g, h)`` in ``_all_c2_simplices()`` we check:
+
+          δ¹(δ⁰(c0))(f, g, h)
+            = ((c0(f) → c0(g)) ∧ (c0(g) → c0(h))) → (c0(f) → c0(h))
+
+        The *expected* form is built textually and compared to the
+        *actual* form via :func:`predicate_canon.predicates_equivalent`.
+        Mismatches — which can only happen if the coboundary
+        functions diverge from this contract — are recorded in
+        ``mismatch_simplices`` and ``d2_squared_zero`` is set to
+        ``False``.
+
+        Triples whose underlying functions are not in C⁰ are
+        skipped (they have no expected form to verify).
         """
+        from deppy.lean.predicate_canon import predicates_equivalent
+
         delta0 = self.coboundary_0(self.c0)
         delta1_of_delta0 = self.coboundary_1(delta0)
+
+        mismatches: list[tuple[str, str, str]] = []
+        verified = 0
+        skipped = 0
+        for triple in self._all_c2_simplices():
+            f, g, h = triple
+            phi_f = self.c0.get(f)
+            phi_g = self.c0.get(g)
+            phi_h = self.c0.get(h)
+            actual = delta1_of_delta0.get(triple)
+            # Skip when we don't have enough data to verify.  ``actual``
+            # is None when ``coboundary_1`` had at least one missing
+            # face value (which happens when the (f, h) edge isn't in
+            # the call graph — a non-transitive triple).  In that
+            # case there's no claim to check.
+            if actual is None or phi_f is None or phi_g is None or phi_h is None:
+                skipped += 1
+                continue
+            # Expected δ¹(δ⁰(c0))(f, g, h) under the corrected
+            # transitivity-shape coboundary.
+            expected = (
+                f"((({phi_f}) → ({phi_g})) ∧ "
+                f"(({phi_g}) → ({phi_h}))) → "
+                f"(({phi_f}) → ({phi_h}))"
+            )
+            if not predicates_equivalent(actual, expected):
+                mismatches.append(triple)
+            else:
+                verified += 1
+
         return ChainComplexAudit(
             c0_size=len(self.c0),
             c1_size=len(self.c1),
             c2_size=len(self.c2),
             image_d0_size=len(delta0),
             image_d1_d0_size=len(delta1_of_delta0),
-            d2_squared_zero=True,  # by structural argument above
-            mismatch_simplices=[],
+            d2_squared_zero=(len(mismatches) == 0),
+            mismatch_simplices=list(mismatches),
+            triples_verified=verified,
+            triples_skipped=skipped,
         )
 
     # ---------- cohomology computation ---------------------------
 
     def compute_cohomology(self) -> "CohomologyComputation":
-        """Compute ``H^0``, ``H^1``, ``H^2`` from the chain complex.
+        """Compute ``H⁰``, ``H¹``, ``H²`` from the chain complex.
 
-        H^0 = ker δ^0 — functions whose own predicate holds and
-              whose every outgoing call's predicate is implied
-              (so they require no external assumption).
+        Audit fix (round 2): the previous implementation used
+        Python-set membership ``edge in image_d0`` to decide
+        whether an edge was a coboundary — but ``__contains__`` on
+        :class:`Cochain` only checks the *simplex key set*, not the
+        *predicate values*.  This meant an edge whose stored C¹
+        predicate disagreed with ``δ⁰(c0)(edge)`` would still be
+        classified as a trivial coboundary class, hiding a real
+        obstruction.
 
-        H^1 = ker δ^1 / im δ^0 — call edges whose composition
-              coherence holds but which are not automatically
-              implied by a C^0 element.
+        The fixed version compares predicate values via
+        :func:`predicate_canon.predicates_equivalent`:
 
-        H^2 = ker δ^2 / im δ^1 — composition triples not
-              implied by their underlying call edges (since C^3 is
-              empty in our setting, ker δ^2 is all of C^2).
+          H⁰ = ker δ⁰ — an ``f`` is in the kernel iff every
+                outgoing edge ``(f, g)`` has its C¹ predicate
+                *equal* (under canonical form) to ``δ⁰(c0)(f, g)``.
+                Functions with no outgoing calls are vacuously in
+                the kernel.
+
+          H¹ = ker δ¹ / im δ⁰ — an edge is in im δ⁰ iff its C¹
+                predicate matches ``δ⁰(c0)`` on that edge AND
+                both endpoints are in C⁰.  Otherwise it's an
+                obstruction.
+
+          H² = ker δ² / im δ¹ — a triple is in im δ¹ iff its C²
+                predicate matches ``δ¹(c1)`` on that triple AND
+                all three relevant call edges are in C¹.  Since
+                there's no C³ in the deppy setting, ker δ² = C²
+                identically.
         """
-        # ker δ^0 ⊆ C^0: an f is in the kernel iff for every
-        # outgoing call (f, g), the C^1 obligation is satisfied
-        # (vacuously, since the kernel kicks in *before* we check
-        # truth — we report SHAPE).
+        from deppy.lean.predicate_canon import predicates_equivalent
+
+        image_d0 = self.coboundary_0(self.c0)
+        image_d1 = self.coboundary_1(self.c1)
+
+        # ─── H⁰ ────────────────────────────────────────────────────
+        # f ∈ ker δ⁰ iff every outgoing edge's C¹ predicate equals
+        # δ⁰(c0)(edge).  When f has no outgoing calls, the kernel
+        # condition is vacuously satisfied.
         kernel_d0: list[str] = []
         for f in self.c0.simplices():
-            outgoing = [
-                (f, g) for g in self.calls.get(f, set())
-            ]
-            if all(edge in self.c1 for edge in outgoing):
+            outgoing = [(f, g) for g in self.calls.get(f, set())]
+            all_match = True
+            for edge in outgoing:
+                c1_pred = self.c1.get(edge)
+                d0_pred = image_d0.get(edge)
+                if c1_pred is None or d0_pred is None:
+                    all_match = False
+                    break
+                if not predicates_equivalent(c1_pred, d0_pred):
+                    all_match = False
+                    break
+            if all_match:
                 kernel_d0.append(f)
-
-        # im δ^(-1) is empty (no C^(-1) in our setting), so
-        # H^0 = ker δ^0 / im δ^(-1) = ker δ^0.
         h0_representatives = list(kernel_d0)
 
-        # H^1: ker δ^1 / im δ^0.  We compute representative classes:
-        # each (f, g) ∈ C^1 either *is* in the image of δ^0 (so its
-        # class is trivial) or it isn't (representing an open
-        # obstruction).
-        image_d0 = self.coboundary_0(self.c0)
+        # ─── H¹ ────────────────────────────────────────────────────
+        # An edge is in im δ⁰ iff its C¹ predicate is canonically
+        # equal to δ⁰(c0)(edge).  We separately track edges where
+        # we *could not decide* (one of the C⁰ values is missing) —
+        # those are reported as obstructions (the safe direction:
+        # absence of evidence ⇒ open obstruction).
         h1_obstructions: list[tuple[str, str]] = []
+        h1_undecidable: list[tuple[str, str]] = []
         for edge in self.c1.simplices():
-            if edge in image_d0:
-                # Edge is im δ^0 — trivial class.
+            d0_pred = image_d0.get(edge)
+            c1_pred = self.c1.get(edge)
+            if d0_pred is None:
+                h1_obstructions.append(edge)
+                h1_undecidable.append(edge)
                 continue
-            h1_obstructions.append(edge)
+            if not predicates_equivalent(c1_pred or "", d0_pred):
+                h1_obstructions.append(edge)
 
-        # H^2: ker δ^2 / im δ^1.  In our 3-level setting there's
-        # no C^3, so ker δ^2 = C^2.  We mark a triple as obstruction
-        # iff it isn't in im δ^1.
-        image_d1 = self.coboundary_1(self.c1)
+        # ─── H² ────────────────────────────────────────────────────
+        # A triple is in im δ¹ iff its C² predicate matches δ¹(c1).
         h2_obstructions: list[tuple[str, str, str]] = []
+        h2_undecidable: list[tuple[str, str, str]] = []
         for triple in self.c2.simplices():
-            if triple in image_d1:
+            d1_pred = image_d1.get(triple)
+            c2_pred = self.c2.get(triple)
+            if d1_pred is None:
+                h2_obstructions.append(triple)
+                h2_undecidable.append(triple)
                 continue
-            h2_obstructions.append(triple)
+            if not predicates_equivalent(c2_pred or "", d1_pred):
+                h2_obstructions.append(triple)
 
         return CohomologyComputation(
             h0_representatives=h0_representatives,
@@ -295,6 +391,8 @@ class ChainComplex:
             kernel_d0_size=len(kernel_d0),
             image_d0_size=len(image_d0),
             image_d1_size=len(image_d1),
+            h1_undecidable=h1_undecidable,
+            h2_undecidable=h2_undecidable,
         )
 
     # ---------- helpers -----------------------------------------
@@ -318,7 +416,16 @@ class ChainComplex:
 
 @dataclass
 class ChainComplexAudit:
-    """Result of :meth:`ChainComplex.verify_chain_complex`."""
+    """Result of :meth:`ChainComplex.verify_chain_complex`.
+
+    Audit fix (round 2): ``d2_squared_zero`` is now derived from an
+    actual predicate-level check, not hard-coded ``True``.
+    ``triples_verified`` / ``triples_skipped`` document how much of
+    the structure was actually exercised.  ``mismatch_simplices``
+    lists triples where ``δ¹(δ⁰(c0))`` did *not* match the expected
+    transitivity tautology (which can only happen when the
+    coboundary functions are buggy or the C⁰ data is missing).
+    """
     c0_size: int
     c1_size: int
     c2_size: int
@@ -326,17 +433,29 @@ class ChainComplexAudit:
     image_d1_d0_size: int
     d2_squared_zero: bool
     mismatch_simplices: list = field(default_factory=list)
+    triples_verified: int = 0
+    triples_skipped: int = 0
 
 
 @dataclass
 class CohomologyComputation:
-    """Result of :meth:`ChainComplex.compute_cohomology`."""
+    """Result of :meth:`ChainComplex.compute_cohomology`.
+
+    Audit fix (round 2): adds ``h1_undecidable`` / ``h2_undecidable``
+    to surface cases where the analyser couldn't decide membership
+    in the image because a domain value was missing.  Those cases
+    *are* counted as obstructions (the safe direction) but
+    distinguished from definite obstructions caused by predicate
+    disagreement, so callers can act on the difference.
+    """
     h0_representatives: list[str]
     h1_obstructions: list[tuple[str, str]]
     h2_obstructions: list[tuple[str, str, str]]
     kernel_d0_size: int
     image_d0_size: int
     image_d1_size: int
+    h1_undecidable: list[tuple[str, str]] = field(default_factory=list)
+    h2_undecidable: list[tuple[str, str, str]] = field(default_factory=list)
 
     @property
     def h0_size(self) -> int:
@@ -392,22 +511,50 @@ def build_chain_complex(
                     callees.add(sub.func.id)
         cx.calls[fn_name] = callees
 
-    # ── C^1: call-site cocycle conditions ───────────────────────
+    # ── C¹: call-site cocycle conditions ────────────────────────
+    # We build C¹ to match what δ⁰(c0) would emit, so the
+    # ``predicates_equivalent`` check in ``compute_cohomology``
+    # sees these as members of im δ⁰ (trivial classes) — when the
+    # underlying C⁰ predicates are present.  An edge whose endpoint
+    # is missing in C⁰ will fail the equivalence check and become
+    # an H¹ obstruction.
     for caller, callees in cx.calls.items():
         for callee in callees:
-            cx.c1.add(
-                (caller, callee),
-                f"safe({caller}) → safe({callee})",
-            )
+            phi_caller = cx.c0.get(caller)
+            phi_callee = cx.c0.get(callee)
+            if phi_caller is None or phi_callee is None:
+                # No C⁰ predicate for one endpoint — record an
+                # opaque C¹ entry (non-trivial class).
+                cx.c1.add(
+                    (caller, callee),
+                    f"open({caller}, {callee})",
+                )
+            else:
+                cx.c1.add(
+                    (caller, callee),
+                    f"({phi_caller}) → ({phi_callee})",
+                )
 
-    # ── C^2: composition triples ────────────────────────────────
+    # ── C²: composition triples ─────────────────────────────────
+    # Built to match δ¹(c1)'s transitivity-shape so triples are
+    # recognised as members of im δ¹ when the underlying C¹ data
+    # is consistent.
     for f, gs in cx.calls.items():
         for g in gs:
             for h in cx.calls.get(g, set()):
-                cx.c2.add(
-                    (f, g, h),
-                    f"composition({f}, {g}, {h}) coherent",
-                )
+                psi_fg = cx.c1.get((f, g))
+                psi_gh = cx.c1.get((g, h))
+                psi_fh = cx.c1.get((f, h))
+                if psi_fg is None or psi_gh is None or psi_fh is None:
+                    cx.c2.add(
+                        (f, g, h),
+                        f"open({f}, {g}, {h})",
+                    )
+                else:
+                    cx.c2.add(
+                        (f, g, h),
+                        f"(({psi_fg}) ∧ ({psi_gh})) → ({psi_fh})",
+                    )
 
     return cx
 

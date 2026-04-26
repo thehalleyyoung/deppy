@@ -514,23 +514,51 @@ def _candidate_aliases_from_value(value: ast.expr) -> set[str]:
 def _aliases_from_call(node: ast.Call) -> set[str]:
     """Return the names a function call's result may alias.
 
-    For known fresh-returning calls we return empty.  For unknown
-    calls we *could* return all argument names (a function might
-    return any of its arguments), but in practice this floods the
-    alias relation and makes the analysis useless.  We instead
-    return empty by default and only union for *self-returning*
-    method calls we explicitly recognise (``x.foo()`` where ``foo``
-    is in ``_SELF_RETURNING_METHODS``).
+    Soundness direction
+    -------------------
+    For mutation-tracking, **may-alias is the safe direction** —
+    over-reporting aliases only makes the pipeline drop more
+    guards (more conservative).  Under-reporting (claiming no
+    alias when one exists) is the unsoundness we are trying to
+    plug.
+
+    Audit fix (round 2): the asymmetry between *function* and
+    *method* calls is now documented and made internally
+    consistent.  Previously:
+
+      * Bare functions: assumed fresh (return empty set).
+        Unsound when a user-defined function returns its
+        argument (``def first(xs): return xs``); a downstream
+        alias is missed.
+      * Methods: assumed self-returning (return ``{recv}``).
+        Over-conservative for factory methods but matches
+        builder patterns.
+
+    The asymmetry favored aliasing for methods — which IS the
+    safe direction — but produced no aliasing for functions —
+    which is the UNSAFE direction.  The fix: bare functions whose
+    name is not in ``_FRESH_RETURNING_CALLS`` now also report
+    *every argument* as a possible alias of the return value.
+    This is the safe direction: an unknown function might return
+    any of its arguments (or transform one in place).
+
+    Callers who want precision can register a function as
+    fresh-returning via the (currently package-private)
+    ``_FRESH_RETURNING_CALLS`` set, or via a future API for
+    user-defined function summaries.
     """
     func = node.func
     if isinstance(func, ast.Name):
         if func.id in _FRESH_RETURNING_CALLS:
             return set()
-        # Unknown free-standing function — assume fresh.  This is
-        # unsound when a custom function returns its argument.  Users
-        # who need precision can mark the function via @implies or
-        # use the alias-tracking helpers explicitly.
-        return set()
+        # Unknown function: the result may alias any argument.
+        # Walk the args and collect their root names.
+        out: set[str] = set()
+        for arg in node.args:
+            n = _root_name(arg)
+            if n:
+                out.add(n)
+        return out
     if isinstance(func, ast.Attribute):
         method = func.attr
         if method in _FRESH_RETURNING_METHODS:
@@ -538,13 +566,18 @@ def _aliases_from_call(node: ast.Call) -> set[str]:
         if method in _SELF_RETURNING_METHODS:
             recv = _root_name(func.value)
             return {recv} if recv else set()
-        # Unknown method.  Conservative-but-not-flooding choice: any
-        # method that doesn't match a fresh-returning name is treated
-        # as potentially returning the receiver.  This matches
-        # patterns like ``builder.set_x(v).set_y(w)`` where the
-        # builder methods return ``self``.
+        # Unknown method.  May return the receiver (builder
+        # pattern) OR any argument (factory-with-passthrough).
+        # Both are possible; over-reporting is safe.
+        out_m: set[str] = set()
         recv = _root_name(func.value)
-        return {recv} if recv else set()
+        if recv:
+            out_m.add(recv)
+        for arg in node.args:
+            n = _root_name(arg)
+            if n:
+                out_m.add(n)
+        return out_m
     return set()
 
 

@@ -2992,11 +2992,27 @@ class ProofKernel:
                     code="E007c",
                 )
         trust = min_trust(*(r.trust_level for r in sub_results))
+        # Audit fix (round 2): trust downgrade for cocycles whose
+        # *structure* wasn't verified.  A multi-component cocycle
+        # with no ``boundary_pairs`` has individually-proven
+        # components but no proof of the cocycle relation between
+        # them — the kernel cannot certify it as a coherent
+        # cocycle.  Drop trust to ``STRUCTURAL_CHAIN`` so callers
+        # gating on ``trust_level`` see the difference.
+        # (A single-component cocycle is trivially coherent.)
+        downgraded = False
+        if len(proof.components) > 1 and not proof.boundary_pairs:
+            trust = min_trust(trust, TrustLevel.STRUCTURAL_CHAIN)
+            downgraded = True
         structural_note = (
             f", {len(proof.boundary_pairs)} boundary overlap"
             f"{'s' if len(proof.boundary_pairs) != 1 else ''} verified"
             if proof.boundary_pairs else
-            ", structurally unchecked"
+            (
+                ", structurally unchecked (trust downgraded)"
+                if downgraded else
+                ", single component (trivially coherent)"
+            )
         )
         return VerificationResult(
             success=True,

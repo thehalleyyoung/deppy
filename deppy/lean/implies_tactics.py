@@ -268,18 +268,17 @@ def _classify(
             "pre and post differ only by simp lemmas (rfl/comm)"
         ]
 
-    # 9.  Heuristic — the goal "looks aesop-ish" if it's structural
-    #     propositional logic with at most one quantifier.  We are
-    #     deliberately conservative here — aesop has been known to
-    #     close inappropriate goals (and is NOT the same kind of
-    #     auto as classical search).
-    if _is_aesop_friendly(pre, post, py_types):
-        return ImpliesClassification.AESOP_LIKELY, 0.5, [
-            "pre/post are aesop-friendly: structural propositions"
-        ]
+    # 9.  Audit fix (round 2): the previous classifier had an
+    #     ``AESOP_LIKELY`` fall-back that emitted ``intros; aesop``
+    #     for any structural-propositional goal whose AST size was
+    #     under a magic 50.  This was a heuristic dressed as
+    #     inference — aesop can fail on goals smaller than 50 and
+    #     succeed on larger ones; the size cap was guesswork.  We
+    #     now emit ``sorry`` honestly when no structural rule
+    #     applies, so callers see real obligations.
 
     # 10.  Nothing matched.  Sorry.
-    notes.append("no tactic matched — emitting sorry")
+    notes.append("no structural rule matched — emitting sorry honestly")
     return ImpliesClassification.UNKNOWN, 0.0, notes
 
 
@@ -507,12 +506,27 @@ def _walk_linear(node: ast.expr, py_types: dict[str, str]) -> bool:
 
 
 def _is_linear_term(node: ast.expr, py_types: dict[str, str]) -> bool:
-    """Return True iff ``node`` is a linear arithmetic term."""
+    """Return True iff ``node`` is a linear arithmetic term.
+
+    Audit fix (round 2): un-annotated names are NOT assumed to be
+    integers.  The previous behaviour defaulted to ``int`` which
+    silently classified ``result > 0`` as linear-arithmetic and
+    emitted ``intro h; omega`` even when ``result`` was a list /
+    dict / Optional / custom class — wrong tactic, low confidence.
+
+    With the fix, an un-annotated name is *not* a linear term, so
+    the classifier falls through to a more conservative tactic
+    (or sorry).
+    """
     if isinstance(node, ast.Constant):
         return isinstance(node.value, (int, bool))
     if isinstance(node, ast.Name):
-        ty = py_types.get(node.id, "int")
-        # Default ``int`` when no type info — omega still works.
+        ty = py_types.get(node.id)
+        if ty is None:
+            # No type info — refuse the linear-arith classification.
+            # The classifier will fall through to a more
+            # conservative plan (or sorry).
+            return False
         return ty in {"int", "Int", "bool", "Bool", "nat", "Nat"}
     if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
         return _is_linear_term(node.operand, py_types)

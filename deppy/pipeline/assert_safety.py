@@ -167,41 +167,84 @@ def discharge_depends_on_assert(
         source_guards = _source_guards_for_discharge(
             discharge, refinement_map,
         )
-        if not source_guards:
-            # No per-source guards recorded → can't refine; fall
-            # back to the function-wide rule.
+        # Tri-state outcome (audit fix round 2):
+        if source_guards is None:
+            # Couldn't identify the source — fall back to the
+            # conservative function-wide rule.  This is the safe
+            # direction (more flagged ≠ unsoundness).
             return True
-        # Dependent iff at least one of this source's guards came
-        # from an assert.
+        if not source_guards:
+            # Source identified but has *no* path-sensitive guards.
+            # Therefore it could not have used an assert-derived
+            # guard.  Definitively NOT dependent.
+            return False
+        # Source has guards — dependent iff any of them came from
+        # an assert.
         return bool(set(source_guards) & assert_guards)
 
     # No fine-grained tracking available — function-wide rule.
     return True
 
 
+def _parse_source_id(sid: str) -> Optional[tuple[str, int, str]]:
+    """Parse the canonical source-id format ``<fn>:L<lineno>:<KIND>``
+    into ``(fn_name, lineno, kind)``.  Returns ``None`` on parse
+    failure — callers must handle this explicitly.
+
+    Audit fix (round 2): the previous implementation silently
+    returned an empty tuple on parse failure and the caller fell
+    back to the over-conservative function-wide rule.  Surfacing
+    parse failure as ``None`` lets callers distinguish "no
+    structured info" from "no guards at this source", which the
+    audit caller now uses to choose its fallback behaviour
+    explicitly.
+    """
+    if not sid:
+        return None
+    # Right-split on ':' twice: kind is last, ``L<lineno>`` is
+    # second-to-last, fn_name is everything before (may itself
+    # contain ':' in pathological cases — preserved verbatim).
+    parts = sid.rsplit(":", 2)
+    if len(parts) != 3:
+        return None
+    fn_name, lineno_tok, kind = parts
+    if not lineno_tok.startswith("L"):
+        return None
+    lineno_str = lineno_tok[1:]
+    if not lineno_str.isdigit():
+        return None
+    return (fn_name, int(lineno_str), kind)
+
+
 def _source_guards_for_discharge(
     discharge, refinement_map,
-) -> tuple[str, ...]:
+) -> Optional[tuple[str, ...]]:
     """Return the guards that hold at the source backing
-    ``discharge``.  Returns an empty tuple if no matching fact is
-    found in the refinement map."""
+    ``discharge``.
+
+    Audit fix (round 2): the contract now distinguishes three
+    outcomes via the return value:
+
+      * ``None``        — couldn't identify the source (parse
+                          failure, no source_id).  Caller must
+                          decide its own fallback.
+      * ``()`` (empty)  — successfully identified the source but
+                          it has no recorded guards.  This means
+                          the discharge truly used no path-
+                          sensitive narrowing.
+      * non-empty tuple — the source's actual guards.
+
+    The previous implementation conflated parse failure with empty
+    guards, which silently re-introduced the over-conservative
+    function-wide rule when source_id parsing failed.
+    """
     sid = getattr(discharge, "source_id", None)
     if sid is None:
-        return ()
-    # source_id format: "<fn>:L<lineno>:<KIND>" — parse out the
-    # location and kind.
-    parts = str(sid).split(":")
-    if len(parts) < 3:
-        return ()
-    # Find the L<lineno> token.
-    lineno = None
-    for tok in parts:
-        if tok.startswith("L") and tok[1:].isdigit():
-            lineno = int(tok[1:])
-            break
-    if lineno is None:
-        return ()
-    kind = parts[-1]
+        return None
+    parsed = _parse_source_id(str(sid))
+    if parsed is None:
+        return None
+    _fn_name, lineno, kind = parsed
     out: list[str] = []
     for fact in getattr(refinement_map, "per_source", []) or []:
         if (getattr(fact, "source_lineno", None) == lineno
