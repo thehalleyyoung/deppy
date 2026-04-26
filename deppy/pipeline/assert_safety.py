@@ -126,18 +126,26 @@ def discharge_depends_on_assert(
     """Return True iff ``discharge`` relied on a guard added by an
     ``assert`` statement.
 
-    The current discharge model is coarse: the
-    :class:`~deppy.pipeline.refinement_inference.RefinementMap`
-    carries a function-wide ``used_assert_narrowing`` flag.  When
-    that flag is set, *any* path-sensitive discharge in that
-    function is suspect.  We err on the side of conservative —
-    if the flag is set and the discharge used a path-sensitive
-    mechanism (z3-arithmetic / z3-syntactic / co-located-peer),
-    we treat it as assert-dependent.
+    The original (function-wide) classifier flagged *every*
+    discharge in any function with a single assert anywhere — even
+    discharges whose path-sensitive guards came from ``if``
+    statements only.  This was over-conservative and produced
+    false positives.
 
-    This mirrors the existing safety-pipeline check that emitted
-    only a warning; we now turn it into a structured decision so
-    the verdict can be downgraded.
+    Audit fix #12 (refinement): we now consult the per-source
+    guards.  When the refinement map carries
+    ``assert_derived_guards`` (the set of guard texts produced by
+    ``assert`` statements), a discharge is assert-dependent iff:
+
+      * the function-wide flag is True (so at least one assert
+        was processed), AND
+      * the source's actual guards intersect with
+        ``assert_derived_guards``.
+
+    For backward compatibility — if the refinement map predates
+    the fine-grained tracking and only carries the boolean flag —
+    we fall back to the old "any non-Assume discharge in a
+    function with assert-narrowing is suspect" behaviour.
     """
     if refinement_map is None:
         return False
@@ -147,10 +155,59 @@ def discharge_depends_on_assert(
     if inner is None:
         return False
     inner_name = type(inner).__name__
-    # ``Assume`` doesn't claim a discharge — there's no dependence.
     if inner_name == "Assume":
+        # ``Assume`` doesn't claim a discharge — no dependence.
         return False
+
+    # Try the fine-grained per-source check first.
+    assert_guards: set = getattr(
+        refinement_map, "assert_derived_guards", set(),
+    ) or set()
+    if assert_guards:
+        source_guards = _source_guards_for_discharge(
+            discharge, refinement_map,
+        )
+        if not source_guards:
+            # No per-source guards recorded → can't refine; fall
+            # back to the function-wide rule.
+            return True
+        # Dependent iff at least one of this source's guards came
+        # from an assert.
+        return bool(set(source_guards) & assert_guards)
+
+    # No fine-grained tracking available — function-wide rule.
     return True
+
+
+def _source_guards_for_discharge(
+    discharge, refinement_map,
+) -> tuple[str, ...]:
+    """Return the guards that hold at the source backing
+    ``discharge``.  Returns an empty tuple if no matching fact is
+    found in the refinement map."""
+    sid = getattr(discharge, "source_id", None)
+    if sid is None:
+        return ()
+    # source_id format: "<fn>:L<lineno>:<KIND>" — parse out the
+    # location and kind.
+    parts = str(sid).split(":")
+    if len(parts) < 3:
+        return ()
+    # Find the L<lineno> token.
+    lineno = None
+    for tok in parts:
+        if tok.startswith("L") and tok[1:].isdigit():
+            lineno = int(tok[1:])
+            break
+    if lineno is None:
+        return ()
+    kind = parts[-1]
+    out: list[str] = []
+    for fact in getattr(refinement_map, "per_source", []) or []:
+        if (getattr(fact, "source_lineno", None) == lineno
+                and getattr(fact, "source_kind", None) == kind):
+            out.extend(getattr(fact, "guards", ()))
+    return tuple(out)
 
 
 def collect_assert_dependences(

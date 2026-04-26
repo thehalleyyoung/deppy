@@ -81,6 +81,16 @@ class RefinementMap:
     # discharges that depend on these guards are unsound in
     # optimised mode — the safety pipeline surfaces a warning.
     used_assert_narrowing: bool = False
+    # Audit fix #12 (refinement) — the set of guard texts that came
+    # from ``assert`` statements.  Used by
+    # :func:`deppy.pipeline.assert_safety.discharge_depends_on_assert`
+    # to tell whether a *specific* discharge depended on an assert
+    # (vs. one that only used ``if`` guards).  The previous
+    # ``used_assert_narrowing`` boolean was function-wide and
+    # reported false positives — every discharge in a function with
+    # *any* assert was flagged, even if its own guards came from
+    # ``if`` statements.
+    assert_derived_guards: set[str] = field(default_factory=set)
 
     def conjoined_guards_for_source(
         self, lineno: int, col: int, kind: str,
@@ -280,6 +290,10 @@ class RefinementInferrer:
         self._facts: list[RefinementFact] = []
         self._function_wide_preconditions: list[str] = []
         self._used_assert_narrowing: bool = False
+        # Audit fix #12 (refinement) — track which guard texts came
+        # from assert statements so we can identify per-discharge
+        # whether the discharge actually depended on an assert.
+        self._assert_derived_guards: set[str] = set()
         # Audit fix #8: flow-sensitive may-alias relation, advanced
         # statement-by-statement so mutation tracking can drop
         # guards on aliased names.
@@ -326,6 +340,7 @@ class RefinementInferrer:
             function_wide_preconditions=list(self._function_wide_preconditions),
             per_source=list(self._facts),
             used_assert_narrowing=self._used_assert_narrowing,
+            assert_derived_guards=set(self._assert_derived_guards),
         )
 
     # -- leading guard extraction ---------------------------------------
@@ -476,6 +491,12 @@ class RefinementInferrer:
         if isinstance(stmt, ast.Assert):
             for c in _split_conjuncts(stmt.test):
                 guards = guards + (c,)
+                # Audit fix #12 (refinement) — record which guards
+                # came from this assert so the per-discharge gate
+                # in :func:`assert_safety.discharge_depends_on_assert`
+                # can tell whether a specific source actually used
+                # this guard.
+                self._assert_derived_guards.add(c)
             self._used_assert_narrowing = True
             return guards
 

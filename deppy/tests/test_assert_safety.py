@@ -34,8 +34,24 @@ from deppy.pipeline.assert_safety import (
 # Lightweight stand-ins for the real types so we can test in
 # isolation without spinning up the full pipeline.
 @dataclass
+class _Fact:
+    source_lineno: int
+    source_col: int
+    source_kind: str
+    guards: tuple[str, ...] = ()
+
+
+@dataclass
 class _Refinement:
     used_assert_narrowing: bool
+    assert_derived_guards: set = None  # type: ignore[assignment]
+    per_source: list = None  # type: ignore[assignment]
+
+    def __post_init__(self):
+        if self.assert_derived_guards is None:
+            self.assert_derived_guards = set()
+        if self.per_source is None:
+            self.per_source = []
 
 
 @dataclass
@@ -158,6 +174,75 @@ class TestCollectDependences:
         rmap = _Refinement(used_assert_narrowing=False)
         discharges = [_Discharge("s/1", Z3Proof())]
         assert collect_assert_dependences("f", discharges, rmap) == []
+
+
+class TestFineGrainedAssertDependence:
+    """Audit fix #12 (refinement) — discharge_depends_on_assert
+    consults per-source guards.  A discharge whose source's guards
+    came only from ``if`` statements is NOT flagged, even if the
+    same function used an assert elsewhere."""
+
+    def test_source_with_only_if_guards_is_clean(self):
+        # Function used an assert (somewhere), so used_assert_narrowing
+        # is True.  But this specific source's guards came only from
+        # an ``if`` statement — its guards do NOT intersect with the
+        # assert-derived set.
+        rmap = _Refinement(
+            used_assert_narrowing=True,
+            assert_derived_guards={"k != 0"},  # an assert somewhere
+            per_source=[
+                _Fact(
+                    source_lineno=10, source_col=0,
+                    source_kind="KEY_ERROR",
+                    guards=("k in d",),  # came from an `if`, not an assert
+                ),
+            ],
+        )
+        d = _Discharge("f:L10:KEY_ERROR", Z3Proof())
+        # Refined classifier: NOT dependent (guards don't overlap).
+        assert not discharge_depends_on_assert(d, rmap)
+
+    def test_source_with_assert_guard_is_dependent(self):
+        rmap = _Refinement(
+            used_assert_narrowing=True,
+            assert_derived_guards={"b != 0"},
+            per_source=[
+                _Fact(
+                    source_lineno=4, source_col=11,
+                    source_kind="ZERO_DIVISION",
+                    guards=("b != 0",),  # came from the assert
+                ),
+            ],
+        )
+        d = _Discharge("f:L4:ZERO_DIVISION", Z3Proof())
+        assert discharge_depends_on_assert(d, rmap)
+
+    def test_collect_filters_by_per_source_guards(self):
+        rmap = _Refinement(
+            used_assert_narrowing=True,
+            assert_derived_guards={"b != 0"},
+            per_source=[
+                _Fact(10, 0, "KEY_ERROR", ("k in d",)),
+                _Fact(20, 0, "ZERO_DIVISION", ("b != 0",)),
+            ],
+        )
+        discharges = [
+            _Discharge("f:L10:KEY_ERROR", Z3Proof()),     # not dep
+            _Discharge("f:L20:ZERO_DIVISION", Z3Proof()),  # dep
+        ]
+        result = collect_assert_dependences("f", discharges, rmap)
+        assert result == ["f:L20:ZERO_DIVISION"]
+
+    def test_legacy_refinement_falls_back(self):
+        # Old refinement maps without ``assert_derived_guards`` →
+        # fall back to the function-wide rule.
+        rmap = _Refinement(used_assert_narrowing=True)
+        # Strip the field manually to mimic legacy.
+        del rmap.assert_derived_guards
+        d = _Discharge("f:L4:ZERO_DIVISION", Z3Proof())
+        # Without the fine-grained data, every non-Assume discharge
+        # is flagged (the conservative fall-back).
+        assert discharge_depends_on_assert(d, rmap)
 
 
 # ─────────────────────────────────────────────────────────────────────
