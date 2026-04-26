@@ -163,7 +163,7 @@ trivially_true: <span class="ty">Unit</span> = <span class="ty">Unit</span>()  <
 <span class="dc">@guarantee</span>(<span class="st">"and is commutative"</span>)
 <span class="kw">def</span> <span class="fn">and_comm</span>(p: <span class="ty">And</span>[<span class="ty">A</span>, <span class="ty">B</span>]) -> <span class="ty">And</span>[<span class="ty">B</span>, <span class="ty">A</span>]:
     <span class="kw">return</span> <span class="ty">And</span>(p.right, p.left)</code></pre>
-    <p class="verified">Z3_PROVEN — and_comm verified</p>
+    <p class="verified">Z3_VERIFIED — and_comm verified</p>
 
     <h2>Disjunction (Or)</h2>
     <p>

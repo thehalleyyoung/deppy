@@ -257,7 +257,7 @@
 
     <p>Running <code>deppy check my_math.py</code> verifies the specification without executing any code:</p>
 <pre><code>$ deppy check my_math.py
-<span class="fn">✓</span> my_math.abs_val  <span class="cm">— Z3_PROVEN (0.02s)</span>
+<span class="fn">✓</span> my_math.abs_val  <span class="cm">— Z3_VERIFIED (0.02s)</span>
   postcondition: result ≥ 0
   strategy: case-split → Z3 auto
 <span class="fn">All 1 obligations verified.</span></code></pre>
@@ -468,7 +468,7 @@
     <span class="st">"""Sum of integers from 0 to n."""</span>
     <span class="kw">return</span> n * (n + <span class="nb">1</span>) // <span class="nb">2</span></code></pre>
 <pre><code>$ deppy check triangle.py
-<span class="fn">✓</span> triangle  <span class="cm">— Z3_PROVEN (0.01s)</span>
+<span class="fn">✓</span> triangle  <span class="cm">— Z3_VERIFIED (0.01s)</span>
   guarantee: result == n * (n + 1) // 2
   refinement: result ≥ 0
 <span class="fn">All 2 obligations verified.</span></code></pre>

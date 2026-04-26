@@ -315,13 +315,13 @@
 <span class="cm">Checking math_utils.py with sidecar math_utils.deppy...</span>
 
 <span class="fn">✓</span> factorial
-  <span class="cm">├─ termination: decreases(n) on Nat</span>    <span class="fn">Z3_PROVEN</span>  <span class="cm">(0.01s)</span>
-  <span class="cm">├─ postcondition: result ≥ 1</span>            <span class="fn">Z3_PROVEN</span>  <span class="cm">(0.02s)</span>
-  <span class="cm">└─ refinement: result ∈ Pos</span>             <span class="fn">Z3_PROVEN</span>  <span class="cm">(0.01s)</span>
+  <span class="cm">├─ termination: decreases(n) on Nat</span>    <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.01s)</span>
+  <span class="cm">├─ postcondition: result ≥ 1</span>            <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.02s)</span>
+  <span class="cm">└─ refinement: result ∈ Pos</span>             <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.01s)</span>
 
 <span class="fn">✓</span> factorial_monotone (lemma)
-  <span class="cm">├─ base case: a == b</span>                   <span class="fn">Z3_PROVEN</span>  <span class="cm">(0.01s)</span>
-  <span class="cm">└─ inductive step</span>                      <span class="fn">Z3_PROVEN</span>  <span class="cm">(0.03s)</span>
+  <span class="cm">├─ base case: a == b</span>                   <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.01s)</span>
+  <span class="cm">└─ inductive step</span>                      <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.03s)</span>
 
 <span class="fn">All 5 obligations verified.</span> (0.08s total)</code></pre>
 
@@ -391,19 +391,19 @@
       </thead>
       <tbody>
         <tr>
-          <td><code>LEAN_VERIFIED</code></td>
+          <td><code>LEAN_KERNEL_VERIFIED</code></td>
           <td>🟢</td>
           <td>Proof exported to Lean 4 and checked by its kernel</td>
           <td>Highest — machine-checked by an independent proof assistant</td>
         </tr>
         <tr>
-          <td><code>Z3_PROVEN</code></td>
+          <td><code>Z3_VERIFIED</code></td>
           <td>🟡</td>
           <td>Discharged by Z3 SMT solver</td>
           <td>High — Z3 is trusted and widely used, but its kernel is not independently verified</td>
         </tr>
         <tr>
-          <td><code>LLM_JUDGED</code></td>
+          <td><code>LLM_CHECKED</code></td>
           <td>🟠</td>
           <td>An LLM oracle judged the property correct with confidence ≥ threshold</td>
           <td>Medium — useful for rapid prototyping, but should be upgraded to Z3 or Lean</td>
@@ -418,26 +418,26 @@
     </table>
 
     <p>
-      The verification levels form a lattice: <code>LEAN_VERIFIED</code> ⊒
-      <code>Z3_PROVEN</code> ⊒ <code>LLM_JUDGED</code> ⊒ <code>UNTRUSTED</code>.
+      The verification levels form a lattice: <code>LEAN_KERNEL_VERIFIED</code> ⊒
+      <code>Z3_VERIFIED</code> ⊒ <code>LLM_CHECKED</code> ⊒ <code>UNTRUSTED</code>.
       You can always upgrade a proof to a higher trust level without changing the
       specification.
     </p>
 
-<pre><code class="output"><span class="cm"># Upgrade from Z3_PROVEN to LEAN_VERIFIED:</span>
+<pre><code class="output"><span class="cm"># Upgrade from Z3_VERIFIED to LEAN_KERNEL_VERIFIED:</span>
 $ deppy export --lean math_utils.deppy
 <span class="cm">Exported to math_utils.lean</span>
 
 $ lake build math_utils
 <span class="fn">✓</span> Lean kernel accepted all proofs.
 
-$ deppy upgrade math_utils.deppy --level LEAN_VERIFIED
-<span class="fn">✓</span> 5 obligations upgraded to LEAN_VERIFIED</code></pre>
+$ deppy upgrade math_utils.deppy --level LEAN_KERNEL_VERIFIED
+<span class="fn">✓</span> 5 obligations upgraded to LEAN_KERNEL_VERIFIED</code></pre>
 
     <div class="warning">
-      <code>LLM_JUDGED</code> proofs are <em>not</em> formal proofs. They are
+      <code>LLM_CHECKED</code> proofs are <em>not</em> formal proofs. They are
       high-confidence heuristic checks useful during development. Production code
-      should target <code>Z3_PROVEN</code> or <code>LEAN_VERIFIED</code>.
+      should target <code>Z3_VERIFIED</code> or <code>LEAN_KERNEL_VERIFIED</code>.
     </div>
 
     <!-- ── The Sidecar Approach ── -->

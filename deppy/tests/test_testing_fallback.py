@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import random
 import pytest
-from deppy.equivalence import check_equiv, check_adherence
+from deppy.equivalence import check_equiv, check_adherence, EquivResult
 
 
 @pytest.fixture(autouse=True)
@@ -93,7 +93,7 @@ TESTING_EQUIV_PAIRS = [
                          ids=[t[0] for t in TESTING_EQUIV_PAIRS])
 def test_testing_equiv(name, f, g):
     r = check_equiv(f, g)
-    assert r.equivalent is True, f"{name}: expected EQUIVALENT, got {r}"
+    assert r.likely_equivalent, f"{name}: expected likely equivalent (proven or high-confidence testing), got {r}"
     # Z3 now handles list types via Array theory — accept either method
     assert r.method in ('testing', 'z3'), f"{name}: got unexpected method '{r.method}'"
 
@@ -174,7 +174,7 @@ STRING_EQUIV_PAIRS = [
                          ids=[t[0] for t in STRING_EQUIV_PAIRS])
 def test_testing_string_equiv(name, f, g):
     r = check_equiv(f, g)
-    assert r.equivalent is True, f"{name}: expected EQUIVALENT, got {r}"
+    assert r.likely_equivalent, f"{name}: expected likely equivalent (proven or high-confidence testing), got {r}"
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -257,7 +257,7 @@ def z3_list_len_direct(xs: list) -> int:
 def test_z3_list_len_equiv():
     """Z3 should prove len(list(xs)) == len(xs) via Array theory."""
     r = check_equiv(z3_list_len_identity, z3_list_len_direct)
-    assert r.equivalent is True
+    assert r.likely_equivalent
     assert r.method == 'z3'
 
 
@@ -274,7 +274,7 @@ def z3_list_head_same_b(xs: list) -> int:
 def test_z3_list_head_equiv():
     """Z3 should prove xs[0] if xs else 0 ≡ if xs: return xs[0] else 0."""
     r = check_equiv(z3_list_head_same_a, z3_list_head_same_b)
-    assert r.equivalent is True
+    assert r.likely_equivalent
     assert r.method == 'z3'
 
 
@@ -378,7 +378,7 @@ def hof_apply_alias(f: Callable[[int], int], x: int) -> int:
 def test_hof_apply_equiv():
     """HOF: f(x) ≡ f(x) via Z3 callable model."""
     result = check_equiv(hof_apply, hof_apply_alias)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 def hof_double(f: Callable[[int], int], x: int) -> int:
     return f(x) + f(x)
@@ -390,7 +390,7 @@ def hof_double_alt(f: Callable[[int], int], x: int) -> int:
 def test_hof_double_equiv():
     """HOF: f(x) + f(x) ≡ r = f(x); r + r."""
     result = check_equiv(hof_double, hof_double_alt)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 def hof_compose_add(f: Callable[[int], int], x: int) -> int:
     return f(x) + 1
@@ -401,7 +401,7 @@ def hof_compose_add_alt(f: Callable[[int], int], x: int) -> int:
 def test_hof_commutative_add():
     """HOF: f(x) + 1 ≡ 1 + f(x) (commutativity)."""
     result = check_equiv(hof_compose_add, hof_compose_add_alt)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -418,7 +418,7 @@ def plain_double(x: int) -> int:
 def test_lambda_equiv():
     """Lambda: (lambda a: a*2)(x) ≡ x*2."""
     result = check_equiv(lambda_apply_double, plain_double)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -434,7 +434,7 @@ def str_concat_alt(a: str, b: str) -> str:
 def test_str_concat_equiv():
     """String: a + b ≡ a + b."""
     result = check_equiv(str_concat, str_concat_alt)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 def str_startswith_check(s: str) -> bool:
     return s.startswith("hello")
@@ -445,7 +445,7 @@ def str_startswith_check_alt(s: str) -> bool:
 def test_str_startswith_equiv():
     """String: s.startswith('hello') ≡ s.startswith('hello')."""
     result = check_equiv(str_startswith_check, str_startswith_check_alt)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 def str_replace_check(s: str) -> str:
     return s.replace("a", "b")
@@ -456,7 +456,7 @@ def str_replace_check_alt(s: str) -> str:
 def test_str_replace_equiv():
     """String: s.replace('a','b') ≡ s.replace('a','b')."""
     result = check_equiv(str_replace_check, str_replace_check_alt)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 def str_endswith_check(s: str) -> bool:
     return s.endswith(".py")
@@ -467,7 +467,7 @@ def str_endswith_check_alt(s: str) -> bool:
 def test_str_endswith_equiv():
     """String: s.endswith('.py') ≡ s.endswith('.py')."""
     result = check_equiv(str_endswith_check, str_endswith_check_alt)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -485,7 +485,7 @@ def dict_pop_check_alt(d: dict, k: int) -> dict:
 def test_dict_pop_equiv():
     """Dict: d.pop(k) ≡ d.pop(k)."""
     result = check_equiv(dict_pop_check, dict_pop_check_alt)
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -579,7 +579,7 @@ def test_recursion_equivalence():
     """Two identical recursive functions are Z3-equivalent."""
     result = check_equiv(factorial_recursive, factorial_if_chain)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 @guarantee("result >= 1")
 def factorial_pos(n: int) -> int:
@@ -624,7 +624,7 @@ def test_class_method_equivalence():
     """Two methods reading same fields in different order are equivalent."""
     result = check_equiv(method_a, method_b)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ── True division Z3 tests ────────────────────────────────
@@ -648,7 +648,7 @@ def test_true_division_equiv():
     """True division equivalence: x/2 ≡ x/2."""
     result = check_equiv(div_half_a, div_half_b)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 def floor_div_a(x: int) -> int:
     return x // 2
@@ -682,7 +682,7 @@ def test_multi_arg_callable_equiv():
     """Multi-arg callable equivalence."""
     result = check_equiv(apply2_a, apply2_b)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ── Tuple Z3 tests ───────────────────────────────────────
@@ -708,7 +708,7 @@ def test_tuple_literal_equiv():
     """Tuple literal access equivalence."""
     result = check_equiv(tuple_swap_a, tuple_swap_b)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ── Set Z3 tests ─────────────────────────────────────────
@@ -725,7 +725,7 @@ def test_set_literal_equiv():
     """Set literals with same elements are equivalent regardless of order."""
     result = check_equiv(set_contains_a, set_contains_b)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ── Type inference Z3 tests ──────────────────────────────
@@ -743,7 +743,7 @@ def test_type_inference_list():
     """Type inference detects list from .append() usage."""
     result = check_equiv(untyped_list_sum, untyped_list_sum2)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 def untyped_div(x, y):
     """No annotation — x/y infers float for x."""
@@ -756,7 +756,7 @@ def test_type_inference_float():
     """Type inference detects float from / usage."""
     result = check_equiv(untyped_div, untyped_div2)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ───────── while-loop tests ─────────
@@ -783,7 +783,7 @@ def test_while_loop_equiv():
     """Two while-loop sum-downs are equivalent."""
     result = check_equiv(while_sum_down, while_sum_down2)
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 @guarantee("result >= 0 or n < 0")
 def while_sum_pos(n: int) -> int:
@@ -828,7 +828,7 @@ def test_inheritance_basic():
     result = check_equiv(parent_init_child_method, always_four)
     # Even if Z3 can't solve it, testing should find equivalence
     assert result is not None
-    assert result.equivalent
+    assert result.likely_equivalent
 
 
 # ───────── deep recursion with inductive boundary ─────────
@@ -1508,3 +1508,55 @@ class Concrete(Abstract):
     sub_c = _apply_init_subclass('Concrete', classes, {})
     assert isinstance(meta_c, list)
     assert isinstance(sub_c, list)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  HONESTY TESTS — testing fallback should never claim proven equivalence
+# ═══════════════════════════════════════════════════════════════════
+
+def _testing_f(x: int) -> int:
+    # Returns the same as _testing_g on all small inputs; if used
+    # without a provable spec, testing is all we can do.
+    return x + x
+
+def _testing_g(x: int) -> int:
+    return 2 * x
+
+
+def test_testing_result_never_asserts_proven_equivalent():
+    """A testing-only verdict must return equivalent=None and record
+    its evidence via confidence + details — it may never return
+    equivalent=True, which is reserved for Z3/refl proofs."""
+    result = check_equiv(_testing_f, _testing_g)
+    # The check may escalate to Z3 (arithmetic — both over int).  If it
+    # does, that's fine.  But when the method is 'testing' alone, the
+    # verdict must be inconclusive with high confidence.
+    if result.method == 'testing':
+        assert result.equivalent is None, (
+            "testing fallback returned equivalent=True, overclaiming; it "
+            "should return None with high confidence instead"
+        )
+        assert result.confidence >= 0.9
+    # In all cases, likely_equivalent should hold.
+    assert result.likely_equivalent
+
+
+def test_likely_equivalent_covers_testing_and_proven():
+    """.likely_equivalent is True for both proven and high-confidence cases."""
+    proven = check_equiv(_testing_f, _testing_g)
+    assert proven.likely_equivalent
+
+    # A contrived inconclusive result
+    r = EquivResult(equivalent=None, method='testing', confidence=0.995,
+                    details="no counterexample")
+    assert r.likely_equivalent
+
+    # Low confidence → not likely
+    r2 = EquivResult(equivalent=None, method='testing', confidence=0.3,
+                     details="few trials")
+    assert not r2.likely_equivalent
+
+    # Proven False → not likely
+    r3 = EquivResult(equivalent=False, method='z3', confidence=1.0,
+                     counterexample={"x": 1}, details="disagreed at x=1")
+    assert not r3.likely_equivalent

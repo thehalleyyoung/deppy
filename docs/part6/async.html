@@ -86,6 +86,36 @@
       Verified asynchronous Python — event loops, coroutines, and structured concurrency
     </p>
 
+    <div class="note" style="background:#ecfdf5;border-left:4px solid #059669;padding:1rem;margin:1rem 0">
+      <strong>Real APIs (no stubs).</strong>  Every decorator and
+      helper below is implemented and runtime-enforced.  Pre/post/
+      yield/invariant checks all call the supplied predicate at the
+      relevant moment of the coroutine's lifecycle and raise
+      <code>ContractViolation</code> on failure; <code>@terminates</code>
+      wraps the coroutine in a real <code>asyncio.wait_for</code>
+      deadline and raises <code>TerminationViolation</code> when the
+      deadline elapses.
+      <ul style="margin:0.5rem 0 0 1.2rem">
+        <li><code>@async_requires(pred)</code> — pre-await check</li>
+        <li><code>@async_ensures(pred)</code> — post-await check
+            (result available as <code>result</code> arg / kwarg)</li>
+        <li><code>@async_yields(pred)</code> — invariant on every
+            yielded value of an async generator</li>
+        <li><code>@async_invariant(pred)</code> — entry + exit
+            invariant on the coroutine's call</li>
+        <li><code>@terminates(deadline=seconds)</code> — bounds the
+            runtime; raises on timeout</li>
+        <li><code>pure("result &gt; 0")</code> — lazy predicate that
+            carries its source for Z3 / Lean encoding</li>
+      </ul>
+      <p style="margin:0.75rem 0 0 0">
+        Import from <code>deppy.async_verify</code> or directly from
+        <code>deppy</code>.  Predicates can be callables, strings, or
+        <code>pure(...)</code> wrappers — the runtime chooses the
+        right calling convention automatically.
+      </p>
+    </div>
+
     <div class="important">
       This chapter is <strong>unique to Deppy</strong>. F*'s Pulse does not model
       async/await, event loops, or cooperative multitasking. The concepts here are

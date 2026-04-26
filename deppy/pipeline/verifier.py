@@ -1649,15 +1649,23 @@ class VerificationPipeline:
                 results.append(result)
 
         if not results:
+            # Empty source is not verified — it is *vacuous*.  The OLD
+            # implementation returned verified=True with UNTRUSTED trust,
+            # which let callers who only checked `.verified` believe the
+            # module had passed.  verified=False makes the distinction
+            # explicit: no functions means no verification result.
             results.append(FunctionResult(
                 name="<no_functions>",
                 source=dedented,
                 specs=[],
                 obligations=[],
                 trust_level=TrustLevel.UNTRUSTED,
-                verified=True,
+                verified=False,
                 errors=[],
-                warnings=["No function definitions found."],
+                warnings=[
+                    "No function definitions found; nothing to verify. "
+                    "An empty module is not a verified module."
+                ],
                 duration_ms=0.0,
             ))
 

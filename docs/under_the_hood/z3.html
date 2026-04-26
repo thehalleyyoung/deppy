@@ -678,6 +678,42 @@ solver.pop()</code></pre>
 <hr>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="auto-tactic">The <code>T.z3_auto()</code> tactic</h2>
+
+<p>
+  At the tactic-DSL level (<code>deppy.proofs.language.T</code>), the
+  recommended Z3 entry point is <code>T.z3_auto()</code>.  Unlike
+  <code>T.z3(formula)</code>, it doesn't require the user to restate
+  the goal as a string — it reads the current goal off the
+  <code>ProofBuilder</code>:
+</p>
+<ul>
+  <li>Equality goal ``lhs = rhs`` → formula ``"lhs == rhs"``</li>
+  <li>Refinement goal ``{x | P(x)}`` → formula ``P(x)``</li>
+  <li>Other goal shapes → an explicit ``formula`` argument is required</li>
+</ul>
+
+<p>
+  The inferred formula is parsed by Python's ``compile()`` *eagerly*,
+  so a syntactically broken formula raises immediately when
+  <code>T.z3_auto()</code> is called — i.e., at the moment the proof
+  script first builds the tactic, before any solver is invoked — rather
+  than emerging from inside Z3 later.  After parsing, the tactic
+  delegates to the same kernel <code>_verify_z3</code> path described
+  above, with the same error codes (<code>E005</code> /
+  <code>E005b</code> / <code>E005c</code> / <code>E005i</code>).
+</p>
+
+<pre><code class="language-python"><span class="kw">from</span> deppy.proofs.language <span class="kw">import</span> T, eq, prove
+<span class="kw">from</span> deppy.core.kernel <span class="kw">import</span> ProofKernel
+
+kernel = ProofKernel()
+goal = eq(<span class="st">"x * x"</span>, <span class="st">"x * x"</span>, x=<span class="st">"int"</span>)
+result = prove(<span class="st">"refl_via_z3"</span>, kernel=kernel, goal=goal,
+               tactic=T.z3_auto())
+<span class="cm"># result.trust_level → Z3_VERIFIED on success</span></code></pre>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
 <h2 id="debugging">Debugging Z3 Failures</h2>
 
 <p>
@@ -685,6 +721,37 @@ solver.pop()</code></pre>
   goal is satisfiable, i.e., there's a counterexample), you need to understand
   <em>why</em>. Deppy provides several tools for this.
 </p>
+
+<div class="note" style="background:#fef3c7;border-left:4px solid #d97706;padding:1rem;margin:1rem 0">
+  <strong>Z3 bridge return values.</strong>  The kernel's internal
+  <code>_z3_check(formula)</code> returns a
+  <code>(verdict: bool, reason: str | None)</code> pair, not just a
+  boolean.  When the verdict is <code>False</code>, the reason
+  distinguishes five failure modes so callers can tell "Z3 disagreed"
+  from "Z3 couldn't run":
+  <ul style="margin:0.5rem 0 0 1.2rem">
+    <li><code>None</code> — Z3 proved the goal (verdict is True)</li>
+    <li><code>"disagrees"</code> — Z3 returned sat/unknown on the
+        negation; genuine disagreement or incomplete triggers</li>
+    <li><code>"not-installed"</code> — the <code>z3-solver</code>
+        package is not available</li>
+    <li><code>"parse: …"</code> — the formula couldn't be compiled
+        against the Z3 environment</li>
+    <li><code>"crash: …"</code> — Z3 itself raised (rare but possible
+        on unusual formula shapes)</li>
+    <li><code>"unsupported-constructs"</code> — the formula uses
+        syntax the bridge deliberately rejects (subscripting, attribute
+        access, <code>None</code> literals)</li>
+  </ul>
+  <p style="margin:0.75rem 0 0 0">
+    The public <code>Z3Proof</code> constructor surfaces these as
+    error codes on the returned <code>VerificationResult</code>:
+    <code>E005</code> (disagreed), <code>E005b</code> (safety goal with
+    tautology formula <code>True</code> — always rejected),
+    <code>E005c</code> (Z3 internal error), <code>E005i</code> (Z3 not
+    installed).  Match on the code to give users actionable guidance.
+  </p>
+</div>
 
 <h3 id="unsat-cores">Reading Unsat Cores</h3>
 <p>

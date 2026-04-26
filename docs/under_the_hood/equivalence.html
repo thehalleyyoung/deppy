@@ -142,10 +142,53 @@ print(result)
 </p>
 
 <pre><code class="language-python">result = check_equiv(f, g)
-result.equivalent   # True, False, or None (inconclusive)
-result.method       # 'z3', 'testing', 'spec', 'inconclusive'
-result.confidence   # 1.0 for z3, &lt;1 for testing
-result.counterexample  # dict of {param: value} when inequivalent</code></pre>
+result.equivalent   # True / False / None
+                    #   True  — *proven* by Z3 or reflexivity
+                    #   False — concrete counterexample found
+                    #   None  — no proof AND no counterexample;
+                    #           testing-based checks always end here
+                    #           (see note below)
+result.method       # 'z3', 'testing', 'spec', 'spec+z3', 'inconclusive'
+result.confidence   # 1.0 for z3/refl; &lt;1 for testing-based evidence
+result.counterexample  # dict of {param: value} when inequivalent
+result.likely_equivalent  # True iff proven OR testing confidence &gt;= 0.9
+                          #   — use this for candidate ranking,
+                          #   never for soundness gates</code></pre>
+
+<div class="note" style="background:#fef3c7;border-left:4px solid #d97706;padding:1rem;margin:1rem 0">
+  <strong>Why testing returns <code>None</code>, not <code>True</code>.</strong>
+  Testing samples inputs — 1000, 10000, however many — and checks
+  that the two functions agree on each.  Even agreement on every
+  trial does not <em>prove</em> the functions are equal; the
+  (N+1)-th input might disagree.  So
+  <code>_testing_check_equiv</code> returns
+  <code>equivalent=None</code> with a <code>confidence</code> score
+  computed from the number of trials.
+  <code>equivalent is True</code> is reserved for real proofs (Z3
+  unsat, or reflexivity).  Use <code>likely_equivalent</code> when
+  you want "this is probably equivalent" for ranking; use
+  <code>equivalent is True</code> when you need soundness.
+</div>
+
+<div class="note" style="background:#fef3c7;border-left:4px solid #d97706;padding:1rem;margin:1rem 0">
+  <strong><code>verify_composition</code> follows the same rule.</strong>
+  The testing-only path returns <code>verified=False</code> now
+  (the old behaviour of <code>verified = (checked &gt; 0)</code> was
+  wrong for the same reason above).  To obtain
+  <code>verified=True</code> the caller must supply a spec the Z3
+  path can discharge.
+</div>
+
+<div class="note" style="background:#fef3c7;border-left:4px solid #d97706;padding:1rem;margin:1rem 0">
+  <strong>Spec equivalence ≠ code equivalence.</strong>  When two
+  functions have the same <code>@guarantee</code> string — or two
+  guarantees that Z3 proves logically equivalent —
+  <code>check_equiv</code> returns <code>equivalent=None</code> with a
+  <code>spec_info</code> payload.  Two functions can satisfy
+  <code>"result &gt;= 0"</code> while computing entirely different
+  non-negative values; a matching spec is necessary but not
+  sufficient for code equivalence.
+</div>
 
 <hr>
 
@@ -420,6 +463,50 @@ proof = (Proof("my_sort_a(xs) == my_sort_b(xs)")
 <hr>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<h2 id="conflicts">Axiom Conflict Detection</h2>
+
+<p>
+  When you build an <code>AxiomRegistry</code> from many sources
+  (multiple sidecar files, several modules' axioms, a mix of
+  user-supplied and auto-derived), the registry can flag pairs of
+  axioms that are *syntactically* in conflict — same LHS shape, different
+  RHS shape:
+</p>
+
+<pre><code class="language-python"><span class="kw">from</span> deppy.proofs.pipeline <span class="kw">import</span> AxiomRegistry
+
+reg = AxiomRegistry()
+reg.add_all(axiomize(my_module, module=<span class="st">"demo"</span>), source=<span class="st">"demo"</span>)
+<span class="cm"># ... add more axioms ...</span>
+
+<span class="kw">for</span> a, b, head <span class="kw">in</span> reg.conflicts():
+    <span class="fn">print</span>(<span class="st">f"⚠ axioms {a} and {b} both define {head} differently"</span>)</code></pre>
+
+<div class="note" style="background:#fef3c7;border-left:4px solid #d97706;padding:1rem;margin:1rem 0">
+  <strong><code>conflicts()</code> is purely syntactic.</strong>  It
+  compares axiom endpoints by their string representations
+  (<code>repr</code>).  This means:
+  <ul style="margin:0.5rem 0 0 1.2rem">
+    <li><strong>False positives</strong> — two RHSes that are
+        provably equal but written differently
+        (<code>1 + x</code> vs <code>x + 1</code>) will be flagged
+        as conflicting.</li>
+    <li><strong>False negatives</strong> — two LHSes that are alpha-
+        equivalent but written with different variable names
+        (<code>f(a)</code> vs <code>f(b)</code>) will not match.</li>
+  </ul>
+  <p style="margin:0.75rem 0 0 0">
+    For semantic conflict detection, escalate the candidate pair to
+    <code>check_equiv</code> (which routes through Z3) or
+    <code>check_spec_equiv</code> (which compares spec strings).  The
+    registry's job is just to surface a candidate set fast enough for
+    interactive use.
+  </p>
+</div>
+
+<hr>
+
 <h2 id="manual">Tier 3: Manual Proof Terms</h2>
 
 <div class="tier tier-manual">

@@ -108,7 +108,13 @@ def _get_spec(f: Any) -> _SpecMetadata:
     return spec
 
 
-def guarantee(description: str, *, adds_guarantee: bool = False) -> Callable:
+def guarantee(
+    description: str,
+    *,
+    adds_guarantee: bool = False,
+    trust: str | None = None,
+    confidence: float | None = None,
+) -> Callable:
     """Attach a natural-language postcondition guarantee.
 
     Works on both **functions** and **classes** (including dataclasses)::
@@ -125,13 +131,61 @@ def guarantee(description: str, *, adds_guarantee: bool = False) -> Callable:
         @guarantee("wrapped preserves original spec", adds_guarantee=True)
         def wrapper(fn):
             ...
+
+        # Explicitly annotate the trust class and confidence (used by
+        # the CLI / Lean exporter to decide which backend to try first)
+        @guarantee("result > 0", trust="Z3_VERIFIED")
+        def pos(x): ...
+
+        @guarantee("likely safe", trust="LLM_CHECKED", confidence=0.85)
+        def maybe_safe(x): ...
+
+    ``trust`` must be one of the valid ``TrustLevel`` enum names
+    (``KERNEL`` / ``Z3_VERIFIED`` / ``STRUCTURAL_CHAIN`` / ``LLM_CHECKED``
+    / ``AXIOM_TRUSTED`` / ``EFFECT_ASSUMED`` / ``UNTRUSTED``) or one of
+    the Lean labels (``LEAN_KERNEL_VERIFIED`` / ``LEAN_SYNTAX_COMPLETE``
+    / ``LEAN_EXPORTED`` / ``LEAN_REJECTED``).  An unknown name raises
+    ``ValueError`` at decoration time.
     """
+    if trust is not None:
+        _VALID_TRUST = {
+            # Kernel levels
+            "KERNEL", "Z3_VERIFIED", "STRUCTURAL_CHAIN", "LLM_CHECKED",
+            "AXIOM_TRUSTED", "EFFECT_ASSUMED", "UNTRUSTED",
+            # Lean labels
+            "LEAN_KERNEL_VERIFIED", "LEAN_SYNTAX_COMPLETE", "LEAN_EXPORTED",
+            "LEAN_REJECTED", "LEAN_UNAVAILABLE", "ASSUMPTION_DEPENDENT",
+        }
+        if trust not in _VALID_TRUST:
+            raise ValueError(
+                f"@guarantee(trust={trust!r}): unknown trust level. "
+                f"Use one of: {sorted(_VALID_TRUST)}"
+            )
+    if confidence is not None and not (0.0 <= confidence <= 1.0):
+        raise ValueError(
+            f"@guarantee(confidence={confidence}): must be in [0, 1]"
+        )
+
     def decorator(f):
         spec = _get_spec(f)
         spec.guarantees.append(description)
         if adds_guarantee:
             try:
                 f._deppy_adds_guarantee = True  # type: ignore[attr-defined]
+            except (AttributeError, TypeError):
+                pass
+        if trust is not None:
+            try:
+                # Keep last-write-wins semantics when multiple
+                # ``@guarantee`` decorators stack with different
+                # ``trust=`` annotations — the outermost wins, which
+                # is what the user sees.
+                f._deppy_trust = trust  # type: ignore[attr-defined]
+            except (AttributeError, TypeError):
+                pass
+        if confidence is not None:
+            try:
+                f._deppy_confidence = confidence  # type: ignore[attr-defined]
             except (AttributeError, TypeError):
                 pass
         return f
@@ -931,12 +985,29 @@ def get_global_kernel() -> ProofKernel:
     return _GLOBAL_KERNEL
 
 
-def verify(f_or_target=None):
-    """Decorator that runs verification at decoration time.
+def verify(f_or_target=None, *, raise_on_failure: bool = False):
+    """Decorator that records a verification attempt at decoration time.
+
+    The OLD implementation wrapped every guarantee in
+    ``by_structural(f"auto-verify: {g}")`` — i.e. a pinky-promise
+    delegated to ``_verify_structural`` — and stored the result without
+    raising on failure.  Readers saw ``@verify`` and reasonably
+    concluded their function had been verified; neither was true.
+
+    The new implementation:
+
+    * attempts a real discharge first (``by_z3``) and falls back to
+      ``by_structural`` only when Z3 can't be called or rejects the
+      formula;
+    * records each result with the actual trust level so downstream
+      code can tell kernel-checked apart from pinky-promised;
+    * if ``raise_on_failure=True``, raises ``VerificationError`` on any
+      failed sub-goal — the only way to make verification a hard gate
+      at decoration time.
 
     Two usage modes:
 
-    1. Bare decorator (verifies decorated function)::
+    1. Bare decorator (records verification of the decorated function)::
 
         @verify
         @guarantee("result >= 0")
@@ -949,27 +1020,76 @@ def verify(f_or_target=None):
         def factorial_spec(n: Nat) -> Pos:
             ...
 
-    The function is usable normally; verification results are stored
-    in f._deppy_verification.
+    The function is usable normally; verification results are stored in
+    ``f._deppy_verification``.  Check
+    ``all(r.trust_level >= TrustLevel.Z3_VERIFIED for r in
+    f._deppy_verification)`` to gate on real verification.
     """
-    def _do_verify(f):
+    def _do_verify(f, *, _raise=raise_on_failure):
         spec = _get_spec(f)
         kernel = get_global_kernel()
 
         results: list[VerificationResult] = []
         for g in spec.guarantees:
-            result = (
-                Proof(g)
-                .using(kernel)
-                .by_structural(f"auto-verify: {g}")
-                .qed()
-            )
+            # Try Z3 first — that's the only path that gives
+            # Z3_VERIFIED trust.  Fall back to by_structural only if Z3
+            # is unavailable or rejects the formula outright.  When
+            # Z3 raises (crash / parse error) we DO NOT silently
+            # downgrade — we record the original exception in the
+            # final result's message via error code E-VERIFY-Z3-CRASH
+            # so users can tell "Z3 disagreed" from "Z3 broke".
+            z3_error: str | None = None
+            try:
+                result = (
+                    Proof(g)
+                    .using(kernel)
+                    .by_z3(g)
+                    .qed()
+                )
+            except Exception as exc:
+                result = None
+                z3_error = (
+                    f"E-VERIFY-Z3-CRASH: {type(exc).__name__}: {exc}"
+                )
+
+            if result is None or not result.success:
+                msg_suffix = (f" [{z3_error}]" if z3_error else "")
+                result = (
+                    Proof(g)
+                    .using(kernel)
+                    .by_structural(
+                        f"auto-verify-fallback: {g}{msg_suffix}"
+                    )
+                    .qed()
+                )
+                # Annotate the result so callers can tell the fallback
+                # was driven by a Z3 crash rather than a clean reject.
+                if z3_error is not None:
+                    try:
+                        # ``message`` is the kernel-supplied diagnostic;
+                        # we append our crash report so it's visible in
+                        # both ``cert.summary()`` and JSON output.
+                        result.message = (
+                            (result.message or "")
+                            + f" | {z3_error}"
+                        )
+                    except (AttributeError, TypeError):
+                        pass
             results.append(result)
 
         try:
             f._deppy_verification = results  # type: ignore[attr-defined]
         except (AttributeError, TypeError):
             pass
+
+        if _raise:
+            failed = [r for r in results if not r.success]
+            if failed:
+                raise VerificationError(
+                    f"{getattr(f, '__name__', repr(f))}: "
+                    f"{len(failed)}/{len(results)} guarantees failed; "
+                    f"first failure: {failed[0].message}"
+                )
         return f
 
     # @verify("module.func") — called with a string target
@@ -981,7 +1101,6 @@ def verify(f_or_target=None):
             except (AttributeError, TypeError):
                 pass
             return _do_verify(f)
-            return _do_verify(f)
         return decorator
 
     # @verify — bare decorator (f_or_target is the function itself)
@@ -990,6 +1109,12 @@ def verify(f_or_target=None):
 
     # @verify() — called with no args
     return _do_verify
+
+
+class VerificationError(AssertionError):
+    """Raised by ``@verify(raise_on_failure=True)`` when a guarantee
+    does not discharge to Z3 or an explicit proof — i.e. the decorator
+    is being used as a hard gate and the gate failed."""
 
 
 # ═══════════════════════════════════════════════════════════════════

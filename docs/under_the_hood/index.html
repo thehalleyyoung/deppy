@@ -226,19 +226,99 @@
 <h2 id="tcb">The Trusted Computing Base</h2>
 
 <p>
-  The proof kernel is deliberately small: approximately <strong>1,700 lines</strong>
-  of Python in <code>src/deppy/hybrid/core/kernel.py</code>. Everything outside the
-  kernel — the elaborator, the proof search strategies, the NL parser, the caching
-  layer — is <em>untrusted</em>. If a bug in the elaborator produces a bogus proof
-  term, the kernel will reject it.
+  The proof kernel is deliberately small: approximately <strong>2,500 lines</strong>
+  of Python in <code>deppy/core/kernel.py</code>, plus
+  <code>deppy/core/formal_ops.py</code> and
+  <code>deppy/core/types.py</code> (the syntactic term / type
+  representation).  Everything outside those three files — the
+  elaborator, the proof search strategies, the Z3 bridge, the Lean
+  translator, the caching layer, the whole <code>deppy/pipeline/</code>
+  subsystem — is <em>untrusted</em>.  If a bug outside the TCB produces
+  a bogus proof term, the kernel rejects it; if a bug <em>inside</em>
+  the TCB accepts a bogus proof, that's a soundness bug.
 </p>
 
 <p>
-  The kernel accepts a <code>ProofTerm</code> and a <code>ProofGoal</code> and returns
-  either <code>Verified</code> or <code>Rejected(reason)</code>. It does this by
-  structural recursion on the proof term, checking each constructor against its
-  corresponding typing rule.
+  The kernel accepts a <code>ProofTerm</code> and a
+  <code>Judgment</code> (the goal) and returns a
+  <code>VerificationResult</code>.  The result carries:
 </p>
+<ul>
+  <li><code>success</code> — True/False;</li>
+  <li><code>trust_level</code> — one of the seven kernel trust levels
+      (KERNEL / Z3_VERIFIED / STRUCTURAL_CHAIN / LLM_CHECKED /
+       AXIOM_TRUSTED / EFFECT_ASSUMED / UNTRUSTED — see
+      <a href="../part4/trust_levels.html#four-levels">Trust Levels</a>);</li>
+  <li><code>message</code> — diagnostic;</li>
+  <li><code>sub_results</code> — the same info recursively for
+      sub-proofs.</li>
+</ul>
+
+<p>
+  The kernel operates by structural recursion on the proof term,
+  checking each constructor against its corresponding typing rule.
+  The full proof-term constructor roster (defined in
+  <code>deppy/core/kernel.py</code>):
+</p>
+<ul>
+  <li><strong>Equality / paths</strong> —
+      <code>Refl</code>, <code>Sym</code>, <code>Trans</code>,
+      <code>Cong</code>, <code>Ap</code>, <code>FunExt</code>,
+      <code>TransportProof</code>, <code>PathComp</code>,
+      <code>DuckPath</code>, <code>CechGlue</code>,
+      <code>Univalence</code></li>
+  <li><strong>Induction / case-analysis</strong> —
+      <code>ListInduction</code>, <code>NatInduction</code>,
+      <code>Cases</code>, <code>Fiber</code></li>
+  <li><strong>Logical glue</strong> —
+      <code>Cut</code>, <code>Assume</code>, <code>Ext</code>,
+      <code>Rewrite</code>, <code>Unfold</code></li>
+  <li><strong>External / opaque</strong> —
+      <code>AxiomInvocation</code>, <code>Z3Proof</code>,
+      <code>Structural</code></li>
+  <li><strong>Effect / safety</strong> —
+      <code>EffectWitness</code>, <code>ConditionalEffectWitness</code>,
+      <code>SourceDischarge</code>, <code>SemanticSafetyWitness</code>,
+      <code>ModuleSafetyComposition</code>,
+      <code>TerminationObligation</code>, <code>SafetyObligation</code></li>
+  <li><strong>Patches / fibers</strong> —
+      <code>Patch</code></li>
+</ul>
+
+<p>
+  Each constructor has a corresponding <code>_verify_*</code> method
+  on <code>ProofKernel</code>.  Several were tightened in the
+  recent honesty pass and now <strong>fail</strong> rather than
+  silently downgrade:
+</p>
+<ul>
+  <li><code>_verify_unfold</code> without a sub-proof returns
+      <code>UNTRUSTED</code> (was: <code>STRUCTURAL_CHAIN</code>).</li>
+  <li><code>_verify_fiber</code> over a <code>UnionType</code> with
+      uncovered alternatives <strong>fails</strong> with code
+      <code>E003e</code> (was: downgrade only).</li>
+  <li><code>_verify_duck_path</code> with missing protocol methods
+      <strong>fails</strong> with code <code>E003f</code> (was:
+      downgrade only).</li>
+  <li><code>_verify_transport</code> rejects motives whose AST shape
+      can't be a type family (literal bodies, pair projections,
+      arity-incompatible lambdas) with code <code>E003g</code>.</li>
+  <li><code>_verify_structural</code> still returns
+      <code>STRUCTURAL_CHAIN</code> trust — it's a deliberate escape
+      hatch.  Use <code>ProofCertificate.kernel_verified</code>
+      downstream to refuse proofs containing structural leaves.</li>
+</ul>
+
+<div class="note" style="background:#fef3c7;border-left:4px solid #d97706;padding:1rem;margin:1rem 0">
+  <strong>Two kernels, not one.</strong>  Deppy's own kernel (trust
+  level <code>KERNEL</code>) is independent of Lean's kernel (trust
+  label <code>LEAN_KERNEL_VERIFIED</code>).  A proof can be
+  KERNEL-verified by deppy — meaning every step was checked by
+  <code>ProofKernel.verify</code> — without Lean ever running.  To
+  get Lean's assurance, call
+  <code>cert.verify_with_lean()</code>.  See
+  <a href="lean.html">Lean export</a>.
+</div>
 
 <h3 id="proof-terms">Proof Term Constructors</h3>
 

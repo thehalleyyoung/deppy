@@ -230,7 +230,7 @@ ite_example = <span class="ty">Ite</span>(<span class="ty">Tru</span>(), <span c
             <span class="kw">return</span> <span class="kw">None</span>
 
     <span class="kw">return</span> <span class="kw">None</span></code></pre>
-    <p class="verified">Z3_PROVEN — type_of is total and deterministic</p>
+    <p class="verified">Z3_VERIFIED — type_of is total and deterministic</p>
 
     <h2>Step 4: Substitution</h2>
     <p>
@@ -392,7 +392,7 @@ ite_example = <span class="ty">Ite</span>(<span class="ty">Tru</span>(), <span c
         </div>
       </div>
     </div>
-    <p class="verified">Z3_PROVEN — Progress theorem verified</p>
+    <p class="verified">Z3_VERIFIED — Progress theorem verified</p>
 
     <h2>Step 7: Preservation</h2>
     <p>
@@ -474,7 +474,7 @@ ite_example = <span class="ty">Ite</span>(<span class="ty">Tru</span>(), <span c
         </div>
       </div>
     </div>
-    <p class="verified">Z3_PROVEN — Preservation theorem verified</p>
+    <p class="verified">Z3_VERIFIED — Preservation theorem verified</p>
 
     <h2>Type Soundness</h2>
     <p>
@@ -535,14 +535,14 @@ ite_example = <span class="ty">Ite</span>(<span class="ty">Tru</span>(), <span c
 <pre><code><span class="cm"># Verify the entire STLC development:</span>
 $ deppy verify examples/part2/stlc.py
 <span class="cm">#</span>
-<span class="cm"># ✅ type_of      — verified (Z3_PROVEN)</span>
-<span class="cm"># ✅ shift        — verified (Z3_PROVEN)</span>
-<span class="cm"># ✅ subst        — verified (Z3_PROVEN)</span>
-<span class="cm"># ✅ subst_top    — verified (Z3_PROVEN)</span>
-<span class="cm"># ✅ step         — verified (Z3_PROVEN)</span>
-<span class="cm"># ✅ progress     — verified (Z3_PROVEN)</span>
-<span class="cm"># ✅ preservation — verified (Z3_PROVEN)</span>
-<span class="cm"># ✅ soundness    — verified (Z3_PROVEN)</span>
+<span class="cm"># ✅ type_of      — verified (Z3_VERIFIED)</span>
+<span class="cm"># ✅ shift        — verified (Z3_VERIFIED)</span>
+<span class="cm"># ✅ subst        — verified (Z3_VERIFIED)</span>
+<span class="cm"># ✅ subst_top    — verified (Z3_VERIFIED)</span>
+<span class="cm"># ✅ step         — verified (Z3_VERIFIED)</span>
+<span class="cm"># ✅ progress     — verified (Z3_VERIFIED)</span>
+<span class="cm"># ✅ preservation — verified (Z3_VERIFIED)</span>
+<span class="cm"># ✅ soundness    — verified (Z3_VERIFIED)</span>
 <span class="cm">#</span>
 <span class="cm"># All 8 obligations discharged. 0 warnings.</span></code></pre>
 

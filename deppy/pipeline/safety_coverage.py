@@ -195,6 +195,15 @@ def _source_addressed_by_sidecar(src: ExceptionSource, spec) -> bool:
         return False
     if getattr(spec, "is_total", False):
         return True
+    # RUNTIME_ERROR (recursion) is addressed iff the spec provides a
+    # `decreases` measure — that's what feeds into the kernel's
+    # TerminationObligation.  Without one the source remains open
+    # so the user gets a clear signal to add a measure.
+    from deppy.pipeline.exception_sources import ExceptionKind as _EK
+    if src.kind is _EK.RUNTIME_ERROR:
+        if list(getattr(spec, "decreases", None) or []):
+            return True
+        return False
     target_cls = _exception_class_for(src)
     raises = getattr(spec, "raises_declarations", None) or []
     for cls, _cond in raises:
@@ -223,7 +232,8 @@ def _source_addressed_by_sidecar(src: ExceptionSource, spec) -> bool:
     if not _variables_overlap(combined, safety_pred):
         return False
     kernel = ProofKernel()
-    return bool(kernel._z3_check(f"({combined}) => ({safety_pred})"))
+    verdict, _reason = kernel._z3_check(f"({combined}) => ({safety_pred})")
+    return bool(verdict)
 
 
 def _free_names(expr: str) -> set[str]:
@@ -281,10 +291,22 @@ def build_coverage(
         addressed: list[ExceptionSource] = []
         unaddressed: list[ExceptionSource] = []
         for src in fn_summary.uncaught_sources:
+            # First check if sidecar addresses it
             if _source_addressed_by_sidecar(src, spec):
                 addressed.append(src)
             else:
-                unaddressed.append(src)
+                # Unconditionally safe sources have a literal "True"
+                # predicate (with no synthetic markers).  A
+                # synthetic-marker predicate ("callee_safe(...)",
+                # "decreases_measure_provided", etc.) is *not*
+                # unconditionally safe — those need a real spec to
+                # discharge.
+                safety_pred = safety_predicate_for(src)
+                if (not is_synthetic_predicate(safety_pred)
+                        and _normalize_formula(safety_pred) == "True"):
+                    addressed.append(src)
+                else:
+                    unaddressed.append(src)
         report.functions[fn_summary.name] = FunctionCoverage(
             name=fn_summary.name,
             total_sources=fn_summary.total_sources,

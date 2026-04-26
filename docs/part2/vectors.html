@@ -147,7 +147,7 @@ v3: <span class="ty">Vec</span>[<span class="ty">int</span>, <span class="ty">Na
 x  = <span class="fn">head</span>(v3)        <span class="cm"># ✅ — Z3 proves 3 &gt; 0</span>
 v2 = <span class="fn">tail</span>(v3)        <span class="cm"># ✅ — v2 : Vec[int, 2]</span>
 <span class="cm"># head(nil())         # ❌ — Z3 refutes 0 &gt; 0</span></code></pre>
-    <p class="verified">Z3_PROVEN — IndexError impossible</p>
+    <p class="verified">Z3_VERIFIED — IndexError impossible</p>
 
     <h2>Append with Length Addition</h2>
 <pre><code><span class="dc">@guarantee</span>(<span class="st">"result length == len(a) + len(b)"</span>)

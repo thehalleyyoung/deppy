@@ -86,6 +86,39 @@
       Verified concurrent Python — locks, data races, and the GIL
     </p>
 
+    <div class="note" style="background:#ecfdf5;border-left:4px solid #059669;padding:1rem;margin:1rem 0">
+      <strong>APIs you'll see in this chapter</strong>.  All of the
+      following are real, runtime-checked Python — not aspirational
+      pseudocode:
+      <ul style="margin:0.5rem 0 0 1.2rem">
+        <li><code>Lock(invariant=callable, invariant_sketch=str)</code> —
+            on acquire/release, the invariant predicate is called with
+            the shared state; failure raises
+            <code>InvariantViolation</code>.</li>
+        <li><code>AtomicCell</code> + <code>atomic_cas(cell, expected, new)</code>
+            — CAS with a cubical <code>PathAbs</code> history (each
+            successful swap appends a non-trivial path; failure appends
+            a reflexive one).</li>
+        <li><code>Semaphore(count, invariant=...)</code> — counting
+            semaphore that checks the invariant on every acquire and
+            release.</li>
+        <li><code>spawn(fn, reads=..., writes=...)</code> and
+            <code>join_all(patches)</code> — thread spawn with the
+            Čech cocycle condition checked in <code>join_all</code>;
+            overlapping writes raise <code>RaceViolation</code>.</li>
+        <li><code>@parallel_safe</code> — runs lexical shared-state
+            analysis at decoration and raises on unprotected writes.</li>
+      </ul>
+      <p style="margin:0.75rem 0 0 0">
+        Import from <code>deppy.concurrency</code> or directly from
+        <code>deppy</code>.  What's NOT checked: general
+        deadlock detection, full happens-before reasoning, and
+        unannotated shared reads.  Passing
+        <code>reads=</code>/<code>writes=</code> to <code>spawn</code>
+        is how you tell the cocycle check what each thread touches.
+      </p>
+    </div>
+
     <div class="important">
       This chapter is <strong>unique to Deppy</strong>. F*'s Pulse targets
       extracted C code and does not model Python's Global Interpreter Lock,

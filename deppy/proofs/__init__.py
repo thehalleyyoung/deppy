@@ -13,6 +13,25 @@ from deppy.proofs.sugar import (
     set_global_kernel, get_global_kernel,
 )
 
+# Cubical proof language and five-stage pipeline
+from deppy.proofs.language import (
+    CodeAxiom, UnfoldError, Goal, Tactic, T,
+    function_to_axioms, class_to_axioms,
+    install, eq, prove,
+    AXIOM_SUFFIX_DEF, AXIOM_SUFFIX_CASE, AXIOM_SUFFIX_DEFAULT,
+    AXIOM_SUFFIX_FOLD, AXIOM_SUFFIX_INDUCTION, AXIOM_SUFFIX_INIT,
+    AXIOM_SUFFIX_PROPERTY, AXIOM_SUFFIX_INHERITED,
+    axiom_case_suffix,
+)
+from deppy.proofs.pipeline import (
+    AxiomRegistry, AxiomMeta,
+    axiomize, deep_function_to_axioms, deep_class_to_axioms,
+    foldl_universal_axioms, register_universal_axioms,
+    Tactics, TFirst, TRepeat, TSimpWith, TIntro, TCases, TInduction,
+    ProofTreeNode, ProofCertificate, prove_certificate,
+    ProofScript, verify_proof_script,
+)
+
 __all__ = [
     # Decorators
     "guarantee", "requires", "ensures", "pure", "reads", "mutates",
@@ -32,4 +51,20 @@ __all__ = [
     "given", "extract_spec",
     # Kernel management
     "set_global_kernel", "get_global_kernel",
+    # Cubical proof language
+    "CodeAxiom", "UnfoldError", "Goal", "Tactic", "T",
+    "function_to_axioms", "class_to_axioms", "install", "eq", "prove",
+    # Axiom-name grammar (single source of truth)
+    "AXIOM_SUFFIX_DEF", "AXIOM_SUFFIX_CASE", "AXIOM_SUFFIX_DEFAULT",
+    "AXIOM_SUFFIX_FOLD", "AXIOM_SUFFIX_INDUCTION", "AXIOM_SUFFIX_INIT",
+    "AXIOM_SUFFIX_PROPERTY", "AXIOM_SUFFIX_INHERITED",
+    "axiom_case_suffix",
+    # Five-stage cubical pipeline
+    "AxiomRegistry", "AxiomMeta",
+    "axiomize", "deep_function_to_axioms", "deep_class_to_axioms",
+    "foldl_universal_axioms", "register_universal_axioms",
+    "Tactics", "TFirst", "TRepeat", "TSimpWith",
+    "TIntro", "TCases", "TInduction",
+    "ProofTreeNode", "ProofCertificate", "prove_certificate",
+    "ProofScript", "verify_proof_script",
 ]

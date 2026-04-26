@@ -39,6 +39,14 @@ def infer_module_specs(source: str) -> dict[str, FunctionAutoSpec]:
     return AutoSpecGenerator().generate_specs(source)
 
 
+def _refinement_facts_for(source: str) -> dict:
+    """Memoized accessor for ``infer_refinements`` so callers can mix
+    the path-sensitive analyzer's output with the existing
+    spec-generation flow without paying the AST walk twice."""
+    from deppy.pipeline.refinement_inference import infer_refinements
+    return infer_refinements(source)
+
+
 def _spec_for_function(fn_name: str, auto: FunctionAutoSpec) -> ExternalSpec:
     """Project a FunctionAutoSpec into a draft ExternalSpec."""
     pre: list[str] = []
@@ -92,14 +100,36 @@ def _spec_for_function(fn_name: str, auto: FunctionAutoSpec) -> ExternalSpec:
 
 def draft_specs_to_sidecar(
     inferred: dict[str, FunctionAutoSpec],
+    *,
+    refinement_maps: Optional[dict] = None,
 ) -> dict[str, ExternalSpec]:
     """Convert a mapping of FunctionAutoSpec → draft ExternalSpec.
 
     All resulting specs are tagged UNTRUSTED — they are *suggestions*
     for the LLM/user to refine and re-emit at higher trust.
+
+    When ``refinement_maps`` is supplied (a
+    ``{name: RefinementMap}`` from
+    :func:`deppy.pipeline.refinement_inference.infer_refinements`), the
+    bridge folds each function's ``function_wide_preconditions`` into
+    the resulting spec's ``exception_free_when`` *and*
+    ``preconditions``.  This is what lets ``def f(x): if x < 0:
+    raise; ...`` auto-generate a draft equivalent to a hand-written
+    ``ExternalSpec(exception_free_when=["x >= 0"])``.
     """
-    return {name: _spec_for_function(name, auto)
-            for name, auto in inferred.items()}
+    out: dict[str, ExternalSpec] = {}
+    refinements = refinement_maps or {}
+    for name, auto in inferred.items():
+        spec = _spec_for_function(name, auto)
+        rmap = refinements.get(name)
+        if rmap is not None and rmap.function_wide_preconditions:
+            for pre in rmap.function_wide_preconditions:
+                if pre not in spec.preconditions:
+                    spec.preconditions.append(pre)
+                if pre not in spec.exception_free_when:
+                    spec.exception_free_when.append(pre)
+        out[name] = spec
+    return out
 
 
 def merge_drafts_with_sidecar(

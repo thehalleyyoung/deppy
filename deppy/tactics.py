@@ -1,7 +1,23 @@
 """
-deppy.tactics — Tactic-based proof construction.
+deppy.tactics — **inert stub module** (illustrative only).
 
-Provides tactic combinators for ``from deppy.tactics import Tactic, intro, apply``.
+This module predates the real proof DSL at ``deppy.proofs.tactics`` +
+``deppy.proofs.language`` + ``deppy.proofs.pipeline``.  Nothing here
+runs against the kernel:
+
+* ``Tactic.apply(state)`` returns ``state`` unchanged;
+* every constructor (``intro``, ``apply``, ``rewrite``, ``induction``,
+  ``univalence``, ``funext``, …) returns a ``Tactic(name=...)`` data
+  object with no behaviour;
+* combinators (``then``, ``or_else``, ``repeat``, ``all_goals``)
+  decorate the string name and nothing else.
+
+**Do not use this module for verification.**  Use the real proof DSL:
+
+    from deppy.proofs import T, Tactics, ProofScript, verify_proof_script
+
+Kept for backward compatibility with code that imports the names;
+future releases may remove it.
 """
 from __future__ import annotations
 from typing import Any, Callable, Optional

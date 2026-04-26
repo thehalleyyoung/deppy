@@ -7,7 +7,8 @@ works as shown in the Deppy tutorial book.
 from __future__ import annotations
 
 from deppy.core.kernel import (          # noqa: F401
-    DuckPath, TransportProof, PathComp, Ap, FunExt,
+    DuckPath, ConditionalDuckPath, FiberedLookup,
+    TransportProof, PathComp, Ap, FunExt,
     CechGlue, Univalence, Fiber, Patch, Refl, Sym, Trans, Cong,
 )
 from deppy.core.types import PathType    # noqa: F401
@@ -78,14 +79,50 @@ class Fibration:
     def from_metaclass(cls, metaclass):
         """Construct a Fibration from a metaclass.
 
-        The metaclass is treated as the base space, and instances of classes
-        using that metaclass form the total space.
+        Mirrors :meth:`deppy.core.kernel.Fiber.from_metaclass`: the
+        metaclass forms the *base space* and the breadth-first
+        ``__subclasses__()`` closure forms the *total space*.
+
+        Validation:
+
+        * ``metaclass`` must itself be a Python class
+          (``isinstance(metaclass, type)``) — otherwise a
+          :class:`TypeError` is raised so the caller cannot pass a
+          random instance and quietly get an empty fibration.
+
+        The constructed object exposes the enumerated subclass list
+        on ``self.subclasses`` for downstream consumers.
         """
-        return cls(
-            total_space=metaclass,
+        if not isinstance(metaclass, type):
+            raise TypeError(
+                f"Fibration.from_metaclass: expected a class (typically a "
+                f"metaclass), got {type(metaclass).__name__}"
+            )
+
+        seen: set = set()
+        subclasses: list = []
+        queue = [metaclass]
+        while queue:
+            cls_ = queue.pop(0)
+            if cls_ in seen:
+                continue
+            seen.add(cls_)
+            try:
+                children = cls_.__subclasses__()
+            except TypeError:
+                children = []
+            for child in children:
+                if child not in seen:
+                    subclasses.append(child)
+                    queue.append(child)
+
+        fib = cls(
+            total_space=tuple(subclasses) or (metaclass,),
             base_space=metaclass,
             projection=lambda x: type(x),
         )
+        fib.subclasses = list(subclasses)
+        return fib
 
 class FiberCheck:
     """Evidence that a value lies in a specific fiber."""

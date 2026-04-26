@@ -42,7 +42,21 @@ from deppy.proofs.sugar import _get_spec, _SpecMetadata, extract_spec
 
 @dataclass
 class LeanCertificate:
-    """Result of compiling Python to Lean 4."""
+    r"""Result of compiling Python to Lean 4.
+
+    Trust levels
+    ------------
+    * ``LEAN_EXPORTED`` (default) — we emitted Lean source but have
+      NOT invoked ``lean`` to check it.  The file may be syntactically
+      incorrect or fail type-checking.  This is the honest default.
+    * ``LEAN_SYNTAX_COMPLETE`` — no ``sorry`` was emitted, so the file
+      is at least nominally complete.  Still not checked by Lean.
+    * ``LEAN_KERNEL_VERIFIED`` — the ``lean`` binary was invoked on the
+      rendered file and returned success.  Only set by
+      :meth:`verify_with_lean`.
+    * ``ASSUMPTION_DEPENDENT`` — the file declares raw ``axiom``\ s
+      (which are unverified assumptions Lean will accept blindly).
+    """
 
     module_name: str
     imports: list[str] = field(default_factory=list)
@@ -50,9 +64,11 @@ class LeanCertificate:
     theorems: list[str] = field(default_factory=list)
     sorry_count: int = 0
     proved_count: int = 0
-    trust_level: str = "LEAN_VERIFIED"
+    trust_level: str = "LEAN_EXPORTED"
     source_file: str = ""
     obligations: list[str] = field(default_factory=list)
+    lean_check_stdout: str = ""
+    lean_check_stderr: str = ""
 
     # ── rendering ────────────────────────────────────────────────
 
@@ -94,7 +110,6 @@ class LeanCertificate:
 
     def summary(self) -> str:
         """Human-readable summary."""
-        total = self.proved_count + self.sorry_count
         lines = [
             f"LeanCertificate '{self.module_name}'",
             f"  declarations: {len(self.declarations)}",
@@ -111,8 +126,96 @@ class LeanCertificate:
         return "\n".join(lines)
 
     @property
-    def is_fully_verified(self) -> bool:
+    def is_syntax_complete(self) -> bool:
+        """The rendered file has no ``sorry`` — a necessary but not
+        sufficient condition for Lean kernel-verification."""
         return self.sorry_count == 0
+
+    @property
+    def is_kernel_verified(self) -> bool:
+        """The Lean kernel was invoked via :meth:`verify_with_lean` and
+        accepted the rendered file."""
+        return self.trust_level == "LEAN_KERNEL_VERIFIED"
+
+    # Kept for backward compatibility with callers that pre-date the
+    # trust-level overhaul.  Prefer :attr:`is_kernel_verified` for a
+    # real "Lean proved it" gate, or :attr:`is_syntax_complete` for a
+    # shallow "no sorry" check.
+    @property
+    def is_fully_verified(self) -> bool:
+        return self.is_kernel_verified
+
+    def verify_with_lean(
+        self,
+        *,
+        lean_cmd: str | None = None,
+        timeout_s: int = 60,
+    ) -> "LeanCertificate":
+        """Invoke the local ``lean`` binary against the rendered file.
+
+        Returns ``self`` with an updated ``trust_level``:
+
+        * ``LEAN_KERNEL_VERIFIED`` if Lean accepts the file;
+        * ``LEAN_REJECTED`` with stderr captured if Lean rejects it;
+        * ``LEAN_UNAVAILABLE`` if the binary is not installed.
+
+        Users must call this explicitly — ``compile_to_lean`` does not
+        run Lean by default because the binary is frequently not
+        present in CI and adds seconds of latency.
+        """
+        import shutil
+        import subprocess
+        import tempfile
+        from pathlib import Path
+
+        if self.sorry_count > 0:
+            self.trust_level = "LEAN_EXPORTED"  # has sorry — don't claim verified
+            self.lean_check_stderr = (
+                f"Skipped: {self.sorry_count} sorry obligations present; "
+                "resolve them before calling verify_with_lean."
+            )
+            return self
+
+        lean_bin = lean_cmd or shutil.which("lean")
+        if not lean_bin:
+            self.trust_level = "LEAN_UNAVAILABLE"
+            self.lean_check_stderr = "lean binary not on PATH"
+            return self
+
+        with tempfile.TemporaryDirectory(prefix="deppy-lean-cert-") as td:
+            path = Path(td) / f"{self.module_name}.lean"
+            path.write_text(self.render(), encoding="utf-8")
+            try:
+                proc = subprocess.run(
+                    [lean_bin, str(path)],
+                    capture_output=True, text=True,
+                    timeout=timeout_s, check=False,
+                )
+            except (FileNotFoundError, PermissionError, OSError) as e:
+                self.trust_level = "LEAN_UNAVAILABLE"
+                self.lean_check_stderr = f"failed to execute {lean_bin}: {e}"
+                return self
+            except subprocess.TimeoutExpired as e:
+                self.trust_level = "LEAN_REJECTED"
+                # e.stdout / e.stderr can be bytes in older Python versions
+                e_out = e.stdout
+                e_err = e.stderr
+                self.lean_check_stdout = (
+                    e_out.decode() if isinstance(e_out, bytes) else (e_out or "")
+                )
+                self.lean_check_stderr = (
+                    (e_err.decode() if isinstance(e_err, bytes) else (e_err or ""))
+                    + f"\n<timeout after {timeout_s}s>"
+                )
+                return self
+
+        self.lean_check_stdout = proc.stdout
+        self.lean_check_stderr = proc.stderr
+        if proc.returncode == 0:
+            self.trust_level = "LEAN_KERNEL_VERIFIED"
+        else:
+            self.trust_level = "LEAN_REJECTED"
+        return self
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -1399,17 +1502,32 @@ def _resolve_target(target: Any) -> tuple[list[Callable], str, str]:
 # ═══════════════════════════════════════════════════════════════════
 
 def _compute_trust_level(sorry_count: int, lean_text: str) -> str:
-    """Determine the trust level for the certificate.
+    """Determine the trust level for the certificate *before* Lean runs.
 
-    - LEAN_VERIFIED:          0 sorry's and 0 axioms beyond Mathlib
-    - LEAN_EXPORTED:          sorry's present
-    - ASSUMPTION_DEPENDENT:   axiom declarations present
+    This function is called by ``compile_to_lean`` which only emits the
+    Lean source — it does not invoke the ``lean`` binary.  Its verdict
+    is therefore syntactic:
+
+    * ``ASSUMPTION_DEPENDENT`` — the file declares raw ``axiom``\\ s, so
+      any theorem whose proof routes through them inherits that
+      assumption.  Lean accepts axioms by definition, so running Lean
+      won't change this verdict.
+    * ``LEAN_EXPORTED`` — one or more ``sorry`` holes are present or
+      we couldn't rule out axioms; the file is not a complete proof.
+    * ``LEAN_SYNTAX_COMPLETE`` — no ``sorry``, no raw axioms, but Lean
+      has *not* been run.  To obtain ``LEAN_KERNEL_VERIFIED`` the
+      caller must invoke ``LeanCertificate.verify_with_lean()``.
+
+    The former ``LEAN_VERIFIED`` label — which only required
+    ``sorry_count == 0`` — was misleading because it implied Lean had
+    checked the file.  It never had; Lean was only invoked if the user
+    called :meth:`LeanCertificate.verify_with_lean` explicitly.
     """
     has_axiom = "axiom " in lean_text
-    if sorry_count == 0 and not has_axiom:
-        return "LEAN_VERIFIED"
     if has_axiom:
         return "ASSUMPTION_DEPENDENT"
+    if sorry_count == 0:
+        return "LEAN_SYNTAX_COMPLETE"
     return "LEAN_EXPORTED"
 
 

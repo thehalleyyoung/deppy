@@ -145,11 +145,11 @@
 
 <pre><code class="output"><span class="cm">$ deppy verify examples/factorial.py</span>
 <span class="cm">  ✓ factorial: structural recursion detected (n ↦ n−1)</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span>
 
 <span class="cm">$ deppy verify examples/sum_list.py</span>
 <span class="cm">  ✓ sum_list: structural recursion detected (xs ↦ xs[1:])</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
 
     <div class="tip">
       <strong>Tip.</strong> Start with simple structural recursion whenever
@@ -186,7 +186,7 @@
 
 <pre><code class="output"><span class="cm">$ deppy verify examples/gcd.py</span>
 <span class="cm">  ✓ gcd: @decreases(b) — Z3 proved a % b &lt; b for b &gt; 0</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
 
     <h3>Example: Binary Search</h3>
 
@@ -220,7 +220,7 @@
 <span class="cm">  ✓ binary_search: @decreases(hi - lo)</span>
 <span class="cm">    — branch xs[mid] &lt; target: hi−(mid+1) &lt; hi−lo  ✓</span>
 <span class="cm">    — branch xs[mid] &gt; target: mid−lo &lt; hi−lo      ✓</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
 
     <!-- ──────────────────────────────────────────── -->
     <h2>Lexicographic Ordering</h2>
@@ -259,7 +259,7 @@
 <span class="cm">    — branch n=0:            (m−1, 1)   &lt;_lex (m, 0)        ✓</span>
 <span class="cm">    — branch else (inner):   (m, n−1)   &lt;_lex (m, n)        ✓</span>
 <span class="cm">    — branch else (outer):   (m−1, _)   &lt;_lex (m, n)        ✓</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
 
     <!-- ──────────────────────────────────────────── -->
     <h2>Fuel-Based Termination</h2>
@@ -286,13 +286,13 @@
 
 <pre><code class="output"><span class="cm">$ deppy verify examples/collatz.py</span>
 <span class="cm">  ⚠ collatz: termination not proven — using fuel budget (1000)</span>
-<span class="cm">  ✓ per-step correctness: Z3_PROVEN</span>
+<span class="cm">  ✓ per-step correctness: Z3_VERIFIED</span>
 <span class="cm">  ◐ termination: FUEL_BOUNDED (trust level reduced)</span></code></pre>
 
     <p>
       The verification level for fuel-bounded functions is
       <strong>FUEL_BOUNDED</strong>, which is weaker than
-      <strong>Z3_PROVEN</strong>. Other functions that depend on a
+      <strong>Z3_VERIFIED</strong>. Other functions that depend on a
       fuel-bounded function inherit the reduced trust level.
     </p>
 
@@ -328,7 +328,7 @@
 <span class="cm">    — r decreases: r − b &lt; r when b &gt; 0    ✓</span>
 <span class="cm">    — r bounded below: r ≥ 0                ✓</span>
 <span class="cm">  ✓ guarantee: a == b * q + r ∧ 0 ≤ r &lt; b  ✓</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
 
     <!-- ──────────────────────────────────────────── -->
     <h2>Mutual Recursion</h2>
@@ -360,7 +360,7 @@
 <span class="cm">  ✓ mutual recursion group: {is_even, is_odd}</span>
 <span class="cm">    — is_even → is_odd(n−1): n−1 &lt; n  ✓</span>
 <span class="cm">    — is_odd → is_even(n−1): n−1 &lt; n  ✓</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
 
     <!-- ──────────────────────────────────────────── -->
     <h2>The <code>@may_diverge</code> Escape Hatch</h2>
@@ -457,7 +457,7 @@
 <span class="cm">    — branch exp even: exp // 2 &lt; exp   ✓</span>
 <span class="cm">    — branch exp odd:  exp − 1 &lt; exp    ✓</span>
 <span class="cm">  ✓ guarantee: base ** exp               ✓</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
 
     <!-- ──────────────────────────────────────────── -->
     <details class="exercise">
@@ -520,7 +520,7 @@
 <span class="cm">    — len(xs[:mid]) &lt; len(xs)  when len(xs) ≥ 2   ✓</span>
 <span class="cm">    — len(xs[mid:]) &lt; len(xs)  when len(xs) ≥ 2   ✓</span>
 <span class="cm">  ✓ guarantee: sorted permutation                  ✓</span>
-<span class="cm">  ✓ termination: Z3_PROVEN</span></code></pre>
+<span class="cm">  ✓ termination: Z3_VERIFIED</span></code></pre>
     </details>
 
     <!-- ──────────────────────────────────────────── -->

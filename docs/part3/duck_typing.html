@@ -222,7 +222,7 @@ print(mp.details())
 <span class="cm">#     "result is a non-empty string":</span>
 <span class="cm">#       Z3 query: len(result) > 0</span>
 <span class="cm">#       Proved by: tag is always non-empty ∧ output contains tag</span>
-<span class="cm">#       Status: Z3_PROVEN ✅</span></code></pre>
+<span class="cm">#       Status: Z3_VERIFIED ✅</span></code></pre>
 
 <h2>Example: The Iterable Protocol</h2>
 
@@ -379,12 +379,12 @@ print(mp.details())
   <span class="cm">│   ├── Return: str ≤ str|bytes  ✓  (str is subtype of union)</span>
   <span class="cm">│   └── Guarantee "returns at most n chars":</span>
   <span class="cm">│       Z3 query: (n ≥ 0) → len(result) ≤ n</span>
-  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">│       Status: Z3_VERIFIED ✅</span>
   <span class="cm">├── readline: (self) → str  ≤  (self) → str|bytes  ✓</span>
   <span class="cm">├── readable: (self) → bool  ≡  (self) → bool  ✓</span>
   <span class="cm">│   └── Guarantee "returns False after close()":</span>
   <span class="cm">│       Z3 query: (self._closed == True) → (result == False)</span>
-  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">│       Status: Z3_VERIFIED ✅</span>
   <span class="cm">├── close:    (self) → None  ≡  (self) → None  ✓</span>
   <span class="cm">└── Status: VALID ✅</span>
 
@@ -716,20 +716,20 @@ print(mp.details())
   <span class="cm">│   │     ∀ a_k b_k : Real.</span>
   <span class="cm">│   │       (a_k ≥ 0 ∧ b_k ≥ 0) →</span>
   <span class="cm">│   │       ((a_k ≤ b_k ∧ b_k ≤ a_k) → a_k == b_k)</span>
-  <span class="cm">│   │   Status: Z3_PROVEN ✅</span>
+  <span class="cm">│   │   Status: Z3_VERIFIED ✅</span>
   <span class="cm">│   └── Guarantee "transitive":</span>
   <span class="cm">│       Z3 encoding:</span>
   <span class="cm">│         ∀ a_k b_k c_k : Real.</span>
   <span class="cm">│         (a_k ≥ 0 ∧ b_k ≥ 0 ∧ c_k ≥ 0) →</span>
   <span class="cm">│         ((a_k ≤ b_k ∧ b_k ≤ c_k) → a_k ≤ c_k)</span>
-  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">│       Status: Z3_VERIFIED ✅</span>
   <span class="cm">├── __lt__:</span>
   <span class="cm">│   └── Guarantee "consistent with __le__":</span>
   <span class="cm">│       Z3 encoding:</span>
   <span class="cm">│         ∀ a_k b_k : Real.</span>
   <span class="cm">│         (a_k ≥ 0 ∧ b_k ≥ 0) →</span>
   <span class="cm">│         ((a_k < b_k) ↔ (a_k ≤ b_k ∧ a_k ≠ b_k))</span>
-  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">│       Status: Z3_VERIFIED ✅</span>
   <span class="cm">└── Status: VALID ✅</span></code></pre>
 
 <div class="tip">

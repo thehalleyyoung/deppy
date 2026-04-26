@@ -402,6 +402,15 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._module_sources = []
         self._current_function = "<module>"
         self._in_function = False
+        
+        # Pre-pass: collect all function names defined in this module
+        # to avoid NAME_ERROR false positives on function calls
+        module_function_names = set()
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                module_function_names.add(node.name)
+        self._module_function_names = module_function_names
+        
         self.visit(tree)
         return ModuleSourceSummary(
             module_path=self._filename,
@@ -418,6 +427,22 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._current_class = class_name
         self._sources = []
         self._in_function = True
+
+        # Extract parameter names to avoid NAME_ERROR false positives
+        param_names = set()
+        if hasattr(node, 'args'):
+            args = node.args
+            param_names.update(arg.arg for arg in getattr(args, 'args', []))
+            param_names.update(arg.arg for arg in getattr(args, 'posonlyargs', []))
+            param_names.update(arg.arg for arg in getattr(args, 'kwonlyargs', []))
+            if getattr(args, 'vararg', None):
+                param_names.add(args.vararg.arg)
+            if getattr(args, 'kwarg', None):
+                param_names.add(args.kwarg.arg)
+        
+        # Store parameter names for NAME_ERROR visitor
+        old_params = getattr(self, '_current_function_params', set())
+        self._current_function_params = param_names
 
         # ROUND 5 FIX: Split definition-time vs runtime hazards
         # Definition-time: decorators, defaults, annotations execute at import
@@ -464,6 +489,10 @@ class ExceptionSourceFinder(ast.NodeVisitor):
 
         (self._current_function, self._current_class,
          self._sources, self._in_function) = saved
+        
+        # Restore parameter names
+        self._current_function_params = old_params
+        
         return summary
 
     def analyze_source(self, source: str,
@@ -801,6 +830,25 @@ class ExceptionSourceFinder(ast.NodeVisitor):
     def visit_Name(self, node: ast.Name) -> None:
         """Detect NAME_ERROR from undefined variable access."""
         if isinstance(node.ctx, ast.Load):
+            # ROUND 4 FIX: Don't flag function parameters as NAME_ERROR
+            # Parameters are guaranteed to be defined when function is called
+            if hasattr(self, '_current_function_params'):
+                if node.id in self._current_function_params:
+                    self.generic_visit(node)
+                    return
+                    
+            # Don't flag module-level function names as NAME_ERROR
+            if hasattr(self, '_module_function_names'):
+                if node.id in self._module_function_names:
+                    self.generic_visit(node)
+                    return
+                    
+            # Also skip common built-ins that are likely defined
+            common_builtins = {'len', 'str', 'int', 'float', 'bool', 'list', 'dict', 'set', 'tuple'}
+            if node.id in common_builtins:
+                self.generic_visit(node)
+                return
+                
             # Variable read that could be undefined
             self._add_source(
                 ExceptionKind.NAME_ERROR,

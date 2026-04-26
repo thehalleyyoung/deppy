@@ -1,7 +1,22 @@
 """
-deppy.z3_bridge — Public re-export of Z3 bridge utilities.
+deppy.z3_bridge — public re-export of the Z3 bridge + two naming-only
+helpers (``encode_type`` / ``is_subtype``) plus a real Z3 identity
+prover (``z3_prove_real_identity``).
 
-For ``from deppy.z3_bridge import encode_type, is_subtype``.
+Honest caveats:
+
+* ``encode_type(typ)`` returns a **string label** such as ``"Int"`` or
+  ``"Seq(Int)"``.  No Z3 encoding is performed — the string is never
+  fed to Z3 by anything in this module.  Use ``PredicateTranslator``
+  or ``ArithmeticEncoder`` from ``deppy.core.z3_bridge`` for real Z3
+  encoding.
+* ``is_subtype(sub, sup)`` delegates to Python's runtime
+  ``issubclass``; it does NOT use Z3 despite the module name.
+* ``z3_prove_real_identity`` DOES run Z3 and is a real check.
+
+The thinly-labelled helpers are kept for backward compatibility with
+tutorial code.  For SMT-backed subtyping escalate to
+``deppy.core.z3_bridge``.
 """
 from __future__ import annotations
 

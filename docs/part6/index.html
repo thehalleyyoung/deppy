@@ -86,6 +86,57 @@
       Separation logic, mutable state, and verified concurrent Python
     </p>
 
+    <div class="note" style="background:#ecfdf5;border-left:4px solid #059669;padding:1rem;margin:1.5rem 0">
+      <strong>What's real today.</strong>  As of the latest deppy
+      release the following chapters' APIs are all <em>real</em>
+      runtime-enforced constructs, not metadata stubs:
+      <ul style="margin:0.5rem 0 0 1.2rem">
+        <li>
+          <code>Lock(invariant=..., invariant_sketch=...)</code>
+          — checks the predicate on every acquire / release; raises
+          <code>InvariantViolation</code> on failure
+          (<code>deppy.concurrency</code>)
+        </li>
+        <li>
+          <code>atomic_cas(cell, expected, new)</code> — real
+          CAS that records each step as a cubical
+          <code>PathAbs</code> on the cell's history
+        </li>
+        <li>
+          <code>spawn(fn, reads=..., writes=...)</code> /
+          <code>join_all(patches)</code> — thread-spawn with Čech
+          cocycle-condition enforcement; disjoint writes are accepted,
+          overlapping writes raise <code>RaceViolation</code>
+        </li>
+        <li>
+          <code>@parallel_safe</code> — runs data-race analysis at
+          decoration time and raises on unprotected shared writes
+        </li>
+        <li>
+          <code>@async_requires</code>, <code>@async_ensures</code>,
+          <code>@async_yields</code>, <code>@async_invariant</code>,
+          <code>@terminates</code>, <code>pure(...)</code> — all
+          check predicates at runtime and raise
+          <code>ContractViolation</code> / <code>TerminationViolation</code>
+          on failure (<code>deppy.async_verify</code>)
+        </li>
+        <li>
+          <code>ghost_var</code>, <code>ghost_update</code>,
+          <code>ghost_pts_to</code>, <code>array_pts_to</code>,
+          <code>ghost_assert</code> — runtime ghost tracking with
+          history and points-to assertions (<code>deppy.ghost</code>)
+        </li>
+      </ul>
+      <p style="margin:0.75rem 0 0 0">
+        What's <em>not</em> yet enforced at runtime: deadlock detection,
+        happens-before ordering across threads, full separation-logic
+        frame-rule discharge.  Those remain as static declarations the
+        safety pipeline consumes.  See
+        <a href="../../ARCHITECTURE.md">ARCHITECTURE.md</a> §12 for the
+        current frontier.
+      </p>
+    </div>
+
     <!-- ─── Motivation ─── -->
     <h2>Why This Part Matters</h2>
     <p>

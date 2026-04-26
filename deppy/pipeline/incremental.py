@@ -641,10 +641,22 @@ def _stub_verify(
     func_node: ast.FunctionDef | None,
     spec: str,
 ) -> VerificationResult:
-    """Trivial stub verifier: always succeeds with STRUCTURAL trust."""
-    return VerificationResult.ok(
-        trust=TrustLevel.STRUCTURAL_CHAIN,
-        msg=f"stub-verified",
+    """No-op fallback when the caller doesn't supply a real verifier.
+
+    The OLD implementation returned ``success=True, STRUCTURAL_CHAIN`` —
+    i.e. it claimed to have verified *every* spec any caller passed in,
+    with only a one-level trust downgrade.  That silently green-lit any
+    module the pipeline ran over with ``verify_fn=None``.
+
+    The fix: return UNTRUSTED failure so a missing verify_fn is a loud
+    gap, not an invisible approval.  Callers who genuinely want to
+    accept-everything-for-testing can pass ``lambda *a: VerificationResult
+    .ok(TrustLevel.EFFECT_ASSUMED, "test-stub")`` explicitly.
+    """
+    return VerificationResult.fail(
+        f"no verify_fn supplied for spec {spec!r}; incremental verifier "
+        "cannot check this function",
+        code="E-INC-STUB",
     )
 
 

@@ -749,11 +749,13 @@ class TestProofKernel:
     # ── Unfold ────────────────────────────────────────────────────
 
     def test_unfold(self, kernel: ProofKernel):
-        """Unfold without inner proof returns STRUCTURAL_CHAIN."""
+        """Unfold without a sub-proof is accepted but returns UNTRUSTED —
+        the kernel has no way to check the claimed expansion, so callers
+        must either attach a sub-proof or cite the ``<name>_def`` axiom."""
         goal = _tc_goal()
         r = kernel.verify(Context(), goal, Unfold(func_name="foo"))
         assert r.success
-        assert r.trust_level == TrustLevel.STRUCTURAL_CHAIN
+        assert r.trust_level == TrustLevel.UNTRUSTED
 
     def test_unfold_with_proof(self, kernel: ProofKernel):
         """Unfold with inner proof delegates to the inner proof."""
@@ -766,7 +768,11 @@ class TestProofKernel:
     # ── Structural ────────────────────────────────────────────────
 
     def test_structural(self, kernel: ProofKernel):
-        """Structural always succeeds with STRUCTURAL_CHAIN trust."""
+        """Structural is a pinky-promise: it always succeeds at
+        ``STRUCTURAL_CHAIN`` trust.  The kernel does not perform any
+        check — callers that want a real soundness gate must also scan
+        the proof tree for Structural leaves (see
+        ``deppy.proofs.pipeline._tree_has_structural_leaf``)."""
         goal = _tc_goal()
         r = kernel.verify(Context(), goal, Structural(description="checked"))
         assert r.success
@@ -823,6 +829,154 @@ class TestProofKernel:
         )
         r = kernel.verify(Context(), goal, proof)
         assert not r.success
+
+    def test_transport_rejects_literal_motive(self, kernel: ProofKernel):
+        """A literal can never be a type family — transport must reject."""
+        from deppy.core.types import PathType, PyIntType
+        a = Var("a")
+        path_goal = Judgment(
+            kind=JudgmentKind.EQUAL,
+            context=Context(),
+            type_=PathType(base_type=PyIntType(), left=a, right=a),
+            left=a, right=a,
+        )
+        proof = TransportProof(
+            type_family=Literal(42, PyIntType()),
+            path_proof=Refl(term=a),
+            base_proof=Refl(term=a),
+        )
+        r = kernel.verify(Context(), path_goal, proof)
+        assert not r.success
+        assert "motive" in r.message.lower() or "literal" in r.message.lower()
+
+    def test_transport_rejects_motive_with_wrong_domain(self, kernel: ProofKernel):
+        """A lambda motive whose domain doesn't match the path's base type
+        must be rejected, not merely downgraded."""
+        from deppy.core.types import PathType, PyIntType, PyStrType
+        a = Var("a")
+        path_goal = Judgment(
+            kind=JudgmentKind.EQUAL,
+            context=Context(),
+            type_=PathType(base_type=PyIntType(), left=a, right=a),
+            left=a, right=a,
+        )
+        # Motive λ(x:str). x — domain is str, path is over int.
+        bad_motive = Lam(param="x", param_type=PyStrType(), body=Var("x"))
+        proof = TransportProof(
+            type_family=bad_motive,
+            path_proof=Refl(term=a),
+            base_proof=Refl(term=a),
+        )
+        r = kernel.verify(Context(), path_goal, proof)
+        assert not r.success
+        assert "domain" in r.message.lower() or "base type" in r.message.lower()
+
+    def test_transport_rejects_motive_with_value_literal_body(self, kernel: ProofKernel):
+        """A motive whose body is a plain value literal (e.g. 7) isn't a
+        type family and must be rejected."""
+        from deppy.core.types import PathType, PyIntType
+        a = Var("a")
+        path_goal = Judgment(
+            kind=JudgmentKind.EQUAL,
+            context=Context(),
+            type_=PathType(base_type=PyIntType(), left=a, right=a),
+            left=a, right=a,
+        )
+        bad_motive = Lam(param="x", param_type=PyIntType(),
+                         body=Literal(7, PyIntType()))
+        proof = TransportProof(
+            type_family=bad_motive,
+            path_proof=Refl(term=a),
+            base_proof=Refl(term=a),
+        )
+        r = kernel.verify(Context(), path_goal, proof)
+        assert not r.success
+
+    def test_transport_rejects_escaping_free_variable(self, kernel: ProofKernel):
+        """A motive whose body references a name not in scope (and not
+        equal to the motive parameter) is ill-scoped."""
+        from deppy.core.types import PathType, PyIntType
+        a = Var("a")
+        path_goal = Judgment(
+            kind=JudgmentKind.EQUAL,
+            context=Context(),
+            type_=PathType(base_type=PyIntType(), left=a, right=a),
+            left=a, right=a,
+        )
+        bad_motive = Lam(param="x", param_type=PyIntType(),
+                         body=Var("escaping_name"))
+        proof = TransportProof(
+            type_family=bad_motive,
+            path_proof=Refl(term=a),
+            base_proof=Refl(term=a),
+        )
+        r = kernel.verify(Context(), path_goal, proof)
+        assert not r.success
+        assert "free variable" in r.message.lower() or "unbound" in r.message.lower()
+
+    def test_transport_rejects_curried_binary_motive(self, kernel: ProofKernel):
+        """1-dim paths take unary motives; a λx.λy.body motive is binary."""
+        from deppy.core.types import PathType, PyIntType
+        a = Var("a")
+        path_goal = Judgment(
+            kind=JudgmentKind.EQUAL,
+            context=Context(),
+            type_=PathType(base_type=PyIntType(), left=a, right=a),
+            left=a, right=a,
+        )
+        binary_motive = Lam(
+            param="x", param_type=PyIntType(),
+            body=Lam(param="y", param_type=PyIntType(), body=Var("y")),
+        )
+        proof = TransportProof(
+            type_family=binary_motive,
+            path_proof=Refl(term=a),
+            base_proof=Refl(term=a),
+        )
+        r = kernel.verify(Context(), path_goal, proof)
+        assert not r.success
+        assert "binary" in r.message.lower() or "curried" in r.message.lower() or "1-dim" in r.message.lower()
+
+    def test_transport_accepts_well_formed_motive(self, kernel: ProofKernel):
+        """A lambda motive with matching domain, clean scope, and a
+        non-literal body passes the consistency check."""
+        from deppy.core.types import PathType, PyIntType
+        a = Var("a")
+        path_goal = Judgment(
+            kind=JudgmentKind.EQUAL,
+            context=Context(),
+            type_=PathType(base_type=PyIntType(), left=a, right=a),
+            left=a, right=a,
+        )
+        good_motive = Lam(param="x", param_type=PyIntType(),
+                          body=Var("x"))  # identity motive
+        proof = TransportProof(
+            type_family=good_motive,
+            path_proof=Refl(term=a),
+            base_proof=Refl(term=a),
+        )
+        r = kernel.verify(Context(), path_goal, proof)
+        assert r.success
+
+    def test_transport_accepts_pyobj_motive_against_typed_path(self, kernel: ProofKernel):
+        """PyObjType is treated as a top type, so a motive λ(x:object).x
+        remains compatible with a path over int."""
+        from deppy.core.types import PathType, PyIntType, PyObjType
+        a = Var("a")
+        path_goal = Judgment(
+            kind=JudgmentKind.EQUAL,
+            context=Context(),
+            type_=PathType(base_type=PyIntType(), left=a, right=a),
+            left=a, right=a,
+        )
+        generic = Lam(param="x", param_type=PyObjType(), body=Var("x"))
+        proof = TransportProof(
+            type_family=generic,
+            path_proof=Refl(term=a),
+            base_proof=Refl(term=a),
+        )
+        r = kernel.verify(Context(), path_goal, proof)
+        assert r.success
 
     # ── Trust levels ──────────────────────────────────────────────
 

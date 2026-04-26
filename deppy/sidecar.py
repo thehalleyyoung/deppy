@@ -1,8 +1,19 @@
 """
-deppy.sidecar — Public sidecar proof API for Deppy.
+deppy.sidecar — thin re-export shim.
 
-Re-exports sidecar constructs so that ``from deppy.sidecar import about``
-works as shown in the Deppy tutorial book.
+This module re-exports ``SidecarModule`` / ``ExternalSpec`` from
+``deppy.proofs.sidecar`` and decorators like ``guarantee`` / ``verify``
+from ``deppy.proofs.sugar``.  It also exports its own ``about`` and
+``assume`` helpers — **note that**:
+
+* ``about("module.path")`` attaches the string to ``fn._deppy_about``
+  but the rest of the pipeline does not read that attribute; the
+  decorator is effectively documentation.
+* ``assume(statement)`` returns an ``Assume`` kernel term which CAN
+  be cited in a proof — that part is real — but nothing here
+  type-checks ``statement`` against the code the assumption targets.
+
+For the real sidecar API, import from ``deppy.proofs.sidecar``.
 """
 from __future__ import annotations
 

@@ -41,19 +41,117 @@ except ImportError:
 
 
 # ═══════════════════════════════════════════════════════════════════
+#  EquivMethod — names for the equivalence-decision strategies
+# ═══════════════════════════════════════════════════════════════════
+
+class EquivMethod(str):
+    """Symbolic name for the strategy that produced an equivalence verdict.
+
+    Subclasses ``str`` so the historical ``method='z3'`` API keeps
+    working — ``EquivMethod.Z3 == 'z3'`` is :data:`True`, and
+    callers comparing the field against bare strings continue to
+    work unchanged.
+
+    Members
+    -------
+    * ``EquivMethod.Z3`` — Z3 closed the verdict (``equivalent in
+      {True, False}`` with confidence 1.0).
+    * ``EquivMethod.TESTING`` — random differential testing observed
+      no counterexample; ``equivalent`` is ``None`` with confidence
+      < 1.0.  Cannot be promoted to ``True`` without Z3.
+    * ``EquivMethod.SPEC`` — the *specs* of the two functions match
+      (or a spec implies a property), but spec equivalence does not
+      imply code equivalence.
+    * ``EquivMethod.SPEC_Z3`` — spec match plus Z3-checked code
+      equivalence.
+    * ``EquivMethod.INCONCLUSIVE`` — neither Z3 nor testing produced
+      enough evidence (typical when Z3 is unavailable, the
+      formulation timed out, etc.).
+
+    Iterating ``EquivMethod`` yields the canonical string values, so
+    the enum doubles as a registry for tooling that needs to enumerate
+    legal verdict labels.
+    """
+    Z3: "EquivMethod"
+    TESTING: "EquivMethod"
+    SPEC: "EquivMethod"
+    SPEC_Z3: "EquivMethod"
+    INCONCLUSIVE: "EquivMethod"
+
+    _ALL_NAMES = ("z3", "testing", "spec", "spec+z3", "inconclusive")
+
+    def __new__(cls, value: str) -> "EquivMethod":
+        return str.__new__(cls, value)
+
+    def __repr__(self) -> str:  # type: ignore[override]
+        return f"EquivMethod({str.__repr__(self)})"
+
+    @classmethod
+    def values(cls) -> tuple[str, ...]:
+        """Return the canonical string values, in declared order."""
+        return cls._ALL_NAMES
+
+    @classmethod
+    def is_valid(cls, value: str) -> bool:
+        """True iff *value* is one of the canonical method labels."""
+        return value in cls._ALL_NAMES
+
+
+# Define class members after the class (so they're EquivMethod instances).
+EquivMethod.Z3 = EquivMethod("z3")
+EquivMethod.TESTING = EquivMethod("testing")
+EquivMethod.SPEC = EquivMethod("spec")
+EquivMethod.SPEC_Z3 = EquivMethod("spec+z3")
+EquivMethod.INCONCLUSIVE = EquivMethod("inconclusive")
+
+
+# ═══════════════════════════════════════════════════════════════════
 #  Result type
 # ═══════════════════════════════════════════════════════════════════
 
 @dataclass
 class EquivResult:
-    """Result of an equivalence check."""
-    equivalent: bool | None       # True / False / None (inconclusive)
+    """Result of an equivalence check.
+
+    The three-valued ``equivalent`` field distinguishes *proven* from
+    *evidence-supported* from *counterexample*:
+
+    * ``True``   — proven (Z3 / refl), treat as equivalent
+    * ``False``  — counterexample witnessed, treat as inequivalent
+    * ``None``   — unknown; check ``confidence`` to see how strong the
+      evidence is.  Testing-based checks always return ``None`` even
+      when every trial agreed, because testing is sampling and cannot
+      prove a ∀ statement.  ``spec``-based checks also return ``None``
+      when specs match: spec equivalence does not imply code equivalence.
+
+    Callers who want "equivalent enough to ship, maybe pending a Z3
+    pass" should use :attr:`likely_equivalent` rather than
+    ``equivalent is True`` — the latter reserves its True verdict for
+    formal proofs.
+    """
+    equivalent: bool | None       # True (proven) / False (disproven) / None (unknown)
     method: str                   # 'z3', 'testing', 'spec', 'inconclusive'
     counterexample: dict | None = None   # witness when inequivalent
-    confidence: float = 1.0       # 1.0 for z3, <1 for testing
+    confidence: float = 1.0       # 1.0 for z3/refl, <1 for testing
     details: str = ""
     lean_proof: str | None = None        # Lean 4 proof script (when Z3 succeeds)
     spec_info: str | None = None         # supplementary spec comparison info
+
+    @property
+    def likely_equivalent(self) -> bool:
+        """True iff there is strong evidence for equivalence.
+
+        Holds when either (a) equivalence is formally proven, or (b) a
+        testing-based check saw no counterexample with high confidence.
+        This is the right check for "show me candidate-equivalent
+        functions"; do not use it for soundness gates — use
+        ``equivalent is True`` there.
+        """
+        if self.equivalent is True:
+            return True
+        if self.equivalent is None and self.confidence >= 0.9:
+            return True
+        return False
 
     def __bool__(self) -> bool:
         return self.equivalent is True
@@ -343,7 +441,18 @@ def _to_z3_bool(val: Any) -> Any:
     if isinstance(val, _Z3List):
         return val.length > 0
     if isinstance(val, _Z3Dict):
-        return True  # approximate
+        # A Z3 dict's truthiness depends on whether it has any entries
+        # and we don't track that symbolically.  Return the minimum
+        # information: an empty-shaped dict is falsy, everything else
+        # we conservatively treat as unknown → raise so the caller sees
+        # it and can decide (rather than silently treating as truthy).
+        size = getattr(val, "size", None)
+        if size is not None:
+            return size > 0
+        raise ValueError(
+            "Z3 dict truthiness is unknown (no symbolic size tracked); "
+            "the caller must handle this explicitly"
+        )
     if isinstance(val, _Z3Tuple):
         return len(val.elements) > 0
     if isinstance(val, _Z3Set):
@@ -1860,9 +1969,22 @@ def _testing_check_equiv(f: Callable, g: Callable, num_trials: int = 1000) -> Eq
     if agree == 0:
         return EquivResult(None, 'testing', confidence=0.0, details="All trials raised exceptions")
 
+    # Testing finds counterexamples; it cannot *prove* equivalence.  Two
+    # functions that agree on N random inputs can still diverge on the
+    # (N+1)-th.  We therefore return ``equivalent=None`` with a confidence
+    # score so callers can rank but never treat as proven.  To mark a
+    # function pair as equivalent the caller must discharge it through
+    # Z3 (``check_equiv``) or a formal proof.
     confidence = 1.0 - (0.5 ** agree)
-    return EquivResult(True, 'testing', confidence=min(confidence, 0.999),
-                      details=f"Agreed on {agree}/{num_trials} random inputs")
+    return EquivResult(
+        equivalent=None, method='testing',
+        confidence=min(confidence, 0.999),
+        details=(
+            f"No counterexample found in {agree}/{num_trials} random "
+            "inputs; this is evidence, not proof — for proof use "
+            "check_equiv() with a Z3-provable spec"
+        ),
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -2058,16 +2180,41 @@ def _spec_check_equiv(f: Callable, g: Callable) -> EquivResult | None:
     if not guarantees_f and not guarantees_g:
         return None
 
+    # NOTE: two functions satisfying the same @guarantee string are
+    # "spec-equivalent"; they are NOT necessarily *implementation*
+    # equivalent.  E.g. ``f(x) = x + 1`` and ``g(x) = x * 2`` both
+    # satisfy ``result > x`` for positive inputs but are different
+    # functions.  We therefore return ``equivalent=None`` (inconclusive)
+    # with a ``spec_info`` payload so callers can tell the specs match
+    # but *code* equivalence remains unchecked.  Code equivalence must
+    # be established separately via Z3 or testing.
     if set(guarantees_f) == set(guarantees_g):
-        return EquivResult(True, 'spec', confidence=0.8,
-                          details=f"Same @guarantee specs: {set(guarantees_f)}")
+        return EquivResult(
+            equivalent=None, method='spec',
+            details=(
+                "Specs match but implementations not compared; spec "
+                "equivalence is a necessary but not sufficient condition "
+                "for code equivalence"
+            ),
+            spec_info=f"Same @guarantee specs: {set(guarantees_f)}",
+        )
 
     # Try Z3 comparison on each guarantee pair
     if len(guarantees_f) == 1 and len(guarantees_g) == 1:
         sr = check_spec_equiv(guarantees_f[0], guarantees_g[0])
         if sr.equivalent is True:
-            return EquivResult(True, 'spec+z3', confidence=0.9,
-                              details=f"Specs proved equivalent by Z3: '{guarantees_f[0]}' ⟺ '{guarantees_g[0]}'")
+            return EquivResult(
+                equivalent=None, method='spec+z3',
+                details=(
+                    "Specs are logically equivalent but implementations "
+                    "not compared — Z3-equivalent specs do not imply "
+                    "Z3-equivalent code"
+                ),
+                spec_info=(
+                    f"Specs proved equivalent by Z3: "
+                    f"'{guarantees_f[0]}' ⟺ '{guarantees_g[0]}'"
+                ),
+            )
         elif sr.equivalent is False:
             return EquivResult(None, 'spec+z3',
                               details=f"Specs differ: {sr.details}")
@@ -3233,9 +3380,18 @@ def verify_composition(outer: Callable, inner: Callable,
         except Exception:
             continue
 
+    # ``verified`` here means "exhaustively proven"; testing can only
+    # say "no counterexample in the finite sample we tried".  Map that
+    # honestly: ``verified=False`` with method='testing' and a note
+    # explaining what was actually done.  Callers that want a
+    # proof-level verdict must use the Z3 path on the preceding branch.
     return CompositionResult(
-        verified=checked > 0, spec=spec, method='testing',
-        details=f"Tested {checked} inputs, no violations"
+        verified=False, spec=spec, method='testing',
+        details=(
+            f"Tested {checked} inputs without violation; this is "
+            "evidence, not proof of composition correctness.  Use the "
+            "Z3 path (supply a provable spec) to obtain verified=True"
+        ),
     )
 
 

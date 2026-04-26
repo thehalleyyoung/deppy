@@ -121,7 +121,7 @@ pip install z3-solver</code></pre>
 
     <p>
       Without <code>z3-solver</code> Deppy can still run in LLM-judged
-      mode, but you will not get the strongest (Z3_PROVEN) trust level.
+      mode, but you will not get the strongest (Z3_VERIFIED) trust level.
     </p>
 
     <p>Confirm the installation:</p>
@@ -174,11 +174,11 @@ pip install z3-solver</code></pre>
 
 <span class="fn">max_of</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
   Proof obligations:
-    1. result <span class="op">>=</span> a            ✅  Z3_PROVEN
-    2. result <span class="op">>=</span> b            ✅  Z3_PROVEN
-    3. result <span class="op">==</span> a <span class="kw">or</span> result <span class="op">==</span> b  ✅  Z3_PROVEN
+    1. result <span class="op">>=</span> a            ✅  Z3_VERIFIED
+    2. result <span class="op">>=</span> b            ✅  Z3_VERIFIED
+    3. result <span class="op">==</span> a <span class="kw">or</span> result <span class="op">==</span> b  ✅  Z3_VERIFIED
 
-  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.03s
+  Status: ✅ VERIFIED   Trust: Z3_VERIFIED   Time: 0.03s
 
 <span class="cm">──────────────────────────────────────────────────</span>
  1 function verified · 0 failed · 3 obligations discharged
@@ -212,9 +212,9 @@ pip install z3-solver</code></pre>
           <li>Takes a <strong>plain English string</strong></li>
           <li>Deppy parses it into Z3 assertions when
               possible, falls back to the LLM oracle otherwise</li>
-          <li>Yields <span class="verified">Z3_PROVEN</span> when the
+          <li>Yields <span class="verified">Z3_VERIFIED</span> when the
               string maps to a decidable formula, or
-              <span style="background:#fef3c7;color:#92400e;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600">LLM_JUDGED</span>
+              <span style="background:#fef3c7;color:#92400e;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600">LLM_CHECKED</span>
               when it cannot</li>
           <li>Best for: quick annotations, documentation-grade specs,
               early-stage verification</li>
@@ -232,7 +232,7 @@ pip install z3-solver</code></pre>
               <code>(args..., result) → bool</code></li>
           <li>Deppy encodes it <em>directly</em> into Z3 — no NL
               parsing, no oracle</li>
-          <li>Always yields <span class="verified">Z3_PROVEN</span> or
+          <li>Always yields <span class="verified">Z3_VERIFIED</span> or
               a concrete counterexample</li>
           <li>Best for: machine-checkable contracts, CI gates,
               production-grade proofs</li>
@@ -297,9 +297,9 @@ pip install z3-solver</code></pre>
           <td><strong>Trust level</strong></td>
           <td>
             How the obligation was discharged. From strongest to weakest:
-            <br><code>🟢 LEAN_VERIFIED</code> — machine-checked by Lean's kernel
-            <br><code>🟡 Z3_PROVEN</code> — proved by the Z3 SMT solver
-            <br><code>🟠 LLM_JUDGED</code> — an LLM oracle judged it correct (confidence ≥ threshold)
+            <br><code>🟢 LEAN_KERNEL_VERIFIED</code> — machine-checked by Lean's kernel
+            <br><code>🟡 Z3_VERIFIED</code> — proved by the Z3 SMT solver
+            <br><code>🟠 LLM_CHECKED</code> — an LLM oracle judged it correct (confidence ≥ threshold)
             <br><code>🔴 UNTRUSTED</code> — no verification yet
           </td>
         </tr>
@@ -342,10 +342,10 @@ pip install z3-solver</code></pre>
 
     <pre><code class="output"><span class="fn">abs_val</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
   Proof obligations:
-    1. result <span class="op">>=</span> <span class="nb">0</span>                       ✅  Z3_PROVEN
-    2. result <span class="op">==</span> x <span class="kw">or</span> result <span class="op">==</span> <span class="op">-</span>x      ✅  Z3_PROVEN
+    1. result <span class="op">>=</span> <span class="nb">0</span>                       ✅  Z3_VERIFIED
+    2. result <span class="op">==</span> x <span class="kw">or</span> result <span class="op">==</span> <span class="op">-</span>x      ✅  Z3_VERIFIED
 
-  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.02s</code></pre>
+  Status: ✅ VERIFIED   Trust: Z3_VERIFIED   Time: 0.02s</code></pre>
 
     <p>
       Z3 handles both branches by case-splitting on the condition
@@ -374,9 +374,9 @@ pip install z3-solver</code></pre>
 
     <pre><code class="output"><span class="fn">max_of</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
   Proof obligations:
-    1. result <span class="op">>=</span> a            ✅  Z3_PROVEN
+    1. result <span class="op">>=</span> a            ✅  Z3_VERIFIED
     2. result <span class="op">>=</span> b            ❌  FAILED
-    3. result <span class="op">==</span> a <span class="kw">or</span> result <span class="op">==</span> b  ✅  Z3_PROVEN
+    3. result <span class="op">==</span> a <span class="kw">or</span> result <span class="op">==</span> b  ✅  Z3_VERIFIED
 
   Status: ❌ FAILED
 
@@ -447,7 +447,7 @@ pip install z3-solver</code></pre>
     <pre><code class="toml"><span class="cm"># deppy.toml</span>
 [deppy]
 python   <span class="op">=</span> <span class="st">"3.12"</span>
-min_trust <span class="op">=</span> <span class="st">"Z3_PROVEN"</span>     <span class="cm"># reject LLM-only judgements</span>
+min_trust <span class="op">=</span> <span class="st">"Z3_VERIFIED"</span>     <span class="cm"># reject LLM-only judgements</span>
 z3_timeout <span class="op">=</span> <span class="nb">30</span>            <span class="cm"># seconds per obligation</span>
 
 [deppy.paths]
@@ -525,23 +525,23 @@ exclude <span class="op">=</span> [<span class="st">"tests/**"</span>]</code></p
 <span class="cm">──────────────────────────────────────────────────</span>
 
 <span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
-  1. result <span class="op">>=</span> <span class="nb">0</span>   ✅  Z3_PROVEN
-  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.01s
+  1. result <span class="op">>=</span> <span class="nb">0</span>   ✅  Z3_VERIFIED
+  Status: ✅ VERIFIED   Trust: Z3_VERIFIED   Time: 0.01s
 
 <span class="fn">clamp</span>(x: <span class="ty">int</span>, lo: <span class="ty">int</span>, hi: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
   Precondition: lo <span class="op"><=</span> hi
-  1. result <span class="op">>=</span> lo   ✅  Z3_PROVEN
-  2. result <span class="op"><=</span> hi   ✅  Z3_PROVEN
-  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.02s
+  1. result <span class="op">>=</span> lo   ✅  Z3_VERIFIED
+  2. result <span class="op"><=</span> hi   ✅  Z3_VERIFIED
+  Status: ✅ VERIFIED   Trust: Z3_VERIFIED   Time: 0.02s
 
 <span class="fn">add</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
-  1. result <span class="op">==</span> a <span class="op">+</span> b   ✅  Z3_PROVEN
-  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.01s
+  1. result <span class="op">==</span> a <span class="op">+</span> b   ✅  Z3_VERIFIED
+  Status: ✅ VERIFIED   Trust: Z3_VERIFIED   Time: 0.01s
 
 <span class="fn">is_positive</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">bool</span>
   1. (result <span class="op">==</span> <span class="nb">True</span> <span class="kw">and</span> n <span class="op">></span> <span class="nb">0</span>) <span class="kw">or</span>
-     (result <span class="op">==</span> <span class="nb">False</span> <span class="kw">and</span> n <span class="op"><=</span> <span class="nb">0</span>)   ✅  Z3_PROVEN
-  Status: ✅ VERIFIED   Trust: Z3_PROVEN   Time: 0.01s
+     (result <span class="op">==</span> <span class="nb">False</span> <span class="kw">and</span> n <span class="op"><=</span> <span class="nb">0</span>)   ✅  Z3_VERIFIED
+  Status: ✅ VERIFIED   Trust: Z3_VERIFIED   Time: 0.01s
 
 <span class="cm">──────────────────────────────────────────────────</span>
  4 functions verified · 0 failed · 5 obligations discharged

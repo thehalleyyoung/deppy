@@ -267,7 +267,7 @@ T <span class="op">=</span> <span class="ty">TypeVar</span>(<span class="st">'T'
 <span class="cm">  ✓ Stack.is_empty     — 1 guarantee proved  (Z3, 0.01s)</span>
 <span class="cm">  ✓ Stack              — invariant preserved by all methods</span>
 <span class="cm">  ────────────────────────────────────────────</span>
-<span class="cm">  6/6 obligations discharged  ·  Z3_PROVEN</span></code></pre>
+<span class="cm">  6/6 obligations discharged  ·  Z3_VERIFIED</span></code></pre>
 
     <h2 id="verified-queue">Verified Queue</h2>
 
@@ -447,7 +447,7 @@ T <span class="op">=</span> <span class="ty">TypeVar</span>(<span class="st">'T'
 <span class="cm">  ✓ BST.delete         — invariant preserved, guarantee proved</span>
 <span class="cm">                         (case split: 0/1/2 children, Z3, 0.41s)</span>
 <span class="cm">  ────────────────────────────────────────────</span>
-<span class="cm">  4/4 obligations discharged  ·  Z3_PROVEN</span></code></pre>
+<span class="cm">  4/4 obligations discharged  ·  Z3_VERIFIED</span></code></pre>
 
     <p>
       The <code>delete</code> case is the most complex — Deppy reasons

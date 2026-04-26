@@ -1,8 +1,17 @@
 """
-deppy.separation — Separation logic constructs for Deppy.
+deppy.separation — **data-model only** separation-logic types.
 
-Re-exports separation logic primitives so that
-``from deppy.separation import pts_to, emp`` works as shown in the book.
+The ``SLProp`` hierarchy (``Emp``, ``PointsTo``, ``SepConj``, etc.)
+defines the Python-level *syntax* of separation-logic formulas.  There
+is no accompanying solver.  Constructing ``pts_to(x, 0) ** pts_to(y,
+1)`` gives you a data object; nothing checks frame-rule soundness,
+nothing discharges entailments, and nothing connects these objects
+back to the proof kernel.
+
+To perform effect / shared-state analysis on Python code today, use
+``deppy.equivalence.analyze_shared_state`` and
+``analyze_effects`` — both are lexical AST passes with documented
+limitations.
 """
 from __future__ import annotations
 from typing import Any, TypeVar, Generic

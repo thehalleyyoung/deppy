@@ -89,7 +89,19 @@
     </p>
 
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="four-levels">The Four Verification Levels</h2>
+    <h2 id="kernel-levels">Kernel Trust Levels</h2>
+
+    <p>
+      Deppy has <strong>two</strong> trust axes, each with its own label
+      space.  The <em>kernel</em> trust level records how the deppy
+      kernel verified a single proof term.  The <em>Lean</em> trust
+      level records how (or whether) the exported Lean 4 source was
+      checked by Lean itself.  A proof can be
+      <code>KERNEL</code>-trusted by deppy and <code>LEAN_EXPORTED</code>
+      by Lean — those are independent dimensions.
+    </p>
+
+    <h3 id="four-levels">The seven kernel levels</h3>
 
     <table>
       <thead>
@@ -102,48 +114,189 @@
       </thead>
       <tbody>
         <tr>
-          <td>🟢 <code>LEAN_VERIFIED</code></td>
-          <td><span class="verified">LEAN_VERIFIED</span></td>
-          <td>Machine-checked by Lean 4's type-theoretic kernel. The proof is a
-              constructive term that has been independently verified.</td>
-          <td>Translate to Lean, compile with <code>lake build</code>, kernel accepts.</td>
+          <td>🟢 <code>KERNEL</code></td>
+          <td><span class="verified">KERNEL</span></td>
+          <td>Every sub-proof went through kernel inference rules
+              (Refl / Sym / Trans / Cong / PathAbs / PathApp / induction
+              constructors).  No Z3 leaf, no axiom invocation, no
+              structural pinky-promise.</td>
+          <td>Build a proof term out of the inference-rule constructors
+              only.  The kernel returns this trust level from
+              <code>ProofKernel.verify</code>.</td>
         </tr>
         <tr>
-          <td>🟡 <code>Z3_PROVEN</code></td>
-          <td><span class="verified">Z3_PROVEN</span></td>
-          <td>Proved by the Z3 SMT solver with no admits. Z3 is a mature, widely-trusted
-              solver — but it's not a constructive proof, and bugs in Z3 exist.</td>
-          <td>Encode as SMT-LIB formula, Z3 returns <code>unsat</code> (negation is
-              unsatisfiable).</td>
+          <td>🟡 <code>Z3_VERIFIED</code></td>
+          <td><span class="verified">Z3_VERIFIED</span></td>
+          <td>Proved by the Z3 SMT solver: Z3 returned <code>unsat</code>
+              on the negation of the goal.  Z3 is mature but not
+              constructive; soundness depends on Z3's correctness.</td>
+          <td>Use a <code>Z3Proof</code> proof term, or the
+              <code>T.z3</code> / <code>T.z3_auto</code> tactics.</td>
         </tr>
         <tr>
-          <td>🟠 <code>LLM_JUDGED</code></td>
-          <td><span style="background:#fff7ed;color:#c2410c;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">🟠 LLM_JUDGED</span></td>
-          <td>An LLM oracle says the property is correct with confidence ≥ the configured
-              threshold (default: 0.9). Useful for natural-language specs and heuristic
-              checks.</td>
-          <td>Oracle query returns <code>{"correct": true, "confidence": 0.95}</code>.</td>
+          <td>🟡 <code>STRUCTURAL_CHAIN</code></td>
+          <td><span class="verified">STRUCTURAL_CHAIN</span></td>
+          <td>The kernel assembled the proof's structure, but at least
+              one leaf is <code>Structural</code> (an unchecked
+              pinky-promise).  Use <code>ProofCertificate.kernel_verified</code>
+              to reject chains that contain such a leaf.</td>
+          <td>A proof whose composition is kernel-checked but whose
+              atoms are declarative structural witnesses.</td>
+        </tr>
+        <tr>
+          <td>🟠 <code>LLM_CHECKED</code></td>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">🟠 LLM_CHECKED</span></td>
+          <td>An LLM oracle says the property is correct with confidence ≥
+              the configured threshold.  Useful for natural-language specs
+              and heuristic checks; not a formal proof.</td>
+          <td>Oracle query returns <code>{"correct": true, "confidence": ≥ threshold}</code>.</td>
+        </tr>
+        <tr>
+          <td>🟠 <code>AXIOM_TRUSTED</code></td>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">🟠 AXIOM_TRUSTED</span></td>
+          <td>The proof cites a registered axiom.  Trust is only as
+              good as the axiom's faithfulness to the source.  For
+              code-derived axioms (those produced by
+              <code>axiomize()</code>) the axiom IS the source, which
+              is usually what you want.</td>
+          <td><code>AxiomInvocation(name, module)</code> — or any
+              tactic built from one, e.g., <code>T.axiom</code> /
+              <code>T.cases</code> / <code>T.unfold</code>.</td>
+        </tr>
+        <tr>
+          <td>🟠 <code>EFFECT_ASSUMED</code></td>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">🟠 EFFECT_ASSUMED</span></td>
+          <td>An effect witness was accepted at face value.  Used by
+              the effect pipeline when a function declares effects but
+              the discharge is deferred.</td>
+          <td><code>EffectWitness</code> proof terms.</td>
         </tr>
         <tr>
           <td>🔴 <code>UNTRUSTED</code></td>
           <td><span class="rejected">UNTRUSTED</span></td>
-          <td>No verification has been performed. The spec is assumed on faith — it might
-              be wrong. This is the starting point for all new specs.</td>
-          <td>Default. Any spec without a proof is <code>UNTRUSTED</code>.</td>
+          <td>No verification.  Default for any obligation without a
+              proof.  Also emitted as a failure state when a discharge
+              path (e.g. a missing <code>verify_fn</code>, an
+              <code>Unfold</code> without sub-proof) can't run.</td>
+          <td>Default starting point for all new specs.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="lean-labels">The six Lean export labels</h3>
+
+    <p>
+      <code>compile_to_lean(fn)</code> emits Lean 4 source
+      <em>without</em> invoking the Lean compiler.  To actually run
+      Lean, call <code>cert.verify_with_lean()</code> on the returned
+      <code>LeanCertificate</code>.  The following labels record where
+      the certificate is on that trajectory:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Label</th>
+          <th>What It Means</th>
+          <th>How You Get It</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🟢 <code>LEAN_KERNEL_VERIFIED</code></td>
+          <td>The <code>lean</code> binary was invoked on the rendered
+              file and returned success.  This is the gold standard —
+              equivalent to a Lean kernel-accepted proof.</td>
+          <td><code>cert.verify_with_lean()</code> succeeds; requires
+              <code>lean</code> on PATH.</td>
+        </tr>
+        <tr>
+          <td>🟡 <code>LEAN_SYNTAX_COMPLETE</code></td>
+          <td>No <code>sorry</code>, no raw <code>axiom</code>s, but
+              Lean has NOT been run.  The file is syntactically
+              complete — a necessary but not sufficient condition for
+              acceptance.</td>
+          <td><code>compile_to_lean(fn)</code> with a spec that has a
+              full proof strategy and no <code>sorry</code> insertions.</td>
+        </tr>
+        <tr>
+          <td>🟠 <code>LEAN_EXPORTED</code></td>
+          <td>Source emitted; one or more <code>sorry</code>s remain.
+              This is the default when a spec's translator can't
+              produce a full proof.</td>
+          <td>Default when a spec fails to be fully translated; also
+              the default on the initial <code>compile_to_lean</code>.</td>
+        </tr>
+        <tr>
+          <td>🟠 <code>ASSUMPTION_DEPENDENT</code></td>
+          <td>The emitted file declares raw <code>axiom</code>
+              statements.  Lean will accept them unconditionally, so
+              any theorem routed through one inherits the assumption.</td>
+          <td>When a spec needs an axiom deppy can't derive from source
+              (e.g., a classical-logic axiom like LEM).</td>
+        </tr>
+        <tr>
+          <td>🔴 <code>LEAN_REJECTED</code></td>
+          <td><code>verify_with_lean()</code> ran <code>lean</code> and
+              Lean rejected the file.  <code>cert.lean_check_stderr</code>
+              carries the diagnostic.</td>
+          <td>A bug in the translator, a stale Mathlib import, or a
+              tactic Lean can't prove.</td>
+        </tr>
+        <tr>
+          <td>⚪ <code>LEAN_UNAVAILABLE</code></td>
+          <td>The <code>lean</code> binary was not found on PATH.  No
+              kernel check was attempted.</td>
+          <td>Install Lean 4 (see the
+              <a href="https://leanprover.github.io/lean4/doc/setup.html"
+                 target="_blank" rel="noopener">Lean setup guide</a>)
+              to enable kernel verification.</td>
         </tr>
       </tbody>
     </table>
 
     <div class="note">
-      The levels form a <strong>total order</strong>:
-      <code>LEAN_VERIFIED > Z3_PROVEN > LLM_JUDGED > UNTRUSTED</code>.
-      Each level strictly dominates the ones below it.
+      <strong>The right soundness gate</strong> is
+      <code>ProofCertificate.kernel_verified</code> — it returns
+      <code>True</code> only when <code>success</code> AND no
+      <code>Structural</code> leaf appears in the proof tree.  For Lean
+      integration, use <code>cert.is_kernel_verified</code> — True
+      only after <code>verify_with_lean()</code> accepted.
+    </div>
+
+    <div class="note">
+      Trust comes from <strong>two separate lattices</strong>:
+      <ul>
+        <li>
+          The <strong>7-element deppy-kernel</strong> lattice
+          (<code>TrustLevel</code>) is a total order:
+          <code>KERNEL &gt; Z3_VERIFIED &gt; STRUCTURAL_CHAIN &gt;
+          LLM_CHECKED &gt; AXIOM_TRUSTED &gt; EFFECT_ASSUMED &gt;
+          UNTRUSTED</code>.  The kernel takes the
+          <code>min_trust(...)</code> of all sub-proofs to compute the
+          overall verdict.
+        </li>
+        <li>
+          The <strong>6-element Lean export</strong> lattice
+          (<code>LeanTrustLevel</code>) is a parallel total order:
+          <code>LEAN_KERNEL_VERIFIED &gt; LEAN_SYNTAX_COMPLETE &gt;
+          LEAN_EXPORTED &gt; ASSUMPTION_DEPENDENT &gt; LEAN_REJECTED
+          &gt; LEAN_UNAVAILABLE</code>.  This lattice describes how
+          much of the Lean toolchain has accepted the proof; it is
+          tracked separately because Lean acceptance is a different
+          guarantee than deppy-kernel acceptance (Lean has stronger
+          metatheory but a smaller axiom budget).
+        </li>
+      </ul>
+      The two lattices are <em>not</em> directly comparable —
+      <code>LEAN_KERNEL_VERIFIED</code> is not greater than
+      <code>KERNEL</code>; they certify different things.
     </div>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="when-to-use">When Each Level Is Appropriate</h2>
 
-    <h3>🟢 LEAN_VERIFIED — The Gold Standard</h3>
+    <h3>🟢 LEAN_KERNEL_VERIFIED — The Gold Standard</h3>
     <p>Use when:</p>
     <ul>
       <li>Safety-critical code (medical, financial, aerospace)</li>
@@ -152,18 +305,18 @@
       <li>Foundational theorems your entire codebase depends on</li>
     </ul>
     <pre><code><span class="cm"># A property so important it needs Lean verification</span>
-<span class="dc">@guarantee</span>(<span class="st">"sorted list is a permutation of input"</span>, trust=<span class="st">"LEAN_VERIFIED"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"sorted list is a permutation of input"</span>, trust=<span class="st">"LEAN_KERNEL_VERIFIED"</span>)
 <span class="kw">def</span> <span class="fn">sort</span>(xs: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
     <span class="cm"># This generates a Lean proof obligation:</span>
     <span class="cm"># theorem sort_correct : ∀ xs, Sorted (sort xs) ∧ Perm (sort xs) xs</span>
     ...</code></pre>
 
     <div class="important">
-      <code>LEAN_VERIFIED</code> is expensive. The Python → Lean translation adds
+      <code>LEAN_KERNEL_VERIFIED</code> is expensive. The Python → Lean translation adds
       development time. Reserve it for properties that <em>must</em> be correct.
     </div>
 
-    <h3>🟡 Z3_PROVEN — The Pragmatic Choice</h3>
+    <h3>🟡 Z3_VERIFIED — The Pragmatic Choice</h3>
     <p>Use when:</p>
     <ul>
       <li>Arithmetic bounds and overflow checks</li>
@@ -173,13 +326,13 @@
       <li>Most sidecar precondition proofs</li>
     </ul>
     <pre><code><span class="cm"># Z3 handles these naturally</span>
-<span class="dc">@guarantee</span>(<span class="st">"index is within bounds"</span>, trust=<span class="st">"Z3_PROVEN"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"index is within bounds"</span>, trust=<span class="st">"Z3_VERIFIED"</span>)
 <span class="kw">def</span> <span class="fn">safe_get</span>(arr: <span class="ty">list</span>[<span class="ty">int</span>], i: <span class="ty">int</span>) -> <span class="ty">int</span>:
     <span class="pr">assume</span>(i >= <span class="nb">0</span> <span class="kw">and</span> i < len(arr))
     <span class="kw">return</span> arr[i]
     <span class="cm"># Z3 checks: 0 ≤ i < len(arr) at every call site</span></code></pre>
 
-    <h3>🟠 LLM_JUDGED — The Frontier</h3>
+    <h3>🟠 LLM_CHECKED — The Frontier</h3>
     <p>Use when:</p>
     <ul>
       <li>Natural-language specifications that can't be formalized easily</li>
@@ -189,14 +342,14 @@
     </ul>
     <pre><code><span class="cm"># Properties that resist formalization</span>
 <span class="dc">@guarantee</span>(<span class="st">"error message is helpful and mentions the invalid field"</span>,
-           trust=<span class="st">"LLM_JUDGED"</span>, confidence=<span class="nb">0.85</span>)
+           trust=<span class="st">"LLM_CHECKED"</span>, confidence=<span class="nb">0.85</span>)
 <span class="kw">def</span> <span class="fn">validate_config</span>(config: <span class="ty">dict</span>) -> <span class="ty">str</span> | <span class="nb">None</span>:
     <span class="cm"># Oracle checks: does the returned string mention the bad field?</span>
     ...</code></pre>
 
     <div class="warning">
-      <code>LLM_JUDGED</code> is inherently unreliable. The oracle can hallucinate. Use
-      this level as a stepping stone — flag properties as <code>LLM_JUDGED</code> to
+      <code>LLM_CHECKED</code> is inherently unreliable. The oracle can hallucinate. Use
+      this level as a stepping stone — flag properties as <code>LLM_CHECKED</code> to
       remind yourself they need formal proofs later.
     </div>
 
@@ -260,21 +413,21 @@
 <span class="fn">Trust Propagation Analysis</span>
 <span class="op">═══════════════════════════════════════════════</span>
 
-<span class="fn">math.sqrt</span>        → 🟡 Z3_PROVEN  (from sidecar)
+<span class="fn">math.sqrt</span>        → 🟡 Z3_VERIFIED  (from sidecar)
 <span class="fn">math.atan2</span>       → 🔴 UNTRUSTED  (no sidecar spec)
 
-<span class="fn">compute_distance</span> → 🟡 Z3_PROVEN
-  own proof:   🟡 Z3_PROVEN (x²+y² ≥ 0 proved by Z3)
-  deps:        math.sqrt = 🟡 Z3_PROVEN
-  result:      min(🟡, 🟡) = 🟡 Z3_PROVEN
+<span class="fn">compute_distance</span> → 🟡 Z3_VERIFIED
+  own proof:   🟡 Z3_VERIFIED (x²+y² ≥ 0 proved by Z3)
+  deps:        math.sqrt = 🟡 Z3_VERIFIED
+  result:      min(🟡, 🟡) = 🟡 Z3_VERIFIED
 
-<span class="fn">normalize</span>        → 🟡 Z3_PROVEN
-  own proof:   🟡 Z3_PROVEN (d > 0 proved by Z3)
-  deps:        compute_distance = 🟡 Z3_PROVEN
-  result:      min(🟡, 🟡) = 🟡 Z3_PROVEN
+<span class="fn">normalize</span>        → 🟡 Z3_VERIFIED
+  own proof:   🟡 Z3_VERIFIED (d > 0 proved by Z3)
+  deps:        compute_distance = 🟡 Z3_VERIFIED
+  result:      min(🟡, 🟡) = 🟡 Z3_VERIFIED
 
 <span class="fn">angle_between</span>    → 🔴 UNTRUSTED  ← <span class="st">limited by math.atan2!</span>
-  own proof:   🟡 Z3_PROVEN
+  own proof:   🟡 Z3_VERIFIED
   deps:        normalize = 🟡, math.atan2 = 🔴
   result:      min(🟡, 🟡, 🔴) = 🔴 UNTRUSTED
 
@@ -302,22 +455,22 @@
 
 Module                   Level            Coverage
 <span class="op">──────────────────────────────────────────────</span>
-src/core/types.py        🟢 LEAN_VERIFIED   100%
-src/core/crypto.py       🟢 LEAN_VERIFIED    95%
-src/core/validation.py   🟡 Z3_PROVEN       100%
-src/api/handlers.py      🟡 Z3_PROVEN        87%
-src/api/middleware.py     🟠 LLM_JUDGED       60%
+src/core/types.py        🟢 LEAN_KERNEL_VERIFIED   100%
+src/core/crypto.py       🟢 LEAN_KERNEL_VERIFIED    95%
+src/core/validation.py   🟡 Z3_VERIFIED       100%
+src/api/handlers.py      🟡 Z3_VERIFIED        87%
+src/api/middleware.py     🟠 LLM_CHECKED       60%
 src/utils/formatting.py  🔴 UNTRUSTED         0%
 src/utils/logging.py     🔴 UNTRUSTED         0%
 
 <span class="fn">Summary:</span>
-  🟢 LEAN_VERIFIED:  2 modules (195 functions)
-  🟡 Z3_PROVEN:      2 modules (84 functions)
-  🟠 LLM_JUDGED:     1 module  (12 functions)
+  🟢 LEAN_KERNEL_VERIFIED:  2 modules (195 functions)
+  🟡 Z3_VERIFIED:      2 modules (84 functions)
+  🟠 LLM_CHECKED:     1 module  (12 functions)
   🔴 UNTRUSTED:      2 modules (31 functions)
   <span class="op">────────────────────────────────</span>
   Overall trust:     🔴 UNTRUSTED (limited by utils/)
-  Excluding utils/:  🟡 Z3_PROVEN</code></pre>
+  Excluding utils/:  🟡 Z3_VERIFIED</code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="gradual-verification">Gradual Verification</h2>
@@ -341,21 +494,21 @@ src/utils/logging.py     🔴 UNTRUSTED         0%
         <div class="step-content">
           <strong>Week 1:</strong> Write sidecar specs for your most-used library
           functions. Add <code>@guarantee</code> to your critical functions. Coverage
-          climbs to 30%. Many are 🟠 LLM_JUDGED.
+          climbs to 30%. Many are 🟠 LLM_CHECKED.
         </div>
       </div>
       <div class="proof-step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <strong>Month 1:</strong> Replace LLM_JUDGED specs with Z3 proofs where
-          possible. Add refinement types. Coverage hits 60%, most at 🟡 Z3_PROVEN.
+          <strong>Month 1:</strong> Replace LLM_CHECKED specs with Z3 proofs where
+          possible. Add refinement types. Coverage hits 60%, most at 🟡 Z3_VERIFIED.
         </div>
       </div>
       <div class="proof-step">
         <div class="step-num">4</div>
         <div class="step-content">
           <strong>Quarter 1:</strong> Translate core invariants to Lean for
-          🟢 LEAN_VERIFIED. Set CI gate: "no regressions below Z3_PROVEN for
+          🟢 LEAN_KERNEL_VERIFIED. Set CI gate: "no regressions below Z3_VERIFIED for
           <code>src/core/</code>."
         </div>
       </div>
@@ -398,8 +551,8 @@ jobs:
       - name: Check trust floor
         run: |
           deppy trust gate verification-report.json \
-            --require "src/core/**:Z3_PROVEN" \
-            --require "src/api/**:LLM_JUDGED" \
+            --require "src/core/**:Z3_VERIFIED" \
+            --require "src/api/**:LLM_CHECKED" \
             --no-regression
 
       - name: Upload report
@@ -421,7 +574,7 @@ jobs:
     <h3>The <code>--no-regression</code> Flag</h3>
     <p>
       The <code>--no-regression</code> flag ensures that trust levels never decrease.
-      If a function was 🟡 Z3_PROVEN and a PR changes it to 🔴 UNTRUSTED, the CI gate
+      If a function was 🟡 Z3_VERIFIED and a PR changes it to 🔴 UNTRUSTED, the CI gate
       fails:
     </p>
 
@@ -434,7 +587,7 @@ jobs:
 <span class="st">✓</span> src/core/crypto.py:   🟢 → 🟢 (no change)
 <span class="st">✓</span> src/api/handlers.py:  🟡 → 🟡 (no change)
 <span class="st">✗</span> src/api/auth.py:      🟡 → 🔴 <span class="op">REGRESSION</span>
-  Function <span class="fn">verify_token</span> was Z3_PROVEN, now UNTRUSTED.
+  Function <span class="fn">verify_token</span> was Z3_VERIFIED, now UNTRUSTED.
   Cause: new dependency on <span class="fn">jwt.decode</span> (no sidecar spec).
 
 <span class="op">───────────────────────────────────────────────</span>
@@ -568,11 +721,11 @@ Rank  Function              Dependents  Current    Impact
         <h4>Deppy: Trust Levels</h4>
         <pre><code><span class="cm"># Deppy: tracked, graded, reported</span>
 <span class="dc">@guarantee</span>(<span class="st">"SHA-256 hash"</span>,
-           trust=<span class="st">"LLM_JUDGED"</span>)
+           trust=<span class="st">"LLM_CHECKED"</span>)
 <span class="kw">def</span> <span class="fn">compute_hash</span>(data: <span class="ty">bytes</span>):
     <span class="kw">return</span> sha256(data)
 
-<span class="cm"># Trust report shows: LLM_JUDGED</span>
+<span class="cm"># Trust report shows: LLM_CHECKED</span>
 <span class="cm"># Dependents are bounded by 🟠</span>
 <span class="cm"># CI tracks it for future upgrade</span></code></pre>
       </div>
@@ -588,7 +741,7 @@ default_level = <span class="st">"UNTRUSTED"</span>
 
 <span class="cm"># LLM oracle settings</span>
 [trust.llm]
-confidence_threshold = <span class="nb">0.9</span>     <span class="cm"># minimum confidence for LLM_JUDGED</span>
+confidence_threshold = <span class="nb">0.9</span>     <span class="cm"># minimum confidence for LLM_CHECKED</span>
 model = <span class="st">"gpt-4"</span>                <span class="cm"># oracle model</span>
 temperature = <span class="nb">0.0</span>              <span class="cm"># deterministic for reproducibility</span>
 max_retries = <span class="nb">3</span>                <span class="cm"># retry on low confidence</span>
@@ -596,8 +749,8 @@ max_retries = <span class="nb">3</span>                <span class="cm"># retry 
 <span class="cm"># CI gates</span>
 [trust.gates]
 <span class="cm"># Minimum trust level by path glob</span>
-<span class="st">"src/core/**"</span> = <span class="st">"Z3_PROVEN"</span>
-<span class="st">"src/api/**"</span> = <span class="st">"LLM_JUDGED"</span>
+<span class="st">"src/core/**"</span> = <span class="st">"Z3_VERIFIED"</span>
+<span class="st">"src/api/**"</span> = <span class="st">"LLM_CHECKED"</span>
 <span class="st">"src/utils/**"</span> = <span class="st">"UNTRUSTED"</span>    <span class="cm"># no requirement (yet)</span>
 
 <span class="cm"># Prevent trust regressions</span>
@@ -612,8 +765,8 @@ min_coverage = <span class="nb">0.70</span></code></pre>
       Deppy provides tooling to help you upgrade from one trust level to the next.
     </p>
 
-    <h3>From UNTRUSTED to LLM_JUDGED</h3>
-    <pre><code class="output"><span class="cm">$ deppy trust upgrade src/api/auth.py --to LLM_JUDGED</span>
+    <h3>From UNTRUSTED to LLM_CHECKED</h3>
+    <pre><code class="output"><span class="cm">$ deppy trust upgrade src/api/auth.py --to LLM_CHECKED</span>
 
 Analyzing <span class="fn">src/api/auth.py</span>...
 Found 4 functions with @guarantee decorators.
@@ -622,7 +775,7 @@ Found 4 functions with @guarantee decorators.
   Oracle query: <span class="st">"Does this function verify a JWT token and check</span>
   <span class="st">the signature against the configured public key?"</span>
   Oracle response: {"correct": true, "confidence": 0.92}
-  <span class="st">✓ Upgraded to 🟠 LLM_JUDGED (confidence: 0.92)</span>
+  <span class="st">✓ Upgraded to 🟠 LLM_CHECKED (confidence: 0.92)</span>
 
 <span class="fn">refresh_token</span>: "new token has extended expiry"
   Oracle response: {"correct": true, "confidence": 0.88}
@@ -631,8 +784,8 @@ Found 4 functions with @guarantee decorators.
 
 Upgraded: 3/4 functions.</code></pre>
 
-    <h3>From LLM_JUDGED to Z3_PROVEN</h3>
-    <pre><code class="output"><span class="cm">$ deppy trust upgrade src/core/validation.py --to Z3_PROVEN</span>
+    <h3>From LLM_CHECKED to Z3_VERIFIED</h3>
+    <pre><code class="output"><span class="cm">$ deppy trust upgrade src/core/validation.py --to Z3_VERIFIED</span>
 
 Analyzing <span class="fn">src/core/validation.py</span>...
 Found 6 functions with @guarantee decorators.
@@ -640,19 +793,19 @@ Found 6 functions with @guarantee decorators.
 <span class="fn">validate_email</span>: "result matches RFC 5322 email pattern"
   Encoding to SMT-LIB...
   <span class="st">✗ Cannot encode: regex matching not supported by Z3.</span>
-  Suggestion: use @guarantee with trust="LLM_JUDGED" or
+  Suggestion: use @guarantee with trust="LLM_CHECKED" or
   break into structural sub-properties that Z3 can handle.
 
 <span class="fn">validate_age</span>: "age is between 0 and 150"
   Encoding to SMT-LIB: (assert (and (>= age 0) (<= age 150)))
   Z3 result: unsat (negation is unsatisfiable)
-  <span class="st">✓ Upgraded to 🟡 Z3_PROVEN</span>
+  <span class="st">✓ Upgraded to 🟡 Z3_VERIFIED</span>
 
 Upgraded: 4/6 functions.
 Remaining: 2 functions need manual proofs or alternative trust levels.</code></pre>
 
-    <h3>From Z3_PROVEN to LEAN_VERIFIED</h3>
-    <pre><code class="output"><span class="cm">$ deppy trust upgrade src/core/crypto.py --to LEAN_VERIFIED</span>
+    <h3>From Z3_VERIFIED to LEAN_KERNEL_VERIFIED</h3>
+    <pre><code class="output"><span class="cm">$ deppy trust upgrade src/core/crypto.py --to LEAN_KERNEL_VERIFIED</span>
 
 Analyzing <span class="fn">src/core/crypto.py</span>...
 
@@ -661,13 +814,13 @@ Analyzing <span class="fn">src/core/crypto.py</span>...
   Generated: lean/Deppy/Core/Crypto.lean
   Running: lake build Deppy.Core.Crypto
   Lean kernel: <span class="st">✓ type-checked</span>
-  <span class="st">✓ Upgraded to 🟢 LEAN_VERIFIED</span>
+  <span class="st">✓ Upgraded to 🟢 LEAN_KERNEL_VERIFIED</span>
 
 <span class="fn">derive_key</span>: "derived key has full entropy"
   Translating to Lean 4...
   <span class="st">✗ Translation failed: entropy is not a structural property.</span>
   Suggestion: prove information-theoretic properties separately
-  or keep at 🟡 Z3_PROVEN.
+  or keep at 🟡 Z3_VERIFIED.
 
 Upgraded: 3/5 functions.</code></pre>
 
@@ -679,31 +832,31 @@ Upgraded: 3/5 functions.</code></pre>
       the trust level of <code>main()</code>:
       <ul style="margin-top:0.5rem;">
         <li><code>main()</code> calls <code>process()</code> and <code>log()</code></li>
-        <li><code>process()</code> is 🟡 Z3_PROVEN, calls <code>validate()</code></li>
-        <li><code>validate()</code> is 🟢 LEAN_VERIFIED</li>
-        <li><code>log()</code> is 🟠 LLM_JUDGED</li>
+        <li><code>process()</code> is 🟡 Z3_VERIFIED, calls <code>validate()</code></li>
+        <li><code>validate()</code> is 🟢 LEAN_KERNEL_VERIFIED</li>
+        <li><code>log()</code> is 🟠 LLM_CHECKED</li>
       </ul>
     </div>
 
     <div class="exercise">
       <strong>Exercise 4.10:</strong> Design a <code>deppy.toml</code> configuration
       for a medical device project. Which modules should require
-      <code>LEAN_VERIFIED</code>? Which can be <code>Z3_PROVEN</code>? What should the
+      <code>LEAN_KERNEL_VERIFIED</code>? Which can be <code>Z3_VERIFIED</code>? What should the
       minimum coverage be?
     </div>
 
     <div class="exercise">
-      <strong>Exercise 4.11:</strong> You have a function that is 🟡 Z3_PROVEN, but it
+      <strong>Exercise 4.11:</strong> You have a function that is 🟡 Z3_VERIFIED, but it
       calls <code>random.randint()</code> which is 🔴 UNTRUSTED. Write a sidecar spec
       for <code>random.randint</code> that would allow the function to be at least
-      🟡 Z3_PROVEN. What can you prove about <code>randint(a, b)</code>?
+      🟡 Z3_VERIFIED. What can you prove about <code>randint(a, b)</code>?
       (Hint: <code>a ≤ result ≤ b</code>.)
     </div>
 
     <div class="exercise">
       <strong>Exercise 4.12 (Challenge):</strong> The trust propagation rule says
       <code>trust(A) ≤ trust(B)</code> when A calls B. But what about higher-order
-      functions? If <code>map(f, xs)</code> is 🟢 LEAN_VERIFIED but <code>f</code> is
+      functions? If <code>map(f, xs)</code> is 🟢 LEAN_KERNEL_VERIFIED but <code>f</code> is
       🔴 UNTRUSTED, what is <code>map(f, xs)</code>'s trust level? How should Deppy handle this? Propose a rule and justify it.
     </div>
 
@@ -711,7 +864,7 @@ Upgraded: 3/5 functions.</code></pre>
       <strong>Exercise 4.13 (Project):</strong> Set up a GitHub Actions workflow for a
       small Python project that:
       (a) runs <code>deppy verify</code>,
-      (b) enforces a trust gate of <code>Z3_PROVEN</code> for <code>src/core/</code>,
+      (b) enforces a trust gate of <code>Z3_VERIFIED</code> for <code>src/core/</code>,
       (c) posts a coverage report as a PR comment,
       (d) prevents trust regressions.
     </div>

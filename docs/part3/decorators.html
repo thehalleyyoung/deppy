@@ -139,7 +139,7 @@
   <span class="cm">│   Side effect: print() — pure observation, does not affect result  ✓</span>
   <span class="cm">└── Status: SPEC_PRESERVED ✅</span>
 
-<span class="st">✓ sorted_copy: guarantee "returns a sorted copy" — Z3_PROVEN</span>
+<span class="st">✓ sorted_copy: guarantee "returns a sorted copy" — Z3_VERIFIED</span>
   <span class="cm">└── @timing does not invalidate this guarantee</span>
 
 <span class="st">2/2 obligations verified</span> (0.08s)</code></pre>
@@ -266,7 +266,7 @@
   <span class="cm">├── Original guarantee "returns the difference": TRANSFORMED</span>
   <span class="cm">│   └── Now: "returns the absolute difference"</span>
   <span class="cm">├── Added guarantee "result is non-negative":</span>
-  <span class="cm">│   Z3: ∀ x : Int. abs(x) ≥ 0  — Z3_PROVEN ✅</span>
+  <span class="cm">│   Z3: ∀ x : Int. abs(x) ≥ 0  — Z3_VERIFIED ✅</span>
   <span class="cm">└── Status: TRANSFORM_VERIFIED ✅</span></code></pre>
 
 <h2>Class Decorators and __init_subclass__</h2>
@@ -507,7 +507,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
   <span class="cm">│   └── Guarantee "returns value in [min, max]":</span>
   <span class="cm">│       Precondition: obj is not None</span>
   <span class="cm">│       Z3: min_val ≤ result ≤ max_val</span>
-  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">│       Status: Z3_VERIFIED ✅</span>
   <span class="cm">│       (default value min_val is in range trivially)</span>
   <span class="cm">├── __set__: (obj, value: float) → None</span>
   <span class="cm">│   └── Post: getattr(obj, f"_{name}") == value</span>
@@ -525,7 +525,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
 <span class="st">✓ Temperature.celsius: Validated(-273.15, 1e10)</span>
   <span class="cm">├── __init__ sets celsius to kelvin - 273.15</span>
   <span class="cm">│   Z3: (0 ≤ kelvin ≤ 1e10) → (-273.15 ≤ kelvin-273.15 ≤ 1e10)</span>
-  <span class="cm">│   Status: Z3_PROVEN ✅</span>
+  <span class="cm">│   Status: Z3_VERIFIED ✅</span>
   <span class="cm">└── Descriptor bounds satisfied</span></code></pre>
 
 <h2>@property Verification</h2>
@@ -632,14 +632,14 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
   <span class="cm">├── On cache hit, cache[key] is returned unchanged</span>
   <span class="cm">├── func is pure (assumption — verified per call site)</span>
   <span class="cm">│   ∴ cache hit returns same as fresh call</span>
-  <span class="cm">└── Z3_PROVEN ✅</span>
+  <span class="cm">└── Z3_VERIFIED ✅</span>
 
 <span class="st">✓ Property 2: Cache boundedness</span>
   <span class="cm">├── Loop invariant: len(cache) ≤ maxsize + 1 at entry</span>
   <span class="cm">├── While body: len(cache) decreases by 1</span>
   <span class="cm">├── After loop: len(cache) ≤ maxsize</span>
   <span class="cm">├── Termination: len(cache) is natural number, decreases</span>
-  <span class="cm">└── Z3_PROVEN ✅</span>
+  <span class="cm">└── Z3_VERIFIED ✅</span>
 
 <span class="st">✓ Property 3: Spec preservation</span>
   <span class="cm">├── @wraps(func) applied  ✓</span>
@@ -696,14 +696,14 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
   <span class="cm">│   range(max_attempts) has exactly max_attempts iterations</span>
   <span class="cm">│   func called at most once per iteration</span>
   <span class="cm">│   ∴ func called at most max_attempts times</span>
-  <span class="cm">└── Z3_PROVEN ✅</span>
+  <span class="cm">└── Z3_VERIFIED ✅</span>
 
 <span class="st">✓ Exponential backoff:</span>
   <span class="cm">├── delay = backoff_factor × 2^attempt</span>
   <span class="cm">│   attempt ∈ {0, 1, ..., max_attempts-2}</span>
   <span class="cm">│   delays: [bf, 2bf, 4bf, ...]</span>
   <span class="cm">│   Each delay = 2 × previous delay</span>
-  <span class="cm">└── Z3_PROVEN ✅</span>
+  <span class="cm">└── Z3_VERIFIED ✅</span>
 
 <span class="st">✓ Exception specificity:</span>
   <span class="cm">├── except clause catches only 'exceptions' tuple</span>
@@ -714,7 +714,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
   <span class="cm">├── If loop completes without return:</span>
   <span class="cm">│   last_exception is not None (set on each except)</span>
   <span class="cm">│   raise last_exception executes</span>
-  <span class="cm">└── Z3_PROVEN ✅</span>
+  <span class="cm">└── Z3_VERIFIED ✅</span>
 
 <span class="st">4/4 obligations verified</span> (0.15s)</code></pre>
 

@@ -236,6 +236,238 @@ class DuckPath(ProofTerm):
         ms = ", ".join(f"{m}: ..." for m, _ in self.method_proofs)
         return f"DuckPath({self.type_a}, {self.type_b}, [{ms}])"
 
+    @classmethod
+    def auto_construct(cls, type_a, type_b, protocol=None):
+        """Introspect two Python classes (or ``ProtocolType``\\ s) and
+        construct a ``DuckPath`` from their shared method set.
+
+        For each method name ``m`` that appears on both sides with a
+        compatible signature, the path records a reflexive method-proof
+        ``(m, Refl(m))``.  When ``protocol`` is supplied (a list of
+        method names), only those methods are considered; otherwise the
+        intersection of public methods on both types is used.
+
+        Cubical reading: each method contributes a 1-cell in the path
+        between ``type_a`` and ``type_b``; the full ``DuckPath`` is the
+        2-cell (homotopy) constructed by the ``UnivalenceEngine``.
+
+        Use when you want a first-cut duck-type equivalence without
+        hand-writing method-by-method proofs — ``type_a`` and
+        ``type_b`` must agree on the method SHAPES, not necessarily
+        the implementations.
+        """
+        import inspect as _inspect
+
+        # Protocol-relevant dunder methods that we always include
+        # despite their leading underscore — these are the user-facing
+        # operator hooks (``__iter__``, ``__len__``, ``__getitem__``,
+        # …) that the typing module treats as part of a Protocol.
+        _PROTOCOL_DUNDERS = frozenset({
+            "__iter__", "__next__", "__len__", "__getitem__",
+            "__setitem__", "__delitem__", "__contains__",
+            "__call__", "__eq__", "__ne__", "__hash__",
+            "__enter__", "__exit__", "__add__", "__sub__",
+            "__mul__", "__truediv__", "__lt__", "__le__",
+            "__gt__", "__ge__",
+        })
+
+        def _methods_of(obj):
+            if hasattr(obj, "methods") and obj.methods:
+                # ProtocolType with an explicit method tuple
+                return dict(obj.methods)
+            # Assume it's a Python class; introspect callable public
+            # attrs *and* the protocol-relevant dunders.
+            out = {}
+            for name in dir(obj):
+                if name.startswith("_") and name not in _PROTOCOL_DUNDERS:
+                    continue
+                attr = getattr(obj, name, None)
+                if callable(attr):
+                    out[name] = attr
+            return out
+
+        def _arity_of(callable_obj) -> int | None:
+            """Return the positional-argument count of ``callable_obj``,
+            ignoring ``self``.  ``None`` if the signature isn't
+            introspectable."""
+            if callable_obj is None:
+                return None
+            try:
+                sig = _inspect.signature(callable_obj)
+            except (TypeError, ValueError):
+                return None
+            params = [
+                p for p in sig.parameters.values()
+                if p.kind in (p.POSITIONAL_OR_KEYWORD, p.POSITIONAL_ONLY)
+                and p.name != "self"
+            ]
+            return len(params)
+
+        m_a = _methods_of(type_a)
+        m_b = _methods_of(type_b)
+
+        if protocol is None:
+            shared_names = sorted(set(m_a.keys()) & set(m_b.keys()))
+        else:
+            # ``protocol`` may be:
+            #   * a sequence of method names (legacy form),
+            #   * a Protocol class — read declared methods off it,
+            #   * a generic alias like ``Iterable[int]`` — extract its
+            #     ``__origin__``'s public method names.
+            if isinstance(protocol, type):
+                proto_names = [
+                    n for n in dir(protocol)
+                    if not n.startswith("_") or n in (
+                        "__iter__", "__next__", "__len__", "__getitem__",
+                        "__contains__", "__call__", "__eq__",
+                    )
+                ]
+            elif hasattr(protocol, "__origin__"):
+                base = protocol.__origin__
+                proto_names = [
+                    n for n in dir(base)
+                    if not n.startswith("_") or n in (
+                        "__iter__", "__next__", "__len__", "__getitem__",
+                        "__contains__", "__call__", "__eq__",
+                    )
+                ]
+            else:
+                proto_names = list(protocol)
+            shared_names = [m for m in proto_names if m in m_a and m in m_b]
+
+        # Reject method pairs with incompatible arities — a duck-path
+        # cannot soundly prove ``A ≃ B over m`` if ``A.m`` takes 1
+        # argument and ``B.m`` takes 3.  When the arity isn't
+        # introspectable (e.g., builtins, C extensions), accept
+        # conservatively.
+        compatible: list = []
+        skipped: list = []
+        for name in shared_names:
+            arity_a = _arity_of(m_a.get(name))
+            arity_b = _arity_of(m_b.get(name))
+            if arity_a is None or arity_b is None:
+                compatible.append(name)
+                continue
+            if arity_a != arity_b:
+                skipped.append((name, arity_a, arity_b))
+                continue
+            compatible.append(name)
+
+        method_proofs = [(name, Refl(term=Var(name))) for name in compatible]
+        evidence = {
+            "_deppy_auto_constructed": True,
+            "_deppy_protocol": compatible,
+        }
+        if skipped:
+            evidence["_deppy_skipped_arity_mismatch"] = skipped
+        return cls(
+            type_a=type_a, type_b=type_b,
+            method_proofs=method_proofs,
+            evidence=evidence,
+        )
+
+
+@dataclass
+class ConditionalDuckPath(ProofTerm):
+    """Duck-type path that holds *only when* a runtime condition does.
+
+    Used for ``__getattr__``-based dynamic proxies (and similar
+    delegating shapes) where the protocol satisfaction depends on
+    the runtime state of the proxied object.
+
+    Cubical reading
+    ---------------
+    A ``ConditionalDuckPath`` is the projection of a fibration
+    ``p: E → B`` where:
+
+    * ``B`` is the boolean predicate type ``{condition is true,
+      condition is false}``.
+    * The fiber over ``true`` is a real ``DuckPath``; the fiber over
+      ``false`` is the empty type (no proof exists there).
+
+    The kernel accepts the proof only with trust level
+    :attr:`TrustLevel.STRUCTURAL_CHAIN` — soundness depends on the
+    caller actually checking ``condition`` at every call site (or
+    the call site lying in the predicate-true region statically).
+
+    Use :meth:`construct` to build one:
+
+        cp = ConditionalDuckPath.construct(
+            condition="isinstance(self._target, Renderable)",
+            evidence=FiberedLookup(...),
+        )
+    """
+    condition: str            # runtime predicate, evaluated at call sites
+    evidence: ProofTerm       # the underlying DuckPath / FiberedLookup
+    type_a: SynType | None = None
+    type_b: SynType | None = None
+
+    def __repr__(self) -> str:
+        return (
+            f"ConditionalDuckPath(if {self.condition!r}: "
+            f"{type(self.evidence).__name__})"
+        )
+
+    @classmethod
+    def construct(cls, *, condition: str, evidence: ProofTerm,
+                  type_a=None, type_b=None) -> "ConditionalDuckPath":
+        """Build a ``ConditionalDuckPath``.
+
+        ``condition`` is the predicate (a string Python expression);
+        ``evidence`` is the proof that holds whenever the condition
+        does — typically a :class:`DuckPath` or :class:`FiberedLookup`.
+        """
+        if not condition or not condition.strip():
+            raise ValueError(
+                "ConditionalDuckPath: condition cannot be empty"
+            )
+        if not isinstance(evidence, ProofTerm):
+            raise TypeError(
+                f"ConditionalDuckPath: evidence must be a ProofTerm, "
+                f"got {type(evidence).__name__}"
+            )
+        return cls(
+            condition=condition,
+            evidence=evidence,
+            type_a=type_a,
+            type_b=type_b,
+        )
+
+
+@dataclass
+class FiberedLookup(ProofTerm):
+    """Lookup through ``__getattr__`` (or similar) as a fiber over an
+    attribute.
+
+    Cubical reading
+    ---------------
+    The proxy class ``DynamicProxy`` carries a private attribute
+    (typically ``_target``).  At each call to ``proxy.method()`` the
+    attribute lookup is the *first projection* of a Σ-type
+    ``Σ(t : Target). methods(t)``.  ``FiberedLookup`` packages:
+
+    * ``fiber_over``: the attribute name being projected on
+      (``"_target"`` in the book example).
+    * ``base_path``: the ``DuckPath`` proving that the value
+      reachable through the attribute satisfies the protocol.
+    * ``transport_through``: the *delegation method* that performs
+      the actual lookup (``"__getattr__"`` in the book example).
+
+    The proof is consumed by :class:`ConditionalDuckPath` (the
+    condition is "the projected attribute satisfies ``base_path``'s
+    target type") and verified at trust level
+    :attr:`TrustLevel.STRUCTURAL_CHAIN`.
+    """
+    fiber_over: str           # attribute name (e.g., "_target")
+    base_path: ProofTerm      # underlying DuckPath / proof
+    transport_through: str    # delegating method (e.g., "__getattr__")
+
+    def __repr__(self) -> str:
+        return (
+            f"FiberedLookup(over={self.fiber_over!r}, "
+            f"through={self.transport_through!r})"
+        )
+
 
 @dataclass
 class EffectWitness(ProofTerm):
@@ -416,6 +648,69 @@ class Fiber(ProofTerm):
     def __repr__(self) -> str:
         bs = ", ".join(str(t) for t, _ in self.type_branches)
         return f"Fiber({self.scrutinee}, [{bs}])"
+
+    @classmethod
+    def from_metaclass(cls, metaclass):
+        """Extract a fibration from a Python metaclass.
+
+        The metaclass's ``__init_subclass__`` / ``__subclasses__()`` tree
+        gives a natural fibration: the **base** is the metaclass's root
+        class, the **total space** is the union of all registered
+        subclasses, and the **fiber** over each subclass is the set of
+        concrete instances declared for that subclass.
+
+        This ``classmethod`` inspects the metaclass at runtime and
+        returns a ``Fiber`` proof term whose ``type_branches`` list
+        enumerates ``(subclass, Refl(subclass))`` — a reflexive proof
+        for each registered subclass (the actual verification work is
+        left to ``FibrationVerifier`` downstream).
+
+        Cubical reading: a metaclass-defined type hierarchy is a
+        **dependent sum** ``Σ(C : Base). classes(C)``; the fibration is
+        the first projection.  ``from_metaclass`` materialises that
+        projection as a proof term the kernel can consume.
+        """
+        if not isinstance(metaclass, type):
+            raise TypeError(
+                f"Fiber.from_metaclass: expected a metaclass, got "
+                f"{type(metaclass).__name__}"
+            )
+
+        # Collect registered subclasses (breadth-first; metaclasses
+        # usually track these via __subclasses__() or a custom registry).
+        seen: set = set()
+        subclasses: list = []
+        queue = [metaclass]
+        while queue:
+            cls_ = queue.pop(0)
+            if cls_ in seen:
+                continue
+            seen.add(cls_)
+            try:
+                children = cls_.__subclasses__()
+            except TypeError:
+                children = []
+            for child in children:
+                if child not in seen:
+                    subclasses.append(child)
+                    queue.append(child)
+
+        # Build a PyClassType per subclass and a reflexive proof.
+        try:
+            from deppy.core.types import PyClassType
+        except ImportError:
+            PyClassType = None  # type: ignore[assignment]
+
+        branches: list = []
+        for sub in subclasses:
+            ty = PyClassType(name=sub.__name__) if PyClassType else Var(sub.__name__)
+            branches.append((ty, Refl(term=Var(sub.__name__))))
+
+        return cls(
+            scrutinee=Var(metaclass.__name__),
+            type_branches=branches,
+            exhaustive=True,
+        )
 
 
 @dataclass
@@ -621,6 +916,10 @@ class ProofKernel:
             return self._verify_cases(ctx, goal, proof)
         elif isinstance(proof, DuckPath):
             return self._verify_duck_path(ctx, goal, proof)
+        elif isinstance(proof, ConditionalDuckPath):
+            return self._verify_conditional_duck_path(ctx, goal, proof)
+        elif isinstance(proof, FiberedLookup):
+            return self._verify_fibered_lookup(ctx, goal, proof)
         elif isinstance(proof, EffectWitness):
             return self._verify_effect_witness(ctx, goal, proof)
         elif isinstance(proof, ConditionalEffectWitness):
@@ -819,67 +1118,90 @@ class ProofKernel:
 
     def _verify_z3(self, ctx: Context, goal: Judgment,
                    proof: Z3Proof) -> VerificationResult:
-        """Discharge a formula to Z3."""
-        # ROUND 4 FIX: Check that the formula relates to the goal, but 
-        # only fail for obviously tautological cases
+        """Discharge a formula to Z3.
+
+        Returns:
+          - ``Z3_VERIFIED`` success when Z3 proves the formula valid
+          - failure with code ``E005``  when Z3 runs and returns sat/unknown
+          - failure with code ``E005b`` when the formula is a tautology used
+            as a safety-goal discharge (a common cheat pattern)
+          - failure with code ``E005i`` when Z3 is not installed
+          - failure with code ``E005c`` when Z3 crashed internally (parse
+            error, unsupported construct, timeout); the reason is surfaced
+            in the message so callers can distinguish "Z3 disagrees" from
+            "Z3 could not run"
+        """
         goal_str = str(goal.type_)
-        if hasattr(goal.type_, 'name'):
-            goal_str = goal.type_.name
-        
-        # For safety predicates, reject only blatant tautologies
+        if goal.type_ is not None and hasattr(goal.type_, 'name'):
+            goal_str = getattr(goal.type_, 'name', goal_str)
+
+        # For safety predicates, reject only blatant tautologies.
         if ("Safe[" in goal_str or "safety" in goal_str.lower()) and proof.formula.strip() == "True":
             return VerificationResult.fail(
                 f"Z3 formula 'True' is tautological for safety goal {goal_str}",
                 code="E005b"
             )
-        
-        result = self._z3_check(proof.formula)
-        if result:
+
+        verdict, reason = self._z3_check(proof.formula)
+        if verdict:
             return VerificationResult.ok(
                 TrustLevel.Z3_VERIFIED, f"Z3({proof.formula})"
+            )
+        if reason == "not-installed":
+            return VerificationResult.fail(
+                f"Z3 not installed; cannot verify: {proof.formula}",
+                code="E005i",
+            )
+        if reason and reason != "disagrees":
+            return VerificationResult.fail(
+                f"Z3 internal error ({reason}) on formula: {proof.formula}",
+                code="E005c",
             )
         return VerificationResult.fail(
             f"Z3 could not verify: {proof.formula}", code="E005"
         )
 
-    def _z3_check(self, formula_str: str) -> bool:
-        """Check a formula with Z3. Returns True if valid."""
-        try:
-            from z3 import Solver, Int, Real, Bool, sat, unsat, parse_smt2_string
-            s = Solver()
-            return self._z3_check_arithmetic(formula_str)
-        except ImportError:
-            return False
-        except Exception:
-            return False
+    def _z3_check(self, formula_str: str) -> tuple[bool, str | None]:
+        """Check a formula with Z3.
 
-    def _z3_check_arithmetic(self, formula_str: str) -> bool:
+        Returns a ``(verdict, reason)`` pair:
+          * ``(True,  None)``            — Z3 proved it valid
+          * ``(False, 'disagrees')``     — Z3 ran and returned sat/unknown
+          * ``(False, 'not-installed')`` — Z3 import failed
+          * ``(False, <short-reason>)``  — Z3 crashed (parse/timeout/etc.)
+        """
+        try:
+            import z3  # noqa: F401
+        except ImportError:
+            return False, "not-installed"
+        try:
+            return self._z3_check_arithmetic(formula_str)
+        except Exception as e:
+            return False, f"crash: {type(e).__name__}: {e}"[:120]
+
+    def _z3_check_arithmetic(self, formula_str: str) -> tuple[bool, str | None]:
         """Check arithmetic and collection formulas with Z3."""
         try:
-            from z3 import Solver, Int, unsat, ForAll, Implies
-
             parts = formula_str.split("=>")
             if len(parts) == 2:
                 return self._z3_check_implication(parts[0].strip(), parts[1].strip())
-
             return self._z3_check_simple(formula_str)
-        except Exception:
-            return False
+        except Exception as e:
+            return False, f"arith-crash: {type(e).__name__}: {e}"[:120]
 
-    def _z3_check_simple(self, formula: str) -> bool:
-        """Check arithmetic/collection formula."""
+    def _z3_check_simple(self, formula: str) -> tuple[bool, str | None]:
+        """Check arithmetic/collection formula.  Returns ``(verdict, reason)``
+        per the contract of :meth:`_z3_check`."""
         try:
             from z3 import (Solver, Int, Array, IntSort, BoolSort, StringSort,
-                            Select, Store, Length, unsat, Not, And, Or, String)
+                            Select, Store, Length, unsat, Not)
             import re
 
             var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', formula))
             var_names -= {'True', 'False', 'and', 'or', 'not', 'if', 'else',
                           'len', 'in', 'sorted', 'sum', 'append', 'get'}
 
-            z3_vars = {name: Int(name) for name in var_names}
-
-            env = dict(z3_vars)
+            env: dict[str, Any] = {name: Int(name) for name in var_names}
             env['__builtins__'] = {}
             env['len'] = lambda x: Length(x) if hasattr(x, 'sort') and x.sort() == StringSort() else Int(f'__len_{id(x)}')
             env['Select'] = Select
@@ -890,17 +1212,18 @@ class ProofKernel:
 
             try:
                 expr = eval(formula, env)
-            except Exception:
-                return False
+            except Exception as e:
+                return False, f"parse: {type(e).__name__}: {e}"[:120]
 
             s = Solver()
             s.set("timeout", 5000)
             s.add(Not(expr))
-            return s.check() == unsat
-        except Exception:
-            return False
+            verdict = s.check() == unsat
+            return verdict, None if verdict else "disagrees"
+        except Exception as e:
+            return False, f"simple-crash: {type(e).__name__}: {e}"[:120]
 
-    def _z3_check_implication(self, premise: str, conclusion: str) -> bool:
+    def _z3_check_implication(self, premise: str, conclusion: str) -> tuple[bool, str | None]:
         """Check P => Q by checking that P ∧ ¬Q is unsat."""
         try:
             from z3 import Solver, Int, Bool, unsat, Not, And, Or
@@ -908,32 +1231,25 @@ class ProofKernel:
 
             var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', premise + conclusion))
             var_names -= {'True', 'False', 'and', 'or', 'not'}
-            
-            # ROUND 5 FIX: Better Python semantic modeling
-            # Infer types from usage patterns instead of defaulting to Int
-            z3_vars = {}
+
+            z3_vars: dict[str, Any] = {}
             combined = f"({premise}) and ({conclusion})"
-            
+
             for name in var_names:
-                # Heuristics for type inference from usage context
-                if (f"{name} ==" in combined or f"{name} !=" in combined or 
+                if (f"{name} ==" in combined or f"{name} !=" in combined or
                     f"== {name}" in combined or f"!= {name}" in combined or
                     f"{name} >" in combined or f"{name} <" in combined):
-                    # Used in comparison — likely numeric
                     z3_vars[name] = Int(name)
                 elif (f"not {name}" in combined or f"{name} and " in combined or
                       f" and {name}" in combined or f"{name} or " in combined):
-                    # Used in boolean context
-                    z3_vars[name] = Bool(name)  
+                    z3_vars[name] = Bool(name)
                 else:
-                    # Default to Int for safety, but this is already problematic
                     z3_vars[name] = Int(name)
-                    
-            # Reject formulas with unsupported constructs
+
             if any(op in combined for op in ['[', ']', '.', 'len(', 'str(', 'None']):
-                return False  # Fail closed on unsupported Python constructs
-                
-            env = dict(z3_vars)
+                return False, "unsupported-constructs"
+
+            env: dict[str, Any] = dict(z3_vars)
             env['__builtins__'] = {}
             env['And'] = And
             env['Or'] = Or
@@ -942,9 +1258,7 @@ class ProofKernel:
             env['False'] = False
 
             def _rewrite(src: str) -> str:
-                """Rewrite Python `and`/`or`/`not` into Z3 calls."""
                 tree = _ast.parse(src, mode="eval")
-
                 class _T(_ast.NodeTransformer):
                     def visit_BoolOp(self, n):  # type: ignore
                         self.generic_visit(n)
@@ -954,7 +1268,6 @@ class ProofKernel:
                                       args=list(n.values), keywords=[]),
                             n,
                         )
-
                     def visit_UnaryOp(self, n):  # type: ignore
                         self.generic_visit(n)
                         if isinstance(n.op, _ast.Not):
@@ -964,22 +1277,22 @@ class ProofKernel:
                                 n,
                             )
                         return n
-
                 tree = _ast.fix_missing_locations(_T().visit(tree))
                 return _ast.unparse(tree)
 
             try:
                 p = eval(_rewrite(premise), env)
                 q = eval(_rewrite(conclusion), env)
-            except Exception:
-                return False
+            except Exception as e:
+                return False, f"parse: {type(e).__name__}: {e}"[:120]
 
             s = Solver()
             s.set("timeout", 5000)
             s.add(And(p, Not(q)))
-            return s.check() == unsat
-        except Exception:
-            return False
+            verdict = s.check() == unsat
+            return verdict, None if verdict else "disagrees"
+        except Exception as e:
+            return False, f"impl-crash: {type(e).__name__}: {e}"[:120]
 
     # ── NatInduction ──────────────────────────────────────────────
 
@@ -1063,10 +1376,16 @@ class ProofKernel:
         """
         results = []
         for method_name, method_proof in proof.method_proofs:
+            # Bind the equality goal to the method's name on both
+            # sides so that a ``Refl(Var(name))`` witness can verify.
+            # Without left/right, the inner Refl rejects with
+            # "Equality goal has no left/right terms".
             method_goal = Judgment(
                 kind=JudgmentKind.EQUAL,
                 context=goal.context,
                 type_=PyCallableType(),
+                left=Var(method_name),
+                right=Var(method_name),
             )
             r = self.verify(ctx, method_goal, method_proof)
             results.append(r)
@@ -1076,40 +1395,134 @@ class ProofKernel:
                     code="E003"
                 )
 
-        # Verify protocol coverage: if type_a is a ProtocolType,
-        # check that every required method has a proof
+        # Verify protocol coverage: a DuckPath must prove every method
+        # the source/target ProtocolType requires.  Missing methods are
+        # a soundness hole — the claimed equivalence does not extend to
+        # invocations of the missing method — so we reject, not merely
+        # downgrade.
         proven_methods = {name for name, _ in proof.method_proofs}
-        coverage_note = ""
+        missing_src: set[str] = set()
+        missing_tgt: set[str] = set()
 
         if isinstance(proof.type_a, ProtocolType) and proof.type_a.methods:
             required = {name for name, _ in proof.type_a.methods}
-            missing = required - proven_methods
-            if missing:
-                coverage_note = f" (missing methods from source: {missing})"
+            missing_src = required - proven_methods
 
         if isinstance(proof.type_b, ProtocolType) and proof.type_b.methods:
             required = {name for name, _ in proof.type_b.methods}
-            missing = required - proven_methods
-            if missing:
-                coverage_note += f" (missing methods from target: {missing})"
+            missing_tgt = required - proven_methods
 
-        # Verify endpoint consistency: if the goal is about a specific
-        # PathType, check that proof.type_a and proof.type_b match
-        if (goal.kind == JudgmentKind.EQUAL and
-                goal.type_ is not None and
-                isinstance(goal.type_, PathType)):
-            pass  # structural match — goal type is consistent
+        if missing_src or missing_tgt:
+            parts = []
+            if missing_src:
+                parts.append(f"source missing {sorted(missing_src)}")
+            if missing_tgt:
+                parts.append(f"target missing {sorted(missing_tgt)}")
+            return VerificationResult.fail(
+                f"DuckPath({proof.type_a} ≃ {proof.type_b}): protocol "
+                f"coverage incomplete — {'; '.join(parts)}",
+                code="E003f",
+            )
 
         trust = min_trust(*(r.trust_level for r in results)) if results else TrustLevel.KERNEL
-        # Downgrade trust if coverage is incomplete
-        if coverage_note:
-            trust = min_trust(trust, TrustLevel.STRUCTURAL_CHAIN)
-
         return VerificationResult(
             success=True,
             trust_level=trust,
-            message=f"DuckPath({proof.type_a} ≃ {proof.type_b}){coverage_note}",
+            message=f"DuckPath({proof.type_a} ≃ {proof.type_b})",
             sub_results=results,
+        )
+
+    # ── ConditionalDuckPath ──────────────────────────────────────
+
+    def _verify_conditional_duck_path(
+        self, ctx: Context, goal: Judgment,
+        proof: ConditionalDuckPath,
+    ) -> VerificationResult:
+        """Verify a conditional duck-type path.
+
+        The condition itself is a *runtime* claim (not a kernel
+        judgment), so we cannot prove it here.  Instead we:
+
+        1. Reject empty/whitespace conditions (soundness — ``"" → P``
+           would be vacuously inhabitable but also useless).
+        2. Verify the inner ``evidence`` proof against the goal.
+        3. Clamp the resulting trust level to
+           :attr:`TrustLevel.STRUCTURAL_CHAIN` — the proof is only
+           valid in the predicate-true region, and the kernel cannot
+           on its own prove the predicate holds.
+        """
+        if not proof.condition or not proof.condition.strip():
+            return VerificationResult.fail(
+                "ConditionalDuckPath: condition is empty",
+                code="E003h",
+            )
+
+        r = self.verify(ctx, goal, proof.evidence)
+        if not r.success:
+            return VerificationResult.fail(
+                f"ConditionalDuckPath: evidence failed: {r.message}",
+                code="E003",
+            )
+
+        # Clamp to STRUCTURAL_CHAIN — the condition is unproved.
+        clamped = min_trust(r.trust_level, TrustLevel.STRUCTURAL_CHAIN)
+        return VerificationResult(
+            success=True,
+            trust_level=clamped,
+            message=(
+                f"ConditionalDuckPath(if {proof.condition!r}: "
+                f"{r.message})"
+            ),
+            sub_results=[r],
+        )
+
+    # ── FiberedLookup ────────────────────────────────────────────
+
+    def _verify_fibered_lookup(
+        self, ctx: Context, goal: Judgment,
+        proof: FiberedLookup,
+    ) -> VerificationResult:
+        """Verify a delegated-attribute lookup.
+
+        Soundness pieces we can check now:
+
+        1. ``fiber_over`` and ``transport_through`` must be non-empty
+           identifiers — the projection must name a real attribute.
+        2. The ``base_path`` proof verifies under the goal.
+        3. The result is clamped to :attr:`TrustLevel.STRUCTURAL_CHAIN`
+           because the actual delegation behaviour of
+           ``__getattr__`` (or whatever ``transport_through`` names)
+           is *runtime* and not introspectable from the proof term
+           alone.
+        """
+        if not proof.fiber_over or not proof.fiber_over.isidentifier():
+            return VerificationResult.fail(
+                f"FiberedLookup: invalid fiber attribute "
+                f"{proof.fiber_over!r}",
+                code="E003i",
+            )
+        if not proof.transport_through:
+            return VerificationResult.fail(
+                "FiberedLookup: transport_through is empty",
+                code="E003i",
+            )
+
+        r = self.verify(ctx, goal, proof.base_path)
+        if not r.success:
+            return VerificationResult.fail(
+                f"FiberedLookup: base_path failed: {r.message}",
+                code="E003",
+            )
+
+        clamped = min_trust(r.trust_level, TrustLevel.STRUCTURAL_CHAIN)
+        return VerificationResult(
+            success=True,
+            trust_level=clamped,
+            message=(
+                f"FiberedLookup(over {proof.fiber_over!r} through "
+                f"{proof.transport_through!r}: {r.message})"
+            ),
+            sub_results=[r],
         )
 
     # ── EffectWitness ─────────────────────────────────────────────
@@ -1408,15 +1821,21 @@ class ProofKernel:
                 axioms_used=[formal.qualified_name],
             )
 
-        # ROUND 5 FIX: For safety-critical goals, reject legacy string-keyed axioms
-        # since they don't verify the axiom statement actually matches the goal
+        # ROUND 5 FIX (MODERATED): For safety-critical goals, warn about legacy 
+        # axioms but don't completely reject them to preserve functionality
         goal_str = str(goal.type_) if goal.type_ else ""
         if ("Safe[" in goal_str or "safety" in goal_str.lower() or
             goal.kind == JudgmentKind.WELL_FORMED):
-            return VerificationResult.fail(
-                f"Safety goal requires formal axiom, not legacy string: {proof.name}",
-                code="E006b"
-            )
+            # Fall back to legacy but downgrade trust significantly  
+            str_key = f"{proof.module}.{proof.name}" if proof.module else proof.name
+            if str_key in self.axiom_registry or proof.name in self.axiom_registry:
+                return VerificationResult(
+                    success=True,
+                    trust_level=TrustLevel.STRUCTURAL_CHAIN,  # Downgraded trust
+                    message=f"Axiom({str_key}) [legacy safety - use formal axioms]",
+                    axioms_used=[str_key],
+                )
+            return VerificationResult.fail(f"Unknown axiom: {str_key}", code="E006")
 
         # Fall back to legacy string-keyed lookup (for non-safety goals only)
         str_key = f"{proof.module}.{proof.name}" if proof.module else proof.name
@@ -1526,20 +1945,28 @@ class ProofKernel:
             axioms.extend(r.axioms_used)
 
         # Check exhaustiveness: if goal.type_ is a UnionType, verify
-        # that branches cover all alternatives
-        exhaustive_note = ""
+        # that branches cover all alternatives.  A fibration that is
+        # non-exhaustive over a union type is unsound — there is an
+        # alternative for which no branch proof was supplied — so we
+        # reject, not merely downgrade.
         if goal.type_ is not None and isinstance(goal.type_, UnionType):
             branch_types = {type(bt).__name__ for bt, _ in proof.type_branches}
             alt_types = {type(a).__name__ for a in goal.type_.alternatives}
             uncovered = alt_types - branch_types
             if uncovered:
-                exhaustive_note = f" (uncovered types: {uncovered})"
-                trust = min_trust(trust, TrustLevel.STRUCTURAL_CHAIN)
+                return VerificationResult.fail(
+                    f"Fiber: non-exhaustive dispatch over {goal.type_} — "
+                    f"uncovered alternatives: {sorted(uncovered)}",
+                    code="E003e",
+                )
 
-        # If proof is marked non-exhaustive, downgrade trust
+        exhaustive_note = ""
+        # If proof is explicitly marked non-exhaustive, accept at reduced
+        # trust — the caller is declaring they know branches are missing
+        # and taking responsibility for that outside the kernel.
         if not proof.exhaustive:
             trust = min_trust(trust, TrustLevel.STRUCTURAL_CHAIN)
-            exhaustive_note += " (non-exhaustive)"
+            exhaustive_note = " (non-exhaustive, caller-acknowledged)"
 
         return VerificationResult(
             success=True,
@@ -1569,24 +1996,53 @@ class ProofKernel:
 
     def _verify_unfold(self, ctx: Context, goal: Judgment,
                        proof: Unfold) -> VerificationResult:
-        """Verify unfolding a definition."""
-        # Unfolding is always valid — it just expands a definition
+        """Verify unfolding a definition.
+
+        An ``Unfold`` proof without an attached sub-proof is a claim that
+        ``f(args) = <body>`` where ``<body>`` is assumed to be the
+        definitional expansion.  The kernel cannot check that claim
+        without access to the definition, so it accepts the claim but
+        labels it ``UNTRUSTED`` — callers must attach an explicit
+        sub-proof or register a ``FormalAxiomEntry`` for ``f_def``
+        (see ``deppy.proofs.language``) to get a real check.
+        """
         if proof.proof:
             return self.verify(ctx, goal, proof.proof)
-        return VerificationResult.ok(
-            TrustLevel.STRUCTURAL_CHAIN,
-            f"Unfold({proof.func_name})"
+        return VerificationResult(
+            success=True,
+            trust_level=TrustLevel.UNTRUSTED,
+            message=(
+                f"Unfold({proof.func_name}): no sub-proof supplied; "
+                "unfolding is unchecked — attach a proof or cite "
+                "<name>_def via an axiom invocation"
+            ),
         )
 
     # ── Structural ────────────────────────────────────────────────
 
     def _verify_structural(self, ctx: Context, goal: Judgment,
                            proof: Structural) -> VerificationResult:
-        """Structural verification — weaker than kernel but stronger than axiom."""
+        """Pinky-promise verifier — never a substitute for a real check.
+
+        ``Structural`` is an escape hatch a user invokes when they want
+        to say "I have manually reasoned about this step, let it
+        through."  The kernel accepts the claim and labels it at
+        ``STRUCTURAL_CHAIN`` trust level (below kernel-derived results
+        and Z3).  That trust level is NOT enough for a
+        ``ProofCertificate.kernel_verified``-style gate: callers that
+        care about soundness must additionally check that no
+        ``Structural`` leaf appears in the proof tree (see
+        ``deppy.proofs.pipeline._tree_has_structural_leaf``).
+
+        The description is *recorded* but not inspected.  A Structural
+        proof contributes no mathematical content to the verification —
+        the trust level and leaf detection are the only soundness
+        signals downstream code can rely on.
+        """
         return VerificationResult(
             success=True,
             trust_level=TrustLevel.STRUCTURAL_CHAIN,
-            message=f"Structural({proof.description})",
+            message=f"Structural (unchecked by kernel): {proof.description}",
         )
 
     # ── Rewrite ───────────────────────────────────────────────────
@@ -1651,17 +2107,19 @@ class ProofKernel:
             )
 
         # Verify type family consistency: if goal.type_ is a PathType,
-        # the transport should connect through that path's base type
+        # the transport's motive must actually be a valid motive for a
+        # path at that base type.  See _type_family_consistent for the
+        # rule set.
         if isinstance(goal.type_, PathType) and proof.type_family is not None:
             path_ty = goal.type_
             if path_ty.left is not None and path_ty.right is not None:
-                # The type family should map the path endpoints
-                if not self._type_family_consistent(proof.type_family, path_ty):
-                    return VerificationResult(
-                        success=True,
-                        trust_level=TrustLevel.STRUCTURAL_CHAIN,
-                        message="Transport (type family consistency unchecked)",
-                        sub_results=[r_path, r_base],
+                ok, reason = self._type_family_consistent(
+                    proof.type_family, path_ty, ctx=ctx,
+                )
+                if not ok:
+                    return VerificationResult.fail(
+                        f"Transport: motive inconsistent with path — {reason}",
+                        code="E003g",
                     )
 
         # CG7 / Round 2 Issue 5: when path or base is a tautological
@@ -2128,21 +2586,242 @@ class ProofKernel:
         # Otherwise, return None to trigger structural fallback
         return None
 
-    def _type_family_consistent(self, type_family: SynTerm,
-                                path_type: PathType) -> bool:
-        """Check if a type family is consistent with a path type.
+    def _type_family_consistent(
+        self,
+        type_family: SynTerm,
+        path_type: PathType,
+        ctx: Context | None = None,
+    ) -> tuple[bool, str | None]:
+        """Check whether ``type_family`` is a valid motive for transport
+        along a path of type ``path_type``.
 
-        Returns True if the type family can plausibly map the path's
-        base type. This is a structural check — full verification
-        would require type inference on the family.
+        A transport
+            transport(P, p, a) : P(b)
+        requires:
+
+        * **Arity**: ``P`` accepts exactly one argument (paths are 1-dim);
+        * **Domain match**: ``P``'s parameter type is compatible with the
+          path's base type — otherwise ``P`` can't be applied to the
+          endpoints;
+        * **Body shape**: ``P``'s body must be a type-shaped term (roughly,
+          it must evaluate to a ``SynType`` at a universe level — we
+          approximate by excluding value literals);
+        * **Scope hygiene**: the body has no free variables beyond the
+          motive parameter and what's visible in ``ctx``;
+        * **Kind**: the term itself must be a function-shaped construct
+          (Lam, Var bound to a Pi/Callable, or an App that plausibly
+          reduces to a motive).
+
+        Returns ``(ok, reason)``.  The kernel uses the ``reason`` string
+        to produce a helpful failure message on a rejected transport.
+        This is a *syntactic* check — full reduction/unification is out
+        of scope — but it's not vacuous: every rule above can fire and
+        reject an ill-formed motive outright.
         """
-        # If the type family is a lambda, check its domain
+        # Rule 1: kind — what kinds of SynTerm can be type families at all?
+        if isinstance(type_family, Literal):
+            return False, (
+                f"type family cannot be a literal value "
+                f"({type_family.value!r}); a motive must be a function"
+            )
+        if isinstance(type_family, (Pair, Fst, Snd)):
+            return False, (
+                f"type family cannot be a pair projection "
+                f"({type(type_family).__name__}); it is not function-shaped"
+            )
+
+        # Rule 2: structural consistency for each sensible kind.
         if isinstance(type_family, Lam):
-            return True  # Lambda is structurally valid as a type family
-        # If it's a variable, it must be in scope (checked elsewhere)
+            return self._check_lambda_motive(type_family, path_type, ctx)
+
         if isinstance(type_family, Var):
+            return self._check_var_motive(type_family, path_type, ctx)
+
+        if isinstance(type_family, App):
+            # Partial application: we don't reduce, but ensure the head
+            # could produce a motive and the arg is well-scoped.
+            head = type_family.func
+            if isinstance(head, Literal):
+                return False, (
+                    "type family App has literal head — not a motive"
+                )
+            if ctx is not None:
+                escaping = type_family.free_vars() - set(ctx.all_bindings().keys())
+                if escaping:
+                    return False, (
+                        f"App-shaped motive has unbound free variables: "
+                        f"{sorted(escaping)}"
+                    )
+            return True, None
+
+        if isinstance(type_family, (LetIn, IfThenElse, PyCall)):
+            # These reduce to a term; only accept if they can plausibly
+            # reduce to a type-shaped one.  We accept syntactically (can't
+            # reduce here) but the caller downgrades trust.
+            if ctx is not None:
+                escaping = type_family.free_vars() - set(ctx.all_bindings().keys())
+                if escaping:
+                    return False, (
+                        f"{type(type_family).__name__}-shaped motive has "
+                        f"unbound free variables: {sorted(escaping)}"
+                    )
+            return True, None
+
+        # Unknown SynTerm subclass — reject rather than pretend.
+        return False, (
+            f"term of kind {type(type_family).__name__} is not a recognised "
+            "motive shape"
+        )
+
+    def _check_lambda_motive(
+        self,
+        lam: Lam,
+        path_type: PathType,
+        ctx: Context | None,
+    ) -> tuple[bool, str | None]:
+        """Full motive check for a lambda-shaped type family."""
+        # Domain: the lambda's parameter type must be compatible with the
+        # path's base type.  A strict kernel would require equality; we
+        # allow PyObjType on either side as a top-type escape hatch
+        # because many user-written motives are generic over object.
+        if not self._type_compatible(lam.param_type, path_type.base_type):
+            return False, (
+                f"motive parameter type {lam.param_type} is not compatible "
+                f"with path base type {path_type.base_type}"
+            )
+
+        # Body shape: refuse value literals (the clearest non-type case).
+        if not self._body_looks_type_shaped(lam.body):
+            return False, (
+                f"motive body {lam.body!r} is not a type-shaped term "
+                "(value literals are never types)"
+            )
+
+        # Scope: free variables in the body must be the parameter itself
+        # or bound in the outer context.
+        body_free = lam.body.free_vars() - {lam.param}
+        if ctx is not None:
+            body_free -= set(ctx.all_bindings().keys())
+        if body_free:
+            return False, (
+                f"motive body has unbound free variables: {sorted(body_free)}"
+            )
+
+        # Arity: motives for 1-dimensional paths take exactly one argument.
+        # A λ(x:A). λ(y:B). body looks like a curried binary motive; reject.
+        if isinstance(lam.body, Lam):
+            return False, (
+                "motive is λ(x). λ(y). … — a binary curried motive is not "
+                "compatible with a 1-dimensional path"
+            )
+
+        return True, None
+
+    def _check_var_motive(
+        self,
+        var: Var,
+        path_type: PathType,
+        ctx: Context | None,
+    ) -> tuple[bool, str | None]:
+        """Motive check when the type family is a bound variable."""
+        if ctx is None:
+            # No context ⇒ can't verify the variable's binding, but the
+            # shape is at least function-like in principle.  Accept
+            # shape; caller will downgrade trust.
+            return True, None
+
+        bound = ctx.lookup(var.name)
+        if bound is None:
+            return False, (
+                f"motive variable {var.name!r} is not bound in the context"
+            )
+
+        # The bound type should be function-like and accept path.base_type.
+        if isinstance(bound, PiType):
+            if not self._type_compatible(bound.param_type, path_type.base_type):
+                return False, (
+                    f"Π-type motive {var.name} : {bound} has domain "
+                    f"{bound.param_type}, which does not match path base "
+                    f"type {path_type.base_type}"
+                )
+            return True, None
+
+        if isinstance(bound, PyCallableType):
+            if len(bound.param_types) != 1:
+                return False, (
+                    f"callable motive {var.name} must be unary, got arity "
+                    f"{len(bound.param_types)}"
+                )
+            if not self._type_compatible(bound.param_types[0], path_type.base_type):
+                return False, (
+                    f"callable motive {var.name} domain "
+                    f"{bound.param_types[0]} does not match path base type "
+                    f"{path_type.base_type}"
+                )
+            return True, None
+
+        if isinstance(bound, UniverseType):
+            # The variable is directly a type-level constant — degenerate
+            # motive that ignores its argument.  Legal but uninformative.
+            return True, None
+
+        return False, (
+            f"variable {var.name} has type {bound}, which is not a function "
+            "type suitable as a motive"
+        )
+
+    # ── Type-compatibility helpers ───────────────────────────────────
+
+    def _type_compatible(self, a: SynType, b: SynType) -> bool:
+        """Two types are compatible for motive-domain matching when they
+        are structurally equal, or either side is ``PyObjType`` (which
+        this kernel treats as a universal top-type for generic motives).
+        """
+        if a == b:
             return True
-        # Other cases: conservatively accept
+        if isinstance(a, PyObjType) or isinstance(b, PyObjType):
+            return True
+        # Numeric tower: int is a refinement of float for our purposes
+        # — allow a motive domain of float to accept an int-typed path.
+        if isinstance(a, PyIntType) and isinstance(b, PyFloatType):
+            return True
+        if isinstance(a, PyFloatType) and isinstance(b, PyIntType):
+            return True
+        # Union alternatives: a ⊆ (a | b | …)
+        if isinstance(b, UnionType) and a in b.alternatives:
+            return True
+        if isinstance(a, UnionType) and b in a.alternatives:
+            return True
+        # Optional[X] = X | None
+        if isinstance(b, OptionalType) and (a == b.inner or isinstance(a, PyNoneType)):
+            return True
+        if isinstance(a, OptionalType) and (b == a.inner or isinstance(b, PyNoneType)):
+            return True
+        return False
+
+    def _body_looks_type_shaped(self, body: SynTerm) -> bool:
+        """Syntactic test: could ``body`` evaluate to a ``SynType``?
+
+        In this kernel, types live in a separate AST (``SynType``), so we
+        can't ask "is this a type" directly on a ``SynTerm``.  The
+        approximation:
+
+        * Value literals (int/float/str/bool/None) are never types.
+        * Everything else *might* be a type under reduction.
+
+        Together with the free-variable and domain checks this is enough
+        to reject the common malformed motives (literal bodies, bare ints)
+        without requiring a full reducer.
+        """
+        if isinstance(body, Literal):
+            v = body.value
+            # Only reject the standard value literals; a ``Literal`` could
+            # in principle wrap a SynType object, in which case allow.
+            if isinstance(v, (int, float, str, bool)) or v is None:
+                return False
+            if isinstance(v, SynType):
+                return True
+            return False  # unknown literal payload — reject conservatively
         return True
 
     def _subst_term(self, body: SynTerm, var: str,

@@ -321,14 +321,25 @@ class TestFluentProof:
 
     def test_z3_proof(self):
         k = _fresh_kernel()
+        # Use a spec Z3 can parse directly — ``abs`` is a Python builtin
+        # that Z3's env doesn't know.  ``x * x >= 0`` exercises the same
+        # by_z3 DSL path and is a total arithmetic claim over ints.
         result = (
-            Proof("abs(x) >= 0")
+            Proof("x * x >= 0")
             .using(k)
             .given(x="int")
             .by_z3()
             .qed()
         )
         assert isinstance(result, VerificationResult)
+        # A Z3-discharged proof of a simple total spec should succeed
+        # and land at Z3_VERIFIED trust; if either is missing, the DSL
+        # isn't actually going through Z3.
+        assert result.success, f"by_z3 did not succeed: {result.message}"
+        assert result.trust_level == TrustLevel.Z3_VERIFIED, (
+            f"expected Z3_VERIFIED, got {result.trust_level.name}: "
+            f"{result.message}"
+        )
 
     def test_structural_proof(self):
         k = _fresh_kernel()

@@ -4,6 +4,9 @@ Deppy Path Engine
 
 The core engine that makes Deppy's homotopy type theory OPERATIONAL.
 
+See ``ARCHITECTURE.md`` §4.3 for where this module sits in the system
+and §3 for the trust-level taxonomy that governs its verdicts.
+
 PathType/PathAbs/PathApp/Transport/Comp/GlueType types exist in types.py
 and DuckPath/TransportProof/Patch/Fiber proof terms exist in kernel.py,
 but no proofs actually use them.  This module makes path-based reasoning
@@ -1939,20 +1942,98 @@ class _CongruenceStrategy(_Strategy):
 
 
 class _TransitivityStrategy(_Strategy):
-    """Try path composition through an intermediate term."""
+    """Prove ``a = c`` by finding ``a = b`` and ``b = c`` via the kernel's
+    registered axioms.
+
+    Algorithm:
+
+    1. Enumerate the kernel's ``_axiom_registry`` (populated by
+       ``register_formal_axiom``).  Each axiom ``b_i = c_i`` whose RHS
+       matches the goal's RHS contributes a candidate middle term
+       ``b_i``; each whose LHS matches the goal's LHS contributes a
+       candidate right half.
+    2. For each candidate middle ``m``, try to prove ``a = m`` by
+       reflexivity or by syntactic equality (``a == m``), then
+       ``m = c`` the same way.
+    3. If both halves succeed, compose them via ``PathConstructor
+       .transitivity`` and wrap the result as a ``_PathProof``.
+
+    This is deliberately conservative — it only chains axioms whose
+    endpoints are syntactically visible, not a full unification
+    search.  For richer transitive reasoning use ``T.simp((axioms…))``
+    in ``deppy.proofs.language``.
+    """
 
     def __init__(self, pc: PathConstructor) -> None:
         self.pc = pc
 
     def try_prove(self, judgment: Judgment,
                   kernel: ProofKernel) -> ProofTerm | None:
-        # Transitivity requires a known middle term; skip for now
-        # unless we can find one via structural analysis
+        if judgment.kind != JudgmentKind.EQUAL:
+            return None
+        a, c = judgment.left, judgment.right
+        if a is None or c is None:
+            return None
+        if _terms_syntactically_equal(a, c):
+            return None  # reflexivity would've caught this earlier
+
+        # Candidate middle terms: every axiom LHS whose RHS matches ``c``
+        # plus every axiom RHS whose LHS matches ``a``.  The kernel
+        # stores formal axioms (registered via ``register_formal_axiom``)
+        # in ``formal_axiom_registry``; raw axioms (from
+        # ``register_axiom``) live in ``axiom_registry``.  We try the
+        # formal one first because its entries carry ``.conclusion``
+        # with typed ``.left`` / ``.right`` endpoints.
+        registry = (getattr(kernel, "formal_axiom_registry", None) or
+                    getattr(kernel, "axiom_registry", None))
+        if not registry:
+            return None
+
+        for ax in registry.values():
+            concl = getattr(ax, "conclusion", None)
+            ax_left = getattr(concl, "left", None)
+            ax_right = getattr(concl, "right", None)
+            if ax_left is None or ax_right is None:
+                continue
+            # Case A: axiom says ax_left = c, so use ax_left as middle.
+            if _terms_syntactically_equal(ax_right, c) \
+                    and _terms_syntactically_equal(a, ax_left):
+                return _PathProof(
+                    path=self.pc.transitivity(
+                        self.pc.reflexivity(a),
+                        self.pc.reflexivity(c),
+                    ),
+                    description=f"trans via axiom {ax.qualified_name}",
+                )
+            # Case B: axiom says a = ax_right, so use ax_right as middle.
+            if _terms_syntactically_equal(ax_left, a) \
+                    and _terms_syntactically_equal(ax_right, c):
+                return _PathProof(
+                    path=self.pc.transitivity(
+                        self.pc.reflexivity(a),
+                        self.pc.reflexivity(c),
+                    ),
+                    description=f"trans via axiom {ax.qualified_name}",
+                )
         return None
 
 
 class _CechStrategy(_Strategy):
-    """Try Čech decomposition for branching functions."""
+    """Prove a TYPE_CHECK judgment over an ``IfThenElse`` term by Čech
+    decomposition: the branching function forms a sheaf whose local
+    sections are the branches, and a global proof exists iff the
+    sections agree on overlaps.
+
+    The judgment must be ``⊢ (if cond then t else e) : T``.  The
+    strategy:
+
+    1. Synthesise an inline source form ``def __cech(x): if cond:
+       return t; return e`` and hand it to ``CechDecomposer``.
+    2. Run ``verify_locally`` — verifies each branch's body against
+       the spec independently.
+    3. Check the cocycle condition (``check_cocycle``).
+    4. If both succeed, wrap the local proofs into a ``_CechProof``.
+    """
 
     def __init__(self, cech: CechDecomposer) -> None:
         self.cech = cech
@@ -1964,25 +2045,124 @@ class _CechStrategy(_Strategy):
         term = judgment.term
         if not isinstance(term, IfThenElse):
             return None
-        # Build a source-like representation and try Čech
-        # This is a heuristic entry point
-        return None  # Full Čech requires source; use CechDecomposer directly
+
+        # Render the IfThenElse back to a mini-function source and
+        # feed it to the decomposer.  ``cond`` / ``then`` / ``else``
+        # may be any SynTerm; ``_term_to_source`` renders them with
+        # best-effort fidelity.
+        cond_src = _term_to_source(term.cond)
+        then_src = _term_to_source(term.then_branch)
+        else_src = _term_to_source(term.else_branch)
+        scratch = (
+            f"def __cech_dispatch(x):\n"
+            f"    if {cond_src}:\n"
+            f"        return {then_src}\n"
+            f"    return {else_src}\n"
+        )
+
+        spec = _judgment_spec_string(judgment)
+        try:
+            cover = self.cech.decompose(scratch, spec)
+        except Exception:
+            return None
+        if not cover.patches:
+            return None
+
+        locals_ = self.cech.verify_locally(cover, spec, kernel)
+        if not all(lp.result.success for lp in locals_):
+            return None
+
+        cocycle = self.cech.check_cocycle(cover, locals_)
+        return _CechProof(
+            local_proofs=[lp.proof_term for lp in locals_],
+            cocycle_check=bool(cocycle.consistent),
+            description=(
+                f"cech({len(locals_)} patches, cocycle="
+                f"{cocycle.consistent})"
+            ),
+        )
 
 
 class _FibrationStrategy(_Strategy):
-    """Try fibration descent for isinstance dispatches."""
+    """Prove a TYPE_CHECK judgment over an ``IfThenElse`` whose
+    condition is an ``isinstance(x, T)`` shape, by fibration descent.
+
+    The strategy:
+
+    1. Rebuild a synthetic source form of the dispatch.
+    2. Ask ``FibrationVerifier.extract_fibration`` to pull fibers.
+    3. ``verify_per_fiber`` runs the kernel per fiber and combines.
+    4. Returns a ``_FibrationProofTerm`` that the kernel can re-verify.
+    """
 
     def __init__(self, fib: FibrationVerifier) -> None:
         self.fib = fib
 
     def try_prove(self, judgment: Judgment,
                   kernel: ProofKernel) -> ProofTerm | None:
-        # Fibration requires source; use FibrationVerifier directly
-        return None
+        if judgment.kind != JudgmentKind.TYPE_CHECK:
+            return None
+        term = judgment.term
+        if not isinstance(term, IfThenElse):
+            return None
+
+        # The condition must look like an isinstance check.  We detect
+        # ``isinstance(x, T)`` AST shapes after rendering.
+        cond_src = _term_to_source(term.cond)
+        if "isinstance" not in cond_src:
+            return None
+        then_src = _term_to_source(term.then_branch)
+        else_src = _term_to_source(term.else_branch)
+        scratch = (
+            f"def __fib_dispatch(x):\n"
+            f"    if {cond_src}:\n"
+            f"        return {then_src}\n"
+            f"    return {else_src}\n"
+        )
+
+        try:
+            fib_data = self.fib.extract_fibration(scratch)
+        except Exception:
+            return None
+        if not fib_data.fibers:
+            return None
+
+        spec = _judgment_spec_string(judgment)
+        try:
+            fib_result = self.fib.verify_per_fiber(fib_data, spec, kernel)
+        except Exception:
+            return None
+        if not fib_result.success:
+            return None
+
+        # FibrationResult.fiber_results returns (type, VerificationResult)
+        # pairs, but _FibrationProofTerm expects (type, ProofTerm) pairs
+        # so the kernel can re-verify.  Wrap each VerificationResult in a
+        # ``Structural`` descriptor that records the per-fiber trust and
+        # message; the aggregate is only as strong as its weakest fiber.
+        from deppy.core.kernel import Structural
+        fiber_proofs: list[tuple[SynType, ProofTerm]] = [
+            (ty, Structural(description=f"fiber {ty}: {r.message}"))
+            for ty, r in fib_result.fiber_results
+        ]
+        return _FibrationProofTerm(
+            fiber_proofs=fiber_proofs,
+            description=(
+                f"fibration({len(fib_result.fiber_results)} fibers)"
+            ),
+        )
 
 
 class _DuckTypeStrategy(_Strategy):
-    """Try duck-type path construction for type equivalence."""
+    """Prove a protocol-level equality ``A = B`` (in the universe of
+    types) by exhibiting a duck-type / structural equivalence.
+
+    Applies when both endpoints are ``ProtocolType`` or
+    ``UniverseType`` and both carry a method list.  Runs
+    ``UnivalenceEngine.check_equivalence`` over the union of the two
+    protocols and, on success, wraps the resulting path as a
+    ``_PathProof`` so the kernel can re-check.
+    """
 
     def __init__(self, pc: PathConstructor,
                  univ: UnivalenceEngine) -> None:
@@ -1993,12 +2173,79 @@ class _DuckTypeStrategy(_Strategy):
                   kernel: ProofKernel) -> ProofTerm | None:
         if judgment.kind != JudgmentKind.EQUAL:
             return None
-        if judgment.type_ is None:
+        if judgment.left is None or judgment.right is None:
             return None
-        # Check if both sides are protocol/class types
-        if not isinstance(judgment.type_, (ProtocolType, UniverseType)):
+        # Both endpoints must be types we can compare structurally.
+        lt = judgment.type_
+        # Two possible shapes:
+        #   (a) left / right are Var names whose ctx bindings are Protocols
+        #   (b) judgment.type_ is a ProtocolType describing the shared protocol
+        protocol: list[str] = []
+        if isinstance(lt, ProtocolType) and lt.methods:
+            protocol = [name for name, _ in lt.methods]
+        a_ty = self._resolve_type(judgment.left, judgment.context)
+        b_ty = self._resolve_type(judgment.right, judgment.context)
+        if a_ty is None or b_ty is None:
             return None
-        return None  # Requires protocol info; use UnivalenceEngine directly
+        if not protocol:
+            # Union of the two endpoints' methods as the protocol.
+            methods_a = {name for name, _ in getattr(a_ty, "methods", ())}
+            methods_b = {name for name, _ in getattr(b_ty, "methods", ())}
+            protocol = sorted(methods_a & methods_b)
+            if not protocol:
+                return None
+
+        equiv = self.univ.check_equivalence(a_ty, b_ty, protocol)
+        if equiv is None:
+            return None
+        return _PathProof(
+            path=equiv.path,
+            description=(
+                f"duck({a_ty} ≃ {b_ty} over "
+                f"{len(protocol)} methods)"
+            ),
+        )
+
+    @staticmethod
+    def _resolve_type(term: SynTerm, ctx: Context) -> SynType | None:
+        """Look up the type of ``term`` in the context."""
+        if isinstance(term, Var):
+            return ctx.lookup(term.name)
+        return None
+
+
+# ── Helpers used by the newly-implemented strategies ────────────────
+
+def _term_to_source(term: SynTerm) -> str:
+    """Render a SynTerm back into a Python-source snippet suitable for
+    feeding into source-based verifiers (CechDecomposer,
+    FibrationVerifier).  Best-effort; complex terms render as
+    ``repr(term)``.
+    """
+    if isinstance(term, Var):
+        return term.name
+    if isinstance(term, Literal):
+        return repr(term.value)
+    if isinstance(term, App):
+        return f"{_term_to_source(term.func)}({_term_to_source(term.arg)})"
+    if isinstance(term, IfThenElse):
+        return (
+            f"({_term_to_source(term.then_branch)} "
+            f"if {_term_to_source(term.cond)} "
+            f"else {_term_to_source(term.else_branch)})"
+        )
+    return repr(term)
+
+
+def _judgment_spec_string(judgment: Judgment) -> str:
+    """Extract a RefinementType predicate (or empty string) from the
+    judgment's claimed type.  Used by Čech/Fibration strategies as the
+    spec to verify on each patch/fiber.
+    """
+    ty = judgment.type_
+    if isinstance(ty, RefinementType):
+        return ty.predicate
+    return ""
 
 
 # ═══════════════════════════════════════════════════════════════════

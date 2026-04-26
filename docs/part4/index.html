@@ -133,7 +133,7 @@
       <li><strong>Algebraic laws</strong> — properties like commutativity, associativity,
           or idempotence that the library's operations satisfy.</li>
       <li><strong>Trust level</strong> — how much you trust each specification
-          (from <span class="verified">LEAN_VERIFIED</span> to
+          (from <span class="verified">LEAN_KERNEL_VERIFIED</span> to
           <span class="rejected">UNTRUSTED</span>).</li>
     </ol>
 
@@ -172,8 +172,13 @@
     <!-- ───────────────────────────────────────────── -->
     <h2 id="trust-levels-preview">Trust Levels (Preview)</h2>
     <p>
-      Not all specifications carry the same weight. Deppy distinguishes four trust
-      levels, forming a lattice ordered by strength:
+      Not all specifications carry the same weight.  Deppy tracks
+      trust along <em>two parallel lattices</em>: a 7-element
+      deppy-kernel lattice (<code>TrustLevel</code>) and a 6-element
+      Lean-export lattice (<code>LeanTrustLevel</code>).  This
+      preview shows the most commonly-cited rungs of each — see
+      <a href="trust_levels.html">Trust &amp; Verification Levels</a>
+      for the full list.
     </p>
 
     <table>
@@ -181,28 +186,39 @@
         <tr>
           <th>Level</th>
           <th>Badge</th>
+          <th>Lattice</th>
           <th>Meaning</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>🟢 <code>LEAN_VERIFIED</code></td>
-          <td><span class="verified">LEAN_VERIFIED</span></td>
-          <td>Machine-checked by the Lean 4 kernel — highest trust.</td>
+          <td>🟢 <code>LEAN_KERNEL_VERIFIED</code></td>
+          <td><span class="verified">LEAN_KERNEL_VERIFIED</span></td>
+          <td><em>Lean export</em></td>
+          <td>Machine-checked by the Lean 4 kernel after export.</td>
         </tr>
         <tr>
-          <td>🟡 <code>Z3_PROVEN</code></td>
-          <td><span class="verified">Z3_PROVEN</span></td>
+          <td>🟢 <code>KERNEL</code></td>
+          <td><span class="verified">KERNEL</span></td>
+          <td><em>deppy kernel</em></td>
+          <td>The deppy kernel accepted a closed proof term.</td>
+        </tr>
+        <tr>
+          <td>🟡 <code>Z3_VERIFIED</code></td>
+          <td><span class="verified">Z3_VERIFIED</span></td>
+          <td><em>deppy kernel</em></td>
           <td>Proved by the Z3 SMT solver with no admits.</td>
         </tr>
         <tr>
-          <td>🟠 <code>LLM_JUDGED</code></td>
-          <td><span style="background:#fff7ed;color:#c2410c;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">🟠 LLM_JUDGED</span></td>
+          <td>🟠 <code>LLM_CHECKED</code></td>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">🟠 LLM_CHECKED</span></td>
+          <td><em>deppy kernel</em></td>
           <td>Oracle says correct with confidence ≥ threshold.</td>
         </tr>
         <tr>
           <td>🔴 <code>UNTRUSTED</code></td>
           <td><span class="rejected">UNTRUSTED</span></td>
+          <td><em>deppy kernel</em></td>
           <td>No verification. Specification is assumed on faith.</td>
         </tr>
       </tbody>
@@ -512,7 +528,7 @@ Checking <span class="fn">hypotenuse</span>:
   Propagated: hypotenuse returns non-negative  <span class="st">✓</span>
 
 <span class="op">──────────────────────────────</span>
-Result: <span class="st">2/2 functions verified</span> 🟡 Z3_PROVEN
+Result: <span class="st">2/2 functions verified</span> 🟡 Z3_VERIFIED
 Coverage: 100% of external calls have sidecar specs</code></pre>
 
     <div class="exercise">

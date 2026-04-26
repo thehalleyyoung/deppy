@@ -97,9 +97,9 @@
   Deppy's trust hierarchy has three levels, in ascending order of assurance:
 </p>
 
-<pre><code class="notation"><span class="cm">  🟠 LLM_JUDGED   — oracle says correct (confidence ≥ threshold)</span>
-<span class="cm">  🟡 Z3_PROVEN    — proved by Z3 SMT solver</span>
-<span class="cm">  🟢 LEAN_VERIFIED — machine-checked by Lean's kernel</span></code></pre>
+<pre><code class="notation"><span class="cm">  🟠 LLM_CHECKED   — oracle says correct (confidence ≥ threshold)</span>
+<span class="cm">  🟡 Z3_VERIFIED    — proved by Z3 SMT solver</span>
+<span class="cm">  🟢 LEAN_KERNEL_VERIFIED — machine-checked by Lean's kernel</span></code></pre>
 
 <p>
   <strong>Why is Lean at the top?</strong> Because Lean 4's kernel is a small,
@@ -479,33 +479,68 @@
 
 <table>
   <thead>
-    <tr><th>Trust Level</th><th>Meaning</th><th>sorry?</th><th>Custom Axioms?</th></tr>
+    <tr><th>Trust Level</th><th>Meaning</th><th>sorry?</th><th>Custom Axioms?</th><th>Lean ran?</th></tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong style="color: var(--green);">LEAN_VERIFIED</strong></td>
-      <td>Lean kernel fully checked every step</td>
+      <td><strong style="color: var(--green);">LEAN_KERNEL_VERIFIED</strong></td>
+      <td>Lean kernel fully checked every step (set by
+          <code>cert.verify_with_lean()</code>)</td>
       <td>0</td>
       <td>0</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><strong style="color: var(--yellow);">LEAN_SYNTAX_COMPLETE</strong></td>
+      <td>No <code>sorry</code>, no raw axioms — but Lean has NOT
+          been invoked.  Default after a successful
+          <code>compile_to_lean</code>.</td>
+      <td>0</td>
+      <td>0</td>
+      <td>✗</td>
     </tr>
     <tr>
       <td><strong style="color: var(--yellow);">LEAN_EXPORTED</strong></td>
-      <td>Generated but contains <code>sorry</code> gaps</td>
+      <td>Generated but contains <code>sorry</code> gaps; Lean not
+          invoked or sorry remains.</td>
       <td>≥ 1</td>
       <td>0</td>
+      <td>✗</td>
     </tr>
     <tr>
       <td><strong style="color: var(--orange);">ASSUMPTION_DEPENDENT</strong></td>
-      <td>Uses axioms for library/duck-typing assumptions</td>
+      <td>Uses raw <code>axiom</code> declarations (e.g., for library
+          calls or duck-typing).  Lean accepts axioms by definition,
+          so a passing <code>verify_with_lean()</code> still inherits
+          their assumptions.</td>
       <td>Any</td>
       <td>≥ 1</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong style="color: var(--red);">LEAN_REJECTED</strong></td>
+      <td>The <code>lean</code> binary was invoked and rejected the
+          file.  See <code>cert.lean_check_stderr</code> for the
+          diagnostic.</td>
+      <td>Any</td>
+      <td>Any</td>
+      <td>✓ (failed)</td>
+    </tr>
+    <tr>
+      <td><strong style="color: var(--gray);">LEAN_UNAVAILABLE</strong></td>
+      <td>The <code>lean</code> binary was not found on PATH.  No
+          kernel check was attempted; install Lean to enable
+          verification.</td>
+      <td>Any</td>
+      <td>Any</td>
+      <td>—</td>
     </tr>
   </tbody>
 </table>
 
 <ul>
   <li>
-    <strong>LEAN_VERIFIED</strong> is the gold standard. Zero <code>sorry</code>,
+    <strong>LEAN_KERNEL_VERIFIED</strong> is the gold standard. Zero <code>sorry</code>,
     zero custom axioms. The proof is fully machine-checked. If Lean's kernel
     has no bugs, the theorem holds.
   </li>
@@ -523,20 +558,46 @@
 </ul>
 
 <p>
-  You can inspect the trust level programmatically:
+  You can inspect the trust level programmatically.  <strong>Note:
+  <code>compile_to_lean</code> does NOT invoke Lean</strong> — it only
+  emits Lean source.  To actually run Lean (and obtain the
+  <code>LEAN_KERNEL_VERIFIED</code> label) call
+  <code>cert.verify_with_lean()</code>:
 </p>
 
 <pre><code><span class="kw">from</span> <span class="nb">deppy.lean</span> <span class="kw">import</span> <span class="fn">compile_to_lean</span>
 
+<span class="cm"># Step 1: emit Lean source.  Trust starts at LEAN_EXPORTED or</span>
+<span class="cm"># LEAN_SYNTAX_COMPLETE depending on whether any `sorry` remains.</span>
 <span class="nb">cert</span> = <span class="fn">compile_to_lean</span>(<span class="nb">my_function</span>)
+<span class="fn">print</span>(<span class="nb">cert</span>.<span class="nb">trust_level</span>)
+<span class="cm"># → 'LEAN_SYNTAX_COMPLETE'  (no sorry, but Lean hasn't run)</span>
+
+<span class="cm"># Step 2: invoke Lean.  Requires `lean` on PATH.</span>
+<span class="nb">cert</span> = <span class="nb">cert</span>.<span class="fn">verify_with_lean</span>()
+<span class="fn">print</span>(<span class="nb">cert</span>.<span class="nb">trust_level</span>)
+<span class="cm"># → 'LEAN_KERNEL_VERIFIED'  (Lean accepted)</span>
+<span class="cm"># or 'LEAN_REJECTED'       (Lean rejected; see cert.lean_check_stderr)</span>
+<span class="cm"># or 'LEAN_UNAVAILABLE'    (lean binary not on PATH)</span>
+
 <span class="fn">print</span>(<span class="nb">cert</span>.<span class="fn">summary</span>())
-<span class="cm"># ╭─────────────────────────────────╮</span>
-<span class="cm"># │ Lean Export: my_function        │</span>
-<span class="cm"># │ Theorems: 3                     │</span>
-<span class="cm"># │ Fully proved: 2                 │</span>
-<span class="cm"># │ Sorry: 1                        │</span>
-<span class="cm"># │ Trust: LEAN_EXPORTED            │</span>
-<span class="cm"># ╰─────────────────────────────────╯</span></code></pre>
+<span class="cm"># LeanCertificate 'my_function'</span>
+<span class="cm">#   declarations: 1</span>
+<span class="cm">#   theorems:     3 (2 proved, 1 sorry)</span>
+<span class="cm">#   trust level:  LEAN_EXPORTED</span></code></pre>
+
+<div class="note" style="background:#fefce8;border-left:4px solid #ca8a04;padding:1rem;margin:1rem 0">
+  <strong>Retired label:</strong> older docs referred to a single
+  <code>LEAN_VERIFIED</code> trust level that was issued whenever the
+  emitted file had no <code>sorry</code> — even if Lean never ran.
+  That label is retired.  The current labels are
+  <code>LEAN_EXPORTED</code>, <code>LEAN_SYNTAX_COMPLETE</code>,
+  <code>LEAN_KERNEL_VERIFIED</code>, <code>LEAN_REJECTED</code>,
+  <code>LEAN_UNAVAILABLE</code>, and <code>ASSUMPTION_DEPENDENT</code>
+  — see
+  <a href="../part4/trust_levels.html#lean-labels">Part 4 · Trust Levels</a>
+  for the full taxonomy.
+</div>
 
 <hr>
 
@@ -618,7 +679,7 @@
     Lean needs intermediate steps. Add <code>check()</code> annotations in
     the Python source to give Deppy more stepping stones.</li>
   <li><strong>Fall back to Z3</strong> — if a particular guarantee can't be
-    exported to Lean, the Z3_PROVEN trust level is still meaningful. Not
+    exported to Lean, the Z3_VERIFIED trust level is still meaningful. Not
     every proof needs the Lean gold standard.</li>
   <li><strong>Fill in manually</strong> — open the <code>.lean</code> file in
     VS Code with the Lean 4 extension and fill in the <code>sorry</code>s
@@ -694,7 +755,7 @@
 
 <ul>
   <li>Fill them in manually in Lean (for critical code).</li>
-  <li>Accept Z3_PROVEN trust level for those steps.</li>
+  <li>Accept Z3_VERIFIED trust level for those steps.</li>
   <li>Use the sorry count as a metric: fewer sorry = higher assurance.</li>
 </ul>
 

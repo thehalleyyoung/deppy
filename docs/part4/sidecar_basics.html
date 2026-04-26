@@ -113,7 +113,7 @@ search_paths = [<span class="st">"sidecars/"</span>]
 auto_discover = <span class="nb">true</span>
 
 [verification]
-default_trust = <span class="st">"Z3_PROVEN"</span>
+default_trust = <span class="st">"Z3_VERIFIED"</span>
 timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof obligation</span></code></pre>
 
     <!-- ───────────────────────────────────────────── -->
@@ -217,7 +217,7 @@ timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof oblig
         </tr>
         <tr>
           <td><code>trust_level</code> attribute</td>
-          <td>How much to trust this spec (default: <code>Z3_PROVEN</code>)</td>
+          <td>How much to trust this spec (default: <code>Z3_VERIFIED</code>)</td>
           <td>Optional</td>
         </tr>
       </tbody>
@@ -248,7 +248,7 @@ timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof oblig
         <pre><code><span class="cm"># Deppy CHECKS this at call sites</span>
 <span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
 <span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
-    trust_level = <span class="st">"Z3_PROVEN"</span>
+    trust_level = <span class="st">"Z3_VERIFIED"</span>
 
     <span class="dc">@prove</span>
     <span class="kw">def</span> <span class="fn">precondition</span>(self, x):
@@ -410,7 +410,7 @@ sqrt_spec = math_sidecar.get_spec(<span class="st">"math.sqrt"</span>)
 print(sqrt_spec.precondition)   <span class="cm"># x >= 0</span>
 print(sqrt_spec.postcondition)  <span class="cm"># result >= 0 ∧ result² ≈ x</span>
 print(sqrt_spec.laws)           <span class="cm"># [monotone, sqrt_of_square]</span>
-print(sqrt_spec.trust_level)    <span class="cm"># TrustLevel.Z3_PROVEN</span>
+print(sqrt_spec.trust_level)    <span class="cm"># TrustLevel.Z3_VERIFIED</span>
 
 <span class="cm"># List all specs in this sidecar</span>
 <span class="kw">for</span> name, spec <span class="kw">in</span> math_sidecar.specs.items():
@@ -447,7 +447,7 @@ Scanning src/ for external calls...
     <span class="pr">Z3: bool(od) ⟹ len(od) > 0</span>  <span class="st">✓ proved</span>
 
 <span class="op">──────────────────────────────────────────────────</span>
-<span class="st">4/4 call sites verified</span>  🟡 Z3_PROVEN
+<span class="st">4/4 call sites verified</span>  🟡 Z3_VERIFIED
 Algebraic laws: 6 assumed, 0 proved
 Coverage: 100% of external calls have sidecar specs</code></pre>
 
@@ -487,16 +487,16 @@ Coverage: 100% of external calls have sidecar specs</code></pre>
     <pre><code class="notation"><span class="cm"># math.deppy-sig — lightweight type signatures</span>
 <span class="cm"># Format: function_name : (param_types) -> return_type [trust_level]</span>
 
-sqrt : (x: <span class="ty">float</span> {x >= <span class="nb">0</span>}) -> <span class="ty">float</span> {result >= <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
-factorial : (n: <span class="ty">int</span> {n >= <span class="nb">0</span>}) -> <span class="ty">int</span> {result > <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
-gcd : (a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">int</span> {result >= <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
-ceil : (x: <span class="ty">float</span>) -> <span class="ty">int</span> {result >= x}  [<span class="st">Z3_PROVEN</span>]
-floor : (x: <span class="ty">float</span>) -> <span class="ty">int</span> {result <= x}  [<span class="st">Z3_PROVEN</span>]
-log : (x: <span class="ty">float</span> {x > <span class="nb">0</span>}) -> <span class="ty">float</span>  [<span class="st">Z3_PROVEN</span>]
-log2 : (x: <span class="ty">float</span> {x > <span class="nb">0</span>}) -> <span class="ty">float</span>  [<span class="st">Z3_PROVEN</span>]
-exp : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {result > <span class="nb">0</span>}  [<span class="st">Z3_PROVEN</span>]
-sin : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<span class="nb">1</span> <= result <= <span class="nb">1</span>}  [<span class="st">Z3_PROVEN</span>]
-cos : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<span class="nb">1</span> <= result <= <span class="nb">1</span>}  [<span class="st">Z3_PROVEN</span>]</code></pre>
+sqrt : (x: <span class="ty">float</span> {x >= <span class="nb">0</span>}) -> <span class="ty">float</span> {result >= <span class="nb">0</span>}  [<span class="st">Z3_VERIFIED</span>]
+factorial : (n: <span class="ty">int</span> {n >= <span class="nb">0</span>}) -> <span class="ty">int</span> {result > <span class="nb">0</span>}  [<span class="st">Z3_VERIFIED</span>]
+gcd : (a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">int</span> {result >= <span class="nb">0</span>}  [<span class="st">Z3_VERIFIED</span>]
+ceil : (x: <span class="ty">float</span>) -> <span class="ty">int</span> {result >= x}  [<span class="st">Z3_VERIFIED</span>]
+floor : (x: <span class="ty">float</span>) -> <span class="ty">int</span> {result <= x}  [<span class="st">Z3_VERIFIED</span>]
+log : (x: <span class="ty">float</span> {x > <span class="nb">0</span>}) -> <span class="ty">float</span>  [<span class="st">Z3_VERIFIED</span>]
+log2 : (x: <span class="ty">float</span> {x > <span class="nb">0</span>}) -> <span class="ty">float</span>  [<span class="st">Z3_VERIFIED</span>]
+exp : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {result > <span class="nb">0</span>}  [<span class="st">Z3_VERIFIED</span>]
+sin : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<span class="nb">1</span> <= result <= <span class="nb">1</span>}  [<span class="st">Z3_VERIFIED</span>]
+cos : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<span class="nb">1</span> <= result <= <span class="nb">1</span>}  [<span class="st">Z3_VERIFIED</span>]</code></pre>
 
     <p>
       Signature files are automatically combined with full <code>.deppy</code> specs.
@@ -523,7 +523,7 @@ cos : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<spa
         { <span class="st">"name"</span>: <span class="st">"monotone"</span>, <span class="st">"formula"</span>: <span class="st">"a <= b => sqrt(a) <= sqrt(b)"</span> },
         { <span class="st">"name"</span>: <span class="st">"sqrt_of_square"</span>, <span class="st">"formula"</span>: <span class="st">"sqrt(x**2) == abs(x)"</span> }
       ],
-      <span class="st">"trust_level"</span>: <span class="st">"Z3_PROVEN"</span>
+      <span class="st">"trust_level"</span>: <span class="st">"Z3_VERIFIED"</span>
     },
     <span class="st">"math.factorial"</span>: {
       <span class="st">"precondition"</span>: <span class="st">"n >= 0"</span>,
@@ -533,7 +533,7 @@ cos : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<spa
         { <span class="st">"name"</span>: <span class="st">"recursive_def"</span>, <span class="st">"formula"</span>: <span class="st">"f(n) == n * f(n-1)"</span> },
         { <span class="st">"name"</span>: <span class="st">"base_case"</span>, <span class="st">"formula"</span>: <span class="st">"f(0) == 1"</span> }
       ],
-      <span class="st">"trust_level"</span>: <span class="st">"Z3_PROVEN"</span>
+      <span class="st">"trust_level"</span>: <span class="st">"Z3_VERIFIED"</span>
     }
   }
 }</code></pre>

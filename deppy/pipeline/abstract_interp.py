@@ -1454,20 +1454,71 @@ class ObligationResolver:
 
     def resolve_type_check(self, expr: ast.expr, expected_type: str,
                            state: AbstractState) -> bool:
-        """Heuristic: can we prove isinstance(expr, expected_type)?"""
+        """Can we prove ``isinstance(expr, expected_type)`` from the
+        abstract state?
+
+        The OLD implementation returned ``True`` whenever
+        ``expected_type`` was ``int`` or ``float`` AND the expression
+        had *any* interval — including the top interval
+        ``[-∞, +∞]`` for unknown values, which proves nothing.
+        The honest check:
+
+        * ``expr`` must have a narrowed interval that actually pins
+          down the value domain (``interval.is_bounded()``), OR
+        * the abstract value must carry a concrete type tag that
+          matches ``expected_type``.
+
+        For everything else we return ``False`` — abstract interpretation
+        cannot witness the isinstance, so the caller must fall back to
+        a runtime check or Z3.
+        """
         av = self.interpreter.analyze_expression(expr, state)
-        if expected_type in ("int", "float") and av.interval is not None:
-            return True
+        if expected_type in ("int", "float", "bool"):
+            # Concrete-type tag wins if present.
+            if getattr(av, "concrete_type", None) == expected_type:
+                return True
+            # Bounded interval ⇒ numeric; narrows isinstance for int/float.
+            if av.interval is not None:
+                is_bounded = getattr(av.interval, "is_bounded", None)
+                if callable(is_bounded) and is_bounded():
+                    return True
         return False
 
     def resolve_safe_access(self, expr: ast.expr,
                             state: AbstractState) -> bool:
-        """Can we prove *expr* won't raise (no None deref, no OOB)?"""
+        """Can we prove ``expr`` won't raise — both no None deref
+        AND no OOB?
+
+        The OLD implementation only checked nullability.  Subscripts
+        into a known-non-null collection still raise if the index is
+        out of range, so we now also require the size analysis to
+        witness the index as in-bounds (when the expression is a
+        subscript).  Non-subscript accesses still use nullability.
+        """
         av = self.interpreter.analyze_expression(expr, state)
         if av.null == NullabilityDomain.NULL:
             return False
         if av.null == NullabilityDomain.MAYBE_NULL:
             return False
+
+        # Subscript: ``xs[i]`` needs both non-null xs AND 0 <= i < len(xs).
+        if isinstance(expr, ast.Subscript):
+            seq_av = self.interpreter.analyze_expression(expr.value, state)
+            idx_av = self.interpreter.analyze_expression(expr.slice, state)
+            if seq_av.size is None or idx_av.interval is None:
+                # Unknown size or unknown index → cannot prove safe.
+                return False
+            # Require: idx >= 0 AND idx < seq_size.lower bound.
+            idx_lo = getattr(idx_av.interval, "lo", None)
+            seq_lo = getattr(seq_av.size, "lo", None)
+            if idx_lo is None or seq_lo is None:
+                return False
+            idx_hi = getattr(idx_av.interval, "hi", None)
+            if idx_hi is None:
+                return False
+            # 0 <= idx.lo AND idx.hi < seq_size.lo
+            return idx_lo >= 0 and idx_hi < seq_lo
+
         return True
 
 

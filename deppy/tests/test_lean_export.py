@@ -110,7 +110,7 @@ PROVEN_FUNCS = [
 @pytest.mark.parametrize("fn", PROVEN_FUNCS, ids=[f.__name__ for f in PROVEN_FUNCS])
 def test_lean_proven(fn):
     cert = compile_to_lean(fn)
-    assert cert.trust_level in ("LEAN_VERIFIED", "Z3_PROVEN"), (
+    assert cert.trust_level in ("LEAN_SYNTAX_COMPLETE", "LEAN_KERNEL_VERIFIED", "Z3_PROVEN"), (
         f"{fn.__name__}: expected proven, got {cert.trust_level}"
     )
     assert cert.sorry_count == 0, (
@@ -163,8 +163,8 @@ def test_lean_newly_proven(fn):
     assert cert.sorry_count == 0, (
         f"{fn.__name__}: expected 0 sorry, got {cert.sorry_count}"
     )
-    assert cert.trust_level in ("LEAN_VERIFIED", "Z3_PROVEN"), (
-        f"{fn.__name__}: expected LEAN_VERIFIED, got {cert.trust_level}"
+    assert cert.trust_level in ("LEAN_SYNTAX_COMPLETE", "LEAN_KERNEL_VERIFIED", "Z3_PROVEN"), (
+        f"{fn.__name__}: expected syntax-complete or kernel-verified, got {cert.trust_level}"
     )
 
 
@@ -218,7 +218,7 @@ def test_lean_rendering_is_valid_structure():
 @pytest.mark.parametrize("fn", PROVEN_FUNCS, ids=[f.__name__ for f in PROVEN_FUNCS])
 def test_lean_trust_level_proven(fn):
     cert = compile_to_lean(fn)
-    assert cert.trust_level in ("LEAN_VERIFIED", "Z3_PROVEN")
+    assert cert.trust_level in ("LEAN_SYNTAX_COMPLETE", "LEAN_KERNEL_VERIFIED", "Z3_PROVEN")
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -239,3 +239,55 @@ def test_lean_multi_spec():
     # Both specs should produce theorems
     rendered = cert.render()
     assert "lean_multi_abs" in rendered
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  HONESTY TESTS — trust level must reflect what actually ran
+# ═══════════════════════════════════════════════════════════════════
+
+import shutil
+
+
+def test_compile_to_lean_does_not_claim_kernel_verified_by_default():
+    """Compiling without invoking Lean must report syntax-complete or
+    exported, never kernel-verified.  The old ``LEAN_VERIFIED`` label
+    was retired because it was issued without running Lean."""
+    cert = compile_to_lean(lean_square)
+    assert cert.trust_level != "LEAN_KERNEL_VERIFIED", (
+        "compile_to_lean must not label an uninvoked Lean compile as "
+        "kernel-verified"
+    )
+    # The label should be one of the syntactic verdicts.
+    assert cert.trust_level in (
+        "LEAN_SYNTAX_COMPLETE", "LEAN_EXPORTED",
+        "Z3_PROVEN", "ASSUMPTION_DEPENDENT",
+    )
+
+
+def test_verify_with_lean_reports_unavailable_when_binary_missing():
+    """If the lean binary isn't on PATH, verify_with_lean must report
+    LEAN_UNAVAILABLE — never silently pretend it verified."""
+    cert = compile_to_lean(lean_square)
+    # Force-hide Lean by passing a non-existent binary.
+    cert = cert.verify_with_lean(lean_cmd="/nonexistent/lean-does-not-exist")
+    assert cert.trust_level == "LEAN_UNAVAILABLE"
+    assert not cert.is_kernel_verified
+
+
+@pytest.mark.skipif(shutil.which("lean") is None,
+                    reason="requires the `lean` binary to be installed")
+def test_verify_with_lean_invokes_binary_and_records_outcome():
+    """When Lean IS installed, verify_with_lean produces either
+    LEAN_KERNEL_VERIFIED or LEAN_REJECTED — and captures the
+    compiler's stdout/stderr so failures are inspectable."""
+    cert = compile_to_lean(lean_square)
+    cert = cert.verify_with_lean(timeout_s=30)
+    assert cert.trust_level in ("LEAN_KERNEL_VERIFIED", "LEAN_REJECTED",
+                                 "LEAN_EXPORTED")
+    if cert.trust_level == "LEAN_REJECTED":
+        # If Lean rejected us, either stdout or stderr must carry the
+        # compiler diagnostics — otherwise we'd have no way to debug.
+        combined = cert.lean_check_stdout.strip() + cert.lean_check_stderr.strip()
+        assert combined != "", (
+            "LEAN_REJECTED with no captured compiler output — can't debug"
+        )

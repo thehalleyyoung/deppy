@@ -506,7 +506,7 @@ $ PYTHONPATH=. python3 verify_sympy_geometry/verify_triangle.py</code></pre>
 
 <span class="fn">D. Square Root + Z3 Identity</span>
   <span class="st">✓</span> sqrt_square_positive: sqrt(x²) == x [x>0]  [AXIOM_TRUSTED]
-  <span class="st">✓</span> sqrt_square_abs: sqrt(x²) == |x| [Z3-PROVED]  [Z3_PROVEN]
+  <span class="st">✓</span> sqrt_square_abs: sqrt(x²) == |x| [Z3-PROVED]  [Z3_VERIFIED]
   …
 
 <span class="fn">X. Deliberate FALSE axiom (must fail)</span>
@@ -598,11 +598,11 @@ Paths verified:         1
 Transport proofs:       1
 
 Trust level breakdown:
-  🟡 Z3_PROVEN:     12 call sites
-  🟠 LLM_JUDGED:     0 call sites
+  🟡 Z3_VERIFIED:     12 call sites
+  🟠 LLM_CHECKED:     0 call sites
   🔴 UNTRUSTED:       5 call sites (uncovered)
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Overall:           🟡 Z3_PROVEN (limited by uncovered calls)
+  Overall:           🟡 Z3_VERIFIED (limited by uncovered calls)
 
 Recommendation: Add sidecar specs for:
   - sympy.expand (5 call sites)

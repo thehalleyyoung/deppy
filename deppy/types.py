@@ -1,8 +1,18 @@
 """
-deppy.types — Public type-level constructs for Deppy.
+deppy.types — re-export shim + a handful of **inert** book-example
+aliases.
 
-Re-exports core types so that ``from deppy.types import PathType`` works
-as shown in the Deppy tutorial book.
+The ``from deppy.core.types import ...`` re-exports (``PathType``,
+``PiType``, ``RefinementType``, etc.) are real — the objects they
+name form the kernel's type grammar.
+
+The local additions ``Empty``, ``Unit``, ``Sigma``, ``SymExpr``,
+``NDArray`` are **data classes only** — they exist so that example
+code reading ``Sigma(fst, snd)`` parses.  None of them integrate with
+the kernel's type-checking or universe hierarchy; writing
+``Sigma(a, b) : Σ A.B`` on paper will not give you a kernel-verifiable
+judgment.  For real dependent pairs, use ``deppy.core.types.SigmaType``
+in kernel contexts.
 """
 from __future__ import annotations
 

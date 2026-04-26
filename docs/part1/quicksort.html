@@ -197,10 +197,10 @@
     <p>Verification output for partition:</p>
 
 <pre><code class="output"><span class="cm">$ deppy verify partition.py</span>
-<span class="cm">  ✓ partition_preserves_multiset        LEMMA    Z3_PROVEN   0.03s</span>
-<span class="cm">  ✓ partition: all_leq(lo, pivot)                Z3_PROVEN   0.01s</span>
-<span class="cm">  ✓ partition: all_gt(hi, pivot)                 Z3_PROVEN   0.01s</span>
-<span class="cm">  ✓ partition: is_permutation(lo+hi, xs)         Z3_PROVEN   0.02s</span>
+<span class="cm">  ✓ partition_preserves_multiset        LEMMA    Z3_VERIFIED   0.03s</span>
+<span class="cm">  ✓ partition: all_leq(lo, pivot)                Z3_VERIFIED   0.01s</span>
+<span class="cm">  ✓ partition: all_gt(hi, pivot)                 Z3_VERIFIED   0.01s</span>
+<span class="cm">  ✓ partition: is_permutation(lo+hi, xs)         Z3_VERIFIED   0.02s</span>
 <span class="cm">  4 obligations, 4 discharged</span></code></pre>
 
     <!-- ──────────────────────────────────────────── -->
@@ -384,24 +384,24 @@
 <span class="cm">  ✓ all_gt                                 PREDICATE          0.01s</span>
 
 <span class="cm">  Checking lemmas …</span>
-<span class="cm">  ✓ partition_preserves_multiset           LEMMA    Z3_PROVEN  0.04s</span>
-<span class="cm">  ✓ concat_sorted                          LEMMA    Z3_PROVEN  0.03s</span>
+<span class="cm">  ✓ partition_preserves_multiset           LEMMA    Z3_VERIFIED  0.04s</span>
+<span class="cm">  ✓ concat_sorted                          LEMMA    Z3_VERIFIED  0.03s</span>
 
 <span class="cm">  Checking partition …</span>
-<span class="cm">  ✓ partition: all_leq(lo, pivot)                   Z3_PROVEN  0.01s</span>
-<span class="cm">  ✓ partition: all_gt(hi, pivot)                    Z3_PROVEN  0.01s</span>
-<span class="cm">  ✓ partition: is_permutation(lo + hi, xs)           Z3_PROVEN  0.02s</span>
+<span class="cm">  ✓ partition: all_leq(lo, pivot)                   Z3_VERIFIED  0.01s</span>
+<span class="cm">  ✓ partition: all_gt(hi, pivot)                    Z3_VERIFIED  0.01s</span>
+<span class="cm">  ✓ partition: is_permutation(lo + hi, xs)           Z3_VERIFIED  0.02s</span>
 
 <span class="cm">  Checking quicksort …</span>
 <span class="cm">  ✓ quicksort: @decreases(len(xs))</span>
-<span class="cm">      — len(less) &lt; len(xs)                         Z3_PROVEN  0.01s</span>
-<span class="cm">      — len(greater) &lt; len(xs)                      Z3_PROVEN  0.01s</span>
-<span class="cm">  ✓ quicksort: is_sorted(result)                    Z3_PROVEN  0.05s</span>
-<span class="cm">  ✓ quicksort: is_permutation(result, xs)            Z3_PROVEN  0.04s</span>
+<span class="cm">      — len(less) &lt; len(xs)                         Z3_VERIFIED  0.01s</span>
+<span class="cm">      — len(greater) &lt; len(xs)                      Z3_VERIFIED  0.01s</span>
+<span class="cm">  ✓ quicksort: is_sorted(result)                    Z3_VERIFIED  0.05s</span>
+<span class="cm">  ✓ quicksort: is_permutation(result, xs)            Z3_VERIFIED  0.04s</span>
 
 <span class="cm">  ──────────────────────────────────────────────────────────────</span>
 <span class="cm">  Total: 11 proof obligations, 11 discharged ✅</span>
-<span class="cm">  Trust level: Z3_PROVEN</span>
+<span class="cm">  Trust level: Z3_VERIFIED</span>
 <span class="cm">  Wall time: 0.22s</span></code></pre>
 
     <!-- ──────────────────────────────────────────── -->

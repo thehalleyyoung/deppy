@@ -287,11 +287,11 @@
   <span class="cm">├── Expected property: len(result) == len(values)</span>
   <span class="cm">│   └── AST analysis: for loop iterates over data, appends once each</span>
   <span class="cm">│       → len(result) == len(data) == len(values)</span>
-  <span class="cm">│       Status: LLM_JUDGED (confidence: 0.94) 🟠</span>
+  <span class="cm">│       Status: LLM_CHECKED (confidence: 0.94) 🟠</span>
   <span class="cm">├── Expected property: all floats</span>
   <span class="cm">│   └── item : float (from data : list[float]), factor : float</span>
   <span class="cm">│       → item * factor : float</span>
-  <span class="cm">│       Status: Z3_PROVEN ✅</span>
+  <span class="cm">│       Status: Z3_VERIFIED ✅</span>
   <span class="cm">└── Trust level: MIXED (some Z3, some LLM)</span>
 
 <span class="st">✓ scale_values: guarantee verified at MIXED trust level</span></code></pre>
@@ -379,7 +379,7 @@
   <span class="cm">  "[" + ... + "]" — len ≥ 2 > 0 ✓</span>
 
 <span class="st">✓ Exhaustive narrowing — all union variants covered</span>
-<span class="st">✓ Guarantee "non-empty string" — Z3_PROVEN in all branches ✅</span></code></pre>
+<span class="st">✓ Guarantee "non-empty string" — Z3_VERIFIED in all branches ✅</span></code></pre>
 
 <h2>TypeGuard and TypeIs (PEP 742)</h2>
 
@@ -520,7 +520,7 @@
 
 <span class="st">✓ User construction is safe with narrowed types</span>
 <span class="st">✓ All error paths raise ValueError ✓</span>
-<span class="st">✓ Guarantee: "valid User or ValueError" — Z3_PROVEN ✅</span></code></pre>
+<span class="st">✓ Guarantee: "valid User or ValueError" — Z3_VERIFIED ✅</span></code></pre>
 
 <h2>Example: Plugin System with Dynamic Loading</h2>
 
@@ -820,7 +820,7 @@ Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></co
   </thead>
   <tbody>
     <tr>
-      <td><span class="verified">Z3_PROVEN</span></td>
+      <td><span class="verified">Z3_VERIFIED</span></td>
       <td>🟢</td>
       <td>Fully proved by Z3</td>
       <td>isinstance narrowing, arithmetic checks</td>
@@ -832,7 +832,7 @@ Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></co
       <td>DuckPath.runtime_check, TypeGuard</td>
     </tr>
     <tr>
-      <td><span style="display:inline-flex;align-items:center;gap:0.35rem;background:#fff3cd;color:#856404;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">LLM_JUDGED</span></td>
+      <td><span style="display:inline-flex;align-items:center;gap:0.35rem;background:#fff3cd;color:#856404;padding:0.2rem 0.6rem;border-radius:999px;font-size:0.75rem;font-weight:600;">LLM_CHECKED</span></td>
       <td>🟠</td>
       <td>LLM analysis (high confidence)</td>
       <td>Untyped code analysis, behavioral equivalence</td>
@@ -852,12 +852,12 @@ Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></co
 <span class="dc">@verify</span>
 <span class="kw">def</span> <span class="fn">mixed_trust</span>(data: <span class="ty">Any</span>) -> <span class="ty">int</span>:
     <span class="kw">if</span> isinstance(data, <span class="ty">int</span>):
-        <span class="kw">return</span> data + <span class="nb">1</span>              <span class="cm"># 🟢 Z3_PROVEN</span>
+        <span class="kw">return</span> data + <span class="nb">1</span>              <span class="cm"># 🟢 Z3_VERIFIED</span>
     <span class="kw">if</span> isinstance(data, <span class="ty">str</span>):
-        <span class="kw">return</span> len(data)             <span class="cm"># 🟢 Z3_PROVEN</span>
-    <span class="kw">return</span> legacy_compute(data)    <span class="cm"># 🟠 LLM_JUDGED</span>
+        <span class="kw">return</span> len(data)             <span class="cm"># 🟢 Z3_VERIFIED</span>
+    <span class="kw">return</span> legacy_compute(data)    <span class="cm"># 🟠 LLM_CHECKED</span>
 
-<span class="cm"># Overall level: 🟠 LLM_JUDGED (weakest link)</span></code></pre>
+<span class="cm"># Overall level: 🟠 LLM_CHECKED (weakest link)</span></code></pre>
 
 <h2>Exercises</h2>
 
