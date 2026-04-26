@@ -80,6 +80,24 @@ class FunctionVerdict:
     #   user-lean-proof, undischarged, co-located-peer.
     discharge_paths: dict[str, str] = field(default_factory=dict)
 
+    # Audit fix #12 — assert-narrowing dependence (verdict-visible).
+    #
+    # ``assert_narrowing_dependent`` is True iff at least one source
+    # in this function was discharged using a guard derived from an
+    # ``assert P`` statement.  Such discharges are *unsound* under
+    # ``python -O`` because the assert is stripped and the guard no
+    # longer holds.  By default (``allow_assert_narrowing=False``)
+    # the safety pipeline forces ``is_safe=False`` for any function
+    # with ``assert_narrowing_dependent=True``.  Callers can opt in
+    # via ``allow_assert_narrowing=True`` if they're confident the
+    # deployed code does NOT use ``-O``.
+    #
+    # ``assert_dependent_sources`` lists the specific source IDs
+    # whose discharge depended on the assert — useful for diagnosis
+    # ("which call sites would silently break under -O?").
+    assert_narrowing_dependent: bool = False
+    assert_dependent_sources: list[str] = field(default_factory=list)
+
 
 @dataclass
 class CounterexampleWitness:
@@ -110,7 +128,17 @@ class SafetyVerdict:
     lean_module_source: Optional[str] = None
     aggregate_trust: TrustLevel = TrustLevel.UNTRUSTED
     notes: list[str] = field(default_factory=list)
-    
+
+    # Audit fix #12 — assert-narrowing dependence rolled up across
+    # all functions.  ``assert_narrowing_dependent`` is True iff at
+    # least one function's discharge depended on an assert-derived
+    # guard.  ``assert_dependent_functions`` lists those functions.
+    # Callers that gate deployment on safety should refuse to ship
+    # a module with ``assert_narrowing_dependent=True`` unless they
+    # explicitly opt in via ``allow_assert_narrowing=True``.
+    assert_narrowing_dependent: bool = False
+    assert_dependent_functions: list[str] = field(default_factory=list)
+
     # Enhanced diagnosis fields
     diagnosis_findings: Optional[list[DiagnosticFinding]] = None
     diagnosis_report: Optional[str] = None
@@ -203,6 +231,7 @@ def verify_module_safety(
     progress_callback: Optional[Callable[[str], None]] = None,
     verbose_progress: bool = False,
     enable_diagnostics: bool = True,
+    allow_assert_narrowing: bool = False,
 ) -> SafetyVerdict:
     """Run the full safety pipeline on a module's source.
 
@@ -674,7 +703,7 @@ def verify_module_safety(
     for fn_name in function_names:
         if fn_name not in verification_results or verification_results[fn_name] is None:
             continue
-        
+
         result_data = verification_results[fn_name]
         verdict.functions[fn_name] = result_data['verdict']
         function_proofs[fn_name] = result_data['cond_witness']
@@ -682,6 +711,49 @@ def verify_module_safety(
         function_preconditions[fn_name] = result_data['precondition']
         lean_witnesses.append(result_data['cond_witness'])
         function_trusts.append(result_data['trust'])
+
+    # Audit fix #12 — verdict-visible assert-narrowing dependence.
+    # For each function whose discharges relied on assert-derived
+    # guards, set the verdict's flags and (when ``allow_assert_narrowing``
+    # is False) force ``is_safe=False``.  This turns the previous
+    # warning-only treatment into a verdict-visible gate.
+    try:
+        from deppy.pipeline.assert_safety import (
+            AssertDependenceTracker,
+            apply_assert_dependence_gate,
+            apply_assert_gate_module_level,
+            collect_assert_dependences,
+            render_dependence_note,
+        )
+        assert_tracker = AssertDependenceTracker.empty()
+        for fn_name in function_names:
+            fv = verdict.functions.get(fn_name)
+            if fv is None:
+                continue
+            rmap = refinement_maps.get(fn_name)
+            discharges = function_discharges.get(fn_name, [])
+            dep_sources = collect_assert_dependences(
+                fn_name, discharges, rmap,
+            )
+            apply_assert_dependence_gate(
+                fv, dep_sources, allow=allow_assert_narrowing,
+            )
+            for sid in dep_sources:
+                assert_tracker.add(fn_name, sid)
+        apply_assert_gate_module_level(
+            verdict, assert_tracker, allow=allow_assert_narrowing,
+        )
+        note = render_dependence_note(
+            assert_tracker, allow=allow_assert_narrowing,
+        )
+        if note:
+            verdict.notes.append(note)
+    except Exception as _e:
+        # Don't let the gate's own bug mask a real verdict — record
+        # but don't abort.
+        verdict.notes.append(
+            f"assert-narrowing gate unavailable: {_e}"
+        )
 
     module_discharges = _build_discharges(
         fn_name="<module>",
