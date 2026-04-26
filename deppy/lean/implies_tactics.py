@@ -102,6 +102,7 @@ class ImpliesClassification(str, Enum):
     DECIDABLE_PROP = "decidable_prop"  # propositional & decidable
     DEFINITIONAL = "definitional"   # closes by simp_all / rfl
     AESOP_LIKELY = "aesop_likely"   # heuristic — aesop tends to win
+    CUBICAL_KAN = "cubical_kan"    # cubical path-equivalence witness
     OPAQUE = "opaque"               # has hasattr/defined/user fn → sorry
     UNKNOWN = "unknown"             # no rule matched → sorry
 
@@ -141,6 +142,7 @@ def select_implies_tactic(
     py_types: Optional[dict[str, str]] = None,
     user_proof: Optional[str] = None,
     fn_name: Optional[str] = None,
+    cubical_set=None,
 ) -> ImpliesTacticPlan:
     """Return an :class:`ImpliesTacticPlan` for an ``@implies`` obligation.
 
@@ -148,6 +150,12 @@ def select_implies_tactic(
     proof and the kernel will validate it).  When no user proof is
     given we run :func:`_classify` on the AST of the pre / post
     Python predicates and dispatch to a tactic.
+
+    Round-2 audit integration #2: when ``cubical_set`` is supplied,
+    we additionally check whether the @implies obligation has a
+    *cubical witness* — a 1-cell whose guards include both the
+    pre and the post.  When found, the classification is
+    ``CUBICAL_KAN`` and the tactic uses ``Deppy.deppy_kan``.
     """
     py_types = py_types or {}
     if user_proof:
@@ -159,6 +167,37 @@ def select_implies_tactic(
             confidence=1.0,
             notes=["user-supplied proof — kernel will validate"],
         )
+
+    # Round-2 integration #2: check for a cubical witness BEFORE the
+    # standard classifier.  When the cubical set has a 1-cell whose
+    # guards include both ``pre_py`` and ``post_py`` (canonically),
+    # the obligation is structurally provable via Kan filling.
+    if cubical_set is not None:
+        from deppy.lean.predicate_canon import predicates_equivalent
+        for cell in cubical_set.cells_by_id.values():
+            if cell.dim != 1:
+                continue
+            cell_guards = list(cell.guards)
+            if not cell_guards:
+                continue
+            has_pre = any(
+                predicates_equivalent(g, pre_py) for g in cell_guards
+            )
+            has_post = any(
+                predicates_equivalent(g, post_py) for g in cell_guards
+            )
+            if has_pre and has_post:
+                return ImpliesTacticPlan(
+                    tactic_body=f"intro h; Deppy.deppy_kan",
+                    is_sorry=False,
+                    is_user_supplied=False,
+                    classification=ImpliesClassification.CUBICAL_KAN,
+                    confidence=0.85,
+                    notes=[
+                        f"cubical witness at cell {cell.cell_id} "
+                        f"(both pre and post in cell guards)",
+                    ],
+                )
 
     pre_node = _parse_eval(pre_py)
     post_node = _parse_eval(post_py)
@@ -360,6 +399,13 @@ def _make_plan(
         # confidence on the metadata.
         return ImpliesTacticPlan(
             tactic_body="intros; aesop",
+            is_sorry=False, is_user_supplied=False,
+            classification=classification, confidence=confidence,
+            notes=notes,
+        )
+    if classification is ImpliesClassification.CUBICAL_KAN:
+        return ImpliesTacticPlan(
+            tactic_body="intro h; Deppy.deppy_kan",
             is_sorry=False, is_user_supplied=False,
             classification=classification, confidence=confidence,
             notes=notes,

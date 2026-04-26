@@ -76,6 +76,11 @@ class Certificate:
     implies_user_supplied: int = 0
     implies_unproved: int = 0  # honest sorries
 
+    # Round-2 audit integration #3 — cubical-section accounting:
+    cubical_kan_theorems_count: int = 0
+    cubical_higher_path_theorems_count: int = 0
+    cubical_sorries: int = 0  # honest sorries from the cubical section
+
 
 @dataclass
 class CertificateReport:
@@ -349,25 +354,26 @@ def write_certificate(
         lines.append(standard_complex_block)
 
     # Round-2 audit phase 4: cubical control-flow analysis.
+    cubical_section_for_cert = None
     try:
         from deppy.lean.cubical_certificate import render_cubical_section
-        cubical_section = render_cubical_section(
+        cubical_section_for_cert = render_cubical_section(
             verdict, fn_nodes,
             include_kan_theorems=True,
             include_higher_paths=False,
         )
-        if cubical_section.summary_block:
-            lines.append(cubical_section.summary_block)
-        if cubical_section.theorems:
+        if cubical_section_for_cert.summary_block:
+            lines.append(cubical_section_for_cert.summary_block)
+        if cubical_section_for_cert.theorems:
             lines.append(
                 "/-! ## Cubical Kan-fillability theorems -/"
             )
             lines.append("")
-            for t in cubical_section.theorems:
+            for t in cubical_section_for_cert.theorems:
                 lines.append(t)
         # Track sorry count for the certificate's sorry budget.
         try:
-            sorry_count += cubical_section.sorry_count
+            sorry_count += cubical_section_for_cert.sorry_count
         except NameError:
             pass
     except Exception as _e:
@@ -390,6 +396,19 @@ def write_certificate(
     lines.append("")
     text = "\n".join(lines)
 
+    # Round-2 audit integration #3: collect cubical-section
+    # accounting from the rendered section.
+    cubical_kan_count = 0
+    cubical_higher_count = 0
+    cubical_sorries_count = 0
+    if cubical_section_for_cert is not None:
+        cubical_kan_count = (
+            cubical_section_for_cert.kan_theorems_count
+        )
+        cubical_higher_count = (
+            cubical_section_for_cert.higher_path_theorems_count
+        )
+        cubical_sorries_count = cubical_section_for_cert.sorry_count
     cert = Certificate(
         module_name=module_name,
         text=text,
@@ -397,6 +416,7 @@ def write_certificate(
         theorem_count=(
             len(safety_theorems) + len(implies_theorems)
             + len(cocycle_theorems)
+            + cubical_kan_count + cubical_higher_count
         ),
         sorry_count=sorry_count,
         aux_decl_count=len(aux_decls),
@@ -410,6 +430,9 @@ def write_certificate(
         implies_auto_proved=_count_implies_auto(implies_audit),
         implies_user_supplied=_count_implies_user(implies_audit),
         implies_unproved=_count_implies_unproved(implies_audit),
+        cubical_kan_theorems_count=cubical_kan_count,
+        cubical_higher_path_theorems_count=cubical_higher_count,
+        cubical_sorries=cubical_sorries_count,
     )
     # Attach the per-cocycle goal/proof metadata (Audit Fix #1)
     # so callers can audit which cocycles got real (non-True) goals.
@@ -630,9 +653,18 @@ def _render_implies_theorem(
     # Audit fix #7: pick a real tactic instead of blanket
     # ``Deppy.deppy_safe``.  When no plausible tactic exists, emit
     # an honest ``sorry`` with a comment.
+    # Round-2 audit integration #2: pass the function's cubical
+    # set so the classifier can find a Kan witness when one exists.
+    cubical_set_for_implies = None
+    try:
+        from deppy.pipeline.cubical_ast import build_cubical_set
+        cubical_set_for_implies = build_cubical_set(fn_node)
+    except Exception:
+        cubical_set_for_implies = None
     plan = select_implies_tactic(
         pre_py, post_py, py_types=py_types,
         user_proof=user_proof or None, fn_name=fn_name,
+        cubical_set=cubical_set_for_implies,
     )
     body = plan.tactic_text
     sorries = 1 if plan.is_sorry else 0

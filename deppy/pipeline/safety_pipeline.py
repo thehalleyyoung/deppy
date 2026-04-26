@@ -1038,6 +1038,31 @@ def verify_module_safety(
         try:
             def lean_export():
                 lean_src = render_compilable_safety_module(module_path, lean_witnesses)
+                # Round-2 audit integration #1: append the cubical
+                # control-flow analysis as a structured Lean
+                # comment block so the simpler ``lean_module_source``
+                # export carries the same diagnostic that
+                # ``write_certificate`` produces.
+                try:
+                    from deppy.lean.cubical_certificate import (
+                        render_cubical_section,
+                    )
+                    cubical_section = render_cubical_section(
+                        verdict, fn_nodes,
+                        include_kan_theorems=False,
+                        include_higher_paths=False,
+                    )
+                    if cubical_section.summary_block:
+                        lean_src = (
+                            lean_src + "\n" +
+                            cubical_section.summary_block
+                        )
+                except Exception as _e:
+                    # Don't let the cubical extension break the
+                    # standard Lean export.
+                    verdict.notes.append(
+                        f"cubical lean_module_source append failed: {_e}"
+                    )
                 lean_check = check_lean_module_source(lean_src)
                 return {'lean_src': lean_src, 'lean_check': lean_check}
             

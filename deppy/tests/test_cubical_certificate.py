@@ -270,3 +270,26 @@ class TestCertificateIntegration:
             text = out.read_text()
         # The certificate's cubical block is present.
         assert "Cubical control-flow analysis" in text
+
+    def test_certificate_has_cubical_accounting_fields(self):
+        # Round-2 audit integration #3: Certificate dataclass has
+        # dedicated fields for cubical theorem and sorry counts.
+        import tempfile
+        from pathlib import Path
+        from deppy.lean.certificate import write_certificate
+        src = textwrap.dedent("""
+            def f(x: int) -> int:
+                if x > 0:
+                    return 1
+                return 0
+        """)
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "cert.lean"
+            report = write_certificate(src, out, run_lean=False)
+        cert = report.certificate
+        # Fields exist and are integers.
+        assert isinstance(cert.cubical_kan_theorems_count, int)
+        assert isinstance(cert.cubical_higher_path_theorems_count, int)
+        assert isinstance(cert.cubical_sorries, int)
+        # Cubical sorries are bounded by total sorry count.
+        assert cert.cubical_sorries <= cert.sorry_count
