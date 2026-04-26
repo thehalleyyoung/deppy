@@ -278,6 +278,59 @@ def _cmd_obligations(args: argparse.Namespace) -> int:
     return 0 if report.open_count == 0 else 2
 
 
+def _cmd_certificate(args: argparse.Namespace) -> int:
+    """Emit a complete Lean certificate; optionally invoke ``lean``."""
+    from deppy.lean.certificate import write_certificate
+
+    try:
+        display, source, _mod = _load_target(args.target)
+    except FileNotFoundError as e:
+        print(f"deppy certificate: {e}", file=sys.stderr)
+        return 3
+
+    sidecar_specs = None
+    if getattr(args, "sidecar", None):
+        from deppy.proofs.sidecar import SidecarModule
+        sidecar_path = Path(args.sidecar)
+        if not sidecar_path.is_file():
+            print(
+                f"deppy certificate: sidecar {sidecar_path} not found",
+                file=sys.stderr,
+            )
+            return 3
+        try:
+            sm = SidecarModule.from_file(str(sidecar_path))
+        except Exception as e:
+            print(
+                f"deppy certificate: failed to parse sidecar "
+                f"{sidecar_path}: {e}",
+                file=sys.stderr,
+            )
+            return 3
+        sidecar_specs = dict(sm.specs)
+
+    out = args.out
+    if not out:
+        target_path = Path(display)
+        out = target_path.with_suffix(".lean")
+    out_path = Path(out)
+    module_name = (
+        Path(display).stem.replace("-", "_") or "DeppyCertificate"
+    )
+    report = write_certificate(
+        source, out_path,
+        sidecar_specs=sidecar_specs,
+        use_drafts=args.use_drafts,
+        module_name=module_name,
+        run_lean=args.run_lean,
+        lean_timeout_s=args.lean_timeout,
+    )
+    print(report.summary())
+    if report.lean_accepted is None:
+        return 0 if report.certificate.sorry_count == 0 else 2
+    return 0 if report.lean_accepted else 1
+
+
 def _cmd_upgrade(args: argparse.Namespace) -> int:
     from deppy.pipeline.safety_pipeline import verify_module_safety
     from deppy.core.kernel import TrustLevel
@@ -385,7 +438,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     sub = p.add_subparsers(
         dest="command", required=True,
-        metavar="{check,export,upgrade,obligations,trust}",
+        metavar="{check,export,upgrade,obligations,certificate,trust}",
     )
 
     # check
@@ -452,6 +505,26 @@ def _build_parser() -> argparse.ArgumentParser:
     p_oblig.add_argument("--no-drafts", dest="use_drafts", action="store_false",
                          default=True)
     p_oblig.set_defaults(func=_cmd_obligations)
+
+    # certificate — Lean as the gold standard.
+    p_cert = sub.add_parser(
+        "certificate",
+        help="Emit a self-contained Lean 4 certificate (function "
+             "definitions + safety theorems + @implies theorems); "
+             "optionally invoke `lean` to validate the kernel verdict",
+    )
+    p_cert.add_argument("target", help="Path to .py file or module name")
+    p_cert.add_argument("--out", "-o", default=None,
+                        help="Output .lean file (defaults to <target>.lean)")
+    p_cert.add_argument("--sidecar", metavar="PATH",
+                        help="Path to a .deppy or .json sidecar spec file")
+    p_cert.add_argument("--no-drafts", dest="use_drafts",
+                        action="store_false", default=True)
+    p_cert.add_argument("--run-lean", action="store_true",
+                        help="Invoke `lean` against the certificate "
+                             "(sets the kernel-validated verdict)")
+    p_cert.add_argument("--lean-timeout", type=int, default=120)
+    p_cert.set_defaults(func=_cmd_certificate)
 
     # trust — convenience grouping; ``deppy trust upgrade <path> --to L``
     # behaves identically to ``deppy upgrade <path> --level L``.

@@ -269,11 +269,13 @@ class TestEmitObligations:
         assert text.count("\nend ") == 1
 
     def test_no_obligations_when_module_safe(self, tmp_path):
+        """With ``always=False`` (legacy mode), a trivially-safe
+        module emits no open obligations.  The default ``always=True``
+        (Phase A3) emits all sources for completeness."""
         from deppy.lean.obligations import emit_obligations
-        # A trivially safe module: only constant non-zero division.
         src = "def f():\n    return 1 / 1\n"
         out = tmp_path / "obligations.lean"
-        report = emit_obligations(src, out, use_drafts=True)
+        report = emit_obligations(src, out, use_drafts=True, always=False)
         assert report.open_count == 0
         assert "No open obligations" in report.summary()
 

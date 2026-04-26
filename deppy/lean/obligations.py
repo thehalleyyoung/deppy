@@ -160,6 +160,67 @@ def _safe_ident(text: str) -> str:
     return s
 
 
+def _select_proof_tactic(
+    *,
+    pre_lean: str,
+    goal_lean: str,
+    discharge_path: str = "",
+) -> tuple[str, bool]:
+    """Pick the strongest automatic Lean tactic that *might* close
+    the goal.  Returns ``(tactic_body, is_sorry)`` where
+    ``is_sorry`` is ``True`` only when we genuinely have nothing to
+    try and emit a ``sorry`` placeholder.
+
+    Tactic selection
+    ----------------
+    1. If the deppy pipeline already closed the source (``discharge_path``
+       is one of ``z3-arithmetic`` / ``z3-syntactic`` / etc.), pick
+       the tactic that mirrors deppy's reasoning so Lean re-validates
+       it: ``omega`` for Z3-arithmetic, ``exact h_pre`` for syntactic
+       conjuncts, ``trivial`` for is-total escapes, ``decide`` for
+       decidable propositions.
+    2. When the goal is an opaque ``Deppy_pred_*`` Prop (no
+       structure Lean can interpret), no tactic can succeed —
+       emit ``sorry`` with a TODO note.
+    3. Otherwise emit the ``deppy_safe`` macro from
+       ``DeppyBase.lean`` which tries decide / omega / simp / tauto /
+       aesop in sequence.
+    """
+    goal = goal_lean.strip()
+    pre = pre_lean.strip()
+    # Tactic mirroring the deppy discharge.
+    if discharge_path == "z3-arithmetic":
+        return ("by omega", False)
+    if discharge_path == "z3-syntactic":
+        # Syntactic shortcut: the goal IS a conjunct of pre.  In Lean
+        # we can usually close with ``exact h_pre`` (when the goal is
+        # exactly the precondition) or ``simp [*] at *; tauto``.
+        if pre and pre == goal:
+            return ("by exact h_pre", False)
+        return ("by simp_all", False)
+    if discharge_path in {"is-total", "termination"}:
+        return ("by trivial  -- analyst-trusted escape; refine if soundness matters", False)
+    if discharge_path in {"raises-declaration", "callee-axiom",
+                          "builtin-total-axiom", "callee-summary"}:
+        return ("by trivial  -- discharged by axiom; restate Lean-side if proof needed", False)
+    if discharge_path == "co-located-peer":
+        return ("by trivial  -- co-located peer discharged the obligation", False)
+
+    # Opaque Prop — has no Lean-side structure.
+    if goal.startswith("Deppy_pred_") or "Deppy_pred_" in goal:
+        return ("by sorry  -- opaque Prop; user must inhabit it", True)
+
+    if goal == "True":
+        return ("by trivial", False)
+    if goal == "False":
+        return ("by sorry  -- goal is False; only inhabit if pre is False", True)
+
+    # Default: try our automation combinator from DeppyBase.lean.  If
+    # the user doesn't import DeppyBase the certificate falls back to
+    # `decide; omega; simp; tauto; aesop` literally.
+    return ("by Deppy.deppy_safe", False)
+
+
 def _render_obligation(
     *,
     fn_name: str,
@@ -170,6 +231,7 @@ def _render_obligation(
     parameters: list[str],
     fn_node=None,
     aux_decls: list[str] | None = None,
+    discharge_path: str = "",
 ) -> Obligation:
     pre_lean, pre_aux, pre_notes = _py_predicate_to_lean(precondition)
     goal_lean, goal_aux, goal_notes = _py_predicate_to_lean(safety_predicate)
@@ -210,12 +272,20 @@ def _render_obligation(
     pre_hyp = f"(h_pre : {pre_lean})" if pre_lean.strip() != "True" else ""
     full_binders = (binders + " " + pre_hyp).strip() if pre_hyp else binders
 
-    body = "by\n    -- TODO: fill in the proof.\n    sorry"
+    tactic, is_sorry = _select_proof_tactic(
+        pre_lean=pre_lean, goal_lean=goal_lean,
+        discharge_path=discharge_path,
+    )
+    body = tactic
+
     theorem_text = (
         f"-- Source: {source_id} ({failure_kind}) in function {fn_name!r}\n"
         f"-- Safety predicate (Python): {safety_predicate}\n"
         f"-- Precondition (Python):     {precondition or 'True'}\n"
+        f"-- Discharge path:            {discharge_path or 'auto'}\n"
     )
+    if is_sorry:
+        theorem_text += "-- TODO: replace ``sorry`` with a proof.\n"
     for n in pre_notes + goal_notes:
         theorem_text += f"-- NOTE: {n}\n"
 
@@ -253,6 +323,7 @@ def emit_obligations(
     sidecar_specs: Optional[dict] = None,
     use_drafts: bool = True,
     module_name: str = "DeppyObligations",
+    always: bool = True,
 ) -> ObligationReport:
     """Run the safety pipeline and emit a Lean file with the open obligations.
 
@@ -266,6 +337,18 @@ def emit_obligations(
         Optional ``{name: ExternalSpec}`` to feed the safety pipeline.
     use_drafts :
         Whether to use auto-inferred drafts (default ``True``).
+    always :
+        When ``True`` (the default — Phase A3), emit a *complete*
+        certificate that includes *every* discharged source as well
+        as the unaddressed ones.  Discharged sources get the strongest
+        automatic Lean tactic the analyser can match (``omega``,
+        ``decide``, ``simp_all``, ``Deppy.deppy_safe``); unaddressed
+        sources get ``sorry``.  Running Lean on the resulting file
+        gives the canonical verdict — Lean accepts iff the program is
+        runtime-safe and the user has supplied any required proofs.
+
+        When ``False``, only unaddressed sources are emitted (legacy
+        behaviour for tooling that just wants the open list).
 
     Returns
     -------
@@ -298,7 +381,10 @@ def emit_obligations(
     notes: list[str] = []
     aux_decls: list[str] = []
     for fn_name, fv in verdict.functions.items():
-        if not fv.unaddressed:
+        # When ``always`` is set, we emit a theorem for every source
+        # (addressed and unaddressed).  Otherwise we keep the old
+        # behaviour of only emitting open obligations.
+        if not always and not fv.unaddressed:
             continue
         # Pull function-wide precondition.
         spec = (sidecar_specs or {}).get(fn_name)
@@ -311,8 +397,13 @@ def emit_obligations(
         params = (
             [a.arg for a in node.args.args] if node is not None else []
         )
-        for u in fv.unaddressed:
-            # Parse the unaddressed string back to a source-id.
+        # Walk both addressed and unaddressed source strings; the
+        # discharge map tells us which.
+        all_source_strs = list(fv.addressed) + list(fv.unaddressed)
+        if not always:
+            all_source_strs = list(fv.unaddressed)
+        for u in all_source_strs:
+            # Parse the source string back to a source-id.
             # Format: "ExceptionSource(KIND @ <path>:line:col in fn)"
             kind = ""
             lineno = 0

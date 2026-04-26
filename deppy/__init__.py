@@ -119,6 +119,9 @@ from deppy.lean.compiler import compile_to_lean  # noqa: F401
 from deppy.lean.obligations import (  # noqa: F401
     Obligation, ObligationReport, emit_obligations,
 )
+from deppy.lean.certificate import (  # noqa: F401
+    Certificate, CertificateReport, write_certificate,
+)
 
 loop_variant = decreases
 fuel = decreases
@@ -143,6 +146,63 @@ def lemma(fn):
     """Decorator marking a function as a lemma (returns a proof term)."""
     fn._deppy_lemma = True
     return fn
+
+
+def implies(
+    precondition: str,
+    postcondition: str,
+    *,
+    proof: str = "",
+    imports: tuple[str, ...] = (),
+):
+    """Declare an implication property: whenever ``precondition``
+    holds at function entry, ``postcondition`` holds at exit (with
+    ``result`` bound to the return value).
+
+    Example::
+
+        @implies("x > 0", "result > 0")
+        def f(x):
+            return x + 1
+
+        @implies("len(xs) > 0", "result is not None")
+        def first(xs):
+            return xs[0] if xs else None
+
+    The decorator records the property on the function as
+    ``fn._deppy_implies``.  The pipeline then:
+
+    1. **Tries to discharge automatically** — for arithmetic-only
+       implications it asks Z3 to prove ``precondition ⇒
+       postcondition[result := body]``.
+    2. **Emits a Lean theorem** in the certificate when Z3 cannot
+       discharge the implication.  The certificate's theorem
+       statement is generated automatically from the decorator
+       arguments and the function's translated body; the proof body
+       defaults to ``Deppy.deppy_safe`` (which tries the standard
+       automation tactics) and falls back to ``sorry`` only when
+       neither tactic nor user-supplied proof is available.
+    3. **Accepts a user-supplied proof** via the ``proof=`` keyword:
+       a Lean tactic body that closes the implication.  Multiple
+       ``@implies`` can stack on a single function.
+
+    The Python-side ``result`` identifier in the postcondition refers
+    to the function's return value.  Lean translates it to ``result``
+    (a fresh binder bound to the function's body in the theorem).
+    """
+    def decorator(fn):
+        existing = getattr(fn, "_deppy_implies", None)
+        if existing is None:
+            existing = []
+        existing.append({
+            "precondition": precondition,
+            "postcondition": postcondition,
+            "proof": proof,
+            "imports": tuple(imports or ()),
+        })
+        fn._deppy_implies = existing
+        return fn
+    return decorator
 
 
 def with_lean_proof(
