@@ -68,12 +68,23 @@ class Z3Encoding:
     we synthesise (``len_xs`` for list parameters, ``contains_d``
     for dict membership, ``Maybe_int.isSome`` for Optionals, …).
 
+    ``binder_types`` records the original Python annotation text
+    for each binder, so per-type encoders (e.g. the ``hasattr``
+    encoder from audit fix #10) can decide attribute presence
+    based on the receiver's actual class.
+
+    ``hasattr_cache`` is a per-encoding cache for uninterpreted
+    ``hasattr`` predicates so the same ``(sort_name, attr_name)``
+    pair always resolves to the same Z3 atom.
+
     Callers usually only need ``env`` to evaluate further formulas
     in the same scope.
     """
     sorts: dict[str, Any] = field(default_factory=dict)
     env: dict[str, Any] = field(default_factory=dict)
     helpers: dict[str, Any] = field(default_factory=dict)
+    binder_types: dict[str, str] = field(default_factory=dict)
+    hasattr_cache: dict[tuple[str, str], Any] = field(default_factory=dict)
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -139,6 +150,10 @@ def _build_encoding(
     # gets an uninterpreted sort named after it.
     for name, ann in binders.items():
         _encode_binder(name, ann, encoding, context, z3)
+        # Audit fix #10 — record the original Python annotation text
+        # so per-type encoders (hasattr) can look up the receiver's
+        # actual class.
+        encoding.binder_types[name] = (ann or "").strip()
         seen.add(name)
 
     # Second pass: every other free identifier in the formula gets
@@ -696,11 +711,55 @@ def _eval_call(node: ast.Call, enc: Z3Encoding, z3) -> Optional[Any]:
         if fn.id == "isinstance" and len(node.args) == 2:
             return z3.BoolVal(True)
         if fn.id == "hasattr" and len(node.args) == 2:
-            # For typed receivers we can decide hasattr statically.
-            # We're conservative: a recognised primitive / generic
-            # type always has the dunder methods; opaque sorts default
-            # to True (the typed sort discipline already enforces it).
-            return z3.BoolVal(True)
+            # Audit fix #10 — per-type ``hasattr`` encoding.  Look
+            # up the receiver's recorded type and consult the
+            # built-in attribute table.  When the type is known
+            # the result is a concrete BoolVal(True/False); when
+            # unknown it's an uninterpreted predicate keyed by
+            # (sort_name, attr_name) so the SMT layer can still
+            # propagate equalities.
+            from deppy.core.hasattr_encoding import (
+                encode_hasattr,
+                encode_hasattr_union,
+                parse_union_type,
+            )
+            recv = node.args[0]
+            attr_node = node.args[1]
+            attr_name = ""
+            if isinstance(attr_node, ast.Constant) and isinstance(
+                attr_node.value, str,
+            ):
+                attr_name = attr_node.value
+            else:
+                # The attribute name is dynamic — we can't
+                # statically decide.  Emit a generic uninterpreted
+                # predicate.
+                return z3.Bool(f"hasattr_dyn_{id(node)}")
+
+            recv_text = ""
+            if isinstance(recv, ast.Name):
+                recv_text = recv.id
+            type_text = enc.binder_types.get(recv_text, "")
+            arms = parse_union_type(type_text) if type_text else []
+            sort_name = recv_text or "object"
+            if len(arms) > 1:
+                return encode_hasattr_union(
+                    arms, attr_name,
+                    sort_name=sort_name, z3_module=z3,
+                    uninterp_cache=enc.hasattr_cache,
+                )
+            if len(arms) == 1:
+                return encode_hasattr(
+                    arms[0], attr_name,
+                    sort_name=sort_name, z3_module=z3,
+                    uninterp_cache=enc.hasattr_cache,
+                )
+            # No type info — fully uninterpreted.
+            return encode_hasattr(
+                None, attr_name,
+                sort_name=sort_name, z3_module=z3,
+                uninterp_cache=enc.hasattr_cache,
+            )
         if fn.id == "callable" and len(node.args) == 1:
             return z3.BoolVal(True)
         if fn.id in enc.env:
