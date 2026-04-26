@@ -619,6 +619,43 @@ def verify_module_safety(
             type_context=type_context,
         )
 
+        # Round-2 audit chunk D: cubical Kan-discharge.  After
+        # standard discharges, attempt to promote remaining
+        # ``Assume`` discharges via cubical Kan filling.  When a
+        # source's cubical cell has all peer faces discharged, the
+        # missing face is Kan-fillable and we promote the source
+        # to a Structural discharge tagged ``cubical-kan``.
+        try:
+            from deppy.pipeline.cubical_ast import build_cubical_set
+            from deppy.pipeline.cubical_discharge import (
+                apply_cubical_kan_promotions,
+                try_cubical_kan_discharge,
+            )
+            fn_node_for_cubical = fn_nodes.get(fn_name)
+            if fn_node_for_cubical is not None:
+                cset_for_discharge = build_cubical_set(
+                    fn_node_for_cubical,
+                    refinement_map=refinement_maps.get(fn_name),
+                )
+                kan_promotions = try_cubical_kan_discharge(
+                    fn_name=fn_name,
+                    sources=sources,
+                    discharges=discharges,
+                    cubical_set=cset_for_discharge,
+                )
+                if kan_promotions:
+                    discharges = apply_cubical_kan_promotions(
+                        discharges, kan_promotions,
+                    )
+                    verdict.notes.append(
+                        f"cubical-kan promoted {len(kan_promotions)} "
+                        f"source(s) in `{fn_name}`"
+                    )
+        except Exception as _e:
+            verdict.notes.append(
+                f"cubical-kan unavailable for {fn_name}: {_e}"
+            )
+
         # Construct the semantic witness — refuses to succeed unless every
         # source has an actual discharge.
         sem_witness = SemanticSafetyWitness(
@@ -2105,6 +2142,7 @@ _DISCHARGE_TAGS = (
     "termination",
     "user-lean-proof",
     "co-located-peer",
+    "cubical-kan",            # round-2 audit chunk D: cubical Kan filling
     "structural-unknown",
     "undischarged",
 )
@@ -2147,6 +2185,8 @@ def _classify_discharge(d: SourceDischarge) -> str:
             return "is-total"
         if "syntactic conjunct" in desc:
             return "z3-syntactic"
+        if "cubical kan" in desc or "cubical-kan" in note:
+            return "cubical-kan"
         if "co-located" in note:
             return "co-located-peer"
         if "callee" in note and "discharged" in note:
