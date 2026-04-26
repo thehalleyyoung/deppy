@@ -489,34 +489,113 @@ class CubicalSet:
         """Are 1-cells ``p`` and ``q`` propositionally equal as
         paths?
 
+        Round-2 audit chunk F: now handles the natural cubical
+        question — paths between different endpoints can be
+        equivalent if there's a 2-cell witnessing the homotopy.
+
         Two 1-cells are equivalent iff:
-          * they have the same endpoints (vertex-equality), AND
-          * their guard sets are propositionally equivalent (each
-            guard in one is canonically equivalent to a guard in
-            the other).
+
+          (strict case) — same endpoints + canonically equivalent
+            guards (the round-1 behaviour).
+
+          (cubical case) — both are parallel faces of the same
+            2-cell along the same axis.  In cubical type theory
+            this is the "square filler" definition of path
+            equivalence: two paths are equal as paths iff there's
+            a 2-cell whose boundary connects them.
+
+          (transitive case) — there's a chain of 2-cells linking
+            ``p`` to ``q`` via parallel faces.  We compute this
+            transitively up to a small depth bound.
+
+        The depth bound (``max_depth=3``) is a practical limit for
+        the cubical analyzer; deeper homotopies are rare and
+        expensive.
 
         Uses :mod:`deppy.lean.predicate_canon` for the canonical
-        equality check — no simplex-membership cheat.
+        equality check.
         """
         from deppy.lean.predicate_canon import predicates_equivalent
+
         if p.dim != 1 or q.dim != 1:
             raise ValueError("path_equivalent: both cells must be 1-cells")
-        if p.vertices != q.vertices:
-            return False
-        if len(p.guards) != len(q.guards):
-            return False
-        # Each guard in p must have a canonical equivalent in q.
-        q_guards = list(q.guards)
-        for g in p.guards:
-            matched_idx: Optional[int] = None
-            for i, h in enumerate(q_guards):
-                if predicates_equivalent(g, h):
-                    matched_idx = i
+
+        # Strict case (round-1 behaviour preserved).
+        if (p.vertices == q.vertices
+                and len(p.guards) == len(q.guards)):
+            q_guards = list(q.guards)
+            all_match = True
+            for g in p.guards:
+                matched_idx: Optional[int] = None
+                for i, h in enumerate(q_guards):
+                    if predicates_equivalent(g, h):
+                        matched_idx = i
+                        break
+                if matched_idx is None:
+                    all_match = False
                     break
-            if matched_idx is None:
-                return False
-            del q_guards[matched_idx]
-        return True
+                del q_guards[matched_idx]
+            if all_match:
+                return True
+
+        # Cubical case: search for a witnessing 2-cell or chain.
+        return self._homotopy_equivalent(p, q, max_depth=3)
+
+    def _homotopy_equivalent(
+        self, p: Cell, q: Cell, *, max_depth: int = 3,
+    ) -> bool:
+        """Look for a chain of ≤ ``max_depth`` 2-cells linking
+        ``p`` and ``q`` via parallel faces.
+
+        A 2-cell ``s`` *links* ``p`` to ``q`` along axis i iff
+        ``s.face(i, 0)`` is one and ``s.face(i, 1)`` is the other.
+        """
+        if p.cell_id == q.cell_id:
+            return True
+        # BFS over parallel-face neighbours.
+        visited: set[str] = {p.cell_id}
+        frontier: list[Cell] = [p]
+        for _ in range(max_depth):
+            next_frontier: list[Cell] = []
+            for c in frontier:
+                for neighbour in self._parallel_face_neighbours(c):
+                    if neighbour.cell_id == q.cell_id:
+                        return True
+                    if neighbour.cell_id not in visited:
+                        visited.add(neighbour.cell_id)
+                        next_frontier.append(neighbour)
+            frontier = next_frontier
+        return False
+
+    def _parallel_face_neighbours(self, c: Cell) -> list[Cell]:
+        """Return the 1-cells that share a 2-cell with ``c`` (the
+        opposite-axis face)."""
+        if c.dim != 1:
+            return []
+        out: list[Cell] = []
+        for higher in self.cells_by_id.values():
+            if higher.dim != 2:
+                continue
+            if c.cell_id not in higher.faces:
+                continue
+            # Find which axis we're on, and return the other face
+            # at the same axis.
+            for axis in (0, 1):
+                lo_idx = 2 * axis
+                hi_idx = 2 * axis + 1
+                if lo_idx >= len(higher.faces) or hi_idx >= len(higher.faces):
+                    continue
+                lo = higher.faces[lo_idx]
+                hi = higher.faces[hi_idx]
+                if lo == c.cell_id:
+                    other = self.cells_by_id.get(hi)
+                    if other is not None:
+                        out.append(other)
+                elif hi == c.cell_id:
+                    other = self.cells_by_id.get(lo)
+                    if other is not None:
+                        out.append(other)
+        return out
 
     # ---------- summary -----------------------------------------
 

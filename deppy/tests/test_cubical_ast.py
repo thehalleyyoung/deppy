@@ -638,6 +638,100 @@ class TestPhase1RealThreeCube:
             )
 
 
+class TestChunkFHomotopyEquivalence:
+    """Round-2 chunk F: path_equivalent now handles cubical
+    homotopy — paths between different endpoints can be reported
+    as equivalent if a 2-cell witnesses the homotopy."""
+
+    def test_parallel_faces_of_same_square_are_equivalent(self):
+        # Build a 2-cell whose two parallel faces (axis-0 lo and hi)
+        # are different 1-cells with different endpoints.  The
+        # path_equivalent should now recognise them as equivalent
+        # via the witnessing square.
+        cset = CubicalSet(function_name="t")
+        for n in ("a", "b", "c", "d"):
+            cset.add(Cell(cell_id=n, dim=0, shape=CellShape.POINT,
+                          vertices=(n,)))
+        e_lo = Cell(cell_id="e_lo", dim=1, shape=CellShape.EDGE_SEQ,
+                    vertices=("a", "b"), faces=("a", "b"))
+        e_hi = Cell(cell_id="e_hi", dim=1, shape=CellShape.EDGE_SEQ,
+                    vertices=("c", "d"), faces=("c", "d"))
+        e_t = Cell(cell_id="e_t", dim=1, shape=CellShape.EDGE_SEQ,
+                   vertices=("a", "c"), faces=("a", "c"))
+        e_b = Cell(cell_id="e_b", dim=1, shape=CellShape.EDGE_SEQ,
+                   vertices=("b", "d"), faces=("b", "d"))
+        cset.add(e_lo); cset.add(e_hi); cset.add(e_t); cset.add(e_b)
+        # Square: axis-0 connects e_lo (lo) to e_hi (hi); axis-1
+        # connects e_t (lo) to e_b (hi).
+        sq = Cell(
+            cell_id="sq", dim=2, shape=CellShape.SQUARE_IF,
+            vertices=("a", "b", "c", "d"),
+            faces=("e_lo", "e_hi", "e_t", "e_b"),
+        )
+        cset.add(sq)
+        # e_lo and e_hi have different endpoints — round-1 returned
+        # False; round-2 returns True via the square witness.
+        assert cset.path_equivalent(e_lo, e_hi)
+        assert cset.path_equivalent(e_t, e_b)
+
+    def test_unrelated_paths_not_equivalent(self):
+        # Two paths with no witnessing 2-cell remain not-equivalent.
+        cset = CubicalSet(function_name="t")
+        for n in ("a", "b", "c", "d"):
+            cset.add(Cell(cell_id=n, dim=0, shape=CellShape.POINT,
+                          vertices=(n,)))
+        e1 = Cell(cell_id="e1", dim=1, shape=CellShape.EDGE_SEQ,
+                  vertices=("a", "b"), faces=("a", "b"))
+        e2 = Cell(cell_id="e2", dim=1, shape=CellShape.EDGE_SEQ,
+                  vertices=("c", "d"), faces=("c", "d"))
+        cset.add(e1); cset.add(e2)
+        assert not cset.path_equivalent(e1, e2)
+
+    def test_transitive_equivalence_via_chain(self):
+        # Two paths linked by a chain of 2-cells (depth 2) should
+        # be reported equivalent.
+        cset = CubicalSet(function_name="t")
+        for n in "abcdef":
+            cset.add(Cell(cell_id=n, dim=0, shape=CellShape.POINT,
+                          vertices=(n,)))
+        # Chain of three 1-cells, linked by two squares.
+        e1 = Cell(cell_id="e1", dim=1, shape=CellShape.EDGE_SEQ,
+                  vertices=("a", "b"), faces=("a", "b"))
+        e2 = Cell(cell_id="e2", dim=1, shape=CellShape.EDGE_SEQ,
+                  vertices=("c", "d"), faces=("c", "d"))
+        e3 = Cell(cell_id="e3", dim=1, shape=CellShape.EDGE_SEQ,
+                  vertices=("e", "f"), faces=("e", "f"))
+        # Link edges to fill out the squares' axis-1 faces.
+        link_ac = Cell(cell_id="lac", dim=1,
+                       shape=CellShape.EDGE_SEQ,
+                       vertices=("a", "c"), faces=("a", "c"))
+        link_bd = Cell(cell_id="lbd", dim=1,
+                       shape=CellShape.EDGE_SEQ,
+                       vertices=("b", "d"), faces=("b", "d"))
+        link_ce = Cell(cell_id="lce", dim=1,
+                       shape=CellShape.EDGE_SEQ,
+                       vertices=("c", "e"), faces=("c", "e"))
+        link_df = Cell(cell_id="ldf", dim=1,
+                       shape=CellShape.EDGE_SEQ,
+                       vertices=("d", "f"), faces=("d", "f"))
+        for e in (e1, e2, e3, link_ac, link_bd, link_ce, link_df):
+            cset.add(e)
+        sq1 = Cell(
+            cell_id="sq1", dim=2, shape=CellShape.SQUARE_IF,
+            vertices=("a", "b", "c", "d"),
+            faces=("e1", "e2", "lac", "lbd"),
+        )
+        sq2 = Cell(
+            cell_id="sq2", dim=2, shape=CellShape.SQUARE_IF,
+            vertices=("c", "d", "e", "f"),
+            faces=("e2", "e3", "lce", "ldf"),
+        )
+        cset.add(sq1); cset.add(sq2)
+        # e1 is linked to e2 by sq1, and e2 is linked to e3 by sq2.
+        # So e1 should be reported equivalent to e3 (transitive).
+        assert cset.path_equivalent(e1, e3)
+
+
 class TestPhase1KernelCheatsRemoved:
     """Verifies the round-1 cheats this phase fixed."""
 
