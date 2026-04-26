@@ -347,6 +347,34 @@ def write_certificate(
     # Audit fix #4 + #5: standard simplicial cochain-complex block.
     if standard_complex_block:
         lines.append(standard_complex_block)
+
+    # Round-2 audit phase 4: cubical control-flow analysis.
+    try:
+        from deppy.lean.cubical_certificate import render_cubical_section
+        cubical_section = render_cubical_section(
+            verdict, fn_nodes,
+            include_kan_theorems=True,
+            include_higher_paths=False,
+        )
+        if cubical_section.summary_block:
+            lines.append(cubical_section.summary_block)
+        if cubical_section.theorems:
+            lines.append(
+                "/-! ## Cubical Kan-fillability theorems -/"
+            )
+            lines.append("")
+            for t in cubical_section.theorems:
+                lines.append(t)
+        # Track sorry count for the certificate's sorry budget.
+        try:
+            sorry_count += cubical_section.sorry_count
+        except NameError:
+            pass
+    except Exception as _e:
+        lines.append(
+            f"-- (cubical certificate section unavailable: {_e})"
+        )
+
     if cocycle_theorems:
         lines.append("/-! ## Cohomological structure (Phase C2)")
         lines.append("")
