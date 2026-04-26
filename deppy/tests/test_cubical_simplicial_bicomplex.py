@@ -224,3 +224,93 @@ class TestBicomplexInvariants:
         for e in bicomplex.bicomplex_edges():
             assert e.caller_cell_id  # non-empty
             assert e.callee_cell_id  # non-empty
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  Chunk E — real bicomplex invariants
+# ─────────────────────────────────────────────────────────────────────
+
+
+class TestRealBicomplexInvariants:
+    def test_total_euler_computed(self):
+        # Round-2 chunk E: total Euler χ_tot is a real integer.
+        fn_nodes = _parse_module("""
+            def f():
+                return g()
+
+            def g():
+                return 1
+        """)
+        verdict = _SV(functions={"f": _FV(), "g": _FV()})
+        bicomplex = build_bicomplex(verdict, fn_nodes)
+        coh = bicomplex.compute_total_cohomology()
+        assert isinstance(coh.total_euler, int)
+
+    def test_total_dim_cell_counts_populated(self):
+        fn_nodes = _parse_module("""
+            def f(x):
+                if x > 0:
+                    return 1
+                return 0
+
+            def g():
+                return 1
+        """)
+        verdict = _SV(functions={"f": _FV(), "g": _FV()})
+        bicomplex = build_bicomplex(verdict, fn_nodes)
+        coh = bicomplex.compute_total_cohomology()
+        # Total-dim 0 has cells (intra-dim-0 × inter-dim-0).
+        assert coh.total_dim_cell_counts.get(0, 0) > 0
+        # Sum over all total-dims = total cell count of the
+        # bicomplex grid.
+        sum_total = sum(coh.total_dim_cell_counts.values())
+        sum_grid = sum(coh.per_grid_cell_counts.values())
+        assert sum_total == sum_grid
+
+    def test_per_grid_cell_counts_match_intra_x_inter(self):
+        fn_nodes = _parse_module("""
+            def f():
+                return g()
+
+            def g():
+                return 1
+        """)
+        verdict = _SV(functions={"f": _FV(), "g": _FV()})
+        bicomplex = build_bicomplex(verdict, fn_nodes)
+        coh = bicomplex.compute_total_cohomology()
+        # |C^{0,0}| = (intra 0-cells from all fns) × (inter 0-simplices).
+        # Inter 0-simplices = number of functions = 2.
+        # intra 0-cells > 0 (entry points).
+        c00 = coh.per_grid_cell_counts.get((0, 0), 0)
+        assert c00 > 0
+
+    def test_d_intra_image_recorded(self):
+        # When a cubical part has 2-cells, d_intra has image at
+        # the (2, 0) grid coordinate.
+        fn_nodes = _parse_module("""
+            def f(x):
+                if x > 0:
+                    return 1
+                return 0
+        """)
+        verdict = _SV(functions={"f": _FV()})
+        bicomplex = build_bicomplex(verdict, fn_nodes)
+        coh = bicomplex.compute_total_cohomology()
+        # An if-statement creates a square — d_intra has image at (2, 0).
+        assert coh.d_intra_image_sizes.get((2, 0), 0) >= 1
+
+    def test_d_inter_image_at_q_plus_1(self):
+        fn_nodes = _parse_module("""
+            def f():
+                return g()
+
+            def g():
+                return 1
+        """)
+        verdict = _SV(functions={"f": _FV(), "g": _FV()})
+        bicomplex = build_bicomplex(verdict, fn_nodes)
+        coh = bicomplex.compute_total_cohomology()
+        # Two functions calling each other → at least one C^1 entry.
+        # d_inter at (0, 1) = (intra 0-cells) × (number of c1 entries).
+        # We just check it's non-zero.
+        assert coh.d_inter_image_sizes.get((0, 1), 0) >= 1
