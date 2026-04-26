@@ -31,7 +31,7 @@ Usage::
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Optional, Callable
+from typing import Any, Optional, Callable, Iterable
 
 from deppy.core.kernel import (
     ProofKernel, ProofTerm, TrustLevel, ConditionalEffectWitness, Structural,
@@ -1485,6 +1485,12 @@ def _propagate_co_located_discharges(
         # Type-evidence gate.  ``_subscript_type_evidence`` returns
         # one of {"dict", "sequence", None}; we only promote when the
         # evidence rules out the *other* kind.
+        #
+        # Audit fix #9: pass the source location so type evidence
+        # is read only from guards in scope at THAT location.  Before
+        # this fix the lookup walked every fact in the refinement
+        # map, allowing an isinstance guard at a different source
+        # to leak into a peer's type-evidence decision.
         receiver_node = None
         for i in idxs:
             src = sources[i]
@@ -1492,10 +1498,15 @@ def _propagate_co_located_discharges(
             if ast_node is not None:
                 receiver_node = getattr(ast_node, "value", None)
                 break
+        loc_lineno, loc_col = loc_key
+        kinds_at_loc = {out[i].failure_kind for i in idxs}
         evidence = _subscript_type_evidence(
             receiver_node=receiver_node,
             fn_node=fn_node,
             refinement_map=refinement_map,
+            source_lineno=loc_lineno,
+            source_col=loc_col,
+            source_kinds=kinds_at_loc,
         )
         if evidence is None:
             # No type evidence — refuse to promote.  The unguarded
@@ -1527,18 +1538,33 @@ def _propagate_co_located_discharges(
 
 def _subscript_type_evidence(
     *, receiver_node, fn_node, refinement_map,
+    source_lineno: Optional[int] = None,
+    source_col: Optional[int] = None,
+    source_kinds: Optional[Iterable[str]] = None,
 ):
     """Return ``"dict"``, ``"sequence"``, or ``None`` based on
     statically-discoverable type evidence for the subscript receiver.
 
     Sources, in order of authority:
 
-    1. ``isinstance(<receiver>, T)`` test that has been added to the
-       path-sensitive guard set at the source.  This handles
+    1. ``isinstance(<receiver>, T)`` test that is in scope **at the
+       specific source location** (``source_lineno`` + ``source_col``
+       + ``source_kinds``).  This handles
        ``def f(d: dict | list, k): if isinstance(d, dict): return d[k]``
        — the union annotation alone gives ``None`` (the receiver
        could be either kind), but the isinstance guard *narrows* it
        to ``dict``.
+
+       Audit fix #9: previously this loop iterated over **every**
+       fact in the refinement map regardless of where the guard
+       was active.  That meant an ``isinstance`` guard at line 5
+       could leak type evidence into a subscript at line 50, even
+       though the guard had long since fallen out of scope.  We
+       now filter facts to those whose ``(lineno, col, kind)``
+       matches the source we're analysing.  When the caller
+       doesn't pass a location we still fall through to the global
+       scan (preserves backward compatibility for the unit tests),
+       but log a note so future callers can be migrated.
     2. The annotation on the matching function parameter — including
        union-typed annotations.  When the *every* alternative of a
        union belongs to the same family (e.g. ``dict | dict[str, int]``),
@@ -1556,13 +1582,35 @@ def _subscript_type_evidence(
         return None
 
     # 1. isinstance guard from the path-sensitive walk.
+    #    Source-specific lookup (audit fix #9): when caller passes
+    #    location info, only consider guards at *that* source.
     if refinement_map is not None:
-        for fact in refinement_map.per_source:
-            for g in fact.guards:
-                if _isinstance_g_says_dict(g, receiver_text):
-                    return "dict"
-                if _isinstance_g_says_sequence(g, receiver_text):
-                    return "sequence"
+        if source_lineno is not None and source_col is not None:
+            kinds_filter: Optional[set[str]] = (
+                set(source_kinds) if source_kinds is not None else None
+            )
+            for fact in refinement_map.per_source:
+                if (fact.source_lineno != source_lineno
+                        or fact.source_col != source_col):
+                    continue
+                if (kinds_filter is not None
+                        and fact.source_kind not in kinds_filter):
+                    continue
+                for g in fact.guards:
+                    if _isinstance_g_says_dict(g, receiver_text):
+                        return "dict"
+                    if _isinstance_g_says_sequence(g, receiver_text):
+                        return "sequence"
+        else:
+            # Backward-compatible global scan — kept for unit tests
+            # and callers that don't yet pass source location.  This
+            # is the unsound path the audit identified.
+            for fact in refinement_map.per_source:
+                for g in fact.guards:
+                    if _isinstance_g_says_dict(g, receiver_text):
+                        return "dict"
+                    if _isinstance_g_says_sequence(g, receiver_text):
+                        return "sequence"
 
     # 2. Function-parameter annotation — handle PEP 604 unions.
     if fn_node is not None and isinstance(receiver_node, _ast.Name):
