@@ -275,18 +275,26 @@ class RefinementInferrer:
     """
 
     def __init__(self, *, function_name: str = "") -> None:
+        from deppy.pipeline.alias_analysis import AliasTable
         self.function_name = function_name
         self._facts: list[RefinementFact] = []
         self._function_wide_preconditions: list[str] = []
         self._used_assert_narrowing: bool = False
+        # Audit fix #8: flow-sensitive may-alias relation, advanced
+        # statement-by-statement so mutation tracking can drop
+        # guards on aliased names.
+        self._alias_table: AliasTable = AliasTable.empty()
 
     # -- public entry point ---------------------------------------------
 
     def analyze(self, fn: ast.FunctionDef | ast.AsyncFunctionDef) -> RefinementMap:
         """Analyze ``fn`` and return a complete :class:`RefinementMap`."""
+        from deppy.pipeline.alias_analysis import AliasTable
         self.function_name = fn.name
         self._facts = []
         self._function_wide_preconditions = []
+        # Reset alias state per function — aliases are intra-procedural.
+        self._alias_table = AliasTable.empty()
 
         # Function-wide preconditions are guards that appear at the top
         # of the body *and* exit unconditionally on failure.  These end
@@ -434,12 +442,35 @@ class RefinementInferrer:
         # statement-specific narrowing so the new guard set is the
         # intersection of pre-mutation guards (filtered) plus any
         # guards this statement adds.
-        mutated = _mutated_names_in_stmt(stmt)
-        if mutated:
+        #
+        # Audit fix #8: expand the IN-PLACE mutation set with
+        # may-aliases.  When ``ys = xs`` was earlier and the
+        # current statement does ``ys.append(3)``, both ys and xs
+        # have invalid guards because they share an underlying
+        # object.  Plain rebinding (``ys = list(xs)``) only
+        # invalidates guards on ys itself, not on xs — the binding
+        # changed but xs's object is untouched.
+        from deppy.pipeline.alias_analysis import (
+            expand_mutations,
+            in_place_mutations_in_stmt,
+            rebound_names_in_stmt,
+            update_for_stmt,
+        )
+        in_place = in_place_mutations_in_stmt(stmt)
+        rebound = rebound_names_in_stmt(stmt)
+        invalidated = set(rebound) | expand_mutations(
+            in_place, self._alias_table,
+        )
+        if invalidated:
             guards = tuple(
                 g for g in guards
-                if not _expr_mentions_any_name(g, mutated)
+                if not _expr_mentions_any_name(g, invalidated)
             )
+        # Update the alias table for the next statement.  We update
+        # *after* using it for mutation tracking so the alias
+        # relation reflects the state at the statement's entry —
+        # consistent with Python's reference model.
+        self._alias_table = update_for_stmt(self._alias_table, stmt)
 
         # Statement-specific narrowing.
         if isinstance(stmt, ast.Assert):
