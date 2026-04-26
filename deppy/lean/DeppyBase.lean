@@ -218,8 +218,42 @@ declarations the user proves on demand.
 /-- Propositional truncation: ``∥α∥`` collapses ``α`` to a Prop. -/
 def Trunc (α : Type) : Prop := Nonempty α
 
-/-- Quotient by an equivalence relation — wraps Lean's ``Quotient``. -/
-abbrev Quot {α : Type} (R : α → α → Prop) := Quotient (Setoid.mk R sorry)
+/-- An *equivalence relation* in the deppy meta-theory.  Wraps the
+input relation together with proofs of reflexivity, symmetry, and
+transitivity so a quotient can be formed without ``sorry``.
+
+Audit fix #3: the previous ``Quot`` defaulted the equivalence-
+relation proof to ``sorry``, which silently shipped an open hole
+into every certificate that imported ``DeppyBase``.  Quotients now
+require a real ``IsEquivalence`` witness — typically obtained via
+:lemma:`isEqv_eq` for the ``=`` relation, which deppy uses
+exclusively for its safety quotients. -/
+structure IsEquivalence {α : Type} (R : α → α → Prop) where
+  refl  : ∀ a, R a a
+  symm  : ∀ {a b}, R a b → R b a
+  trans : ∀ {a b c}, R a b → R b c → R a c
+
+/-- The standard equality relation forms an equivalence — used by
+``Quot`` when the certificate quotients by ``Eq``. -/
+def isEqv_eq {α : Type} : IsEquivalence (@Eq α) where
+  refl  := fun a => rfl
+  symm  := fun h => h.symm
+  trans := fun h₁ h₂ => h₁.trans h₂
+
+/-- Quotient by an equivalence relation — wraps Lean's ``Quotient``.
+
+The user must supply ``R`` together with a real
+:type:`IsEquivalence` witness ``hR`` (no more ``sorry``).  We
+construct the underlying ``Setoid`` from the witness's components.
+-/
+abbrev Quot {α : Type} (R : α → α → Prop) (hR : IsEquivalence R) :=
+  Quotient (Setoid.mk R ⟨hR.refl, fun {_ _} => hR.symm, fun {_ _ _} => hR.trans⟩)
+
+/-- Convenience: the quotient of ``α`` by equality is just ``α``
+itself (Lean already proves this) — but we expose it as a named
+function so certificates can refer to it without writing the
+witness construction. -/
+abbrev QuotEq (α : Type) := Quot (@Eq α) isEqv_eq
 
 /-- The "interval" type as a 2-element quotient (zero ∼ one). -/
 inductive Interval : Type where
@@ -294,12 +328,18 @@ record.
 -/
 
 /-- A *glue cocycle* witnesses that local safety patches agree on
-their overlaps — Čech 1-cocycle. -/
+their overlaps — Čech 1-cocycle.
+
+Audit fix #3: ``agreement`` was previously ``→ True``, vacuously
+satisfied for any input.  It is now parametrised by an explicit
+``Agreement`` predicate ``A : Src → Src → Prop`` so the user must
+supply a real witness ``∀ a b, overlap a b → A a b`` for a
+GlueCocycle to be constructed. -/
 structure GlueCocycle (Src : Type) where
-  patches  : List Src
-  overlap  : Src → Src → Prop
-  agreement : ∀ a b, overlap a b → True  -- placeholder until the
-                                           -- specific overlap is emitted
+  patches   : List Src
+  overlap   : Src → Src → Prop
+  Agreement : Src → Src → Prop
+  agreement : ∀ a b, overlap a b → Agreement a b
 
 /-- A *call cocycle* — caller's precondition implies the substituted
 callee's precondition. -/

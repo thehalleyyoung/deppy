@@ -186,7 +186,15 @@ def write_certificate(
         binders, return_lean = _render_signature(
             fn_node, type_context, aux_decls,
         )
-        body = translate_body(fn_node, type_context=type_context)
+        # Audit fix #6: thread the same inferred parameter types into
+        # the body translator so identifier types are consistent
+        # between the signature and the body.
+        from deppy.lean.body_translation import infer_locals_types
+        body_param_types = infer_locals_types(fn_node)
+        body = translate_body(
+            fn_node, type_context=type_context,
+            param_types=body_param_types,
+        )
         if body.sorry_count:
             sorry_count += body.sorry_count
             for n in body.notes:
@@ -243,10 +251,15 @@ def write_certificate(
             sorry_count += theorem_sorries
             implies_theorems.append(theorem_text)
 
-    # ── Compute the cohomological structure (Phase C2) ─────────────
+    # ── Compute the cohomological structure (Phase C2 + Audit Fix #1) ─
     cohomology = _compute_cohomology(verdict, fn_nodes, source)
-    cocycle_theorems = _render_cocycle_theorems(
-        cohomology, module_name=module_name,
+    # Real cocycle theorems with non-trivial goals (replaces the
+    # vacuous ``: True := by deppy_safe`` from the original
+    # implementation).
+    from deppy.lean.cohomology import render_cocycle_section
+    cocycle_theorems, cocycle_report = render_cocycle_section(
+        verdict, fn_nodes, source,
+        type_context=type_context, sidecar_specs=sidecar_specs,
     )
 
     # ── Render the file ────────────────────────────────────────────
@@ -324,6 +337,9 @@ def write_certificate(
         cohomology_h1_size=len(cohomology.h1),
         cohomology_h2_size=len(cohomology.h2),
     )
+    # Attach the per-cocycle goal/proof metadata (Audit Fix #1)
+    # so callers can audit which cocycles got real (non-True) goals.
+    cert.cocycle_metadata = cocycle_report  # type: ignore[attr-defined]
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(text, encoding="utf-8")
@@ -343,25 +359,45 @@ def write_certificate(
 def _render_signature(
     fn_node, type_context, aux_decls: list[str],
 ) -> tuple[str, str]:
-    """Return ``(binders_str, return_type)`` for a Python function."""
+    """Return ``(binders_str, return_type)`` for a Python function.
+
+    Audit fix #6: when the function's ``-> T`` annotation is missing,
+    use :func:`deppy.lean.body_translation.infer_function_signature`
+    to derive the return type from the body — otherwise we'd emit
+    ``mergesort (xs : List Int) : Int`` for a function that
+    returns a list.
+    """
     from deppy.lean.type_translation import translate_annotation
-    binders: list[str] = []
-    for arg in fn_node.args.args:
-        result = translate_annotation(
-            arg.annotation, context=type_context,
+    from deppy.lean.body_translation import infer_function_signature
+
+    explicit_return = getattr(fn_node, "returns", None) is not None
+    if explicit_return:
+        binders: list[str] = []
+        for arg in fn_node.args.args:
+            result = translate_annotation(
+                arg.annotation, context=type_context,
+            )
+            for d in result.aux_decls:
+                if d not in aux_decls:
+                    aux_decls.append(d)
+            binders.append(f"({arg.arg} : {result.lean})")
+        binders_str = " ".join(binders) if binders else ""
+        ret_result = translate_annotation(
+            getattr(fn_node, "returns", None), context=type_context,
         )
-        for d in result.aux_decls:
+        for d in ret_result.aux_decls:
             if d not in aux_decls:
                 aux_decls.append(d)
-        binders.append(f"({arg.arg} : {result.lean})")
-    binders_str = " ".join(binders) if binders else ""
-    ret_result = translate_annotation(
-        getattr(fn_node, "returns", None), context=type_context,
+        return binders_str, ret_result.lean
+
+    # Implicit return — defer to the inferrer.
+    binders_text, ret_lean, sig_aux = infer_function_signature(
+        fn_node, type_context,
     )
-    for d in ret_result.aux_decls:
+    for d in sig_aux:
         if d not in aux_decls:
             aux_decls.append(d)
-    return binders_str, ret_result.lean
+    return binders_text, ret_lean
 
 
 def _is_recursive(fn_node, fn_name: str) -> bool:
