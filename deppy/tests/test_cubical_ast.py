@@ -566,6 +566,77 @@ class TestPhase1RealThreeCube:
         assert len(cube.vertices) == 8
         assert len(cube.faces) == 6
 
+    def test_3cube_has_8_distinct_vertices(self):
+        # Round-2 audit chunk A (geometric correctness): the
+        # previous 3-cube duplicated 4 vertices to fake 8.  Now
+        # all 8 vertices must be distinct cell ids.
+        fn = _parse_fn("""
+            def f(x):
+                try:
+                    y = 1 / x
+                except ZeroDivisionError:
+                    y = 0
+                finally:
+                    log = True
+                return y
+        """)
+        cset = build_cubical_set(fn)
+        cube = next(
+            c for c in cset.cells_at_dim(3)
+            if c.shape == CellShape.CUBE_TRY_FINALLY
+        )
+        # Eight distinct vertex ids.
+        assert len(set(cube.vertices)) == 8
+
+    def test_3cube_has_6_distinct_faces(self):
+        # Round-2 audit chunk A: the previous 3-cube duplicated
+        # the same 2 squares on all 3 axes.  Now all 6 faces
+        # must be distinct 2-cells.
+        fn = _parse_fn("""
+            def f(x):
+                try:
+                    y = 1 / x
+                except ZeroDivisionError:
+                    y = 0
+                finally:
+                    log = True
+                return y
+        """)
+        cset = build_cubical_set(fn)
+        cube = next(
+            c for c in cset.cells_at_dim(3)
+            if c.shape == CellShape.CUBE_TRY_FINALLY
+        )
+        assert len(set(cube.faces)) == 6
+        # Each face exists in the cset.
+        for fid in cube.faces:
+            assert fid in cset.cells_by_id
+
+    def test_3cube_axis_pair_share_no_face(self):
+        # The lo and hi face of any axis must be different cells —
+        # if they're the same, the axis is degenerate.
+        fn = _parse_fn("""
+            def f(x):
+                try:
+                    y = 1 / x
+                except ZeroDivisionError:
+                    y = 0
+                finally:
+                    log = True
+                return y
+        """)
+        cset = build_cubical_set(fn)
+        cube = next(
+            c for c in cset.cells_at_dim(3)
+            if c.shape == CellShape.CUBE_TRY_FINALLY
+        )
+        for axis in range(3):
+            lo_id = cube.faces[2 * axis]
+            hi_id = cube.faces[2 * axis + 1]
+            assert lo_id != hi_id, (
+                f"Axis {axis} is degenerate: lo == hi == {lo_id}"
+            )
+
 
 class TestPhase1KernelCheatsRemoved:
     """Verifies the round-1 cheats this phase fixed."""

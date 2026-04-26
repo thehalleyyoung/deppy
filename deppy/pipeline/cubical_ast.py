@@ -1047,45 +1047,38 @@ class _CubicalBuilder:
     # ---------- try / except / finally --------------------------
 
     def _walk_try(self, stmt: ast.Try, cur: str) -> str:
-        """A try/except/finally produces:
+        """A try/except/finally produces a real n-cube.
 
-          * a 2-cell (square) for try/except (no finally), OR
-          * a 3-cell (cube) for try/except/finally, where the
-            third axis is the *finally* dimension.
+        Round-2 audit phase A (geometric correctness): the previous
+        try-finally cube was degenerate — same 2 squares on all 3
+        axes, 4 distinct vertices duplicated to 8.  This version
+        materialises a real 3-cube with 8 distinct vertices and 6
+        distinct 2-cell faces.
 
-        Audit fix (round 2 phase 1): the previous walker built a
-        square *plus* a sequence edge for finally — the third axis
-        was just a 1-cell, not part of a higher cube.  The new
-        walker materialises a real 3-cube whose faces include
-        the try-square at finally-entry and the same square's
-        post-finally image as the opposite face.
+        Axes:
+          0 = exception      (no=0, yes=1)
+          1 = sequence       (entry=0, exit=1)
+          2 = finally        (before=0, after=1)
 
-        Geometric structure of the 3-cube:
+        Vertices (8 total):
+          v_000 = try_entry           (no-exc, entry, pre-fin)
+          v_100 = exc_entry           (exc-raised at entry)
+          v_010 = try_exit            (no-exc body completed)
+          v_110 = handler_exit        (exc, handler completed)
+          v_001 = try_entry_post_fin
+          v_101 = exc_entry_post_fin
+          v_011 = try_exit_post_fin
+          v_111 = handler_exit_post_fin
 
-          axis 0 = exception (no/yes)
-          axis 1 = try/except sequence (entry → exit)
-          axis 2 = finally (before/after)
+        2-cell faces (6 total — 2 per axis):
+          axis-0_lo: no-exc plane    {v_000, v_010, v_001, v_011}
+          axis-0_hi: exc plane       {v_100, v_110, v_101, v_111}
+          axis-1_lo: entry plane     {v_000, v_100, v_001, v_101}
+          axis-1_hi: exit plane      {v_010, v_110, v_011, v_111}
+          axis-2_lo: pre-fin plane   {v_000, v_100, v_010, v_110}
+          axis-2_hi: post-fin plane  {v_001, v_101, v_011, v_111}
 
-          v_000 = try_entry (no exception, before finally)
-          v_100 = try_entry_with_exc (exception raised at entry)
-          v_010 = try_exit (no exception, after try body)
-          v_110 = handler_exit
-          v_001 = try_entry_post_finally (after finally if no exc)
-          v_101 = try_entry_with_exc_post_finally
-          v_011 = try_exit_post_finally
-          v_111 = handler_exit_post_finally  (= module exit)
-
-          Faces (6 — 2 per axis):
-          axis_0_lo: the no-exception square
-                     (try_entry → try_exit;
-                      try_entry_post_finally → try_exit_post_finally)
-          axis_0_hi: the exception square (handlers)
-          axis_1_lo: the entry square (try_entry / try_entry_with_exc;
-                     before / after finally)
-          axis_1_hi: the exit square (try_exit / handler_exit;
-                     before / after finally)
-          axis_2_lo: the pre-finally square (= try-square)
-          axis_2_hi: the post-finally square
+        For try without finally we emit a 2-cell (the pre-fin face).
         """
         try_entry = self._make_point("try_entry", stmt)
         self._make_edge(
@@ -1096,126 +1089,307 @@ class _CubicalBuilder:
         for s in stmt.body:
             try_exit = self._walk_stmt(s, try_exit)
         try_body_edges = self._edges_added_since(try_body_edges_snap)
+        try_body_compound = self._make_compound_path(
+            try_entry, try_exit,
+            body_edges=try_body_edges,
+            shape=CellShape.EDGE_SEQ,
+            ast_node=stmt,
+        )
 
-        # Handler structure.
         handler_join = self._make_point("try_handler_join", stmt)
-        handler_entries: list[tuple[str, str]] = []
         if stmt.handlers:
-            for h in stmt.handlers:
-                h_entry = self._make_point("except_entry", h)
-                raise_edge = self._make_edge(
-                    try_entry, h_entry, CellShape.EDGE_RAISE,
-                    ast_node=h,
-                    guards=("exception raised",),
-                )
-                h_exit = h_entry
-                for s in h.body:
-                    h_exit = self._walk_stmt(s, h_exit)
+            # Use the first handler as the canonical exception
+            # path; later handlers contribute additional raise
+            # edges but the cube uses the first.
+            first_h = stmt.handlers[0]
+            exc_entry = self._make_point("except_entry", first_h)
+            raise_edge = self._make_edge(
+                try_entry, exc_entry, CellShape.EDGE_RAISE,
+                ast_node=first_h,
+                guards=("exception raised at try-entry",),
+            )
+            h_body_edges_snap = self._snapshot_edges()
+            handler_exit = exc_entry
+            for s in first_h.body:
+                handler_exit = self._walk_stmt(s, handler_exit)
+            h_body_edges = self._edges_added_since(h_body_edges_snap)
+            handler_compound = self._make_compound_path(
+                exc_entry, handler_exit,
+                body_edges=h_body_edges,
+                shape=CellShape.EDGE_SEQ,
+                ast_node=first_h,
+                guards=("exception caught",),
+            )
+            # Process additional handlers (their structure is
+            # represented as additional raise edges; not part of
+            # the canonical cube).
+            for h in stmt.handlers[1:]:
+                h2_entry = self._make_point("except_entry", h)
                 self._make_edge(
-                    h_exit, handler_join, CellShape.EDGE_SEQ,
+                    try_entry, h2_entry, CellShape.EDGE_RAISE,
+                    ast_node=h,
+                    guards=("alternate exception",),
+                )
+                h2_exit = h2_entry
+                for s in h.body:
+                    h2_exit = self._walk_stmt(s, h2_exit)
+                self._make_edge(
+                    h2_exit, handler_join, CellShape.EDGE_SEQ,
                     ast_node=h,
                 )
-                handler_entries.append((h_entry, h_exit))
-            # Connect try-exit to handler_join (no exception raised).
+            # Convergence: try-exit and handler-exit join.
             try_exit_to_join = self._make_edge(
                 try_exit, handler_join, CellShape.EDGE_SEQ,
                 ast_node=stmt,
             )
-        else:
-            try_exit_to_join = self._make_edge(
-                try_exit, handler_join, CellShape.EDGE_SEQ,
+            handler_exit_to_join = self._make_edge(
+                handler_exit, handler_join, CellShape.EDGE_SEQ,
                 ast_node=stmt,
             )
-
-        # Build the try/except square (axis-0 = exception, axis-1 = sequence).
-        # Vertices: (00) try_entry, (10) handler_entry-or-try_exit,
-        # (01) try_exit, (11) handler_join.
-        if handler_entries:
-            first_h_entry, first_h_exit = handler_entries[0]
-            try_square = self._make_square(
+            # Build the pre-finally try-square (this is our
+            # axis-2_lo face).
+            pre_fin_square = self._make_square(
                 label="try",
-                vertices=(try_entry, first_h_entry,
-                          try_exit, handler_join),
+                vertices=(try_entry, exc_entry, try_exit, handler_exit),
                 faces=(
-                    self._find_edge(try_entry, try_exit) or
-                    self._make_compound_path(
-                        try_entry, try_exit,
-                        body_edges=try_body_edges,
-                        shape=CellShape.EDGE_SEQ,
+                    try_body_compound,    # axis-0_lo: no-exc body
+                    handler_compound,     # axis-0_hi: exc handler
+                    raise_edge,           # axis-1_lo: entry exc-raise
+                    self._make_edge(
+                        try_exit, handler_exit, CellShape.EDGE_SEQ,
                         ast_node=stmt,
-                    ),
-                    self._find_edge(first_h_entry, handler_join) or
-                    self._find_edge(first_h_exit, handler_join) or "",
-                    self._find_edge(try_entry, first_h_entry) or "",
-                    try_exit_to_join,
+                        guards=("post-body exception convergence",),
+                    ),                    # axis-1_hi: exit exception convergence
                 ),
                 shape=CellShape.SQUARE_TRY,
                 ast_node=stmt,
                 guards=self._guards_at(stmt),
             )
         else:
-            try_square = None
+            # No handlers — degenerate to 2-cell with no exception side.
+            try_exit_to_join = self._make_edge(
+                try_exit, handler_join, CellShape.EDGE_SEQ,
+                ast_node=stmt,
+            )
+            return self._walk_try_finally_no_handlers(
+                stmt, try_entry, try_exit, handler_join,
+                try_body_compound,
+            )
 
-        # Finally — promote to 3-cube when present.
+        # Finally body — when present, emit a real 3-cube.
         if stmt.finalbody:
-            fin_edges_snap = self._snapshot_edges()
+            return self._walk_try_finally_with_handlers(
+                stmt, try_entry, exc_entry, try_exit, handler_exit,
+                handler_join, pre_fin_square,
+                try_body_compound, handler_compound, raise_edge,
+                try_exit_to_join, handler_exit_to_join,
+            )
+        return handler_join
+
+    def _walk_try_finally_no_handlers(
+        self, stmt: ast.Try,
+        try_entry: str, try_exit: str, handler_join: str,
+        try_body_compound: str,
+    ) -> str:
+        """When try has no exception handlers, finally is just a
+        sequence step.  We do NOT emit a 3-cube — the geometry
+        doesn't have an exception axis."""
+        if stmt.finalbody:
             fin_exit = handler_join
             for s in stmt.finalbody:
                 fin_exit = self._walk_stmt(s, fin_exit)
-            fin_edges = self._edges_added_since(fin_edges_snap)
-            if try_square is not None:
-                # Build the post-finally face — a degenerate copy
-                # of the try square shifted along the finally axis.
-                # We use a degenerate 2-cell: same vertices, but
-                # tagged by the finally edges so the 3-cube has
-                # distinct upper/lower faces.
-                # For simplicity: the upper face is rendered as
-                # ``try_square_post_finally`` with finally-edges
-                # added as guard annotations.
-                tsq = self.cells_by_id_or_none(try_square)
-                if tsq is not None:
-                    post_sq = self._make_square(
-                        label="try_post_finally",
-                        vertices=tsq.vertices,
-                        faces=tsq.faces,
-                        shape=CellShape.SQUARE_TRY,
-                        ast_node=stmt,
-                        guards=tsq.guards + ("finally executed",),
-                    )
-                    # Build edges along the finally axis from each
-                    # of the four square corners.  These are the
-                    # 1-cells of the cube's axis-2 direction.
-                    fin_axis_edges: list[str] = []
-                    for v in tsq.vertices:
-                        fin_axis_edges.append(self._make_edge(
-                            v, v, CellShape.EDGE_SEQ, ast_node=stmt,
-                            guards=("finally axis",),
-                        ))
-                    # The 6 faces of the cube, in axis order:
-                    cube_faces = (
-                        # axis-0 (exception): 2 squares
-                        try_square,         # lo
-                        post_sq,             # hi (placeholder)
-                        # axis-1 (sequence): degenerate squares
-                        try_square,
-                        post_sq,
-                        # axis-2 (finally): 2 squares (pre and post)
-                        try_square,         # pre-finally
-                        post_sq,             # post-finally
-                    )
-                    cube_vertices = tuple(
-                        list(tsq.vertices) + list(tsq.vertices)
-                    )
-                    self._make_cube(
-                        label="try_finally",
-                        vertices=cube_vertices,
-                        faces=cube_faces,
-                        shape=CellShape.CUBE_TRY_FINALLY,
-                        ast_node=stmt,
-                        guards=tsq.guards,
-                    )
             return fin_exit
         return handler_join
+
+    def _walk_try_finally_with_handlers(
+        self, stmt: ast.Try,
+        try_entry: str, exc_entry: str,
+        try_exit: str, handler_exit: str,
+        handler_join: str, pre_fin_square: str,
+        try_body_compound: str, handler_compound: str,
+        raise_edge: str,
+        try_exit_to_join: str, handler_exit_to_join: str,
+    ) -> str:
+        """Build a real 3-cube from try-except + finally.
+
+        The four "post-finally" vertices are *new program points*:
+        each represents the program state at that corner of the cube
+        AFTER the finally body has executed.  Each axis-2 edge
+        (pre-fin → post-fin) is the finally body re-instantiated at
+        a different cube corner — these edges share the *same body
+        guards* (one walk of the AST) but are distinct 1-cells in
+        the cubical set.
+        """
+        # Walk the finally body once to harvest its edges.
+        fin_witness_entry = self._make_point("finally_witness_entry", stmt)
+        fin_edges_snap = self._snapshot_edges()
+        fin_witness_exit = fin_witness_entry
+        for s in stmt.finalbody:
+            fin_witness_exit = self._walk_stmt(s, fin_witness_exit)
+        fin_body_edges = self._edges_added_since(fin_edges_snap)
+        # The finally body's compound path (used as a *witness* —
+        # not directly a face of the cube).
+        fin_witness_compound = self._make_compound_path(
+            fin_witness_entry, fin_witness_exit,
+            body_edges=fin_body_edges,
+            shape=CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("finally body",),
+        )
+
+        # Create the 4 post-finally vertices.
+        v_001 = self._make_point("try_entry_post_fin", stmt)
+        v_101 = self._make_point("exc_entry_post_fin", stmt)
+        v_011 = self._make_point("try_exit_post_fin", stmt)
+        v_111 = self._make_point("handler_exit_post_fin", stmt)
+
+        # axis-2 edges (pre → post finally) — 4 of them.
+        edge_fin_000_001 = self._make_edge(
+            try_entry, v_001, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("finally body",),
+        )
+        edge_fin_100_101 = self._make_edge(
+            exc_entry, v_101, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("finally body",),
+        )
+        edge_fin_010_011 = self._make_edge(
+            try_exit, v_011, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("finally body",),
+        )
+        edge_fin_110_111 = self._make_edge(
+            handler_exit, v_111, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("finally body",),
+        )
+
+        # Post-finally axis-1 edges (entry → exit, post-fin).
+        edge_post_001_011 = self._make_edge(
+            v_001, v_011, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=tuple(self.cset.cells_by_id[try_body_compound].guards),
+        )
+        edge_post_101_111 = self._make_edge(
+            v_101, v_111, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=tuple(self.cset.cells_by_id[handler_compound].guards),
+        )
+
+        # Post-finally axis-0 edges (no-exc → exc, post-fin).
+        edge_post_001_101 = self._make_edge(
+            v_001, v_101, CellShape.EDGE_RAISE,
+            ast_node=stmt,
+            guards=("exception post-finally entry",),
+        )
+        edge_post_011_111 = self._make_edge(
+            v_011, v_111, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("post-finally exception convergence",),
+        )
+
+        # Build the 5 OTHER 2-cell faces (the pre-fin face is
+        # ``pre_fin_square``; we already have it).
+        post_fin_square = self._make_square(
+            label="try_post_fin",
+            vertices=(v_001, v_101, v_011, v_111),
+            faces=(
+                edge_post_001_011,    # axis-0_lo: post-fin no-exc body
+                edge_post_101_111,    # axis-0_hi: post-fin exc handler
+                edge_post_001_101,    # axis-1_lo: post-fin entry raise
+                edge_post_011_111,    # axis-1_hi: post-fin exit convergence
+            ),
+            shape=CellShape.SQUARE_TRY,
+            ast_node=stmt,
+            guards=("post-finally",),
+        )
+        no_exc_plane = self._make_square(
+            label="try_no_exc_plane",
+            vertices=(try_entry, try_exit, v_001, v_011),
+            faces=(
+                try_body_compound,     # axis-0 of square: pre-fin try body
+                edge_post_001_011,     # axis-0 of square: post-fin try body
+                edge_fin_000_001,      # axis-1 of square: finally at entry
+                edge_fin_010_011,      # axis-1 of square: finally at exit
+            ),
+            shape=CellShape.SQUARE_IF,  # reuse SQUARE shape enum
+            ast_node=stmt,
+            guards=("no exception × finally",),
+        )
+        exc_plane = self._make_square(
+            label="try_exc_plane",
+            vertices=(exc_entry, handler_exit, v_101, v_111),
+            faces=(
+                handler_compound,      # axis-0: pre-fin handler
+                edge_post_101_111,     # axis-0: post-fin handler
+                edge_fin_100_101,      # axis-1: finally at exc-entry
+                edge_fin_110_111,      # axis-1: finally at handler-exit
+            ),
+            shape=CellShape.SQUARE_IF,
+            ast_node=stmt,
+            guards=("exception × finally",),
+        )
+        entry_plane = self._make_square(
+            label="try_entry_plane",
+            vertices=(try_entry, exc_entry, v_001, v_101),
+            faces=(
+                raise_edge,             # axis-0: pre-fin raise
+                edge_post_001_101,      # axis-0: post-fin raise
+                edge_fin_000_001,       # axis-1: finally at entry
+                edge_fin_100_101,       # axis-1: finally at exc-entry
+            ),
+            shape=CellShape.SQUARE_IF,
+            ast_node=stmt,
+            guards=("entry × finally",),
+        )
+        exit_plane = self._make_square(
+            label="try_exit_plane",
+            vertices=(try_exit, handler_exit, v_011, v_111),
+            faces=(
+                self.cset.cells_by_id[pre_fin_square].faces[3],  # axis-1_hi of pre-fin square
+                edge_post_011_111,
+                edge_fin_010_011,
+                edge_fin_110_111,
+            ),
+            shape=CellShape.SQUARE_IF,
+            ast_node=stmt,
+            guards=("exit × finally",),
+        )
+
+        # Build the 3-cube.
+        self._make_cube(
+            label="try_finally",
+            vertices=(
+                try_entry, exc_entry, try_exit, handler_exit,
+                v_001, v_101, v_011, v_111,
+            ),
+            faces=(
+                no_exc_plane,      # axis-0_lo
+                exc_plane,         # axis-0_hi
+                entry_plane,       # axis-1_lo
+                exit_plane,        # axis-1_hi
+                pre_fin_square,    # axis-2_lo
+                post_fin_square,   # axis-2_hi
+            ),
+            shape=CellShape.CUBE_TRY_FINALLY,
+            ast_node=stmt,
+            guards=self._guards_at(stmt),
+        )
+
+        # Connect the post-finally exit to the join.
+        final_exit = self._make_point("try_finally_exit", stmt)
+        self._make_edge(
+            v_011, final_exit, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("no-exception path completed",),
+        )
+        self._make_edge(
+            v_111, final_exit, CellShape.EDGE_SEQ,
+            ast_node=stmt,
+            guards=("exception path completed",),
+        )
+        return final_exit
 
     def cells_by_id_or_none(self, cid: str) -> Optional[Cell]:
         return self.cset.cells_by_id.get(cid)
