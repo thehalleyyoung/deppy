@@ -279,6 +279,20 @@ def write_certificate(
         verdict, fn_nodes, source,
         type_context=type_context, sidecar_specs=sidecar_specs,
     )
+    # Audit fix #4 + #5: emit a *standard simplicial* cochain
+    # complex with explicit face maps, the implication-form
+    # coboundary, and an actual cohomology computation
+    # (``H^k = ker δ^k / im δ^(k-1)``).  The block sits as a Lean
+    # comment block in the certificate so the structure is auditable
+    # without re-deriving it.
+    from deppy.lean.cohomology_compute import (
+        build_chain_complex,
+        render_chain_complex_lean,
+    )
+    standard_chain_complex = build_chain_complex(verdict, fn_nodes)
+    standard_complex_block = render_chain_complex_lean(
+        standard_chain_complex,
+    )
 
     # ── Render the file ────────────────────────────────────────────
     lines: list[str] = [
@@ -330,6 +344,9 @@ def write_certificate(
         lines.append("")
         for t in implies_theorems:
             lines.append(t)
+    # Audit fix #4 + #5: standard simplicial cochain-complex block.
+    if standard_complex_block:
+        lines.append(standard_complex_block)
     if cocycle_theorems:
         lines.append("/-! ## Cohomological structure (Phase C2)")
         lines.append("")

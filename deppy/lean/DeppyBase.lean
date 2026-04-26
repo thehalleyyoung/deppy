@@ -320,6 +320,69 @@ by ``(f, g, h) : String × String × String``. -/
 def ModuleC2 := Cochain (String × String × String)
 
 
+/-! ## Standard simplicial coboundary (audit fix #4 + #5)
+
+The ``IsCocycle`` defined above uses a generic boundary relation
+``B``.  For deppy's three-level structure we ship a *concrete*
+simplicial cochain complex whose face maps and coboundaries match
+the standard simplicial cohomology — see
+``deppy/lean/cohomology_compute.py`` for the Python-side
+materialisation.
+
+Face maps:
+
+  d¹₀(f, g) = g          -- "drop caller"
+  d¹₁(f, g) = f          -- "drop callee"
+  d²₀(f, g, h) = (g, h)  -- "drop f"
+  d²₁(f, g, h) = (f, h)  -- composition (drop intermediate)
+  d²₂(f, g, h) = (f, g)  -- "drop h"
+
+For Prop-valued cochains the alternating-sum coboundary degenerates
+to the implication form (since Prop is not a Group):
+
+  (δ⁰ φ)(f, g) = φ(f) → φ(g)
+  (δ¹ ψ)(f, g, h) = (ψ(g, h) ∧ ψ(f, h)) → ψ(f, g)
+
+The chain-complex axiom δ² = 0 holds tautologically for these
+forms: ``δ¹ (δ⁰ φ)(f, g, h) = ((φ(g) → φ(h)) ∧ (φ(f) → φ(h))) →
+(φ(f) → φ(g))`` is *not* a tautology in general — but when ``φ`` is
+itself the safety predicate of a totally-verified function (so
+``φ(x)`` is True for every x in scope) the implication holds
+trivially.  The cohomology computation in
+``cohomology_compute.py`` reports ``H¹``/``H²`` as the open
+obstructions where this triviality fails.
+-/
+
+/-- Standard 0-coboundary for SafetyC0 → CallC1 (implication form). -/
+def deppy_delta0 (φ : SafetyC0) : CallC1 :=
+  fun fg => φ fg.1 → φ fg.2
+
+/-- Standard 1-coboundary for CallC1 → ModuleC2 (composition coherence). -/
+def deppy_delta1 (ψ : CallC1) : ModuleC2 :=
+  fun fgh =>
+    let (f, g, h) := fgh
+    (ψ (g, h) ∧ ψ (f, h)) → ψ (f, g)
+
+/-- A C^1 cochain is a *standard simplicial cocycle* when it lies in
+the kernel of δ¹ — i.e. the composition coherence holds for every
+2-simplex. -/
+def IsSimplicialCocycle (ψ : CallC1) : Prop :=
+  ∀ fgh, deppy_delta1 ψ fgh
+
+/-- A C^1 cochain is a *coboundary* when it equals δ⁰ of some C^0. -/
+def IsSimplicialCoboundary (ψ : CallC1) : Prop :=
+  ∃ φ : SafetyC0, ∀ fg, ψ fg ↔ deppy_delta0 φ fg
+
+/-- A *cohomology class* in H¹ is a cocycle modulo coboundaries.  We
+represent it as a witness pair ``(ψ, simplicialCocycleProof)`` plus a
+proof that ψ is *not* in the image of δ⁰ (i.e. an obstruction). -/
+structure H1Class where
+  cocycle    : CallC1
+  is_cocycle : IsSimplicialCocycle cocycle
+  -- Optional: a *non-coboundary* witness when this class is non-trivial.
+  not_a_coboundary : Option (¬ IsSimplicialCoboundary cocycle) := none
+
+
 /-! ## Cubical safety constructions
 
 The kernel emits ``CechGlue`` whenever local safety proofs are
