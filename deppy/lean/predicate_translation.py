@@ -53,33 +53,40 @@ def translate(
     predicate: str,
     *,
     binders: Optional[dict[str, str]] = None,
+    python_types: Optional[dict[str, str]] = None,
 ) -> TranslationResult:
     """Translate a Python predicate to Lean.
 
-    ``binders`` (optional) maps Python identifier → Lean type for
-    binders the caller has already declared; the translator uses
-    these to decide between integer / list / dict shapes for free
-    identifiers.  When unset, integers are assumed (the most common
-    runtime-safety case).
+    Parameters
+    ----------
+    predicate :
+        Python-syntax safety predicate.
+    binders :
+        Optional ``{name: lean_type}`` for free identifiers
+        (legacy parameter, kept for backward compatibility).
+    python_types :
+        Optional ``{name: python_annotation_text}``.  When set, the
+        translator emits *type-aware* operations: ``b ≠ 0`` for
+        ``b: Optional[int]`` becomes ``b.isSome ∧ b.get!.snd ≠ 0``;
+        ``xs[i]`` for ``xs: list[int]`` uses ``List.get?`` with the
+        appropriate index handling; ``k in d`` for
+        ``d: dict[K, V]`` uses ``HashMap.contains``.
 
     The result's ``aux_decls`` contains any ``axiom ... : Prop``
     declarations the kernel must include alongside the theorem.
-    These are deterministic — the same predicate text yields the
-    same auxiliary axiom name across runs.
     """
     binders = binders or {}
+    python_types = python_types or {}
     pred = (predicate or "").strip()
     if not pred:
         return TranslationResult(lean_text="True", exact=True,
                                  notes=["empty predicate"])
 
-    # Strip "True" / "False" up front.
     if pred == "True":
         return TranslationResult(lean_text="True", exact=True)
     if pred == "False":
         return TranslationResult(lean_text="False", exact=True)
 
-    # Synthetic predicates — never sound to translate; emit opaque.
     synthetic = (
         "callee_safe(", "has_next(", "module_present",
         "io_resource_available", "completes_within_budget",
@@ -95,7 +102,9 @@ def translate(
     except SyntaxError:
         return _opaque(pred, reason="unparseable")
 
-    translator = _Translator(binders=binders)
+    translator = _Translator(
+        binders=binders, python_types=python_types,
+    )
     try:
         text = translator.visit(tree.body)
     except _Untranslatable as e:
@@ -134,12 +143,48 @@ class _Translator:
     """AST → Lean text translator.  Stateful: collects imports and
     auxiliary opaque-Prop declarations as it walks."""
 
-    def __init__(self, binders: dict[str, str]) -> None:
+    def __init__(
+        self, binders: dict[str, str],
+        python_types: Optional[dict[str, str]] = None,
+    ) -> None:
         self.binders = binders
+        self.python_types = python_types or {}
         self.imports: list[str] = []
         self.aux_decls: list[str] = []
         self.exact: bool = True
         self.notes: list[str] = []
+
+    def _is_optional(self, name: str) -> bool:
+        """True iff ``name`` is annotated ``Optional[T]`` /
+        ``T | None`` in the caller-supplied python_types map."""
+        ann = (self.python_types.get(name, "") or "").strip()
+        if not ann:
+            return False
+        if "Optional[" in ann or "typing.Optional" in ann:
+            return True
+        if "| None" in ann or "None |" in ann:
+            return True
+        return False
+
+    def _is_list_like(self, name: str) -> bool:
+        ann = (self.python_types.get(name, "") or "").strip()
+        if not ann:
+            return False
+        for prefix in ("list", "List", "typing.List", "Sequence",
+                       "Iterable", "MutableSequence", "tuple", "Tuple"):
+            if ann == prefix or ann.startswith(prefix + "["):
+                return True
+        return False
+
+    def _is_dict_like(self, name: str) -> bool:
+        ann = (self.python_types.get(name, "") or "").strip()
+        if not ann:
+            return False
+        for prefix in ("dict", "Dict", "typing.Dict", "Mapping",
+                       "MutableMapping"):
+            if ann == prefix or ann.startswith(prefix + "["):
+                return True
+        return False
 
     def visit(self, node: ast.AST) -> str:
         # Constants
@@ -210,43 +255,69 @@ class _Translator:
         terms = [node.left] + list(node.comparators)
         parts: list[str] = []
         for op, left_node, right_node in zip(node.ops, terms, terms[1:]):
+            op_t = type(op)
+            # Special-case ``... is None`` / ``... is not None`` so we
+            # don't try to ``visit(Constant(None))`` (which would
+            # raise Untranslatable and send the whole predicate to
+            # the opaque path).
+            if (op_t in (ast.Is, ast.IsNot)
+                    and isinstance(right_node, ast.Constant)
+                    and right_node.value is None):
+                l = self.visit(left_node)
+                if op_t is ast.Is:
+                    parts.append(f"(Option.isNone {l})")
+                else:
+                    parts.append(f"(Option.isSome {l})")
+                continue
             l = self.visit(left_node)
             r = self.visit(right_node)
-            op_t = type(op)
             if op_t in _CMP_OPS:
                 parts.append(f"({l} {_CMP_OPS[op_t]} {r})")
             elif op_t is ast.In:
-                # ``x in y`` — opaque membership.
-                self.exact = False
-                self.notes.append(
-                    f"membership ``{l} ∈ {r}`` translated as opaque "
-                    "Membership.mem (requires the user to discharge it)"
+                # ``x in d`` — when d is annotated as a dict-like
+                # type, use the proper Lean HashMap.contains form;
+                # otherwise emit a Membership.mem call.
+                recv_name = (
+                    right_node.id
+                    if isinstance(right_node, ast.Name) else ""
                 )
-                self.imports_add("import Init")
-                parts.append(f"(Membership.mem {l} {r})")
+                if recv_name and self._is_dict_like(recv_name):
+                    parts.append(f"({r}.contains {l})")
+                elif recv_name and self._is_list_like(recv_name):
+                    parts.append(f"(List.elem {l} {r})")
+                else:
+                    self.exact = False
+                    self.notes.append(
+                        f"membership ``{l} ∈ {r}`` translated as opaque "
+                        "Membership.mem (requires the user to discharge it)"
+                    )
+                    self.imports_add("import Init")
+                    parts.append(f"(Membership.mem {l} {r})")
             elif op_t is ast.NotIn:
-                self.exact = False
-                self.notes.append(
-                    f"non-membership ``{l} ∉ {r}`` translated as opaque "
+                recv_name = (
+                    right_node.id
+                    if isinstance(right_node, ast.Name) else ""
                 )
-                parts.append(f"(¬ Membership.mem {l} {r})")
+                if recv_name and self._is_dict_like(recv_name):
+                    parts.append(f"(¬ {r}.contains {l})")
+                elif recv_name and self._is_list_like(recv_name):
+                    parts.append(f"(¬ List.elem {l} {r})")
+                else:
+                    self.exact = False
+                    self.notes.append(
+                        f"non-membership ``{l} ∉ {r}`` translated as opaque "
+                    )
+                    parts.append(f"(¬ Membership.mem {l} {r})")
             elif op_t is ast.Is:
-                # ``x is None`` etc.
-                if (isinstance(right_node, ast.Constant)
-                        and right_node.value is None):
-                    parts.append(f"(Option.isNone {l})")
-                else:
-                    raise _Untranslatable(
-                        f"`is` comparison with non-None RHS"
-                    )
+                # ``is None`` is handled at the top of the loop;
+                # other ``is`` comparisons are not translatable.
+                raise _Untranslatable(
+                    f"`is` comparison with non-None RHS"
+                )
             elif op_t is ast.IsNot:
-                if (isinstance(right_node, ast.Constant)
-                        and right_node.value is None):
-                    parts.append(f"(Option.isSome {l})")
-                else:
-                    raise _Untranslatable(
-                        f"`is not` comparison with non-None RHS"
-                    )
+                raise _Untranslatable(
+                    f"`is not` comparison with non-None RHS"
+                )
             else:
                 raise _Untranslatable(
                     f"unsupported comparator {op_t.__name__}"

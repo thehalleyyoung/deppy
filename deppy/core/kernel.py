@@ -163,8 +163,18 @@ class Assume(ProofTerm):
 
 @dataclass
 class Z3Proof(ProofTerm):
-    """Z3 discharge: verify a quantifier-free formula."""
+    """Z3 discharge: verify a quantifier-free formula.
+
+    When ``binders`` is supplied (mapping Python identifier to type
+    annotation text), the kernel uses the *typed* Z3 encoder to
+    verify the formula, building proper Z3 sorts for
+    ``Optional[T]`` / ``list[T]`` / ``dict[K, V]`` / ``Callable[…]``
+    / user classes etc.  Without binders the kernel falls back to
+    the heuristic Int/Bool encoding (matches legacy behaviour for
+    arithmetic-only formulas).
+    """
     formula: str
+    binders: dict[str, str] = field(default_factory=dict)
     _cached_result: bool | None = field(default=None, repr=False)
 
     def __repr__(self) -> str:
@@ -1212,7 +1222,10 @@ class ProofKernel:
                 code="E005b"
             )
 
-        verdict, reason = self._z3_check(proof.formula)
+        verdict, reason = self._z3_check(
+            proof.formula,
+            binders=getattr(proof, "binders", None) or None,
+        )
         if verdict:
             return VerificationResult.ok(
                 TrustLevel.Z3_VERIFIED, f"Z3({proof.formula})"
@@ -1231,8 +1244,21 @@ class ProofKernel:
             f"Z3 could not verify: {proof.formula}", code="E005"
         )
 
-    def _z3_check(self, formula_str: str) -> tuple[bool, str | None]:
+    def _z3_check(
+        self, formula_str: str,
+        *,
+        binders: dict[str, str] | None = None,
+        type_context: Any | None = None,
+    ) -> tuple[bool, str | None]:
         """Check a formula with Z3.
+
+        When ``binders`` (a dict mapping identifier → annotation
+        text) is supplied, the typed Z3 encoder builds the proper
+        Z3 sorts (``Optional[int]`` → Z3 datatype, ``list[int]`` →
+        ArraySort, ``Callable[[A], B]`` → uninterpreted function,
+        etc.).  Otherwise the legacy heuristic (Int/Bool by usage)
+        is used so existing arithmetic-only formulas continue to
+        verify.
 
         Returns a ``(verdict, reason)`` pair:
           * ``(True,  None)``            — Z3 proved it valid
@@ -1244,6 +1270,17 @@ class ProofKernel:
             import z3  # noqa: F401
         except ImportError:
             return False, "not-installed"
+        if binders:
+            try:
+                from deppy.core.z3_encoder import check_implication
+                parts = formula_str.split("=>")
+                if len(parts) == 2:
+                    return check_implication(
+                        parts[0].strip(), parts[1].strip(),
+                        binders=binders, context=type_context,
+                    )
+            except Exception as e:
+                return False, f"typed-z3-crash: {type(e).__name__}: {e}"[:120]
         try:
             return self._z3_check_arithmetic(formula_str)
         except Exception as e:

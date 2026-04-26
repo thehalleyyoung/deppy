@@ -923,9 +923,20 @@ def _exception_class_for(src: ExceptionSource) -> str:
     return table.get(name, "Exception")
 
 
-def _try_z3_discharge(precondition: str, safety_pred: str,
-                      kernel: ProofKernel) -> Optional[ProofTerm]:
+def _try_z3_discharge(
+    precondition: str, safety_pred: str,
+    kernel: ProofKernel,
+    *,
+    binders: Optional[dict] = None,
+    type_context: Optional[Any] = None,
+) -> Optional[ProofTerm]:
     """Attempt to discharge ``precondition ⊢ safety_pred`` via Z3.
+
+    With ``binders`` supplied (mapping Python identifier → annotation
+    text), the kernel uses the *typed* Z3 encoder
+    (:mod:`deppy.core.z3_encoder`) which builds proper Z3 sorts for
+    Optional / Union / list / dict / Callable annotations.
+    Without binders we fall through to the legacy heuristic encoding.
 
     Returns a ``Z3Proof`` when Z3 actually proved the implication, or
     a ``Structural`` proof when the implication is true *syntactically*
@@ -946,9 +957,13 @@ def _try_z3_discharge(precondition: str, safety_pred: str,
 
     # Try Z3 first — when it succeeds we keep Z3_VERIFIED trust.
     formula = f"({pre}) => ({safety_pred})"
-    verdict, _reason = kernel._z3_check(formula)
+    verdict, _reason = kernel._z3_check(
+        formula, binders=binders, type_context=type_context,
+    )
     if verdict:
-        return Z3Proof(formula=formula)
+        # Carry the binders on the Z3Proof so kernel re-verification
+        # uses the same typed encoding (Phase Z1).
+        return Z3Proof(formula=formula, binders=dict(binders or {}))
 
     # Fall back to syntactic discharge for predicates Z3's arithmetic
     # core cannot encode (``in``, ``hasattr``, ``isinstance``, ...).
@@ -1290,7 +1305,11 @@ def _build_discharges(
                 ))
                 continue
 
-        z3_proof = _try_z3_discharge(enriched_pre, sp, probe_kernel)
+        z3_proof = _try_z3_discharge(
+            enriched_pre, sp, probe_kernel,
+            binders=_python_binder_map(fn_node),
+            type_context=type_context,
+        )
         if z3_proof is not None:
             out.append(SourceDischarge(
                 source_id=sid, failure_kind=kind_name,
@@ -1651,6 +1670,29 @@ def _is_sequence_family(name: str) -> bool:
                      "typing.Sequence", "typing.MutableSequence"}
 
 
+def _python_binder_map(fn_node) -> dict[str, str]:
+    """Map function-parameter name → annotation source text.
+
+    Used to feed the typed Z3 encoder.  Parameters with no
+    annotation default to ``"int"`` so the encoder picks IntSort
+    (matches the kernel's legacy heuristic).
+    """
+    import ast as _ast
+    if fn_node is None:
+        return {}
+    out: dict[str, str] = {}
+    for arg in getattr(fn_node, "args",
+                        _ast.arguments(args=[])).args:
+        if arg.annotation is None:
+            out[arg.arg] = "int"
+            continue
+        try:
+            out[arg.arg] = _ast.unparse(arg.annotation).strip()
+        except Exception:
+            out[arg.arg] = "int"
+    return out
+
+
 def _functions_with_any_typed_params(tree) -> set[str]:
     """Return the names of functions / methods whose parameter list
     contains an annotation of ``Any`` / ``object`` / ``typing.Any``.
@@ -1912,8 +1954,9 @@ def _try_user_lean_proof(
     kind = getattr(getattr(src, "kind", None), "name", "")
 
     from deppy.lean.predicate_translation import translate
-    goal_result = translate(safety_predicate)
-    pre_result = translate(precondition or "True")
+    py_types = _python_binder_map(fn_node)
+    goal_result = translate(safety_predicate, python_types=py_types)
+    pre_result = translate(precondition or "True", python_types=py_types)
 
     # Build typed binders + aux-decls from the function signature.
     binder_aux: list[str] = []
