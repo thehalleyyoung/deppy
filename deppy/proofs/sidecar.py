@@ -132,6 +132,17 @@ class ExternalSpec:
     is_total: bool = False
     decreases: list[str] = field(default_factory=list)
 
+    # ── User-attached Lean proofs ────────────────────────────────
+    # Each entry is a 4-tuple ``(failure_kind, theorem, proof_script,
+    # imports_tuple)``.  ``failure_kind`` may be a specific
+    # exception-source kind (e.g. ``"ZERO_DIVISION"``) or the wildcard
+    # ``"*"``; the safety pipeline tries to discharge each undischarged
+    # source by running every matching proof through the kernel's
+    # ``LeanProof`` term.
+    lean_proofs: list[tuple[str, str, str, tuple[str, ...]]] = field(
+        default_factory=list,
+    )
+
     def __post_init__(self):
         # Auto-resolve target from @about annotation if not provided
         about_path = getattr(self.__class__, '_deppy_about', None)

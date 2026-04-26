@@ -32,7 +32,7 @@ from deppy.proofs.sugar import Refine                     # noqa: F401
 
 from deppy.core.kernel import (           # noqa: F401  — proof terms
     ProofKernel, ProofTerm, TrustLevel, VerificationResult,
-    Refl, Sym, Trans, Cong, Cut, Assume, Z3Proof,
+    Refl, Sym, Trans, Cong, Cut, Assume, Z3Proof, LeanProof,
     NatInduction, ListInduction, Cases, DuckPath,
     ConditionalDuckPath, FiberedLookup,
     EffectWitness, AxiomInvocation, Ext, Unfold, Rewrite,
@@ -116,6 +116,9 @@ def protocol_spec(cls_or_str=None):
         return decorator2
     return cls_or_str
 from deppy.lean.compiler import compile_to_lean  # noqa: F401
+from deppy.lean.obligations import (  # noqa: F401
+    Obligation, ObligationReport, emit_obligations,
+)
 
 loop_variant = decreases
 fuel = decreases
@@ -140,6 +143,65 @@ def lemma(fn):
     """Decorator marking a function as a lemma (returns a proof term)."""
     fn._deppy_lemma = True
     return fn
+
+
+def with_lean_proof(
+    *,
+    theorem: str,
+    proof: str = "",
+    for_kind: str = "*",
+    imports: tuple[str, ...] = (),
+):
+    """Attach a Lean 4 proof script that discharges a runtime-safety obligation.
+
+    Use this when the deppy pipeline cannot discharge a particular
+    exception source via Z3, the syntactic shortcut, or the builtin
+    sidecar — typically because the property requires reasoning Z3
+    can't do (induction, list/dict properties, abstract algebra).
+
+    Example::
+
+        @with_lean_proof(
+            theorem='''theorem div_safe
+                (a b : Int) (h : b ≠ 0) : b ≠ 0''',
+            proof="exact h",
+            for_kind="ZERO_DIVISION",
+        )
+        def divide(a, b):
+            return a / b
+
+    Parameters
+    ----------
+    theorem : str
+        The Lean theorem statement (single ``theorem ... :
+        T_goal`` line, no body).  The kernel appends ``:= by`` and
+        the proof script when invoking Lean.  If you write a fully
+        self-contained statement that ends in ``:= proof_term``,
+        leave ``proof`` empty.
+    proof : str
+        The proof script body — typically a ``by ...`` block, e.g.
+        ``"exact h"`` or ``"omega"`` or a multi-line tactic block.
+    for_kind : str
+        Which exception kind this proof discharges.  Defaults to
+        ``"*"`` (all kinds).  Specific kinds like
+        ``"ZERO_DIVISION"`` / ``"KEY_ERROR"`` / ``"INDEX_ERROR"`` /
+        ``"VALUE_ERROR"`` make the discharge precise.
+    imports : tuple[str, ...]
+        Extra Lean ``import`` lines prepended to the file (e.g.
+        ``("import Mathlib.Data.List.Basic",)``).
+
+    The decorator is read by :func:`verify_module_safety` (and by the
+    CLI's ``deppy check``).  Multiple decorators stack — apply one
+    decorator per source kind you need to discharge.
+    """
+    def decorator(fn):
+        existing = getattr(fn, "_deppy_lean_proofs", None)
+        if existing is None:
+            existing = []
+        existing.append((for_kind, theorem, proof, tuple(imports)))
+        fn._deppy_lean_proofs = existing
+        return fn
+    return decorator
 
 def trust_boundary(
     fn=None,

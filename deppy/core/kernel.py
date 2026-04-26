@@ -172,6 +172,55 @@ class Z3Proof(ProofTerm):
 
 
 @dataclass
+class LeanProof(ProofTerm):
+    """Lean 4 discharge: verify a theorem against the local Lean toolchain.
+
+    The kernel verifies this term by writing a self-contained Lean
+    file and invoking the ``lean`` binary.  The verdict is determined
+    by Lean's exit status:
+
+    * exit 0                       → :attr:`TrustLevel.KERNEL`
+      (Lean kernel-checked it; reuse the deppy-kernel rung
+      :attr:`TrustLevel.KERNEL` so the witness can compose with
+      ordinary kernel proofs)
+    * non-zero, lean ran           → ``failure``  (Lean rejected)
+    * binary missing / error       → ``failure`` with reason
+      ``lean-unavailable`` so callers can decide whether to treat it
+      as an obligation (rather than a hard fail)
+
+    The verification result also carries a ``LEAN_KERNEL_VERIFIED``
+    label on its message, which the Lean compiler picks up when
+    rendering the per-function trust banner.
+
+    Construction
+    ------------
+    ``LeanProof(theorem=..., proof_script=..., imports=..., timeout_s=60)``
+
+    * ``theorem``      — the theorem-statement source line; e.g.
+      ``"theorem f_safe (a b : Int) (h : b ≠ 0) : a / b = a / b := rfl"``
+    * ``proof_script`` — the *body* (may be empty when ``theorem``
+      already contains the body, e.g. ``... := rfl``).  Otherwise the
+      kernel concatenates ``theorem``, then a newline, then
+      ``proof_script``.
+    * ``imports``      — extra import lines prepended to the file.
+    * ``timeout_s``    — ``lean`` invocation timeout.
+
+    A small in-memory cache keyed on the canonical (theorem, proof,
+    imports) triple avoids re-invoking ``lean`` for repeated proofs
+    in the same run.
+    """
+    theorem: str
+    proof_script: str = ""
+    imports: tuple[str, ...] = ()
+    timeout_s: int = 60
+    _cached_result: tuple[bool, str] | None = field(default=None, repr=False)
+
+    def __repr__(self) -> str:
+        head = self.theorem.split("\n", 1)[0][:60]
+        return f"Lean({head}…)"
+
+
+@dataclass
 class NatInduction(ProofTerm):
     """Natural number induction."""
     var: str
@@ -908,6 +957,8 @@ class ProofKernel:
             return self._verify_assume(ctx, goal, proof)
         elif isinstance(proof, Z3Proof):
             return self._verify_z3(ctx, goal, proof)
+        elif isinstance(proof, LeanProof):
+            return self._verify_lean(ctx, goal, proof)
         elif isinstance(proof, NatInduction):
             return self._verify_nat_ind(ctx, goal, proof)
         elif isinstance(proof, ListInduction):
@@ -1293,6 +1344,134 @@ class ProofKernel:
             return verdict, None if verdict else "disagrees"
         except Exception as e:
             return False, f"impl-crash: {type(e).__name__}: {e}"[:120]
+
+    # ── LeanProof ─────────────────────────────────────────────────
+
+    def _verify_lean(self, ctx: Context, goal: Judgment,
+                     proof: "LeanProof") -> VerificationResult:
+        """Discharge a goal by invoking the local ``lean`` toolchain.
+
+        The kernel writes a self-contained file (imports + theorem +
+        body) to a temporary directory, runs ``lean`` on it, and
+        accepts the proof iff Lean's exit status is 0.
+
+        Successful Lean checks return :attr:`TrustLevel.KERNEL` —
+        Lean's metatheory is at least as strong as the deppy kernel,
+        and the witness should compose with other kernel-level proofs
+        without down-grading.  The ``message`` carries the
+        ``LEAN_KERNEL_VERIFIED`` label so the Lean compiler banner
+        renders correctly.
+
+        When ``lean`` is not on ``PATH`` the result is *failure* with
+        reason ``lean-unavailable`` so the safety pipeline can decide
+        whether to surface an obligation rather than treat the proof
+        as conclusively rejected.
+        """
+        ok, detail = self._lean_check(
+            theorem=proof.theorem,
+            proof_script=proof.proof_script,
+            imports=proof.imports,
+            timeout_s=proof.timeout_s,
+            cache_into=proof,
+        )
+        if ok:
+            head = proof.theorem.split("\n", 1)[0][:80]
+            return VerificationResult.ok(
+                TrustLevel.KERNEL,
+                f"LEAN_KERNEL_VERIFIED: {head}",
+            )
+        if detail == "lean-unavailable":
+            return VerificationResult.fail(
+                "Lean toolchain unavailable; cannot discharge proof",
+                code="E006u",
+            )
+        return VerificationResult.fail(
+            f"Lean rejected the proof: {detail}",
+            code="E006",
+        )
+
+    def _lean_check(
+        self,
+        *,
+        theorem: str,
+        proof_script: str = "",
+        imports: tuple[str, ...] = (),
+        timeout_s: int = 60,
+        cache_into=None,
+    ) -> tuple[bool, str]:
+        """Invoke ``lean`` on a self-contained Lean source.
+
+        Returns ``(ok, detail)`` where ``ok`` is ``True`` when Lean
+        exits 0.  ``detail`` is empty on success or a short reason on
+        failure (``lean-unavailable``, ``timeout``, ``rejected:
+        <stderr>``).
+
+        Caches the verdict on ``cache_into._cached_result`` when the
+        argument is supplied so repeated identical invocations are
+        free.
+        """
+        if cache_into is not None and getattr(
+                cache_into, "_cached_result", None) is not None:
+            return cache_into._cached_result  # type: ignore[return-value]
+
+        import shutil
+        import subprocess
+        import tempfile
+        from pathlib import Path
+
+        lean_bin = shutil.which("lean")
+        if not lean_bin:
+            result = (False, "lean-unavailable")
+            if cache_into is not None:
+                cache_into._cached_result = result
+            return result
+
+        # Compose the full source: imports, then the theorem body.
+        parts: list[str] = []
+        for imp in imports:
+            parts.append(imp.strip())
+        parts.append("")
+        thm = theorem.rstrip()
+        body = (proof_script or "").strip()
+        if body and not thm.endswith(":= by") and ":=" not in thm.split("\n")[-1]:
+            # Split the theorem signature from its body — the user
+            # supplied them separately.
+            parts.append(thm + " := by")
+            parts.append(body)
+        else:
+            parts.append(thm)
+            if body:
+                parts.append(body)
+        source = "\n".join(parts) + "\n"
+
+        with tempfile.TemporaryDirectory(prefix="deppy-leanproof-") as td:
+            path = Path(td) / "Proof.lean"
+            path.write_text(source, encoding="utf-8")
+            try:
+                proc = subprocess.run(
+                    [lean_bin, str(path)],
+                    capture_output=True, text=True,
+                    timeout=timeout_s, check=False,
+                )
+            except subprocess.TimeoutExpired:
+                result = (False, f"timeout after {timeout_s}s")
+                if cache_into is not None:
+                    cache_into._cached_result = result
+                return result
+            except (FileNotFoundError, PermissionError, OSError) as e:
+                result = (False, f"lean-exec-error: {e}")
+                if cache_into is not None:
+                    cache_into._cached_result = result
+                return result
+
+        if proc.returncode == 0:
+            result = (True, "")
+        else:
+            err = (proc.stderr or proc.stdout or "").strip()
+            result = (False, f"rejected: {err[:200]}")
+        if cache_into is not None:
+            cache_into._cached_result = result
+        return result
 
     # ── NatInduction ──────────────────────────────────────────────
 

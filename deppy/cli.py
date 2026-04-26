@@ -229,6 +229,55 @@ _UPGRADE_LEVELS = {
 }
 
 
+def _cmd_obligations(args: argparse.Namespace) -> int:
+    """Emit a Lean 4 skeleton with one ``theorem ... := by sorry`` per
+    open runtime-safety obligation."""
+    from deppy.lean.obligations import emit_obligations
+
+    try:
+        display, source, _mod = _load_target(args.target)
+    except FileNotFoundError as e:
+        print(f"deppy obligations: {e}", file=sys.stderr)
+        return 3
+
+    sidecar_specs = None
+    if getattr(args, "sidecar", None):
+        from deppy.proofs.sidecar import SidecarModule
+        sidecar_path = Path(args.sidecar)
+        if not sidecar_path.is_file():
+            print(
+                f"deppy obligations: sidecar {sidecar_path} not found",
+                file=sys.stderr,
+            )
+            return 3
+        try:
+            sm = SidecarModule.from_file(str(sidecar_path))
+        except Exception as e:
+            print(
+                f"deppy obligations: failed to parse sidecar {sidecar_path}: {e}",
+                file=sys.stderr,
+            )
+            return 3
+        sidecar_specs = dict(sm.specs)
+
+    out = args.out
+    if not out:
+        # Default: alongside the input, with .lean suffix.
+        target_path = Path(display)
+        out = target_path.with_suffix(".lean")
+    out_path = Path(out)
+
+    report = emit_obligations(
+        source, out_path,
+        sidecar_specs=sidecar_specs,
+        use_drafts=args.use_drafts,
+        module_name=Path(display).stem.replace("-", "_") or "DeppyObligations",
+    )
+    print(report.summary())
+    # Exit 0 when there are no open obligations, 2 when some remain.
+    return 0 if report.open_count == 0 else 2
+
+
 def _cmd_upgrade(args: argparse.Namespace) -> int:
     from deppy.pipeline.safety_pipeline import verify_module_safety
     from deppy.core.kernel import TrustLevel
@@ -334,7 +383,10 @@ def _build_parser() -> argparse.ArgumentParser:
             "the deppy kernel, or export to Lean 4."
         ),
     )
-    sub = p.add_subparsers(dest="command", required=True, metavar="{check,export,upgrade}")
+    sub = p.add_subparsers(
+        dest="command", required=True,
+        metavar="{check,export,upgrade,obligations,trust}",
+    )
 
     # check
     p_check = sub.add_parser(
@@ -385,6 +437,21 @@ def _build_parser() -> argparse.ArgumentParser:
     p_up.add_argument("--json", action="store_true")
     p_up.add_argument("--verbose", action="store_true")
     p_up.set_defaults(func=_cmd_upgrade)
+
+    # obligations
+    p_oblig = sub.add_parser(
+        "obligations",
+        help="Emit a Lean 4 skeleton with one `theorem ... := by sorry` per "
+             "open exception source",
+    )
+    p_oblig.add_argument("target", help="Path to .py file or module name")
+    p_oblig.add_argument("--out", "-o", default=None,
+                         help="Output .lean file (defaults to <target>.lean)")
+    p_oblig.add_argument("--sidecar", metavar="PATH",
+                         help="Path to a .deppy or .json sidecar spec file")
+    p_oblig.add_argument("--no-drafts", dest="use_drafts", action="store_false",
+                         default=True)
+    p_oblig.set_defaults(func=_cmd_obligations)
 
     # trust — convenience grouping; ``deppy trust upgrade <path> --to L``
     # behaves identically to ``deppy upgrade <path> --level L``.

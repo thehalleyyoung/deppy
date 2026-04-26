@@ -36,7 +36,7 @@ from typing import Any, Optional, Callable
 from deppy.core.kernel import (
     ProofKernel, ProofTerm, TrustLevel, ConditionalEffectWitness, Structural,
     SemanticSafetyWitness, ModuleSafetyComposition, SourceDischarge, Z3Proof,
-    AxiomInvocation, Assume, TerminationObligation, min_trust,
+    LeanProof, AxiomInvocation, Assume, TerminationObligation, min_trust,
 )
 from deppy.core.types import (
     Context, Judgment, JudgmentKind, Var, PyObjType,
@@ -70,6 +70,15 @@ class FunctionVerdict:
     counterexamples: list["CounterexampleWitness"] = field(default_factory=list)
     proof_payload: Optional[dict[str, Any]] = None
     lean_proof: Optional[str] = None
+
+    # Per-source discharge breakdown — maps source_id to a short tag
+    # naming the discharge mechanism that closed it (or
+    # ``"undischarged"`` for sources still open).  Tags are drawn
+    # from the static set:
+    #   z3-arithmetic, z3-syntactic, builtin-sidecar, callee-summary,
+    #   raises-declaration, callee-axiom, is-total, termination,
+    #   user-lean-proof, undischarged, co-located-peer.
+    discharge_paths: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -117,6 +126,21 @@ class SafetyVerdict:
         return {n: v.unaddressed for n, v in self.functions.items()
                 if v.unaddressed}
 
+    @property
+    def discharge_breakdown(self) -> dict[str, int]:
+        """Aggregate count of how each source got addressed.
+
+        Counts every per-function ``discharge_paths`` entry across
+        the module.  Tags are drawn from the static set in
+        :data:`_DISCHARGE_TAGS`.  Useful for "how was this verified?"
+        summaries.
+        """
+        out: dict[str, int] = {}
+        for v in self.functions.values():
+            for tag in v.discharge_paths.values():
+                out[tag] = out.get(tag, 0) + 1
+        return out
+
     def summary(self) -> str:
         n = len(self.functions)
         safe = sum(1 for v in self.functions.values() if v.is_safe)
@@ -135,20 +159,36 @@ class SafetyVerdict:
             lines.append(
                 f"  module-level gaps:{len(self.module_level_unaddressed):>3}"
             )
-        
+
+        # Discharge-path breakdown — shows the user *how* each source
+        # was closed (Z3, syntactic, builtin sidecar, callee summary,
+        # Lean proof, …) so the verdict is auditable rather than a
+        # bare success/fail.
+        breakdown = self.discharge_breakdown
+        if breakdown:
+            lines.append("  discharge paths:")
+            for tag in _DISCHARGE_TAGS:
+                count = breakdown.get(tag, 0)
+                if count:
+                    lines.append(f"    {tag:<22} {count:>4}")
+
         # Enhanced diagnostics summary
         if self.diagnosis_findings:
             error_count = sum(1 for f in self.diagnosis_findings if f.severity == "error")
             warning_count = sum(1 for f in self.diagnosis_findings if f.severity == "warning")
             lines.append(f"  diagnostics:      {error_count} errors, {warning_count} warnings")
-            
+
             if self.suggested_fixes:
                 lines.append(f"  next steps:       {len(self.suggested_fixes)} suggestions")
-        
+
         if self.gaps:
             lines.append("  gaps:")
             for fn, missed in list(self.gaps.items())[:10]:
                 lines.append(f"    - {fn}: {len(missed)} unaddressed")
+            lines.append(
+                "    (run `deppy obligations FILE.py` to emit a Lean "
+                "skeleton for the open obligations.)"
+            )
         return "\n".join(lines)
 
 
@@ -450,6 +490,21 @@ def verify_module_safety(
         is_total = bool(getattr(spec, "is_total", False))
         raises_decls = list(getattr(spec, "raises_declarations", None) or [])
 
+        # User-attached Lean proofs — pull from both the runtime
+        # function object (``@with_lean_proof`` decorator) and the
+        # sidecar spec's ``lean_proofs`` field.  The pipeline tries
+        # each matching proof in order when other discharge paths
+        # fail.
+        lean_proofs: list[tuple[str, str, str, tuple[str, ...]]] = []
+        fn_obj = runtime_env.get(fn_name)
+        if fn_obj is not None:
+            for entry in getattr(fn_obj, "_deppy_lean_proofs", None) or []:
+                if entry not in lean_proofs:
+                    lean_proofs.append(entry)
+        for entry in getattr(spec, "lean_proofs", None) or []:
+            if entry not in lean_proofs:
+                lean_proofs.append(entry)
+
         fn_summary = by_fn.get(fn_name)
         sources = list(fn_summary.uncaught_sources) if fn_summary else []
 
@@ -465,6 +520,7 @@ def verify_module_safety(
             kernel=kernel,
             refinement_map=refinement_maps.get(fn_name),
             callee_summaries=callee_summaries,
+            lean_proofs=lean_proofs,
         )
 
         # Construct the semantic witness — refuses to succeed unless every
@@ -523,6 +579,13 @@ def verify_module_safety(
                 else:
                     addressed_sources.append(s_str)
 
+        # Build the per-source discharge-path map.  Tags must stay in
+        # sync with ``_DISCHARGE_TAGS`` below so the summary renderer
+        # can group them.
+        discharge_paths: dict[str, str] = {}
+        for d in discharges:
+            discharge_paths[d.source_id] = _classify_discharge(d)
+
         function_verdict = FunctionVerdict(
             name=fn_name,
             is_safe=is_safe,
@@ -536,6 +599,7 @@ def verify_module_safety(
             counterexamples=counterexamples,
             proof_payload=_serialize_conditional_witness(cond_witness),
             lean_proof=lean_proof,
+            discharge_paths=discharge_paths,
         )
         
         if progress_tracker:
@@ -1110,6 +1174,7 @@ def _build_discharges(
     kernel: Optional[ProofKernel] = None,
     refinement_map: Optional[Any] = None,
     callee_summaries: Optional[dict] = None,
+    lean_proofs: Optional[list] = None,
 ) -> list[SourceDischarge]:
     """Build one ``SourceDischarge`` per ``ExceptionSource``.
 
@@ -1227,6 +1292,24 @@ def _build_discharges(
                 safety_predicate=sp,
                 inner=Structural(description=f"is_total: {sid}"),
                 note="is_total escape",
+            ))
+            continue
+
+        # User-attached Lean-proof discharge.  Each entry is a
+        # ``(failure_kind, theorem, proof_script, imports)`` tuple
+        # collected from ``@with_lean_proof`` decorators and from the
+        # sidecar spec's ``lean_proofs`` field.  The pipeline tries
+        # every entry whose ``failure_kind`` matches the source's
+        # kind (or is the ``"*"`` wildcard) and uses the first one
+        # that the kernel's :class:`LeanProof` term verifies.
+        lean_proof = _try_user_lean_proof(
+            src=s, lean_proofs=lean_proofs, kernel=probe_kernel,
+        )
+        if lean_proof is not None:
+            out.append(SourceDischarge(
+                source_id=sid, failure_kind=kind_name,
+                safety_predicate=sp, inner=lean_proof,
+                note="discharged by user-attached Lean proof",
             ))
             continue
 
@@ -1387,6 +1470,104 @@ def _try_builtin_sidecar_discharge(
             verdict, _reason = kernel._z3_check(formula)
             if verdict:
                 return Z3Proof(formula=formula)
+    return None
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  Discharge-path classification (Phase L5)
+# ─────────────────────────────────────────────────────────────────────
+
+_DISCHARGE_TAGS = (
+    "z3-arithmetic",
+    "z3-syntactic",
+    "builtin-sidecar",
+    "callee-summary",
+    "raises-declaration",
+    "callee-axiom",
+    "is-total",
+    "termination",
+    "user-lean-proof",
+    "co-located-peer",
+    "undischarged",
+)
+
+
+def _classify_discharge(d: SourceDischarge) -> str:
+    """Map a :class:`SourceDischarge` to one of :data:`_DISCHARGE_TAGS`.
+
+    The tag is read from a small set of pattern matches against the
+    ``inner`` proof-term type and the human-readable ``note`` field.
+    Anything we cannot classify falls through to ``"undischarged"``
+    (matching the conservative default — a discharge whose mechanism
+    we cannot identify is treated as not-helping).
+    """
+    inner = d.inner
+    note = (d.note or "").lower()
+    if isinstance(inner, Assume):
+        return "undischarged"
+    if isinstance(inner, LeanProof):
+        return "user-lean-proof"
+    if isinstance(inner, TerminationObligation):
+        return "termination"
+    if isinstance(inner, AxiomInvocation):
+        if "raises_declaration" in note:
+            return "raises-declaration"
+        return "callee-axiom"
+    if isinstance(inner, Z3Proof):
+        return "z3-arithmetic"
+    if isinstance(inner, Structural):
+        if "is_total" in note:
+            return "is-total"
+        if "syntactic conjunct" in (
+            getattr(inner, "description", "") or ""
+        ).lower():
+            return "z3-syntactic"
+        if "co-located" in note:
+            return "co-located-peer"
+        if "callee" in note and "discharged" in note:
+            return "callee-summary"
+        if "builtin" in note:
+            return "builtin-sidecar"
+        return "z3-syntactic"  # default for Structural is the syntactic shortcut
+    return "undischarged"
+
+
+def _try_user_lean_proof(
+    *, src, lean_proofs, kernel,
+):
+    """Discharge ``src`` using a user-attached Lean proof.
+
+    ``lean_proofs`` is the merged list of
+    ``(failure_kind, theorem, proof_script, imports)`` tuples
+    collected from ``@with_lean_proof`` decorators and from the
+    sidecar spec's ``lean_proofs`` field.  The function tries each
+    matching entry (kind ``"*"`` matches anything) and returns the
+    first :class:`LeanProof` whose kernel verification succeeds.
+
+    The kernel's :meth:`_verify_lean` actually invokes the local
+    ``lean`` toolchain; on success the discharge carries
+    ``LEAN_KERNEL_VERIFIED`` semantics.  When ``lean`` is not
+    available we return ``None`` (the source remains undischarged
+    so the verdict honestly reports the missing toolchain) rather
+    than fabricating a discharge.
+    """
+    if not lean_proofs:
+        return None
+    kind = getattr(getattr(src, "kind", None), "name", "")
+    for failure_kind, theorem, proof_script, imports in lean_proofs:
+        if failure_kind not in ("*", kind):
+            continue
+        candidate = LeanProof(
+            theorem=theorem, proof_script=proof_script,
+            imports=tuple(imports or ()),
+        )
+        ok, _detail = kernel._lean_check(
+            theorem=theorem, proof_script=proof_script,
+            imports=tuple(imports or ()),
+            cache_into=candidate,
+        )
+        if ok:
+            return candidate
     return None
 
 
