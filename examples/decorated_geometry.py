@@ -74,8 +74,11 @@ code_type("sum_zip_sub_sq", "Point → Point → Int")(None)
 
 @spec(
     guarantees=[
-        "Distance is non-negative.",
-        "Distance is symmetric: d(p, q) == d(q, p).",
+        # Python expressions, not natural-language strings.
+        # @spec validates each entry as parseable Python or
+        # ``lean: ...`` / ``smt: ...`` prefixed.
+        "Point.distance(p, q) >= 0",
+        "Point.distance(p, q) == Point.distance(q, p)",
     ],
     axioms=["dist_nonneg", "dist_symmetric"],
 )

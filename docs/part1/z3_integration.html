@@ -223,7 +223,12 @@
       </div>
     </div>
 
-    <p>The generated SMT-LIB output (visible via <code>--show-z3</code>) looks like:</p>
+    <p>
+      The generated SMT-LIB output (logged when
+      <code>DEPPY_Z3_DEBUG=1</code> or surfaced by the
+      <code>foundations_z3_*</code> counters in
+      <code>&lt;file&gt;.json</code>) looks like:
+    </p>
 
 <pre><code><span class="cm">;; abs_value: guarantee result >= 0</span>
 (<span class="kw">declare-const</span> x <span class="ty">Int</span>)

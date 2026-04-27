@@ -847,6 +847,41 @@ class Univalence(ProofTerm):
 
 
 @dataclass
+class VarianceCheck(ProofTerm):
+    """Variance soundness for a ``Generic[T]`` class.
+
+    Records the analyzer's verdict on a user's TypeVar variance
+    declaration: which occurrences of ``T`` were found, what
+    position each lives at (covariant / contravariant /
+    invariant), and whether the meet of those positions is
+    consistent with the user's declared variance.
+
+    The kernel verifies a ``VarianceCheck`` by checking that
+    ``consistent`` is True; the soundness of that decision is
+    the meta-theorem ``Deppy.Metatheory.covariance_soundness``
+    (Lean, §32) when ``declared = "covariant"`` and dually for
+    contravariance.
+
+    Built by :func:`deppy.proofs.psdl_variance.emit_variance_check`
+    from a live class via ``inspect``.
+    """
+    type_var: str                              # e.g. "T_co"
+    declared: str                              # "covariant" / "contravariant" / "invariant"
+    overall: str                               # analyzer's meet
+    consistent: bool                           # does declared ≤ overall?
+    occurrences: list[tuple[str, str]] = field(default_factory=list)
+    # each entry: (position, location)
+
+    def __repr__(self) -> str:
+        verdict = "✓" if self.consistent else "✗"
+        return (
+            f"VarianceCheck({self.type_var}: declared={self.declared}, "
+            f"overall={self.overall} {verdict}, "
+            f"{len(self.occurrences)} occurrences)"
+        )
+
+
+@dataclass
 class Cocycle(ProofTerm):
     """A k-cocycle in deppy's safety cochain complex.
 

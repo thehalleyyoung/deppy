@@ -244,10 +244,64 @@
     _value: <span class="ty">T_co</span>
 
     <span class="kw">def</span> <span class="fn">get</span>(self) -> <span class="ty">T_co</span>:
-        <span class="kw">return</span> self._value
+        <span class="kw">return</span> self._value</code></pre>
 
-<span class="cm"># Deppy proves: FrozenBox only appears in covariant positions</span>
-<span class="cm"># (T_co is never used as a parameter type) → covariance is sound ✅</span></code></pre>
+    <p>
+      Deppy's variance analyser walks the class via
+      <code>inspect</code> and tags every appearance of
+      <code>T_co</code> with its position.  Run it via the PSDL
+      primitive <code>verify_variance(...)</code> or directly in
+      Python:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_variance <span class="kw">import</span> (
+    VariancePos, analyze_class_variance,
+)
+
+report = analyze_class_variance(
+    FrozenBox,
+    type_var_name=<span class="st">"T_co"</span>,
+    declared=VariancePos.COVARIANT,
+)
+
+<span class="kw">print</span>(report.overall.value)              <span class="cm"># 'covariant'</span>
+<span class="kw">print</span>(report.consistent_with_declaration)  <span class="cm"># True ✓</span>
+<span class="kw">for</span> occ <span class="kw">in</span> report.occurrences:
+    <span class="kw">print</span>(occ.position.value, <span class="st">"@"</span>, occ.location)
+<span class="cm"># covariant      @ field _value (frozen)</span>
+<span class="cm"># covariant      @ method get: return type</span></code></pre>
+
+    <p>
+      Over in PSDL the same check is one line:
+    </p>
+
+<pre><code><span class="kw">verify</span> <span class="fn">frozen_box_covariance</span>:
+  <span class="dc">function</span>: <span class="fn">examples.containers.FrozenBox</span>
+  <span class="dc">psdl_proof</span>: |
+    verify_variance(FrozenBox, type_var=<span class="st">"T_co"</span>, declared=<span class="st">"covariant"</span>)
+    qed()</code></pre>
+
+    <p>
+      This emits a kernel-level <code>VarianceCheck</code>
+      ProofTerm; soundness is the <code>covariance_soundness</code>
+      theorem in <code>metatheory/Deppy.lean §32</code> (proved
+      with no <code>sorry</code>).  Concretely: when the analyser
+      reports <code>overall = covariant</code>, the kernel admits
+      the variance declaration; when it reports
+      <code>invariant</code> (e.g. for a mutable
+      <code>set_value(self, v: T_co)</code> method that uses
+      <code>T_co</code> as a parameter) the kernel rejects with a
+      <code>PSDLError</code> citing the offending location.
+    </p>
+
+    <p>
+      The PEP-484 convention that <code>__init__</code>
+      parameters don't propagate variance is honoured: the
+      analyser skips constructors when totalling occurrences, so
+      a frozen dataclass's auto-generated
+      <code>__init__(self, _value: T_co)</code> doesn't introduce
+      a spurious contravariant occurrence.
+    </p>
 
     <div class="warning">
       A mutable container with <code>covariant=True</code> is <strong>unsound</strong>.

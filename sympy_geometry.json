@@ -2,7 +2,7 @@
   "sidecar": "/Users/halleyyoung/Documents/div/mathdivergence/deppy/sympy_geometry.deppy",
   "lean_path": "/Users/halleyyoung/Documents/div/mathdivergence/deppy/sympy_geometry.lean",
   "library_summary": "sympy 1.14.0 \u2014 sympy",
-  "elapsed_ms": 604.2087499517947,
+  "elapsed_ms": 429.4381670188159,
   "certified": true,
   "failures": [],
   "lean_runner": {

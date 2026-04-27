@@ -3021,6 +3021,68 @@ class _Compiler:
         #  Cubical / duck / effect-Python primitives
         # ──────────────────────────────────────────────────────────
         # ── dispatch(receiver, "method") — DuckPath ──
+        # ── verify_variance(Cls, type_var="T_co", declared="covariant") ──
+        if fname == "verify_variance":
+            if not args:
+                return Structural("verify_variance: no class given")
+            cls_text = ast.unparse(args[0])
+            type_var = "T"
+            declared_str = "covariant"
+            for kw in call.keywords:
+                if kw.arg == "type_var" and isinstance(kw.value, ast.Constant):
+                    type_var = str(kw.value.value)
+                if kw.arg == "declared" and isinstance(kw.value, ast.Constant):
+                    declared_str = str(kw.value.value)
+            self._emit_lean(
+                indent,
+                f"-- verify_variance({cls_text}, "
+                f"type_var={type_var!r}, declared={declared_str!r})",
+            )
+            # Resolve the class via importlib + emit a kernel
+            # VarianceCheck.  The kernel-side soundness is the
+            # Lean §32 covariance_soundness theorem.
+            try:
+                from deppy.proofs.psdl_variance import (
+                    VariancePos, analyze_class_variance,
+                    emit_variance_check,
+                )
+                import importlib
+                mod_path, _, cls_name = cls_text.rpartition(".")
+                if mod_path:
+                    mod = importlib.import_module(mod_path)
+                    cls = getattr(mod, cls_name, None)
+                else:
+                    cls = None
+                if cls is None:
+                    return Structural(
+                        f"verify_variance: could not resolve {cls_text}"
+                    )
+                declared = (
+                    VariancePos.COVARIANT if declared_str == "covariant"
+                    else VariancePos.CONTRAVARIANT if declared_str == "contravariant"
+                    else VariancePos.INVARIANT
+                )
+                report = analyze_class_variance(
+                    cls, type_var_name=type_var, declared=declared,
+                )
+                if not report.consistent_with_declaration:
+                    self.errors.append(PSDLError(
+                        line_no=getattr(call, "lineno", 0),
+                        line_text=ast.unparse(call),
+                        message=(
+                            f"variance violation: {cls_text}'s {type_var} "
+                            f"declared {declared_str!r} but analyzer "
+                            f"found overall {report.overall.value!r}; "
+                            f"violations at: " +
+                            ", ".join(o.location for o in report.occurrences
+                                      if o.position.value != declared_str)[:120]
+                        ),
+                    ))
+                return emit_variance_check(report)
+            except Exception as e:
+                return Structural(
+                    f"verify_variance: analyzer error: {e}"
+                )
         if fname == "dispatch":
             if len(args) >= 2:
                 recv = ast.unparse(args[0])
