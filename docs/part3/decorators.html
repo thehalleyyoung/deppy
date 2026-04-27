@@ -143,7 +143,7 @@
 <span class="kw">def</span> <span class="fn">sorted_copy</span>(lst: <span class="ty">list</span>[<span class="ty">int</span>]) -> <span class="ty">list</span>[<span class="ty">int</span>]:
     <span class="kw">return</span> sorted(lst)</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify timing_example.py
+<pre><code>$ python -m deppy check timing_example.py
 <span class="st">Analyzing decorator @timing...</span>
 
 <span class="st">✓ DecoratorPreserves[@timing]</span>
@@ -279,7 +279,7 @@
 <span class="cm">#     (now returns absolute difference)</span>
 <span class="cm">#   ✓ "result is non-negative" — ADDED by decorator</span></code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify difference.py
+<pre><code>$ python -m deppy check difference.py
 <span class="st">✓ DecoratorTransforms[@make_positive]</span>
   <span class="cm">├── Original guarantee "returns the difference": TRANSFORMED</span>
   <span class="cm">│   └── Now: "returns the absolute difference"</span>
@@ -419,7 +419,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
 <span class="kw">except</span> <span class="ty">TypeError</span> <span class="kw">as</span> e:
     <span class="fn">print</span>(e)  <span class="cm"># → Attribute 'host' in class 'BadConfig' must have a type annotation</span></code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify config.py
+<pre><code>$ python -m deppy check config.py
 <span class="st">✓ FiberCheck[Config, ValidatedMeta]</span>
   <span class="cm">├── host: str = "localhost"   — annotated ✓</span>
   <span class="cm">├── port: int = 8080         — annotated ✓</span>
@@ -517,7 +517,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
         self.kelvin = kelvin
         self.celsius = kelvin - <span class="nb">273.15</span></code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify descriptors.py --verbose
+<pre><code>$ python -m deppy check descriptors.py --verbose
 <span class="st">Analyzing descriptor Validated...</span>
 
 <span class="st">✓ DescriptorProtocol[Validated]</span>
@@ -642,7 +642,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
         <span class="kw">return</span> wrapper
     <span class="kw">return</span> decorator</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify memoize.py --verbose
+<pre><code>$ python -m deppy check memoize.py --verbose
 <span class="st">Analyzing @memoize...</span>
 
 <span class="st">✓ Property 1: Cache correctness</span>
@@ -708,7 +708,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
         <span class="kw">return</span> wrapper
     <span class="kw">return</span> decorator</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify retry.py --verbose
+<pre><code>$ python -m deppy check retry.py --verbose
 <span class="st">✓ Bounded retries:</span>
   <span class="cm">├── Loop: for attempt in range(max_attempts)</span>
   <span class="cm">│   range(max_attempts) has exactly max_attempts iterations</span>
@@ -770,7 +770,7 @@ _REGISTRY: <span class="ty">dict</span>[<span class="ty">str</span>, <span class
     <span class="kw">def</span> <span class="fn">perimeter</span>(self) -> <span class="ty">float</span>:
         <span class="kw">return</span> <span class="nb">2</span> * (self.width + self.height)</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify shapes.py
+<pre><code>$ python -m deppy check shapes.py
 <span class="st">✓ ABCMeta completeness: Rectangle implements all abstract methods</span>
   <span class="cm">├── area: implemented ✓</span>
   <span class="cm">│   └── "returns non-negative": w > 0 ∧ h > 0 → w×h > 0 ≥ 0  Z3 ✅</span>

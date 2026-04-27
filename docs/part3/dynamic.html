@@ -164,7 +164,7 @@
     <span class="cm">#   b ≠ 0              (narrowed by conditional)</span>
     <span class="kw">return</span> a / b  <span class="cm"># safe: types verified, no ZeroDivisionError</span></code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify safe_divide.py --show-narrowing
+<pre><code>$ python -m deppy check safe_divide.py --verbose
 <span class="st">Analyzing safe_divide...</span>
 
 <span class="st">Type narrowing trace:</span>
@@ -231,7 +231,7 @@
             <span class="cm"># narrowed: shape : Triangle, b = shape.base, h = shape.height</span>
             <span class="kw">return</span> <span class="nb">0.5</span> * b * h</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify area.py --show-narrowing
+<pre><code>$ python -m deppy check area.py --verbose
 <span class="st">Analyzing area(shape: Shape)...</span>
 
 <span class="st">Pattern matching exhaustiveness:</span>
@@ -292,7 +292,7 @@
     )
     <span class="kw">return</span> result</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify gradual.py
+<pre><code>$ python -m deppy check gradual.py
 <span class="st">Analyzing scale_values...</span>
 
 <span class="st">Trust boundary at legacy_compute:</span>
@@ -373,7 +373,7 @@
     items = [stringify(item) <span class="kw">for</span> item <span class="kw">in</span> value]
     <span class="kw">return</span> <span class="st">"["</span> + <span class="st">", "</span>.join(items) + <span class="st">"]"</span></code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify stringify.py --show-narrowing
+<pre><code>$ python -m deppy check stringify.py --verbose
 <span class="st">Type narrowing for stringify(value: int|float|str|list|None):</span>
 
   <span class="cm">Step 1: value is None → True</span>
@@ -444,7 +444,7 @@
         <span class="kw">return</span> [s.upper() <span class="kw">for</span> s <span class="kw">in</span> data]  <span class="cm"># .upper() valid on str ✓</span>
     <span class="kw">return</span> [str(item) <span class="kw">for</span> item <span class="kw">in</span> data]</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify typeguard.py
+<pre><code>$ python -m deppy check typeguard.py
 <span class="st">✓ TypeGuard[is_string_list]: sound narrowing</span>
   <span class="cm">├── True branch: val : list[str]</span>
   <span class="cm">│   └── all(isinstance(item, str)) → correct narrowing ✓</span>
@@ -514,7 +514,7 @@
         email=data[<span class="st">"email"</span>],
     )</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify json_parse.py --verbose
+<pre><code>$ python -m deppy check json_parse.py --verbose
 <span class="st">Analyzing parse_user...</span>
 
 <span class="st">Trust boundary: json.loads(raw_json) → Any</span>
@@ -639,7 +639,7 @@ Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></co
     ts = datetime.datetime.now().isoformat()
     print(<span class="st">f"[{ts}] {message}"</span>)</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify monkey_patch.py --verbose
+<pre><code>$ python -m deppy check monkey_patch.py --verbose
 <span class="st">Analyzing @safe_patch(Logger, "log")...</span>
 
 <span class="st">Transport check: Logger.log → timestamped_log</span>
@@ -675,7 +675,7 @@ Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></co
     print(<span class="st">f"[LOG] {message}"</span>)
     <span class="kw">return</span> <span class="nb">True</span></code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify broken_patch.py
+<pre><code>$ python -m deppy check broken_patch.py
 <span class="cm">✗ @safe_patch(Logger, "log"): TRANSPORT FAILED</span>
 
   <span class="cm">├── Signature mismatch:</span>

@@ -142,7 +142,9 @@
 
 
 <span class="dc">@spec</span>(
-    guarantees=[<span class="st">"distance is non-negative"</span>],
+    <span class="cm"># guarantees must be Python expressions / lean: / smt: —</span>
+    <span class="cm"># NL strings are rejected by ``_validate_formal``.</span>
+    guarantees=[<span class="st">"Point.distance(p, q) >= 0"</span>],
     axioms=[<span class="st">"dist_nonneg"</span>],
 )
 <span class="kw">class</span> <span class="ty">Point</span>:

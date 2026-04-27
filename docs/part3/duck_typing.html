@@ -290,7 +290,7 @@ print(mp.details())
 
 <p>Deppy's verification output:</p>
 
-<pre><code>$ python -m deppy.pipeline.run_verify ring_buffer.py --show-paths
+<pre><code>$ python -m deppy check ring_buffer.py --verbose
 <span class="st">Analyzing RingBuffer...</span>
 
 <span class="st">✓ DuckPath[RingBuffer[T], IterableProto[T]]</span>
@@ -390,7 +390,7 @@ print(mp.details())
             <span class="kw">raise</span> <span class="ty">ValueError</span>(<span class="st">"I/O operation on closed file"</span>)
         self._buffer.append(msg)</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify log_capture.py --show-paths
+<pre><code>$ python -m deppy check log_capture.py --verbose
 <span class="st">✓ DuckPath[LogCapture, ReadableFile]</span>
   <span class="cm">├── read:     (self, int=-1) → str  ≤  (self, int=-1) → str|bytes</span>
   <span class="cm">│   ├── Param compat: int ≡ int  ✓</span>
@@ -504,27 +504,35 @@ print(mp.details())
   </tbody>
 </table>
 
-<pre><code><span class="cm"># Deppy's Z3 encoding of variance checks</span>
-<span class="kw">from</span> deppy.z3_bridge <span class="kw">import</span> encode_type, is_subtype
+<pre><code><span class="cm"># Deppy's actual variance analyzer — pure Python via inspect.</span>
+<span class="cm"># No Z3 needed: variance positions follow PEP 484 rules and</span>
+<span class="cm"># compose under a meet lattice (covariant ⊓ contravariant = invariant).</span>
+<span class="kw">from</span> deppy.proofs.psdl_variance <span class="kw">import</span> (
+    analyze_class_variance, VariancePos, emit_variance_check,
+)
 
-<span class="kw">def</span> <span class="fn">check_param_compatibility</span>(
-    cls_sig: <span class="ty">Signature</span>, proto_sig: <span class="ty">Signature</span>
-) -> <span class="ty">VarianceProof</span>:
-    <span class="st">"""Check that cls parameters are contravariant-compatible."""</span>
-    solver = z3.Solver()
+<span class="kw">def</span> <span class="fn">check_param_compatibility</span>(cls: <span class="ty">type</span>, type_var: <span class="ty">str</span>):
+    <span class="st">"""Walk cls's methods/fields, tag each occurrence, take the meet."""</span>
+    report = <span class="fn">analyze_class_variance</span>(
+        cls,
+        type_var_name=type_var,
+        declared=VariancePos.COVARIANT,
+    )
+    <span class="cm"># Method return types ↦ covariant; method params ↦ contravariant;</span>
+    <span class="cm"># mutable fields ↦ invariant; frozen fields ↦ covariant.</span>
+    <span class="kw">if</span> report.consistent_with_declaration:
+        <span class="kw">return</span> <span class="fn">emit_variance_check</span>(report)  <span class="cm"># kernel ProofTerm</span>
+    <span class="kw">raise</span> <span class="fn">ValueError</span>(
+        <span class="st">f"variance violations: </span>{report.occurrences}<span class="st">"</span>
+    )</code></pre>
 
-    <span class="kw">for</span> p_param, c_param <span class="kw">in</span> zip(proto_sig.params, cls_sig.params):
-        p_type = encode_type(p_param.annotation)
-        c_type = encode_type(c_param.annotation)
-
-        <span class="cm"># Contravariant: proto_type ≤ cls_type</span>
-        <span class="cm"># (class accepts at least what protocol requires)</span>
-        solver.add(is_subtype(p_type, c_type))
-
-    <span class="kw">if</span> solver.check() == z3.sat:
-        <span class="kw">return</span> VarianceProof(status=<span class="st">"PROVEN"</span>, model=solver.model())
-    <span class="kw">else</span>:
-        <span class="kw">return</span> VarianceProof(status=<span class="st">"FAILED"</span>, core=solver.unsat_core())</code></pre>
+<p>
+  The analyzer is invoked at proof time via the PSDL primitive
+  <code>verify_variance(Cls, type_var=..., declared=...)</code>, which
+  emits a <code>VarianceCheck</code> ProofTerm into the kernel.
+  Soundness is established at the meta-level in
+  <code>metatheory/Deppy.lean §32</code>.
+</p>
 
 <h2>Dynamic Attribute Resolution</h2>
 
@@ -615,7 +623,7 @@ print(mp.details())
 
     <span class="cm"># missing render_width entirely!</span></code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify bad_element.py --show-paths
+<pre><code>$ python -m deppy check bad_element.py --verbose
 <span class="cm">✗ DuckPath[BadElement, Renderable]: INVALID</span>
 
   <span class="cm">├── render: SIGNATURE MISMATCH</span>
@@ -724,7 +732,7 @@ print(mp.details())
             <span class="kw">return</span> <span class="nb">NotImplemented</span>
         <span class="kw">return</span> self._k == other._k</code></pre>
 
-<pre><code>$ python -m deppy.pipeline.run_verify temperature.py --show-paths --verbose
+<pre><code>$ python -m deppy check temperature.py --verbose
 <span class="st">✓ DuckPath[Temperature, Comparable]</span>
   <span class="cm">├── __le__: (self: Temperature, other: Temperature) → bool</span>
   <span class="cm">│   ├── Param 'other': Temperature ≤ Comparable</span>

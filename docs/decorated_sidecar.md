@@ -39,7 +39,10 @@ def dist_nonneg():
 
 
 @spec(
-    guarantees=["distance is non-negative"],
+    # guarantees must be Python expressions, ``lean: ...``, or
+    # ``smt: ...`` — natural language is rejected by
+    # ``_validate_formal`` in ``deppy/proofs/sidecar_decorators.py``.
+    guarantees=["Point.distance(p, q) >= 0"],
     axioms=["dist_nonneg"],
 )
 class Point:
