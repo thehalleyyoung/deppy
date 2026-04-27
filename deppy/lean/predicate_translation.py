@@ -54,6 +54,7 @@ def translate(
     *,
     binders: Optional[dict[str, str]] = None,
     python_types: Optional[dict[str, str]] = None,
+    known_functions: Optional[set[str]] = None,
 ) -> TranslationResult:
     """Translate a Python predicate to Lean.
 
@@ -104,6 +105,7 @@ def translate(
 
     translator = _Translator(
         binders=binders, python_types=python_types,
+        known_functions=known_functions,
     )
     try:
         text = translator.visit(tree.body)
@@ -146,9 +148,19 @@ class _Translator:
     def __init__(
         self, binders: dict[str, str],
         python_types: Optional[dict[str, str]] = None,
+        known_functions: Optional[set[str]] = None,
     ) -> None:
         self.binders = binders
         self.python_types = python_types or {}
+        # Names of user-defined functions whose Lean translations
+        # are in scope.  When the predicate translator encounters a
+        # call to one of these, it emits the call as a concrete
+        # Lean expression (``(funcname args)``) rather than an
+        # opaque Prop axiom.  This is required for @implies
+        # post-conditions like ``result >= 0`` (which substitutes
+        # to ``(my_fn x) >= 0``) to translate to a real Lean
+        # comparison rather than ``Prop = Int`` (a type error).
+        self.known_functions = set(known_functions or ())
         self.imports: list[str] = []
         self.aux_decls: list[str] = []
         self.exact: bool = True
@@ -355,6 +367,21 @@ class _Translator:
                 "hasattr(...) translated as opaque Prop"
             )
             return self._opaque_call(node)
+
+        # Known user-defined function — emit a concrete Lean call
+        # (the function's translation is in the certificate, so the
+        # call typechecks against its signature).  This is the fix
+        # for hole 8: previously every user-function call became
+        # an opaque ``deppy_pred_*`` axiom which broke equalities
+        # / inequalities (Prop vs Int type mismatch) and forced
+        # the @implies theorem to use ``sorry``.
+        if name in self.known_functions:
+            arg_texts: list[str] = []
+            for arg in node.args:
+                arg_texts.append(self.visit(arg))
+            if not arg_texts:
+                return f"({name})"
+            return "(" + name + " " + " ".join(arg_texts) + ")"
 
         # Other calls — opaque.
         self.exact = False

@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- Sidebar -->
 <button class="menu-toggle">☰</button>
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -45,12 +44,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="../part3/index.html">Overview</a></li>
       <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="../part4/index.html">Overview</a></li>
       <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -60,21 +63,23 @@
       <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="../part5/cech.html">Čech Decomposition</a></li>
       <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
-      <li><a href="index.html" class="active">Overview</a></li>
-      <li><a href="separation.html">Separation Logic</a></li>
-      <li><a href="references.html">Mutable References</a></li>
-      <li><a href="arrays.html">Arrays</a></li>
-      <li><a href="threading.html">Threading &amp; GIL</a></li>
-      <li><a href="async.html">Async / Await</a></li>
+      <li><a href="../part6/index.html" class="active">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
 
       <li><span class="section-title">Under the Hood</span></li>
       <li><a href="../under_the_hood/index.html">Overview</a></li>
       <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
-    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
-    <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
     </ul>
   </nav>
 </aside>
@@ -142,17 +147,20 @@
     <p>
       Everything in Python is an object on the heap. Every variable is a reference. Every
       assignment is a pointer copy. This makes Python wonderfully flexible — and
-      fiendishly hard to reason about formally. In this part we bring <strong>separation
-      logic</strong> to Python so that you can prove properties of mutable state,
-      concurrent threads, and asynchronous tasks with the same rigour we applied to pure
-      functions in Parts&nbsp;1–5.
+      fiendishly hard to reason about formally. In this part we bring two complementary
+      systems to bear: the <strong>cubical heap</strong> (Deppy's native model) and
+      classical <strong>separation logic</strong> (the framework Pulse and Iris use).
+      The two coexist; they describe the same property surface from different angles.
     </p>
 
     <div class="note">
-      This part mirrors the "Pulse" chapters in the F* tutorial but adapts every concept
-      to Python's memory model — reference counting, the GIL, <code>asyncio</code>, and
-      dynamic typing. Where Pulse invents a new language, Deppy works <em>inside</em>
-      existing Python with decorators and a Z3-backed proof engine.
+      <strong>Two heap models, one verifier.</strong> The cubical heap (Chapter 6.1)
+      models mutation as <em>paths in a world category</em>: each mutation bumps a
+      global epoch, aliases are <code>DuckPath</code>s at the cell level, reads after
+      mutations require <code>TransportProof</code>. The separation-logic chapter
+      (6.2) presents the older points-to / frame-rule machinery and contrasts it
+      with Pulse's separating conjunction. The remaining chapters apply the
+      cubical heap to references, arrays, threading, and async.
     </div>
 
     <!-- ─── Python's Memory Model ─── -->
@@ -300,7 +308,7 @@ threads = [threading.<span class="fn">Thread</span>(target=bump) <span class="kw
     <p>
       The body of <code>incr</code> is ordinary Python. The decorators express the
       contract in separation logic, and Deppy verifies that the implementation
-      satisfies the contract at import time (or via <code>deppy check</code>).
+      satisfies the contract at import time (or via <code>python -m deppy.pipeline.run_verify</code>).
     </p>
 
     <!-- ─── Road Map ─── -->
@@ -309,41 +317,47 @@ threads = [threading.<span class="fn">Thread</span>(target=bump) <span class="kw
 
     <table>
       <thead>
-        <tr><th>Chapter</th><th>Topic</th><th>F* Parallel</th></tr>
+        <tr><th>Chapter</th><th>Topic</th><th>Pulse parallel</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td><a href="separation.html">6.1</a></td>
-          <td><strong>Separation Logic Basics</strong> — SLProp, pts_to, ★, frame rule</td>
+          <td><a href="cubical_heap.html">6.1</a></td>
+          <td><strong>The Cubical Heap</strong> — World, epochs, EffectSequence, alias DuckPaths, TransportProof</td>
+          <td><em>No equivalent</em> (Pulse uses ★)</td>
+        </tr>
+        <tr>
+          <td><a href="separation.html">6.2</a></td>
+          <td><strong>Separation Logic (vs Pulse)</strong> — SLProp, pts_to, ★, frame rule, side-by-side comparison with cubical</td>
           <td>Pulse Ch. 1</td>
         </tr>
         <tr>
-          <td><a href="references.html">6.2</a></td>
-          <td><strong>Mutable References</strong> — aliasing, ownership, fractional permissions</td>
+          <td><a href="references.html">6.3</a></td>
+          <td><strong>Mutable References</strong> — aliasing as DuckPath, fractional permissions in cubical form</td>
           <td>Pulse Ch. 2</td>
         </tr>
         <tr>
-          <td><a href="arrays.html">6.3</a></td>
+          <td><a href="arrays.html">6.4</a></td>
           <td><strong>Arrays</strong> — Python lists, bounds proofs, NumPy sidecars</td>
           <td>Pulse Ch. 3</td>
         </tr>
         <tr>
-          <td><a href="threading.html">6.4</a></td>
-          <td><strong>Threading &amp; GIL</strong> — locks, spin locks, race-freedom proofs</td>
+          <td><a href="threading.html">6.5</a></td>
+          <td><strong>Threading &amp; GIL</strong> — runtime <code>Lock(invariant=…)</code>, race-freedom proofs</td>
           <td><em>No equivalent</em></td>
         </tr>
         <tr>
-          <td><a href="async.html">6.5</a></td>
-          <td><strong>Async / Await</strong> — event loops, coroutine proofs, structured concurrency</td>
+          <td><a href="async.html">6.6</a></td>
+          <td><strong>Async / Await</strong> — event loops, coroutine proofs as coalgebras, <code>@async_requires</code></td>
           <td><em>No equivalent</em></td>
         </tr>
       </tbody>
     </table>
 
     <div class="tip">
-      Chapters 6.4 and 6.5 are <strong>unique to Deppy</strong>. They have no direct
-      counterpart in the F* tutorial because Python's concurrency model (GIL + asyncio)
-      is fundamentally different from the extracted C code that Pulse targets.
+      Chapters 6.5 and 6.6 (threading + async) are <strong>unique to Deppy</strong>.
+      They have no direct counterpart in the F* tutorial because Python's concurrency
+      model (GIL + asyncio) is fundamentally different from the extracted C code
+      that Pulse targets.
     </div>
 
     <!-- ─── Prerequisites ─── -->
@@ -362,14 +376,72 @@ threads = [threading.<span class="fn">Thread</span>(target=bump) <span class="kw
     </p>
 
     <!-- ─── Comparison with Pulse ─── -->
-    <h2>Comparison with F*'s Pulse</h2>
+    <h2>Cubical Heap vs Pulse: The Big Picture</h2>
     <p>
-      Pulse is a <em>separate DSL</em> embedded in F* for writing verified low-level
-      code that extracts to C. Deppy takes a different approach:
+      Pulse (Microsoft Research's concurrent separation-logic verifier built on
+      F<sup>★</sup>) is the best-known production tool in the separation-logic
+      tradition. Deppy's cubical heap reaches similar soundness via a different
+      mathematical route. Both are honest, both are sound; they just slice the
+      problem differently.
     </p>
+
+    <table>
+      <thead>
+        <tr><th>Concept</th><th>Pulse (separation logic)</th><th>Deppy (cubical / HoTT)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Heap composition</td>
+          <td><code>★</code> (separating conjunction)</td>
+          <td><code>PathComp</code> of world-paths</td>
+        </tr>
+        <tr>
+          <td>Aliasing</td>
+          <td>Fractional permissions</td>
+          <td><code>DuckPath</code> at cell level</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Frame rule + ownership transfer</td>
+          <td><code>EffectWitness("mutate:X@N")</code></td>
+        </tr>
+        <tr>
+          <td>Read after mutation</td>
+          <td>Permission-tracked</td>
+          <td><code>TransportProof</code> along path</td>
+        </tr>
+        <tr>
+          <td>Atomic invariants</td>
+          <td><code>with_invariants</code></td>
+          <td><code>Cocycle</code> over shared invariants</td>
+        </tr>
+        <tr>
+          <td>Concurrency at the kernel</td>
+          <td>Full atomics + locks</td>
+          <td>(Honest) Deppy doesn't model concurrency at the kernel level — uses runtime <code>deppy.concurrency.Lock</code> instead</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Pulse's frame rule is an arrow you draw <em>around</em> a Hoare triple;
+      Deppy's <code>PathComp</code> is an arrow you compose <em>through</em>
+      a sequence of effects. Pulse forbids what it cannot prove disjoint;
+      Deppy admits everything but forces transport when a proof is reused
+      across mutations. The two systems are dual, in a precise category-theoretic
+      sense.
+    </p>
+
+    <p>
+      Below: the same example expressed in both systems. The Pulse version
+      uses points-to and the frame rule; the Deppy version emits an
+      <code>EffectWitness</code> on the cell and lets the kernel sequence
+      it through <code>PathComp</code>.
+    </p>
+
     <div class="compare">
       <div>
-        <h4>Pulse (F*)</h4>
+        <h4>Pulse (F<sup>★</sup>)</h4>
 <pre><code><span class="cm">(* Pulse syntax *)</span>
 <span class="kw">fn</span> <span class="fn">incr</span> (x: ref int)
   <span class="kw">requires</span> pts_to x <span class="st">'i'</span>
@@ -380,27 +452,33 @@ threads = [threading.<span class="fn">Thread</span>(target=bump) <span class="kw
 }</code></pre>
       </div>
       <div>
-        <h4>Deppy (Python)</h4>
-<pre><code><span class="cm"># Deppy syntax</span>
-<span class="dc">@requires</span>(pts_to(x, <span class="st">'i'</span>))
-<span class="dc">@ensures</span>(pts_to(x, <span class="st">'i+1'</span>))
-<span class="kw">def</span> <span class="fn">incr</span>(x: <span class="ty">Ref</span>[<span class="ty">int</span>]):
-    x.value += <span class="nb">1</span></code></pre>
+        <h4>Deppy (cubical, via PSDL)</h4>
+<pre><code><span class="cm"># PSDL inside @verify / @psdl_proof</span>
+<span class="cm"># or inside a .deppy verify block</span>
+<span class="kw">def</span> <span class="fn">push</span>(xs):
+    xs.append(<span class="nb">1</span>)
+<span class="cm"># compile_psdl emits:</span>
+<span class="cm">#   EffectWitness(mutate:xs.append@epoch1, Refl)</span>
+<span class="cm"># final_epoch == 1; effect_sequence == [(2, 'mutate', 'xs.append')]</span></code></pre>
       </div>
     </div>
 
     <p>
-      Key differences:
+      Key differences from Pulse:
     </p>
     <ul>
       <li><strong>No new syntax</strong> — Deppy specifications are valid Python
           decorators and type annotations.</li>
-      <li><strong>GIL-aware</strong> — Deppy's concurrency model understands the
-          GIL and can exploit its guarantees.</li>
-      <li><strong>Async-native</strong> — built-in support for <code>asyncio</code>,
-          coroutines, and structured concurrency.</li>
-      <li><strong>Dynamic types</strong> — Deppy handles Python's gradual typing
-          via the cubical type theory from Part 5.</li>
+      <li><strong>Aliasing is a first-class path</strong>, not a permission
+          fraction — Python idioms (<code>b = a; a.append(…)</code>) compile
+          unmodified.</li>
+      <li><strong>GIL-aware</strong> — Deppy's runtime concurrency layer
+          (<code>deppy.concurrency.Lock</code>) understands the GIL. The
+          kernel itself does not model concurrency; Lock is enforced at
+          runtime via invariant checks.</li>
+      <li><strong>Async-native</strong> — built-in support for <code>asyncio</code>
+          coroutines as coalgebras (Part 3.4) and the
+          <code>deppy.async_verify</code> contracts (Part 6.6).</li>
     </ul>
 
     <!-- ─── Key Concepts Preview ─── -->

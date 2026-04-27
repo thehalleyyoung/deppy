@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- Sidebar -->
 <button class="menu-toggle">☰</button>
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -45,12 +44,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="../part3/index.html">Overview</a></li>
       <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="../part4/index.html">Overview</a></li>
       <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -60,33 +63,101 @@
       <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="../part5/cech.html">Čech Decomposition</a></li>
       <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
-      <li><a href="index.html">Overview</a></li>
-      <li><a href="separation.html" class="active">Separation Logic</a></li>
-      <li><a href="references.html">Mutable References</a></li>
-      <li><a href="arrays.html">Arrays</a></li>
-      <li><a href="threading.html">Threading &amp; GIL</a></li>
-      <li><a href="async.html">Async / Await</a></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html" class="active">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
 
       <li><span class="section-title">Under the Hood</span></li>
       <li><a href="../under_the_hood/index.html">Overview</a></li>
       <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
-    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
-    <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
     </ul>
   </nav>
 </aside>
 
 <div class="content">
   <article>
-    <h1>Chapter 6.1 — Separation Logic Basics</h1>
+    <h1>Chapter 6.2 — Separation Logic (vs Pulse)</h1>
     <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
-      Reasoning about the Python heap with disjoint ownership
+      The classical points-to + frame-rule machinery, side-by-side with the cubical heap and Pulse.
     </p>
 
     <!-- ─── Introduction ─── -->
+    <h2>Two Heap Models, One Verifier</h2>
+    <p>
+      Deppy ships with two complementary heap models. The
+      <strong>cubical heap</strong> from
+      <a href="cubical_heap.html">Chapter 6.1</a> is the native one — every
+      <code>compile_psdl</code> call uses it implicitly. This chapter
+      describes the older <strong>separation-logic</strong> primitives that
+      remain available in <code>deppy.separation</code>, and contrasts them
+      with both the cubical heap and the Pulse verifier (Microsoft Research).
+    </p>
+    <p>
+      Both systems achieve memory-safety soundness, but they slice the
+      problem differently. Pulse forbids aliasing and gets a clean frame
+      rule; Deppy's cubical model embraces aliasing as a first-class
+      <code>DuckPath</code> and pays for it with an epoch counter and
+      transport requirement.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Concept</th><th>Pulse (separation logic)</th><th>Deppy (cubical / HoTT)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Heap composition</td>
+          <td><code>★</code> (separating conjunction)</td>
+          <td><code>PathComp</code> of world-paths</td>
+        </tr>
+        <tr>
+          <td>Aliasing</td>
+          <td>Fractional permissions (forbidden by default)</td>
+          <td><code>DuckPath</code> at cell level (admitted)</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Frame rule + ownership transfer</td>
+          <td><code>EffectWitness("mutate:X@N")</code>, epoch++</td>
+        </tr>
+        <tr>
+          <td>Read after mutation</td>
+          <td>Permission-tracked</td>
+          <td><code>TransportProof</code> along path</td>
+        </tr>
+        <tr>
+          <td>Atomic invariants</td>
+          <td><code>with_invariants</code></td>
+          <td><code>Cocycle</code> over shared invariants</td>
+        </tr>
+        <tr>
+          <td>Concurrency</td>
+          <td>Full atomics + locks at kernel</td>
+          <td>Runtime-only via <code>deppy.concurrency.Lock</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      The chapter below covers the classical separation-logic primitives
+      Deppy still exposes — <code>SLProp</code>, <code>pts_to</code>,
+      <code>★</code>, <code>@requires</code> / <code>@ensures</code>. They
+      remain useful when reasoning in a Pulse-like idiom, and they
+      compose with the cubical heap (a <code>pts_to(x, v)</code> claim
+      becomes a per-cell invariant in the world).
+    </div>
+
+    <!-- ─── From Hoare to SL ─── -->
     <h2>From Hoare Logic to Separation Logic</h2>
     <p>
       Classical Hoare logic uses triples <code>{P} C {Q}</code> where <code>P</code>
@@ -544,9 +615,9 @@ Heap = ArraySort(Addr, IntSort())
 
     <!-- ─── Navigation ─── -->
     <nav class="page-nav">
-      <a href="index.html">
+      <a href="cubical_heap.html">
         <span class="label">← Previous</span>
-        <span class="title">Part 6 Overview</span>
+        <span class="title">Cubical Heap</span>
       </a>
       <a href="references.html" style="text-align:right">
         <span class="label">Next →</span>

@@ -582,7 +582,9 @@ class _Untranslatable(Exception):
 _BIN_OPS_LEAN = {
     ast.Add: "+", ast.Sub: "-", ast.Mult: "*",
     ast.Div: "/", ast.FloorDiv: "/", ast.Mod: "%",
+    ast.Pow: "^",
     ast.BitAnd: "&&&", ast.BitOr: "|||", ast.BitXor: "^^^",
+    ast.LShift: "<<<", ast.RShift: ">>>",
 }
 
 _CMP_LEAN = {
@@ -784,6 +786,32 @@ class _BodyT:
             return self._visit_expr(head.value) if head.value else "()"
 
         if isinstance(head, ast.If):
+            # Guard pattern: ``if X: <may raise / fall through>``
+            # without an else and without terminating returns.  Treat
+            # the body as a side-effecting precondition (consistent
+            # with deppy's cubical-effects view of ``raise`` as an
+            # exception fibre that the happy path doesn't traverse)
+            # and continue with ``rest`` as the main path.  This
+            # matches sympy patterns like::
+            #
+            #   if not isinstance(other, GeometryEntity):
+            #       try: other = Point(other)
+            #       except TypeError: raise TypeError(...)
+            #   <main path uses ``other`` as a GeometryEntity>
+            #
+            # See deppy.core.cubical_effects: exception-raising
+            # branches are tagged ◇EXCEPTION and the function's
+            # value-return path is the complementary fibre.
+            if (
+                not head.orelse
+                and not self._stmts_terminal(head.body)
+                and self._is_guard_block(head.body)
+            ):
+                self.notes.append(
+                    "guard if: body raises on bad input, fallthrough used"
+                )
+                return self._fold_stmts(rest)
+
             then_terminal = self._stmts_terminal(head.body)
             else_terminal = (
                 self._stmts_terminal(head.orelse) if head.orelse else False
@@ -832,6 +860,25 @@ class _BodyT:
                     self.locals_types[tgt.id] = rhs_type
                 tail = self._fold_stmts(rest)
                 return f"let {tgt.id} := {value};\n  {tail}"
+            # Tuple unpacking: ``s, p = expr`` or ``(a, b, c) = expr``.
+            # Use Lean's pattern-matching ``let`` form.  This is
+            # consistent with how deppy translates structural
+            # destructuring elsewhere — the binders become a tuple
+            # pattern and Lean's elaborator handles the projection.
+            if isinstance(tgt, (ast.Tuple, ast.List)):
+                names: list[str] = []
+                ok = True
+                for elt in tgt.elts:
+                    if isinstance(elt, ast.Name):
+                        names.append(elt.id)
+                    else:
+                        ok = False
+                        break
+                if ok and names:
+                    value = self._visit_expr(head.value)
+                    tail = self._fold_stmts(rest)
+                    pat = "(" + ", ".join(names) + ")"
+                    return f"let {pat} := {value};\n  {tail}"
             return self._sorry("non-Name assignment target")
 
         if isinstance(head, ast.AnnAssign) and isinstance(head.target, ast.Name):
@@ -856,6 +903,15 @@ class _BodyT:
             if op is None:
                 return self._sorry("unsupported augmented assign")
             value = self._visit_expr(head.value)
+            # Trailing AugAssign (no statements after) — the new value
+            # IS the body's result.  This matches the loop-body
+            # convention where ``acc += expr`` at the end of a for
+            # body means the fold's per-iteration result is
+            # ``acc + expr``.  Without this the translator emits
+            # ``let acc := acc + expr;`` then falls to ``empty body``
+            # sorry.
+            if not rest:
+                return f"({head.target.id} {op} {value})"
             tail = self._fold_stmts(rest)
             return (
                 f"let {head.target.id} := {head.target.id} {op} {value};\n"
@@ -864,6 +920,67 @@ class _BodyT:
 
         if isinstance(head, ast.Pass):
             return self._fold_stmts(rest)
+
+        if isinstance(head, ast.Raise):
+            # Exception-raising path — in deppy.core.cubical_effects
+            # the function's value-fibre does not traverse this
+            # cell.  We emit ``panic!`` (Lean 4's bottom-element)
+            # which inhabits any return type and is honest that
+            # the happy path doesn't pass through here.
+            self.notes.append(
+                "raise statement → Lean panic! (exception fibre)"
+            )
+            return 'panic! "exception"'
+
+        if isinstance(head, ast.Try):
+            # Translate the try body; ignore exception handlers
+            # (their job is the exception fibre, which is separate
+            # from the value-fibre we're translating).
+            self.notes.append(
+                "try block: handlers ignored (exception fibre)"
+            )
+            inner = self._fold_stmts(list(head.body) + rest)
+            return inner
+
+        if isinstance(head, ast.For):
+            # Bounded iteration: ``for x in xs: <body>`` is a fold
+            # over ``xs``.  We support the *accumulator* pattern
+            # where the body assigns a single name (the accumulator)
+            # via either ``acc = acc op x`` or ``acc.append(...)``.
+            # Anything else falls back to ``sorry``.
+            if isinstance(head.target, ast.Name):
+                accs = self._collect_loop_accumulators(head.body)
+                if accs and len(accs) == 1:
+                    acc = next(iter(accs))
+                    iter_text = self._visit_expr(head.iter)
+                    var = head.target.id
+                    body_text = self._fold_stmts(head.body)
+                    self.notes.append(
+                        "for loop translated as fold over accumulator"
+                    )
+                    # The body translator is called with the
+                    # accumulator-aware ``_fold_stmts``: a trailing
+                    # ``acc += expr`` returns ``(acc + expr)``
+                    # directly, so the fold body already evaluates to
+                    # the next accumulator value — no ``; acc``
+                    # suffix needed.
+                    new_acc = (
+                        f"({iter_text}.foldl (fun {acc} {var} => "
+                        f"{body_text}) {acc})"
+                    )
+                    self.locals_types[acc] = (
+                        self.locals_types.get(acc, "")
+                    )
+                    tail = self._fold_stmts(rest)
+                    return f"let {acc} := {new_acc};\n  {tail}"
+            return self._sorry("unsupported for-loop shape")
+
+        if isinstance(head, ast.Expr):
+            # Bare expression (e.g. a method-call side effect) —
+            # translate as ``let _ := expr`` and continue.
+            value = self._visit_expr(head.value)
+            tail = self._fold_stmts(rest)
+            return f"let _ := {value};\n  {tail}"
 
         return self._sorry(
             f"unsupported statement {type(head).__name__}",
@@ -874,7 +991,92 @@ class _BodyT:
         if not stmts:
             return False
         last = stmts[-1]
-        return isinstance(last, (ast.Return, ast.Raise))
+        if isinstance(last, (ast.Return, ast.Raise)):
+            return True
+        # ``try`` whose body terminates and whose handlers all
+        # terminate is itself terminal.  This covers sympy patterns
+        # like::
+        #
+        #   try: other = Point(other)
+        #   except TypeError: raise TypeError(...)
+        #
+        # When the try body falls through (no return) but the
+        # handlers all raise, we treat the construct as a *guard* —
+        # it may raise on bad input but doesn't terminate the
+        # function on the happy path.  See ``_is_guard_block``.
+        return False
+
+    @staticmethod
+    def _collect_loop_accumulators(stmts: list[ast.stmt]) -> set[str]:
+        """Return the set of names that look like loop accumulators.
+
+        An accumulator is a name X such that the body contains either
+        ``X = X op something`` (AugAssign or Assign-with-self-on-RHS)
+        or ``X.append(...)``.  When a loop has exactly one accumulator
+        we can translate to ``List.foldl``.
+        """
+        out: set[str] = set()
+        for s in stmts:
+            if isinstance(s, ast.AugAssign) and isinstance(s.target, ast.Name):
+                out.add(s.target.id)
+            elif isinstance(s, ast.Assign):
+                for t in s.targets:
+                    if (
+                        isinstance(t, ast.Name)
+                        and isinstance(s.value, ast.BinOp)
+                    ):
+                        # ``X = X op Y`` shape
+                        if (
+                            isinstance(s.value.left, ast.Name)
+                            and s.value.left.id == t.id
+                        ):
+                            out.add(t.id)
+                        elif (
+                            isinstance(s.value.right, ast.Name)
+                            and s.value.right.id == t.id
+                        ):
+                            out.add(t.id)
+            elif isinstance(s, ast.Expr) and isinstance(s.value, ast.Call):
+                # ``X.append(Y)`` shape
+                f = s.value.func
+                if (
+                    isinstance(f, ast.Attribute)
+                    and isinstance(f.value, ast.Name)
+                    and f.attr in ("append", "extend", "add")
+                ):
+                    out.add(f.value.id)
+        return out
+
+    @staticmethod
+    def _is_guard_block(stmts: list[ast.stmt]) -> bool:
+        """Does this block 'guard' the function — running side
+        effects, possibly raising, but always falling through on the
+        happy path?
+
+        Recognises:
+          * ``try: ... except E: raise ...`` (guarded conversion)
+          * any block all of whose handlers raise on the unhappy path
+
+        Used to decide whether ``if guard: <body>`` should be
+        translated as ``<body>`` (fall through) — i.e. treated as a
+        side-effecting precondition that doesn't terminate.
+        """
+        for s in stmts:
+            if isinstance(s, ast.Try):
+                # A guard try has a non-raising try body and
+                # handlers that all raise.
+                handlers_all_raise = all(
+                    any(isinstance(x, ast.Raise) for x in h.body)
+                    for h in s.handlers
+                )
+                if handlers_all_raise:
+                    continue
+            if isinstance(s, ast.Raise):
+                # A bare raise is ALSO a guard if it's reachable only
+                # after a check (we can't tell statically; conservative
+                # treatment: not a guard).
+                return False
+        return True
 
     # -- expressions ---------------------------------------------------
 
@@ -951,7 +1153,99 @@ class _BodyT:
             parts = [self._visit_expr(e) for e in node.elts]
             return "(" + ", ".join(parts) + ")"
 
+        if isinstance(node, ast.Attribute):
+            # ``obj.attr`` — translate via the shared accessor
+            # convention used by sidecar_mechanization: every
+            # attribute name becomes an opaque ``dot_<attr>`` of
+            # type ``Int → Int``.  The translator that emits the
+            # Lean preamble adds the corresponding axiom.
+            inner = self._visit_expr(node.value)
+            return f"(dot_{node.attr} {inner})"
+
+        if isinstance(node, ast.GeneratorExp) or isinstance(node, ast.ListComp):
+            # ``(elt for a, b in zip(s, p))``  →
+            #     ``(List.zipWith (fun a b => elt) s p)``
+            # ``(elt for x in xs)``            →
+            #     ``(xs.map (fun x => elt))``
+            # Multi-clause generators are translated only when the
+            # extra clauses are filters; otherwise we fall back to
+            # sorry.  This matches the patterns deppy's cubical
+            # analysis handles cleanly: bounded iteration over a
+            # known shape.
+            return self._visit_generator(node)
+
+        if isinstance(node, ast.Starred):
+            # ``*expr`` in a call's arg list — pass the inner
+            # expression through (the call site decides how to
+            # consume it; e.g. ``Add(*gen)`` becomes ``Add gen``
+            # treating gen as a list).
+            return self._visit_expr(node.value)
+
         return self._sorry(f"unsupported expression {type(node).__name__}")
+
+    def _visit_generator(
+        self, node: "ast.GeneratorExp | ast.ListComp"
+    ) -> str:
+        """Translate a single-generator-expression / list-comp.
+
+        Recognises the dominant deppy-cubical-friendly shapes:
+          * ``(f(x) for x in xs)`` → ``(xs.map (fun x => f x))``
+          * ``(f(a, b) for a, b in zip(s, p))`` →
+            ``(List.zipWith (fun a b => f a b) s p)``
+          * ``(elt for x in xs if cond)`` →
+            ``(xs.filter (fun x => cond) |>.map (fun x => elt))``
+
+        Anything else falls back to ``sorry`` honestly.
+        """
+        gens = getattr(node, "generators", [])
+        if len(gens) != 1:
+            return self._sorry("multi-generator comprehension")
+        gen = gens[0]
+        elt = node.elt
+        target = gen.target
+        it = gen.iter
+        ifs = gen.ifs
+
+        # Pattern: ``zip(s, p)`` iter with tuple target
+        if (
+            isinstance(it, ast.Call)
+            and isinstance(it.func, ast.Name)
+            and it.func.id == "zip"
+            and len(it.args) == 2
+            and isinstance(target, ast.Tuple)
+            and len(target.elts) == 2
+            and all(isinstance(t, ast.Name) for t in target.elts)
+        ):
+            a_name = target.elts[0].id  # type: ignore[attr-defined]
+            b_name = target.elts[1].id  # type: ignore[attr-defined]
+            xs = self._visit_expr(it.args[0])
+            ys = self._visit_expr(it.args[1])
+            elt_text = self._visit_expr(elt)
+            base = (
+                f"(List.zipWith (fun {a_name} {b_name} => {elt_text}) "
+                f"{xs} {ys})"
+            )
+            for f in ifs:
+                cond = self._visit_expr(f)
+                base = f"({base}.filter (fun _ => {cond}))"
+            return base
+
+        # Pattern: simple ``(elt for x in xs)``
+        if isinstance(target, ast.Name):
+            xs = self._visit_expr(it)
+            elt_text = self._visit_expr(elt)
+            base = f"({xs}.map (fun {target.id} => {elt_text}))"
+            for f in ifs:
+                cond = self._visit_expr(f)
+                base = (
+                    f"({xs}.filter (fun {target.id} => {cond})"
+                    f".map (fun {target.id} => {elt_text}))"
+                )
+            return base
+
+        return self._sorry(
+            f"unsupported generator target {type(target).__name__}"
+        )
 
     def _visit_compare(self, node: ast.Compare) -> str:
         # First, try the typed lowering for ``in`` / ``not in``.

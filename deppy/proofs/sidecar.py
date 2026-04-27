@@ -260,6 +260,9 @@ class AxiomDecl:
     statement: str              # e.g. "expand(a+b) == expand(a) + expand(b)"
     module: str = ""            # e.g. "sympy"
     precondition: str = ""      # optional guard
+    # AUDIT A.3 — user-supplied Lean proof (raw tactic text).
+    lean_proof: str = ""
+    lean_signature: str = ""
 
     @property
     def qualified_name(self) -> str:
@@ -298,12 +301,171 @@ class AxiomDecl:
 
 
 # ═══════════════════════════════════════════════════════════════════
+#  §2.5  FoundationDecl — a generic mathematical foundation axiom
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass
+class FoundationDecl:
+    """A foundation axiom: a generic mathematical fact (not specific to
+    any library) that we admit as part of the trust surface.
+
+    Foundations are distinguished from sidecar ``axiom``s in that an
+    axiom is a claim about a specific library function (e.g.
+    ``sympy.expand``), whereas a foundation is a general mathematical
+    truth (e.g. ``sqrt(x)**2 == x when x >= 0``) that can be used to
+    derive other claims.
+
+    The trust chain for a Lean certificate is::
+
+        foundations  ⟶  sidecar axioms  ⟶  proven theorems
+
+    Foundations are the bottom of the trust chain — they are admitted
+    without further justification.  Sidecar axioms about library
+    behaviour can either be admitted directly OR derived from
+    foundations + the library's source.  Proofs in the certificate
+    discharge claims using foundations + axioms; their bodies are real
+    Lean terms type-checked by the kernel.
+    """
+    name: str                  # e.g. "Real.sqrt_sq_nonneg"
+    statement: str             # Python-syntax claim
+    citation: str = ""         # e.g. URL or textbook reference
+    # AUDIT A.2 — user-supplied Lean proof (raw tactic text).
+    # When set, the certificate emits a real ``theorem`` with this
+    # body; when empty, the foundation is admitted as an axiom.
+    lean_proof: str = ""
+    lean_signature: str = ""   # optional Lean type override
+
+    def to_json(self) -> dict:
+        return {
+            "name": self.name,
+            "statement": self.statement,
+            "citation": self.citation,
+            "lean_proof": self.lean_proof,
+            "lean_signature": self.lean_signature,
+        }
+
+    @classmethod
+    def from_json(cls, data: dict) -> "FoundationDecl":
+        return cls(
+            name=data["name"],
+            statement=data["statement"],
+            citation=data.get("citation", ""),
+            lean_proof=data.get("lean_proof", ""),
+            lean_signature=data.get("lean_signature", ""),
+        )
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  §2.6  VerifyDecl — directly connect a function to a Lean property
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass
+class LemmaDecl:
+    """A user-defined intermediate lemma.
+
+    A lemma can be either:
+
+      * **Admitted** (no ``lean_proof`` text): treated as a sidecar
+        axiom with the given statement.
+
+      * **Proved by user-supplied Lean** (``lean_proof`` text):
+        the certificate emits a real ``theorem L : <stmt> := <proof>``
+        which Lean's kernel type-checks.  This is the escape hatch
+        for any property a human or LLM can write a Lean proof for.
+
+    The ``lean_signature`` field lets the user override deppy's
+    auto-derived Lean type for the lemma; when empty, deppy uses the
+    statement string as the Lean Prop.
+    """
+    name: str
+    statement: str = ""
+    proof: str = ""              # optional inline ``by:`` clause
+    lean_proof: str = ""         # multi-line raw Lean tactic script
+    lean_signature: str = ""     # optional Lean type override
+    lean_imports: list[str] = field(default_factory=list)  # per-lemma imports
+
+
+@dataclass
+class VerifyDecl:
+    """A code-property verification block.
+
+    ``VerifyDecl`` is the .deppy form that most directly says
+    "verify that *this* function in the library satisfies *this*
+    property, using *this* foundation, checked by deppy's kernel".
+
+    Sidecar-syntax form::
+
+        verify NAME:
+          function: <dotted path to method>           # e.g. sympy.geometry.point.Point.distance
+          property: "<Python-syntax predicate>"       # e.g. "Point.distance(p, q) >= 0"
+          via:      foundation <foundation-name>      # cites a registered foundation
+          fibration: isinstance <Type>                # optional — descent over isinstance
+          cubical:  true | false                      # optional — request cubical analysis
+
+    The certificate uses this to:
+
+      1. ``inspect.getsource`` the named function.
+      2. Translate the body via ``deppy.lean.body_translation``.
+      3. Build a deppy ``ProofTerm`` whose head cites the foundation.
+      4. Run it through ``ProofKernel.verify``.
+      5. When the kernel returns ``success=True``, emit a Lean
+         theorem whose statement is the property and whose proof
+         body documents the kernel-verified ProofTerm tree.
+
+    All five steps are existing deppy infrastructure — no
+    library-specific code.
+    """
+    name: str                                  # e.g. "dist_pythagoras_verify"
+    function: str                              # dotted path
+    property: str                              # Python predicate string
+    foundation: str = ""                       # foundation cited via ``via:``
+    fibration_type: str = ""                   # isinstance type for fibration descent
+    use_cubical: bool = False                  # request cubical analysis
+    # F9 — type annotations + requires/ensures
+    binders: dict[str, str] = field(default_factory=dict)   # e.g. {"p": "Point", "q": "Point"}
+    requires: str = ""                         # precondition (Python expr)
+    ensures: str = ""                          # postcondition (Python expr)
+    # F10 — tactic block for hard cases
+    by_lean: str = ""                          # multi-line Lean tactic script
+    # PSDL — Python-Semantic Deppy Language proof script (the
+    # *strong* proof language — Python-shaped, compiles to deppy
+    # ProofTerm + Lean tactic).
+    psdl_proof: str = ""
+    # F12 — implementation hash pinning
+    expects_sha256: str = ""                   # if non-empty, certificate fails on hash drift
+    # F14 — effect / termination / Z3 hint annotations
+    effect: str = ""                           # "pure" / "may_raise TypeError" / etc.
+    decreases: str = ""                        # well-founded measure
+    z3_binders: dict[str, str] = field(default_factory=dict)   # explicit Z3 sorts
+    # F15 — cubical / cohomology hints
+    cubical_dim: int = 0                       # request specific cubical dimension
+    cohomology_level: int = 0                  # request specific cocycle level
+    # F15 — counterexample directives
+    expecting_counterexample: bool = False     # if True, certificate fails when none found
+    notes: list[str] = field(default_factory=list)
+
+
+# ═══════════════════════════════════════════════════════════════════
 #  §3  ProofDecl — a proof about an external library function
 # ═══════════════════════════════════════════════════════════════════
 
 @dataclass
 class ProofDecl:
-    """A proof of a property about an external library function."""
+    """A proof of a property about an external library function.
+
+    The ``by_clause`` field captures the user's chosen proof tactic
+    in a generic, library-independent vocabulary.  Recognised forms:
+
+      * ``axiom <NAME>``                   — cite a sidecar axiom
+      * ``foundation <NAME>``              — cite a foundation axiom
+      * ``refl``                           — definitional equality (``rfl``)
+      * ``chain <F1>, <F2>, ...``          — transitive composition of axioms
+      * ``rewrite <F> then cite <A>``      — rewrite + axiom citation
+      * ``composition <F1> & <F2> & ...``  — conjunction (And.intro)
+
+    The first matching form is honoured; unrecognised forms produce a
+    proof body of ``sorry`` honestly admitting non-discharge.
+    """
 
     claim: str                              # human-readable claim
     target: Any | None = None               # the function (optional)
@@ -312,6 +474,11 @@ class ProofDecl:
     proof_term: ProofTerm | None = None     # direct proof term
     axiom_name: str = ""                    # prove by axiom shortcut
     axiom_module: str = ""                  # axiom module for shortcut
+    by_clause: str = ""                     # raw ``by:`` text, e.g. "chain F1, F2"
+    foundation_name: str = ""               # filled when by-form is ``foundation X``
+    chain_axioms: list[str] = field(default_factory=list)
+    rewrite_with: str = ""                  # foundation used to rewrite
+    rewrite_then_cite: str = ""             # axiom cited after rewrite
     result: VerificationResult | None = None
 
     def to_json(self) -> dict:
@@ -666,7 +833,22 @@ class SidecarModule:
         self.version = version
         self._specs: dict[str, ExternalSpec] = {}
         self._axioms: dict[str, AxiomDecl] = {}
+        self._foundations: dict[str, "FoundationDecl"] = {}
         self._proofs: list[ProofDecl] = []
+        self._verifies: list["VerifyDecl"] = []
+        self._lemmas: list["LemmaDecl"] = []
+        self._foundation_deps: dict[str, list[str]] = {}
+        self._imports: list[str] = []
+        self._symbolic_constants: dict[str, str] = {}
+        self._predicates: dict[str, str] = {}
+        # CODE-TYPES — typed signatures for code methods PSDL uses.
+        # Maps name → Lean signature string (e.g.
+        # ``"sqrt": "Int → Int"``, ``"sum_zip_sub_sq": "Point → Point → Int"``).
+        self._code_types: dict[str, str] = {}
+        # Lean import lines pulled in via top-level ``lean_imports: |``.
+        self._lean_imports: list[str] = []
+        # Lean preamble injected via top-level ``lean_preamble: |``.
+        self._lean_preamble: str = ""
         self._about_specs: list[tuple[Any, _SpecMetadata]] = []
 
     # ── loading from files ────────────────────────────────────────
@@ -757,6 +939,34 @@ class SidecarModule:
         self._specs[target_name] = es
         return es
 
+    # ── foundation registration ──────────────────────────────────
+
+    def foundation(
+        self,
+        name: str,
+        statement: str,
+        *,
+        citation: str = "",
+    ) -> FoundationDecl:
+        """Register a generic mathematical foundation axiom.
+
+        Foundations sit at the bottom of the trust chain — they are
+        admitted without further justification and used to derive
+        sidecar axioms (or close proof obligations directly).
+
+        Args:
+            name: Foundation name, e.g. ``"Real.sqrt_sq_nonneg"``.
+            statement: The mathematical statement (Python syntax).
+            citation: Optional pointer to a textbook/url.
+        """
+        f = FoundationDecl(name=name, statement=statement, citation=citation)
+        self._foundations[name] = f
+        return f
+
+    @property
+    def foundations(self) -> dict[str, FoundationDecl]:
+        return self._foundations
+
     # ── axiom registration ───────────────────────────────────────
 
     def axiom(
@@ -805,6 +1015,11 @@ class SidecarModule:
         proof_term: ProofTerm | None = None,
         by_axiom: str | None = None,
         axiom_module: str | None = None,
+        by_clause: str = "",
+        foundation_name: str = "",
+        chain_axioms: list[str] | None = None,
+        rewrite_with: str = "",
+        rewrite_then_cite: str = "",
     ) -> ProofDecl:
         """Register a proof about a library function.
 
@@ -835,6 +1050,11 @@ class SidecarModule:
             proof_term=proof_term,
             axiom_name=by_axiom or "",
             axiom_module=axiom_module or self.name,
+            by_clause=by_clause,
+            foundation_name=foundation_name,
+            chain_axioms=list(chain_axioms or []),
+            rewrite_with=rewrite_with,
+            rewrite_then_cite=rewrite_then_cite,
         )
         self._proofs.append(pd)
         return pd
@@ -1098,6 +1318,32 @@ class SidecarModule:
         """All registered proofs."""
         return list(self._proofs)
 
+    @property
+    def verifies(self) -> list["VerifyDecl"]:
+        """All registered ``verify`` blocks (code-property verifications)."""
+        return list(self._verifies)
+
+    def verify(
+        self,
+        name: str,
+        *,
+        function: str,
+        property: str,
+        foundation: str = "",
+        fibration_type: str = "",
+        use_cubical: bool = False,
+    ) -> "VerifyDecl":
+        v = VerifyDecl(
+            name=name,
+            function=function,
+            property=property,
+            foundation=foundation,
+            fibration_type=fibration_type,
+            use_cubical=use_cubical,
+        )
+        self._verifies.append(v)
+        return v
+
     def get_spec(self, name: str) -> ExternalSpec:
         """Look up a spec by target name.
 
@@ -1255,10 +1501,26 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
     version = ""
     specs: dict[str, dict] = {}
     proofs: list[dict] = []
+    foundations: list[dict] = []
+    verifies: list[dict] = []
+    lemmas: list[dict] = []                       # F13
+    imports: list[str] = []                        # F13
+    foundation_deps: dict[str, list[str]] = {}    # F11
+    symbolic_constants: dict[str, str] = {}       # symbolic constants
+    predicates: dict[str, str] = {}                # F14: custom predicates
 
-    current_block: str = ""      # "spec" or "proof"
+    current_block: str = ""      # "spec" / "proof" / "verify"
     current_key: str = ""        # e.g. "sympy.expand" or proof name
     current_data: dict = {}
+    # AUDIT 1.13 — multi-line ``by_lean: |`` collector.
+    in_pipe_block: str = ""      # "by_lean" or "" when not collecting
+    pipe_indent: int = 0
+    pipe_lines: list[str] = []
+
+    # CODE-TYPES / lean_imports / lean_preamble top-level collectors.
+    _top_code_types_collected: dict[str, str] = {}
+    _top_lean_imports_collected: list[str] = []
+    _top_lean_preamble_collected: list[str] = [""]   # boxed for closure write
 
     def _flush() -> None:
         nonlocal current_block, current_key, current_data
@@ -1266,12 +1528,52 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
             specs[current_key] = dict(current_data)
         elif current_block == "proof" and current_key:
             proofs.append({"name": current_key, **current_data})
+        elif current_block == "verify" and current_key:
+            verifies.append({"name": current_key, **current_data})
+        elif current_block == "lemma" and current_key:
+            lemmas.append({"name": current_key, **current_data})
         current_block = ""
         current_key = ""
         current_data = {}
 
     for raw_line in lines:
         line = raw_line.strip()
+
+        # AUDIT 1.13 — multi-line ``by_lean: |`` collector.
+        # If we're in a pipe block, accumulate indented lines until
+        # we hit a less-indented (or empty) line or a new directive.
+        if in_pipe_block:
+            indent = len(raw_line) - len(raw_line.lstrip())
+            if not line:
+                pipe_lines.append("")
+                continue
+            if indent > pipe_indent:
+                pipe_lines.append(raw_line[pipe_indent + 2:])
+                continue
+            # End of pipe block.
+            collected = "\n".join(pipe_lines).rstrip()
+            if in_pipe_block == "_top_code_types":
+                # Parse each line as ``name: signature``.
+                for cl in collected.splitlines():
+                    cl = cl.strip()
+                    if not cl or cl.startswith("--") or cl.startswith("#"):
+                        continue
+                    if ":" in cl:
+                        n, sig = cl.split(":", 1)
+                        # Stored on the top-level ``_top_collected``
+                        # dict for post-loop transfer.
+                        _top_code_types_collected[n.strip()] = sig.strip()
+            elif in_pipe_block == "_top_lean_imports":
+                _top_lean_imports_collected.extend(
+                    l.strip() for l in collected.splitlines()
+                    if l.strip()
+                )
+            elif in_pipe_block == "_top_lean_preamble":
+                _top_lean_preamble_collected[0] = collected
+            else:
+                current_data[in_pipe_block] = collected
+            in_pipe_block = ""
+            pipe_lines = []
 
         # Skip comments and blank lines
         if not line or line.startswith("#"):
@@ -1283,6 +1585,113 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
             continue
         if line.startswith("version:"):
             version = line.split(":", 1)[1].strip().strip('"').strip("'")
+            continue
+
+        # Top-level ``foundation NAME: "<statement>" [@ citation]``
+        m_found = re.match(
+            r"^foundation\s+([\w.]+)\s*:\s*[\"'](.+?)[\"']\s*(?:@\s*(.+))?$",
+            line,
+        )
+        if m_found:
+            _flush()
+            foundations.append({
+                "name": m_found.group(1),
+                "statement": m_found.group(2),
+                "citation": (m_found.group(3) or "").strip().strip('"').strip("'"),
+            })
+            continue
+
+        # F11 — Foundation dependencies:
+        # ``foundation_deps NAME: F1, F2, ...``
+        m_deps = re.match(
+            r"^foundation_deps\s+([\w.]+)\s*:\s*(.+)$", line,
+        )
+        if m_deps:
+            _flush()
+            foundation_deps[m_deps.group(1)] = [
+                d.strip() for d in m_deps.group(2).split(",") if d.strip()
+            ]
+            continue
+
+        # F13 — Imports:
+        # ``import other.deppy``
+        m_imp = re.match(r"^import\s+(\S+)\s*$", line)
+        if m_imp:
+            _flush()
+            imports.append(m_imp.group(1))
+            continue
+
+        # F14 — Custom predicate declaration:
+        # ``predicate NAME: "<body>"``
+        m_pred = re.match(
+            r'^predicate\s+([\w]+)\s*:\s*[\"\'](.+?)[\"\']\s*$', line,
+        )
+        if m_pred:
+            _flush()
+            predicates[m_pred.group(1)] = m_pred.group(2)
+            continue
+
+        # Symbolic constant: ``constant NAME: "<expr>"``
+        m_const = re.match(
+            r'^constant\s+([\w]+)\s*:\s*[\"\'](.+?)[\"\']\s*$', line,
+        )
+        if m_const:
+            _flush()
+            symbolic_constants[m_const.group(1)] = m_const.group(2)
+            continue
+
+        # F13 — Lemma block: ``lemma NAME:``
+        m_lemma = re.match(r"^lemma\s+([\w.]+)\s*:\s*$", line)
+        if m_lemma:
+            _flush()
+            current_block = "lemma"
+            current_key = m_lemma.group(1)
+            current_data = {}
+            continue
+
+        # CODE-TYPES top-level pipe block:
+        #   code_types: |
+        #     sqrt: Int → Int
+        #     sum_zip_sub_sq: Point → Point → Int
+        if re.match(r"^code_types\s*:\s*\|\s*$", line):
+            _flush()
+            in_pipe_block = "_top_code_types"
+            pipe_indent = len(raw_line) - len(raw_line.lstrip())
+            pipe_lines = []
+            continue
+        if re.match(r"^lean_imports\s*:\s*\|\s*$", line):
+            _flush()
+            in_pipe_block = "_top_lean_imports"
+            pipe_indent = len(raw_line) - len(raw_line.lstrip())
+            pipe_lines = []
+            continue
+        if re.match(r"^lean_preamble\s*:\s*\|\s*$", line):
+            _flush()
+            in_pipe_block = "_top_lean_preamble"
+            pipe_indent = len(raw_line) - len(raw_line.lstrip())
+            pipe_lines = []
+            continue
+
+        # Top-level ``axiom NAME: "<statement>"`` outside any spec block —
+        # standalone library axiom (e.g. for libraries with no enclosing
+        # spec).  When inside a ``spec`` block we still match the
+        # spec-scoped form below.
+        m_top_ax = re.match(
+            r"^axiom\s+([\w]+)\s*:\s*[\"'](.+?)[\"']\s*$", line
+        )
+        if m_top_ax and not current_block:
+            _flush()
+            # Stash without a spec target — the post-pass attaches it
+            # to the most-recent spec target if available, else to a
+            # synthetic ``__module__`` target.
+            specs.setdefault("__module__", {
+                "guarantees": [],
+                "axioms": [],
+                "_implicit": True,
+            }).setdefault("axioms", []).append({
+                "name": m_top_ax.group(1),
+                "statement": m_top_ax.group(2),
+            })
             continue
 
         # Block starts
@@ -1299,6 +1708,14 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
             _flush()
             current_block = "proof"
             current_key = m_proof.group(1)
+            current_data = {}
+            continue
+
+        m_verify = re.match(r"^verify\s+([\w.]+)\s*:\s*$", line)
+        if m_verify:
+            _flush()
+            current_block = "verify"
+            current_key = m_verify.group(1)
             current_data = {}
             continue
 
@@ -1332,6 +1749,86 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
                     current_data["target"] = val
                 elif key == "by":
                     current_data["by"] = val
+                elif key == "function" and current_block == "verify":
+                    current_data["function"] = val
+                elif key == "property" and current_block == "verify":
+                    current_data["property"] = val
+                elif key == "via" and current_block == "verify":
+                    # ``via: foundation NAME`` or ``via: kernel.derive``
+                    current_data["via"] = val
+                elif key == "fibration" and current_block == "verify":
+                    current_data["fibration"] = val
+                elif key == "cubical" and current_block == "verify":
+                    current_data["cubical"] = val.lower() in ("true", "yes", "1")
+                # F9 — verify binders / requires / ensures
+                elif key == "binders" and current_block == "verify":
+                    bs: dict[str, str] = {}
+                    for tok in val.split(","):
+                        tok = tok.strip()
+                        if ":" in tok:
+                            k, v = tok.split(":", 1)
+                            bs[k.strip()] = v.strip()
+                    current_data["binders"] = bs
+                elif key == "requires" and current_block == "verify":
+                    current_data["requires"] = val
+                elif key == "ensures" and current_block == "verify":
+                    current_data["ensures"] = val
+                # F10 — single-line tactic block; multi-line via ``|``.
+                elif key == "by_lean" and current_block == "verify":
+                    if val.strip() == "|":
+                        in_pipe_block = "by_lean"
+                        pipe_indent = (
+                            len(raw_line) - len(raw_line.lstrip())
+                        )
+                        pipe_lines = []
+                    else:
+                        current_data["by_lean"] = val
+                # PSDL — Python-Semantic Deppy Language block.
+                elif key == "psdl_proof" and current_block == "verify":
+                    if val.strip() == "|":
+                        in_pipe_block = "psdl_proof"
+                        pipe_indent = (
+                            len(raw_line) - len(raw_line.lstrip())
+                        )
+                        pipe_lines = []
+                    else:
+                        current_data["psdl_proof"] = val
+                # F12 — implementation hash pinning
+                elif key == "expects_sha256" and current_block == "verify":
+                    current_data["expects_sha256"] = val
+                # F14 — effect / decreases / Z3 binders
+                elif key == "effect" and current_block == "verify":
+                    current_data["effect"] = val
+                elif key == "decreases" and current_block == "verify":
+                    current_data["decreases"] = val
+                elif key == "z3_binders" and current_block == "verify":
+                    bs2: dict[str, str] = {}
+                    for tok in val.split(","):
+                        tok = tok.strip()
+                        if ":" in tok:
+                            k, v = tok.split(":", 1)
+                            bs2[k.strip()] = v.strip()
+                    current_data["z3_binders"] = bs2
+                # F15 — cubical / cohomology / counterexample directives
+                elif key == "cubical_dim" and current_block == "verify":
+                    try:
+                        current_data["cubical_dim"] = int(val)
+                    except ValueError:
+                        current_data["cubical_dim"] = 0
+                elif key == "cohomology_level" and current_block == "verify":
+                    try:
+                        current_data["cohomology_level"] = int(val)
+                    except ValueError:
+                        current_data["cohomology_level"] = 0
+                elif key == "expecting_counterexample" and current_block == "verify":
+                    current_data["expecting_counterexample"] = (
+                        val.lower() in ("true", "yes", "1")
+                    )
+                # F13 — lemma block fields
+                elif key == "proves" and current_block == "lemma":
+                    current_data["statement"] = val
+                elif key == "by" and current_block == "lemma":
+                    current_data["proof"] = val
                 else:
                     current_data[key] = val
                 continue
@@ -1361,12 +1858,41 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
                 })
                 continue
 
+    # AUDIT 1.13 — flush any open pipe block before final flush.
+    if in_pipe_block:
+        collected = "\n".join(pipe_lines).rstrip()
+        if in_pipe_block == "_top_code_types":
+            for cl in collected.splitlines():
+                cl = cl.strip()
+                if not cl or cl.startswith("--") or cl.startswith("#"):
+                    continue
+                if ":" in cl:
+                    n, sig = cl.split(":", 1)
+                    _top_code_types_collected[n.strip()] = sig.strip()
+        elif in_pipe_block == "_top_lean_imports":
+            _top_lean_imports_collected.extend(
+                l.strip() for l in collected.splitlines() if l.strip()
+            )
+        elif in_pipe_block == "_top_lean_preamble":
+            _top_lean_preamble_collected[0] = collected
+        elif current_data is not None:
+            current_data[in_pipe_block] = collected
     _flush()
 
     # Build the SidecarModule
     sm = SidecarModule(module_name, version=version)
 
+    # Foundations first — they may be cited by proofs below.
+    for f in foundations:
+        sm.foundation(
+            f["name"],
+            f["statement"],
+            citation=f.get("citation", ""),
+        )
+
     for spec_target, spec_data in specs.items():
+        if spec_data.get("_implicit") and not spec_data.get("axioms"):
+            continue
         es = sm.spec(
             spec_target,  # use string name — target library may not be imported
             guarantee=spec_data.get("guarantees"),
@@ -1392,21 +1918,218 @@ def _parse_deppy_file(path: Path) -> SidecarModule:
             )
 
     for proof_data in proofs:
-        by_clause = proof_data.get("by", "")
+        by_clause = (proof_data.get("by", "") or "").strip()
         axiom_name = ""
         axiom_module = ""
+        foundation_name = ""
+        chain_axioms: list[str] = []
+        rewrite_with = ""
+        rewrite_then_cite = ""
+
         if by_clause.startswith("axiom "):
             axiom_name = by_clause[len("axiom "):].strip()
             axiom_module = module_name
+        elif by_clause.startswith("foundation "):
+            foundation_name = by_clause[len("foundation "):].strip()
+        elif by_clause == "refl":
+            pass  # signalled by by_clause itself
+        elif by_clause.startswith("chain "):
+            tail = by_clause[len("chain "):].strip()
+            chain_axioms = [t.strip() for t in tail.split(",") if t.strip()]
+        elif by_clause.startswith("composition "):
+            tail = by_clause[len("composition "):].strip()
+            chain_axioms = [t.strip() for t in tail.split("&") if t.strip()]
+        else:
+            # ``rewrite F then cite A`` form
+            m_rw = re.match(
+                r"^rewrite\s+([\w.]+)\s+then\s+cite\s+([\w.]+)\s*$",
+                by_clause,
+            )
+            if m_rw:
+                rewrite_with = m_rw.group(1)
+                rewrite_then_cite = m_rw.group(2)
 
         sm.prove(
             proof_data.get("name", "unnamed"),
             target=proof_data.get("target"),
             by_axiom=axiom_name or None,
             axiom_module=axiom_module or None,
+            by_clause=by_clause,
+            foundation_name=foundation_name,
+            chain_axioms=chain_axioms,
+            rewrite_with=rewrite_with,
+            rewrite_then_cite=rewrite_then_cite,
         )
 
+    # ``verify`` blocks — code-property verification.
+    for v in verifies:
+        via = (v.get("via", "") or "").strip()
+        foundation_name = ""
+        if via.startswith("foundation "):
+            foundation_name = via[len("foundation "):].strip()
+        fibration = (v.get("fibration", "") or "").strip()
+        fibration_type = ""
+        if fibration.startswith("isinstance "):
+            fibration_type = fibration[len("isinstance "):].strip()
+        decl = sm.verify(
+            v.get("name", "unnamed"),
+            function=v.get("function", "") or "",
+            property=v.get("property", "") or "",
+            foundation=foundation_name,
+            fibration_type=fibration_type,
+            use_cubical=bool(v.get("cubical", False)),
+        )
+        # F9-F15 — pull extended fields from the parsed dict.
+        decl.binders = dict(v.get("binders", {}) or {})
+        decl.requires = v.get("requires", "") or ""
+        decl.ensures = v.get("ensures", "") or ""
+        decl.by_lean = v.get("by_lean", "") or ""
+        decl.psdl_proof = v.get("psdl_proof", "") or ""
+        decl.expects_sha256 = v.get("expects_sha256", "") or ""
+        decl.effect = v.get("effect", "") or ""
+        decl.decreases = v.get("decreases", "") or ""
+        decl.z3_binders = dict(v.get("z3_binders", {}) or {})
+        decl.cubical_dim = int(v.get("cubical_dim", 0) or 0)
+        decl.cohomology_level = int(v.get("cohomology_level", 0) or 0)
+        decl.expecting_counterexample = bool(
+            v.get("expecting_counterexample", False)
+        )
+
+    # F11 — foundation dependencies
+    sm._foundation_deps = foundation_deps
+    # F13 — imports + lemmas
+    sm._imports = imports
+    for ldata in lemmas:
+        ldecl = LemmaDecl(
+            name=ldata.get("name", "unnamed"),
+            statement=ldata.get("statement", "") or "",
+            proof=ldata.get("proof", "") or "",
+        )
+        sm._lemmas.append(ldecl)
+    # F14 — symbolic constants + custom predicates
+    sm._symbolic_constants = symbolic_constants
+    sm._predicates = predicates
+    # CODE-TYPES + lean_imports + lean_preamble.
+    sm._code_types = dict(_top_code_types_collected)
+    sm._lean_imports = list(_top_lean_imports_collected)
+    sm._lean_preamble = _top_lean_preamble_collected[0]
+
+    # AUDIT 1.9 — recursive .deppy imports.  For each ``import
+    # other.deppy`` directive, load the imported file and merge
+    # its foundations / lemmas / predicates / constants into this
+    # module.  Cycles are guarded by a ``_imported_paths`` set.
+    base_dir = path.parent
+    for imp in imports:
+        try:
+            ipath = base_dir / imp
+            if not ipath.exists():
+                ipath = Path(imp)  # try absolute
+            if not ipath.exists():
+                continue
+            already = getattr(sm, "_imported_paths", None) or set()
+            if str(ipath.resolve()) in already:
+                continue
+            imported = _parse_deppy_file(ipath)
+            # Merge foundations.
+            for f_name, f in (imported.foundations or {}).items():
+                if f_name not in sm._foundations:
+                    sm._foundations[f_name] = f
+            # Merge lemmas.
+            for lm in getattr(imported, "_lemmas", []) or []:
+                sm._lemmas.append(lm)
+            # Merge predicates / constants.
+            for k, v in getattr(imported, "_predicates", {}).items():
+                sm._predicates.setdefault(k, v)
+            for k, v in getattr(imported, "_symbolic_constants", {}).items():
+                sm._symbolic_constants.setdefault(k, v)
+            # Merge foundation deps.
+            for k, v in getattr(imported, "_foundation_deps", {}).items():
+                sm._foundation_deps.setdefault(k, v)
+            # Merge code_types and lean_imports/lean_preamble.
+            for k, v in (
+                getattr(imported, "_code_types", {}) or {}
+            ).items():
+                sm._code_types.setdefault(k, v)
+            for line in getattr(imported, "_lean_imports", []) or []:
+                if line not in sm._lean_imports:
+                    sm._lean_imports.append(line)
+            imp_preamble = (
+                getattr(imported, "_lean_preamble", "") or ""
+            )
+            if imp_preamble and imp_preamble not in (
+                sm._lean_preamble or ""
+            ):
+                sm._lean_preamble = (
+                    (sm._lean_preamble + "\n") if sm._lean_preamble else ""
+                ) + imp_preamble
+            # Cycle guard: also propagate the imported's own
+            # imported_paths so a downstream import doesn't re-load
+            # something a transitive ancestor already loaded.
+            already.add(str(ipath.resolve()))
+            already.update(
+                getattr(imported, "_imported_paths", None) or set()
+            )
+            sm._imported_paths = already
+        except Exception:
+            pass
+
+    # AUDIT 1.10 — substitute custom predicates and symbolic
+    # constants into axiom statements.  When a user declares
+    # ``predicate is_collinear: "..."`` and ``constant tau: "2*pi"``
+    # we expand calls/refs in the foundation/axiom/proof statements.
+    if sm._predicates or sm._symbolic_constants:
+        _substitute_predicates_and_constants(sm)
+
     return sm
+
+
+def _substitute_predicates_and_constants(sm) -> None:
+    """Substitute custom predicates and constants into all axiom /
+    foundation / verify statements.
+
+    Predicate substitution: ``pred_name(arg1, ...)`` → the predicate
+    body with formal params replaced by the actual args (best-effort
+    string substitution; we don't do full beta reduction).
+
+    Constant substitution: bare-word references to a constant name
+    are replaced with the constant's body.
+    """
+    import re as _re
+    preds = dict(sm._predicates or {})
+    consts = dict(sm._symbolic_constants or {})
+
+    def _expand(text: str) -> str:
+        if not text:
+            return text
+        # Constants: replace whole-word matches.
+        for cname, cbody in consts.items():
+            text = _re.sub(
+                rf"\b{_re.escape(cname)}\b", f"({cbody})", text,
+            )
+        # Predicates: replace calls.  We do a simple regex match
+        # without proper arg-substitution (treating the predicate
+        # like a macro that consumes its args verbatim).
+        for pname, pbody in preds.items():
+            text = _re.sub(
+                rf"\b{_re.escape(pname)}\s*\(([^)]*)\)",
+                lambda m, body=pbody: f"({body})",
+                text,
+            )
+        return text
+
+    # Apply to foundations.
+    for f_name, f in list(sm._foundations.items()):
+        if hasattr(f, "statement"):
+            f.statement = _expand(f.statement)
+    # Apply to axioms.
+    for ax_name, ax in list(sm._axioms.items()):
+        if hasattr(ax, "statement"):
+            ax.statement = _expand(ax.statement)
+    # Apply to verifies.
+    for v in sm._verifies:
+        v.property = _expand(v.property)
+        v.requires = _expand(v.requires)
+        v.ensures = _expand(v.ensures)
 
 
 # ═══════════════════════════════════════════════════════════════════

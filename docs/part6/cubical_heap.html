@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cubical Heap · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="cubical_heap.html" class="active">Cubical Heap</a></li>
+      <li><a href="separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="references.html">Mutable References</a></li>
+      <li><a href="arrays.html">Arrays</a></li>
+      <li><a href="threading.html">Threading &amp; GIL</a></li>
+      <li><a href="async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Chapter 6.1 — The Cubical Heap</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      Mutation as a path in the world category — Deppy's alternative to separation logic.
+    </p>
+
+    <!-- ─── The shift ─── -->
+    <h2>From Separating Conjunction to World-Paths</h2>
+    <p>
+      Most modern verifiers reason about heap mutation using <strong>separation
+      logic</strong>: the heap factors as <code>P ★ Q</code>, mutation transfers
+      ownership through the <em>frame rule</em>, and aliasing is forbidden by
+      construction. Deppy takes a different route. The heap is a
+      <strong><code>World</code></strong>, and mutation is a <em>path</em> in
+      the category of worlds: every mutation increments a global epoch, and a
+      proof established at epoch <code>n</code> only travels to epoch <code>m</code>
+      via an explicit <code>TransportProof</code>.
+    </p>
+    <p>
+      The two approaches achieve similar soundness through different math, and
+      both have honest tradeoffs. Pulse buys a clean frame rule at the cost of
+      forbidding most aliasing; Deppy embraces aliasing as a first-class
+      <code>DuckPath</code> in the world category and pays for it with an
+      epoch counter and per-cell mutation log. The next chapter compares the
+      two systems in detail; this chapter introduces the cubical machinery.
+    </p>
+
+    <!-- ─── World ─── -->
+    <h2>The <code>World</code> Type</h2>
+    <p>
+      A <code>World</code> records the entire heap as Deppy understands it
+      during PSDL compilation. It carries an epoch counter, a name-to-cell
+      table (so different Python names can point at the same cell —
+      aliasing), and the cells themselves with per-cell invariants and
+      mutation histories.
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_heap <span class="kw">import</span> World
+
+w = World()
+cid = w.<span class="fn">alloc</span>(<span class="st">'list'</span>)
+w.<span class="fn">bind</span>(<span class="st">'xs'</span>, cid)
+w.<span class="fn">alias</span>(<span class="st">'ys'</span>, <span class="st">'xs'</span>)
+<span class="fn">print</span>(<span class="fn">sorted</span>(w.<span class="fn">aliases_of</span>(<span class="st">'xs'</span>)))   <span class="cm"># ['xs', 'ys']</span>
+<span class="fn">print</span>(w.epoch)                       <span class="cm"># 0</span>
+
+affected = w.<span class="fn">mutate</span>(<span class="st">'xs'</span>)
+<span class="fn">print</span>(w.epoch)                       <span class="cm"># 1</span>
+<span class="fn">print</span>(<span class="fn">sorted</span>(affected))               <span class="cm"># ['xs', 'ys']  ← alias group</span>
+
+needed, ms = w.<span class="fn">transport_required</span>(
+    <span class="st">'ys'</span>, from_epoch=<span class="nb">0</span>, to_epoch=w.epoch
+)
+<span class="fn">print</span>(needed, ms)                    <span class="cm"># True [1]</span></code></pre>
+
+    <p>
+      The output above is exactly what Deppy produces today — copy the
+      snippet, run it under <code>PYTHONPATH=/path/to/deppy python3</code>,
+      and the printed lines match.
+    </p>
+
+    <div class="note">
+      Mutation through <em>any</em> name in an alias group bumps the epoch
+      and invalidates invariants on the shared cell. The
+      <code>transport_required(name, from_epoch, to_epoch)</code> call returns
+      the list of intervening mutations a proof would have to bridge.
+    </div>
+
+    <!-- ─── How PSDL uses it ─── -->
+    <h2>What PSDL Emits for Mutation</h2>
+    <p>
+      Inside the PSDL compiler, every Python statement is mapped to a kernel
+      <code>ProofTerm</code>. Mutating method calls (<code>list.append</code>,
+      <code>dict.__setitem__</code>, attribute assignment, <code>+=</code> on
+      mutable types, …) emit an <code>EffectWitness</code> tagged with the
+      cell name and the new epoch:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+
+src = <span class="st">"""
+def append_then_read(xs):
+    ys = xs
+    xs.append(1)
+    return ys
+"""</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="fn">print</span>(res.final_epoch, res.effect_sequence)</code></pre>
+
+    <p>The compiler reports:</p>
+
+<pre><code>Cut(_psdl_step_3,
+    Cut(ys, AxiomInvocation(xs), Refl),
+    Cut(_psdl_step_4,
+        EffectWitness(mutate:xs.append@epoch1, Refl),
+        Refl))
+1 [(4, 'mutate', 'xs.append')]</code></pre>
+
+    <p>Three things to notice:</p>
+    <ul>
+      <li>
+        The alias <code>ys = xs</code> becomes
+        <code>Cut(ys, AxiomInvocation(xs), Refl)</code> — at the cell level
+        this is a <strong><code>DuckPath</code></strong>: <code>ys</code> and
+        <code>xs</code> are observationally interchangeable and the kernel
+        records the equation.
+      </li>
+      <li>
+        The mutating call becomes
+        <code>EffectWitness("mutate:xs.append@epoch1", Refl)</code>. The label
+        names both the method and the new epoch.
+      </li>
+      <li>
+        <code>res.effect_sequence</code> is the <strong>world path</strong>:
+        the ordered list of effects from start to end of the block. Two
+        composable blocks chain via the kernel's <code>PathComp</code>.
+      </li>
+    </ul>
+
+    <!-- ─── Reads after mutation ─── -->
+    <h2>Reads After Mutation Require Transport</h2>
+    <p>
+      Suppose you proved an invariant about <code>ys</code> before the
+      <code>xs.append</code> line — say, <code>len(ys) == 3</code>. After the
+      mutation the proof was established at <code>epoch 0</code> but you want
+      to use it at <code>epoch 1</code>, with one intervening mutation on the
+      shared cell. The kernel rejects the unmodified proof and demands a
+      <code>TransportProof</code> along the mutation path:
+    </p>
+
+<pre><code><span class="cm"># Pseudocode of what the kernel checks:</span>
+inv_at_0 = w.<span class="fn">invariants_at</span>(<span class="st">'ys'</span>, epoch=<span class="nb">0</span>)   <span class="cm"># [len(ys) == 3]</span>
+<span class="cm"># ... w.mutate('xs') runs ...</span>
+inv_at_1 = w.<span class="fn">invariants_at</span>(<span class="st">'ys'</span>, epoch=<span class="nb">1</span>)   <span class="cm"># []  ← invariant is gone</span>
+needed, ms = w.<span class="fn">transport_required</span>(<span class="st">'ys'</span>, from_epoch=<span class="nb">0</span>, to_epoch=<span class="nb">1</span>)
+<span class="cm"># needed == True; ms == [1] — transport must bridge the mutation at epoch 1</span></code></pre>
+
+    <p>
+      In HoTT terms, the invariant lives in the fibre over the world's
+      type, and <code>TransportProof</code> is the operation that pushes a
+      fibred fact along a world-path. Reading at the new epoch demands either
+      a fresh proof at that epoch, or transport of an old proof along the
+      path that produced the new epoch.
+    </p>
+
+    <!-- ─── Aliasing as DuckPath ─── -->
+    <h2>Aliasing Is a <code>DuckPath</code> at the Cell Level</h2>
+    <p>
+      Separation logic outlaws aliasing by construction: <code>pts_to(x, _) ★
+      pts_to(y, _)</code> implies <code>x ≠ y</code>. This is sound but
+      restrictive — most Python idioms (list append, dictionary update,
+      object reference passing) involve aliases.
+    </p>
+    <p>
+      Deppy instead represents an alias as a <strong><code>DuckPath</code></strong>:
+      a kernel-level path saying that <code>ys</code> and <code>xs</code>
+      address the same cell. The <code>aliases_of(name)</code> method returns
+      the equivalence class. When any member of the class is mutated, the
+      epoch increments for the entire class — invariants on every aliased
+      name drop simultaneously, exactly as Python semantics require.
+    </p>
+
+    <div class="important">
+      In the code above, <code>w.mutate('xs')</code> returns
+      <code>{'xs', 'ys'}</code> — both names see the new epoch. The kernel
+      then re-checks every invariant that was established before the
+      mutation; only those that still type-check at the new epoch survive.
+    </div>
+
+    <!-- ─── Pulse comparison ─── -->
+    <h2>Quick Comparison to Pulse</h2>
+    <p>
+      Pulse (Microsoft Research's concurrent separation-logic verifier built on
+      F<sup>★</sup>) takes the opposite design choice. Both systems achieve
+      similar soundness for memory-safe code; the next chapter expands this
+      table.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Concept</th><th>Pulse</th><th>Deppy (cubical)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Heap composition</td>
+          <td><code>★</code> (separating conjunction)</td>
+          <td><code>PathComp</code> of world-paths</td>
+        </tr>
+        <tr>
+          <td>Aliasing</td>
+          <td>Fractional permissions</td>
+          <td><code>DuckPath</code> at cell level</td>
+        </tr>
+        <tr>
+          <td>Mutation</td>
+          <td>Frame rule + ownership transfer</td>
+          <td><code>EffectWitness("mutate:X@N")</code></td>
+        </tr>
+        <tr>
+          <td>Read after mutation</td>
+          <td>Permission-tracked</td>
+          <td><code>TransportProof</code> along path</td>
+        </tr>
+        <tr>
+          <td>Atomic invariants</td>
+          <td><code>with_invariants</code></td>
+          <td><code>Cocycle</code> over shared invariants</td>
+        </tr>
+        <tr>
+          <td>Concurrency</td>
+          <td>Full atomics + locks at kernel</td>
+          <td>Runtime-only via <code>deppy.concurrency.Lock</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Pulse's frame rule is an arrow you draw <em>around</em> a Hoare triple;
+      Deppy's <code>PathComp</code> is an arrow you compose <em>through</em>
+      a sequence of effects. Pulse forbids what it cannot prove disjoint;
+      Deppy admits everything but forces transport when a proof is reused
+      across mutations.
+    </p>
+
+    <!-- ─── HeapCell + invariants ─── -->
+    <h2>Cells &amp; Per-Cell Invariants</h2>
+    <p>
+      Each <code>HeapCell</code> carries a <code>type_tag</code>, a list of
+      <code>CellInvariant</code>s, and a <code>mutated_at</code> log of
+      epochs. The kernel uses the log to decide whether transport is needed:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_heap <span class="kw">import</span> World
+
+w = World()
+w.<span class="fn">alloc</span>(<span class="st">'list'</span>); w.<span class="fn">bind</span>(<span class="st">'xs'</span>, <span class="nb">0</span>)
+w.<span class="fn">add_invariant</span>(<span class="st">'xs'</span>, <span class="st">'len(xs) >= 1'</span>)
+<span class="fn">print</span>(w.<span class="fn">invariants_at</span>(<span class="st">'xs'</span>, epoch=<span class="nb">0</span>))   <span class="cm"># [the invariant]</span>
+
+w.<span class="fn">mutate</span>(<span class="st">'xs'</span>)                          <span class="cm"># epoch → 1</span>
+<span class="fn">print</span>(w.<span class="fn">invariants_at</span>(<span class="st">'xs'</span>, epoch=<span class="nb">1</span>))   <span class="cm"># []  ← invariant dropped</span></code></pre>
+
+    <div class="tip">
+      Per-cell invariants form a <strong>fibre</strong> over each cell. Reads
+      at the current epoch get the still-valid invariants for free; reads at
+      a later epoch demand transport.
+    </div>
+
+    <!-- ─── Effect sequence ─── -->
+    <h2>The <code>EffectSequence</code></h2>
+    <p>
+      The compile result exposes a flat list of effects in source order:
+    </p>
+
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"""
+def f(a):
+    a.append(1)
+    a.extend([2, 3])
+"""</span>, foundations={})
+<span class="fn">print</span>(res.final_epoch)
+<span class="fn">print</span>(res.effect_sequence)</code></pre>
+
+    <p>Yields:</p>
+
+<pre><code>2
+[(3, 'mutate', 'a.append'), (4, 'mutate', 'a.extend')]</code></pre>
+
+    <p>
+      Each tuple is <code>(line_no, kind, target)</code>. The kernel chains
+      these via <code>PathComp</code> to form the block's world-path. When
+      one PSDL block calls another, the callee's path appends to the
+      caller's; composition is associative because <code>PathComp</code>
+      is.
+    </p>
+
+    <!-- ─── Where to next ─── -->
+    <h2>What's Next</h2>
+    <p>
+      The next chapter, <a href="separation.html"><strong>Separation Logic
+      (vs Pulse)</strong></a>, walks through the points-to and frame-rule
+      machinery the older parts of Part 6 still use, and contrasts each
+      separation-logic primitive with its cubical counterpart. The remaining
+      Part 6 chapters apply the heap to references, arrays, threading, and
+      async.
+    </p>
+
+    <nav class="page-nav">
+      <a href="index.html">
+        <span class="label">← Previous</span>
+        <span class="title">Part 6 Overview</span>
+      </a>
+      <a href="separation.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Separation Logic (vs Pulse)</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

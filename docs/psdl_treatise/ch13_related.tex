@@ -1,0 +1,336 @@
+\chapter{Related Work, Limitations, Future Directions}
+\label{ch:related}
+
+This final chapter places \Deppy{} in its scientific context,
+revisits the limitations from \Cref{ch:soundness}, and outlines
+work that would extend the system.
+
+\section{Related work}
+
+\subsection{Lean, Coq, Agda --- the proof assistants}
+
+The reference points are the mature dependent-type proof
+assistants: \Lean{}~4 \citep{LeanFour}, \Coq{} (recently rebranded
+as Rocq), and \Agda{}.  These systems share a \CIC-flavoured
+core, support powerful tactic languages, and have rich library
+ecosystems.
+
+\Deppy{}'s proof language is small compared to the tactic
+ecosystems of these systems.  Mathlib \citep{LeanCommunityMathlib}
+provides tens of thousands of lemmas.  \Deppy{} does not aim to
+replicate this; its lemma library lives in user-supplied sidecars.
+What \Deppy{} adds is the bridge from idiomatic Python source to
+the proof world.  We see this less as a competitor to Mathlib than
+as a way to reach Python-domain users who would not otherwise write
+Mathlib lemmas.
+
+\subsection{Refinement-type systems}
+
+Refinement-type systems (\textsc{Liquid Haskell}, \textsc{F*},
+\textsc{Dafny}, \textsc{Whiley}, \textsc{Stainless}) attach
+predicates to types and discharge them with SMT.  This is a closer
+relative of \Deppy{}'s arithmetic-Z3 path: the
+\texttt{RefinementType} dataclass is the obvious refinement form,
+and Z3-discharge of side conditions is the standard refinement
+mechanic.
+
+The key difference is the lift to homotopy / cubical reasoning.
+Refinement types are about \emph{predicates} on values;
+\Deppy{} also handles \emph{paths between values} (transport, Kan
+fillers, univalence).  This is what lets \Deppy{} say things about
+duck-typing equivalence and monkey-patching that refinement-type
+systems cannot.
+
+\subsection{Cubical proof assistants}
+
+Cubical \Agda{} \citep{ABCFHL, ABCHFL2017}, \texttt{redtt}, \texttt{cooltt}, and
+similar implement cubical type theory directly.  These systems are
+the canonical implementation of the cubical metatheory we draw on.
+
+\Deppy{} is \emph{inspired} by cubical type theory but is not an
+implementation of it.  In particular:
+\begin{itemize}[leftmargin=1.7em]
+  \item \Deppy{}'s interval, path types, and Kan fillers are
+    metatheoretic abstractions captured in dataclasses, not
+    operational primitives that compute.
+  \item The cubical Agda computation rules (composition, Glue
+    transport) are not implemented; \Deppy{} models them as proof
+    obligations checked structurally.
+  \item Univalence is admitted, not proved by an interval-based
+    \texttt{ua}.
+\end{itemize}
+
+We borrow the \emph{vocabulary} (paths, fillers, glue, cocycles)
+and the \emph{conceptual framework} (types as spaces, equivalences
+as identifications) without claiming the operational equivalence.
+This is honest: a user who cares about univalence's computational
+content should use Cubical Agda; a user who wants to verify
+properties of an existing Python library has a different
+problem and \Deppy{} addresses it.
+
+\subsection{Python verification frameworks}
+
+Several frameworks attempt static analysis of Python:
+\begin{itemize}[leftmargin=1.7em]
+  \item \textsc{mypy} / \textsc{pyright} --- static type checking
+    against PEP 484 type annotations \citep{PEP484}.  Type-level
+    only; no proof.
+  \item \textsc{Crosshair} --- symbolic-execution-based
+    counter-example finder.  Closer to our counterexample-search
+    pass than to our verifier.
+  \item \textsc{Nagini} --- a Viper-based deductive verifier for
+    Python.  Requires Python rewritten with explicit annotations,
+    not sidecar files; targets a smaller subset.
+  \item \textsc{Hypothesis} --- property-based testing, not
+    verification.  We engage Hypothesis-style sampling in the
+    \texttt{computational} discharge mode of
+    \texttt{SidecarVerificationBackend}.
+\end{itemize}
+
+\Deppy{}'s positioning: a sidecar-based verifier with a strong
+proof language and a dual deppy-kernel + Lean backend.  No other
+framework we know of has the dual-target structure with an
+explicit cubical metatheory.
+
+\subsection{Specification and contract languages}
+
+\textsc{ACSL} (for C), \textsc{JML} (for Java), \texttt{contracts.py}
+(for Python), and PEP 316 (Programming by Contract for Python)
+all attach pre/post conditions and invariants to functions.
+
+\Deppy{}'s sidecar files are similar in spirit but more flexible:
+specs can carry foundations, axioms, and PSDL proofs; verify
+blocks are first-class; the trust accounting is explicit.
+
+\subsection{Property-based testing}
+
+\textsc{QuickCheck} (Haskell) and \textsc{Hypothesis} (Python) test
+properties on randomly-generated inputs.  \Deppy{}'s
+\texttt{SidecarVerificationBackend} runs computational tests when
+the kernel cannot discharge an axiom, with the result trust level
+\texttt{LLM\_CHECKED} (computational evidence is weaker than SMT or
+kernel verification).
+
+\section{Limitations recap}
+\label{sec:limits-recap}
+
+We summarise the limitations from \Cref{ch:soundness}:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item Type system: flat \texttt{Int} carriers in the Lean
+    preamble; no universe polymorphism; refinement predicates not
+    auto-checked.
+  \item Body translation: gaps for try/except, while, generator,
+    dynamic dispatch, C-extension boundaries.
+  \item Z3: transcendentals, nested quantifiers, IEEE 754 not
+    handled.
+  \item Lean: no Mathlib dependency by default; opaque foundation
+    Props for non-Z3 cases; \texttt{def := sorry} placeholders for
+    method bodies.
+  \item PSDL: no partial-proof credit; no tactic suggestion mode.
+  \item Cohomology: advisory only, not part of the trust chain.
+  \item Pipeline: single-pass, no parallelism by default, hard-coded
+    \Lean{} timeout.
+\end{itemize}
+
+\section{Future directions}
+
+We outline the most promising extensions, in rough order of
+expected impact.
+
+\subsection{Concrete typed preamble}
+
+The largest soundness improvement would be to drop the flat-Int
+preamble and emit \emph{typed} class structures.  For each binder
+class \texttt{Point}, the preamble would emit:
+
+\begin{lstlisting}[language=lean4]
+structure Point where
+  x : Int
+  y : Int
+\end{lstlisting}
+
+with method bodies \texttt{Point.distance := fun p q => sqrt(\dots)}
+that the elaborator can unfold substantively.  This requires:
+\begin{itemize}[leftmargin=1.7em]
+  \item type inference from \texttt{inspect.signature} that
+    distinguishes nominal types from \texttt{Int};
+  \item the body translator emitting Lean tied to the typed
+    structure;
+  \item the mechanization preamble using
+    \texttt{Class.field} accessors instead of
+    \texttt{dot\_field}.
+\end{itemize}
+
+The benefit is that PSDL-emitted tactics like
+\texttt{exact Foundation\_Real\_sqrt\_nonneg} elaborate against
+real arithmetic claims, not opaque Props.  The cost is more
+elaboration ambiguity; some method-resolution patterns will need
+explicit type ascription.
+
+\subsection{Mathlib integration}
+
+Optional Mathlib import would let foundations involving real
+numbers (\texttt{sqrt}, \texttt{sin}, \texttt{exp}) discharge as
+real lemmas rather than admit as axioms.  The escape hatch
+\texttt{lean\_imports: | import Mathlib} already lets users opt in;
+the next step is a curated set of foundation $\to$ Mathlib lemma
+mappings the certificate emits automatically.
+
+\subsection{Refinement-type elaboration}
+
+The \texttt{RefinementType} dataclass currently carries a
+\texttt{predicate} string that the kernel does not unfold.  An
+extension would parse the predicate, type-check it against the
+local context, and elaborate the refinement
+$\{x : T \mid \varphi(x)\}$ as Lean's \texttt{Subtype}.
+
+\subsection{Try/except translation}
+
+The body translator could handle \texttt{try / except} by emitting
+a \Lean{} \texttt{Except} or \texttt{Option} monad.  The exception
+fibre then becomes the \texttt{Except.error} branch; tactics can
+case-split on the result.  This requires:
+\begin{itemize}[leftmargin=1.7em]
+  \item the body translator's return-type inference to detect
+    exception escape paths;
+  \item the verify-block pipeline to engage the
+    \texttt{ConditionalEffectWitness} term automatically;
+  \item PSDL's \texttt{try / except} to compile against the
+    monadic encoding.
+\end{itemize}
+
+\subsection{Cohomology obstructions}
+
+The cohomology layer currently produces trivial cocycles in the
+absence of safety predicates.  A meaningful extension would:
+\begin{itemize}[leftmargin=1.7em]
+  \item detect when the safety pipeline produces non-trivial
+    preconditions on a function;
+  \item emit substantive C¹ cocycles witnessing precondition
+    propagation through call sites;
+  \item emit substantive C² coherences;
+  \item run \texttt{Bicomplex.compute\_total\_cohomology} to find
+    cross-level $H^2$ obstructions;
+  \item refuse certification when an $H^2$ obstruction is non-zero.
+\end{itemize}
+
+This would turn the cohomology layer from an advisory diagnostic
+into a real verification step --- one that detects
+inter-procedural coherence failures the per-function checks miss.
+
+\subsection{LLM iteration loop}
+
+\PSDL{} has affordances for LLM iteration (\texttt{show\_goal()},
+\texttt{hint("\dots")}, the \texttt{lean("\dots")} escape hatch).
+A natural extension is an iterative loop:
+\begin{enumerate}[leftmargin=1.7em]
+  \item user/LLM proposes a PSDL proof;
+  \item compiler runs; on failure, surface the goal state at the
+    failure point;
+  \item LLM proposes a refined PSDL block;
+  \item repeat until \texttt{certify\_or\_die} passes.
+\end{enumerate}
+
+The compiler already produces \texttt{show\_goal\_requested}
+flags and per-error diagnostics; assembling the loop is the
+remaining work.
+
+\subsection{Multi-target}
+
+The \texttt{deppy.lean} package emits \Lean{}~4.  Other targets are
+plausible:
+\begin{itemize}[leftmargin=1.7em]
+  \item \Coq{} / Rocq: the same trust chain, different tactic
+    syntax.
+  \item \Agda{}: similar.
+  \item Z3-only target: emit the entire certificate as an SMT-LIB
+    file (where this is possible); skip \Lean{}.
+  \item No-target dry run: the kernel verifies but no certificate
+    is emitted.  Useful for incremental checking in a CI pipeline.
+\end{itemize}
+
+\subsection{Incremental verification}
+
+\texttt{deppy/pipeline/incremental.py} sketches a per-function
+incremental verifier keyed on \texttt{source\_hash}.  The
+challenges are:
+\begin{itemize}[leftmargin=1.7em]
+  \item invalidation when a foundation changes (every theorem
+    citing it must re-verify);
+  \item invalidation when an axiom changes;
+  \item handling pipeline outputs that depend on the entire module
+    (cohomology, bicomplex).
+\end{itemize}
+
+\subsection{IDE integration}
+
+A language server protocol implementation that:
+\begin{itemize}[leftmargin=1.7em]
+  \item provides hover-over types for PSDL identifiers;
+  \item highlights \texttt{Structural} leaks at edit time;
+  \item runs the \Lean{} round-trip in the background and surfaces
+    elaboration errors at the PSDL line responsible.
+\end{itemize}
+
+\section{Closing remarks}
+
+\Deppy{} occupies a particular niche: it is a verification
+framework for Python libraries that someone has already written
+and is unwilling to retype.  This niche has been under-served by
+the proof-assistant community and over-served by the
+property-based-testing community; we offer something in between.
+
+The cubical-duck-type metatheory is the project's intellectual
+organising principle.  We do not claim that Python is
+\emph{secretly} a cubical type theory.  We claim that Python's
+characteristic phenomena --- duck typing, \texttt{isinstance},
+exceptions, \texttt{\_\_getattr\_\_}, monkey-patching --- have
+\emph{natural} cubical readings, and that exploiting these
+readings produces a proof language that is both usable and
+expressive.
+
+\PSDL{} is the user-facing surface.  It accepts literal Python and
+emits both kernel-checkable proof terms and Lean tactics.  When
+the kernel and \Lean{} agree, we have a certified proof.  When
+they disagree, we have a diagnostic the user can act on.
+
+The trust accounting is the project's ethical commitment.  Every
+admission, every \texttt{Structural} leaf, every untranslated
+body is recorded and counted.  The \texttt{CERTIFIED} verdict is
+strict; the gates are conservative.  A user reading a \Deppy{}
+certificate sees both the positive ``\Lean{} kernel accepted''
+side and the negative ``these foundations admit'' side, and can
+make their own judgment.
+
+The work that remains is significant: the typed preamble, the
+Mathlib integration, the cohomology obstructions, the LLM
+iteration loop, the incremental pipeline.  We have left these as
+future work in the present document but each is articulated
+clearly enough that contributing maintainers can pick one up.
+
+What we hope to have demonstrated, with this monograph, is that
+the verification of imported Python modules is approachable --- by
+LLMs and humans both --- and that a sidecar-based,
+cubical-duck-type-flavoured proof system is a coherent way to
+attack it.  The next step is to use it.
+
+\section{Acknowledgements}
+
+The implementation that this monograph documents is the
+\Deppy{} project's mainline source tree.  The \texttt{AUDIT.md}
+file at the top of the repository was the principal design-rationale
+input.  Where this document and \texttt{AUDIT.md} disagree, the
+source code wins.
+
+The \HoTT{} book \citep{HoTT}, the cubical type theory papers
+\citep{CCHM, ABCFHL, ABCHFL2017}, the \Lean{} reference manual
+\citep{LeanRefManual}, and the \Lean{}-mathlib community
+\citep{LeanCommunityMathlib} provided the proof-theoretic
+background.  The \Zthree{} paper \citep{Z3} provided the SMT
+foundation.  PEP 484 \citep{PEP484} and PEP 544 \citep{PEP544} are
+the Python language references the verifier targets.
+
+This monograph itself is generated alongside the source tree at
+\texttt{docs/psdl\_treatise/}.  The build instructions are at the
+top of \texttt{main.tex} and in the local Makefile.

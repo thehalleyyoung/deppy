@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PSDL: Python-syntax Tactics · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="cech.html">Čech Decomposition</a></li>
+      <li><a href="fibrations.html">Fibrations</a></li>
+      <li><a href="psdl.html" class="active">PSDL: Python-syntax Tactics</a></li>
+      <li><a href="tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>PSDL: Python-syntax Tactics</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      A tactic language whose source <em>is</em> Python — every line maps to a kernel <code>ProofTerm</code>.
+    </p>
+
+    <!-- ─── Intro ─── -->
+    <h2>Why Another Tactic Language?</h2>
+    <p>
+      Most proof assistants ship their own tactic language: Coq has Ltac,
+      Lean has its tactic mode, Isabelle has Isar. Deppy's twist is that
+      its tactic language <em>is just Python</em>. Every PSDL proof body
+      is parsed by Python's <code>ast</code> module and translated to a
+      kernel <code>ProofTerm</code> — no separate grammar, no separate
+      file format, full IDE support for free.
+    </p>
+    <p>
+      The translation is total: every Python statement maps to <em>some</em>
+      kernel construct (often <code>Structural(…)</code> when the
+      statement has no proof-theoretic content). The combination of
+      ordinary expressions, function calls, control flow, and a small set
+      of operator-overloading conventions gives PSDL the same expressive
+      power as a hand-written tactic monad — while being syntactically
+      indistinguishable from Python.
+    </p>
+
+    <h3>The simplest possible PSDL block</h3>
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+res = <span class="fn">compile_psdl</span>(<span class="st">"qed()"</span>, foundations={})
+<span class="fn">print</span>(res.term_repr, res.ok)
+<span class="cm"># Refl True</span></code></pre>
+
+    <p>
+      <code>qed()</code> is a closer that emits <code>Refl</code> — the
+      reflexivity proof. It's how you say "the obligation is exactly the
+      goal we already have." All eight closer functions emit
+      <code>Refl</code> with different debug labels:
+      <code>qed</code>, <code>auto</code>, <code>done</code>,
+      <code>omega</code>, <code>rfl_</code>, <code>decide</code>,
+      <code>trivial</code>, <code>simp</code>.
+    </p>
+
+    <!-- ─── How compilation works ─── -->
+    <h2>How a PSDL Block Compiles</h2>
+    <p>
+      <code>compile_psdl(src, *, foundations=None, ctx=None)</code> takes
+      a Python source string whose top-level statements are PSDL tactics
+      and returns a <code>PSDLCompileResult</code>:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+
+res = <span class="fn">compile_psdl</span>(<span class="st">"""
+def add_comm(x, y):
+    return x + y
+"""</span>, foundations={})
+
+<span class="fn">print</span>(res.proof_term)        <span class="cm"># the kernel term</span>
+<span class="fn">print</span>(res.term_repr)         <span class="cm"># a string view (Refl)</span>
+<span class="fn">print</span>(res.lean_tactic)       <span class="cm"># Lean tactic source</span>
+<span class="fn">print</span>(res.errors)            <span class="cm"># []</span>
+<span class="fn">print</span>(res.ok)                <span class="cm"># True</span>
+<span class="fn">print</span>(res.final_epoch)       <span class="cm"># heap epoch at end of block</span>
+<span class="fn">print</span>(res.effect_sequence)   <span class="cm"># list of (line, kind, target)</span></code></pre>
+
+    <!-- ─── Mapping table ─── -->
+    <h2>The Cubical-Effect Mapping Table</h2>
+    <p>
+      Every Python construct maps to a specific kernel object. The
+      table below is exhaustive for the constructs PSDL understands; the
+      compiler emits <code>Structural(…)</code> for the rest.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Python source</th><th>Kernel term</th><th>What it means</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>x = expr</code></td>
+          <td><code>Cut(x, expr_proof, Refl)</code></td>
+          <td>Local binding</td>
+        </tr>
+        <tr>
+          <td><code>x = y</code> (alias)</td>
+          <td><code>Cut(x, AxiomInvocation(y), Refl)</code> + <code>DuckPath</code></td>
+          <td>Aliasing in the cell heap</td>
+        </tr>
+        <tr>
+          <td><code>obj.method(…)</code> (mutating)</td>
+          <td><code>EffectWitness("mutate:obj.method@epochN", Refl)</code></td>
+          <td>Heap mutation, epoch++</td>
+        </tr>
+        <tr>
+          <td><code>x += e</code></td>
+          <td><code>Cut(x, Z3Proof(x+e), Refl)</code></td>
+          <td>Augmented assignment</td>
+        </tr>
+        <tr>
+          <td><code>if c: a else: b</code></td>
+          <td><code>Cases(c, […])</code></td>
+          <td>Branch on a condition</td>
+        </tr>
+        <tr>
+          <td><code>for x in xs: body</code></td>
+          <td><code>ListInduction(x, nil, cons)</code></td>
+          <td>Total iteration → induction</td>
+        </tr>
+        <tr>
+          <td><code>while cond: body</code></td>
+          <td><code>NatInduction(var, …)</code></td>
+          <td>Bounded iteration → ℕ-induction</td>
+        </tr>
+        <tr>
+          <td><code>break</code> / <code>continue</code></td>
+          <td><code>PSDLError</code> + <code>Structural("non-total")</code></td>
+          <td>Invalidates induction; honest failure</td>
+        </tr>
+        <tr>
+          <td><code>raise Exc(…)</code></td>
+          <td><code>EffectWitness("exception:Exc(…)", …)</code></td>
+          <td>Exception event</td>
+        </tr>
+        <tr>
+          <td><code>try / except / finally / else</code></td>
+          <td>Chain of <code>Cut</code>s; one per handler + value witness</td>
+          <td>All handlers preserved</td>
+        </tr>
+        <tr>
+          <td><code>match x: case p if g: …</code></td>
+          <td><code>Cut(Z3Proof(g), …, body)</code></td>
+          <td>Pattern + guard</td>
+        </tr>
+        <tr>
+          <td><code>P or Q</code></td>
+          <td><code>Cases(_or_n, [("or_0",P),("or_1",Q)])</code></td>
+          <td>Disjunction → case split</td>
+        </tr>
+        <tr>
+          <td><code>P and Q</code></td>
+          <td><code>Cut(_and_n, P_proof, Q_proof)</code></td>
+          <td>Conjunction → sequential</td>
+        </tr>
+        <tr>
+          <td><code>yield v</code></td>
+          <td><code>EffectWitness("yield:N@epochM", Refl(v))</code></td>
+          <td>Coalgebraic suspension</td>
+        </tr>
+        <tr>
+          <td><code>x = await e</code></td>
+          <td><code>Cut(x, EffectWitness("await:e@epochM", Refl), Refl)</code></td>
+          <td>Event arrival</td>
+        </tr>
+        <tr>
+          <td><code>a + b</code> / <code>a * b</code> / …</td>
+          <td><code>Z3Proof(a OP b)</code></td>
+          <td>Pure arithmetic</td>
+        </tr>
+        <tr>
+          <td><code>a == b</code> / <code>a < b</code> / …</td>
+          <td><code>Z3Proof(a CMP b)</code></td>
+          <td>Comparison</td>
+        </tr>
+        <tr>
+          <td><code>[f(x) for x in xs]</code></td>
+          <td><code>ListInduction(x, Refl, …)</code></td>
+          <td>Comprehension as induction</td>
+        </tr>
+        <tr>
+          <td><code>all(P(x) for x in xs)</code></td>
+          <td><code>ListInduction(x, Refl, P-step)</code></td>
+          <td>Universal quantification</td>
+        </tr>
+        <tr>
+          <td><code>forall(x, T, body)</code></td>
+          <td><code>Cut(x, Assume(T), body)</code></td>
+          <td>∀-introduction</td>
+        </tr>
+        <tr>
+          <td><code>exists(x, T, w, body)</code></td>
+          <td><code>Cut(x, Witness(w,T), body)</code></td>
+          <td>∃-introduction</td>
+        </tr>
+        <tr>
+          <td><code>mro_lookup(C, "m")</code></td>
+          <td><code>DuckPath</code></td>
+          <td>C3 walk</td>
+        </tr>
+        <tr>
+          <td><code>super_call("C","m")</code></td>
+          <td><code>PathComp(…)</code></td>
+          <td>super() chain</td>
+        </tr>
+        <tr>
+          <td><code>op_dispatch("+",a,b)</code></td>
+          <td><code>ConditionalDuckPath</code></td>
+          <td>__r*__ fallback</td>
+        </tr>
+        <tr>
+          <td><code>descriptor_get(o,"C","a")</code></td>
+          <td><code>Fiber</code> (4 fibres)</td>
+          <td>data / instance / non-data / __getattr__</td>
+        </tr>
+        <tr>
+          <td><code>descriptor_set(o,"C","a",v)</code></td>
+          <td><code>Patch(C, a, v, contract_proof)</code></td>
+          <td>Monkey-patch with contract</td>
+        </tr>
+        <tr>
+          <td><code>kan_fill(C, "m", impl, contract)</code></td>
+          <td><code>Patch(C, m, impl, contract)</code></td>
+          <td>Method-table extension</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ─── Sugar ─── -->
+    <h2>Syntactic Sugar</h2>
+    <p>
+      PSDL adds a small set of conventions that make tactics read more
+      naturally than direct kernel-term construction.
+    </p>
+
+    <h3>Postfix navigation on equalities</h3>
+
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"""
+eq.lhs
+eq.rhs
+eq.cong(f)
+eq.symm
+eq.trans(eq2)
+"""</span>, foundations={})
+<span class="fn">print</span>(res.ok)             <span class="cm"># True</span>
+<span class="fn">print</span>(res.term_repr)      <span class="cm"># Cong, Sym, Trans, …</span></code></pre>
+
+    <p>The compiler produces:</p>
+    <ul>
+      <li><code>eq.lhs</code> / <code>eq.rhs</code> →
+        <code>Structural('eq.lhs')</code> /
+        <code>Structural('eq.rhs')</code> (left/right component
+        accessors).</li>
+      <li><code>eq.cong(f)</code> →
+        <code>Cong(f, AxiomInvocation(eq))</code>.</li>
+      <li><code>eq.symm</code> →
+        <code>Sym(AxiomInvocation(eq))</code>.</li>
+      <li><code>eq.trans(eq2)</code> →
+        <code>Trans(eq, eq2)</code>.</li>
+    </ul>
+
+    <h3>Operator overloading</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"(p @ q)"</span>, foundations={})
+<span class="fn">print</span>(res.term_repr)      <span class="cm"># PathComp(…)</span>
+
+res = <span class="fn">compile_psdl</span>(<span class="st">"~p"</span>, foundations={})
+<span class="fn">print</span>(res.term_repr)      <span class="cm"># Sym(…)</span>
+
+res = <span class="fn">compile_psdl</span>(<span class="st">"p ** 3"</span>, foundations={})
+<span class="fn">print</span>(res.term_repr)      <span class="cm"># PathComp(…)  three-fold composition</span></code></pre>
+
+    <table>
+      <thead>
+        <tr><th>Operator</th><th>Kernel term</th><th>Read as</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>p @ q</code></td><td><code>PathComp(p, q)</code></td><td>compose paths</td></tr>
+        <tr><td><code>~p</code></td><td><code>Sym(p)</code></td><td>invert path</td></tr>
+        <tr><td><code>f * p</code></td><td><code>Cong(f, p)</code></td><td>congruence</td></tr>
+        <tr><td><code>p ** k</code></td><td><code>PathComp</code> repeated <code>k</code> times</td><td>iterated</td></tr>
+        <tr><td><code>p &gt;&gt; q</code></td><td><code>Cut(_chain_n, p, q)</code></td><td>then</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Walrus binding</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"(h := apply(F))"</span>,
+    foundations={<span class="st">"F"</span>: {<span class="st">"statement"</span>: <span class="st">"foo"</span>}})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cut(h, AxiomInvocation(F), Refl)</span></code></pre>
+
+    <p>
+      The walrus operator gives a name to the application of a foundation
+      or lemma so subsequent steps can cite it.
+    </p>
+
+    <h3>Sequential <code>&gt;&gt;</code> composition</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"apply(F) &gt;&gt; apply(G)"</span>,
+    foundations={<span class="st">"F"</span>: {<span class="st">"statement"</span>: <span class="st">"foo"</span>},
+                 <span class="st">"G"</span>: {<span class="st">"statement"</span>: <span class="st">"bar"</span>}})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cut(_chain_1, AxiomInvocation(F), AxiomInvocation(G))</span></code></pre>
+
+    <h3>Boolean ops as proof composition</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"apply(P) or apply(Q)"</span>,
+    foundations={<span class="st">"P"</span>: {<span class="st">"statement"</span>: <span class="st">"p"</span>},
+                 <span class="st">"Q"</span>: {<span class="st">"statement"</span>: <span class="st">"q"</span>}})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cases(Var(name='_or_1'), 2 branches)</span></code></pre>
+
+    <h3>Closer functions</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"""
+qed()
+auto()
+rfl_()
+"""</span>, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cut(_psdl_step_1, Refl, Cut(_psdl_step_2, Refl, Refl))</span></code></pre>
+
+    <h3>Assert with goal label</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"""
+assert x == y, "qed"
+assert x &gt; 0, "omega"
+assert P, "rfl"
+"""</span>, foundations={})
+<span class="fn">print</span>(res.ok)             <span class="cm"># True</span></code></pre>
+
+    <p>
+      The string after the comma is the proof tactic to apply: one of
+      <code>"qed" / "omega" / "rfl" / "trivial" / "decide" / "simp" /
+      "auto" / "done"</code>.
+    </p>
+
+    <h3>Context managers for goal scoping</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"""
+with goal("P(x)"):
+    apply(F)
+"""</span>, foundations={<span class="st">"F"</span>: {<span class="st">"statement"</span>: <span class="st">"foo"</span>}})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># AxiomInvocation(F)</span>
+
+res = <span class="fn">compile_psdl</span>(<span class="st">"""
+with hypothesis(h, int):
+    pass
+"""</span>, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cut(h, Assume(…), Structural('trivial'))</span></code></pre>
+
+    <h3>Comprehensions are induction</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"[refl(x) for x in xs]"</span>, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># ListInduction(x, nil=Refl, cons=Refl)</span></code></pre>
+
+    <h3>Quantifiers</h3>
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"forall(x, int, x &gt;= 0)"</span>, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cut(x, Assume(…), Z3(x &gt;= 0))</span></code></pre>
+
+    <p>
+      <code>forall</code> and <code>exists</code> pass their type as
+      a <code>SynType</code> rather than stuffing the type into the
+      refinement predicate (a soundness fix landed in the latest
+      release).
+    </p>
+
+    <!-- ─── Soundness fixes ─── -->
+    <h2>Soundness Fixes Worth Knowing</h2>
+    <p>
+      A handful of constructs used to silently drop information; the
+      current PSDL compiler handles them honestly. If you saw earlier
+      docs claiming any of these worked differently, the new behaviour
+      is correct.
+    </p>
+    <ul>
+      <li>
+        <strong><code>break</code> / <code>continue</code></strong>
+        invalidate the surrounding <code>ListInduction</code> /
+        <code>NatInduction</code> and register a
+        <code>PSDLError</code>. The proof term still compiles, but
+        <code>res.ok</code> is <code>False</code>.
+      </li>
+      <li>
+        <strong><code>try / finally / else</code></strong> chains
+        properly via nested <code>Cut</code>s — earlier versions
+        dropped the <code>finally</code> and <code>else</code> blocks.
+      </li>
+      <li>
+        <strong>Match-case guards</strong> wrap the body in
+        <code>Cut(Z3Proof(guard), …, body)</code>. Earlier versions
+        dropped the guard entirely.
+      </li>
+      <li>
+        <strong><code>raise Exc</code></strong> uses
+        <code>EffectWitness("exception:NAME", …)</code> with correct
+        semantics — earlier versions used a
+        <code>ConditionalEffectWitness</code> with inverted polarity.
+      </li>
+      <li>
+        <strong>Multi-handler <code>try / except</code></strong>
+        chains every handler plus the value witness via
+        <code>Cut</code>; earlier versions only kept the last handler.
+      </li>
+      <li>
+        <strong><code>P or Q</code></strong> compiles to
+        <code>Cases([("or_0", left), ("or_1", right)])</code>; earlier
+        versions dropped the right disjunct.
+      </li>
+      <li>
+        <strong><code>while &lt;cond&gt;:</code></strong> extracts the
+        induction variable from the condition's AST; earlier versions
+        always hard-coded <code>"n"</code>.
+      </li>
+      <li>
+        <strong><code>kan_fill</code></strong> emits
+        <code>Patch(cls, method, impl, contract_proof)</code>; earlier
+        versions emitted a generic <code>Cut</code>.
+      </li>
+    </ul>
+
+    <!-- ─── Runtime lint ─── -->
+    <h2>Runtime-Semantics Lint</h2>
+    <p>
+      PSDL also runs a lint pass over the source and registers a
+      <code>PSDLError</code> for runtime-semantics traps that would
+      otherwise let an unsound proof slip through:
+    </p>
+
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"""
+def f():
+    x = 1 is 1
+    return x
+"""</span>, foundations={})
+<span class="fn">print</span>(res.ok)            <span class="cm"># False</span>
+<span class="fn">print</span>(res.errors[<span class="nb">0</span>].message)
+<span class="cm"># 'runtime-semantics lint: ``is``/``is not`` against a literal (int) — </span>
+<span class="cm">#  CPython interning quirk; use ``==`` for value equality'</span></code></pre>
+
+    <p>The lint covers:</p>
+    <ul>
+      <li>Late closure binding (loop-variable capture).</li>
+      <li>Mutable default arguments.</li>
+      <li>Iterator exhaustion (<code>zip</code> / <code>map</code> /
+        <code>filter</code> consumed twice).</li>
+      <li><code>is</code> / <code>is not</code> on literals.</li>
+      <li>Truthiness checks on falsy literals.</li>
+      <li><code>int / int</code> using float division.</li>
+      <li>Mutation of one alias when proof depends on another in the
+        same group.</li>
+    </ul>
+
+    <div class="important">
+      Lint failures push errors into <code>res.errors</code> and flip
+      <code>res.ok</code> to <code>False</code>. The pipeline's
+      <code>certify_or_die</code> step then refuses to certify — the
+      compile is honest about which obligations could not be soundly
+      discharged.
+    </div>
+
+    <!-- ─── Working with foundations ─── -->
+    <h2>Citing Foundations &amp; Lemmas</h2>
+    <p>
+      <code>compile_psdl(src, foundations=…)</code> takes a dict of
+      named facts the proof is allowed to cite. Inside the source,
+      <code>apply(NAME)</code> resolves <code>NAME</code> in
+      <code>foundations</code> and emits an <code>AxiomInvocation</code>:
+    </p>
+
+<pre><code>res = <span class="fn">compile_psdl</span>(<span class="st">"apply(comm) >> apply(assoc)"</span>,
+    foundations={
+        <span class="st">"comm"</span>:  {<span class="st">"statement"</span>: <span class="st">"a + b == b + a"</span>},
+        <span class="st">"assoc"</span>: {<span class="st">"statement"</span>: <span class="st">"(a+b)+c == a+(b+c)"</span>},
+    })
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cut(_chain_1, AxiomInvocation(comm), AxiomInvocation(assoc))</span></code></pre>
+
+    <!-- ─── End-to-end ─── -->
+    <h2>End-to-End: PSDL Proof in a Sidecar</h2>
+    <p>
+      In a <code>.deppy</code> file, the <code>psdl_proof:</code> block
+      carries the same source text:
+    </p>
+
+<pre><code><span class="kw">verify</span> dist_nonneg:
+  function: Point.distance
+  property: <span class="st">"Point.distance(p, q) >= 0"</span>
+  via: <span class="st">"foundation Real_sqrt_nonneg"</span>
+  binders: { p: Point, q: Point }
+  psdl_proof: |
+    if isinstance(other, Point):
+        inline(Point.distance, sqrt(sum_zip_sub_sq(self, other)))
+        apply(Real_sqrt_nonneg)
+        assert sum_zip_sub_sq(self, other) >= 0, <span class="st">"z3"</span>
+    else:
+        raise NotImplementedError</code></pre>
+
+    <p>
+      The same source goes through the same compiler whether it comes
+      from a sidecar file or a <code>@psdl_proof("…")</code> decorator
+      on a Python method — see
+      <a href="../part4/decorator_form.html">Decorator Form</a>.
+    </p>
+
+    <!-- ─── Where to next ─── -->
+    <h2>What's Next</h2>
+    <p>
+      <a href="tactics.html"><strong>Homotopy Tactics</strong></a>
+      covers the broader tactic engine (the one running
+      <em>inside</em> the kernel after PSDL has produced its term).
+      The combination — PSDL on the outside, homotopy tactics on the
+      inside — is what makes Deppy practical for large proof bodies.
+    </p>
+
+    <nav class="page-nav">
+      <a href="fibrations.html">
+        <span class="label">← Previous</span>
+        <span class="title">Fibrations</span>
+      </a>
+      <a href="tactics.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Homotopy Tactics</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

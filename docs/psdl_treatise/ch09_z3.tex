@@ -1,0 +1,371 @@
+\chapter{Z3 Discharge and Counterexample Search}
+\label{ch:z3}
+
+The \Zthree{} \citep{Z3} backend is the second-most-trusted
+discharge channel, after \Lean{}~4's kernel.  This chapter explains
+which formulas the backend handles, how counterexample search
+operates, and what the
+\texttt{AXIOM\_TRUSTED}~$\to$~\texttt{Z3\_VERIFIED} trust
+promotion actually buys.
+
+The implementation is split across:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{deppy/core/z3\_bridge.py} --- low-level wrapper
+    around the \texttt{z3} Python package;
+  \item \texttt{deppy/core/z3\_encoder.py} --- typed encoding from
+    \texttt{SynType} to Z3 sorts;
+  \item \texttt{deppy/lean/sidecar\_foundation\_discharge.py} ---
+    foundation-level discharge driver;
+  \item \texttt{deppy/lean/sidecar\_counterexample\_link.py} ---
+    counterexample search driver;
+  \item \texttt{deppy/pipeline/counterexample.py} ---
+    \texttt{CounterexampleFinder}.
+\end{itemize}
+
+\section{When Z3 fires}
+\label{sec:z3-when}
+
+The \Deppy{} pipeline calls \Zthree{} in three contexts:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \textbf{Foundation discharge.}  Each
+    \texttt{FoundationDecl} is offered to Z3.  Successful
+    discharge promotes the foundation from
+    \texttt{AXIOM\_TRUSTED} to \texttt{Z3\_VERIFIED}.
+
+  \item \textbf{PSDL \texttt{assert P, "z3"}.}  The PSDL compiler
+    generates a \texttt{Z3Proof(formula=P, binders=\dots)} term;
+    \texttt{ProofKernel.verify} dispatches it to the backend.
+
+  \item \textbf{Counterexample search.}  After foundation discharge,
+    every formula Z3 \emph{attempted} but did not verify is offered
+    to the counterexample finder, which tries to satisfy the
+    negation.  When a model is found, the foundation is provably
+    false.
+\end{enumerate}
+
+A fourth ``passing'' use is when the safety pipeline
+(\texttt{deppy/pipeline/safety\_pipeline.py}) discharges per-source
+exception-safety obligations; that is conceptually the same
+mechanism but lives outside the verify-block path.
+
+\section{Trust promotion}
+\label{sec:z3-trust}
+
+The \texttt{TrustLevel} ordering (\Cref{ch:cubical}) places
+\texttt{Z3\_VERIFIED} (5) above \texttt{AXIOM\_TRUSTED} (2) and
+just below \texttt{KERNEL} (6).  The semantics:
+
+\begin{description}
+  \item[\texttt{AXIOM\_TRUSTED}] the proof is admitted on the user's
+    authority.  No machine has checked it.
+  \item[\texttt{Z3\_VERIFIED}] the SMT solver returned
+    \texttt{unsat} on the negation.  We trust Z3's answer.
+  \item[\texttt{KERNEL}] every sub-proof was checked by an internal
+    rule (or by Lean's kernel via \texttt{LeanProof}).
+\end{description}
+
+The promotion from \texttt{AXIOM\_TRUSTED} to
+\texttt{Z3\_VERIFIED} is meaningful: the foundation is no longer
+admitted by the user; it is checked by an external decision
+procedure.  The trust surface shifts from ``the user's claim is
+correct'' to ``Z3 is correct on this particular formula''.  We
+believe Z3 is significantly more reliable than typical user-supplied
+admissions for the formulas it handles.
+
+\section{The typed Z3 encoder}
+\label{sec:typed-z3}
+
+\texttt{deppy/core/z3\_encoder.py} translates from the kernel's
+\texttt{SynType} universe to Z3 sorts and from \texttt{SynTerm}
+expressions to Z3 \texttt{Expr}s.
+
+\subsection{Sorts}
+
+The mapping:
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{\texttt{SynType}}        & \textbf{Z3 sort} \\
+\midrule
+\texttt{PyIntType}                & \texttt{Int} \\
+\texttt{PyFloatType}              & \texttt{Real} \\
+\texttt{PyBoolType}               & \texttt{Bool} \\
+\texttt{PyStrType}                & \texttt{String} \\
+\texttt{PyListType[T]}            & \texttt{Seq T} (or array of $T$) \\
+\texttt{PyDictType[K, V]}         & \texttt{Array K V} \\
+\texttt{OptionalType[T]}          & \texttt{Datatype Some T \(\cup\) None} \\
+\texttt{PyClassType{n; \dots}}      & uninterpreted sort with arity 0 \\
+\texttt{RefinementType{T \mid p}}   & sort of $T$ + assertion of $p$ \\
+\texttt{IntervalType[a, b]}       & \texttt{Int} + assertion $a \le x \le b$ \\
+\texttt{UnionType[T1, T2]}        & \texttt{Datatype Inl T1 \(\cup\) Inr T2} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Expressions}
+
+The \texttt{SynTerm} expressions translate directly:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{Var(name)} → free Z3 constant of the appropriate
+    sort.
+  \item \texttt{Literal(v)} → Z3 literal.
+  \item \texttt{App(f, a)} → \texttt{f(a)} where \texttt{f} is an
+    uninterpreted function.
+  \item \texttt{Lam} / \texttt{Pi} / path constructors are
+    \emph{not} encoded; they are not first-class in Z3.
+  \item \texttt{ite(c, t, e)} → \texttt{If(c, t, e)}.
+  \item \texttt{Add}/\texttt{Sub}/\texttt{Mul}/\texttt{Div}/\texttt{Mod} → direct.
+  \item Comparisons → direct.
+\end{itemize}
+
+\subsection{Untyped fallback}
+
+When the kernel cannot infer types (e.g.\ from a free-text formula
+without binders), it falls back to a heuristic
+\texttt{Int}/\texttt{Bool} encoding: every identifier becomes
+\texttt{Int}; comparisons stay; arithmetic stays.  This handles the
+canonical arithmetic foundations.  When a formula references
+\texttt{sqrt} or \texttt{abs}, the encoder emits an uninterpreted
+function symbol; Z3 has no inherent semantics for it, so the
+formula is unlikely to discharge.
+
+\section{Foundation discharge in detail}
+\label{sec:foundation-discharge-z3}
+
+\texttt{discharge\_foundations(sm)} (file:
+\texttt{deppy/lean/sidecar\_foundation\_discharge.py}) is the entry
+point.  Per-foundation flow:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \textbf{Filter.}  \texttt{\_looks\_arithmetic(stmt)} screens
+    out statements containing \texttt{sqrt}, \texttt{sin}, \texttt{cos},
+    \texttt{Σ}, \texttt{is\_collinear}, \texttt{Triangle},
+    \texttt{Point}, etc.  These foundations are pre-classified as
+    not arithmetic-Z3-friendly.
+  \item \textbf{Strip the guard.}
+    \texttt{\_strip\_when\_clause("\dots when \dots")} returns
+    \texttt{(core, guard)}.
+  \item \textbf{Compose.}
+    \texttt{\_rewrite\_for\_z3(stmt)} returns
+    \texttt{(guard) => (core)} when there is a guard, else just
+    \texttt{core}.
+  \item \textbf{Bind.}  \texttt{\_collect\_binders(formula)}
+    enumerates free identifiers and assigns each \texttt{int}.
+  \item \textbf{Verify.}  Build a \texttt{Z3Proof(formula,
+    binders)} and a synthetic \texttt{Judgment}; call
+    \texttt{kernel.verify}.
+\end{enumerate}
+
+Outcomes for \texttt{sympy\_geometry.deppy}'s 14 foundations:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Foundation} & \textbf{Outcome} \\
+\midrule
+\texttt{Real\_abs\_nonneg}                       & verified (omega) \\
+\texttt{Real\_abs\_zero\_iff\_zero}              & verified (omega) \\
+\texttt{Real\_add\_assoc}                         & verified (omega) \\
+\texttt{Real\_add\_comm}                          & verified (omega) \\
+\texttt{Real\_avg\_minus\_endpoints}              & verified (omega) \\
+\texttt{Real\_mul\_div\_self}                     & verified (omega) \\
+\texttt{Real\_translate\_killed\_in\_diff}        & verified (omega) \\
+\texttt{Real\_scale\_quadratic}                   & admitted (non-linear) \\
+\texttt{Real\_sqrt\_nonneg}                       & admitted (sqrt) \\
+\texttt{Real\_sqrt\_sq\_nonneg}                   & admitted (sqrt) \\
+\texttt{Real\_sqrt\_zero\_iff\_zero}              & admitted (sqrt) \\
+\texttt{Real\_sub\_sq\_swap}                      & admitted (non-linear) \\
+\texttt{Real\_sub\_sq\_zero\_iff\_eq}             & admitted (non-linear) \\
+\texttt{Real\_sum\_of\_nonneg\_zero\_iff\_all\_zero} & admitted (NL prose) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The \texttt{omega} tactic in \Lean{}~4 is roughly Z3 over linear
+integer arithmetic.  When Z3 succeeds via the encoder, the
+generated \Lean{} foundation reads:
+
+\begin{lstlisting}[language=lean4]
+theorem Foundation_Real_add_comm : Foundation_Real_add_comm_prop := by
+  unfold Foundation_Real_add_comm_prop; intros; omega
+\end{lstlisting}
+
+When Z3 cannot handle the formula (non-linear, transcendental, or
+prose), the certificate falls back to \texttt{axiom}.
+
+\section{Counterexample search}
+\label{sec:counter-search-z3}
+
+\texttt{run\_counterexample\_search(sm,
+foundation\_discharge\_report)} (file:
+\texttt{deppy/lean/sidecar\_counterexample\_link.py}) runs only on
+foundations whose \texttt{z3\_attempted == True} but
+\texttt{z3\_verified == False}.
+
+\subsection{The negation game}
+
+For each candidate foundation $\varphi$:
+\begin{enumerate}[leftmargin=1.7em]
+  \item Build a \texttt{Judgment} whose \texttt{type\_} is the
+    \texttt{RefinementType} with \texttt{predicate=}$\varphi$.
+  \item Call
+    \texttt{CounterexampleFinder.find(goal, timeout\_ms=2000)}.
+  \item The finder asks Z3 to satisfy $\neg \varphi$.
+  \item If \texttt{sat}, return the model as the counterexample;
+    if \texttt{unsat}, conclude $\varphi$ is true (rare ---
+    discharge would have already verified it).
+  \item If \texttt{unknown}, no counterexample claim made.
+\end{enumerate}
+
+\subsection{What the finder returns}
+
+\texttt{CounterexampleResult} carries:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{found : bool};
+  \item \texttt{inputs : dict} --- the satisfying model
+    (e.g.\ \verb|{"x": -1, "y": 0}|);
+  \item \texttt{explanation : str} --- a human-readable rationale.
+\end{itemize}
+
+\subsection{The cascade}
+
+When a foundation is rejected, two things happen in the certificate:
+\begin{enumerate}[leftmargin=1.7em]
+  \item The foundation's \Lean{} declaration is replaced with a
+    rejection notice.
+  \item Every theorem citing the rejected foundation is replaced
+    with a rejection notice.
+  \item Foundations \emph{transitively dependent} on the rejected
+    foundation (via \texttt{sm.\_foundation\_deps}) are also
+    rejected, by fixed-point closure.
+\end{enumerate}
+
+The fixed-point loop is in \texttt{render\_sidecar\_section}:
+
+\begin{lstlisting}[caption={Rejection cascade in
+\texttt{render\_sidecar\_section} (paraphrased).}]
+rejected_foundations = {o.foundation for o in
+                        counterexample_report.outcomes if o.found}
+foundation_deps_map = sm._foundation_deps or {}
+while True:
+    added = False
+    for fname, deps in foundation_deps_map.items():
+        if fname in rejected_foundations:
+            continue
+        if any(d in rejected_foundations for d in deps):
+            rejected_foundations.add(fname)
+            added = True
+    if not added:
+        break
+\end{lstlisting}
+
+\subsection{Why this matters}
+
+A common verifier failure mode is to admit a false foundation and
+then claim the theorems it implies are verified.  The
+counterexample-search loop closes that hole: any false admission
+gets surfaced before the certificate is signed.
+
+The price is performance.  Each candidate foundation gets a
+2-second timeout; for a sidecar with a hundred admitted
+foundations the loop adds about 200 seconds in the worst case.
+Caching mitigates this: repeated runs against unchanged
+foundations are essentially free.
+
+\section{The \texttt{Z3Proof} term in \texttt{ProofKernel.verify}}
+\label{sec:z3-proofterm}
+
+When the kernel encounters a \texttt{Z3Proof(formula, binders)}
+inside a \texttt{ProofTerm} tree, the verification rule fires:
+
+\begin{lstlisting}[caption={\texttt{Z3Proof} verification rule
+(paraphrased from the kernel).}]
+def verify_z3(self, ctx, goal, term):
+    if term._cached_result is not None:
+        return term._cached_result
+    encoded = self.z3_encoder.encode_formula(
+        term.formula, binders=term.binders, ctx=ctx,
+    )
+    if encoded is None:
+        return VerificationResult.fail(
+            "Z3 encoder could not handle formula", code="E-Z3-ENC")
+    solver = Solver()
+    solver.add(Not(encoded))
+    result = solver.check()
+    if result == unsat:
+        verdict = VerificationResult.ok(
+            trust=TrustLevel.Z3_VERIFIED,
+            message=f"Z3 unsat on negation: {term.formula}")
+    elif result == sat:
+        verdict = VerificationResult.fail(
+            f"Z3 found counterexample: {solver.model()}",
+            code="E-Z3-CE")
+    else:
+        verdict = VerificationResult.fail(
+            "Z3 returned unknown", code="E-Z3-UNK")
+    term._cached_result = verdict
+    return verdict
+\end{lstlisting}
+
+The cache field on the \texttt{Z3Proof} dataclass means a
+particular formula is asked at most once per session.
+
+\section{Limits of Z3}
+
+We close the chapter by being honest about what Z3 cannot do:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item \textbf{Transcendentals.}  \texttt{sqrt}, \texttt{sin},
+    \texttt{cos}, \texttt{exp}, \texttt{log} have no Z3 semantics.
+    The encoder emits an uninterpreted function and Z3 cannot
+    reason about it.
+
+  \item \textbf{Quantifier alternation.}  Z3 accepts $\forall x.\,
+    \varphi(x)$ but is incomplete in the presence of nested
+    $\forall \exists$.  The arithmetic foundations we discharge are
+    universal-only; richer claims are out of scope.
+
+  \item \textbf{Strings and arrays beyond a fixed alphabet.}  Z3's
+    string and sequence theories are decidable but \emph{slow}.
+    The encoder uses them sparingly and times out conservatively.
+
+  \item \textbf{Inductive reasoning.}  Z3 cannot prove
+    $\forall n.\, P(n)$ by induction.  Inductive properties go
+    through PSDL's \texttt{induction(\dots)} construct and
+    \Lean{}'s elaborator.
+
+  \item \textbf{Higher-order.}  Z3 does not handle $\Pi$/$\Sigma$
+    or $\lambda$-terms in the goal.  These go through PSDL's
+    quantifier sugar and \Lean.
+
+  \item \textbf{Floating-point semantics.}  \texttt{Real} in Z3 is
+    mathematical reals, not IEEE 754.  Floating-point obligations
+    are admitted with caveats; the kernel does not currently make
+    floating-point claims.
+\end{itemize}
+
+The user-facing rule of thumb: \emph{linear integer arithmetic}
+discharges; everything else admits.  PSDL's \verb|assert P, "z3"| is
+appropriate for arithmetic side conditions in proof bodies; for
+deeper claims, use a \verb|by_lean: |\ block or compose with
+foundation citations.
+
+\section{Summary}
+
+The \Zthree{} backend:
+\begin{itemize}[leftmargin=1.7em]
+  \item handles linear integer arithmetic well, transcendentals
+    not at all;
+  \item promotes successful foundations from
+    \texttt{AXIOM\_TRUSTED} to \texttt{Z3\_VERIFIED};
+  \item runs counterexample search on the negation of every
+    Z3-attempted-but-not-verified foundation;
+  \item rejects any theorem citing a counterexample-refuted
+    foundation;
+  \item caches per-formula results within a run.
+\end{itemize}
+
+The next chapter discusses the cohomology layer: what the
+intra-procedural cubical analysis, the inter-procedural simplicial
+cohomology, and the bicomplex bridge buy --- and what they don't.

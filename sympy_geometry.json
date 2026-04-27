@@ -1,0 +1,45 @@
+{
+  "sidecar": "/Users/halleyyoung/Documents/div/mathdivergence/deppy/sympy_geometry.deppy",
+  "lean_path": "/Users/halleyyoung/Documents/div/mathdivergence/deppy/sympy_geometry.lean",
+  "library_summary": "sympy 1.14.0 \u2014 sympy",
+  "elapsed_ms": 604.2087499517947,
+  "certified": true,
+  "failures": [],
+  "lean_runner": {
+    "invoked": true,
+    "ok": true,
+    "stderr": "",
+    "goal_state_on_failure": []
+  },
+  "section_counters": {
+    "foundation_count": 14,
+    "axiom_count": 38,
+    "verify_total": 11,
+    "verify_kernel_verified": 11,
+    "mechanized_axioms": 38,
+    "body_links_exact": 3,
+    "body_links_sorry": 1,
+    "counterexamples_found": 0,
+    "counterexamples_attempted": 3,
+    "rejected_theorem_count": 0,
+    "soundness_gate_pass": 3,
+    "soundness_gate_fail": 0,
+    "foundations_z3_verified": 7,
+    "foundations_z3_attempted": 10,
+    "kan_obligations_total": 0,
+    "kan_obligations_verified": 0,
+    "cubical_methods_analysed": 4,
+    "cubical_total_cells": 310,
+    "cohomology_c0_count": 4,
+    "cohomology_c1_count": 0,
+    "cohomology_c2_count": 0
+  },
+  "classification_counts": {
+    "CITES_FOUNDATION": 2,
+    "REWRITE_THEN_CITE": 6,
+    "CHAIN": 5,
+    "CITES_AXIOM": 25,
+    "COMPOSITION": 7
+  },
+  "unmatched_proofs": []
+}

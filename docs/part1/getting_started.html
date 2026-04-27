@@ -23,7 +23,7 @@
 
       <li><span class="section-title">Part 1 — Pure Python</span></li>
       <li><a href="../part1/index.html">Overview</a></li>
-      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/getting_started.html" class="active">Getting Started</a></li>
       <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
       <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
       <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
@@ -44,12 +44,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="../part3/index.html">Overview</a></li>
       <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="../part4/index.html">Overview</a></li>
       <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -59,11 +63,13 @@
       <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="../part5/cech.html">Čech Decomposition</a></li>
       <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
       <li><a href="../part6/index.html">Overview</a></li>
-      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
       <li><a href="../part6/references.html">Mutable References</a></li>
       <li><a href="../part6/arrays.html">Arrays</a></li>
       <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
@@ -72,8 +78,8 @@
       <li><span class="section-title">Under the Hood</span></li>
       <li><a href="../under_the_hood/index.html">Overview</a></li>
       <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
-    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
-    <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
     </ul>
   </nav>
 </aside>
@@ -162,33 +168,41 @@ pip install z3-solver</code></pre>
     <!-- ──────────────────────────────────────────────── -->
     <h2 id="running-the-verifier">Running the Verifier</h2>
 
-    <p>Verify the file from your terminal:</p>
+    <p>
+      Deppy ships with two ways to invoke the verifier on a Python module:
+      a <code>.deppy</code> sidecar file (best for verifying libraries you
+      don't control) or the decorator form (best when the module carries
+      its own <code>@verify</code> annotations). Both feed the same kernel
+      pipeline.
+    </p>
 
-    <pre><code>deppy verify mymath.py</code></pre>
+    <pre><code><span class="cm"># Verify via a sidecar (mymath.deppy beside mymath.py)</span>
+python -m deppy.pipeline.run_verify mymath.deppy --out mymath.lean
 
-    <p>You should see output like this:</p>
+<span class="cm"># Or verify a module that carries decorators inline</span>
+python -m deppy.pipeline.run_verify --from-module mymath --out mymath.lean</code></pre>
 
-    <pre><code class="output"><span class="cm">──────────────────────────────────────────────────</span>
- Deppy v0.4.0 — verifying mymath.py
-<span class="cm">──────────────────────────────────────────────────</span>
+    <p>You should see output like this (truncated):</p>
 
-<span class="fn">max_of</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
-  Proof obligations:
-    1. result <span class="op">>=</span> a            ✅  Z3_VERIFIED
-    2. result <span class="op">>=</span> b            ✅  Z3_VERIFIED
-    3. result <span class="op">==</span> a <span class="kw">or</span> result <span class="op">==</span> b  ✅  Z3_VERIFIED
-
-  Status: ✅ VERIFIED   Trust: Z3_VERIFIED   Time: 0.03s
-
-<span class="cm">──────────────────────────────────────────────────</span>
- 1 function verified · 0 failed · 3 obligations discharged
-<span class="cm">──────────────────────────────────────────────────</span></code></pre>
+    <pre><code class="output">  Foundations: <span class="fn">N / N</span> Z3-attempted / verified
+  ProofTerm subclasses (C1–C7 audit batch):
+    constructed / kernel-accepted:         <span class="fn">N / N</span>
+  ``verify`` blocks (.deppy → kernel.verify):
+    accepted by ProofKernel.verify:        <span class="fn">N</span>
+  ────────────────────────────────────────────────
+  deppy.lean.lean_runner round-trip:       OK
+  ────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span>
+  ════════════════════════════════════════════════
+  Certificate at: mymath.lean
+  JSON sidecar:   mymath.json</code></pre>
 
     <div class="tip">
-      <strong>Continuous verification.</strong> Run
-      <code>deppy watch mymath.py</code> and the verifier will re-check
-      the file every time you save. This pairs well with a split terminal
-      — code on the left, verification output on the right.
+      <strong>Working examples.</strong> The repository ships
+      <code>sympy_geometry.deppy</code> (Euclidean geometry) and
+      <code>sympy_ntheory.deppy</code> (number theory) plus
+      <code>examples/decorated_geometry.py</code> in the decorator form.
+      All three certify end-to-end on every commit.
     </div>
 
     <!-- ──────────────────────────────────────────────── -->
@@ -338,7 +352,7 @@ pip install z3-solver</code></pre>
     <span class="kw">else</span>:
         <span class="kw">return</span> <span class="op">-</span>x</code></pre>
 
-    <p>Running <code>deppy verify</code> on this file produces:</p>
+    <p>Running <code>python -m deppy.pipeline.run_verify</code> on this file produces:</p>
 
     <pre><code class="output"><span class="fn">abs_val</span>(x: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>
   Proof obligations:
@@ -412,29 +426,20 @@ pip install z3-solver</code></pre>
     <h2 id="ide-integration">IDE Integration</h2>
 
     <p>
-      Deppy ships with a VS Code extension
-      (<code>deppy-vscode</code>) that shows verification results
-      inline as you type. Verified guarantees are marked with a green
-      gutter icon; failures show red with the counterexample on hover.
+      Deppy works with any editor that runs Python: the only IDE
+      contract is "show the file, run a process when you save." A
+      typical workflow is to keep a split terminal open running
+      <code>python -m deppy.pipeline.run_verify my_module.deppy --out
+      my_module.lean</code> on every save.
     </p>
-
-    <pre><code class="output"><span class="cm"># In VS Code with deppy-vscode installed, you see:</span>
-<span class="cm">#</span>
-<span class="cm">#  ✅ │ @guarantee("result >= a and result >= b ...")</span>
-<span class="cm">#     │ def max_of(a: int, b: int) -> int:</span>
-<span class="cm">#     │     if a >= b:</span>
-<span class="cm">#     │         return a</span>
-<span class="cm">#     │     else:</span>
-<span class="cm">#     │         return b</span>
-<span class="cm">#</span>
-<span class="cm"># The green checkmark appears once verification completes.</span>
-<span class="cm"># Hover it for details (trust level, time, obligations).</span></code></pre>
 
     <p>
-      Install it from the VS Code marketplace or via the command line:
+      The <code>--out</code> Lean certificate is a plain text file you
+      can diff in source control; the JSON sidecar emitted next to it
+      records every proof obligation, trust level, and discharge
+      method. Together they form a reproducible audit log of what was
+      verified.
     </p>
-
-    <pre><code>code --install-extension deppy.deppy-vscode</code></pre>
 
     <!-- ──────────────────────────────────────────────── -->
     <h2 id="project-config">Project Configuration</h2>
@@ -456,7 +461,7 @@ exclude <span class="op">=</span> [<span class="st">"tests/**"</span>]</code></p
 
     <p>
       With a config file in place you can simply run
-      <code>deppy verify</code> (no filename) and it will verify every
+      <code>python -m deppy.pipeline.run_verify</code> (no filename) and it will verify every
       file matched by <code>include</code>.
     </p>
 
@@ -518,7 +523,7 @@ exclude <span class="op">=</span> [<span class="st">"tests/**"</span>]</code></p
 <span class="kw">def</span> <span class="fn">is_positive</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">bool</span>:
     <span class="kw">return</span> n <span class="op">></span> <span class="nb">0</span></code></pre>
 
-    <p>Running <code>deppy verify utils.py</code>:</p>
+    <p>Running <code>python -m deppy.pipeline.run_verify utils.py</code>:</p>
 
     <pre><code class="output"><span class="cm">──────────────────────────────────────────────────</span>
  Deppy v0.4.0 — verifying utils.py
@@ -569,7 +574,7 @@ exclude <span class="op">=</span> [<span class="st">"tests/**"</span>]</code></p
         <code>assume("lo &lt;= hi")</code> precondition.
       </p>
       <p>
-        Verify your solution with <code>deppy verify</code>. Then
+        Verify your solution with <code>python -m deppy.pipeline.run_verify</code>. Then
         deliberately introduce a bug (e.g., swap the <code>lo</code> and
         <code>hi</code> returns) and observe the counterexample that Z3
         produces.

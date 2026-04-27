@@ -1,0 +1,806 @@
+\chapter{PSDL: The Python-Semantic Deppy Language}
+\label{ch:psdl}
+
+\PSDL{} is the strong proof language at the heart of the
+\Deppy{} verification pipeline.  It is what fills the
+\texttt{psdl\_proof:} field of a \texttt{verify} block.  This chapter
+is a complete reference: design rationale, syntax, statement-level
+mapping, soundness arguments, and worked examples.
+
+The implementation is in
+\texttt{deppy/proofs/psdl.py} (1553 lines as of writing).  We cite
+specific line ranges as we go.
+
+\section{Design intent}
+\label{sec:psdl-design}
+
+The unifying design choice of \PSDL{} is that \emph{the proof script
+is literal Python}.  \texttt{ast.parse} reads it; the
+\texttt{\_Compiler} class walks the AST and maps each statement to:
+\begin{enumerate}[leftmargin=1.7em]
+  \item a \Deppy{} \texttt{ProofTerm} that
+    \texttt{ProofKernel.verify} type-checks;
+  \item a line of \Lean{}~4 tactic-mode text emitted into the
+    enclosing \texttt{by ...} block.
+\end{enumerate}
+
+Two design constraints follow:
+
+\paragraph{1. No new syntax.} Users should not have to learn a
+ninth proof language.  \PSDL{} \emph{is} Python --- if it parses as
+Python, \PSDL{} can in principle accept it.  The semantics of each
+construct, however, is \emph{tactic-language} semantics, not Python
+runtime semantics: \texttt{if isinstance(other, Point)} does not
+\emph{run} an \texttt{isinstance} check, it \emph{introduces a
+fibration}.
+
+\paragraph{2. Two-target compilation.} Every statement must produce
+both a \texttt{ProofTerm} and a \Lean{} tactic.  When a statement
+cannot be compiled to one of the two, the result records an error:
+\begin{lstlisting}
+@dataclass
+class PSDLError:
+    line_no: int
+    line_text: str
+    message: str
+
+@dataclass
+class PSDLCompileResult:
+    proof_term: Optional[ProofTerm] = None
+    lean_tactic: str = ""
+    term_repr: str = ""
+    errors: list[PSDLError] = field(default_factory=list)
+    hints: list[str] = field(default_factory=list)
+    show_goal_requested: bool = False
+    foundations_referenced: list[str] = field(default_factory=list)
+\end{lstlisting}
+The \texttt{ok} property is \texttt{True} iff both the
+\texttt{ProofTerm} is constructed and \texttt{errors} is empty.
+This is the gate.
+
+\section{The two-vocabulary structure}
+\label{sec:two-vocab}
+
+\PSDL's vocabulary splits cleanly into two halves, kept separate
+to keep clear what is borrowed from \CIC{} and what is intrinsic to
+\Deppy.
+
+\paragraph{\CIC{} core.}  $\Pi$, $\Sigma$, identity types, induction
+principles, substitution, equivalences, congruence, function
+extensionality, transport, path induction.  Same expressive power as
+\Lean{} / \Coq{} / \Agda{}.
+
+\paragraph{Cubical / duck / effect Python primitives.}  Things that
+make sense only because the underlying language being reasoned about
+is Python:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{DuckPath} dispatch on shared method sets;
+  \item $\Diamond$ / $\Box$ effect modalities for value/exception
+    fibres;
+  \item \texttt{isinstance} as a fibration;
+  \item Kan-filling in cubical control-flow analyses;
+  \item cocycle constructors for inter-procedural cohomology.
+\end{itemize}
+
+The lookup tables in this chapter group the constructors by which
+half of the vocabulary they inhabit.
+
+\section{Surface mapping: control flow}
+\label{sec:psdl-control}
+
+\subsection{\texttt{if isinstance(x, T):}}
+
+A standard idiom in Python: \texttt{if isinstance(x, T): \dots else:
+\dots}.  In \PSDL{} this is the canonical fibration construction.
+
+\begin{lstlisting}[language=psdl]
+if isinstance(x, T):
+    <value-fibre body>
+else:
+    <complement-fibre body>
+\end{lstlisting}
+
+The compilation, from \texttt{psdl.py}'s \texttt{\_compile\_if}
+(lines 609--642):
+
+\begin{itemize}[leftmargin=1.7em]
+  \item Detects the \texttt{isinstance} test pattern via
+    \texttt{\_is\_isinstance\_test}.
+  \item Builds a \texttt{Fiber(scrutinee=Var(x), type\_branches=[(T,
+    body), (\_, else\_branch)], exhaustive=True)}.
+  \item Emits \Lean: \verb|by_cases h : isinstance x T|, then the
+    \texttt{·} bullets for each fibre.
+\end{itemize}
+
+When the condition is \emph{not} \texttt{isinstance}, the compiler
+falls through to a generic \texttt{Cases} on the test expression:
+
+\begin{lstlisting}[language=psdl]
+if x > 0:
+    ...
+else:
+    ...
+\end{lstlisting}
+
+becomes a \texttt{Cases(scrutinee=Var("x > 0"), branches=[("then",
+\dots), ("else", \dots)])} and \Lean{} \verb|by_cases h : x > 0|.
+
+\subsection{\texttt{try / except}}
+
+\begin{lstlisting}[language=psdl]
+try:
+    <value-fibre body>
+except TypeError:
+    <handler body>
+\end{lstlisting}
+
+\texttt{\_compile\_try} (lines 645--666) folds:
+\begin{enumerate}[leftmargin=1.7em]
+  \item the \texttt{try}-body into an
+    \texttt{EffectWitness(effect="value", proof=$P_v$)};
+  \item each \texttt{except} handler into a
+    \texttt{ConditionalEffectWitness(precondition="raises Exc",
+    effect="exception", proof=$P_e$, target=Exc)}.
+\end{enumerate}
+The \Lean{} side emits \texttt{-- try block (effect modality)} as
+a comment and the handler body inline.  The kernel verifies the
+inner proofs; the modal layer is recorded as effect-fibre witnesses.
+
+\subsection{\texttt{for} and \texttt{while}}
+
+\begin{lstlisting}[language=psdl]
+for x in xs:
+    <step body>
+\end{lstlisting}
+
+compiles via \texttt{\_compile\_for} (lines 668--685) to
+\texttt{ListInduction(var=x, nil\_proof=Refl(\dots),
+cons\_proof=step\_body)}.  The \Lean{} emits
+\verb|induction xs with | followed by \texttt{| nil => rfl} and
+\texttt{| cons \_ \_ ih =>}.
+
+\begin{lstlisting}[language=psdl]
+while n:
+    <step body>
+\end{lstlisting}
+
+compiles to \texttt{NatInduction(var=n, base\_proof=Refl,
+step\_proof=body)}.  The default base case is \texttt{rfl}; users
+who want a richer base case use the explicit
+\texttt{induction(n, base=\dots, step=\dots)} call form.
+
+\subsection{\texttt{match} / \texttt{case}}
+
+Python 3.10's structural pattern-matching:
+
+\begin{lstlisting}[language=psdl]
+match x:
+    case A:
+        <body_A>
+    case B:
+        <body_B>
+\end{lstlisting}
+
+compiles to \texttt{Cases(scrutinee=Var("x"), branches=[(A, $P_A$),
+(B, $P_B$)])} and \Lean{} \verb|match x with | \verb|| A => ... | B => ...|.
+
+\section{Surface mapping: logical / equality tactics}
+\label{sec:psdl-logical}
+
+\subsection{\texttt{assert P} and discharge modes}
+
+\begin{lstlisting}[language=psdl]
+assert P                  # default: discharge by Z3
+assert P, "z3"            # explicit Z3 discharge
+assert P, "by F"          # cite foundation F
+assert P, "by lemma L"    # cite lemma L
+\end{lstlisting}
+
+The compiler (\texttt{\_compile\_assert}, lines 710--777) reads the
+optional message argument as a discharge selector:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{"z3"} (or no message) $\to$ \texttt{Cut(\dots,
+    Z3Proof(formula=P, binders=\{\}), \dots)}; \Lean{} emits
+    \verb|have h : P := by omega -- z3-discharged|.
+  \item \texttt{"by F"} where $F$ is in the foundations dict $\to$
+    \texttt{Cut(\dots, AxiomInvocation(F, "foundations"), \dots)};
+    \Lean{} emits \verb|have h : P := Foundation_F|.
+  \item \texttt{"by lemma L"} $\to$ \texttt{Cut(\dots,
+    AxiomInvocation(L, ""), \dots)}; \Lean{} emits
+    \verb|have h : P := L|.
+\end{itemize}
+
+The \texttt{Cut} bound name is auto-generated as \texttt{h\_<lineno>}.
+
+\subsection{\texttt{apply(F)} and bare-name citation}
+
+\begin{lstlisting}[language=psdl]
+apply(F)
+F                # alias: bare-name reference
+\end{lstlisting}
+
+Both compile to \texttt{AxiomInvocation(name=F, module=\dots)}.  When
+$F$ is a registered foundation, the module is \texttt{"foundations"}
+and the \Lean{} emits \verb|exact Foundation_F|.  Otherwise the
+module is empty and \Lean{} emits \verb|exact F|.
+
+\subsection{\texttt{inline}, \texttt{unfold}, \texttt{rewrite}}
+
+\begin{lstlisting}[language=psdl]
+inline(method, expected_expr)    # body translation assertion
+unfold(method)                   # plain Unfold
+method.unfold()                  # alias
+
+rewrite(L)                       # rewrite using L
+L.rewrite()                      # alias
+\end{lstlisting}
+
+\texttt{inline(method, expected\_expr)} emits an \texttt{Unfold}
+proof term whose body is \texttt{Refl(Var(expected\_expr))} ---
+i.e., it asserts that after unfolding \texttt{method}, the body
+matches \texttt{expected\_expr} up to reflexivity.  The \Lean{} side
+emits \verb|unfold method  -- expected: <expected_expr>|.
+
+\texttt{unfold} alone emits \texttt{Unfold(method, Refl(...))} with
+no explicit RHS.  \texttt{rewrite} emits \texttt{Rewrite(lemma,
+Refl(...))} and \Lean{} \verb|rw [lemma]|.
+
+\subsection{\texttt{return}, \texttt{pass}, \texttt{raise}}
+
+\begin{lstlisting}[language=psdl]
+return expr      # Refl
+pass             # Structural("trivial"); Lean: trivial
+raise TypeError                 # exception fibre marker
+raise NotImplementedError       # vacuous (gated Structural)
+\end{lstlisting}
+
+\texttt{return expr} compiles to \texttt{Refl(Var(safe(expr)))}; the
+\Lean{} prints the comment \verb|-- return <expr>| followed by
+\verb|rfl|.
+
+\texttt{raise NotImplementedError} is the canonical
+\emph{vacuous-branch} marker: emit
+\texttt{Structural("vacuous: NotImplementedError")} and \Lean{}
+\verb|exact absurd ‹_› (by simp)|.  The soundness gate counts this
+\texttt{Structural} leaf and the certificate's
+\texttt{certify\_or\_die} accepts it only when the verification
+context (e.g.\ the exception fibre of an \texttt{if isinstance})
+makes the branch genuinely unreachable.
+
+\subsection{Local lemmas and assignments}
+
+\begin{lstlisting}[language=psdl]
+h: T = expr                       # annotated: typed local lemma
+L = lemma(name, statement, by)    # explicit lemma constructor
+\end{lstlisting}
+
+The annotated assignment compiles via \texttt{\_compile\_ann\_assign}
+(lines 808--827) to a \texttt{Cut} whose
+\texttt{hyp\_type} is \texttt{RefinementType(base\_type=PyBoolType,
+predicate=T)} and whose \texttt{lemma\_proof} is the compiled RHS.
+The \Lean{} side emits \verb|have h : T := <RHS>|.
+
+The \texttt{lemma(...)} form (compiled in \texttt{\_compile\_func\_call}
+under \texttt{lemma}, lines 1020--1040) is an explicit
+constructor: \texttt{lemma(name, statement, by)} where \texttt{by} is
+the discharge text.
+
+\section{Surface mapping: CIC core}
+\label{sec:psdl-cic}
+
+The \CIC{} core surface is what gives \PSDL{} its theoretical
+expressive power.  Every constructor in this section emits a real
+\Lean{} tactic that elaborates against the corresponding \CIC{} rule.
+
+\subsection{Quantifiers and induction}
+
+\begin{lstlisting}[language=psdl]
+forall(x, T, body_proof)       # ∀ introduction
+exists(x, T, witness, body)    # ∃ introduction (with explicit witness)
+
+induction(n, base=..., step=...)   # explicit Nat induction
+\end{lstlisting}
+
+\texttt{forall(x, T, body)} emits \verb|intro (x : T)| and recurses
+into \texttt{body}.  The \texttt{ProofTerm} is a \texttt{Cut} whose
+\texttt{hyp\_type} is the refinement \texttt{\{x : T\}} and whose
+\texttt{lemma\_proof} is the de Bruijn assumption
+\texttt{Assume(name=x)}.
+
+\texttt{exists(x, T, witness, body)} emits
+\verb|refine ⟨witness, ?_⟩|.  The \texttt{ProofTerm} is a
+\texttt{Cut} whose \texttt{lemma\_proof} is \texttt{Refl(Var(witness))}
+and whose \texttt{body\_proof} continues with the supplied body.
+
+\texttt{induction(n, base=$P_0$, step=$P_s$)} emits
+\verb|induction n with| followed by the base/step alternatives, and
+the term is \texttt{NatInduction(var=n, base\_proof=$P_0$,
+step\_proof=$P_s$)}.
+
+\subsection{Equality and substitution}
+
+\begin{lstlisting}[language=psdl]
+refl(x)                       # Refl[x]
+sym(eq)                       # Eq.symm
+trans(eq1, eq2)               # Eq.trans
+cong(f, eq)                   # congrArg f eq
+subst(eq, motive, body)       # rw [eq]
+rew(eq, body)                 # bare rewrite
+\end{lstlisting}
+
+These compile to the obvious kernel terms:
+\texttt{Refl}, \texttt{Sym(p)}, \texttt{Trans(p, q)}, \texttt{Cong(f,
+p)}, \texttt{Rewrite(eq, body)}.  \Lean{} emits the corresponding
+tactics: \verb|exact (eq).symm|, \verb|exact (eq1).trans (eq2)|,
+\verb|exact congrArg f eq|, \verb|rw [eq]|.
+
+\subsection{Path constructors}
+
+\begin{lstlisting}[language=psdl]
+path_concat(p, q)             # composite path → PathComp
+path_inv(p)                   # inverse → Sym
+path_ap(f, p)                 # functorial action → Ap
+J(motive, refl_case, x, y, p) # path induction → TransportProof
+\end{lstlisting}
+
+\texttt{path\_concat} compiles to \texttt{PathComp(p, q)} and
+\Lean{} \verb|exact (p).trans (q)|.  \texttt{path\_inv} is
+\texttt{Sym}.  \texttt{path\_ap(f, p)} is \texttt{Ap(f, p)} and
+\Lean{} \verb|exact congrArg f p|.
+
+The Martin-L\"of $J$ rule is approximated as a transport: the
+implementation (lines 1192--1209 of \texttt{psdl.py}) builds a
+\texttt{TransportProof} whose type-family is the motive,
+path-proof is an \texttt{AxiomInvocation} on the supplied path, and
+base-proof is the compiled refl-case.  The \Lean{} side emits the
+explicit \verb|exact @Eq.rec _ _ <motive> <refl> _ <p>|.  This is a
+faithful encoding for first-order motives; higher-dimensional
+motives are accepted but not specially decomposed.
+
+\subsection{Equivalence and univalence}
+
+\begin{lstlisting}[language=psdl]
+iso(forward, backward, l_inv, r_inv)   # construct an Equiv
+equiv_to_path(e)                       # ua-style transport
+\end{lstlisting}
+
+\texttt{iso} compiles to a \texttt{Cut} whose hypothesis is
+\texttt{Equiv-of-iso}.  The \Lean{} emits
+\verb|exact Equiv.mk fwd bwd l_inv r_inv|.
+
+\texttt{equiv\_to\_path(e)} is the bridge to univalence: it builds
+a \texttt{TransportProof} with type-family
+\texttt{Var("\_motive")}, path-proof
+\texttt{AxiomInvocation(name="ua", module="psdl\_local")}, and base
+proof the compiled $e$.  The \Lean{} side emits a comment ---
+\Lean{} core does not have univalence; the user must add it through
+\texttt{lean\_imports} if needed.
+
+\section{Surface mapping: cubical / duck / effect}
+\label{sec:psdl-cubical-duck}
+
+This section is what distinguishes \PSDL{} from a literal \CIC{}
+tactic language.  These constructors model the
+intra-Python phenomena that the \Deppy{} metatheory was built to
+handle.
+
+\subsection{Duck dispatch}
+
+\begin{lstlisting}[language=psdl]
+dispatch(receiver, "method")
+\end{lstlisting}
+
+Compiled (lines 1249--1262) to \texttt{DuckPath(base\_type=PyObj,
+target\_type=PyObj)}.  The \Lean{} emits
+\verb|exact DuckPath_resolve recv "method"|.  In a flat-Int
+preamble the \texttt{DuckPath\_resolve} is admitted as
+\verb|axiom|; in a richer preamble where method tables are
+declared, it elaborates against an actual Σ-projection.
+
+\subsection{Kan filling}
+
+\begin{lstlisting}[language=psdl]
+kan_fill(open_box, filling)
+\end{lstlisting}
+
+Compiles (lines 1263--1272) to a \texttt{Patch} term wrapping the
+filling proof and emits \verb|apply Kan.fill|.  The kernel verifies
+the wrapped proof; the cubical-coherence check is performed by
+\texttt{KanFill} (when constructed directly) or skipped for the
+sugar form.  See \Cref{ch:cohomology} for when the full
+\texttt{KanFill} is engaged.
+
+\subsection{Cocycle construction}
+
+\begin{lstlisting}[language=psdl]
+cocycle(level, witness)
+\end{lstlisting}
+
+Builds a \texttt{Cocycle(level, label="cocycle\_<lvl>",
+proof=Refl(Var(witness)))} and emits a comment in the \Lean{}.
+The cocycle's full structure (boundary pairs, overlap proofs,
+boundary-zero witness) is not exposed in the sugar form; users who
+need it construct \texttt{Cocycle} directly via the kernel API.
+
+\subsection{Fibration split}
+
+\begin{lstlisting}[language=psdl]
+fibre_split(scrutinee, [(T1, body1), (T2, body2)])
+\end{lstlisting}
+
+The explicit form of \texttt{if isinstance}: a \texttt{Fiber} with
+the listed branches.  The \Lean{} side emits a comment
+\verb|-- explicit fibration on <scrut>|.  Used when the user wants
+multiple type fibres rather than just \texttt{T} vs.\ \texttt{not T}.
+
+\subsection{Diamond / Box modalities}
+
+\begin{lstlisting}[language=psdl]
+pure(v)        # □-introduction
+bind(m, k)     # ◇ Kleisli composition
+expect(m, fallback)   # exception-fibre handler
+lift(v)        # ◇-introduction
+lower(m, witness)     # ◇-elimination with purity witness
+\end{lstlisting}
+
+These are the surface forms for the modal layer.  In the kernel:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{lift(v)} $\to$ \texttt{EffectWitness(effect="value", proof=$P_v$)}.
+  \item \texttt{bind(m, k)} $\to$ a \texttt{Cut} whose lemma proof is
+    $m$ and body is $k$.
+  \item \texttt{expect(m, fallback)} $\to$ a chain of effect
+    witnesses ending in a \texttt{ConditionalEffectWitness}.
+  \item \texttt{lower(m, witness)} $\to$ the inner proof of $m$
+    (assumes the purity witness is supplied at the same trust
+    level).
+  \item \texttt{pure} alone is structural (the marker).
+\end{itemize}
+
+\subsection{Homotopy and squares}
+
+\begin{lstlisting}[language=psdl]
+homotopy(p, q)                # path between paths
+square(top, bot, left, right) # 2-square diagram
+\end{lstlisting}
+
+\texttt{homotopy(p, q)} compiles to \texttt{PathComp(p, q)};
+\texttt{square(\dots)} chains four paths via two compositions.
+There is no native ``Square'' \texttt{ProofTerm}; the user obtains
+the semantically richer form by constructing
+\texttt{KanFill(dimension=2, faces=\dots)} directly.
+
+\section{Top-level user declarations}
+\label{sec:psdl-toplevel}
+
+\PSDL{} is a Python module, which means the user can declare
+inductives, axioms, theorems at top level.
+
+\subsection{\texttt{@inductive class T:}}
+
+\begin{lstlisting}[language=psdl]
+@inductive
+class Tree:
+    Leaf: int
+    Node: (Tree, Tree)
+\end{lstlisting}
+
+The \texttt{\_compile\_class\_def} method (lines 481--536) walks the
+class body looking for \texttt{AnnAssign} (named constructors with
+explicit types) or \texttt{FunctionDef} (constructor-as-method).
+The \Lean{} side emits an \verb|inductive| declaration:
+\begin{lstlisting}[language=lean4]
+inductive Tree where
+  | Leaf : int
+  | Node : Tree → Tree → Tree
+\end{lstlisting}
+
+The kernel records this as a structural ``inductive Tree (2 ctors)''
+that can be cited inside the same \PSDL{} block via
+\texttt{Tree.\_\_dict\_\_}-style references.
+
+\subsection{\texttt{@axiom def} and \texttt{@theorem def}}
+
+\begin{lstlisting}[language=psdl]
+@axiom
+def magic() -> Path[Int, 0, 1]: ...
+
+@theorem
+def my_lemma(x: Nat) -> Path[Nat, x + 0, x]:
+    induction(x) on Nat:
+        case Z(): refl(0)
+        case S(k, ih): cong(succ, ih)
+\end{lstlisting}
+
+\texttt{@axiom} produces a Lean \verb|axiom magic : Path Int 0 1|
+and registers it in the \PSDL{} compiler's \texttt{foundations}
+dict so subsequent \texttt{apply(magic)} resolves correctly.
+
+\texttt{@theorem} elaborates the body as a \PSDL{} proof and emits a
+real \verb|theorem my_lemma : <type> := by <body>|.  The kernel
+records a \texttt{Cut} whose hypothesis name is the theorem name.
+
+The \texttt{@protocol} decorator declares a structural protocol
+similar to PEP 544's \texttt{Protocol} class.
+
+\section{Compositional structure: how multiple statements become one ProofTerm}
+\label{sec:psdl-composition}
+
+A \PSDL{} block is a \emph{list} of statements.  The compiler chains
+them via \texttt{Cut}: the first statement's proof becomes the
+\texttt{lemma\_proof} of a \texttt{Cut} whose body is the recursion
+on the rest.
+
+\begin{lstlisting}[caption={\texttt{compile\_block} (lines 405--431),
+the chaining engine.}]
+def compile_block(self, stmts, indent=0):
+    if not stmts:
+        return Structural("empty proof block")
+    if len(stmts) == 1:
+        return self._compile_stmt(stmts[0], indent)
+    head, *rest = stmts
+    head_term = self._compile_stmt(head, indent)
+    rest_term = self.compile_block(rest, indent)
+    if isinstance(head_term, Structural) and head_term.description in (
+            "show_goal", "show_term", "trivial", "pure"):
+        return rest_term
+    return Cut(
+        hyp_name=f"_psdl_step_{getattr(head, 'lineno', 0)}",
+        hyp_type=PyObjType(),
+        lemma_proof=head_term,
+        body_proof=rest_term,
+    )
+\end{lstlisting}
+
+The exception in the middle is the optimisation: pure-noise
+statements (\verb|show_goal()|, \verb|hint("...")|, \verb|pure()|)
+do \emph{not} introduce a real \texttt{Cut} but pass through to the
+next statement.  This keeps the proof tree compact.
+
+\section{Worked compilation: \texttt{dist\_nonneg\_psdl}}
+\label{sec:psdl-worked}
+
+We trace through the \texttt{dist\_nonneg\_psdl} block from
+\texttt{sympy\_geometry.deppy} statement-by-statement.
+
+The \PSDL{} source is:
+
+\begin{lstlisting}[language=psdl]
+if isinstance(other, Point):
+    inline(Point.distance, sqrt(sum_zip_sub_sq(self, other)))
+    apply(Real_sqrt_nonneg)
+    assert sum_zip_sub_sq(self, other) >= 0, "z3"
+else:
+    raise NotImplementedError
+\end{lstlisting}
+
+The compiler walks this top-down:
+
+\paragraph{1. The outer \texttt{if isinstance} statement.}
+\texttt{\_compile\_if} fires.  It detects the \texttt{isinstance}
+shape via \texttt{\_is\_isinstance\_test}, which returns
+\texttt{("other", "Point")}.  The compiler emits the \Lean{} lines:
+
+\begin{lstlisting}[language=lean4]
+by_cases h : isinstance other Point
+· -- value-fibre: isinstance(other, Point)
+  ...
+· -- complement-fibre: ¬ isinstance(other, Point)
+  ...
+\end{lstlisting}
+
+It recursively compiles the body of the if-branch (a 3-statement
+block) and the body of the else-branch (a 1-statement block), then
+returns:
+
+\begin{verbatim}
+Fiber(
+  scrutinee=Var("other"),
+  type_branches=[
+    (PyObjType(), <if-body>),
+    (PyObjType(), <else-body>),
+  ],
+  exhaustive=True,
+)
+\end{verbatim}
+
+\paragraph{2. The if-body, statement 1: \texttt{inline(Point.distance, sqrt(...))}.}
+\texttt{\_compile\_func\_call} dispatches on \texttt{fname=="inline"}
+(lines 951--963).  \texttt{target = "Point.distance"};
+\texttt{expected = "sqrt(sum\_zip\_sub\_sq(self, other))"}.
+
+The compiled term is
+\texttt{Unfold(func\_name="Point.distance",
+proof=Refl(Var("sqrt\_sum\_zip\_sub\_sq\_self\_other")))} (with the
+\texttt{\_safe} identifier transform applied to the expected
+expression).  The \Lean{} emits
+\verb|unfold Point.distance  -- expected: sqrt(...)|.
+
+\paragraph{3. The if-body, statement 2: \texttt{apply(Real\_sqrt\_nonneg)}.}
+\texttt{\_compile\_func\_call} dispatches on \texttt{fname=="apply"}
+(lines 932--941).  \texttt{target = "Real\_sqrt\_nonneg"}, which is
+in the \texttt{foundations} dict (registered by the sidecar parser).
+
+Term: \texttt{AxiomInvocation(name="Real\_sqrt\_nonneg",
+module="foundations")}.  The compiler appends
+\texttt{"Real\_sqrt\_nonneg"} to \texttt{foundations\_referenced}.
+\Lean{}: \verb|exact Foundation_Real_sqrt_nonneg|.
+
+\paragraph{4. The if-body, statement 3: \texttt{assert ... , "z3"}.}
+\texttt{\_compile\_assert} (lines 710--777) reads \texttt{stmt.msg ==
+ast.Constant("z3")}, sets mode to \texttt{"z3"}, builds
+\texttt{Z3Proof(formula="sum\_zip\_sub\_sq(self, other) >= 0",
+binders=\{\})} and emits
+\verb|have h_<lineno> : sum_zip_sub_sq(self, other) >= 0 := by omega|.
+
+The full term is
+\begin{verbatim}
+Cut(
+  hyp_name="h_<lineno>",
+  hyp_type=RefinementType(
+      base_type=PyBoolType(),
+      predicate="sum_zip_sub_sq(self, other) >= 0",
+  ),
+  lemma_proof=Z3Proof(...),
+  body_proof=Refl(Var("_assert_body")),
+)
+\end{verbatim}
+
+\paragraph{5. Composition of the if-body.}
+\texttt{compile\_block} chains the three statements through nested
+\texttt{Cut}s, with \texttt{Refl(Var("\_assert\_body"))} as the
+ultimate body.
+
+\paragraph{6. The else-body: \texttt{raise NotImplementedError}.}
+\texttt{\_compile\_raise} (lines 789--805) detects
+\texttt{NotImplementedError} and returns
+\texttt{Structural("vacuous: NotImplementedError")} with \Lean{}
+\verb|exact absurd ‹_› (by simp)|.
+
+\paragraph{7. The full ProofTerm.}
+Putting it all together (with some abbreviation):
+
+\begin{verbatim}
+Fiber(scrutinee=Var("other"),
+      type_branches=[
+        (PyObjType(),
+          Cut(hyp_name="_step_1",
+            lemma_proof=Unfold("Point.distance", Refl(...)),
+            body_proof=Cut(hyp_name="_step_2",
+              lemma_proof=AxiomInvocation("Real_sqrt_nonneg",
+                                          "foundations"),
+              body_proof=Cut(hyp_name="h_<lineno>",
+                hyp_type=RefinementType(predicate="sum_zip... >= 0"),
+                lemma_proof=Z3Proof("sum_zip... >= 0"),
+                body_proof=Refl(Var("_assert_body")))))),
+        (PyObjType(), Structural("vacuous: NotImplementedError")),
+      ])
+\end{verbatim}
+
+\paragraph{8. The \Lean{} block.}
+
+\begin{lstlisting}[language=lean4]
+by
+  by_cases h : isinstance other Point
+  · -- value-fibre: isinstance(other, Point)
+    unfold Point.distance  -- expected: sqrt(sum_zip_sub_sq(self, other))
+    exact Foundation_Real_sqrt_nonneg
+    have h_<lineno> : sum_zip_sub_sq(self, other) >= 0 := by omega
+      -- z3-discharged
+  · -- complement-fibre: ¬ isinstance(other, Point)
+    -- vacuous: NotImplementedError
+    exact absurd ‹_› (by simp)
+\end{lstlisting}
+
+\paragraph{9. Trust composition.}
+The trust on this \texttt{ProofTerm} is
+$\min(\mathtt{KERNEL}, \mathtt{AXIOM\_TRUSTED}, \mathtt{Z3\_VERIFIED}, \mathtt{STRUCTURAL\_CHAIN}) = \mathtt{STRUCTURAL\_CHAIN}$.  \texttt{certify\_or\_die} permits this
+because the \texttt{Structural} leaf is in a vacuous-branch position
+(the exception fibre), and it counts as a non-failure.
+
+\section{Soundness arguments per constructor}
+\label{sec:psdl-soundness}
+
+For each compiler entry point we sketch the soundness story.
+
+\paragraph{If-isinstance.}
+\texttt{Fiber(scrutinee, type\_branches, exhaustive=True)} is
+sound when:
+\begin{enumerate}[leftmargin=1.7em]
+  \item every \texttt{type\_branch}'s proof verifies under the local
+    refinement \texttt{isinstance(scrutinee, T)};
+  \item the type-branches \emph{cover} the dynamic type of the
+    scrutinee.
+\end{enumerate}
+The PSDL form generates \texttt{exhaustive=bool(stmt.orelse)}: True
+when the user wrote an \texttt{else}.  When the user did \emph{not}
+provide an \texttt{else}, the kernel adds an implicit ``other''
+branch with \texttt{Structural("no else for isinstance(...)")}, which
+downgrades trust to \texttt{STRUCTURAL\_CHAIN}.
+
+\paragraph{Try-except.}
+The chain \texttt{EffectWitness(value)} +
+\texttt{ConditionalEffectWitness(precond="raises Exc", \dots)} is
+sound only if \emph{both} fibres are addressed.  The PSDL form
+respects this: each \texttt{except} clause produces a corresponding
+witness; the value fibre is built from the \texttt{try}-body.  We do
+\emph{not} assert that \texttt{except} catches every possible
+exception: if the body can raise \texttt{ValueError} but the user
+only wrote \texttt{except TypeError}, the resulting modal type
+admits the \texttt{ValueError} fibre as part of the residual
+$\Diamond$ structure.
+
+\paragraph{Z3 assert.}
+\texttt{Z3Proof(formula, binders)} is sound when SMT returns
+\texttt{unsat} on the negation in the typed-Z3 encoder.  Trust
+\texttt{Z3\_VERIFIED}; we admit \Zthree's answer.
+
+\paragraph{Apply.}
+\texttt{AxiomInvocation(name, module)} is sound when the named
+axiom's statement matches the goal up to the kernel's
+\texttt{PatternMatcher}.  Trust \texttt{AXIOM\_TRUSTED}.  The
+PSDL form additionally records the axiom in
+\texttt{foundations\_referenced} so the certificate's provenance is
+honest about which foundations / axioms a verify block depends on.
+
+\paragraph{Inline / unfold / rewrite.}
+\texttt{Unfold(name, proof)} is sound when the named definition
+unfolds to a term equivalent to the proof's claim.  In the current
+implementation, this check is structural rather than reduction-based;
+\Lean's elaborator performs the actual definitional unfolding when
+the certificate is round-tripped.
+
+\paragraph{Vacuous \texttt{raise}.}
+\texttt{Structural("vacuous: <descr>")} is permitted only in
+positions where the \emph{branch is unreachable}: typically inside
+the exception-fibre face of a \texttt{Fiber} or
+\texttt{ConditionalEffectWitness}.  The soundness gate
+(\Cref{ch:soundness}) flags these and \texttt{certify\_or\_die}
+accepts them only when no counterexample is found that contradicts
+the unreachability.
+
+\section{Limitations and open work}
+\label{sec:psdl-limitations}
+
+\PSDL{} as currently implemented:
+\begin{itemize}[leftmargin=1.7em]
+  \item Does not support universe polymorphism.  All types live in
+    \texttt{Type 0}.
+  \item Does not support refinement types beyond a single
+    \texttt{predicate} string field.  The kernel does not check the
+    predicate; the \Lean{} side does, by elaborating the predicate.
+  \item Does not support higher inductive types.  The
+    \texttt{@inductive} decorator generates ordinary inductives.
+  \item Does not support coinductive specs.
+  \item The escape hatch \texttt{lean("\dots raw \dots")} compiles to
+    a \texttt{LeanProof} term and emits the raw text, but \Deppy{}'s
+    kernel does \emph{not} type-check the raw fragment ---
+    \Lean{} does.
+\end{itemize}
+
+These gaps are documented in \texttt{AUDIT.md} as items B (type-system
+expressiveness), F (advanced cubical/homotopy), and G (module
+structure).  The escape hatch \texttt{lean(\dots)} suffices in
+practice for any property a user can prove directly in \Lean.
+
+\section{Summary}
+\label{sec:ch6-summary}
+
+\PSDL{} is \emph{the} surface for \Deppy{}'s strong proof language:
+\begin{itemize}[leftmargin=1.7em]
+  \item Source is literal Python.  No new syntax.
+  \item Each statement compiles to a \texttt{ProofTerm} the kernel
+    verifies and a \Lean{} tactic the elaborator verifies.
+  \item Vocabulary splits into a \CIC{} core (Π/Σ/induction/transport)
+    and Python-specific primitives (fibrations, $\Diamond$/$\Box$,
+    duck dispatch, Kan filling, cocycles).
+  \item The compiler's structure is direct: an AST walker with one
+    \texttt{\_compile\_<X>} method per AST node kind.
+  \item Composition is via \texttt{Cut}-chaining; pure-noise
+    statements pass through unchanged.
+  \item Soundness follows from the kernel's verification rules
+    (\Cref{ch:cubical}); trust composes by \texttt{min\_trust}.
+\end{itemize}
+
+The next chapter follows the pipeline from start to finish: how
+\texttt{run\_sidecar} ingests a \texttt{.deppy} file and produces a
+\Lean{} certificate.

@@ -282,7 +282,7 @@ def write_certificate(
         for i, spec in enumerate(implies_specs):
             theorem_text, theorem_sorries = _render_implies_theorem(
                 fn_name=fn_name, idx=i, spec=spec,
-                fn_node=fn_node,
+                fn_node=fn_node, fn_nodes=fn_nodes,
                 type_context=type_context, aux_decls=aux_decls,
                 audit_entries=implies_audit,
             )
@@ -619,6 +619,7 @@ def _render_implies_theorem(
     fn_name: str, idx: int, spec: dict,
     fn_node, type_context, aux_decls: list[str],
     audit_entries: Optional[list] = None,
+    fn_nodes: Optional[dict] = None,
 ) -> tuple[str, int]:
     """Emit a Lean theorem corresponding to a ``@implies(X, Y)``
     decorator on ``fn_name``.
@@ -681,7 +682,16 @@ def _render_implies_theorem(
         except Exception:
             py_types[arg.arg] = "int"
 
-    pre_translated = translate_pred(pre_py, python_types=py_types)
+    # Hole 8 fix: tell the predicate translator which user-functions
+    # are in scope, so it emits ``(fname args)`` for calls instead
+    # of opaque ``deppy_pred_*`` axioms.  Without this, every
+    # @implies post mentioning ``result`` falls through to opaque
+    # encoding and the theorem is unprovable.
+    known_user_fns = set(fn_nodes.keys()) if fn_nodes else set()
+    pre_translated = translate_pred(
+        pre_py, python_types=py_types,
+        known_functions=known_user_fns,
+    )
     # Bind the result to the function call so the postcondition can
     # reference it.  Audit fix #11: AST-based substitution that
     # respects identifier boundaries and string-literal contents
@@ -695,6 +705,7 @@ def _render_implies_theorem(
     )
     post_translated = translate_pred(
         post_with_result, python_types=py_types,
+        known_functions=known_user_fns,
     )
     for d in pre_translated.aux_decls + post_translated.aux_decls:
         if d not in aux_decls:

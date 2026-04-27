@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRO &amp; Descriptors · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="mro_descriptors.html" class="active">MRO &amp; Descriptors</a></li>
+      <li><a href="operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
+      <li><a href="decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>MRO &amp; Descriptors</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      C3 linearization as a sheaf, descriptor lookup as a 4-fibre fibration.
+    </p>
+
+    <!-- ─── Intro ─── -->
+    <h2>The Two Halves of Attribute Lookup</h2>
+    <p>
+      Python's attribute access — <code>obj.attr</code> — runs through two
+      orthogonal mechanisms. The <strong>MRO</strong> walks the class
+      hierarchy in C3 order asking each ancestor "do you define
+      <code>attr</code>?" The <strong>descriptor protocol</strong> picks
+      <em>one</em> of four routes whenever the answer is "yes": data
+      descriptor, instance dict, non-data descriptor, or
+      <code>__getattr__</code>. Both are choice points, but they choose
+      differently — MRO picks <em>one class out of many</em>; descriptors
+      pick <em>one route out of four</em>.
+    </p>
+    <p>
+      Deppy gives them complementary kernel encodings. MRO becomes a
+      <strong><code>DuckPath</code></strong> through the linearization;
+      shared methods across overlapping bases form a
+      <strong><code>Cocycle</code></strong>; <code>super()</code> is
+      <strong><code>PathComp</code></strong>. Descriptor lookup becomes
+      a <strong><code>Fiber</code></strong> with four branches — one
+      per protocol case.
+    </p>
+
+    <!-- ─── MRO C3 as DuckPath ─── -->
+    <h2>MRO as a <code>DuckPath</code></h2>
+    <p>
+      The <code>MROTable</code> dataclass tracks the inheritance graph and
+      memoizes C3 linearization. Each lookup is a path through the
+      linearization, skipping classes that don't define the attribute:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_mro <span class="kw">import</span> MROTable, emit_mro_dispatch_path
+
+t = <span class="fn">MROTable</span>()
+t.<span class="fn">declare</span>(<span class="st">'Animal'</span>, methods={<span class="st">'speak'</span>: <span class="st">'a'</span>})
+t.<span class="fn">declare</span>(<span class="st">'Dog'</span>, bases=[<span class="st">'Animal'</span>], methods={<span class="st">'speak'</span>: <span class="st">'d'</span>})
+t.<span class="fn">declare</span>(<span class="st">'Puppy'</span>, bases=[<span class="st">'Dog'</span>])
+
+<span class="fn">print</span>(t.<span class="fn">linearize</span>(<span class="st">'Puppy'</span>))
+<span class="cm"># ['Puppy', 'Dog', 'Animal']</span>
+
+p = <span class="fn">emit_mro_dispatch_path</span>(t, <span class="st">'Puppy'</span>, <span class="st">'speak'</span>)
+<span class="fn">print</span>(p)
+<span class="cm"># DuckPath(PyObjType(), PyObjType(),</span>
+<span class="cm">#         [skip_Puppy.speak: ..., resolve_Dog.speak: ...])</span></code></pre>
+
+    <p>
+      <code>Puppy</code> doesn't define <code>speak</code>, so the path
+      records a <code>skip</code> step; <code>Dog</code> does, so the path
+      <code>resolve</code>s there. The linearization stops as soon as a
+      method is found — the <code>DuckPath</code> reflects exactly that
+      sequence.
+    </p>
+
+    <h3>From PSDL: <code>mro_lookup</code></h3>
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+
+src = <span class="st">'mro_lookup(Cls, "method")\nsuper_call("Cls", "method")'</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Cut(_psdl_step_1, DuckPath(…), PathComp(…))</span></code></pre>
+
+    <p>
+      <code>mro_lookup</code> compiles to <code>DuckPath</code>;
+      <code>super_call</code> compiles to <code>PathComp</code> — the
+      sequential composition of the call site's method and the next
+      class's method.
+    </p>
+
+    <!-- ─── Diamond + Cocycle ─── -->
+    <h2>Diamonds &amp; the <code>Cocycle</code></h2>
+    <p>
+      When two parent classes both define a method, C3 picks one — but
+      verifying the choice is consistent across many call sites is itself
+      a proof obligation. Deppy uses a <code>Cocycle</code>: the
+      "agreement on overlaps" condition from Čech cohomology, applied to
+      method tables.
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_mro <span class="kw">import</span> MROTable, emit_mro_cocycle
+
+t = <span class="fn">MROTable</span>()
+t.<span class="fn">declare</span>(<span class="st">'A'</span>, methods={<span class="st">'m'</span>: <span class="st">'a'</span>})
+t.<span class="fn">declare</span>(<span class="st">'B'</span>, bases=[<span class="st">'A'</span>], methods={<span class="st">'m'</span>: <span class="st">'b'</span>})
+t.<span class="fn">declare</span>(<span class="st">'C'</span>, bases=[<span class="st">'A'</span>], methods={<span class="st">'m'</span>: <span class="st">'c'</span>})
+t.<span class="fn">declare</span>(<span class="st">'D'</span>, bases=[<span class="st">'B'</span>, <span class="st">'C'</span>])
+
+<span class="fn">print</span>(t.<span class="fn">linearize</span>(<span class="st">'D'</span>))
+<span class="cm"># ['D', 'B', 'C', 'A']</span>
+
+c = <span class="fn">emit_mro_cocycle</span>(t, <span class="st">'D'</span>, [<span class="st">'m'</span>])
+<span class="fn">print</span>(c)
+<span class="cm"># Cocycle(C^1, 1 components, 3 boundary pairs, δ unwitnessed)</span></code></pre>
+
+    <p>
+      The cocycle records all the
+      <code>(parent, child)</code> pairs whose method tables must agree.
+      The kernel checks <code>δc = 0</code> — the cocycle condition — to
+      be sure the linearization is consistent. When two parents disagree
+      on a shared method and there's no override, the cocycle has a
+      non-trivial coboundary and the kernel rejects.
+    </p>
+
+    <div class="note">
+      The cocycle is the same construct used in
+      <a href="../part5/cech.html">Čech decomposition</a> for modular
+      verification — Deppy uses one piece of category theory in two
+      places.
+    </div>
+
+    <!-- ─── Descriptors as Fiber ─── -->
+    <h2>Descriptors: a 4-Fibre <code>Fiber</code></h2>
+    <p>
+      Reading <code>obj.attr</code> follows Python's well-known precedence:
+    </p>
+    <ol>
+      <li><strong>Data descriptor</strong> on the class
+        (<code>__get__</code> + <code>__set__</code>) — wins outright.</li>
+      <li><strong>Instance dict</strong> entry — wins if no data
+        descriptor.</li>
+      <li><strong>Non-data descriptor</strong> on the class
+        (<code>__get__</code> only) — wins if no instance entry.</li>
+      <li><strong><code>__getattr__</code></strong> fallback — final route.</li>
+    </ol>
+    <p>
+      Deppy encodes this as a 4-branch <code>Fiber</code> over the lookup
+      site. <code>emit_descriptor_fiber</code> builds the kernel object
+      directly:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_descriptors <span class="kw">import</span> emit_descriptor_fiber
+
+f = <span class="fn">emit_descriptor_fiber</span>(<span class="st">'obj'</span>, <span class="st">'Cls'</span>, <span class="st">'attr'</span>)
+<span class="fn">print</span>(f)
+<span class="cm"># Fiber(Var(name='_attr_obj_attr'),</span>
+<span class="cm">#       [PyObjType(), PyObjType(), PyObjType(), PyObjType()])</span></code></pre>
+
+    <p>
+      Each of the four <code>PyObjType()</code> entries corresponds to
+      one branch of the precedence rule. At verification time the kernel
+      asks "which branch fires?" by consulting the
+      <code>DescriptorRegistry</code>, which records the descriptor kind
+      (<code>DATA</code>, <code>NON_DATA</code>, <code>INSTANCE</code>,
+      <code>GETATTR</code>) for each declared attribute.
+    </p>
+
+    <h3>From PSDL: <code>descriptor_get</code></h3>
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+src = <span class="st">'descriptor_get(obj, "Cls", "attr")'</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Fiber(Var(name='_attr_obj_attr'), 4 fibres)</span></code></pre>
+
+    <h3>Monkey-patching: <code>descriptor_set</code></h3>
+    <p>
+      Setting an attribute that was previously held in a different
+      protocol slot — say replacing an instance value with a data
+      descriptor — is a <em>monkey-patch</em>. Deppy emits a
+      <code>Patch</code> kernel term, which carries the contract proof
+      that the new value still satisfies the attribute's declared spec:
+    </p>
+
+<pre><code>src = <span class="st">'descriptor_set(obj, "Cls", "attr", new_value)'</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># Patch(…)</span></code></pre>
+
+    <div class="important">
+      <code>Patch</code> requires a proof of contract preservation.
+      Without one the kernel records a <code>PSDLError</code> and the
+      <code>res.ok</code> flag goes false — the monkey-patch is honest.
+    </div>
+
+    <!-- ─── Why this works ─── -->
+    <h2>Why Two Different Encodings?</h2>
+    <p>
+      MRO and descriptors look alike from the outside (both are "lookups
+      that pick one of several routes") but the right kernel object for
+      each is different:
+    </p>
+    <ul>
+      <li>
+        <strong>MRO is variable-length.</strong> A class can inherit from
+        any number of bases, with arbitrarily nested overlaps — the
+        right encoding is a path of unbounded length, with overlap-
+        agreement enforced by a Čech cocycle.
+      </li>
+      <li>
+        <strong>Descriptor protocol is fixed-arity.</strong> There are
+        <em>exactly four</em> routes, every time. The right encoding is
+        a 4-branch fibration, where each branch carries its own type
+        information for the descriptor's <code>__get__</code> /
+        <code>__set__</code> signature.
+      </li>
+    </ul>
+
+    <!-- ─── Where to next ─── -->
+    <h2>What's Next</h2>
+    <p>
+      <a href="operator_dispatch.html"><strong>Operator Dispatch</strong></a>
+      — the <code>__r*__</code> fallback — uses a related but distinct
+      construct (<code>ConditionalDuckPath</code>) because the
+      <em>condition</em> is whether the LHS implements <code>__op__</code>,
+      not which class is in scope. Then
+      <a href="coalgebras.html"><strong>Coalgebras: Generators &amp;
+      Async</strong></a> covers <code>yield</code> and <code>await</code>.
+    </p>
+
+    <nav class="page-nav">
+      <a href="duck_typing.html">
+        <span class="label">← Previous</span>
+        <span class="title">Duck Typing &amp; Protocols</span>
+      </a>
+      <a href="operator_dispatch.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Operator Dispatch</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

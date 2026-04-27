@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <button class="menu-toggle">☰</button>
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -20,7 +19,7 @@
     <ul>
       <li><a href="./index.html">Home</a></li>
       <li><a href="./structure.html">Structure of this Book</a></li>
-      <li><a href="./intro.html">Introduction</a></li>
+      <li><a href="./intro.html" class="active">Introduction</a></li>
 
       <li><span class="section-title">Part 1 — Pure Python</span></li>
       <li><a href="./part1/index.html">Overview</a></li>
@@ -45,12 +44,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="./part3/index.html">Overview</a></li>
       <li><a href="./part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="./part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="./part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="./part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="./part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="./part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="./part4/index.html">Overview</a></li>
       <li><a href="./part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="./part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="./part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="./part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="./part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -60,11 +63,13 @@
       <li><a href="./part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="./part5/cech.html">Čech Decomposition</a></li>
       <li><a href="./part5/fibrations.html">Fibrations</a></li>
+      <li><a href="./part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="./part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
       <li><a href="./part6/index.html">Overview</a></li>
-      <li><a href="./part6/separation.html">Separation Logic</a></li>
+      <li><a href="./part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="./part6/separation.html">Separation Logic (vs Pulse)</a></li>
       <li><a href="./part6/references.html">Mutable References</a></li>
       <li><a href="./part6/arrays.html">Arrays</a></li>
       <li><a href="./part6/threading.html">Threading &amp; GIL</a></li>
@@ -144,13 +149,13 @@
     <!-- ── Capsule Summary ── -->
     <h2 id="capsule">A Capsule Summary of Deppy</h2>
 
-    <p>Deppy combines four key ingredients:</p>
+    <p>Deppy combines six key ingredients:</p>
 
     <ol>
       <li>
         <strong>Refinement types</strong> — types refined by logical predicates, like
-        <code>refined(int, lambda n: n &gt;= 0)</code> for natural numbers. These are
-        the bread-and-butter of specification.
+        <code>refined(PyIntType(), "x &gt;= 0", "x")</code> (or just <code>Nat()</code>)
+        for natural numbers. These are the bread-and-butter of specification.
       </li>
       <li>
         <strong>Z3 SMT solver</strong> — automatically discharges arithmetic, boolean,
@@ -163,9 +168,28 @@
         complex proofs into composable local patches.
       </li>
       <li>
-        <strong>Sidecar proofs</strong> — specifications live in <code>.deppy</code>
-        files beside your Python modules, not inside them. This enables verification
-        of third-party libraries, legacy code, and code you don't control.
+        <strong>The cubical heap</strong> — instead of separation logic's
+        <code>★</code>, Deppy models mutation as paths in a world category.
+        Mutations bump an epoch counter, aliases are <code>DuckPath</code>s
+        at the cell level, and reads after mutation require explicit
+        <code>TransportProof</code>. See <a href="part6/cubical_heap.html">Part 6.1</a>.
+      </li>
+      <li>
+        <strong>PSDL — Python-syntax tactics</strong> — the proof body is
+        ordinary Python. Walrus binding, postfix <code>.symm</code>/<code>.trans</code>,
+        operator overloading <code>p @ q</code> / <code>~p</code> /
+        <code>p ** k</code>, comprehensions as induction, and
+        <code>assert P, "qed"</code> as proof closer. See
+        <a href="part5/psdl.html">Part 5.5</a>.
+      </li>
+      <li>
+        <strong>Sidecar metadata in two equivalent forms</strong> —
+        <code>.deppy</code> files (best for verifying third-party
+        libraries) or proof <strong>decorators</strong>
+        (<code>@foundation</code>, <code>@axiom</code>,
+        <code>@verify</code>, <code>@psdl_proof</code>) inline with
+        Python (best when you're writing the module yourself). Both feed
+        the same kernel pipeline. See <a href="part4/decorator_form.html">Part 4.2</a>.
       </li>
     </ol>
 
@@ -276,54 +300,76 @@
     <h3>Step 2: The Sidecar Specification</h3>
     <p>We create a sidecar file with three proof obligations:</p>
 
-<pre><code><span class="cm"># math_utils.deppy — sidecar proof file</span>
-<span class="kw">from</span> deppy <span class="kw">import</span> verify, refined, lemma, decreases
+<pre><code><span class="cm"># math_utils.deppy — sidecar proof file (YAML-shaped)</span>
+<span class="kw">module</span>: math_utils
 
-<span class="cm"># Define a natural-number refinement type</span>
-<span class="ty">Nat</span> = <span class="pr">refined</span>(<span class="ty">int</span>, <span class="kw">lambda</span> n: n >= <span class="nb">0</span>)
-<span class="ty">Pos</span> = <span class="pr">refined</span>(<span class="ty">int</span>, <span class="kw">lambda</span> n: n >= <span class="nb">1</span>)
+<span class="kw">foundation</span> Nat_zero_succ: <span class="st">"factorial(0) == 1; factorial(n) == n * factorial(n-1)"</span>
 
-<span class="dc">@verify</span>(<span class="st">"math_utils.factorial"</span>)
-<span class="kw">def</span> <span class="fn">factorial_spec</span>(
-    n: <span class="ty">Nat</span>
-) -> <span class="pr">refined</span>(<span class="ty">Pos</span>, <span class="kw">lambda</span> r: r >= <span class="nb">1</span>):
-    <span class="st">"""
-    Postconditions:
-      1. result ≥ 1 for all n ≥ 0
-      2. factorial(0) == 1
-      3. factorial(n) == n * factorial(n-1) for n > 0
-    """</span>
-    <span class="pr">decreases</span>(n)  <span class="cm"># termination measure</span>
+<span class="kw">spec</span> math_utils.factorial:
+  <span class="kw">guarantee</span>: <span class="st">"factorial(n) >= 1 when n >= 0"</span>
+  <span class="kw">pure</span>: <span class="kw">true</span>
 
-    <span class="cm"># Base case: n ≤ 0 → return 1 ≥ 1 ✓</span>
-    <span class="cm"># Inductive: n > 0 → n * factorial(n-1)</span>
-    <span class="cm">#   By IH, factorial(n-1) ≥ 1</span>
-    <span class="cm">#   So n * factorial(n-1) ≥ n ≥ 1 ✓</span>
-    <span class="pr">z3.auto</span>()
+<span class="kw">verify</span> factorial_nonneg:
+  <span class="kw">function</span>: math_utils.factorial
+  <span class="kw">property</span>: <span class="st">"factorial(n) >= 1"</span>
+  <span class="kw">via</span>: <span class="st">"foundation Nat_zero_succ"</span>
+  <span class="kw">binders</span>: { n: Nat }
+  <span class="kw">psdl_proof</span>: |
+    <span class="kw">if</span> n &lt;= <span class="nb">0</span>:
+        <span class="kw">assert</span> <span class="nb">1</span> >= <span class="nb">1</span>, <span class="st">"z3"</span>
+    <span class="kw">else</span>:
+        induction(n)
+        <span class="kw">assert</span> n * factorial(n-<span class="nb">1</span>) >= <span class="nb">1</span>, <span class="st">"z3"</span></code></pre>
 
-<span class="dc">@lemma</span>
-<span class="kw">def</span> <span class="fn">factorial_monotone</span>(a: <span class="ty">Nat</span>, b: <span class="ty">Nat</span>) -> <span class="ty">None</span>:
-    <span class="st">"""If a ≤ b then factorial(a) ≤ factorial(b)."""</span>
-    <span class="pr">assume</span>(a <= b)
-    <span class="pr">induction</span>(b - a)
-    <span class="pr">z3.auto</span>()</code></pre>
+    <p>
+      Equivalently, in <strong>decorator form</strong> if you wrote
+      <code>math_utils.py</code> yourself:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.sidecar_decorators <span class="kw">import</span> (
+    foundation, verify, psdl_proof,
+)
+
+<span class="dc">@foundation</span>
+<span class="kw">def</span> <span class="fn">Nat_zero_succ</span>():
+    <span class="st">"""factorial(0) == 1; factorial(n) == n * factorial(n-1)"""</span>
+
+
+<span class="dc">@verify</span>(
+    property=<span class="st">"factorial(n) >= 1"</span>,
+    via=<span class="st">"foundation Nat_zero_succ"</span>,
+    binders={<span class="st">"n"</span>: <span class="st">"Nat"</span>},
+)
+<span class="dc">@psdl_proof</span>(<span class="st">"""
+if n &lt;= 0:
+    assert 1 >= 1, "z3"
+else:
+    induction(n)
+    assert n * factorial(n-1) >= 1, "z3"
+"""</span>)
+<span class="kw">def</span> <span class="fn">factorial</span>(n: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">if</span> n &lt;= <span class="nb">0</span>:
+        <span class="kw">return</span> <span class="nb">1</span>
+    <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="nb">1</span>)</code></pre>
 
     <h3>Step 3: Run Verification</h3>
 
-<pre><code class="output">$ deppy check math_utils.py
+<pre><code class="output">$ python -m deppy.pipeline.run_verify math_utils.deppy --out math_utils.lean
 
-<span class="cm">Checking math_utils.py with sidecar math_utils.deppy...</span>
+  <span class="cm">…</span>
+  ProofTerm subclasses (C1–C7 audit batch):
+    constructed / kernel-accepted:         <span class="fn">N / N</span>
+  ``verify`` blocks (.deppy → kernel.verify):
+    accepted by ProofKernel.verify:        <span class="fn">N</span>
+  Lean export round-trip:                  <span class="fn">OK</span>
+  ────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
 
-<span class="fn">✓</span> factorial
-  <span class="cm">├─ termination: decreases(n) on Nat</span>    <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.01s)</span>
-  <span class="cm">├─ postcondition: result ≥ 1</span>            <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.02s)</span>
-  <span class="cm">└─ refinement: result ∈ Pos</span>             <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.01s)</span>
-
-<span class="fn">✓</span> factorial_monotone (lemma)
-  <span class="cm">├─ base case: a == b</span>                   <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.01s)</span>
-  <span class="cm">└─ inductive step</span>                      <span class="fn">Z3_VERIFIED</span>  <span class="cm">(0.03s)</span>
-
-<span class="fn">All 5 obligations verified.</span> (0.08s total)</code></pre>
+    <p>
+      The pipeline emits a Lean certificate at the <code>--out</code>
+      path and a JSON sidecar next to it. Both are reproducible — running
+      again produces byte-identical output assuming the same inputs.
+    </p>
 
     <h3>Step 4: Understanding the Proof</h3>
 

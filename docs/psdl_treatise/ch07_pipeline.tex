@@ -1,0 +1,730 @@
+\chapter{The Pipeline: Module Name to Certificate}
+\label{ch:pipeline}
+
+The \Deppy{} pipeline is the orchestration layer that takes a
+sidecar file path and emits a \Lean{} certificate.  Its entry point
+is \texttt{deppy.lean.sidecar\_runner.run\_sidecar}; everything
+else is a transformation on the \texttt{SidecarModule}.
+
+This chapter walks through every stage in order.  The reader should
+expect file-and-line citations; we are documenting the
+\emph{actual} implementation.
+
+\section{Architecture overview}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[
+  node distance=8mm and 12mm,
+  every node/.style={font=\small},
+  box/.style={
+    draw, rounded corners=2pt, align=center,
+    minimum width=33mm, minimum height=8mm,
+    fill=blue!4,
+  },
+  trustbox/.style={
+    draw, rounded corners=2pt, align=center,
+    minimum width=33mm, minimum height=8mm,
+    fill=green!7,
+  },
+  outbox/.style={
+    draw, rounded corners=2pt, align=center,
+    minimum width=33mm, minimum height=8mm,
+    fill=orange!10,
+  },
+  arr/.style={->, >=Stealth, thick},
+]
+
+\node[box]                            (deppyfile) {\texttt{*.deppy}\\sidecar file};
+\node[box, right=of deppyfile]        (parser)    {\texttt{SidecarModule}\\\texttt{.from\_file}};
+\node[box, right=of parser]           (sm)        {\texttt{SidecarModule}\\dataclass};
+
+\node[box, below=of deppyfile]        (importlib) {\texttt{importlib}\\\texttt{.import\_module}};
+\node[box, below=of parser]           (audit)     {\texttt{audit\_all}\\axiom grounding};
+\node[box, below=of sm]               (mech)      {\texttt{mechanize}\\axioms→Lean Props};
+
+\node[box, below=of importlib]        (livesrc)   {\texttt{inspect}\\\texttt{.getsource}};
+\node[box, below=of audit]            (bodylink)  {\texttt{link\_all}\\body translation};
+\node[box, below=of mech]              (verify)    {\texttt{verify\_all}\\PSDL→ProofTerm};
+
+\node[trustbox, below=of livesrc]     (kernel)    {\texttt{ProofKernel}\\\texttt{.verify}};
+\node[trustbox, below=of bodylink]    (z3)        {\texttt{discharge\_foundations}\\Z3 backend};
+\node[trustbox, below=of verify]      (counter)   {\texttt{run\_counterexample\_search}};
+
+\node[outbox, below=of kernel]        (annot)     {\texttt{build\_annotation\_preamble}};
+\node[outbox, below=of z3]            (cert)      {\texttt{render\_sidecar\_section}};
+\node[outbox, below=of counter]       (leanrun)   {\texttt{check\_lean\_module\_source}};
+
+\node[outbox, below=of cert, fill=red!10]  (final) {\texttt{certify\_or\_die}\\\texttt{*.lean}};
+
+\draw[arr] (deppyfile) -- (parser);
+\draw[arr] (parser)    -- (sm);
+\draw[arr] (sm.south)     -- (mech.north);
+\draw[arr] (sm.south)     -- (audit.north);
+\draw[arr] (deppyfile) |- ([xshift=-1mm]importlib.east);
+\draw[arr] (importlib) -- (livesrc);
+\draw[arr] (livesrc)   -- (kernel);
+\draw[arr] (audit)     -- (bodylink);
+\draw[arr] (mech)      -- (verify);
+\draw[arr] (bodylink)  -- (z3);
+\draw[arr] (verify)    -- (counter);
+\draw[arr] (kernel)    -- (annot);
+\draw[arr] (z3)        -- (cert);
+\draw[arr] (counter)   -- (leanrun);
+\draw[arr] (annot.south) -| (final.west);
+\draw[arr] (cert)      -- (final);
+\draw[arr] (leanrun.south) -| (final.east);
+
+\end{tikzpicture}
+\caption{The \Deppy{} pipeline.  Blue boxes are inputs and parser
+stages; green boxes are checking stages with their own trust
+contributions; orange boxes are output emitters; the red box is the
+final certification gate.}
+\label{fig:pipeline}
+\end{figure}
+
+The pipeline is data-flow oriented: each stage reads the
+\texttt{SidecarModule} (and optionally the outputs of earlier
+stages) and produces a structured report.  No stage modifies the
+\texttt{SidecarModule}; the result of running the pipeline is a
+\texttt{SidecarCertificateSection} containing the rendered \Lean{}
+text and a counter-rich report.
+
+\section{Stage 0: Module-name resolution}
+
+The pipeline starts at \texttt{run\_sidecar(deppy\_path, out\_path,
+module\_name)} (file: \texttt{deppy/lean/sidecar\_runner.py}, lines
+114--185).
+
+\begin{lstlisting}[caption={\texttt{run\_sidecar}: high-level control flow.}]
+def run_sidecar(deppy_path, *, out_path=None, module_name=""):
+    deppy_path = Path(deppy_path)
+    if out_path is None:
+        out_path = deppy_path.with_suffix(".lean")
+    out_path = Path(out_path)
+
+    sm = SidecarModule.from_file(str(deppy_path))
+    target_module = module_name or getattr(sm, "name", "") or ""
+    library_summary = _inspect_library(target_module)
+
+    t0 = time.perf_counter()
+    section = render_sidecar_section(
+        sm,
+        module_name=f"Deppy_{deppy_path.stem}",
+        library_source_summary=library_summary,
+    )
+    elapsed_ms = (time.perf_counter() - t0) * 1000.0
+    out_path.write_text(section.full_text, encoding="utf-8")
+
+    # Round-trip through Lean toolchain.
+    ...
+\end{lstlisting}
+
+\texttt{\_inspect\_library} (line 101) calls
+\texttt{importlib.import\_module(target\_module)} and reads
+\texttt{module.\_\_version\_\_} and
+\texttt{module.\_\_file\_\_} for the certificate's provenance
+header.  When the import fails, the summary becomes
+``\texttt{<module> (not importable)}'' and the certificate proceeds
+with empty provenance --- but every verify-block inside that
+certificate will fail to resolve its function and the certificate
+will record this honestly.
+
+\section{Stage 1: Parsing the sidecar}
+
+\texttt{SidecarModule.from\_file(path)} reads the file and produces a
+\texttt{SidecarModule}.  The parser supports both YAML-like
+indentation-based blocks and a sequence of top-level declarations
+separated by blank lines.
+
+The parser populates:
+\begin{itemize}[leftmargin=1.7em]
+  \item \verb|sm._foundations: dict[str, FoundationDecl]|
+  \item \verb|sm._specs: dict[str, ExternalSpec]|
+  \item \verb|sm._axioms: dict[str, AxiomDecl]|
+  \item \verb|sm._lemmas: list[LemmaDecl]|
+  \item \verb|sm._verifies: list[VerifyDecl]|
+  \item \verb|sm._proofs: list[ProofDecl]| (legacy)
+  \item \verb|sm._code_types: dict[str, str]|
+  \item \verb|sm._lean_imports: list[str]|
+  \item \verb|sm._lean_preamble: str|
+\end{itemize}
+
+The parser is permissive: unrecognised top-level keys produce a
+warning but do not abort.  Malformed indentation produces a
+\texttt{SyntaxError} with a line number.
+
+\section{Stage 2: \texttt{render\_sidecar\_section}}
+
+The main rendering pipeline lives in
+\texttt{deppy/lean/sidecar\_certificate.py}, function
+\texttt{render\_sidecar\_section} (lines 100--296+).  It dispatches
+to thirteen sub-emitters, each producing a fragment of the final
+\Lean{} text plus a structured report.
+
+The sub-emitters, in execution order:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \texttt{derive\_all(sm)} --- run the legacy \texttt{by:}-clause
+    derivations on each \texttt{ProofDecl}.
+  \item \texttt{audit\_all(sm)} --- check the live target library
+    for each axiom/spec; compute a \texttt{AxiomGrounding} per
+    axiom (\texttt{GROUNDED} / \texttt{TARGET\_MISSING} /
+    \texttt{METHOD\_MISSING} / \texttt{NL\_DOC}).
+  \item \texttt{mechanize(sm, audit)} --- walk every grounded
+    axiom AST and emit concrete \Lean{} \texttt{Prop}s.
+  \item \texttt{link\_all(sm, audit, mech)} --- run
+    \texttt{deppy.lean.body\_translation} on every method named
+    by an axiom; record the translated Lean text per method.
+  \item \texttt{attempt\_all(sm, audit, body\_link)} --- attempt
+    code-proofs by composing the body translation with the
+    cited foundation/axiom; the kernel verifies each, the
+    pipeline records the \texttt{VerificationResult}.
+  \item \texttt{link\_cubical(body\_link)} --- run the
+    intra-procedural cubical AST analysis.
+  \item \texttt{verify\_all(sm)} --- the per-\texttt{verify}-block
+    pipeline (\S\ref{sec:verify-pipeline}).
+  \item \texttt{link\_cohomology(body\_link)} --- run the C⁰/C¹/C²
+    cohomology emitter on the linked methods.
+  \item \texttt{discharge\_foundations(sm)} --- Z3 each foundation;
+    promote to \texttt{Z3\_VERIFIED} when accepted.
+  \item \texttt{discharge\_kan\_obligations(body\_link)} --- the
+    Kan-fill obligations from the cubical pass.
+  \item \texttt{link\_bicomplex(body\_link)} --- the cubical /
+    simplicial bicomplex.
+  \item \texttt{link\_fibration(sm, audit, body\_link, kernel)}
+    --- run \texttt{FibrationVerifier} on
+    \texttt{verify} blocks with a \texttt{fibration:} clause.
+  \item \texttt{run\_counterexample\_search(sm, foundation\_discharge)}
+    --- chase counterexamples for every Z3-attempted but
+    unverified foundation.
+  \item \texttt{invoke\_all(body\_link)} --- the B1--B16 audit
+    sub-systems.
+  \item \texttt{probe\_all\_proofterms()} --- C1--C7 audit on the
+    \texttt{ProofTerm} class hierarchy.
+  \item \texttt{build\_annotation\_preamble(sm)} --- the
+    annotation-driven concrete preamble.
+\end{enumerate}
+
+After all sub-emitters complete, the function assembles the final
+\Lean{} text in this order:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item Header comment with module name and provenance.
+  \item Annotation-driven concrete preamble (types, methods,
+    properties from binders).
+  \item Mechanization preamble (vocabulary from grounded axioms).
+  \item Body links (\texttt{def} declarations for each translated
+    method, behind comments to avoid colliding with the preamble's
+    opaque counterparts).
+  \item Foundations.
+  \item Sidecar axioms.
+  \item Lemmas.
+  \item Theorems (one per legacy \texttt{ProofDecl}).
+  \item Verify-block sections (one per \texttt{VerifyDecl}).
+  \item Cubical analysis section.
+  \item Cohomology section.
+  \item Bicomplex section.
+  \item Counterexample-rejected theorems (when a foundation was
+    counter-examined).
+  \item Subsystem invocations and proofterm-zoo probes
+    (audit appendices).
+\end{enumerate}
+
+\section{Stage 3: Audit and grounding}
+\label{sec:audit}
+
+\texttt{audit\_all} (file:
+\texttt{deppy/lean/sidecar\_source\_audit.py}) walks every
+\texttt{AxiomDecl} and tries to resolve its \texttt{target} (a
+dotted Python name).  The four possible outcomes:
+
+\begin{description}
+  \item[\texttt{GROUNDED}] the target resolves; every method
+    referenced in the axiom's statement is callable; the statement
+    parses.  The certificate emits a concrete Lean Prop.
+  \item[\texttt{TARGET\_MISSING}] the target does not resolve.  The
+    axiom is admitted as opaque but flagged.
+  \item[\texttt{METHOD\_MISSING}] the target resolves but a
+    referenced method does not.  Same outcome as
+    \texttt{TARGET\_MISSING}.
+  \item[\texttt{NL\_DOC}] the statement is natural-language prose
+    (e.g. ``the area is non-negative''), not a Python expression.
+    Admitted as opaque, no concrete Prop.
+\end{description}
+
+The audit feeds into both \texttt{mechanize} (which only
+mechanises \texttt{GROUNDED} axioms) and the certificate header
+which counts axioms in each grounding bucket.
+
+\section{Stage 4: Mechanization}
+\label{sec:mechanize}
+
+\texttt{mechanize(sm, audit)} (file:
+\texttt{deppy/lean/sidecar\_mechanization.py}) is the heart of the
+``concrete Props'' transformation.  It runs in two passes:
+
+\paragraph{Pass 1: vocabulary collection.}  A
+\texttt{\_VocabCollector} walks each grounded axiom's AST and
+records:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{class\_methods : \{class$\to$\{method$\to$arity\}\}};
+  \item \texttt{class\_ctor\_arity};
+  \item \texttt{attrs} (every \texttt{.attr} access);
+  \item \texttt{free\_fns : \{name$\to$arity\}};
+  \item \texttt{prop\_fns} (free fns appearing at top-level
+    Prop position);
+  \item \texttt{free\_vars};
+  \item \texttt{classes}.
+\end{itemize}
+
+\paragraph{Pass 2: per-axiom Lean rendering.}  Each grounded axiom's
+statement is re-parsed and rendered against the vocabulary.  The
+mapping is documented in the docstring (file
+\texttt{deppy/lean/sidecar\_mechanization.py}, lines 7--40):
+
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{ClassName.method(args)} → \texttt{(Class\_method args)}
+  \item \texttt{ClassName.attr} → \texttt{(Class\_attr)}
+  \item \texttt{var.attr} → \texttt{(dot\_attr var)}
+  \item \texttt{var.method(args)} → \texttt{(dot\_method var args)}
+  \item \texttt{Class(args)} → \texttt{(Class\_mk args)}
+  \item \texttt{func(args)} → \texttt{(func args)}
+\end{itemize}
+
+The rendering emits a \texttt{def Sidecar\_X\_prop : Prop := <body>}
+(when grounded and the rendering succeeds) or a fallback
+\texttt{opaque Sidecar\_X\_prop : Prop} (when not).
+
+\section{Stage 5: Body translation}
+\label{sec:body-translation}
+
+\texttt{link\_all} runs
+\texttt{deppy.lean.body\_translation.translate\_body} on each method
+referenced by an axiom or verify block.
+
+\paragraph{Type-inference pass.}  An \texttt{\_InferTypes} walker
+seeds with parameter annotations and propagates types through
+operations: \texttt{x.append(...)} forces \texttt{x : list};
+\texttt{len(x)} forces \texttt{x : list / dict / str / tuple};
+arithmetic operations propagate numeric types; etc.  See
+\texttt{infer\_locals\_types} (lines 127--179 of
+\texttt{body\_translation.py}).
+
+\paragraph{Translation pass.}  A \texttt{\_BodyT} walker uses the
+inferred types to render Lean.  Standard rules:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{Int}/\texttt{Float}/\texttt{Bool} arithmetic translates
+    directly.
+  \item \texttt{if/elif/else} → \texttt{if-then-else}.
+  \item \texttt{return} bound through to the result.
+  \item Recursive self-calls preserved.
+  \item \texttt{xs[:n]} → \texttt{xs.take n}; \texttt{xs[n:]} →
+    \texttt{xs.drop n}; \texttt{xs[i]} → \texttt{xs.get!}.
+  \item \texttt{len(xs)} → \texttt{xs.length} when \texttt{xs : List},
+    \texttt{xs.size} when \texttt{HashMap}.
+  \item Function calls preserved.
+\end{itemize}
+
+When the body uses constructs the translator cannot handle
+(\texttt{eval}, dynamic class creation, C-extension
+fall-throughs, list comprehensions with multiple clauses, etc.), it
+returns \texttt{sorry} with a note.  The certificate flags this in
+the \texttt{body\_links\_sorry} count.
+
+\section{Stage 6: \texttt{verify\_all} --- the verify-block pipeline}
+\label{sec:verify-pipeline}
+
+\texttt{verify\_all(sm)} (file:
+\texttt{deppy/lean/sidecar\_verify.py}) is the most directly relevant
+stage for \PSDL{} users.  We summarise its structure here; the
+worked example is in \Cref{ch:examples}.
+
+\subsection{Per-block flow}
+
+\texttt{\_process\_one(decl, *, foundations, kernel,
+concrete\_prop)} (lines 167+) runs eight steps for each verify
+block:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \textbf{Resolve function.}  \texttt{\_resolve(decl.function)}
+    walks the dotted path through \texttt{importlib} and
+    \texttt{getattr}.  When it returns \texttt{None}, the outcome
+    records ``could not resolve'' and the block aborts.
+
+  \item \textbf{Read source.}  \texttt{inspect.getsource(method)};
+    when \texttt{method} is a \texttt{property}, descend to
+    \texttt{method.fget}.  The source is dedented via
+    \texttt{textwrap.dedent} and SHA-256 hashed for the
+    \texttt{source\_hash} field.
+
+  \item \textbf{Translate body.}
+    \texttt{deppy.lean.body\_translation.translate\_body(fn\_node,
+    type\_context=ctx, predicate\_registry=preds, param\_types=...)}.
+
+  \item \textbf{Compile PSDL (if present).}  When \texttt{decl.psdl\_proof}
+    is non-empty, \texttt{deppy.proofs.psdl.compile\_psdl(source,
+    foundations=fdict, ctx=ctx)} produces a
+    \texttt{PSDLCompileResult}.
+
+  \item \textbf{Fibration descent (if requested).}  When
+    \texttt{decl.fibration\_type} is non-empty, the pipeline runs
+    \texttt{FibrationVerifier.verify\_per\_fiber(fn\_node, fibre)}
+    --- one kernel call per fibre.
+
+  \item \textbf{Cubical analysis (if requested).}  When
+    \texttt{decl.use\_cubical} is True, the pipeline runs
+    \texttt{build\_cubical\_set(fn\_node)} and records the cell
+    counts and Kan candidates.
+
+  \item \textbf{Construct ProofTerm.}  In rough order of preference:
+    PSDL's compiled term, when present; otherwise an
+    \texttt{Unfold(method) \(\circ\) AxiomInvocation(decl.foundation)};
+    otherwise a \texttt{Structural} fallback.
+
+  \item \textbf{Kernel verification.}  Build a \texttt{Judgment}
+    over the property's \texttt{RefinementType} and call
+    \texttt{kernel.verify(ctx, goal, term)}.  Record the
+    \texttt{VerificationResult}'s success bool, trust level,
+    axioms used, and message.
+\end{enumerate}
+
+\subsection{Theorem emission}
+
+When \texttt{kernel\_success == True}, \texttt{verify\_all} emits a
+\Lean{} theorem section:
+
+\begin{lstlisting}[language=lean4]
+-- Verify block: dist_nonneg_psdl
+-- Function: sympy.geometry.point.Point.distance
+-- Property: Point.distance(p, q) >= 0
+-- Foundation: Real_sqrt_nonneg
+-- Source SHA-256: <hash>
+-- Trust level: STRUCTURAL_CHAIN
+-- Axioms used: ["Real_sqrt_nonneg"]
+theorem Verified_dist_nonneg_psdl :
+    Verified_dist_nonneg_psdl_property := by
+  intros p q
+  -- PSDL compiled output:
+  by_cases h : isinstance other Point
+  · unfold Point.distance
+    exact Foundation_Real_sqrt_nonneg
+    have h_<lineno> : sum_zip_sub_sq self other ≥ 0 := by omega
+  · exact absurd ‹_› (by simp)
+\end{lstlisting}
+
+\texttt{Verified\_dist\_nonneg\_psdl\_property} is the concrete
+\texttt{Prop} built by \texttt{build\_annotation\_preamble} from
+the \texttt{binders}, \texttt{function}, and \texttt{property}
+fields.  See \Cref{ch:lean}.
+
+\section{Stage 7: Foundation discharge (Z3)}
+\label{sec:foundation-discharge}
+
+\texttt{discharge\_foundations(sm)} (file:
+\texttt{deppy/lean/sidecar\_foundation\_discharge.py}, lines 1--150)
+attempts a Z3 discharge of every foundation.  The flow:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \texttt{\_looks\_arithmetic(stmt)} --- skip statements that
+    contain \texttt{sqrt}, \texttt{sin}, \texttt{is\_collinear},
+    etc.
+  \item \texttt{\_strip\_when\_clause(stmt)} --- split off any
+    ``\texttt{... when guard}'' precondition.
+  \item \texttt{\_rewrite\_for\_z3(stmt)} --- combine guard and core
+    into an implication \texttt{guard => core}.
+  \item \texttt{\_collect\_binders(formula)} --- identify free
+    variables and assign each to \texttt{int}.
+  \item Build a \texttt{Z3Proof(formula, binders)} and call
+    \texttt{kernel.verify} on a synthetic \texttt{Judgment}.  When
+    Z3 returns \texttt{unsat} on the negation, mark
+    \texttt{z3\_verified=True}.
+\end{enumerate}
+
+The certificate's foundation section then emits two shapes:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item For \texttt{z3\_verified} foundations: a real
+    \texttt{theorem Foundation\_X : Foundation\_X\_prop := by
+    intros; omega} (or similar tactic).
+  \item For unverified foundations: \texttt{axiom Foundation\_X :
+    Foundation\_X\_prop} with the statement preserved as a comment.
+\end{itemize}
+
+In the \texttt{sympy\_geometry.deppy} run, 7 of 14 foundations
+discharge via Z3 (the linear-arithmetic ones); the rest stay
+admitted.
+
+\section{Stage 8: Counterexample search}
+\label{sec:counter-search}
+
+\texttt{run\_counterexample\_search(sm,
+foundation\_discharge\_report)} (file:
+\texttt{deppy/lean/sidecar\_counterexample\_link.py}, lines 1--92)
+runs only on foundations Z3 \emph{attempted} but did not verify.
+For each, it builds a \texttt{Judgment} whose \texttt{type\_} is
+the \texttt{RefinementType} with predicate the foundation's
+formula, and asks \texttt{CounterexampleFinder} to find a model
+satisfying the negation.
+
+When a counterexample is found:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{outcome.found = True} with a model dict;
+  \item the certificate marks the foundation as
+    \texttt{REJECTED};
+  \item \emph{transitively}: every foundation that depends on it (via
+    \texttt{sm.\_foundation\_deps}) is also rejected;
+  \item every theorem citing a rejected foundation is replaced in
+    the certificate with an honest rejection notice.
+\end{itemize}
+
+This is the foundation of the \texttt{rejected\_theorem\_count}
+gate.  When non-zero, \texttt{certify\_or\_die} refuses
+certification.
+
+\section{Stage 9: Concrete-Props preamble}
+\label{sec:concrete-props}
+
+\texttt{build\_annotation\_preamble(sm)} (file:
+\texttt{deppy/lean/sidecar\_annotation\_preamble.py}) reads:
+\begin{itemize}[leftmargin=1.7em]
+  \item every \texttt{verify} block's \texttt{binders};
+  \item every \texttt{verify} block's \texttt{function} dotted path;
+  \item every \texttt{verify} block's \texttt{property};
+  \item the top-level \texttt{code\_types} dict;
+  \item the top-level \texttt{lean\_imports} and
+    \texttt{lean\_preamble} text.
+\end{itemize}
+
+It emits:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \texttt{abbrev <T> : Type := Int} for each unique
+    binder type (the flat-Int simplification we acknowledge in
+    \Cref{ch:lean}).
+  \item \texttt{axiom <name> : <signature>} for each entry in
+    \texttt{code\_types}.
+  \item \texttt{def <Verified\_X\_property> : Prop := <translated>}
+    for each verify block whose property translates to a non-trivial
+    Lean expression.
+\end{enumerate}
+
+The verifying theorems then have concrete goal types that elaborate
+against the PSDL-emitted tactics.  The
+\texttt{annotation\_preamble.concrete\_props} dict maps verify-block
+names to \texttt{(prop\_name, prop\_body)} for use by
+\texttt{verify\_all}.
+
+\section{Stage 10: Lean round-trip}
+\label{sec:lean-roundtrip}
+
+\texttt{check\_lean\_module\_source(text, timeout\_s=60)} (file:
+\texttt{deppy/lean/lean\_runner.py}) writes the certificate to a
+temporary file, invokes the \texttt{lean} binary on it, and
+captures stdout/stderr/exit-code.
+
+\begin{lstlisting}[caption={Outline of \texttt{check\_lean\_module\_source}.}]
+def check_lean_module_source(source, *, timeout_s=60):
+    with NamedTemporaryFile(suffix=".lean", mode="w") as fp:
+        fp.write(source)
+        fp.flush()
+        result = subprocess.run(
+            ["lean", fp.name],
+            capture_output=True,
+            timeout=timeout_s,
+            text=True,
+        )
+    return LeanResult(
+        ok=result.returncode == 0,
+        stdout=result.stdout,
+        stderr=result.stderr,
+    )
+\end{lstlisting}
+
+When \Lean{} accepts (exit 0), \texttt{lean\_runner\_ok = True} and
+the certificate's trust level for \texttt{LeanProof} sub-terms
+elevates to \texttt{KERNEL}.
+
+When \Lean{} rejects, \texttt{lean\_runner\_ok = False}.  The
+\texttt{certify\_or\_die} gate then refuses certification, listing
+``\texttt{lean\_runner round-trip rejected}'' as a failure.
+
+\subsection{Caveats}
+
+The \Lean{} binary must be on the user's \texttt{PATH}.  When it
+isn't, \texttt{check\_lean\_module\_source} catches the
+\texttt{FileNotFoundError} and \texttt{lean\_runner\_invoked =
+False}, but \texttt{certify\_or\_die} does not refuse certification
+on this basis alone --- the user can still rely on the kernel-level
+verification for soundness, just not on the round-trip guarantee.
+
+The 60s default timeout is on the conservative side.  For the
+\texttt{sympy\_geometry.deppy} run, \Lean{} typically returns in
+under 10 seconds; for larger sidecars (\texttt{torch}, \texttt{numpy})
+the timeout may need raising.
+
+\section{Stage 11: \texttt{certify\_or\_die}}
+\label{sec:certify-or-die}
+
+The final gate is \texttt{\_certify\_or\_die(s)} (file:
+\texttt{deppy/lean/sidecar\_runner.py}, lines 62--98):
+
+\begin{lstlisting}[caption={The \texttt{certify\_or\_die} verdict.}]
+def _certify_or_die(s) -> tuple[bool, list[str]]:
+    failures: list[str] = []
+    if s.soundness_gate_fail > 0:
+        failures.append(
+            f"soundness gate fired in {s.soundness_gate_fail} proof(s)")
+    if s.counterexamples_found > 0:
+        failures.append(
+            f"{s.counterexamples_found} counterexample(s) found "
+            "for admitted foundations")
+    if getattr(s, "rejected_theorem_count", 0) > 0:
+        failures.append(
+            f"{s.rejected_theorem_count} theorem(s) cited "
+            "counterexample-rejected foundations")
+    if getattr(s, "hash_drift_count", 0) > 0:
+        failures.append(
+            f"{s.hash_drift_count} verify block(s) failed "
+            "expects_sha256 hash check")
+    if getattr(s, "counterexample_expectation_violations", 0) > 0:
+        failures.append(
+            f"{s.counterexample_expectation_violations} verify block(s) "
+            "expected counterexample but none found")
+    return (len(failures) == 0, failures)
+\end{lstlisting}
+
+A certificate is \texttt{CERTIFIED} only when every gate is clean:
+\begin{itemize}[leftmargin=1.7em]
+  \item No \texttt{Structural} leaf in a non-vacuous position
+    (soundness gate).
+  \item No counterexample on any admitted foundation.
+  \item No theorem citing a rejected foundation.
+  \item No hash-drift on any \texttt{expects\_sha256:}-tagged
+    verify block.
+  \item No \texttt{expecting\_counterexample: true} block where
+    the search came up empty.
+  \item \Lean{}~4 round-trip exit 0 (when invoked).
+\end{itemize}
+
+When any gate fires, \texttt{certify\_or\_die} returns False; the
+certificate is still emitted (so the user can debug), but
+\texttt{rr.certified = False} and the runner prints an
+``\texttt{✗ NOT CERTIFIED}'' summary.
+
+\section{Output reporting}
+
+\texttt{print\_report(rr)} (lines 188--282) prints a structured
+human-readable summary.  The report (paraphrased) lists:
+\begin{itemize}[leftmargin=1.7em]
+  \item Foundations declared (trust surface).
+  \item Sidecar axioms by grounding bucket.
+  \item Body links: total, exact, sorry, error.
+  \item Code-proofs and the soundness gate.
+  \item Cubical analysis: methods, total cells, Kan candidates.
+  \item Cohomology counts: C⁰, C¹, C².
+  \item Bicomplex: built, edges, faces, Euler χ.
+  \item Fibration descent: outcomes / successes.
+  \item Foundation Z3 discharge: total / attempted / verified.
+  \item Counterexample search: foundations attempted /
+    counterexamples found.
+  \item Subsystem invocations and ProofTerm-zoo probes.
+  \item Verify blocks: total / kernel-verified.
+  \item Specs (informational), proofs total / derived / cited /
+    sorry.
+  \item Per-classification counts.
+  \item \texttt{lean\_runner} verdict.
+  \item \texttt{certify\_or\_die} verdict.
+\end{itemize}
+
+For \texttt{sympy\_geometry.deppy} a typical run prints
+\texttt{14 foundations, 38 axioms, 11 verify blocks, 4 body links},
+\texttt{7 of 14 foundations discharged via Z3}, \texttt{0
+counterexamples found}, and either \texttt{✓ CERTIFIED} or a list
+of certify failures.
+
+\section{Where each \texttt{ProofTerm} lives in the pipeline}
+
+A summary mapping the kernel \texttt{ProofTerm} subclasses to the
+pipeline stages that construct them:
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+\textbf{Term} & \textbf{Constructed by} \\
+\midrule
+\texttt{Refl}, \texttt{Sym}, \texttt{Trans}, \texttt{Cong} &
+PSDL refl/sym/trans/cong; legacy chain proofs. \\
+\texttt{Cut}, \texttt{Assume} &
+PSDL block-chaining; explicit \texttt{forall(\dots)}. \\
+\texttt{Z3Proof} &
+PSDL \texttt{assert ..., "z3"}; foundation discharge. \\
+\texttt{LeanProof} &
+PSDL \texttt{lean("\dots")}; \texttt{by\_lean:} on a verify block. \\
+\texttt{NatInduction}, \texttt{ListInduction}, \texttt{Cases} &
+PSDL \texttt{while}, \texttt{for}, \texttt{match}; explicit
+\texttt{induction(\dots)}. \\
+\texttt{DuckPath}, \texttt{ConditionalDuckPath}, \texttt{FiberedLookup} &
+\texttt{deppy.equivalence}; \texttt{DuckPath.auto\_construct};
+PSDL \texttt{dispatch(\dots)}. \\
+\texttt{EffectWitness}, \texttt{ConditionalEffectWitness} &
+PSDL \texttt{try/except}; \texttt{lift}/\texttt{bind}/\texttt{expect}. \\
+\texttt{TransportProof} &
+PSDL \texttt{transport(\dots)}; cubical-effects transport. \\
+\texttt{Fiber} &
+PSDL \texttt{if isinstance}; verify-block fibration descent. \\
+\texttt{Patch} &
+\texttt{kan\_fill} sugar; the patching module. \\
+\texttt{Cocycle}, \texttt{KanFill}, \texttt{CechGlue} &
+The cohomology pipeline; the bicomplex linker. \\
+\texttt{Univalence} &
+\texttt{UnivalenceEngine.from\_equiv}; \texttt{equiv\_to\_path}. \\
+\texttt{AxiomInvocation} &
+PSDL \texttt{apply}; legacy chain/citation proofs. \\
+\texttt{Unfold}, \texttt{Rewrite} &
+PSDL \texttt{inline}, \texttt{unfold}, \texttt{rewrite}; legacy
+\texttt{rewrite then cite}. \\
+\texttt{Structural} &
+PSDL \texttt{raise NotImplementedError}; safety pipeline
+escape hatches. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Cache and incremental verification}
+
+The \texttt{deppy/pipeline/cache.py} module provides a content-keyed
+cache for: \Zthree{} discharge results,
+\texttt{check\_lean\_module\_source} results, body-translation
+results, and per-axiom mechanizations.  The cache key is the
+SHA-256 of the input text, so identical re-runs are essentially
+free.
+
+\texttt{deppy/pipeline/incremental.py} sketches a cross-run
+incremental verifier that re-runs only verify blocks whose
+function source SHA-256 has changed.  This is what would let a
+maintainer rebuild a certificate after a one-line change without
+re-running the entire pipeline.  The current implementation is
+opt-in and not exercised by the canonical \texttt{run\_sidecar}
+entry point.
+
+\section{Summary}
+
+The pipeline:
+\begin{itemize}[leftmargin=1.7em]
+  \item starts at a \texttt{.deppy} path and a target Python module
+    name;
+  \item parses the sidecar into a \texttt{SidecarModule};
+  \item runs a sequence of report-producing transformations
+    (audit, mechanize, link, verify, foundations, counterexample,
+    \dots);
+  \item assembles a \Lean{}~4 certificate;
+  \item round-trips the certificate through the \Lean{} toolchain;
+  \item gates the \texttt{CERTIFIED} verdict on a small set of
+    explicit failure conditions in \texttt{certify\_or\_die}.
+\end{itemize}
+
+The next chapter dives into the \Lean{} target layer: how the
+generated text is structured, how the trust chain bottoms at
+concrete \Lean{} \texttt{Prop}s, and how the body-translation and
+mechanization passes interact with the preamble.

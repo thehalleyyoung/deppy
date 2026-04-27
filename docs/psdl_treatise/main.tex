@@ -1,0 +1,342 @@
+% =====================================================================
+%   Verifying Imported Python Modules via PSDL
+%   Integrating Lean-Style Expressivity with Cubical Duck-Type Analysis
+%
+%   Build:
+%     pdflatex main && pdflatex main && pdflatex main      % three passes for refs/TOC
+%   or, if biblatex/biber is desired:
+%     pdflatex main && biber main && pdflatex main && pdflatex main
+%
+%   This treatise is split across per-chapter files:
+%     ch01_intro.tex        ch02_dependent.tex   ch03_python.tex
+%     ch04_cubical.tex      ch05_deppy.tex       ch06_psdl.tex
+%     ch07_pipeline.tex     ch08_lean.tex        ch09_z3.tex
+%     ch10_cohomology.tex   ch11_examples.tex    ch12_soundness.tex
+%     ch13_related.tex
+%
+%   The Makefile at the same level wraps the build in
+%     make            -> three-pass pdflatex
+%     make clean      -> remove aux files
+%     make distclean  -> remove aux + pdf
+% =====================================================================
+
+\documentclass[11pt,letterpaper,oneside]{book}
+
+% --- core packages ---------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{stmaryrd}     % \rrbracket etc.
+% \usepackage{mathpartir}  % \inferrule, mathpar environment.
+% Not in basic TeXLive; fall back to array-based stubs below.
+% Define fallback ``\inferrule`` and ``mathpar`` — mathpartir would
+% override these but it's not in basic TeXLive.
+\providecommand{\inferrule}[2]{%
+  \dfrac{\begin{array}{c}#1\end{array}}%
+        {\begin{array}{c}#2\end{array}}%
+}
+% Use \def directly since \newenvironment{mathpar}{\begin{gather*}}
+% confuses LaTeX's begin/end tracking.
+\makeatletter
+\def\mathpar{\par\medskip\noindent\hbox to \linewidth\bgroup\hss$\displaystyle\begin{array}{c}}
+\def\endmathpar{\end{array}$\hss\egroup\par\medskip}
+\makeatother
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% --- code listings ---------------------------------------------------
+\usepackage{listings}
+
+\definecolor{kwblue}{HTML}{1F4E79}
+\definecolor{strgreen}{HTML}{0E7C2A}
+\definecolor{cmtgrey}{HTML}{6A7370}
+\definecolor{bgyellow}{HTML}{FCFAF1}
+
+\lstdefinestyle{deppy}{
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\bfseries\color{kwblue},
+  commentstyle=\itshape\color{cmtgrey},
+  stringstyle=\color{strgreen},
+  backgroundcolor=\color{bgyellow},
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  columns=fullflexible,
+  frame=single,
+  framesep=2pt,
+  rulecolor=\color{black!30},
+  numbers=none,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=\medskipamount,
+  belowskip=\medskipamount,
+  literate=
+    {≃}{{$\simeq$}}1
+    {≡}{{$\equiv$}}1
+    {≥}{{$\geq$}}1
+    {≤}{{$\leq$}}1
+    {→}{{$\to$}}1
+    {⟶}{{$\longrightarrow$}}1
+    {◇}{{$\Diamond$}}1
+    {□}{{$\Box$}}1
+    {Σ}{{$\Sigma$}}1
+    {Π}{{$\Pi$}}1
+    {α}{{$\alpha$}}1
+    {β}{{$\beta$}}1
+    {δ}{{$\delta$}}1
+    {ε}{{$\varepsilon$}}1
+    {θ}{{$\theta$}}1
+    {λ}{{$\lambda$}}1
+    {μ}{{$\mu$}}1
+    {π}{{$\pi$}}1
+    {φ}{{$\varphi$}}1
+    {ψ}{{$\psi$}}1
+    {⊆}{{$\subseteq$}}1
+    {⟨}{{$\langle$}}1
+    {⟩}{{$\rangle$}}1
+    {≠}{{$\neq$}}1
+    {⊥}{{$\bot$}}1
+    {⊤}{{$\top$}}1,
+}
+
+\lstdefinelanguage{psdl}{
+  morekeywords={if,else,elif,for,while,try,except,finally,raise,return,
+    assert,pass,import,from,class,def,match,case,
+    apply,unfold,inline,rewrite,refl,sym,trans,cong,subst,rew,induction,
+    forall,exists,J,iso,equiv_to_path,dispatch,kan_fill,cocycle,fibre_split,
+    Diamond,Box,pure,bind,expect,lift,lower,homotopy,square,
+    transport,funext,show_goal,show_term,hint,lean,lemma,
+    Path,Refl,Pi,Sigma,Equiv,Refinement,
+    inductive,axiom,theorem,protocol,
+    isinstance,Point,Triangle,Segment,Polygon,Circle,
+    True,False,None,and,or,not,is,in},
+  morecomment=[l]{\#},
+  morestring=[b]",
+  morestring=[b]',
+  sensitive=true,
+}
+
+\lstdefinelanguage{deppyfile}{
+  morekeywords={module,version,foundation,axiom,spec,verify,proof,lemma,
+    function,property,via,fibration,cubical,binders,requires,ensures,
+    psdl_proof,by_lean,lean_imports,lean_preamble,lean_signature,
+    lean_proof,target,citation,code_types,by,guarantee,pure,reads,
+    mutates,exception_free_when,raises,safe_when,is_total,decreases,
+    expects_sha256,effect,z3_binders,cubical_dim,cohomology_level,
+    expecting_counterexample,name,statement,precondition,postcondition,
+    chain,composition,rewrite,then,cite,foundation,axiom,refl},
+  morecomment=[l]{\#},
+  morestring=[b]",
+  morestring=[b]',
+  sensitive=true,
+}
+
+\lstdefinelanguage{lean4}{
+  morekeywords={theorem,axiom,def,abbrev,opaque,structure,inductive,
+    where,with,by,intros,intro,exact,apply,rfl,simp,unfold,have,show,
+    refine,case,match,fun,let,if,then,else,namespace,end,open,
+    Prop,Type,Int,Nat,Bool,List,True,False,not,or,and},
+  morecomment=[l]{--},
+  morestring=[b]",
+  sensitive=true,
+}
+
+\lstset{style=deppy}
+
+% --- TikZ for diagrams ----------------------------------------------
+\usepackage{tikz}
+\IfFileExists{tikz-cd.sty}{%
+  \usepackage{tikz-cd}%
+}{%
+  % tikz-cd not installed — define a stub tikzcd environment that
+  % falls back to plain matrix.
+  \newenvironment{tikzcd}{\begin{tikzpicture}\matrix}{\\;\end{tikzpicture}}%
+}
+\usetikzlibrary{
+  arrows.meta,
+  positioning,
+  fit,
+  shapes.geometric,
+  shapes.misc,
+  decorations.pathreplacing,
+  calc,
+  matrix,
+}
+
+% --- theorem environments -------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{convention}[theorem]{Convention}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{nonexample}[theorem]{Non-example}
+
+% --- macros ----------------------------------------------------------
+\newcommand{\PSDL}{\textsf{PSDL}}
+\newcommand{\Deppy}{\textsf{deppy}}
+\newcommand{\Lean}{\textsf{Lean}}
+\newcommand{\Coq}{\textsf{Coq}}
+\newcommand{\Agda}{\textsf{Agda}}
+\newcommand{\Sympy}{\textsc{SymPy}}
+\newcommand{\NumPy}{\textsc{NumPy}}
+\newcommand{\Torch}{\textsc{PyTorch}}
+\newcommand{\Zthree}{\textsf{Z3}}
+\newcommand{\Importlib}{\texttt{importlib}}
+\newcommand{\Inspect}{\texttt{inspect}}
+\newcommand{\HoTT}{\textsc{HoTT}}
+\newcommand{\CIC}{\textsc{CIC}}
+\newcommand{\CTT}{\textsc{CTT}}
+\newcommand{\CKernel}{\textsc{Kernel}}
+\newcommand{\Trust}[1]{\textsc{Trust}\!\langle #1\rangle}
+
+% kernel / proof macros
+\newcommand{\Refl}{\mathrm{Refl}}
+\newcommand{\Sym}{\mathrm{Sym}}
+\newcommand{\Trans}{\mathrm{Trans}}
+\newcommand{\Cong}{\mathrm{Cong}}
+\newcommand{\Cut}{\mathrm{Cut}}
+\newcommand{\Cases}{\mathrm{Cases}}
+\newcommand{\Fiber}{\mathrm{Fiber}}
+\newcommand{\Patch}{\mathrm{Patch}}
+\newcommand{\Cocycle}{\mathrm{Cocycle}}
+\newcommand{\KanFill}{\mathrm{KanFill}}
+\newcommand{\Univ}{\mathrm{Univalence}}
+\newcommand{\Glue}{\mathrm{CechGlue}}
+\newcommand{\Transport}{\mathrm{Transport}}
+\newcommand{\FunExt}{\mathrm{FunExt}}
+\newcommand{\PathComp}{\mathrm{PathComp}}
+\newcommand{\Ap}{\mathrm{Ap}}
+\newcommand{\DuckPath}{\mathrm{DuckPath}}
+\newcommand{\CDuckPath}{\mathrm{CondDuckPath}}
+\newcommand{\FibLook}{\mathrm{FiberedLookup}}
+\newcommand{\Effect}{\mathrm{EffectWitness}}
+\newcommand{\CEffect}{\mathrm{CondEffectWitness}}
+\newcommand{\Zthr}{\mathrm{Z3Proof}}
+\newcommand{\LeanP}{\mathrm{LeanProof}}
+\newcommand{\Axiomic}{\mathrm{AxiomInvocation}}
+\newcommand{\Unfold}{\mathrm{Unfold}}
+\newcommand{\Rewrite}{\mathrm{Rewrite}}
+\newcommand{\Struct}{\mathrm{Structural}}
+\newcommand{\NatI}{\mathrm{NatInd}}
+\newcommand{\ListI}{\mathrm{ListInd}}
+
+\newcommand{\rebr}[1]{\ensuremath{\llbracket #1 \rrbracket}}
+\newcommand{\ProofTerm}{\mathsf{ProofTerm}}
+\newcommand{\Judgment}{\mathsf{Judgment}}
+
+% --- bibliography ----------------------------------------------------
+% Prefer biblatex when available; fall back to natbib (always shipped
+% with TeXLive) for portability.
+\IfFileExists{biblatex.sty}{%
+  \usepackage[backend=biber,style=alphabetic,maxbibnames=20]{biblatex}%
+  \addbibresource{refs.bib}%
+  \newcommand{\printtreatisebib}{\printbibliography}%
+}{%
+  \usepackage[round]{natbib}%
+  \newcommand{\printtreatisebib}{%
+    \bibliographystyle{plainnat}%
+    \bibliography{refs}%
+  }%
+}
+
+% --- title -----------------------------------------------------------
+\title{
+\textbf{Verifying Imported Python Modules via PSDL}\\[0.55em]
+\Large{Integrating Lean-Style Expressivity with\\
+Cubical Duck-Type Analysis}
+}
+\author{The \Deppy{} Project\thanks{Source: \texttt{deppy} repository.
+This treatise is generated alongside the source tree at
+\texttt{docs/psdl\_treatise/}.}}
+\date{}
+
+% =====================================================================
+
+% ``book`` class doesn't ship an ``abstract`` environment by default
+% — define a simple stand-in.
+\newenvironment{abstract}{%
+  \begin{center}\textbf{\Large Abstract}\end{center}%
+  \begin{quote}\noindent
+}{%
+  \end{quote}%
+}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+\begin{abstract}
+\noindent
+This monograph develops a verification methodology for \emph{imported}
+Python libraries.  The user names a library --- e.g. \texttt{import
+sympy.geometry} --- and supplies a sidecar specification file
+(\texttt{.deppy}) carrying typed property annotations and proof scripts.
+The \Deppy{} pipeline introspects the live module, parses the sidecar,
+elaborates each verification block into a \emph{proof term} in
+\Deppy's kernel, discharges arithmetic obligations to \Zthree, runs
+counterexample search on the negation, and emits a self-contained
+\Lean{}~4 certificate that round-trips through Lean's elaborator.
+
+The proof scripts are written in \PSDL{}, the \emph{Python-Semantic
+Deppy Language}: a Python-syntax tactic language whose vocabulary
+includes both \CIC{}-flavoured primitives (induction, transport,
+function extensionality, path composition) \emph{and} primitives
+intrinsic to reasoning about cubical-duck-typed effectful Python
+(\texttt{isinstance} fibrations, exception fibres under the
+$\Diamond/\Box$ modalities, monkey-patch paths, Kan fillers,
+$\Sigma$-projection through \texttt{\_\_getattr\_\_}).  Each \PSDL{}
+statement compiles in lock-step to a \Deppy{} \texttt{ProofTerm} that
+the kernel checks and a \Lean{} tactic that Lean's kernel checks.
+
+We work out the design in detail, present the formal model, document
+every component of the pipeline against the source tree, and walk
+through the worked example of verifying properties of
+\texttt{sympy.geometry.point.Point.distance} end-to-end.  We are
+explicit about the trust surface: foundations admit, opaque
+\texttt{axiom}s admit, \texttt{Structural} leaves admit; the
+certificate is honest about which subgoals it has actually
+discharged and which it has merely passed through.
+\end{abstract}
+
+\tableofcontents
+
+\mainmatter
+
+\include{ch01_intro}
+\include{ch02_dependent}
+\include{ch03_python}
+\include{ch04_cubical}
+\include{ch05_deppy}
+\include{ch06_psdl}
+\include{ch07_pipeline}
+\include{ch08_lean}
+\include{ch09_z3}
+\include{ch10_cohomology}
+\include{ch11_examples}
+\include{ch12_soundness}
+\include{ch13_related}
+
+\backmatter
+
+\printtreatisebib
+
+\end{document}

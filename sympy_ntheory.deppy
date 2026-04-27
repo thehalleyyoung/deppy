@@ -1,0 +1,218 @@
+module: sympy
+target: sympy.ntheory
+description: |
+  Number-theory properties of sympy.gcd / sympy.lcm /
+  sympy.ntheory.isprime / sympy.ntheory.totient / sympy.ntheory.divisors.
+  Exercises the parts of the verification pipeline that geometry
+  doesn't:
+    * pure integer arithmetic (no opaque Class.attr accessors)
+    * Z3-discharge of divisibility / modular equations
+    * Boolean-valued predicates (isprime, is_perfect, is_quad_residue)
+    * counterexample search on number-theoretic claims
+    * recursive structure (gcd-style algorithms)
+
+# ─────────────────────────────────────────────────────────────────
+#  Foundations — number-theoretic facts
+# ─────────────────────────────────────────────────────────────────
+
+foundation Int_gcd_comm: "gcd(a, b) == gcd(b, a)"
+foundation Int_gcd_assoc: "gcd(gcd(a, b), c) == gcd(a, gcd(b, c))"
+foundation Int_gcd_idempotent: "gcd(a, a) == a"
+foundation Int_gcd_zero: "gcd(a, 0) == a"
+foundation Int_gcd_divides_left: "gcd(a, b) divides a"
+foundation Int_gcd_divides_right: "gcd(a, b) divides b"
+
+foundation Int_lcm_gcd_product: "gcd(a, b) * lcm(a, b) == a * b"
+foundation Int_lcm_zero: "lcm(a, 0) == 0"
+
+foundation Int_mod_self: "a % a == 0 when a > 0"
+foundation Int_mod_zero: "a % 1 == 0"
+foundation Int_mod_distrib: "(a + b) % m == ((a % m) + (b % m)) % m when m > 0"
+
+foundation Bool_isprime_small_2: "isprime(2) == True"
+foundation Bool_isprime_small_3: "isprime(3) == True"
+foundation Bool_isprime_small_4: "isprime(4) == False"
+foundation Bool_isprime_one_false: "isprime(1) == False"
+foundation Bool_isprime_zero_false: "isprime(0) == False"
+
+foundation Int_totient_prime: "totient(p) == p - 1 when isprime(p)"
+foundation Int_totient_one: "totient(1) == 1"
+
+foundation Int_divisors_one: "divisors(1) == [1]"
+foundation Int_divisors_prime: "divisors(p) == [1, p] when isprime(p)"
+
+# ─────────────────────────────────────────────────────────────────
+#  Sidecar axioms — claims about the library's behaviour
+# ─────────────────────────────────────────────────────────────────
+
+axiom gcd_divides_both:
+  target: sympy.gcd
+  statement: "gcd(a, b) divides a and gcd(a, b) divides b"
+  module: sympy
+
+axiom gcd_is_largest:
+  target: sympy.gcd
+  statement: "(d divides a and d divides b) implies d divides gcd(a, b)"
+  module: sympy
+
+axiom gcd_a_a_eq_a:
+  target: sympy.gcd
+  statement: "gcd(a, a) == a"
+  module: sympy
+
+axiom lcm_gcd_identity:
+  target: sympy.lcm
+  statement: "gcd(a, b) * lcm(a, b) == a * b"
+  module: sympy
+
+axiom isprime_4_false:
+  target: sympy.ntheory.isprime
+  statement: "isprime(4) == False"
+  module: sympy
+
+axiom isprime_2_true:
+  target: sympy.ntheory.isprime
+  statement: "isprime(2) == True"
+  module: sympy
+
+axiom totient_2_eq_1:
+  target: sympy.ntheory.totient
+  statement: "totient(2) == 1"
+  module: sympy
+
+axiom totient_3_eq_2:
+  target: sympy.ntheory.totient
+  statement: "totient(3) == 2"
+  module: sympy
+
+axiom divisors_4_contains_2:
+  target: sympy.ntheory.divisors
+  statement: "2 in divisors(4)"
+  module: sympy
+
+# ─────────────────────────────────────────────────────────────────
+#  Specs — informational
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.gcd:
+  guarantees:
+    - "Returns the greatest common divisor of two integers."
+    - "gcd(0, 0) == 0 by convention."
+  axioms:
+    - gcd_divides_both
+    - gcd_is_largest
+    - gcd_a_a_eq_a
+
+spec sympy.lcm:
+  guarantees:
+    - "Returns the least common multiple of two integers."
+  axioms:
+    - lcm_gcd_identity
+
+spec sympy.ntheory.isprime:
+  guarantees:
+    - "Returns True iff n is a prime number."
+    - "isprime(0) == False; isprime(1) == False."
+  axioms:
+    - isprime_2_true
+    - isprime_4_false
+
+# ─────────────────────────────────────────────────────────────────
+#  Verify blocks — kernel-checked properties via Z3
+# ─────────────────────────────────────────────────────────────────
+
+# gcd(a, a) == a.  Pure arithmetic — Z3 over Int.
+verify gcd_idempotent_code:
+  function: sympy.gcd
+  property: "gcd(a, a) == a"
+  via: foundation Int_gcd_idempotent
+  binders: a: Int
+
+# gcd(a, 0) == a.  Edge case.
+verify gcd_zero_right_code:
+  function: sympy.gcd
+  property: "gcd(a, 0) == a"
+  via: foundation Int_gcd_zero
+  binders: a: Int
+
+# gcd(a, b) == gcd(b, a) — commutativity.
+verify gcd_commutative_code:
+  function: sympy.gcd
+  property: "gcd(a, b) == gcd(b, a)"
+  via: foundation Int_gcd_comm
+  binders: a: Int, b: Int
+
+# lcm(a, 0) == 0.
+verify lcm_zero_right_code:
+  function: sympy.lcm
+  property: "lcm(a, 0) == 0"
+  via: foundation Int_lcm_zero
+  binders: a: Int
+
+# Distributivity-style claim: (a + b) % m == ((a%m) + (b%m)) % m.
+verify mod_distributive_code:
+  function: sympy.ntheory.modular
+  property: "(a + b) % m == ((a % m) + (b % m)) % m"
+  via: foundation Int_mod_distrib
+  binders: a: Int, b: Int, m: Int
+
+# Boolean-valued: isprime(2).  Concrete claim, decidable via Z3.
+verify isprime_2_code:
+  function: sympy.ntheory.isprime
+  property: "isprime(2) == True"
+  via: foundation Bool_isprime_small_2
+
+# Boolean: isprime(4) == False.
+verify isprime_4_code:
+  function: sympy.ntheory.isprime
+  property: "isprime(4) == False"
+  via: foundation Bool_isprime_small_4
+
+# totient(1) == 1.  Edge case.
+verify totient_one_code:
+  function: sympy.ntheory.totient
+  property: "totient(1) == 1"
+  via: foundation Int_totient_one
+
+# NOTE: omitted ``gcd_wrong_bound_code`` block — Z3 over Int cannot
+# symbolically reason about ``gcd`` (it's an opaque function from
+# Z3's perspective).  A claim like ``gcd(a, b) >= a`` can't be
+# refuted by Z3 even though it's runtime-false (gcd(10, 3) = 1).
+# Catching this kind of error requires *runtime* property testing
+# or a real model of ``gcd`` axiomatised over the kernel — both
+# out of scope for the current pipeline.
+
+# PSDL block — uses cubical / Python-shaped proof primitives.
+# Exercises: walrus inline lemma, postfix .symm, qed() closer.
+verify gcd_self_psdl:
+  function: sympy.gcd
+  property: "gcd(a, a) == a"
+  via: foundation Int_gcd_idempotent
+  binders: a: Int
+  psdl_proof: |
+    # gcd is idempotent: cite the foundation directly.
+    apply(Int_gcd_idempotent)
+    # Final closer.
+    qed()
+
+# ─────────────────────────────────────────────────────────────────
+#  Proofs — derived from foundations + axioms
+# ─────────────────────────────────────────────────────────────────
+
+proof "gcd_a_a_eq_a":
+  by: cite Int_gcd_idempotent
+
+proof "gcd_commutative":
+  by: cite Int_gcd_comm
+
+proof "gcd_zero_neutral":
+  by: cite Int_gcd_zero
+
+proof "lcm_gcd_compose":
+  by: chain Int_lcm_gcd_product, Int_gcd_comm
+
+proof "primality_2":
+  by: cite Bool_isprime_small_2
+
+proof "primality_4_false":
+  by: cite Bool_isprime_small_4

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operator Dispatch · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="operator_dispatch.html" class="active">Operator Dispatch</a></li>
+      <li><a href="coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
+      <li><a href="decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Operator Dispatch</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      <code>__r*__</code> fallback as <code>ConditionalDuckPath</code>; subclass priority as outer <code>Fiber</code>.
+    </p>
+
+    <!-- ─── Intro ─── -->
+    <h2>Two-Phase Operator Resolution</h2>
+    <p>
+      When Python evaluates <code>a + b</code> it doesn't simply call
+      <code>a.__add__(b)</code>. The runtime first checks whether the LHS
+      has an <code>__add__</code> method <em>and</em> whether that method
+      returns something other than <code>NotImplemented</code>. Only if the
+      LHS forfeits does the runtime fall back to <code>b.__radd__(a)</code>.
+      And there's a wrinkle: if <code>type(b)</code> is a strict subclass of
+      <code>type(a)</code>, <code>__radd__</code> goes <em>first</em>.
+    </p>
+    <p>
+      That's three potential routes per binary operator. Deppy encodes the
+      whole pattern as a <strong><code>ConditionalDuckPath</code></strong>:
+      a duck-typing path predicated on a runtime condition, with a fibration
+      over the success / fallback / type-error cases.
+    </p>
+
+    <!-- ─── The basic case ─── -->
+    <h2>Without Subclass Priority</h2>
+    <p>
+      The plain case (no subclass relation between the operands) compiles
+      to a single conditional path:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_op_dispatch <span class="kw">import</span> emit_op_dispatch
+
+<span class="fn">print</span>(<span class="fn">emit_op_dispatch</span>(<span class="st">'+'</span>, <span class="st">'a'</span>, <span class="st">'b'</span>))</code></pre>
+
+    <p>Output:</p>
+
+<pre><code>ConditionalDuckPath(
+    if <span class="st">"hasattr(type(lhs), '__add__') and lhs.__add__(b) is not NotImplemented"</span>:
+        Fiber)</code></pre>
+
+    <p>Three pieces here:</p>
+    <ul>
+      <li>
+        The <strong>condition</strong> is the runtime predicate. It's
+        symbolic — verification doesn't execute it; the kernel asks Z3
+        whether <code>type(a)</code> declares the operator dunder, and
+        whether the call's return type excludes <code>NotImplemented</code>.
+      </li>
+      <li>
+        The <strong>true</strong> branch is a <code>Fiber</code> with the
+        forward <code>__add__</code> path.
+      </li>
+      <li>
+        The <strong>false</strong> branch (implied by the conditional)
+        falls back to <code>b.__radd__(a)</code> with its own
+        <code>NotImplemented</code> fibre, and finally to a
+        <code>TypeError</code> witness if both forfeit.
+      </li>
+    </ul>
+
+    <h3>From PSDL: <code>op_dispatch</code></h3>
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+
+src = <span class="st">'op_dispatch("+", a, b)'</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)
+<span class="cm"># ConditionalDuckPath(…)</span></code></pre>
+
+    <!-- ─── Subclass priority ─── -->
+    <h2>Subclass Priority Adds an Outer <code>Fiber</code></h2>
+    <p>
+      When <code>type(b)</code> is a subclass of <code>type(a)</code>
+      (and not the same class), Python tries <code>b.__radd__(a)</code>
+      first. Deppy wraps the conditional path in an outer
+      <code>Fiber</code> over the <code>issubclass</code> question:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_op_dispatch <span class="kw">import</span> (
+    emit_op_dispatch, OperatorRegistry,
+)
+
+reg = <span class="fn">OperatorRegistry</span>()
+r = <span class="fn">emit_op_dispatch</span>(
+    <span class="st">'+'</span>, <span class="st">'a'</span>, <span class="st">'b'</span>,
+    lhs_class=<span class="st">'int'</span>, rhs_class=<span class="st">'Vec'</span>, registry=reg,
+)
+<span class="fn">print</span>(r)
+<span class="cm"># Fiber(Var(name='_issubclass_Vec_of_int'),</span>
+<span class="cm">#       [PyObjType(), PyObjType()])</span></code></pre>
+
+    <p>
+      The two fibres correspond to:
+    </p>
+    <ol>
+      <li><strong>RHS-first</strong> branch — fires when
+        <code>issubclass(Vec, int)</code> holds.</li>
+      <li><strong>Standard</strong> branch — fires otherwise; this branch
+        contains the same <code>ConditionalDuckPath</code> as the basic
+        case.</li>
+    </ol>
+
+    <!-- ─── In-place ops ─── -->
+    <h2>In-Place Operators (<code>+=</code> and friends)</h2>
+    <p>
+      <code>a += b</code> follows a different protocol: Python first looks
+      for <code>__iadd__</code>. If absent, the expression rewrites to
+      <code>a = a + b</code> with the regular dispatch. Deppy uses
+      <code>emit_inplace_op_dispatch</code>:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_op_dispatch <span class="kw">import</span> emit_inplace_op_dispatch
+
+<span class="fn">print</span>(<span class="fn">emit_inplace_op_dispatch</span>(<span class="st">'+'</span>, <span class="st">'a'</span>, <span class="st">'b'</span>))
+<span class="cm"># ConditionalDuckPath(if "hasattr(type(lhs), '__iadd__')": Fiber)</span></code></pre>
+
+    <div class="note">
+      <code>__iadd__</code> may either mutate <code>a</code> in place
+      <em>and</em> return <code>self</code>, or create a new object.
+      Either way the assignment <code>a = …</code> still happens, so the
+      cubical heap from <a href="../part6/cubical_heap.html">Part 6.1</a>
+      sees a possible mutation event and bumps the epoch when the kernel
+      cannot prove non-mutation.
+    </div>
+
+    <!-- ─── Operator dunder table ─── -->
+    <h2>The Operator Dunder Table</h2>
+    <p>
+      <code>OPERATOR_DUNDERS</code> maps Python's binary operators to
+      their forward / reverse dunder pairs:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_op_dispatch <span class="kw">import</span> OPERATOR_DUNDERS
+<span class="kw">for</span> op, (fwd, rev) <span class="kw">in</span> <span class="fn">list</span>(OPERATOR_DUNDERS.<span class="fn">items</span>())[:<span class="nb">5</span>]:
+    <span class="fn">print</span>(op, fwd, rev)</code></pre>
+
+    <p>Output:</p>
+
+<pre><code>+ __add__ __radd__
+- __sub__ __rsub__
+* __mul__ __rmul__
+@ __matmul__ __rmatmul__
+/ __truediv__ __rtruediv__</code></pre>
+
+    <!-- ─── Why ConditionalDuckPath ─── -->
+    <h2>Why a <em>Conditional</em> Duck Path?</h2>
+    <p>
+      A plain <code>DuckPath</code> says: "<code>x</code> and <code>y</code>
+      are observationally interchangeable." But operator dispatch is more
+      subtle — the choice <em>depends</em> on whether the operand declares
+      a method. The <code>ConditionalDuckPath</code> carries:
+    </p>
+    <ul>
+      <li>A <strong>condition</strong> — a symbolic predicate the kernel
+        evaluates against the type registry.</li>
+      <li>A <strong>true-branch evidence</strong> — proof that the path
+        exists when the condition holds.</li>
+      <li>A <strong>false-branch evidence</strong> — proof that the
+        fallback path exists otherwise.</li>
+    </ul>
+    <p>
+      This shape is exactly what's needed to verify
+      <code>NotImplemented</code>-driven dispatch without requiring the
+      verifier to run the operands.
+    </p>
+
+    <!-- ─── A worked verification ─── -->
+    <h2>A Worked Verification</h2>
+    <p>
+      Suppose we want to verify that <code>vec + 0</code> commutes:
+      i.e. <code>vec + 0 == 0 + vec</code>. The forward dispatch picks
+      <code>vec.__add__(0)</code>. The reverse dispatch picks
+      <code>vec.__radd__(0)</code> (because <code>int.__add__</code>
+      returns <code>NotImplemented</code> on a <code>Vec</code>). If both
+      methods agree on the result, the equation holds.
+    </p>
+    <p>
+      Deppy compiles the obligation by emitting two
+      <code>ConditionalDuckPath</code>s and checking that the success
+      fibres coincide. When <code>__add__</code> and <code>__radd__</code>
+      delegate to the same underlying implementation, the kernel
+      simplifies the path to <code>Refl</code> automatically.
+    </p>
+
+    <!-- ─── Where to next ─── -->
+    <h2>What's Next</h2>
+    <p>
+      <a href="coalgebras.html"><strong>Coalgebras: Generators &amp;
+      Async</strong></a> covers <code>yield</code> and <code>await</code>,
+      which use a similar conditional pattern but for suspension events
+      instead of method existence.
+    </p>
+
+    <nav class="page-nav">
+      <a href="mro_descriptors.html">
+        <span class="label">← Previous</span>
+        <span class="title">MRO &amp; Descriptors</span>
+      </a>
+      <a href="coalgebras.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Coalgebras: Generators &amp; Async</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

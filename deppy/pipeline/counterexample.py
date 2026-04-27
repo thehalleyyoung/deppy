@@ -677,7 +677,17 @@ class CounterexampleFinder:
             return display
 
     def _explain(self, predicate: str, values: dict[str, Any]) -> str:
-        """Generate a human-readable explanation."""
+        """Generate a human-readable explanation.
+
+        Z3 was asked to satisfy ``Not(predicate)`` — so at the witness
+        the predicate is FALSE under Z3's semantics (typically Int /
+        Real arithmetic).  Python's ``eval`` may evaluate the same
+        predicate to True if Z3 was using Int arithmetic and Python
+        promotes to float (e.g. ``/`` is float-division in Python 3
+        but integer-division in Z3 over Int).  Distinguish those
+        cases honestly: report Z3's verdict, plus a divergence note
+        when Python disagrees.
+        """
         parts = []
         for name, val in values.items():
             parts.append(f"{name}={val!r}")
@@ -685,15 +695,34 @@ class CounterexampleFinder:
         for name, val in values.items():
             substituted = re.sub(rf'\b{re.escape(name)}\b', repr(val), substituted)
         try:
-            result = eval(substituted, {"__builtins__": {"abs": abs, "min": min,
-                                                          "max": max, "len": len,
-                                                          "sum": sum, "sorted": sorted,
-                                                          "True": True, "False": False,
-                                                          "None": None}})
-            return (f"With {', '.join(parts)}: "
-                    f"{predicate} evaluates to {result!r} (expected True)")
+            py_result = eval(substituted, {"__builtins__": {
+                "abs": abs, "min": min, "max": max, "len": len,
+                "sum": sum, "sorted": sorted,
+                "True": True, "False": False, "None": None,
+            }})
         except Exception:
-            return f"With {', '.join(parts)}: cannot evaluate {predicate}"
+            return (
+                f"With {', '.join(parts)}: Z3 found a counterexample "
+                f"to {predicate} (Python could not re-evaluate)"
+            )
+        if py_result is False:
+            return (
+                f"With {', '.join(parts)}: {predicate} → False "
+                f"(real counterexample — claim is provably false)"
+            )
+        if py_result is True:
+            return (
+                f"With {', '.join(parts)}: Z3 (Int semantics) found "
+                f"{predicate} false, but Python (float semantics) "
+                f"evaluates it to True — claim holds over reals but "
+                f"not over the integer encoding Z3 used.  Restate "
+                f"multiplicatively (avoid ``/``) or change the "
+                f"intended sort to Real."
+            )
+        return (
+            f"With {', '.join(parts)}: {predicate} → {py_result!r} "
+            f"(Z3 negation was satisfiable under its semantics)"
+        )
 
     def _build_trace(self, predicate: str, values: dict[str, Any]) -> list[str]:
         """Build an execution trace showing step-by-step evaluation."""

@@ -11,59 +11,77 @@
 
 <button class="menu-toggle">☰</button>
 <aside class="sidebar">
-  <div class="sidebar-header"><h1>Deppy</h1><div class="subtitle">Python with Dependent Types — Tutorial Book</div></div>
-  <nav><ul>
-    <li><a href="../index.html">Home</a></li>
-    <li><a href="../structure.html">Structure of this Book</a></li>
-    <li><a href="../intro.html">Introduction</a></li>
-    <li><span class="section-title">Part 1 — Pure Python</span></li>
-    <li><a href="../part1/index.html">Overview</a></li>
-    <li><a href="../part1/getting_started.html">Getting Started</a></li>
-    <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
-    <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
-    <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
-    <li><a href="../part1/data_structures.html">Data Structures</a></li>
-    <li><a href="../part1/termination.html">Termination</a></li>
-    <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
-    <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
-    <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
-    <li><a href="../part2/index.html">Overview</a></li>
-    <li><a href="../part2/generics.html">Generic Types</a></li>
-    <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
-    <li><a href="../part2/merkle.html">Merkle Trees</a></li>
-    <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
-    <li><a href="../part2/connectives.html">Logical Connectives</a></li>
-    <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
-    <li><span class="section-title">Part 3 — Python Specifics</span></li>
-    <li><a href="../part3/index.html">Overview</a></li>
-    <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
-    <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
-    <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
-    <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
-    <li><a href="../part4/index.html">Overview</a></li>
-    <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
-    <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html" class="active">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
-    <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
-    <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
-    <li><a href="../part5/index.html">Overview</a></li>
-    <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
-    <li><a href="../part5/cech.html">Čech Decomposition</a></li>
-    <li><a href="../part5/fibrations.html">Fibrations</a></li>
-    <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
-    <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
-    <li><a href="../part6/index.html">Overview</a></li>
-    <li><a href="../part6/separation.html">Separation Logic</a></li>
-    <li><a href="../part6/references.html">Mutable References</a></li>
-    <li><a href="../part6/arrays.html">Arrays</a></li>
-    <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
-    <li><a href="../part6/async.html">Async / Await</a></li>
-    <li><span class="section-title">Under the Hood</span></li>
-    <li><a href="../under_the_hood/index.html">Overview</a></li>
-    <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
-    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
-    <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
-  </ul></nav>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
 </aside>
 
 <div class="content">
@@ -146,7 +164,7 @@
     <span class="cm">#   b ≠ 0              (narrowed by conditional)</span>
     <span class="kw">return</span> a / b  <span class="cm"># safe: types verified, no ZeroDivisionError</span></code></pre>
 
-<pre><code>$ deppy verify safe_divide.py --show-narrowing
+<pre><code>$ python -m deppy.pipeline.run_verify safe_divide.py --show-narrowing
 <span class="st">Analyzing safe_divide...</span>
 
 <span class="st">Type narrowing trace:</span>
@@ -213,7 +231,7 @@
             <span class="cm"># narrowed: shape : Triangle, b = shape.base, h = shape.height</span>
             <span class="kw">return</span> <span class="nb">0.5</span> * b * h</code></pre>
 
-<pre><code>$ deppy verify area.py --show-narrowing
+<pre><code>$ python -m deppy.pipeline.run_verify area.py --show-narrowing
 <span class="st">Analyzing area(shape: Shape)...</span>
 
 <span class="st">Pattern matching exhaustiveness:</span>
@@ -274,7 +292,7 @@
     )
     <span class="kw">return</span> result</code></pre>
 
-<pre><code>$ deppy verify gradual.py
+<pre><code>$ python -m deppy.pipeline.run_verify gradual.py
 <span class="st">Analyzing scale_values...</span>
 
 <span class="st">Trust boundary at legacy_compute:</span>
@@ -355,7 +373,7 @@
     items = [stringify(item) <span class="kw">for</span> item <span class="kw">in</span> value]
     <span class="kw">return</span> <span class="st">"["</span> + <span class="st">", "</span>.join(items) + <span class="st">"]"</span></code></pre>
 
-<pre><code>$ deppy verify stringify.py --show-narrowing
+<pre><code>$ python -m deppy.pipeline.run_verify stringify.py --show-narrowing
 <span class="st">Type narrowing for stringify(value: int|float|str|list|None):</span>
 
   <span class="cm">Step 1: value is None → True</span>
@@ -426,7 +444,7 @@
         <span class="kw">return</span> [s.upper() <span class="kw">for</span> s <span class="kw">in</span> data]  <span class="cm"># .upper() valid on str ✓</span>
     <span class="kw">return</span> [str(item) <span class="kw">for</span> item <span class="kw">in</span> data]</code></pre>
 
-<pre><code>$ deppy verify typeguard.py
+<pre><code>$ python -m deppy.pipeline.run_verify typeguard.py
 <span class="st">✓ TypeGuard[is_string_list]: sound narrowing</span>
   <span class="cm">├── True branch: val : list[str]</span>
   <span class="cm">│   └── all(isinstance(item, str)) → correct narrowing ✓</span>
@@ -496,7 +514,7 @@
         email=data[<span class="st">"email"</span>],
     )</code></pre>
 
-<pre><code>$ deppy verify json_parse.py --verbose
+<pre><code>$ python -m deppy.pipeline.run_verify json_parse.py --verbose
 <span class="st">Analyzing parse_user...</span>
 
 <span class="st">Trust boundary: json.loads(raw_json) → Any</span>
@@ -621,7 +639,7 @@ Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></co
     ts = datetime.datetime.now().isoformat()
     print(<span class="st">f"[{ts}] {message}"</span>)</code></pre>
 
-<pre><code>$ deppy verify monkey_patch.py --verbose
+<pre><code>$ python -m deppy.pipeline.run_verify monkey_patch.py --verbose
 <span class="st">Analyzing @safe_patch(Logger, "log")...</span>
 
 <span class="st">Transport check: Logger.log → timestamped_log</span>
@@ -657,7 +675,7 @@ Logger.log = patched_log  <span class="cm"># ⚠ breaks verification!</span></co
     print(<span class="st">f"[LOG] {message}"</span>)
     <span class="kw">return</span> <span class="nb">True</span></code></pre>
 
-<pre><code>$ deppy verify broken_patch.py
+<pre><code>$ python -m deppy.pipeline.run_verify broken_patch.py
 <span class="cm">✗ @safe_patch(Logger, "log"): TRANSPORT FAILED</span>
 
   <span class="cm">├── Signature mismatch:</span>

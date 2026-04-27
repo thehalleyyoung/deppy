@@ -119,7 +119,6 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <button class="menu-toggle">☰</button>
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -128,7 +127,7 @@
   </div>
   <nav>
     <ul>
-      <li><a href="./index.html">Home</a></li>
+      <li><a href="./index.html" class="active">Home</a></li>
       <li><a href="./structure.html">Structure of this Book</a></li>
       <li><a href="./intro.html">Introduction</a></li>
 
@@ -155,12 +154,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="./part3/index.html">Overview</a></li>
       <li><a href="./part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="./part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="./part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="./part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="./part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="./part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="./part4/index.html">Overview</a></li>
       <li><a href="./part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="./part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="./part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="./part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="./part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -170,11 +173,13 @@
       <li><a href="./part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="./part5/cech.html">Čech Decomposition</a></li>
       <li><a href="./part5/fibrations.html">Fibrations</a></li>
+      <li><a href="./part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="./part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
       <li><a href="./part6/index.html">Overview</a></li>
-      <li><a href="./part6/separation.html">Separation Logic</a></li>
+      <li><a href="./part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="./part6/separation.html">Separation Logic (vs Pulse)</a></li>
       <li><a href="./part6/references.html">Mutable References</a></li>
       <li><a href="./part6/arrays.html">Arrays</a></li>
       <li><a href="./part6/threading.html">Threading &amp; GIL</a></li>
@@ -216,14 +221,24 @@
       Deppy verifies the Python code you <em>already have</em>.
     </p>
     <p>
-      We cover everything from basic refinement types and Z3 integration to advanced topics
-      like homotopy-theoretic path types, Čech decomposition for modular verification,
-      separation logic for heap reasoning, and GIL-aware concurrency proofs.
+      We cover everything from basic refinement types and Z3 integration to advanced topics:
+      homotopy-theoretic path types, Čech decomposition for modular verification, the
+      <strong>cubical heap</strong> with epoch-tagged mutation and transport-based reads,
+      coalgebraic generators / coroutines, and GIL-aware concurrency proofs.
+    </p>
+    <p>
+      Sidecar metadata can be written in two equivalent forms — a separate
+      <code>.deppy</code> file (best for verifying third-party libraries) or
+      <strong>decorator-based annotations</strong> inline with Python
+      (<code>@foundation</code>, <code>@axiom</code>, <code>@verify</code>,
+      <code>@psdl_proof</code>; best when you write the module yourself).
+      Both feed the same kernel.
     </p>
 
     <div class="note">
       Deppy does <strong>not</strong> require you to modify your source code. Specifications and proofs
-      live in <em>sidecar</em> <code>.deppy</code> files alongside your Python modules.
+      live either in <em>sidecar</em> <code>.deppy</code> files alongside your Python modules,
+      or in proof decorators stamped on the functions they describe — your choice.
     </div>
 
     <!-- Quick Example -->
@@ -236,31 +251,55 @@
     <div class="compare">
       <div>
         <h4>my_math.py</h4>
-<pre><code><span class="cm"># Ordinary Python — no Deppy imports</span>
+<pre><code><span class="cm"># Ordinary Python — no Deppy imports needed if you use a sidecar.</span>
 <span class="kw">def</span> <span class="fn">abs_val</span>(x: <span class="ty">int</span>) -> <span class="ty">int</span>:
     <span class="kw">if</span> x >= <span class="nb">0</span>:
         <span class="kw">return</span> x
     <span class="kw">return</span> -x</code></pre>
       </div>
       <div>
-        <h4>my_math.deppy</h4>
-<pre><code><span class="cm"># Sidecar proof — sits beside my_math.py</span>
-<span class="kw">from</span> deppy <span class="kw">import</span> verify, refined
+        <h4>my_math.deppy (sidecar form)</h4>
+<pre><code><span class="cm"># Separate-file YAML-shaped sidecar; sits beside my_math.py</span>
+<span class="kw">module</span>: my_math
 
-<span class="dc">@verify</span>(<span class="st">"my_math.abs_val"</span>)
-<span class="kw">def</span> <span class="fn">abs_val_spec</span>(x: <span class="ty">int</span>) -> <span class="pr">refined</span>(<span class="ty">int</span>, <span class="kw">lambda</span> r: r >= <span class="nb">0</span>):
-    <span class="cm"># Postcondition: result ≥ 0</span>
-    <span class="cm"># Proof: case split on x ≥ 0</span>
-    <span class="pr">z3.auto</span>()  <span class="cm"># discharged by Z3</span></code></pre>
+<span class="kw">spec</span> my_math.abs_val:
+  <span class="kw">guarantee</span>: <span class="st">"abs_val(x) >= 0"</span>
+
+<span class="kw">verify</span> abs_val_nonneg:
+  <span class="kw">function</span>: my_math.abs_val
+  <span class="kw">property</span>: <span class="st">"abs_val(x) >= 0"</span>
+  <span class="kw">via</span>: <span class="st">"z3"</span></code></pre>
       </div>
     </div>
 
-    <p>Running <code>deppy check my_math.py</code> verifies the specification without executing any code:</p>
-<pre><code>$ deppy check my_math.py
-<span class="fn">✓</span> my_math.abs_val  <span class="cm">— Z3_VERIFIED (0.02s)</span>
-  postcondition: result ≥ 0
-  strategy: case-split → Z3 auto
-<span class="fn">All 1 obligations verified.</span></code></pre>
+    <p>Or, with the equivalent decorator form (when you write the module yourself):</p>
+<pre><code><span class="kw">from</span> deppy.proofs.sidecar_decorators <span class="kw">import</span> verify, psdl_proof
+
+<span class="dc">@verify</span>(
+    property=<span class="st">"abs_val(x) >= 0"</span>,
+    via=<span class="st">"z3"</span>,
+    binders={<span class="st">"x"</span>: <span class="st">"int"</span>},
+)
+<span class="dc">@psdl_proof</span>(<span class="st">"""
+if x >= 0:
+    assert x >= 0, "z3"
+else:
+    assert -x >= 0, "z3"
+"""</span>)
+<span class="kw">def</span> <span class="fn">abs_val</span>(x: <span class="ty">int</span>) -> <span class="ty">int</span>:
+    <span class="kw">return</span> x <span class="kw">if</span> x >= <span class="nb">0</span> <span class="kw">else</span> -x</code></pre>
+
+    <p>
+      Run the verifier — both forms feed the same kernel and the same
+      Lean-export round-trip:
+    </p>
+<pre><code>$ python -m deppy.pipeline.run_verify my_math.deppy --out my_math.lean
+$ python -m deppy.pipeline.run_verify --from-module my_math --out my_math.lean
+
+  ────────────────────────────────────────────────
+  deppy.lean.lean_runner round-trip:       OK
+  ────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
 
     <!-- Why Deppy -->
     <h2 id="why-deppy">Why Deppy?</h2>
@@ -323,18 +362,18 @@
           <td class="yes">✓ Z3</td>
         </tr>
         <tr>
-          <td>Separation logic</td>
-          <td class="partial">~ (Steel)</td>
+          <td>Heap reasoning</td>
+          <td class="partial">~ (Steel/Pulse)</td>
           <td class="no">✗</td>
           <td class="no">✗</td>
-          <td class="yes">✓ built-in</td>
+          <td class="yes">✓ cubical heap</td>
         </tr>
         <tr>
           <td>Concurrency (GIL-aware)</td>
           <td class="no">✗</td>
           <td class="no">✗</td>
           <td class="no">✗</td>
-          <td class="yes">✓</td>
+          <td class="yes">✓ runtime</td>
         </tr>
         <tr>
           <td>Learning curve</td>
@@ -396,6 +435,9 @@
         <ul>
           <li><a href="./part3/index.html">Overview</a></li>
           <li><a href="./part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+          <li><a href="./part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+          <li><a href="./part3/operator_dispatch.html">Operator Dispatch</a></li>
+          <li><a href="./part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
           <li><a href="./part3/decorators.html">Decorators &amp; Meta</a></li>
           <li><a href="./part3/dynamic.html">Dynamic Typing</a></li>
         </ul>
@@ -407,8 +449,9 @@
         <ul>
           <li><a href="./part4/index.html">Overview</a></li>
           <li><a href="./part4/sidecar_basics.html">Sidecar Basics</a></li>
+          <li><a href="./part4/decorator_form.html">Decorator Form</a></li>
           <li><a href="./part4/sympy.html">Case Study: SymPy</a></li>
-      <li><a href="./part4/geometry.html">Verifying sympy.geometry</a></li>
+          <li><a href="./part4/geometry.html">Verifying sympy.geometry</a></li>
           <li><a href="./part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
         </ul>
       </div>
@@ -421,6 +464,7 @@
           <li><a href="./part5/paths.html">Path Types &amp; Transport</a></li>
           <li><a href="./part5/cech.html">Čech Decomposition</a></li>
           <li><a href="./part5/fibrations.html">Fibrations</a></li>
+          <li><a href="./part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
           <li><a href="./part5/tactics.html">Homotopy Tactics</a></li>
         </ul>
       </div>
@@ -430,7 +474,8 @@
         <h3>Part 6 — Heap &amp; Concurrency</h3>
         <ul>
           <li><a href="./part6/index.html">Overview</a></li>
-          <li><a href="./part6/separation.html">Separation Logic</a></li>
+          <li><a href="./part6/cubical_heap.html">Cubical Heap</a></li>
+          <li><a href="./part6/separation.html">Separation Logic (vs Pulse)</a></li>
           <li><a href="./part6/references.html">Mutable References</a></li>
           <li><a href="./part6/arrays.html">Arrays</a></li>
           <li><a href="./part6/threading.html">Threading &amp; GIL</a></li>
@@ -455,23 +500,27 @@
     <h2 id="taste">A Taste of Verification</h2>
     <p>
       Deppy supports several styles of specification. Here's a richer example
-      using the <code>@guarantee</code> decorator for inline annotation and
-      <code>@refined</code> for refinement types:
+      using the <code>@guarantee</code> decorator for inline annotation,
+      <code>refined</code> for refinement types, and <code>Nat()</code> as
+      the canonical non-negative integer type:
     </p>
 
-<pre><code><span class="kw">from</span> deppy <span class="kw">import</span> guarantee, refined, assume
+<pre><code><span class="kw">from</span> deppy <span class="kw">import</span> guarantee, Nat, refined
+<span class="kw">from</span> deppy.types <span class="kw">import</span> PyIntType
 
-<span class="ty">Nat</span> = <span class="pr">refined</span>(<span class="ty">int</span>, <span class="kw">lambda</span> n: n >= <span class="nb">0</span>)
+<span class="cm"># Nat() is shorthand for refined(PyIntType(), "x &gt;= 0", "x")</span>
+<span class="ty">Nat_t</span> = <span class="fn">Nat</span>()
 
 <span class="dc">@guarantee</span>(<span class="st">"result == n * (n + 1) // 2"</span>)
-<span class="kw">def</span> <span class="fn">triangle</span>(n: <span class="ty">Nat</span>) -> <span class="ty">Nat</span>:
+<span class="kw">def</span> <span class="fn">triangle</span>(n: <span class="ty">int</span>) -> <span class="ty">int</span>:
     <span class="st">"""Sum of integers from 0 to n."""</span>
     <span class="kw">return</span> n * (n + <span class="nb">1</span>) // <span class="nb">2</span></code></pre>
-<pre><code>$ deppy check triangle.py
-<span class="fn">✓</span> triangle  <span class="cm">— Z3_VERIFIED (0.01s)</span>
-  guarantee: result == n * (n + 1) // 2
-  refinement: result ≥ 0
-<span class="fn">All 2 obligations verified.</span></code></pre>
+<pre><code>$ python -m deppy.pipeline.run_verify triangle.deppy --out triangle.lean
+
+  ────────────────────────────────────────────────
+  deppy.lean.lean_runner round-trip:       OK
+  ────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
 
     <p>
       Verification is <em>fast</em>. Z3 handles arithmetic obligations automatically,

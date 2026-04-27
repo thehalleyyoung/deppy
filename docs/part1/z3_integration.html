@@ -26,7 +26,7 @@
       <li><a href="../part1/getting_started.html">Getting Started</a></li>
       <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
       <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
-      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/z3_integration.html" class="active">Z3 Integration</a></li>
       <li><a href="../part1/data_structures.html">Data Structures</a></li>
       <li><a href="../part1/termination.html">Termination</a></li>
       <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
@@ -44,12 +44,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="../part3/index.html">Overview</a></li>
       <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="../part4/index.html">Overview</a></li>
       <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -59,11 +63,13 @@
       <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="../part5/cech.html">Čech Decomposition</a></li>
       <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
       <li><a href="../part6/index.html">Overview</a></li>
-      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
       <li><a href="../part6/references.html">Mutable References</a></li>
       <li><a href="../part6/arrays.html">Arrays</a></li>
       <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
@@ -72,8 +78,8 @@
       <li><span class="section-title">Under the Hood</span></li>
       <li><a href="../under_the_hood/index.html">Overview</a></li>
       <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
-    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
-    <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
     </ul>
   </nav>
 </aside>
@@ -485,7 +491,7 @@ seed <span class="op">=</span> <span class="nb">42</span>             <span clas
     <h3>Viewing the Generated SMT-LIB</h3>
 
 <pre><code><span class="cm"># Show the exact Z3 query Deppy generates</span>
-$ deppy verify <span class="op">--</span>show<span class="op">-</span>z3 my_module.py
+$ python -m deppy.pipeline.run_verify <span class="op">--</span>show<span class="op">-</span>z3 my_module.py
 
 <span class="cm"># Output:</span>
 <span class="cm">;; Function: clamp</span>
@@ -503,7 +509,7 @@ $ deppy verify <span class="op">--</span>show<span class="op">-</span>z3 my_modu
     <h3>Getting Counterexamples</h3>
 
 <pre><code class="shell"><span class="cm"># Ask Z3 for a concrete counterexample</span>
-$ deppy verify <span class="op">--</span>counterexample buggy_module.py
+$ python -m deppy.pipeline.run_verify <span class="op">--</span>counterexample buggy_module.py
 
 <span class="cm"># Output:</span>
 <span class="cm"># ✗ Function buggy_abs: guarantee "result >= 0" FAILED</span>
@@ -538,7 +544,7 @@ $ deppy verify <span class="op">--</span>counterexample buggy_module.py
     </div>
 
     <div class="tip">
-      <strong>Tip:</strong> Use <code>deppy verify --show-z3 myfile.py</code> as
+      <strong>Tip:</strong> Use <code>python -m deppy.pipeline.run_verify --show-z3 myfile.py</code> as
       your first debugging step. Reading the generated SMT-LIB often reveals whether
       the encoding is what you expected. If the encoding looks wrong, the issue is in
       Deppy's AST translation, not in your code.
@@ -573,7 +579,7 @@ $ deppy verify <span class="op">--</span>counterexample buggy_module.py
           in bounds.
         </li>
         <li>
-          Verifies successfully with <code>deppy verify</code>.
+          Verifies successfully with <code>python -m deppy.pipeline.run_verify</code>.
         </li>
       </ol>
 

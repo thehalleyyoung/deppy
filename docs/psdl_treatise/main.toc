@@ -1,0 +1,330 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}The verification gap for imported modules}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Goals and non-goals}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}The two traditions we synthesise}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}What this monograph contains}{4}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Reading guide}{5}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Notational conventions}{5}{section.1.6}%
+\contentsline {section}{\numberline {1.7}A first taste}{6}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Honest limits}{7}{section.1.8}%
+\contentsline {chapter}{\numberline {2}Background: Dependent Types, Lean, HoTT, Cubical Type Theory}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Dependent types in one breath}{8}{section.2.1}%
+\contentsline {paragraph}{$\Pi $-types (dependent function space).}{8}{section*.7}%
+\contentsline {paragraph}{$\Sigma $-types (dependent pair).}{8}{section*.8}%
+\contentsline {paragraph}{Identity / path types.}{9}{section*.9}%
+\contentsline {paragraph}{Universes.}{9}{section*.10}%
+\contentsline {section}{\numberline {2.2}The Calculus of Inductive Constructions}{9}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Terms vs.\ tactics}{9}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Inductive types and induction principles}{10}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Type-class inference}{10}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}The HoTT view of identity}{10}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Cubical interpretations}{11}{subsection.2.3.1}%
+\contentsline {section}{\numberline {2.4}Lean 4 specifics that we use}{11}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}\texttt {def} vs.\ \texttt {abbrev} vs.\ \texttt {axiom} vs.\ \texttt {opaque}}{11}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Tactics we emit}{12}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}The kernel of \textsf {Lean}~4}{12}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}What we will and will not formalise}{13}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Summary}{13}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Background: Python's Semantics}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Duck typing and structural subtyping}{14}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Why this matters for verification}{14}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Method resolution order (MRO)}{15}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Exceptions and the $\Diamond $-modality}{15}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Why the modality matters}{16}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.4}Monkey-patching}{16}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Descriptors, properties, and \texttt {\_\_getattr\_\_}}{16}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Metaclasses}{17}{section.3.6}%
+\contentsline {section}{\numberline {3.7}The Python AST}{17}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Notes on dynamic features}{17}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Summary}{18}{section.3.9}%
+\contentsline {chapter}{\numberline {4}The Cubical-Duck-Type Metatheory}{19}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Syntax: types and terms}{19}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Types}{19}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Terms}{20}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Contexts and judgments}{21}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Trust levels}{21}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Proof terms: the inventory}{22}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Equality and substitution}{22}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Induction}{22}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Cubical / paths}{22}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Duck typing / dispatch}{23}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Effect / exception fibres}{23}{subsection.4.3.5}%
+\contentsline {subsection}{\numberline {4.3.6}Structural and SMT}{23}{subsection.4.3.6}%
+\contentsline {subsection}{\numberline {4.3.7}Safety / termination terms}{23}{subsection.4.3.7}%
+\contentsline {section}{\numberline {4.4}Verification rules}{23}{section.4.4}%
+\contentsline {paragraph}{Refl, Sym, Trans, Cong.}{24}{section*.11}%
+\contentsline {paragraph}{Cut.}{24}{section*.12}%
+\contentsline {paragraph}{Fiber.}{24}{section*.13}%
+\contentsline {paragraph}{Z3.}{24}{section*.14}%
+\contentsline {paragraph}{LeanProof.}{24}{section*.15}%
+\contentsline {paragraph}{Structural and AxiomInvocation.}{24}{section*.16}%
+\contentsline {paragraph}{Cocycle.}{25}{section*.17}%
+\contentsline {section}{\numberline {4.5}Cubical effects}{25}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Effect categories}{25}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Modal types}{25}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Exception fibres}{25}{subsection.4.5.3}%
+\contentsline {section}{\numberline {4.6}Path engine}{26}{section.4.6}%
+\contentsline {section}{\numberline {4.7}The cubical-duck-type model: pulling it together}{26}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Soundness, in the only sense we can claim it}{27}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Summary}{27}{section.4.9}%
+\contentsline {chapter}{\numberline {5}The \texttt {.deppy} Sidecar Format}{29}{chapter.5}%
+\contentsline {section}{\numberline {5.1}File-level header}{29}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Foundations}{30}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Specs and axioms}{30}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Verify blocks}{31}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Mandatory fields}{31}{subsection.5.4.1}%
+\contentsline {paragraph}{\texttt {function}.}{31}{section*.18}%
+\contentsline {paragraph}{\texttt {property}.}{32}{section*.19}%
+\contentsline {subsection}{\numberline {5.4.2}Discharge strategy}{32}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Proof script fields}{32}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Optional fields driving concretisation}{32}{subsection.5.4.4}%
+\contentsline {section}{\numberline {5.5}Lemmas}{33}{section.5.5}%
+\contentsline {section}{\numberline {5.6}The \texttt {code\_types:} block}{33}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Top-level \textsf {Lean}{} integration}{34}{section.5.7}%
+\contentsline {section}{\numberline {5.8}The legacy \texttt {proof} form}{34}{section.5.8}%
+\contentsline {section}{\numberline {5.9}File layout reference}{35}{section.5.9}%
+\contentsline {section}{\numberline {5.10}The \texttt {SidecarModule} object}{36}{section.5.10}%
+\contentsline {section}{\numberline {5.11}Worked example: \texttt {sympy\_geometry.deppy}}{36}{section.5.11}%
+\contentsline {section}{\numberline {5.12}Summary}{37}{section.5.12}%
+\contentsline {chapter}{\numberline {6}PSDL: The Python-Semantic Deppy Language}{38}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Design intent}{38}{section.6.1}%
+\contentsline {paragraph}{1. No new syntax.}{38}{section*.20}%
+\contentsline {paragraph}{2. Two-target compilation.}{38}{section*.21}%
+\contentsline {section}{\numberline {6.2}The two-vocabulary structure}{39}{section.6.2}%
+\contentsline {paragraph}{\textsc {CIC}{} core.}{39}{section*.22}%
+\contentsline {paragraph}{Cubical / duck / effect Python primitives.}{39}{section*.23}%
+\contentsline {section}{\numberline {6.3}Surface mapping: control flow}{39}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}\texttt {if isinstance(x, T):}}{39}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}\texttt {try / except}}{40}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}\texttt {for} and \texttt {while}}{40}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}\texttt {match} / \texttt {case}}{40}{subsection.6.3.4}%
+\contentsline {section}{\numberline {6.4}Surface mapping: logical / equality tactics}{41}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}\texttt {assert P} and discharge modes}{41}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}\texttt {apply(F)} and bare-name citation}{41}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}\texttt {inline}, \texttt {unfold}, \texttt {rewrite}}{41}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}\texttt {return}, \texttt {pass}, \texttt {raise}}{42}{subsection.6.4.4}%
+\contentsline {subsection}{\numberline {6.4.5}Local lemmas and assignments}{42}{subsection.6.4.5}%
+\contentsline {section}{\numberline {6.5}Surface mapping: CIC core}{42}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Quantifiers and induction}{42}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Equality and substitution}{43}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Path constructors}{43}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Equivalence and univalence}{43}{subsection.6.5.4}%
+\contentsline {section}{\numberline {6.6}Surface mapping: cubical / duck / effect}{43}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Duck dispatch}{43}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Kan filling}{44}{subsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.6.3}Cocycle construction}{44}{subsection.6.6.3}%
+\contentsline {subsection}{\numberline {6.6.4}Fibration split}{44}{subsection.6.6.4}%
+\contentsline {subsection}{\numberline {6.6.5}Diamond / Box modalities}{44}{subsection.6.6.5}%
+\contentsline {subsection}{\numberline {6.6.6}Homotopy and squares}{45}{subsection.6.6.6}%
+\contentsline {section}{\numberline {6.7}Top-level user declarations}{45}{section.6.7}%
+\contentsline {subsection}{\numberline {6.7.1}\texttt {@inductive class T:}}{45}{subsection.6.7.1}%
+\contentsline {subsection}{\numberline {6.7.2}\texttt {@axiom def} and \texttt {@theorem def}}{45}{subsection.6.7.2}%
+\contentsline {section}{\numberline {6.8}Compositional structure: how multiple statements become one ProofTerm}{46}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Worked compilation: \texttt {dist\_nonneg\_psdl}}{46}{section.6.9}%
+\contentsline {paragraph}{1. The outer \texttt {if isinstance} statement.}{46}{section*.24}%
+\contentsline {paragraph}{2. The if-body, statement 1: \texttt {inline(Point.distance, sqrt(...))}.}{47}{section*.25}%
+\contentsline {paragraph}{3. The if-body, statement 2: \texttt {apply(Real\_sqrt\_nonneg)}.}{47}{section*.26}%
+\contentsline {paragraph}{4. The if-body, statement 3: \texttt {assert ... , "z3"}.}{47}{section*.27}%
+\contentsline {paragraph}{5. Composition of the if-body.}{47}{section*.28}%
+\contentsline {paragraph}{6. The else-body: \texttt {raise NotImplementedError}.}{48}{section*.29}%
+\contentsline {paragraph}{7. The full ProofTerm.}{48}{section*.30}%
+\contentsline {paragraph}{8. The \textsf {Lean}{} block.}{48}{lstlisting.6.-37}%
+\contentsline {paragraph}{9. Trust composition.}{48}{section*.32}%
+\contentsline {section}{\numberline {6.10}Soundness arguments per constructor}{48}{section.6.10}%
+\contentsline {paragraph}{If-isinstance.}{48}{section*.33}%
+\contentsline {paragraph}{Try-except.}{49}{section*.34}%
+\contentsline {paragraph}{Z3 assert.}{49}{section*.35}%
+\contentsline {paragraph}{Apply.}{49}{section*.36}%
+\contentsline {paragraph}{Inline / unfold / rewrite.}{49}{section*.37}%
+\contentsline {paragraph}{Vacuous \texttt {raise}.}{49}{section*.38}%
+\contentsline {section}{\numberline {6.11}Limitations and open work}{49}{section.6.11}%
+\contentsline {section}{\numberline {6.12}Summary}{49}{section.6.12}%
+\contentsline {chapter}{\numberline {7}The Pipeline: Module Name to Certificate}{51}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Architecture overview}{51}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Stage 0: Module-name resolution}{51}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Stage 1: Parsing the sidecar}{52}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Stage 2: \texttt {render\_sidecar\_section}}{53}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Stage 3: Audit and grounding}{54}{section.7.5}%
+\contentsline {section}{\numberline {7.6}Stage 4: Mechanization}{55}{section.7.6}%
+\contentsline {paragraph}{Pass 1: vocabulary collection.}{55}{section*.39}%
+\contentsline {paragraph}{Pass 2: per-axiom Lean rendering.}{55}{section*.40}%
+\contentsline {section}{\numberline {7.7}Stage 5: Body translation}{55}{section.7.7}%
+\contentsline {paragraph}{Type-inference pass.}{55}{section*.41}%
+\contentsline {paragraph}{Translation pass.}{56}{section*.42}%
+\contentsline {section}{\numberline {7.8}Stage 6: \texttt {verify\_all} --- the verify-block pipeline}{56}{section.7.8}%
+\contentsline {subsection}{\numberline {7.8.1}Per-block flow}{56}{subsection.7.8.1}%
+\contentsline {subsection}{\numberline {7.8.2}Theorem emission}{57}{subsection.7.8.2}%
+\contentsline {section}{\numberline {7.9}Stage 7: Foundation discharge (Z3)}{57}{section.7.9}%
+\contentsline {section}{\numberline {7.10}Stage 8: Counterexample search}{58}{section.7.10}%
+\contentsline {section}{\numberline {7.11}Stage 9: Concrete-Props preamble}{58}{section.7.11}%
+\contentsline {section}{\numberline {7.12}Stage 10: Lean round-trip}{58}{section.7.12}%
+\contentsline {subsection}{\numberline {7.12.1}Caveats}{59}{subsection.7.12.1}%
+\contentsline {section}{\numberline {7.13}Stage 11: \texttt {certify\_or\_die}}{59}{section.7.13}%
+\contentsline {section}{\numberline {7.14}Output reporting}{60}{section.7.14}%
+\contentsline {section}{\numberline {7.15}Where each \texttt {ProofTerm} lives in the pipeline}{61}{section.7.15}%
+\contentsline {section}{\numberline {7.16}Cache and incremental verification}{61}{section.7.16}%
+\contentsline {section}{\numberline {7.17}Summary}{62}{section.7.17}%
+\contentsline {chapter}{\numberline {8}The Lean Target}{63}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Trust chain in the Lean output}{63}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Header}{64}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Annotation-driven concrete preamble}{64}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}Concrete types}{64}{subsection.8.3.1}%
+\contentsline {subsection}{\numberline {8.3.2}Concrete code-type signatures}{65}{subsection.8.3.2}%
+\contentsline {subsection}{\numberline {8.3.3}Concrete foundation Props}{65}{subsection.8.3.3}%
+\contentsline {section}{\numberline {8.4}Mechanization preamble}{65}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}Body links section}{66}{subsection.8.4.1}%
+\contentsline {section}{\numberline {8.5}Sidecar axioms section}{66}{section.8.5}%
+\contentsline {section}{\numberline {8.6}Verify blocks: theorem emission}{67}{section.8.6}%
+\contentsline {subsection}{\numberline {8.6.1}Failure modes for verify-block elaboration}{68}{subsection.8.6.1}%
+\contentsline {paragraph}{Goal-type mismatch.}{68}{section*.43}%
+\contentsline {paragraph}{Unfold has no body.}{68}{section*.44}%
+\contentsline {paragraph}{Class-method elaboration ambiguity.}{68}{section*.45}%
+\contentsline {section}{\numberline {8.7}Legacy proofs section}{68}{section.8.7}%
+\contentsline {paragraph}{Cited proofs and ``true derivations''.}{69}{section*.46}%
+\contentsline {section}{\numberline {8.8}Cubical and cohomology sections}{69}{section.8.8}%
+\contentsline {section}{\numberline {8.9}Counterexample-rejected theorems}{69}{section.8.9}%
+\contentsline {section}{\numberline {8.10}Body translation in detail}{69}{section.8.10}%
+\contentsline {subsection}{\numberline {8.10.1}Two-pass design}{70}{subsection.8.10.1}%
+\contentsline {paragraph}{Pass 1: type inference.}{70}{section*.47}%
+\contentsline {paragraph}{Pass 2: translation.}{70}{section*.48}%
+\contentsline {subsection}{\numberline {8.10.2}Statements}{70}{subsection.8.10.2}%
+\contentsline {subsection}{\numberline {8.10.3}Expressions}{70}{subsection.8.10.3}%
+\contentsline {subsection}{\numberline {8.10.4}Worked example: \texttt {Polygon.area}}{71}{subsection.8.10.4}%
+\contentsline {section}{\numberline {8.11}Type inference from \texttt {inspect.signature}}{71}{section.8.11}%
+\contentsline {section}{\numberline {8.12}Lean target: a complete picture}{72}{section.8.12}%
+\contentsline {section}{\numberline {8.13}Summary}{72}{section.8.13}%
+\contentsline {chapter}{\numberline {9}Z3 Discharge and Counterexample Search}{74}{chapter.9}%
+\contentsline {section}{\numberline {9.1}When Z3 fires}{74}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Trust promotion}{75}{section.9.2}%
+\contentsline {section}{\numberline {9.3}The typed Z3 encoder}{75}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}Sorts}{75}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}Expressions}{75}{subsection.9.3.2}%
+\contentsline {subsection}{\numberline {9.3.3}Untyped fallback}{76}{subsection.9.3.3}%
+\contentsline {section}{\numberline {9.4}Foundation discharge in detail}{76}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Counterexample search}{77}{section.9.5}%
+\contentsline {subsection}{\numberline {9.5.1}The negation game}{77}{subsection.9.5.1}%
+\contentsline {subsection}{\numberline {9.5.2}What the finder returns}{77}{subsection.9.5.2}%
+\contentsline {subsection}{\numberline {9.5.3}The cascade}{77}{subsection.9.5.3}%
+\contentsline {subsection}{\numberline {9.5.4}Why this matters}{78}{subsection.9.5.4}%
+\contentsline {section}{\numberline {9.6}The \texttt {Z3Proof} term in \texttt {ProofKernel.verify}}{78}{section.9.6}%
+\contentsline {section}{\numberline {9.7}Limits of Z3}{79}{section.9.7}%
+\contentsline {section}{\numberline {9.8}Summary}{79}{section.9.8}%
+\contentsline {chapter}{\numberline {10}Cohomology, Bicomplex, and Kan-Fill}{80}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Intra-procedural cubical analysis}{80}{section.10.1}%
+\contentsline {subsection}{\numberline {10.1.1}What we get}{81}{subsection.10.1.1}%
+\contentsline {section}{\numberline {10.2}Inter-procedural simplicial cohomology}{81}{section.10.2}%
+\contentsline {paragraph}{$C^0$ --- per-function safety bundles.}{81}{section*.49}%
+\contentsline {paragraph}{$C^1$ --- per call site.}{81}{section*.50}%
+\contentsline {paragraph}{$C^2$ --- per composition triple.}{82}{section*.51}%
+\contentsline {subsection}{\numberline {10.2.1}Why C⁰/C¹/C² ``go trivial''}{82}{subsection.10.2.1}%
+\contentsline {section}{\numberline {10.3}The bicomplex bridge}{82}{section.10.3}%
+\contentsline {subsection}{\numberline {10.3.1}What the bicomplex computes}{83}{subsection.10.3.1}%
+\contentsline {subsection}{\numberline {10.3.2}Soundness gates}{83}{subsection.10.3.2}%
+\contentsline {section}{\numberline {10.4}Kan-fill obligations}{83}{section.10.4}%
+\contentsline {section}{\numberline {10.5}What the cohomology layer buys}{83}{section.10.5}%
+\contentsline {paragraph}{Diagnostic metadata.}{83}{section*.52}%
+\contentsline {paragraph}{Future obstruction detection.}{84}{section*.53}%
+\contentsline {paragraph}{Bicomplex structural invariants.}{84}{section*.54}%
+\contentsline {section}{\numberline {10.6}What the cohomology layer does \emph {not} buy}{84}{section.10.6}%
+\contentsline {paragraph}{It does not contribute trust to verify-blocks.}{84}{section*.55}%
+\contentsline {paragraph}{It does not detect duck-typing soundness violations.}{84}{section*.56}%
+\contentsline {paragraph}{It does not run in real time.}{84}{section*.57}%
+\contentsline {paragraph}{No cohomology-class invariants beyond Euler.}{84}{section*.58}%
+\contentsline {section}{\numberline {10.7}Cocycle and Kan terms in the kernel}{84}{section.10.7}%
+\contentsline {paragraph}{\texttt {Cocycle}.}{84}{section*.59}%
+\contentsline {paragraph}{\texttt {KanFill}.}{85}{section*.60}%
+\contentsline {paragraph}{\texttt {CechGlue}.}{85}{section*.61}%
+\contentsline {paragraph}{\texttt {HigherPath}.}{85}{section*.62}%
+\contentsline {section}{\numberline {10.8}Summary}{85}{section.10.8}%
+\contentsline {chapter}{\numberline {11}Worked Examples on \texttt {sympy.geometry}}{86}{chapter.11}%
+\contentsline {section}{\numberline {11.1}The library and the sidecar}{86}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Verify block: \texttt {dist\_nonneg\_code}}{86}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Verify block: \texttt {dist\_nonneg\_psdl}}{88}{section.11.3}%
+\contentsline {subsection}{\numberline {11.3.1}Stage-by-stage trace}{88}{subsection.11.3.1}%
+\contentsline {paragraph}{Resolution.}{88}{section*.63}%
+\contentsline {paragraph}{Source ingestion.}{88}{section*.64}%
+\contentsline {paragraph}{Body translation.}{88}{section*.65}%
+\contentsline {paragraph}{Concrete-Props preamble.}{89}{section*.66}%
+\contentsline {paragraph}{PSDL compilation.}{89}{section*.67}%
+\contentsline {paragraph}{Kernel verification.}{90}{section*.68}%
+\contentsline {paragraph}{Certificate emission.}{90}{section*.69}%
+\contentsline {paragraph}{\textsf {Lean}{} round-trip.}{90}{section*.70}%
+\contentsline {paragraph}{\texttt {certify\_or\_die}.}{91}{section*.71}%
+\contentsline {subsection}{\numberline {11.3.2}Honesty about what was verified}{91}{subsection.11.3.2}%
+\contentsline {section}{\numberline {11.4}Legacy proof: \texttt {distance\_pythagoras\_proof}}{91}{section.11.4}%
+\contentsline {subsection}{\numberline {11.4.1}What it actually proves}{92}{subsection.11.4.1}%
+\contentsline {section}{\numberline {11.5}Other verify blocks}{92}{section.11.5}%
+\contentsline {paragraph}{\texttt {dist\_pythagoras\_code}.}{92}{section*.72}%
+\contentsline {paragraph}{\texttt {dist\_symmetric\_code}.}{92}{section*.73}%
+\contentsline {paragraph}{\texttt {segment\_contains\_code}.}{92}{section*.74}%
+\contentsline {paragraph}{\texttt {triangle\_area\_nonneg\_code}.}{92}{section*.75}%
+\contentsline {paragraph}{\texttt {triangle\_perimeter\_sum\_code}.}{93}{section*.76}%
+\contentsline {paragraph}{\texttt {triangle\_centroid\_avg\_code}.}{93}{section*.77}%
+\contentsline {paragraph}{\texttt {segment\_length\_code}.}{93}{section*.78}%
+\contentsline {paragraph}{\texttt {polygon\_area\_nonneg\_code}.}{93}{section*.79}%
+\contentsline {paragraph}{\texttt {circle\_radius\_eq\_code}.}{93}{section*.80}%
+\contentsline {section}{\numberline {11.6}What the run reports}{93}{section.11.6}%
+\contentsline {section}{\numberline {11.7}Reading the report}{94}{section.11.7}%
+\contentsline {section}{\numberline {11.8}What a counterexample would look like}{95}{section.11.8}%
+\contentsline {section}{\numberline {11.9}Summary}{95}{section.11.9}%
+\contentsline {chapter}{\numberline {12}Soundness: What Is Verified, What Is Admitted}{96}{chapter.12}%
+\contentsline {section}{\numberline {12.1}The trust surface}{96}{section.12.1}%
+\contentsline {section}{\numberline {12.2}What is verified}{97}{section.12.2}%
+\contentsline {paragraph}{Foundations Z3 discharges.}{97}{section*.81}%
+\contentsline {paragraph}{PSDL-compiled \texttt {ProofTerm}s the kernel accepts.}{97}{section*.82}%
+\contentsline {paragraph}{\textsf {Lean}{} certificates that round-trip.}{97}{section*.83}%
+\contentsline {paragraph}{Counterexample-cleared foundations.}{97}{section*.84}%
+\contentsline {paragraph}{Body translations marked exact.}{97}{section*.85}%
+\contentsline {paragraph}{Type-grounded axioms.}{97}{section*.86}%
+\contentsline {section}{\numberline {12.3}What is admitted}{97}{section.12.3}%
+\contentsline {paragraph}{Non-discharged foundations.}{97}{section*.87}%
+\contentsline {paragraph}{Sidecar axioms.}{97}{section*.88}%
+\contentsline {paragraph}{Lemmas without \texttt {lean\_proof}.}{98}{section*.89}%
+\contentsline {paragraph}{\texttt {Structural} leaves in vacuous positions.}{98}{section*.90}%
+\contentsline {paragraph}{Body translations that produced \texttt {sorry}.}{98}{section*.91}%
+\contentsline {paragraph}{Method calls through descriptors / \texttt {\_\_getattr\_\_}.}{98}{section*.92}%
+\contentsline {paragraph}{Non-arithmetic Z3 obligations in PSDL.}{98}{section*.93}%
+\contentsline {section}{\numberline {12.4}Soundness gates}{98}{section.12.4}%
+\contentsline {subsection}{\numberline {12.4.1}Soundness gate (\texttt {soundness\_gate\_fail})}{98}{subsection.12.4.1}%
+\contentsline {subsection}{\numberline {12.4.2}Counterexample gate (\texttt {counterexamples\_found})}{98}{subsection.12.4.2}%
+\contentsline {subsection}{\numberline {12.4.3}Rejected-theorem gate (\texttt {rejected\_theorem\_count})}{99}{subsection.12.4.3}%
+\contentsline {subsection}{\numberline {12.4.4}Hash-drift gate (\texttt {hash\_drift\_count})}{99}{subsection.12.4.4}%
+\contentsline {subsection}{\numberline {12.4.5}Counterexample-expectation gate (\texttt {counterexample\_expectation\_violations})}{99}{subsection.12.4.5}%
+\contentsline {subsection}{\numberline {12.4.6}\textsf {Lean}{} round-trip gate}{99}{subsection.12.4.6}%
+\contentsline {section}{\numberline {12.5}What a \texttt {CERTIFIED} verdict means}{99}{section.12.5}%
+\contentsline {section}{\numberline {12.6}The role of \texttt {certify\_or\_die}}{100}{section.12.6}%
+\contentsline {paragraph}{Refuse on any uncertainty.}{100}{section*.94}%
+\contentsline {paragraph}{Be specific about why.}{100}{section*.95}%
+\contentsline {paragraph}{Do not silently accept.}{100}{section*.96}%
+\contentsline {section}{\numberline {12.7}Limitations}{100}{section.12.7}%
+\contentsline {subsection}{\numberline {12.7.1}Type system}{100}{subsection.12.7.1}%
+\contentsline {subsection}{\numberline {12.7.2}Body translation}{100}{subsection.12.7.2}%
+\contentsline {subsection}{\numberline {12.7.3}Z3}{100}{subsection.12.7.3}%
+\contentsline {subsection}{\numberline {12.7.4}\textsf {Lean}{} target}{101}{subsection.12.7.4}%
+\contentsline {subsection}{\numberline {12.7.5}PSDL}{101}{subsection.12.7.5}%
+\contentsline {subsection}{\numberline {12.7.6}Cohomology}{101}{subsection.12.7.6}%
+\contentsline {subsection}{\numberline {12.7.7}Pipeline}{101}{subsection.12.7.7}%
+\contentsline {section}{\numberline {12.8}Where to put trust}{101}{section.12.8}%
+\contentsline {section}{\numberline {12.9}Soundness, formally restated}{102}{section.12.9}%
+\contentsline {section}{\numberline {12.10}Summary}{102}{section.12.10}%
+\contentsline {chapter}{\numberline {13}Related Work, Limitations, Future Directions}{104}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Related work}{104}{section.13.1}%
+\contentsline {subsection}{\numberline {13.1.1}Lean, Coq, Agda --- the proof assistants}{104}{subsection.13.1.1}%
+\contentsline {subsection}{\numberline {13.1.2}Refinement-type systems}{104}{subsection.13.1.2}%
+\contentsline {subsection}{\numberline {13.1.3}Cubical proof assistants}{105}{subsection.13.1.3}%
+\contentsline {subsection}{\numberline {13.1.4}Python verification frameworks}{105}{subsection.13.1.4}%
+\contentsline {subsection}{\numberline {13.1.5}Specification and contract languages}{105}{subsection.13.1.5}%
+\contentsline {subsection}{\numberline {13.1.6}Property-based testing}{105}{subsection.13.1.6}%
+\contentsline {section}{\numberline {13.2}Limitations recap}{106}{section.13.2}%
+\contentsline {section}{\numberline {13.3}Future directions}{106}{section.13.3}%
+\contentsline {subsection}{\numberline {13.3.1}Concrete typed preamble}{106}{subsection.13.3.1}%
+\contentsline {subsection}{\numberline {13.3.2}Mathlib integration}{107}{subsection.13.3.2}%
+\contentsline {subsection}{\numberline {13.3.3}Refinement-type elaboration}{107}{subsection.13.3.3}%
+\contentsline {subsection}{\numberline {13.3.4}Try/except translation}{107}{subsection.13.3.4}%
+\contentsline {subsection}{\numberline {13.3.5}Cohomology obstructions}{107}{subsection.13.3.5}%
+\contentsline {subsection}{\numberline {13.3.6}LLM iteration loop}{107}{subsection.13.3.6}%
+\contentsline {subsection}{\numberline {13.3.7}Multi-target}{108}{subsection.13.3.7}%
+\contentsline {subsection}{\numberline {13.3.8}Incremental verification}{108}{subsection.13.3.8}%
+\contentsline {subsection}{\numberline {13.3.9}IDE integration}{108}{subsection.13.3.9}%
+\contentsline {section}{\numberline {13.4}Closing remarks}{108}{section.13.4}%
+\contentsline {section}{\numberline {13.5}Acknowledgements}{109}{section.13.5}%

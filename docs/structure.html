@@ -70,7 +70,6 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <button class="menu-toggle">☰</button>
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -80,7 +79,7 @@
   <nav>
     <ul>
       <li><a href="./index.html">Home</a></li>
-      <li><a href="./structure.html">Structure of this Book</a></li>
+      <li><a href="./structure.html" class="active">Structure of this Book</a></li>
       <li><a href="./intro.html">Introduction</a></li>
 
       <li><span class="section-title">Part 1 — Pure Python</span></li>
@@ -106,12 +105,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="./part3/index.html">Overview</a></li>
       <li><a href="./part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="./part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="./part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="./part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="./part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="./part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="./part4/index.html">Overview</a></li>
       <li><a href="./part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="./part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="./part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="./part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="./part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -121,11 +124,13 @@
       <li><a href="./part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="./part5/cech.html">Čech Decomposition</a></li>
       <li><a href="./part5/fibrations.html">Fibrations</a></li>
+      <li><a href="./part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="./part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
       <li><a href="./part6/index.html">Overview</a></li>
-      <li><a href="./part6/separation.html">Separation Logic</a></li>
+      <li><a href="./part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="./part6/separation.html">Separation Logic (vs Pulse)</a></li>
       <li><a href="./part6/references.html">Mutable References</a></li>
       <li><a href="./part6/arrays.html">Arrays</a></li>
       <li><a href="./part6/threading.html">Threading &amp; GIL</a></li>
@@ -289,6 +294,9 @@
       <ul class="chapters">
         <li><a href="./part3/index.html">Overview</a></li>
         <li><a href="./part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+        <li><a href="./part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+        <li><a href="./part3/operator_dispatch.html">Operator Dispatch</a></li>
+        <li><a href="./part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
         <li><a href="./part3/decorators.html">Decorators &amp; Meta</a></li>
         <li><a href="./part3/dynamic.html">Dynamic Typing</a></li>
       </ul>
@@ -300,20 +308,23 @@
       <h3>Sidecar Proofs — Verifying Libraries Without Modification</h3>
       <p>
         The defining feature of Deppy: verifying code you didn't write and can't
-        modify. We explain the <code>.deppy</code> sidecar file format, how it binds
-        specifications to existing functions, trust levels and verification confidence,
-        and demonstrate a full case study verifying parts of SymPy's symbolic algebra engine.
+        modify. We explain the <code>.deppy</code> sidecar file format, the
+        equivalent <strong>decorator form</strong> for code you do control,
+        trust levels and verification confidence, and a full case study
+        verifying parts of SymPy's symbolic algebra engine.
       </p>
       <p>
-        <strong>Key idea:</strong> Proofs about library code live <em>beside</em> the library,
-        not inside it. This enables verification of pip-installed packages, legacy code,
-        and third-party APIs.
+        <strong>Key idea:</strong> Proofs about library code live <em>beside</em>
+        the library — either in <code>.deppy</code> sidecars or in
+        <code>@verify</code> / <code>@psdl_proof</code> decorators stamped on
+        the functions. The kernel pipeline is the same either way.
       </p>
       <ul class="chapters">
         <li><a href="./part4/index.html">Overview</a></li>
         <li><a href="./part4/sidecar_basics.html">Sidecar Basics</a></li>
+        <li><a href="./part4/decorator_form.html">Decorator Form</a></li>
         <li><a href="./part4/sympy.html">Case Study: SymPy</a></li>
-      <li><a href="./part4/geometry.html">Verifying sympy.geometry</a></li>
+        <li><a href="./part4/geometry.html">Verifying sympy.geometry</a></li>
         <li><a href="./part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
       </ul>
     </div>
@@ -321,24 +332,28 @@
     <!-- Part 5 -->
     <div class="part-card">
       <span class="part-num">Part 5</span>
-      <h3>Homotopy Methods — Paths, Transport, Čech &amp; Fibrations</h3>
+      <h3>Homotopy Methods — Paths, Transport, Čech, Fibrations &amp; PSDL</h3>
       <p>
         The theoretical heart of Deppy. We develop cubical path types for reasoning
         about type equivalences, transport for moving proofs across equivalent types,
         Čech decomposition for breaking complex verification into local patches that
-        glue together, and fibrations for modeling dependent structures. This part
-        connects the abstract mathematics to concrete Python verification tasks.
+        glue together, and fibrations for modeling dependent structures. The
+        <strong>PSDL</strong> chapter introduces the Python-syntax tactic
+        language: every proof body is just Python parsed via <code>ast</code>
+        and translated to kernel <code>ProofTerm</code>s.
       </p>
       <p>
         <strong>Key idea:</strong> Homotopy type theory provides a <em>compositional</em>
         framework — verify locally, assemble globally — that scales to large codebases
-        in ways that monolithic SMT queries cannot.
+        in ways that monolithic SMT queries cannot. PSDL is the surface syntax
+        that makes the homotopy machinery feel like ordinary Python.
       </p>
       <ul class="chapters">
         <li><a href="./part5/index.html">Overview</a></li>
         <li><a href="./part5/paths.html">Path Types &amp; Transport</a></li>
         <li><a href="./part5/cech.html">Čech Decomposition</a></li>
         <li><a href="./part5/fibrations.html">Fibrations</a></li>
+        <li><a href="./part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
         <li><a href="./part5/tactics.html">Homotopy Tactics</a></li>
       </ul>
     </div>
@@ -346,22 +361,29 @@
     <!-- Part 6 -->
     <div class="part-card">
       <span class="part-num">Part 6</span>
-      <h3>Heap &amp; Concurrency — Separation Logic, Threading &amp; Async</h3>
+      <h3>Heap &amp; Concurrency — Cubical Heap, Separation Logic vs Pulse, Threading &amp; Async</h3>
       <p>
         Python is not a purely functional language: it has mutable references, arrays,
-        shared state, the GIL, threads, and async/await. This part introduces separation
-        logic for heap reasoning, verifies mutable data structures, proves thread-safety
-        properties (with GIL-awareness), and shows how to verify async Python code with
-        structured concurrency guarantees.
+        shared state, the GIL, threads, and async/await. This part introduces the
+        <strong>cubical heap</strong> — Deppy's epoch-tagged world-path model of
+        mutation — then contrasts it with classical separation logic and the
+        Pulse verifier (Microsoft Research). It then verifies mutable data
+        structures, proves thread-safety properties (with GIL-awareness), and
+        shows how to verify async Python code with structured concurrency
+        guarantees.
       </p>
       <p>
-        <strong>Key idea:</strong> Python's GIL is not a free lunch for concurrency proofs,
-        but it <em>does</em> simplify them. Deppy exploits GIL semantics to automate
-        many concurrency obligations that would be manual in other systems.
+        <strong>Key idea:</strong> Mutation is a path in the world category.
+        Aliases are <code>DuckPath</code>s at the cell level; reads after
+        mutations require <code>TransportProof</code>; per-cell invariants
+        live in the fibre over each cell. This is a different soundness
+        story from Pulse's separating-conjunction frame rule, with different
+        tradeoffs we make explicit chapter by chapter.
       </p>
       <ul class="chapters">
         <li><a href="./part6/index.html">Overview</a></li>
-        <li><a href="./part6/separation.html">Separation Logic</a></li>
+        <li><a href="./part6/cubical_heap.html">Cubical Heap</a></li>
+        <li><a href="./part6/separation.html">Separation Logic (vs Pulse)</a></li>
         <li><a href="./part6/references.html">Mutable References</a></li>
         <li><a href="./part6/arrays.html">Arrays</a></li>
         <li><a href="./part6/threading.html">Threading &amp; GIL</a></li>
@@ -430,10 +452,22 @@
 <pre><code><span class="kw">def</span> <span class="fn">greet</span>(name: <span class="ty">str</span>) -> <span class="ty">str</span>:
     <span class="kw">return</span> <span class="st">f"Hello, </span>{name}<span class="st">!"</span></code></pre>
 
-    <p>Deppy specifications in sidecar files:</p>
-<pre><code><span class="dc">@verify</span>(<span class="st">"module.greet"</span>)
-<span class="kw">def</span> <span class="fn">greet_spec</span>(name: <span class="ty">str</span>) -> <span class="pr">refined</span>(<span class="ty">str</span>, <span class="kw">lambda</span> s: <span class="fn">len</span>(s) > <span class="nb">0</span>):
-    <span class="pr">z3.auto</span>()</code></pre>
+    <p>Deppy specifications in <code>.deppy</code> sidecar files:</p>
+<pre><code><span class="kw">spec</span> module.greet:
+  <span class="kw">guarantee</span>: <span class="st">"len(greet(name)) > 0"</span>
+
+<span class="kw">verify</span> greet_nonempty:
+  <span class="kw">function</span>: module.greet
+  <span class="kw">property</span>: <span class="st">"len(greet(name)) > 0"</span>
+  <span class="kw">via</span>: <span class="st">"z3"</span></code></pre>
+
+    <p>Or equivalently, in <strong>decorator form</strong>:</p>
+<pre><code><span class="kw">from</span> deppy.proofs.sidecar_decorators <span class="kw">import</span> verify, psdl_proof
+
+<span class="dc">@verify</span>(property=<span class="st">"len(greet(name)) > 0"</span>, via=<span class="st">"z3"</span>)
+<span class="dc">@psdl_proof</span>(<span class="st">'auto()'</span>)
+<span class="kw">def</span> <span class="fn">greet</span>(name: <span class="ty">str</span>) -> <span class="ty">str</span>:
+    <span class="kw">return</span> <span class="st">f"Hello, </span>{name}<span class="st">!"</span></code></pre>
 
     <h4>Callout Boxes</h4>
 

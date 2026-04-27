@@ -1,0 +1,540 @@
+\chapter{The \texttt{.deppy} Sidecar Format}
+\label{ch:deppy}
+
+A sidecar file (\texttt{*.deppy}) is the user-facing interface to
+the \Deppy{} pipeline.  It declaratively records, for one Python
+library:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item a small number of \emph{foundations} (mathematical facts the
+    user is willing to admit);
+  \item one or more \emph{specs} (interface contracts on classes /
+    functions);
+  \item \emph{axioms} attached to specs (claims about library
+    behaviour);
+  \item \emph{lemmas} (intermediate facts the user wants to prove
+    once and re-use);
+  \item \emph{verifies} (the unit of verification: function +
+    property + proof script);
+  \item \emph{proofs} (legacy form: name + by-clause selecting a
+    derivation strategy);
+  \item top-level \emph{code\_types} (signatures for helper
+    functions PSDL references);
+  \item top-level \emph{lean\_imports} / \emph{lean\_preamble} (raw
+    \Lean{} text injected verbatim).
+\end{itemize}
+
+The file is read by \texttt{SidecarModule.from\_file} (file:
+\texttt{deppy/proofs/sidecar.py}) and parsed into a
+\texttt{SidecarModule} containing
+\texttt{FoundationDecl} / \texttt{SpecDecl} / \texttt{AxiomDecl} /
+\texttt{LemmaDecl} / \texttt{VerifyDecl} / \texttt{ProofDecl}
+dataclasses.  The pipeline then operates exclusively on this
+\texttt{SidecarModule}.
+
+\section{File-level header}
+
+Every sidecar starts with a module identifier:
+
+\begin{lstlisting}[language=deppyfile,caption={Header of \texttt{sympy\_geometry.deppy}.}]
+module: sympy
+version: ">=1.12"
+\end{lstlisting}
+
+The \texttt{module:} field is the dotted name of the target Python
+package, used by the runner (\texttt{deppy.lean.sidecar\_runner}) to
+look up provenance information (version, source path) via
+\texttt{importlib.import\_module}.  The \texttt{version:} field is
+informational; the pipeline does not currently enforce it.  A future
+extension could compare against \verb|module.__version__|.
+
+\section{Foundations}
+\label{sec:foundations}
+
+A foundation is a generic mathematical fact admitted as part of the
+trust surface.  Syntax:
+
+\begin{lstlisting}[language=deppyfile]
+foundation Real_sqrt_nonneg: "sqrt(x) >= 0 when x >= 0"
+foundation Real_add_comm:    "a + b == b + a"
+foundation Real_sub_sq_swap: "(a - b)**2 == (b - a)**2"
+\end{lstlisting}
+
+Each foundation has a name (a \Lean{}-safe identifier when
+underscored) and a Python-syntax statement.  A trailing
+\texttt{when ...} guard introduces a precondition.
+
+The pipeline tries each foundation through \Zthree{}
+(\Cref{ch:z3}); foundations involving \texttt{sqrt}, \texttt{sin},
+\texttt{cos}, \dots fall through and stay admitted.  In the example
+sympy file, \texttt{Real\_add\_comm} is provable by \texttt{omega}
+in \Lean, so the certificate emits a real
+\texttt{theorem Foundation\_Real\_add\_comm} with body
+\texttt{by intros; omega}; \texttt{Real\_sqrt\_nonneg} stays
+\texttt{axiom}-admitted because Z3 over \texttt{Int} cannot model
+\texttt{sqrt}.
+
+A foundation can also carry an explicit user-supplied \Lean{} proof:
+\begin{lstlisting}[language=deppyfile]
+foundation Real_my_fact:
+  statement: "<python statement>"
+  citation:  "Bourbaki, Algebra II, §3.4"
+  lean_signature: "<optional Lean type override>"
+  lean_proof: |
+    intros
+    omega
+\end{lstlisting}
+When \texttt{lean\_proof} is non-empty, the certificate emits a real
+\texttt{theorem ... := by <lean\_proof>} instead of an
+\texttt{axiom}; \Lean{} must elaborate the proof.
+
+\section{Specs and axioms}
+\label{sec:specs-axioms}
+
+A \texttt{spec} attaches a contract bundle to a class or a function.
+Inside it, \texttt{axiom} declarations attach \emph{claims about
+behaviour} to that target.
+
+\begin{lstlisting}[language=deppyfile,caption={Spec for
+\texttt{sympy.geometry.point.Point}.}]
+spec sympy.geometry.point.Point:
+  guarantee: "Euclidean distance is a metric on R²; collinearity is the vanishing cross product"
+  pure: true
+  axiom dist_nonneg: "Point.distance(p, q) >= 0"
+  axiom dist_zero_iff_equal: "(Point.distance(p, q) == 0) == (p == q)"
+  axiom dist_symmetric: "Point.distance(p, q) == Point.distance(q, p)"
+  axiom dist_triangle: "Point.distance(p, r) <= Point.distance(p, q) + Point.distance(q, r)"
+  axiom dist_pythagoras: "Point.distance(p, q)**2 == (p.x - q.x)**2 + (p.y - q.y)**2"
+  axiom collinear_iff_zero_cross: "is_collinear(A, B, C) == ((B.x-A.x)*(C.y-A.y) == (C.x-A.x)*(B.y-A.y))"
+\end{lstlisting}
+
+The fields:
+\begin{description}
+  \item[\texttt{guarantee:}] a free-text human-readable summary of the
+  spec's contract.  Used in the certificate as a header comment.
+
+  \item[\texttt{pure: true / false}] purity claim.  Pure functions
+  inhabit the $\Box$-modality (no exceptions, no I/O, no mutation).
+
+  \item[\texttt{requires:} / \texttt{ensures:}] (optional) Hoare-style
+  pre/postconditions, in Python expression form.
+
+  \item[\texttt{reads:} / \texttt{mutates:}] (optional) frame
+  conditions for impure functions.
+
+  \item[\texttt{axiom NAME: "...".}] a sub-declaration that becomes
+  an \texttt{AxiomDecl} attached to the enclosing spec.
+\end{description}
+
+The axiom statement is a Python expression.  The spec's target
+provides the namespace: an \texttt{axiom dist\_nonneg} on
+\texttt{spec ...Point} compiles to a \Lean{} \texttt{Prop}
+quantifying over the binders implied by the statement.
+
+\section{Verify blocks}
+\label{sec:verify-blocks}
+
+A \texttt{verify} block is the unit of verification: it names a
+function, a property, and a proof strategy.  It is the most direct
+way to drive the kernel pipeline.  The full schema (file:
+\texttt{deppy/proofs/sidecar.py}, dataclass \texttt{VerifyDecl},
+lines 388--446):
+
+\begin{lstlisting}[language=deppyfile,caption={Schema of a
+\texttt{verify} block (all fields shown; only \texttt{function} and
+\texttt{property} are mandatory).}]
+verify <NAME>:
+  function:  <dotted path to method>
+  property:  "<Python predicate>"
+  via:       foundation <foundation-name>     # OR axiom <axiom-name>
+  fibration: isinstance <Type>                # optional
+  cubical:   true | false                     # optional
+  binders:   p: Point, q: Point               # optional, drives concrete Props
+  requires:  "<precondition>"                 # optional
+  ensures:   "<postcondition>"                # optional
+  effect:    "pure"                           # optional
+  decreases: "<measure expression>"           # optional
+  z3_binders: x: int, y: int                  # optional
+  cubical_dim: 0                              # optional
+  cohomology_level: 0                         # optional
+  expects_sha256: "<sha-256 hex>"             # optional, hash drift check
+  expecting_counterexample: false             # optional
+  by_lean: |                                  # optional, raw Lean tactic
+    intros
+    apply Foundation_X
+    omega
+  psdl_proof: |                               # optional, PSDL block
+    if isinstance(other, Point):
+        ...
+\end{lstlisting}
+
+\subsection{Mandatory fields}
+
+\paragraph{\texttt{function}.}  A dotted path that
+\texttt{importlib} can resolve down to a callable (or a
+\texttt{property} descriptor whose \texttt{fget} is a callable).
+The pipeline reads its source via \texttt{inspect.getsource} and
+hashes it for the \texttt{source\_hash} field.
+
+\paragraph{\texttt{property}.}  A Python expression in the function's
+binder context.  The expression is parsed via
+\texttt{ast.parse(\dots, mode="eval")}; identifiers that look like
+free variables are quantified with the binder types from
+\texttt{binders:}; identifiers that look like classes resolve via
+the \texttt{code\_types:} table; identifiers that match the function's
+own class invoke the method machinery from
+\texttt{deppy.lean.sidecar\_mechanization}.
+
+\subsection{Discharge strategy}
+
+The \texttt{via:} clause selects a discharge strategy.  Currently
+recognised forms:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{via: foundation NAME} --- cite the named foundation
+    as the proof.
+  \item \texttt{via: axiom NAME} --- cite a sidecar axiom.
+  \item \texttt{via: chain F1, F2, F3} --- transitively compose the
+    named axioms/foundations via \texttt{Eq.trans}.
+  \item \texttt{via: rewrite F then cite A} --- rewrite under
+    foundation $F$, then cite axiom $A$.
+  \item \texttt{via: composition F1 \& F2 \& F3} --- and-intro a
+    conjunction of named claims.
+\end{itemize}
+
+When neither \texttt{psdl\_proof} nor \texttt{by\_lean} is given, the
+\texttt{via:} clause is the proof strategy and the kernel \emph{builds}
+the appropriate \texttt{ProofTerm} (an \texttt{AxiomInvocation},
+\texttt{Trans} chain, \texttt{Rewrite}, or \texttt{Cut}).
+
+\subsection{Proof script fields}
+
+The two proof script fields are mutually compatible:
+
+\begin{description}
+  \item[\texttt{psdl\_proof: |}] A multi-line Python-shaped tactic
+  script.  Each statement compiles to one or more
+  \texttt{ProofTerm}s and one or more \Lean{} tactic lines; the
+  resulting \Lean{} block is wrapped in \texttt{by ...} for the
+  generated theorem.  See \Cref{ch:psdl}.
+
+  \item[\texttt{by\_lean: |}] Raw \Lean{} tactic text, inserted
+  verbatim.  The user is responsible for the tactic body
+  elaborating against the concrete \texttt{Prop}; the \Deppy{}
+  pipeline only checks for SHA hash drift on the source.
+\end{description}
+
+When both are provided, \texttt{by\_lean} takes precedence in the
+\Lean{} certificate but \texttt{psdl\_proof} still produces a
+\texttt{ProofTerm} the kernel checks.  This is the primary way to
+provide ``a proof in two notations'' for the same property.
+
+\subsection{Optional fields driving concretisation}
+
+The annotation-driven preamble (\Cref{ch:lean}) reads:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{binders: p: Point, q: Point} --- declares
+    \texttt{axiom Point : Type}, then uses these as
+    \texttt{intros p q} and as the \texttt{Verified\_X\_property}'s
+    quantifiers.
+  \item \texttt{requires: "p != q"} --- an extra hypothesis that the
+    generated \texttt{Verified\_X\_property} body assumes.
+  \item \texttt{ensures: "<expr>"} --- an extra clause appended to
+    the property body.
+  \item \texttt{effect: "pure"} or \texttt{"may\_raise TypeError"}
+    --- recorded for the certificate as a comment; informs the
+    fibration-descent pass.
+  \item \texttt{decreases: "<measure>"} --- a well-founded measure
+    used by the safety pipeline to discharge recursion-depth
+    obligations.
+  \item \texttt{z3\_binders: x: int, y: int} --- explicit Z3 sorts
+    overriding the typed-Z3 encoder's inference.
+  \item \texttt{cubical\_dim: 2} / \texttt{cohomology\_level: 1} ---
+    request specific dimension / level for the cubical analysis.
+  \item \texttt{expects\_sha256: "<hex>"} --- a commitment to the
+    inspected source bytes.  The pipeline hashes the live
+    \texttt{inspect.getsource} output; mismatch fires
+    \texttt{hash\_drift\_count} and \texttt{certify\_or\_die}
+    refuses certification.
+  \item \texttt{expecting\_counterexample: true} --- assert that the
+    counterexample search \emph{should} produce one (i.e.\ the
+    property is supposed to be false).  Useful for testing the
+    counterexample finder; if no counterexample is produced when one
+    is expected, certification fails.
+\end{itemize}
+
+\section{Lemmas}
+\label{sec:lemmas}
+
+A \texttt{lemma} declaration introduces an intermediate fact:
+
+\begin{lstlisting}[language=deppyfile]
+lemma triangle_inequality_aux:
+  statement: "(a + b)**2 <= 2 * (a**2 + b**2) when a >= 0 and b >= 0"
+  lean_proof: |
+    intros a b ha hb
+    nlinarith [sq_nonneg (a - b)]
+\end{lstlisting}
+
+A lemma can be either:
+\begin{itemize}[leftmargin=1.7em]
+  \item \emph{admitted} (no \texttt{lean\_proof}; certificate emits
+    \texttt{axiom Lemma\_X : Lemma\_X\_prop});
+  \item \emph{proved by user-supplied \Lean{}}; the certificate
+    emits \texttt{theorem Lemma\_X : Lemma\_X\_prop := by ...}.
+\end{itemize}
+
+Either way, the lemma is registered as a kernel axiom (file:
+\texttt{deppy/lean/sidecar\_certificate.py}, lines around 183--188:
+``\textbf{AUDIT 1.8}: register every parsed lemma as a kernel
+axiom'').  Subsequent \texttt{verify} blocks may cite it via
+\texttt{apply(triangle\_inequality\_aux)} in PSDL.
+
+\section{The \texttt{code\_types:} block}
+\label{sec:code-types}
+
+A new top-level block lets the user provide typed signatures for
+helper symbols PSDL references.
+
+\begin{lstlisting}[language=deppyfile,caption={A \texttt{code\_types:} block.}]
+code_types: |
+  sqrt: Int → Int
+  sum_zip_sub_sq: Point → Point → Int
+\end{lstlisting}
+
+These drive concrete \texttt{axiom}s in the Lean preamble:
+\begin{lstlisting}[language=lean4]
+axiom sqrt : Int → Int
+axiom sum_zip_sub_sq : Point → Point → Int
+\end{lstlisting}
+
+The point is that \PSDL{} can mention \texttt{sqrt(...)} and
+\texttt{sum\_zip\_sub\_sq(self, other)} in the user's natural
+notation, and the certificate's preamble will declare these as
+typed Lean symbols rather than opaque Int constants.  Without
+\texttt{code\_types}, every helper symbol becomes
+\texttt{opaque h : Int} and the surrounding tactics fail to
+elaborate.
+
+\section{Top-level \Lean{} integration}
+\label{sec:lean-toplevel}
+
+Two top-level keys inject text directly into the certificate:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{lean\_imports: |} --- one \texttt{import} per line,
+    inserted at the top of the generated certificate.
+  \item \texttt{lean\_preamble: |} --- raw \Lean{} text inserted
+    after the imports and before the annotation-driven preamble.
+\end{itemize}
+
+These are the escape hatches.  When the user's proofs require
+particular \Lean{} machinery (a Mathlib-style import, a custom
+\texttt{macro}), the \texttt{.deppy} file can introduce it.  The
+\texttt{certify\_or\_die} gate does not refuse certification on the
+basis of which imports were used --- only on whether \Lean{} accepts
+the resulting certificate.
+
+\section{The legacy \texttt{proof} form}
+\label{sec:legacy-proofs}
+
+The original \texttt{.deppy} format used \texttt{proof}
+declarations:
+
+\begin{lstlisting}[language=deppyfile,caption={Legacy \texttt{proof} form
+from the SymPy sidecar.}]
+proof distance_nonneg_proof:
+  target: sympy.geometry.point.Point
+  by: foundation Real_sqrt_nonneg
+
+proof distance_pythagoras_proof:
+  target: sympy.geometry.point.Point
+  by: rewrite Real_sqrt_sq_nonneg then cite dist_pythagoras
+
+proof distance_zero_iff_equal_proof:
+  target: sympy.geometry.point.Point
+  by: chain Real_sqrt_zero_iff_zero, Real_sum_of_nonneg_zero_iff_all_zero, Real_sub_sq_zero_iff_eq
+
+proof distance_is_metric_proof:
+  target: sympy.geometry.point.Point
+  by: composition dist_nonneg & dist_zero_iff_equal & dist_symmetric & dist_triangle
+\end{lstlisting}
+
+The \texttt{by:} clause supports five forms:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{by: foundation NAME} --- proof body is
+    \verb|exact Foundation_NAME|;
+  \item \texttt{by: axiom NAME} --- \verb|exact Sidecar_NAME|;
+  \item \texttt{by: refl} --- \verb|rfl|;
+  \item \texttt{by: chain F1, F2, F3} --- \verb|F1.trans F2 |.\verb|trans F3|;
+  \item \texttt{by: rewrite F then cite A} --- \verb|rw [F]; exact A|;
+  \item \texttt{by: composition F1 \& F2 \& F3} --- \verb|And.intro F1 (And.intro F2 F3)|.
+\end{itemize}
+
+The \texttt{verify} form supersedes \texttt{proof} for new code: it
+exposes more knobs (binders, requires/ensures, PSDL, by\_lean) and
+its trust accounting is more granular.  We retain the legacy form
+for backwards compatibility.
+
+\section{File layout reference}
+\label{sec:layout-ref}
+
+A complete sidecar file has roughly the following layout:
+
+\begin{lstlisting}[language=deppyfile,caption={Canonical layout of a sidecar file.}]
+# 1. Header
+module: <package>
+version: ">=<min>"
+
+# 2. Top-level Lean integration (optional)
+lean_imports: |
+  import Mathlib.Tactic
+  import Std
+
+lean_preamble: |
+  -- raw Lean text injected verbatim
+
+# 3. Helper signatures (optional)
+code_types: |
+  helper1: T1 → T2
+  helper2: T1 → T2 → T3
+
+# 4. Foundations (the trust surface)
+foundation F1: "stmt1"
+foundation F2: "stmt2 when guard"
+foundation F3:
+  statement: "stmt3"
+  citation: "ref"
+  lean_proof: |
+    <Lean tactics>
+
+# 5. Specs (per class/function)
+spec <dotted.path>:
+  guarantee: "..."
+  pure: true
+  axiom A1: "stmt"
+  axiom A2: "stmt"
+
+# 6. Lemmas (intermediate facts)
+lemma L1:
+  statement: "..."
+  lean_proof: |
+    <Lean tactics>
+
+# 7. Verifies (units of verification)
+verify V1:
+  function: <dotted.path>
+  property: "..."
+  binders: x: T, y: U
+  via: foundation F1
+  psdl_proof: |
+    <PSDL tactics>
+
+# 8. Legacy proofs (optional)
+proof P1:
+  target: <dotted.path>
+  by: chain F1, F2
+\end{lstlisting}
+
+\section{The \texttt{SidecarModule} object}
+\label{sec:sidecar-module}
+
+The parsed file is a Python object with the following relevant
+fields (from \texttt{deppy/proofs/sidecar.py}):
+
+\begin{lstlisting}[caption={\texttt{SidecarModule} excerpt --- the
+key fields and their types.}]
+class SidecarModule:
+    name: str
+    target_module: str
+    version: str
+    _specs: dict[str, ExternalSpec]
+    _axioms: dict[str, AxiomDecl]
+    _foundations: dict[str, FoundationDecl]
+    _proofs: list[ProofDecl]
+    _verifies: list[VerifyDecl]
+    _lemmas: list[LemmaDecl]
+    _foundation_deps: dict[str, list[str]]
+    _imports: list[str]
+    _symbolic_constants: dict[str, str]
+    _predicates: dict[str, str]
+    _code_types: dict[str, str]      # CODE-TYPES — typed signatures
+    _lean_imports: list[str]
+    _lean_preamble: str
+    _about_specs: list[tuple[Any, _SpecMetadata]]
+\end{lstlisting}
+
+The pipeline is library-agnostic: every transformation operates on
+this dataclass.  The transformations are documented in
+\Cref{ch:pipeline}.
+
+\section{Worked example: \texttt{sympy\_geometry.deppy}}
+
+We end this chapter by walking through the SymPy sidecar at the top
+of the repository.  The file is 508 lines and breaks into these
+sections:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item Lines 1--46: comments and header (\texttt{module: sympy},
+    \texttt{code\_types: sqrt: Int → Int} and
+    \texttt{sum\_zip\_sub\_sq: Point → Point → Int}).
+  \item Lines 48--65: 14 \texttt{foundation} declarations
+    (\texttt{Real\_sqrt\_nonneg}, \texttt{Real\_add\_comm},
+    \dots).
+  \item Lines 70--82: \texttt{spec sympy.geometry.point.Point} with
+    8 \texttt{axiom}s about distance and collinearity.
+  \item Lines 89--96: \texttt{spec sympy.geometry.line.Segment} with
+    5 \texttt{axiom}s about midpoint and length.
+  \item Lines 105--120: \texttt{spec sympy.geometry.polygon.Triangle}
+    with 16 \texttt{axiom}s about centroid, area, Euler line, etc.
+  \item Lines 127--134: \texttt{spec sympy.geometry.ellipse.Circle}
+    with 5 \texttt{axiom}s.
+  \item Lines 142--149: \texttt{spec sympy.geometry.polygon.Polygon}
+    with 5 \texttt{axiom}s.
+  \item Lines 161--393: 38 legacy \texttt{proof} declarations.
+  \item Lines 404--508: 9 \texttt{verify} blocks, including the
+    PSDL example \texttt{dist\_nonneg\_psdl}.
+\end{enumerate}
+
+The verify-block list:
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{dist\_nonneg\_code} --- via foundation
+    \texttt{Real\_sqrt\_nonneg}, with fibration descent.
+  \item \texttt{dist\_pythagoras\_code} --- via foundation
+    \texttt{Real\_sqrt\_sq\_nonneg}.
+  \item \texttt{dist\_symmetric\_code} --- via
+    \texttt{Real\_sub\_sq\_swap}.
+  \item \texttt{segment\_contains\_code}.
+  \item \texttt{triangle\_area\_nonneg\_code}.
+  \item \texttt{triangle\_perimeter\_sum\_code}.
+  \item \texttt{triangle\_centroid\_avg\_code}.
+  \item \texttt{segment\_length\_code}.
+  \item \texttt{polygon\_area\_nonneg\_code}.
+  \item \texttt{circle\_radius\_eq\_code}.
+  \item \texttt{dist\_nonneg\_psdl} --- the worked PSDL example.
+\end{itemize}
+
+The \texttt{dist\_nonneg\_psdl} block (lines 487--508) is the
+canonical \PSDL{} demonstration: \texttt{psdl\_proof} contains a
+real Python-syntax proof script.  We will return to this block
+repeatedly throughout the rest of the book.
+
+\section{Summary}
+\label{sec:ch5-summary}
+
+The \texttt{.deppy} sidecar format:
+\begin{itemize}[leftmargin=1.7em]
+  \item names a target Python module;
+  \item lists \emph{foundations} as the trust surface;
+  \item attaches \emph{specs} with \emph{axioms} per target;
+  \item declares \emph{lemmas} for re-use;
+  \item drives the verifier via \emph{verify} blocks with optional
+    \PSDL{} or raw \Lean{} proof scripts;
+  \item integrates with \Lean{} via \texttt{lean\_imports} and
+    \texttt{lean\_preamble};
+  \item supports a legacy \texttt{proof} form for back-compat.
+\end{itemize}
+
+The next chapter introduces \PSDL: the Python-syntax tactic
+language that fills the \texttt{psdl\_proof:} field.

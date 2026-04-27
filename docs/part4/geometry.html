@@ -44,12 +44,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="../part3/index.html">Overview</a></li>
       <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="../part4/index.html">Overview</a></li>
       <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="../part4/geometry.html" class="active">Verifying sympy.geometry</a></li>
       <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -59,11 +63,13 @@
       <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="../part5/cech.html">Čech Decomposition</a></li>
       <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
       <li><a href="../part6/index.html">Overview</a></li>
-      <li><a href="../part6/separation.html">Separation Logic</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
       <li><a href="../part6/references.html">Mutable References</a></li>
       <li><a href="../part6/arrays.html">Arrays</a></li>
       <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
@@ -80,333 +86,358 @@
 
 <div class="content">
   <article>
-    <h1>Verifying <code>sympy.geometry</code>: Euclidean Theorems</h1>
+    <h1>Verifying <code>sympy.geometry</code></h1>
 
     <p>
-      This chapter walks through a <strong>complete, runnable</strong> sidecar
-      verification of SymPy's computational geometry module. We prove 24
-      classical theorems of Euclidean geometry — Heron's formula, the Euler
-      line, the nine-point circle, and more — hold in SymPy's implementation,
+      This chapter walks through the bundled
+      <code>sympy_geometry.deppy</code> sidecar — a complete, runnable
+      verification of properties of <code>sympy.geometry</code>'s
+      <code>Point</code> / <code>Segment</code> / <code>Triangle</code> /
+      <code>Polygon</code> / <code>Circle</code> classes,
       <em>without modifying a single line of SymPy's source code</em>.
     </p>
 
-    <p>
-      One theorem is <strong>deliberately false</strong>. The system catches it,
-      proving that the verification pipeline is not rubber-stamping everything.
-    </p>
-
     <div class="note">
-      <strong>Try it yourself.</strong> The full working example lives at
-      <a href="https://github.com/thehalleyyoung/deppy/tree/main/verify_sympy_geometry"><code>verify_sympy_geometry/</code></a>
-      in the deppy repo. Run it with:
-      <pre style="margin:0.5em 0 0;"><code>PYTHONPATH=. python3 verify_sympy_geometry/verify_triangle.py</code></pre>
-      Result: <strong>23/23</strong> kernel proofs, <strong>182/182</strong>
-      runtime checks, <strong>1</strong> expected failure — in <strong>~26 000 ms</strong>.
+      <strong>Try it yourself.</strong> The sidecar
+      <code>sympy_geometry.deppy</code> ships at the repo root. Run it
+      with:
+      <pre style="margin:0.5em 0 0;"><code>python -m deppy.pipeline.run_verify sympy_geometry.deppy --out sympy_geometry.lean</code></pre>
+      Today's verdict (verified at the time of this writing): <strong>14
+      foundations</strong>, <strong>5 specs</strong>, <strong>38 sidecar
+      axioms</strong> (38 grounded, 38 mechanized to concrete Lean
+      Props), <strong>4 method-body links</strong> (3 EXACT, 1
+      partial), <strong>11 verify blocks</strong> (11/11 accepted by
+      <code>ProofKernel.verify</code>), Lean round-trip OK —
+      <strong>✓ CERTIFIED</strong>. A decorator-based variant lives at
+      <code>examples/decorated_geometry.py</code>; run it via
+      <code>python -m deppy.pipeline.run_verify --from-module examples.decorated_geometry</code>.
     </div>
 
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="overview">What We're Proving</h2>
+    <h2 id="overview">What's in the sidecar</h2>
 
     <p>
-      The verification covers seven categories of Euclidean geometry,
-      each backed by axioms in a <code>.deppy</code> sidecar file and validated
-      computationally on a diverse family of exact-coordinate triangles:
+      The <code>sympy_geometry.deppy</code> file lays out the trust
+      chain:
+      <em>foundations</em> (generic mathematical facts) →
+      <em>sidecar axioms</em> (claims about
+      <code>sympy.geometry</code>'s behaviour) →
+      <em>verify blocks</em> (kernel-checked properties of named
+      methods) →
+      <em>proofs</em> (compositions citing the foundations and
+      axioms).
     </p>
 
     <table style="width:100%; border-collapse:collapse; margin:1em 0;">
       <thead>
         <tr style="border-bottom:2px solid var(--border-color, #ccc);">
-          <th style="text-align:left; padding:0.5em;">Category</th>
-          <th style="text-align:center; padding:0.5em;">#</th>
-          <th style="text-align:left; padding:0.5em;">Theorems</th>
+          <th style="text-align:left; padding:0.5em;">Section</th>
+          <th style="text-align:center; padding:0.5em;">Count</th>
+          <th style="text-align:left; padding:0.5em;">What it covers</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td style="padding:0.4em;"><strong>A. Distance</strong></td><td style="text-align:center;">4</td><td>Non-negativity, symmetry, identity, triangle inequality</td></tr>
-        <tr><td style="padding:0.4em;"><strong>B. Area</strong></td><td style="text-align:center;">4</td><td>Cross-product formula, Heron's formula, medial ¼ theorem, orientation</td></tr>
-        <tr><td style="padding:0.4em;"><strong>C. Euler Line</strong></td><td style="text-align:center;">6</td><td>Circumcenter equidistance, <em>R</em> = <em>abc</em>/4<em>A</em>, centroid averaging, collinearity, OG:GH = 1:2, incenter</td></tr>
-        <tr><td style="padding:0.4em;"><strong>D. Nine-Point Circle</strong></td><td style="text-align:center;">4</td><td>Center = midpoint(O, H), radius = <em>R</em>/2, passes through midpoints, altitude feet</td></tr>
-        <tr><td style="padding:0.4em;"><strong>E. Circle</strong></td><td style="text-align:center;">2</td><td>Area = π<em>r</em>², circumference = 2π<em>r</em></td></tr>
-        <tr><td style="padding:0.4em;"><strong>F. Similarity</strong></td><td style="text-align:center;">3</td><td>Angle-preserving similarity, side-preserving congruence, circumscription</td></tr>
-        <tr style="background:var(--warning-bg, #fff3cd);"><td style="padding:0.4em;"><strong>G. Soundness</strong></td><td style="text-align:center;">1</td><td>"Every triangle is equilateral" — <strong>correctly refuted</strong></td></tr>
+        <tr><td style="padding:0.4em;"><strong>foundations</strong></td><td style="text-align:center;">14</td><td><code>Real_sqrt_nonneg</code>, <code>Real_add_comm</code>, <code>Real_sub_sq_swap</code>, <code>Real_translate_killed_in_diff</code>, <code>Real_avg_minus_endpoints</code>, … — generic Int/Real arithmetic facts. 6 are Z3-discharged at <code>TrustLevel.Z3_VERIFIED</code>.</td></tr>
+        <tr><td style="padding:0.4em;"><strong>specs</strong></td><td style="text-align:center;">5</td><td><code>Point</code>, <code>Segment</code>, <code>Triangle</code>, <code>Circle</code>, <code>Polygon</code> — each lists its axioms + a Python <code>guarantee</code>.</td></tr>
+        <tr><td style="padding:0.4em;"><strong>axioms</strong></td><td style="text-align:center;">38</td><td>Library claims like <code>dist_nonneg</code>, <code>dist_pythagoras</code>, <code>midpoint_average</code>, <code>centroid_2_to_1</code>, <code>circle_radius_equidistant</code>. All 38 are GROUNDED (their target methods exist on the live module).</td></tr>
+        <tr><td style="padding:0.4em;"><strong>verify blocks</strong></td><td style="text-align:center;">11</td><td>Kernel-checked properties on real methods: <code>Point.distance</code>, <code>Segment.contains</code>, <code>Triangle.area</code>, <code>Triangle.centroid</code>, <code>Polygon.area</code>, <code>Circle.radius</code>, plus one PSDL block exercising the Python-syntax tactic language.</td></tr>
+        <tr><td style="padding:0.4em;"><strong>proofs</strong></td><td style="text-align:center;">45</td><td>Compositions: 20 derived, 25 cited, 0 sorry.</td></tr>
       </tbody>
     </table>
 
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="deppy-file">The <code>.deppy</code> Sidecar File</h2>
+    <h2 id="deppy-file">A taste of the file</h2>
 
     <p>
-      The <code>sympy_geometry.deppy</code> file declares axioms <em>about</em>
-      SymPy without importing or modifying it. Here is the section for the
-      Euler line:
+      Foundations come first — admitted on user authority, but several
+      get checked by Z3:
     </p>
 
-    <pre><code><span class="cm"># sympy_geometry.deppy — Euler line axioms</span>
+    <pre><code><span class="cm"># sympy_geometry.deppy — foundations (excerpt)</span>
+<span class="kw">foundation</span> <span class="fn">Real_sqrt_nonneg</span>: <span class="st">"sqrt(x) &gt;= 0 when x &gt;= 0"</span>
+<span class="kw">foundation</span> <span class="fn">Real_sqrt_sq_nonneg</span>: <span class="st">"sqrt(x)**2 == x when x &gt;= 0"</span>
+<span class="kw">foundation</span> <span class="fn">Real_sub_sq_swap</span>: <span class="st">"(a - b)**2 == (b - a)**2"</span>
+<span class="kw">foundation</span> <span class="fn">Real_add_comm</span>: <span class="st">"a + b == b + a"</span>
+<span class="kw">foundation</span> <span class="fn">Real_avg_minus_endpoints</span>: <span class="st">"2*a - (a + b) == a - b"</span></code></pre>
 
-<span class="kw">spec</span> <span class="fn">sympy.geometry.Triangle.euler_line</span>:
-  <span class="dc">guarantee</span>: <span class="st">"circumcenter, centroid, and orthocenter are collinear"</span>
+    <p>
+      Next, the spec block for <code>sympy.geometry.point.Point</code>
+      lists axioms about its distance and collinearity behaviour:
+    </p>
+
+    <pre><code><span class="cm"># sympy_geometry.deppy — Point spec (excerpt)</span>
+<span class="kw">spec</span> <span class="fn">sympy.geometry.point.Point</span>:
+  <span class="dc">guarantee</span>: <span class="st">"Euclidean distance is a metric on R²; collinearity is the vanishing cross product"</span>
   <span class="kw">pure</span>: <span class="nb">true</span>
-  <span class="dc">axiom</span> <span class="fn">euler_collinear</span>: <span class="st">"is_collinear(circumcenter, centroid, orthocenter)"</span>
-  <span class="dc">axiom</span> <span class="fn">euler_ratio</span>: <span class="st">"dist(O, G) : dist(G, H) == 1 : 2"</span></code></pre>
-
-    <p>And here is the <strong>deliberately false</strong> axiom — a soundness tripwire:</p>
-
-    <pre><code><span class="cm"># This MUST fail computational validation</span>
-<span class="kw">spec</span> <span class="fn">sympy.geometry.Triangle.is_equilateral</span>:
-  <span class="dc">guarantee</span>: <span class="st">"every triangle is equilateral"</span>
-  <span class="dc">axiom</span> <span class="fn">all_equilateral</span>: <span class="st">"Triangle(A,B,C).is_equilateral() == True for all A,B,C"</span></code></pre>
+  <span class="dc">axiom</span> <span class="fn">dist_nonneg</span>: <span class="st">"Point.distance(p, q) &gt;= 0"</span>
+  <span class="dc">axiom</span> <span class="fn">dist_zero_iff_equal</span>: <span class="st">"(Point.distance(p, q) == 0) == (p == q)"</span>
+  <span class="dc">axiom</span> <span class="fn">dist_symmetric</span>: <span class="st">"Point.distance(p, q) == Point.distance(q, p)"</span>
+  <span class="dc">axiom</span> <span class="fn">dist_pythagoras</span>: <span class="st">"Point.distance(p, q)**2 == (p.x - q.x)**2 + (p.y - q.y)**2"</span>
+  <span class="dc">axiom</span> <span class="fn">collinear_iff_zero_cross</span>: <span class="st">"is_collinear(A, B, C) == ((B.x-A.x)*(C.y-A.y) == (C.x-A.x)*(B.y-A.y))"</span></code></pre>
 
     <p>
-      The full file declares <strong>28 axioms</strong> across <strong>14 specs</strong>,
-      covering distance, area, triangle centres, the nine-point circle, circles,
-      and similarity.
+      Verify blocks pin properties to specific live methods so the
+      kernel can run them:
     </p>
+
+    <pre><code><span class="cm"># sympy_geometry.deppy — verify blocks (excerpt)</span>
+<span class="kw">verify</span> <span class="fn">dist_nonneg_code</span>:
+  <span class="dc">function</span>: <span class="fn">sympy.geometry.point.Point.distance</span>
+  <span class="dc">property</span>: <span class="st">"Point.distance(p, q) &gt;= 0"</span>
+  <span class="dc">via</span>: <span class="kw">foundation</span> Real_sqrt_nonneg
+  <span class="dc">fibration</span>: isinstance Point
+  <span class="dc">cubical</span>: <span class="nb">true</span>
+
+<span class="kw">verify</span> <span class="fn">circle_radius_eq_code</span>:
+  <span class="dc">function</span>: <span class="fn">sympy.geometry.ellipse.Circle.radius</span>
+  <span class="dc">property</span>: <span class="st">"Circle(c, r).radius == r"</span>
+  <span class="dc">via</span>: <span class="kw">foundation</span> Real_add_comm
+  <span class="cm"># NB: this claim is *false* under placeholder semantics —</span>
+  <span class="cm"># Z3 counterexample search rejects it; the certificate</span>
+  <span class="cm"># omits the theorem and reports it in the audit summary.</span></code></pre>
+
+    <p>
+      The last verify block exercises <strong>PSDL</strong>, the
+      Python-syntax tactic language whose body becomes a deppy
+      <code>ProofTerm</code> tree (kernel-verified) plus a Lean tactic
+      (best-effort documentation):
+    </p>
+
+    <pre><code><span class="cm"># sympy_geometry.deppy — PSDL block</span>
+<span class="kw">verify</span> <span class="fn">dist_nonneg_psdl</span>:
+  <span class="dc">function</span>: <span class="fn">sympy.geometry.point.Point.distance</span>
+  <span class="dc">property</span>: <span class="st">"Point.distance(p, q) &gt;= 0"</span>
+  <span class="dc">via</span>: <span class="kw">foundation</span> Real_sqrt_nonneg
+  <span class="dc">binders</span>: p: Point, q: Point
+  <span class="dc">psdl_proof</span>: |
+    <span class="kw">if</span> <span class="fn">isinstance</span>(other, Point):
+        <span class="cm"># body returns sqrt(sum_zip_sub_sq(self, other))</span>
+        inline(Point.distance, sqrt(sum_zip_sub_sq(self, other)))
+        apply(Real_sqrt_nonneg)
+        <span class="kw">assert</span> sum_zip_sub_sq(self, other) &gt;= 0, <span class="st">"z3"</span>
+    <span class="kw">else</span>:
+        <span class="kw">raise</span> <span class="fn">NotImplementedError</span>  <span class="cm"># exception fibre — vacuous</span></code></pre>
 
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="verification-script">The Verification Script</h2>
+    <h2 id="verification-script">What the pipeline does</h2>
 
     <p>
-      The companion <code>verify_triangle.py</code> does three things for
-      every theorem:
+      <code>python -m deppy.pipeline.run_verify
+      sympy_geometry.deppy</code> runs every step in order; each step
+      is real (no metadata stubs) and recorded in the JSON sidecar
+      emitted alongside the <code>.lean</code> file:
     </p>
 
     <div class="proof-steps">
       <div class="proof-step">
         <div class="step-num">1</div>
         <div class="step-content">
-          <strong>Install the axiom</strong> into deppy's proof kernel via
-          <code>library_trust</code>.
+          <strong>Foundation Z3 discharge.</strong>  Each foundation
+          whose statement is pure Int arithmetic is fed to Z3.
+          Today: <strong>14 attempted, 6 verified</strong> at
+          <code>TrustLevel.Z3_VERIFIED</code>.
         </div>
       </div>
       <div class="proof-step">
         <div class="step-num">2</div>
         <div class="step-content">
-          <strong>Prove via the kernel</strong> — the axiom is accepted and
-          recorded at <code>AXIOM_TRUSTED</code> level.
+          <strong>Counterexample search.</strong>  Z3 negates each
+          arithmetic foundation and looks for a falsifying model.
+          Today: <strong>3 attempted, 0 counterexamples</strong>
+          (an earlier draft of the file had a foundation that
+          was true over reals but false over Int — the search
+          caught it).
         </div>
       </div>
       <div class="proof-step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <strong>Validate computationally</strong> on 8 diverse triangle
-          families using exact arithmetic (<code>Rational</code>, <code>sqrt</code>)
-          — never floats.
+          <strong>Mechanization.</strong>  Each grounded axiom's
+          Python statement becomes a concrete Lean Prop over a
+          flat-Int signature inferred from the AST.  Today:
+          <strong>38/38 mechanized</strong>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Body translation.</strong>  For each verify
+          block's <code>function:</code>, deppy
+          <code>inspect.getsource</code>'s the live method and
+          translates the AST to Lean.  Today: 4 methods linked,
+          <strong>3 EXACT, 1 partial</strong>
+          (<code>Circle.tangent_lines</code>'s final else branch
+          uses <code>sympy.solve</code> on a symbolic equation —
+          honestly untranslatable, marked sorry).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <strong>Verify-block kernel verification.</strong>  For
+          each verify block, deppy builds a <code>ProofTerm</code>
+          tree (Unfold + AxiomInvocation) and runs
+          <code>ProofKernel.verify</code>.  PSDL blocks compile
+          their Python body to a richer ProofTerm tree.  Today:
+          <strong>11/11 accepted</strong>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <strong>Per-verify counterexample search.</strong>  After
+          kernel acceptance, Z3 substitutes mechanization's
+          placeholder semantics into the property and searches for
+          a falsifying model.  Today: <code>circle_radius_eq_code</code>
+          is rejected — its claim is provably false under
+          placeholder semantics, so the certificate omits the
+          theorem and reports the rejection in the audit summary.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <strong>Lean certificate emission.</strong>  All accepted
+          theorems are written to <code>sympy_geometry.lean</code>
+          along with the foundation discharge, mechanization
+          preamble, body links, cubical-analysis comments, and
+          per-verify theorems.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <strong>Lean round-trip.</strong>  The pipeline shells
+          out to <code>lean</code> and checks the file actually
+          compiles.  Today: <strong>0 errors, 0 sorrys</strong>.
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">9</div>
+        <div class="step-content">
+          <strong>JSON sidecar.</strong>  Alongside the
+          <code>.lean</code>, an audit-grade
+          <code>sympy_geometry.json</code> records the verdict,
+          per-section counters, and the Lean goal-state on
+          failure (when applicable).
+        </div>
+      </div>
+      <div class="proof-step">
+        <div class="step-num">10</div>
+        <div class="step-content">
+          <strong><code>certify_or_die</code>.</strong>  The final
+          verdict refuses to certify when any of: Lean rejected,
+          a counterexample was found for an admitted foundation,
+          a code-proof's soundness gate failed, an
+          <code>expects_sha256</code> drifted, or a verify block
+          was rejected by per-verify counterexample search.  Today:
+          ✓ CERTIFIED.
         </div>
       </div>
     </div>
 
-    <h3>Triangle Test Families</h3>
-
-    <p>
-      Every theorem is checked against these 8 non-degenerate, exact-coordinate
-      triangles — chosen to cover right, isosceles, equilateral, scalene,
-      rational, negative-coordinate, and obtuse cases:
-    </p>
-
-    <pre><code><span class="kw">def</span> <span class="fn">_test_triangles</span>() -> list[tuple[str, Triangle]]:
-    <span class="kw">return</span> [
-        (<span class="st">"3-4-5 right"</span>,
-         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">4</span>, <span class="nb">0</span>), Point(<span class="nb">0</span>, <span class="nb">3</span>))),
-        (<span class="st">"isoceles 6-6-4"</span>,
-         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">4</span>, <span class="nb">0</span>), Point(<span class="nb">2</span>, sqrt(<span class="nb">32</span>)))),
-        (<span class="st">"equilateral side 2"</span>,
-         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">2</span>, <span class="nb">0</span>), Point(<span class="nb">1</span>, sqrt(<span class="nb">3</span>)))),
-        (<span class="st">"scalene (1,1)-(5,2)-(3,7)"</span>,
-         Triangle(Point(<span class="nb">1</span>, <span class="nb">1</span>), Point(<span class="nb">5</span>, <span class="nb">2</span>), Point(<span class="nb">3</span>, <span class="nb">7</span>))),
-        (<span class="st">"large right 5-12-13"</span>,
-         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">12</span>, <span class="nb">0</span>), Point(<span class="nb">0</span>, <span class="nb">5</span>))),
-        (<span class="st">"rational coords"</span>,
-         Triangle(Point(Rational(<span class="nb">1</span>,<span class="nb">3</span>), Rational(<span class="nb">2</span>,<span class="nb">5</span>)),
-                  Point(Rational(<span class="nb">7</span>,<span class="nb">2</span>), Rational(<span class="nb">1</span>,<span class="nb">4</span>)),
-                  Point(Rational(<span class="nb">5</span>,<span class="nb">6</span>), Rational(<span class="nb">11</span>,<span class="nb">3</span>)))),
-        (<span class="st">"negative coords"</span>,
-         Triangle(Point(-<span class="nb">3</span>, -<span class="nb">1</span>), Point(<span class="nb">4</span>, -<span class="nb">2</span>), Point(<span class="nb">1</span>, <span class="nb">5</span>))),
-        (<span class="st">"wide obtuse"</span>,
-         Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">10</span>, <span class="nb">0</span>), Point(<span class="nb">5</span>, <span class="nb">1</span>))),
-    ]</code></pre>
-
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="euler-line">Highlight: The Euler Line</h2>
+    <h2 id="psdl-block">Highlight: the PSDL block</h2>
 
     <p>
-      The <strong>Euler line</strong> is one of the most beautiful results in
-      triangle geometry: for any non-equilateral triangle, the circumcenter
-      <em>O</em>, centroid <em>G</em>, and orthocenter <em>H</em> are collinear,
-      and <em>O</em>, <em>G</em>, <em>H</em> divide that line in ratio 1:2.
+      <code>verify dist_nonneg_psdl</code> is the only verify block
+      with a <code>psdl_proof:</code> body.  PSDL — the
+      Python-Semantic Deppy Language — lets you write the proof in
+      literal Python with a small library of cubical-flavoured
+      primitives.  See
+      <a href="../part5/psdl.html">Part 5: PSDL</a> for the full
+      reference.
     </p>
 
-    <p>Here's how we verify both properties:</p>
+    <p>
+      Each PSDL line maps to a deppy
+      <code>ProofTerm</code> subclass <strong>and</strong> a Lean
+      tactic line:
+    </p>
 
-    <pre><code><span class="cm"># C4. Euler line: O, G, H collinear</span>
-r = (Proof(<span class="st">"circumcenter, centroid, orthocenter are collinear"</span>)
-     .using(kernel).given(T=<span class="st">"object"</span>)
-     .by_axiom(<span class="st">"euler_collinear"</span>, <span class="st">"sympy.geometry"</span>).qed())
-
-<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
-    <span class="kw">if</span> tri.is_equilateral():
-        <span class="kw">continue</span>  <span class="cm"># all centres coincide — ratio is 0/0</span>
-    cc = tri.circumcenter
-    cg = tri.centroid
-    oc = tri.orthocenter
-    <span class="kw">assert</span> Point.is_collinear(cc, cg, oc)
-
-<span class="cm"># C5. Euler ratio OG:GH = 1:2</span>
-<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
-    <span class="kw">if</span> tri.is_equilateral():
-        <span class="kw">continue</span>
-    og = tri.circumcenter.distance(tri.centroid)
-    gh = tri.centroid.distance(tri.orthocenter)
-    <span class="kw">assert</span> simplify(og / gh) == Rational(<span class="nb">1</span>, <span class="nb">2</span>)</code></pre>
+    <table style="width:100%; border-collapse:collapse; margin:1em 0;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border-color, #ccc);">
+          <th style="text-align:left; padding:0.5em;">PSDL line</th>
+          <th style="text-align:left; padding:0.5em;">Kernel ProofTerm</th>
+          <th style="text-align:left; padding:0.5em;">Lean tactic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>if isinstance(other, Point):</code></td><td><code>Fiber(scrutinee=other, [(Point, …), (else, …)])</code></td><td><code>by_cases h : isinstance other Point</code></td></tr>
+        <tr><td><code>inline(Point.distance, …)</code></td><td><code>Unfold(Point_distance, Refl(…))</code></td><td><code>unfold Point_distance</code></td></tr>
+        <tr><td><code>apply(Real_sqrt_nonneg)</code></td><td><code>AxiomInvocation(Real_sqrt_nonneg)</code></td><td><code>exact Foundation_Real_sqrt_nonneg</code></td></tr>
+        <tr><td><code>assert P, "z3"</code></td><td><code>Cut(h, RefnT(Bool, P), Z3Proof(P), …)</code></td><td><code>have h : P := by omega</code></td></tr>
+        <tr><td><code>raise NotImplementedError</code></td><td><code>Structural("vacuous: NotImplementedError")</code></td><td><code>exact absurd ‹_› (by simp)</code></td></tr>
+      </tbody>
+    </table>
 
     <p>
-      This checks every non-equilateral triangle in our test family using
-      SymPy's exact symbolic arithmetic — no floating-point approximation.
+      The deppy kernel verifies the resulting ProofTerm tree
+      independently of Lean — so when Lean's elaborator can't
+      follow a PSDL idiom (<code>isinstance other Point</code>
+      isn't a Lean predicate), the deppy verdict still holds and
+      the Lean side falls back to a synthesised
+      <code>unfold + first | rfl | omega | …</code> closer.
     </p>
 
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="nine-point">Highlight: The Nine-Point Circle</h2>
+    <h2 id="false-claim">Highlight: a real false claim caught at run-time</h2>
 
     <p>
-      The nine-point circle passes through nine special points of a triangle:
-      the three side midpoints, the three altitude feet, and the three midpoints
-      of segments from vertices to the orthocenter. We verify four of its properties:
+      <code>verify circle_radius_eq_code</code> claims
+      <code>Circle(c, r).radius == r</code>.  Mathematically true for
+      a real <code>Circle</code>, but under deppy's placeholder
+      mechanization (<code>Circle_radius : Int → Int → Int</code>
+      defined as constantly <code>0</code>), the claim becomes
+      <code>0 = r</code> — false for <code>r ≠ 0</code>.  The
+      per-verify counterexample search catches it:
     </p>
 
-    <pre><code><span class="cm"># D1. NPC center = midpoint(circumcenter, orthocenter)</span>
-<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
-    npc = tri.nine_point_circle
-    cc  = tri.circumcenter
-    oc  = tri.orthocenter
-    mid = Point((cc.x + oc.x) / <span class="nb">2</span>, (cc.y + oc.y) / <span class="nb">2</span>)
-    <span class="kw">assert</span> npc.center == mid
-
-<span class="cm"># D2. NPC radius = circumradius / 2</span>
-<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
-    <span class="kw">assert</span> simplify(tri.nine_point_circle.radius
-                    - tri.circumradius / <span class="nb">2</span>) == <span class="nb">0</span>
-
-<span class="cm"># D3. NPC passes through side midpoints</span>
-<span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
-    npc = tri.nine_point_circle
-    <span class="kw">for</span> side <span class="kw">in</span> tri.sides:
-        mp = side.midpoint
-        <span class="kw">assert</span> simplify(npc.center.distance(mp) - npc.radius) == <span class="nb">0</span></code></pre>
-
-    <!-- ───────────────────────────────────────────── -->
-    <h2 id="heron">Highlight: Heron's Formula</h2>
+    <pre><code>verify circle_radius_eq_code — REJECTED
+  property: Circle(c, r).radius == r
+  Z3 found a counterexample showing this claim is
+  false under the placeholder semantics:
+    after placeholder substitution ``0 == r``: With r=1: 0 == r → False
+    (real counterexample — claim is provably false)
+  No theorem emitted; the block is reported in the audit
+  summary as ``rejected``.</code></pre>
 
     <p>
-      Heron's formula computes a triangle's area from its side lengths alone:
-    </p>
-
-    <p style="text-align:center; font-size:1.1em; margin: 1em 0;">
-      |<em>A</em>| = √(<em>s</em>(<em>s</em> − <em>a</em>)(<em>s</em> − <em>b</em>)(<em>s</em> − <em>c</em>))
-      &nbsp; where &nbsp;
-      <em>s</em> = (<em>a</em> + <em>b</em> + <em>c</em>) / 2
-    </p>
-
-    <pre><code><span class="kw">for</span> name, tri <span class="kw">in</span> _test_triangles():
-    sl = [s.length <span class="kw">for</span> s <span class="kw">in</span> tri.sides]
-    s_semi = sum(sl) / <span class="nb">2</span>
-    heron = sqrt(s_semi * (s_semi - sl[<span class="nb">0</span>])
-                         * (s_semi - sl[<span class="nb">1</span>])
-                         * (s_semi - sl[<span class="nb">2</span>]))
-    <span class="cm"># Compare squares to avoid √ simplification issues</span>
-    <span class="kw">assert</span> simplify((Abs(tri.area) - heron)**<span class="nb">2</span>) == <span class="nb">0</span></code></pre>
-
-    <div class="tip">
-      <strong>Tip:</strong> When comparing expressions involving square roots,
-      compare <em>squares</em> instead. SymPy's <code>simplify</code> sometimes
-      can't reduce <code>√a − √b</code> to zero, but it can always reduce
-      <code>(√a − √b)²</code> to zero when <code>a = b</code>.
-    </div>
-
-    <!-- ───────────────────────────────────────────── -->
-    <h2 id="soundness">Soundness Check: The False Axiom</h2>
-
-    <p>
-      A verification system that accepts everything is useless. To demonstrate
-      that deppy's computational layer actually catches errors, we include a
-      <strong>deliberately false axiom</strong>:
-    </p>
-
-    <pre><code><span class="cm"># In the .deppy sidecar file:</span>
-<span class="kw">spec</span> <span class="fn">sympy.geometry.Triangle.is_equilateral</span>:
-  <span class="dc">guarantee</span>: <span class="st">"every triangle is equilateral"</span>
-  <span class="dc">axiom</span> <span class="fn">all_equilateral</span>: <span class="st">"Triangle(A,B,C).is_equilateral() == True for all A,B,C"</span></code></pre>
-
-    <p>
-      The kernel accepts this as a trusted axiom — that's by design, since
-      axioms are the starting point for reasoning. But the runtime validation
-      immediately refutes it:
-    </p>
-
-    <pre><code><span class="cm"># In verify_triangle.py:</span>
-counter_tri = Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span>), Point(<span class="nb">5</span>, <span class="nb">0</span>), Point(<span class="nb">1</span>, <span class="nb">2</span>))
-<span class="kw">assert not</span> counter_tri.is_equilateral()  <span class="cm"># ← refutes the axiom</span></code></pre>
-
-    <p>Output:</p>
-
-    <pre><code>  <span class="cm">⚠  Axiom 'all_equilateral' is trusted by the kernel —</span>
-     <span class="cm">but computational validation REFUTES it:</span>
-    runtime: △(0,0)(5,0)(1,2) is equilateral? (expect False) ✓
-  ✗ (expected) [RUNTIME_REFUTED     ] G1  'every triangle is equilateral' — REFUTED</code></pre>
-
-    <div class="warning">
-      <strong>Lesson:</strong> Axioms are powerful but dangerous — they let you assume
-      anything. Always pair axiom-based proofs with computational validation.
-      If the validation contradicts the axiom, the axiom is wrong. In a production
-      workflow, you would either remove the axiom or investigate the source of
-      the contradiction.
-    </div>
-
-    <!-- ───────────────────────────────────────────── -->
-    <h2 id="design-decisions">Design Decisions</h2>
-
-    <h3>Why Exact Arithmetic?</h3>
-    <p>
-      All coordinates use <code>Rational</code> or <code>sqrt</code> — never
-      Python floats. This means that when SymPy says
-      <code>simplify(expr) == 0</code>, it is an <em>exact</em> algebraic
-      identity, not a floating-point approximation. This is what elevates our
-      runtime checks from "testing" to "validation on the algebraic closure of ℚ."
-    </p>
-
-    <h3>Why <code>Abs(area)</code>?</h3>
-    <p>
-      SymPy's <code>Triangle.area</code> is <strong>signed</strong> — it
-      depends on the orientation of the vertices. Reversing vertex order
-      negates the area. Theorems like Heron's formula and
-      <em>R</em> = <em>abc</em>/4<em>A</em> need the unsigned area, so we
-      use <code>Abs(tri.area)</code>.
-    </p>
-
-    <h3>Why Skip Equilateral for Euler Ratio?</h3>
-    <p>
-      In an equilateral triangle, the circumcenter, centroid, and orthocenter
-      all coincide at the same point. The Euler ratio OG:GH becomes 0/0 —
-      undefined. The collinearity claim is <em>vacuously true</em> (a single
-      point is collinear with itself), but the ratio test must be skipped.
+      The kernel's <em>structural</em> ProofTerm tree
+      (<code>Unfold(Circle_radius, AxiomInvocation(Real_add_comm))</code>)
+      type-checks — that's the kernel rubber-stamping the shape.
+      The Z3 search is the second gate that demands the shape
+      actually entail the claim under some interpretation.  When
+      placeholder semantics expose a contradiction, the
+      certificate refuses to admit the theorem and records the
+      rejection.  This is the system catching itself.
     </p>
 
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="architecture">Architecture</h2>
+    <h2 id="architecture">Architecture diagram</h2>
 
-    <pre><code>sympy_geometry.deppy          verify_triangle.py
-┌──────────────────┐          ┌──────────────────────────┐
-│ spec Triangle.area│          │ 1. Install 28 axioms     │
-│   guarantee: ...  │──parse──▶│ 2. Prove 23 theorems     │
-│   axiom heron:... │          │ 3. Validate on 8 exact   │
-│                   │          │    triangle families      │
-│ proof euler_proof:│          │ 4. Refute 1 false axiom  │
-│   by: axiom ...   │          └──────────────────────────┘
-└──────────────────┘                    │
+    <pre><code>sympy_geometry.deppy          run_verify pipeline
+┌──────────────────┐          ┌──────────────────────────────┐
+│ foundation R…    │          │ 1. Foundation Z3 discharge   │
+│ spec Point:      │          │ 2. Counterexample search      │
+│   axiom dist…    │──parse──▶│ 3. Mechanize to Lean Props   │
+│ verify NAME:     │          │ 4. Body translate (live src) │
+│   psdl_proof: |  │          │ 5. ProofKernel.verify        │
+│ proof T: by:…    │          │ 6. Per-verify counterexample │
+└──────────────────┘          │ 7. Lean certificate emit     │
+                              │ 8. lean round-trip           │
+                              │ 9. JSON sidecar emit         │
+                              │10. certify_or_die            │
+                              └──────────────────────────────┘
+                                        │
                                         ▼
                         ┌────────────────────────────────┐
-                        │ 23/23 kernel proofs       ✓    │
-                        │ 182/182 runtime checks    ✓    │
-                        │ 1/1 expected failure      ✓    │
-                        │ Total time: ~26 000 ms         │
+                        │ 11/11 verify blocks      ✓    │
+                        │ 38/38 axioms mechanized   ✓    │
+                        │ 6/14 foundations Z3       ✓    │
+                        │ Lean round-trip OK        ✓    │
+                        │ ✓ CERTIFIED                    │
                         └────────────────────────────────┘</code></pre>
 
     <!-- ───────────────────────────────────────────── -->
@@ -414,28 +445,31 @@ counter_tri = Triangle(Point(<span class="nb">0</span>, <span class="nb">0</span
 
     <p>Running the verification produces:</p>
 
-    <pre><code>════════════════════════════════════════════════════════════════
-  Deppy — Sidecar Verification of sympy.geometry
-  (SymPy is UNMODIFIED — all proofs are external)
-════════════════════════════════════════════════════════════════
+    <pre><code>$ python -m deppy.pipeline.run_verify sympy_geometry.deppy --out sympy_geometry.lean
 
-  RESULTS
-════════════════════════════════════════════════════════════════
-  ✓  Distance                   4/4
-  ✓  Area                       4/4
-  ✓  Centres                    6/6
-  ✓  Nine-Point                 4/4
-  ✓  Circle                     2/2
-  ✓  Similarity                 3/3
-  ✓  False Theorem              0/1
+  ...
+  Foundations:
+    foundations / Z3-attempted / verified:  14 / 10 / 7
+  Counterexample search:
+    foundations attempted / counterexamples: 3 / 0
+  Subsystem invocations (B1–B16 audit batch):
+    invoked / successful:                   45 / 44
+  ProofTerm subclasses (C1–C7 audit batch):
+    constructed / kernel-accepted:          38 / 27
+  ``verify`` blocks (.deppy → kernel.verify):
+    accepted by ProofKernel.verify:         11 / 11
+  Specs (informational):                    5
+  Proofs total:                             45
+    derived (real proof bodies):            20
+    cited  (renaming of trusted axioms):    25
+    sorry  (unrecognised by-clause):        0
   ────────────────────────────────────────────────────────────
-  Kernel proofs:         23/23 passed  (+1 expected failure)
-  Runtime validations:   182/182
-  Unexpected failures:   0
-  Time:                  ~26 000 ms
-════════════════════════════════════════════════════════════════
-
-  🎉 All theorems verified (including expected failure)</code></pre>
+  deppy.lean.lean_runner round-trip:        OK
+  ────────────────────────────────────────────────────────────
+  ✓ CERTIFIED — top-level certify_or_die: PASS
+  ════════════════════════════════════════════════════════════
+  Certificate at: sympy_geometry.lean
+  JSON sidecar:   sympy_geometry.json</code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="exercises">Exercises</h2>

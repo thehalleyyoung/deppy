@@ -1,0 +1,450 @@
+\chapter{Soundness: What Is Verified, What Is Admitted}
+\label{ch:soundness}
+
+This chapter audits the soundness story.  We give the trust surface
+in detail, document the soundness gates, and articulate what
+\Deppy{}'s certifications mean.
+
+We do not claim metamathematical soundness; we claim
+\emph{engineering soundness} (Theorem~\ref{thm:engsound}) and
+document the trust surface so a careful user can decide whether
+the certifications are sufficient for their use case.
+
+\section{The trust surface}
+\label{sec:trust-surface}
+
+The trust surface of a \Deppy{} certification is the union of:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \textbf{\Lean{}'s kernel.}  The certificate's \Lean{} text
+    is round-tripped through the \texttt{lean} binary.  When
+    \Lean{} accepts, we accept.  We do not duplicate \Lean{}'s
+    type-checking.
+
+  \item \textbf{\Zthree.}  Every formula discharged via
+    \texttt{Z3Proof} is decided by \Zthree's SMT engine.  When
+    \Zthree{} returns \texttt{unsat} on the negation, we accept.
+
+  \item \textbf{CPython's faithful execution.}  We trust that
+    CPython runs the source bytes \texttt{inspect.getsource}
+    returned.  If CPython misimplements (or
+    \texttt{inspect.getsource} returns a different source than what
+    actually runs), the certification is meaningless.
+
+  \item \textbf{The user's foundations.}  Each
+    \texttt{foundation} that does not Z3-verify is admitted on
+    the user's authority.  Their statements are reproduced in the
+    certificate; a reviewer can refuse a foundation by editing the
+    sidecar.
+
+  \item \textbf{The user's sidecar axioms.}  Each \texttt{axiom}
+    in a \texttt{spec} block is admitted on the user's authority.
+    The certificate exposes them as \Lean{} \texttt{axiom}
+    declarations with the original Python statement preserved as
+    a comment.
+
+  \item \textbf{The user's structural leaves.}  Each
+    \texttt{Structural("\dots")} term in a \texttt{ProofTerm}
+    contributes a structural assertion.  The soundness gate
+    flags non-vacuous occurrences; vacuous occurrences (e.g.\
+    exception-fibre vacuity) are accepted.
+
+  \item \textbf{The user's escape hatches.}  Each PSDL
+    \texttt{lean("\dots raw \dots")} or \texttt{by\_lean: |}
+    block is raw \Lean{} text that \Deppy{}'s kernel does not
+    inspect.  \Lean{}'s elaborator is the only check.
+
+  \item \textbf{The user's monkey-patch discipline.}  We trust
+    the user not to monkey-patch a class while a verified
+    certificate is in scope.  The optional
+    \texttt{expects\_sha256:} hash is a partial mitigation.
+\end{enumerate}
+
+\section{What is verified}
+
+The verifier has positive results in the following sense:
+
+\paragraph{Foundations Z3 discharges.}  When the foundation discharge
+report's \texttt{z3\_verified == True}, the foundation is provable in
+\Zthree's theory.  Trust \texttt{Z3\_VERIFIED}.  In
+\texttt{sympy\_geometry.deppy}, 7 of 14 foundations achieve this.
+
+\paragraph{PSDL-compiled \texttt{ProofTerm}s the kernel accepts.}
+When \texttt{kernel.verify} returns \texttt{success=True} for a
+PSDL-compiled term, the term has been checked at the trust level
+returned (the \texttt{min} over all leaves).  This is a real
+machine check on the proof tree.
+
+\paragraph{\Lean{} certificates that round-trip.}  When the \Lean{}
+runner returns exit 0 on the certificate, the entire collection of
+declarations type-checks in \Lean{}'s elaborator and kernel.  The
+verify-block theorems in particular have proof bodies the kernel
+accepts.
+
+\paragraph{Counterexample-cleared foundations.}  Foundations that
+\Zthree{} attempted but did not verify, and for which counterexample
+search returned no model, are at least \emph{not provably false}
+under the user's binder typing (typically \texttt{int}).  They stay
+admitted, but with the additional negative evidence.
+
+\paragraph{Body translations marked exact.}  When
+\texttt{translate\_body} returns \texttt{exact=True} with no
+\texttt{sorry}, the function body has been faithfully expressed in
+\Lean{} terms.  The certificate emits the translation behind a
+comment for audit.
+
+\paragraph{Type-grounded axioms.}  When an axiom's
+\texttt{AxiomGrounding} is \texttt{GROUNDED}, all the methods,
+classes, and attributes its statement references resolve on the
+live target.  This is not a soundness verification --- a grounded
+axiom can still be false --- but it is a sanity check that the
+axiom is talking about something real.
+
+\section{What is admitted}
+
+The verifier has negative results in the following sense:
+
+\paragraph{Non-discharged foundations.}  Z3 cannot discharge
+\texttt{sqrt} / \texttt{sin} / non-linear / quantifier-alternating
+foundations.  These admit at \texttt{AXIOM\_TRUSTED}.  In
+\texttt{sympy\_geometry.deppy}: 7 of 14.
+
+\paragraph{Sidecar axioms.}  Every \texttt{axiom} declaration
+admits.  The certificate flags grounding (does it resolve?), but
+not truth.  In \texttt{sympy\_geometry.deppy}: 38 axioms.
+
+\paragraph{Lemmas without \texttt{lean\_proof}.}  Lemmas declared
+without an explicit Lean proof admit as axioms.
+
+\paragraph{\texttt{Structural} leaves in vacuous positions.}  The
+soundness gate accepts these.  They are recorded but do not
+contribute to a counterexample search.
+
+\paragraph{Body translations that produced \texttt{sorry}.}  When
+\texttt{translate\_body} cannot handle a control-flow shape
+(e.g.\ try/except, dynamic dispatch, generator comprehension), the
+returned Lean text contains \texttt{sorry}.  The certificate
+counts these in \texttt{body\_links\_sorry}.  A verify block whose
+target's body translation produces \texttt{sorry} cannot be
+\texttt{KERNEL}-trust verified.
+
+\paragraph{Method calls through descriptors / \texttt{\_\_getattr\_\_}.}
+The pipeline does not trace through \texttt{\_\_getattr\_\_}-based
+proxies in the body translation pass; method calls on the proxy
+emit a \texttt{getattr} application that the certificate's preamble
+declares as opaque.  \texttt{FiberedLookup} in the kernel is the
+proper way to verify these, but the verify-block path does not
+currently engage it automatically.
+
+\paragraph{Non-arithmetic Z3 obligations in PSDL.}  When PSDL emits
+\texttt{Z3Proof} for a non-arithmetic formula, Z3 returns
+\texttt{unknown} or fails to encode; the kernel rejects the
+\texttt{Z3Proof} and the verify block fails.  This is a \emph{good}
+behaviour --- failing rather than silently accepting --- but it
+constrains the kinds of PSDL assertions that close.
+
+\section{Soundness gates}
+\label{sec:gates}
+
+\Deppy{} runs several gates that can refuse certification.
+
+\subsection{Soundness gate (\texttt{soundness\_gate\_fail})}
+
+The soundness gate scans every emitted \texttt{ProofTerm} for
+\texttt{Structural} leaves in non-vacuous positions.  A position
+is \emph{vacuous} when:
+\begin{itemize}[leftmargin=1.7em]
+  \item it is the exception-fibre branch of a \texttt{Fiber} or
+    \texttt{ConditionalEffectWitness} where the precondition
+    excludes the value;
+  \item it is the empty case of an \texttt{empty proof block} that
+    the compiler eliminated;
+  \item it is a \texttt{show\_goal} / \texttt{hint} / \texttt{pure}
+    structural marker.
+\end{itemize}
+
+When a non-vacuous \texttt{Structural} leaf is detected (e.g.\ the
+user wrote \texttt{raise NotImplementedError} in the value-fibre
+branch), the gate fires.  \texttt{certify\_or\_die} refuses
+certification.
+
+In the current \texttt{sympy\_geometry} run, the soundness gate has
+zero failures.
+
+\subsection{Counterexample gate (\texttt{counterexamples\_found})}
+
+When any admitted foundation has a counterexample, the gate fires.
+\texttt{certify\_or\_die} refuses certification.
+
+In the current run, 0 counterexamples found.
+
+\subsection{Rejected-theorem gate (\texttt{rejected\_theorem\_count})}
+
+When any theorem cites a foundation that has a counterexample,
+the theorem is rejected.  The gate fires when this count is non-zero.
+
+In the current run, 0 rejected theorems.
+
+\subsection{Hash-drift gate (\texttt{hash\_drift\_count})}
+
+When a verify block declares \texttt{expects\_sha256: <hex>} and
+the live source's hash differs, the gate fires.
+
+In the current run, no verify block uses \texttt{expects\_sha256}.
+
+\subsection{Counterexample-expectation gate
+(\texttt{counterexample\_expectation\_violations})}
+
+When a verify block declares
+\texttt{expecting\_counterexample: true} and the search
+\emph{fails} to find one, the gate fires.  This is for testing
+the counterexample finder itself.
+
+In the current run, no such block.
+
+\subsection{\Lean{} round-trip gate}
+
+When the \Lean{} runner returns non-zero exit, the round-trip is
+considered rejected.  \texttt{certify\_or\_die} refuses
+certification only if the runner was successfully invoked; if the
+\texttt{lean} binary cannot be found, the gate is skipped.
+
+\section{What a \texttt{CERTIFIED} verdict means}
+
+Putting the gates together, \texttt{CERTIFIED} means:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item No \texttt{Structural} leaf is in a non-vacuous position.
+  \item No admitted foundation has a counterexample under the
+    declared binder typing.
+  \item No theorem cites a counterexample-rejected foundation.
+  \item No verify block's \texttt{expects\_sha256} hash mismatched.
+  \item No \texttt{expecting\_counterexample} was unfulfilled.
+  \item \Lean{}~4 (when invoked) accepted the entire certificate.
+\end{enumerate}
+
+It does \emph{not} mean:
+\begin{itemize}[leftmargin=1.7em]
+  \item every cited foundation is actually true (some admit);
+  \item every cited axiom is actually true (some admit);
+  \item the property holds in any computational sense beyond what
+    the bindings encode (e.g.\ a property quantifying over
+    \texttt{Point := Int} elaborates over integers, not over the
+    actual SymPy \texttt{Point} class).
+\end{itemize}
+
+The certification is therefore relative: ``relative to the
+foundations and axioms admitted, and the binder types declared,
+the property holds''.
+
+\section{The role of \texttt{certify\_or\_die}}
+
+\texttt{certify\_or\_die} (file:
+\texttt{deppy/lean/sidecar\_runner.py}, lines 62--98) is the
+central gate.  Its design is deliberately conservative:
+
+\paragraph{Refuse on any uncertainty.}  When Z3 returns
+\texttt{unknown}, the foundation is not Z3-verified.  When the
+\Lean{} runner cannot be invoked, the round-trip is not certified.
+When a structural leaf is in a non-vacuous position, the proof is
+not sound.
+
+\paragraph{Be specific about why.}  Each failure is recorded as a
+human-readable string.  The runner's output lists every failure;
+the user can fix one at a time.
+
+\paragraph{Do not silently accept.}  There is no ``accept on the
+basis of the kernel-only check, even if \Lean{} disagrees''.  The
+\Lean{} round-trip is required when \texttt{lean} is on the
+\texttt{PATH}.
+
+\section{Limitations}
+\label{sec:limits}
+
+We close with the explicit list of limitations.
+
+\subsection{Type system}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item No universe polymorphism in the generated certificate.
+    Everything is in \texttt{Type 0}.
+  \item Class types are \texttt{abbrev T : Type := Int} aliases
+    --- the flat-Int simplification.
+  \item Refinement types are syntactically supported but the
+    kernel does not check refinement predicates beyond the
+    \Zthree{} encoder's reach.
+  \item No coinductive specs.
+  \item No higher inductive types.
+\end{itemize}
+
+\subsection{Body translation}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item No \texttt{try / except} translation; emits \texttt{sorry}.
+  \item No \texttt{while} translation; emits \texttt{sorry}.
+  \item No \texttt{generator} or \texttt{yield} translation.
+  \item No dynamic class creation.
+  \item No \texttt{exec} / \texttt{eval}.
+  \item No C-extension fall-throughs (\texttt{inspect.getsource}
+    fails).
+\end{itemize}
+
+\subsection{Z3}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item No transcendentals.
+  \item No nested $\forall \exists$.
+  \item No floating-point semantics (we use \texttt{Real}, not
+    IEEE 754).
+  \item No string reasoning beyond fixed alphabets.
+\end{itemize}
+
+\subsection{\Lean{} target}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item Mechanization preamble is flat-\texttt{Int}; richer typed
+    preambles are future work.
+  \item Method bodies are emitted as \texttt{def := sorry}
+    placeholders alongside the actual translation as comments
+    (avoids elaboration ambiguity but loses unfold power).
+  \item No \texttt{Mathlib} dependency by default; foundations
+    involving real arithmetic admit.
+  \item Round-trip is single-shot \texttt{lean} invocation; no
+    interactive feedback loop.
+\end{itemize}
+
+\subsection{PSDL}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item No partial-proof credit (LLM iteration affordance: future
+    work).
+  \item No tactic-suggestion mode.
+  \item No counterexample-to-obligation feedback.
+  \item Quantifier scoping is by simple variable shadowing; no
+    explicit De Bruijn manipulation.
+\end{itemize}
+
+\subsection{Cohomology}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item Cohomology cocycles are \emph{advisory} in the current
+    implementation; they do not contribute trust to verify-blocks.
+  \item No actual computation of $H^k$ groups; only Euler χ.
+\end{itemize}
+
+\subsection{Pipeline}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item Single-pass; no incremental verification by default.
+  \item \Lean{}'s 60s default timeout is hard-coded; longer
+    runs may need adjustment.
+  \item No parallelism between sub-emitters
+    (\texttt{deppy/pipeline/simple\_parallel.py} sketches
+    multiprocessing but is not engaged by \texttt{run\_sidecar}).
+\end{itemize}
+
+\section{Where to put trust}
+
+A user reading a \Deppy{} certificate should:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \textbf{Verify the certificate round-trips.}  Run
+    \texttt{lean <certificate>.lean} and check exit 0.  This
+    confirms the \Lean{} kernel accepts the entire body of
+    declarations.
+
+  \item \textbf{Audit foundations.}  Each \texttt{axiom Foundation\_X}
+    is admitted.  Read its statement; if you do not believe it,
+    refuse it.
+
+  \item \textbf{Audit sidecar axioms.}  Each \texttt{axiom
+    Sidecar\_X} is admitted.  Sympy axioms about geometric
+    facts are typically defensible; library-specific axioms
+    on a closed-source library are more questionable.
+
+  \item \textbf{Read the report.}  Note the
+    \texttt{soundness\_gate\_fail}, the
+    \texttt{counterexamples\_found}, the
+    \texttt{rejected\_theorem\_count}.  All zero is the goal.
+
+  \item \textbf{Check binder typing.}  When a verify block declares
+    \texttt{binders: x: int}, the verified property quantifies over
+    \texttt{int}, not over arbitrary numeric types.  Be aware that
+    a property verified over \texttt{int} may fail over
+    \texttt{float} or \texttt{Decimal}.
+
+  \item \textbf{Check the source hash.}  When a verify block
+    declares \texttt{expects\_sha256:}, the certificate is pinned
+    to a specific source byte sequence.  Re-running on a different
+    \Sympy{} version requires re-hashing.
+
+  \item \textbf{Beware monkey-patching.}  No monkey-patch detection
+    runs at certificate-issuance time; do not patch verified
+    classes.
+\end{enumerate}
+
+\section{Soundness, formally restated}
+
+To close the chapter we restate Theorem~\ref{thm:engsound}:
+
+\begin{theorem}[Engineering soundness, restated]
+For every verify block whose certificate prints
+\texttt{CERTIFIED}, the following hold:
+
+\begin{enumerate}[leftmargin=1.7em]
+  \item \textbf{Kernel acceptance.}  The PSDL-compiled
+    \texttt{ProofTerm} (or the legacy by-clause derivation) was
+    accepted by \texttt{ProofKernel.verify} returning
+    \texttt{success=True} at the reported trust level.
+
+  \item \textbf{SMT discharge.}  Every \texttt{Z3Proof} sub-term
+    was checked by \Zthree{} (or by cached lookup) and returned
+    \texttt{unsat} on the negation.
+
+  \item \textbf{\Lean{} round-trip.}  When \texttt{lean} was on the
+    \texttt{PATH}, the certificate's \Lean{} text was compiled
+    successfully (exit 0).
+
+  \item \textbf{Foundation status visible.}  Every cited foundation
+    has a status declaration in the certificate (real
+    \texttt{theorem} for Z3-discharged, \texttt{axiom} for
+    admitted).  No foundation is silently introduced.
+
+  \item \textbf{No silent admissions.}  No \texttt{Structural} leaf
+    is in a non-vacuous position
+    (\texttt{soundness\_gate\_fail = 0}); no theorem cites a
+    counterexample-refuted foundation.
+
+  \item \textbf{No false claims under the binder typing.}  The
+    counterexample finder did not produce a model violating any
+    cited foundation under its declared binders.
+\end{enumerate}
+\end{theorem}
+
+This is the formal-but-engineering soundness statement \Deppy{}
+makes.  The trust surface is large (it includes \Lean{}'s kernel,
+\Zthree{}, CPython, and the user's admissions), but it is
+\emph{enumerated}.  Reasoning about whether to trust a given
+\Deppy{} certification reduces to reasoning about whether to trust
+the surface enumerated in this chapter.
+
+\section{Summary}
+
+\begin{itemize}[leftmargin=1.7em]
+  \item The trust surface is the union of \Lean's kernel, \Zthree's
+    answer, CPython's faithful execution, and the user's
+    admissions (foundations, axioms, structural leaves).
+  \item \texttt{certify\_or\_die} runs five gates: soundness,
+    counterexamples, rejected theorems, hash drift, counterexample
+    expectation; plus the \Lean{} round-trip when invoked.
+  \item \texttt{CERTIFIED} means relative-soundness: relative to
+    the admissions, the property holds at the kernel-and-Lean
+    level.
+  \item Limitations are explicit and enumerated.
+  \item A user reading a certificate should audit the foundations,
+    sidecar axioms, binder types, and source hash; the certificate
+    exposes everything for that audit.
+\end{itemize}
+
+The next chapter situates \Deppy{} among its conceptual neighbours
+in related work and concludes.

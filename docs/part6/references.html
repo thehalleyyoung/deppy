@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- Sidebar -->
 <button class="menu-toggle">☰</button>
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -45,12 +44,16 @@
       <li><span class="section-title">Part 3 — Python Specifics</span></li>
       <li><a href="../part3/index.html">Overview</a></li>
       <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
       <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
       <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
 
       <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
       <li><a href="../part4/index.html">Overview</a></li>
       <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
       <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
       <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
       <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
@@ -60,30 +63,32 @@
       <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
       <li><a href="../part5/cech.html">Čech Decomposition</a></li>
       <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
       <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
 
       <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
-      <li><a href="index.html">Overview</a></li>
-      <li><a href="separation.html">Separation Logic</a></li>
-      <li><a href="references.html" class="active">Mutable References</a></li>
-      <li><a href="arrays.html">Arrays</a></li>
-      <li><a href="threading.html">Threading &amp; GIL</a></li>
-      <li><a href="async.html">Async / Await</a></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html" class="active">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
 
       <li><span class="section-title">Under the Hood</span></li>
       <li><a href="../under_the_hood/index.html">Overview</a></li>
       <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
-    <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
-    <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
     </ul>
   </nav>
 </aside>
 
 <div class="content">
   <article>
-    <h1>Chapter 6.2 — Mutable References</h1>
+    <h1>Chapter 6.3 — Mutable References</h1>
     <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
-      Aliasing, ownership, ghost state, and fractional permissions
+      Aliasing as <code>DuckPath</code> in cubical, vs ownership transfer in Pulse.
     </p>
 
     <!-- ─── Python Variables as References ─── -->
@@ -103,12 +108,37 @@ b = a            <span class="cm"># b is an ALIAS for a — same object</span>
 b.value = <span class="nb">99</span>
 <span class="kw">print</span>(a.value)   <span class="cm"># 99 — a was mutated through b!</span></code></pre>
 
+    <div class="note">
+      <strong>Two ways to handle this in Deppy.</strong>
+      The cubical heap (Chapter 6.1) makes the alias explicit:
+      <code>w.alias('b', 'a')</code> records that <code>a</code> and
+      <code>b</code> point at the same cell. Pulse-style separation logic
+      makes aliasing <em>impossible</em> by default: any specification using
+      <code>**</code> implies non-aliasing. Both are sound — pick the one
+      that fits the idiom you're verifying.
+    </div>
+
     <p>
-      Separation logic makes aliasing <strong>explicit</strong>. If two variables
-      <code>a</code> and <code>b</code> are separated (<code>pts_to(a, _) ** pts_to(b, _)</code>),
-      they <em>cannot</em> be aliases. If they might alias, we must model this
-      explicitly.
+      In the classical separation-logic view: if two variables
+      <code>a</code> and <code>b</code> are separated
+      (<code>pts_to(a, _) ** pts_to(b, _)</code>), they <em>cannot</em> be
+      aliases. If they might alias, we must model this explicitly. In the
+      cubical view: aliases are <code>DuckPath</code>s; mutation through
+      either of two aliases bumps the epoch on the shared cell, so any
+      proof about either name is correctly invalidated.
     </p>
+
+    <h3>Cubical view, in code</h3>
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_heap <span class="kw">import</span> World
+
+w = <span class="fn">World</span>()
+cid = w.<span class="fn">alloc</span>(<span class="st">'Box'</span>)
+w.<span class="fn">bind</span>(<span class="st">'a'</span>, cid); w.<span class="fn">alias</span>(<span class="st">'b'</span>, <span class="st">'a'</span>)
+<span class="fn">print</span>(<span class="fn">sorted</span>(w.<span class="fn">aliases_of</span>(<span class="st">'a'</span>)))   <span class="cm"># ['a', 'b']</span>
+
+affected = w.<span class="fn">mutate</span>(<span class="st">'b'</span>, line=<span class="nb">3</span>)
+<span class="fn">print</span>(<span class="fn">sorted</span>(affected))               <span class="cm"># ['a', 'b']  ← both invalidated</span>
+<span class="fn">print</span>(w.epoch)                       <span class="cm"># 1</span></code></pre>
 
     <!-- ─── Aliasing and Non-Aliasing ─── -->
     <h2>Aliasing vs. Non-Aliasing</h2>

@@ -1,0 +1,289 @@
+\chapter{Background: Python's Semantics}
+\label{ch:python}
+
+This chapter reviews the Python language constructs that \Deppy{} has
+to interpret.  It is shorter than the dependent-type-theory chapter
+because most readers are at least familiar with Python; we focus on
+the corners that the verifier has to model carefully.
+
+We use ``Python'' to mean CPython 3.10+ unless we specifically need
+to discuss earlier versions or alternative interpreters.  The
+sidecar pipeline is implemented against Python 3.10 minimum (the
+\texttt{match}/\texttt{case} statement is a frequent dependency).
+
+\section{Duck typing and structural subtyping}
+\label{sec:duck}
+
+The Python community has long used \emph{duck typing}: ``if it walks
+like a duck and quacks like a duck \dots''  Operationally, a
+function does not insist that its argument inhabit a particular
+nominal type --- it just calls methods on the argument and
+\emph{expects them to work}.
+
+\begin{lstlisting}[language=psdl, caption={Duck typing in idiomatic
+Python.}]
+def total_lengths(items):
+    return sum(len(x) for x in items)
+
+# Works on lists, tuples, generators, dicts, strings, custom objects:
+total_lengths([[1, 2], (3, 4, 5), "abc"])    # → 8
+\end{lstlisting}
+
+\texttt{total\_lengths} works for any iterable whose elements
+respond to \texttt{len()}.  Standard \emph{nominal} subtyping
+(``\texttt{List} extends \texttt{Iterable}'') would require every
+such carrier to declare itself a subclass of some abstract iterable.
+Duck typing skips this: the argument just has to \emph{look right}
+at call time.
+
+PEP 544 \citep{PEP544} formalises this with \emph{Protocols}:
+structurally-typed records of method signatures.  A class implements
+\verb|Sized| if it has \verb|__len__| with the right signature, full
+stop --- no \verb|class C(Sized)| declaration needed.
+
+\subsection{Why this matters for verification}
+
+The implication for verification is significant.  A property such as
+\begin{quote}
+``\texttt{total\_lengths} returns a non-negative \texttt{int}.''
+\end{quote}
+is true \emph{for every input that the function does not reject}.
+The set of acceptable inputs is open --- any future class that
+implements \texttt{\_\_len\_\_} returning \texttt{int $\ge 0$}
+qualifies.  A nominal-types-only verifier cannot say anything about
+this property without enumerating all candidate types.
+
+The cubical-duck-type view makes this explicit: a class $C$ that
+implements a protocol $P$ \emph{inhabits the same fibre} of the
+protocol-fibration as every other class that implements $P$.  The
+proof of a protocol-level property descends through the fibration.
+We discuss the formal model in \Cref{ch:cubical}; the kernel term is
+\verb|DuckPath|.
+
+\section{Method resolution order (MRO)}
+\label{sec:mro}
+
+When you call \verb|x.method()|, Python looks up \verb|method| on
+\verb|type(x)|, then on \verb|type(x)|'s bases, and so on, in a
+linearised MRO order computed by C3 linearisation.
+
+\begin{lstlisting}[language=psdl]
+class A:           pass
+class B(A):        pass
+class C(A):        pass
+class D(B, C):     pass
+D.__mro__
+# (D, B, C, A, object)
+\end{lstlisting}
+
+The MRO is \emph{the} static piece of information \Deppy{} uses to
+resolve dispatched methods.  When the verifier sees
+\texttt{x.distance(y)} on \texttt{x : Point}, it consults
+\verb|Point.__mro__| to find the resolved \verb|distance|, reads its
+source via \verb|inspect.getsource|, and translates that source.
+
+Multiple inheritance complicates this.  When \verb|distance| is
+defined in two ancestors, the C3 linearisation determines which
+wins.  \Deppy{} respects the linearisation but does not, in the
+current implementation, prove anything about the fact that C3 was
+used (it is taken on the user's authority that CPython implements
+C3 correctly).
+
+\section{Exceptions and the $\Diamond$-modality}
+\label{sec:exceptions}
+
+Python exceptions are first-class control-flow.  Every function
+either \emph{returns a value} (the \emph{value fibre}) or \emph{raises
+an exception} (the \emph{exception fibre}).  These two fibres are
+disjoint --- a function call's outcome is exactly one of them.
+
+The cubical-duck-type model formalises this as a $\Diamond$-modality
+on types:
+\begin{itemize}[leftmargin=1.7em]
+  \item $\Box A$ --- the type of guaranteed-pure expressions of type
+    $A$.  No exception, no I/O, no mutation.
+  \item $\Diamond A$ --- the type of \emph{maybe-effectful}
+    expressions whose value, when one is produced, is of type $A$.
+\end{itemize}
+
+A \texttt{try / except} block is a $\Diamond$-eliminator that breaks
+into the two fibres:
+
+\begin{lstlisting}[language=psdl, caption={\texttt{try / except} as
+$\Diamond$-elimination.}]
+try:                                   # ◇ branch
+    result = risky_operation(x)
+except ValueError:                     # exception fibre
+    result = fallback(x)
+\end{lstlisting}
+
+In \Deppy{}'s kernel: \texttt{EffectWitness(effect="value", proof=$P_v$)}
+plus \texttt{ConditionalEffectWitness(precondition="raises ValueError",
+effect="exception", proof=$P_e$)}.
+
+\subsection{Why the modality matters}
+
+A property like ``\texttt{Point.distance(p, q) >= 0}'' is meaningful
+\emph{only on the value fibre}.  On the exception fibre, the function
+does not return a value, so the property is vacuously not violated.
+The \PSDL{} \texttt{else}-branch typically discharges the exception
+fibre with a \texttt{raise NotImplementedError} that the kernel
+records as a \texttt{Structural} vacuous claim.
+
+The soundness gate (\Cref{ch:soundness}) flags \texttt{Structural}
+leaves; in the current implementation, vacuity claims on the
+exception fibre are \emph{permitted} but counted, and
+\texttt{certify\_or\_die} accepts them only when no
+counterexample-search outcome contradicts them.
+
+\section{Monkey-patching}
+\label{sec:monkey}
+
+Python permits runtime mutation of classes:
+\begin{lstlisting}[language=psdl]
+import sympy.geometry as G
+G.Point.distance = my_faster_distance     # monkey-patch
+\end{lstlisting}
+
+After this assignment every \texttt{Point} instance, including ones
+created before the patch, dispatches \verb|distance| to
+\verb|my_faster_distance|.  Any property previously verified about
+\verb|G.Point.distance| now claims something about
+\verb|my_faster_distance|.
+
+\Deppy{} models monkey-patching as a \emph{path} between class
+versions:
+\begin{equation*}
+  \text{C} =_{\mathsf{PyClass}} \text{C[m := v]}
+\end{equation*}
+which holds \emph{only if} the \emph{behavioural contract} of
+\texttt{C.m} survives the patch.  Kernel term: \texttt{Patch}.
+
+The honest position is that we do not verify monkey-patches at the
+moment.  The kernel \emph{has} the term, but the pipeline does not
+detect monkey-patching at run time --- the user is implicitly
+responsible for not patching a class while a verified certificate is
+in scope.  A future iteration of the pipeline could compare the
+\verb|inspect.getsource| of \verb|C.m| against a recorded SHA-256
+(the \verb|expects_sha256:| field on \verb|verify| blocks already
+exists, see \Cref{ch:deppy}); the gate currently only checks the
+hash, not the patch.
+
+\section{Descriptors, properties, and \texttt{\_\_getattr\_\_}}
+\label{sec:descriptors}
+
+Python has \emph{three} attribute-lookup protocols, in priority order:
+\begin{enumerate}[leftmargin=1.7em]
+  \item \emph{Data descriptors} on \verb|type(x)|
+    (e.g.\ \verb|@property|).
+  \item Instance dictionary entries.
+  \item Non-data descriptors and class attributes.
+  \item \verb|__getattr__| on \verb|type(x)| as a fallback.
+\end{enumerate}
+
+The \verb|@property| decorator turns a method into a data
+descriptor: \verb|circle.radius| calls the getter even though it
+looks like attribute access.  The \verb|verify segment_length_code|
+block in \texttt{sympy\_geometry.deppy} verifies a property of
+\verb|Segment.length| which is a \verb|@property|; the verifier has
+to call \verb|method.fget| explicitly to get the underlying
+function.  See \verb|sidecar_verify._process_one|, lines around 190.
+
+The \verb|__getattr__| fallback is more subtle.  It is only called
+when normal lookup fails, so a class that defines
+\verb|__getattr__| effectively has an \emph{open} method set.  In
+\Deppy{}, \verb|__getattr__|-based proxies are modelled as
+fibered lookups (kernel term \verb|FiberedLookup|): the resolved
+attribute is the second projection of a $\Sigma$-type
+$\Sigma\,(t : \mathit{Target}).\, \mathsf{methods}(t)$, and the
+kernel records the predicate under which the projection inhabits the
+protocol fibre.
+
+\section{Metaclasses}
+\label{sec:metaclasses}
+
+A metaclass is a class whose instances are themselves classes.
+\verb|type| is the default metaclass; many libraries (including
+\Sympy) define custom metaclasses for class-registration tricks.
+
+\Deppy{}'s kernel records metaclass-defined hierarchies as
+fibrations:
+\begin{lstlisting}[language=psdl]
+Fiber.from_metaclass(MetaC)
+\end{lstlisting}
+returns a \verb|Fiber| proof term whose \verb|type_branches|
+enumerate registered subclasses
+(\verb|deppy/core/kernel.py|).  This is again \emph{advisory}; the
+verify-block pipeline does not currently consult metaclass-derived
+fibrations except when the user explicitly requests fibration
+descent in the \verb|fibration:| field of a \verb|verify| block.
+
+\section{The Python AST}
+\label{sec:ast}
+
+The verifier ingests Python source as an \verb|ast.Module| --- the
+same AST the CPython compiler walks.  Every \verb|verify| block's
+target is resolved to a \verb|FunctionDef| whose body is then
+recursively translated to either:
+\begin{itemize}[leftmargin=1.7em]
+  \item a \Lean{} expression, via
+    \verb|deppy.lean.body_translation|;
+  \item a kernel \verb|ProofTerm|, via
+    \verb|deppy.proofs.psdl| applied to a \verb|psdl_proof| block.
+\end{itemize}
+
+The AST nodes that \PSDL{} maps directly to proof-term
+constructors are listed in \Cref{ch:psdl}; the body-translation
+mapping (relevant when a verify block does not have an explicit
+\verb|psdl_proof| but does want its body translated to \Lean{}) is
+in \Cref{ch:lean}.
+
+We use \verb|ast.parse(src, mode="exec")| for module-level
+parsing and \verb|ast.parse(src, mode="eval")| for property
+expressions.  The \verb|ast.unparse| inverse is used heavily in the
+emitter to produce \Lean{}-side text.
+
+\section{Notes on dynamic features}
+\label{sec:dynamic}
+
+The verifier does not, in general, model:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item \verb|exec| / \verb|eval|.
+  \item \verb|globals()| / \verb|setattr| modulo runtime conditionals.
+  \item Dynamically-generated classes via \verb|type(name, bases, dict)|.
+  \item C-extension boundaries (\Sympy{}'s \verb|gmpy2| backend, etc.).
+  \item Threads, asyncio scheduling order, GIL semantics.
+\end{itemize}
+
+When the body translator hits one of these (most commonly a
+C-extension fall-through where \verb|inspect.getsource| fails), it
+returns \verb|sorry| with a note.  The verify block records this in
+its outcome (\verb|VerifyOutcome.translation_sorry_count > 0|) and
+the certificate flags it.
+
+\section{Summary}
+\label{sec:ch3-summary}
+
+The Python features the verifier explicitly models:
+\begin{itemize}[leftmargin=1.7em]
+  \item Duck typing, structurally typed via PEP 544 protocols
+    \citep{PEP544}, encoded as protocol fibrations and
+    \verb|DuckPath|s.
+  \item C3-linearised MRO, taken on faith from CPython, used to
+    resolve dispatched method bodies.
+  \item Exceptions as the exception fibre of a $\Diamond$-modality;
+    \texttt{try/except} as $\Diamond$-elimination.
+  \item Monkey-patching as a \verb|Patch| path; not currently
+    auto-detected at runtime.
+  \item Descriptors, especially \verb|@property|, handled by
+    \verb|method.fget| dereferencing.
+  \item \verb|__getattr__| proxies via \verb|FiberedLookup|.
+  \item Metaclass-derived fibrations via \verb|Fiber.from_metaclass|.
+  \item AST-level body translation via \verb|deppy.lean.body_translation|.
+\end{itemize}
+
+The dynamic features outside this set fall into the trust surface
+described in \Cref{ch:soundness}.  The next chapter formalises the
+cubical-duck-type metatheory that ties together the type theory of
+\Cref{ch:dependent} with the Python features of this chapter.

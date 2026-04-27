@@ -1,0 +1,443 @@
+\chapter{Introduction}
+\label{ch:intro}
+
+\section{The verification gap for imported modules}
+\label{sec:gap}
+
+Most theorem provers ask the user to \emph{rewrite} their program in
+the prover's language: \Coq's \texttt{Inductive}, \Lean's
+\texttt{def}, \Agda's \texttt{data}.  The mature ecosystems
+\citep{LeanFour, LeanCommunityMathlib} demonstrate that this works,
+but it imposes a barrier: a working Python library --- say,
+\texttt{sympy.geometry} or \texttt{torch.nn.functional} --- consists
+of tens of thousands of lines of mature, peer-reviewed Python that
+\emph{nobody is going to retype} into Lean syntax.  The user wants to
+verify properties of the library \emph{as it stands}, with the
+library's source bytes left untouched on disk.
+
+This is the \emph{imported-module verification gap}.  The library is
+a third-party object: dynamically dispatched, exception-throwing,
+duck-typed, monkey-patchable, and comfortable with \texttt{eval} and
+metaclasses.  The user wants to verify a property such as
+``\texttt{Point.distance(p, q) >= 0}'' \emph{about the live
+\Sympy{}'s actual \texttt{Point.distance} implementation}, not about a
+Lean shadow.
+
+\Deppy{} resolves this gap by treating each Python module as an
+\emph{external object} and each property as a \emph{sidecar
+specification}.  The flow is:
+
+\begin{enumerate}[leftmargin=2.4em]
+\item The user names a module: \texttt{import sympy.geometry}.
+\item The user supplies a sidecar file:
+  \verb|sympy_geometry.deppy|.
+\item \Deppy{} introspects the live module via \Importlib{} and
+  \Inspect{}, parses the sidecar, elaborates each verification block
+  to a kernel \texttt{ProofTerm}, runs each through
+  \texttt{ProofKernel.verify}, discharges arithmetic foundations to
+  \Zthree{}, runs counterexample search on negations, and emits a
+  \Lean{}~4 certificate that --- ideally --- round-trips through the
+  \Lean{} toolchain with exit code zero.
+\end{enumerate}
+
+The library's own bytes are never modified.  Verification artefacts
+live exclusively in the sidecar plus the generated certificate; the
+working programmer can delete both at any time without breaking the
+library.
+
+\section{Goals and non-goals}
+\label{sec:goals-nongoals}
+
+\subsection*{Goals}
+
+\begin{itemize}[leftmargin=1.7em]
+\item \textbf{Library-agnostic.}  The pipeline must work on any
+Python module.  Nothing is hard-coded for \Sympy{}, \NumPy{}, or
+\Torch{}; the sidecar file alone determines vocabulary.
+
+\item \textbf{Honest trust accounting.}  Every claim ends up at one
+of seven trust levels (\Cref{ch:lean}).  The certificate counts
+exactly how many proofs went through \Lean's kernel, how many were
+admitted, how many bottomed at \Zthree, and how many leaked
+\texttt{Structural} pass-throughs into the trust chain.
+
+\item \textbf{\Lean-style expressivity.}  Anything provable in
+\CIC{}-flavoured systems should be expressible in the proof language:
+$\Pi$/$\Sigma$, induction, transport, function extensionality, path
+composition, equivalences.  The user should not feel that they have
+been confined to a baby tactic language.
+
+\item \textbf{Cubical / duck-type primitives where Python demands
+them.}  \texttt{isinstance} is a fibration, exceptions live in a
+$\Diamond$-modal exception fibre, monkey-patches are paths between
+class versions, \texttt{\_\_getattr\_\_} is a $\Sigma$-projection.
+The proof language should make these \emph{native vocabulary}, not
+afterthoughts behind escape hatches.
+
+\item \textbf{Real \Lean{} certificates.}  When the pipeline says it
+verified something, it must mean \Lean{} actually accepted the
+certificate.  ``We emitted a tautology because \texttt{Sidecar\_X\_prop}
+is opaque'' is a failure mode, not a victory.
+\end{itemize}
+
+\subsection*{Non-goals}
+
+\begin{itemize}[leftmargin=1.7em]
+\item \textbf{We are not a literal \CIC{} implementation.}  The
+\Deppy{} kernel is a \emph{distinct} type theory: a multi-trust-level
+proof checker that admits proof terms with explicit cubical, effect,
+and duck primitives.  \Cref{ch:cubical} formalises \Deppy's
+metatheory; \Cref{ch:psdl} explains the impedance mismatch between
+\Deppy's language and \CIC.  We are explicit where the synthesis
+admits, approximates, or trusts.
+
+\item \textbf{We do not verify Python's runtime semantics from
+scratch.}  The kernel does not model CPython's bytecode.  We work
+from \Inspect{}-recovered source plus \texttt{ast.parse}; we trust
+that CPython runs that source faithfully (otherwise a verified Lean
+proof would be of an idealisation that does not match what Python
+actually does).
+
+\item \textbf{We do not require Mathlib.}  The generated certificate
+is a self-contained \texttt{.lean} file using only \Lean{} core.
+Foundation axioms involving real numbers (\texttt{sqrt}) admit at
+``\texttt{axiom}'' level rather than reaching for
+\texttt{Mathlib.Analysis.SpecialFunctions.Pow.Real}.
+\end{itemize}
+
+\section{The two traditions we synthesise}
+\label{sec:two-traditions}
+
+\Deppy{} sits at the intersection of two traditions, each with its
+own vocabulary, idioms, and proof culture.
+
+\subsection*{Tradition I: Lean-style expressivity}
+
+The first is the proof-theoretic tradition descending from Per
+Martin-L\"of \citep{ML75, NPS90}, the Calculus of (Inductive)
+Constructions \citep{Coquand1988CIC}, and modern \CIC-flavoured
+systems including \Lean{}~4 \citep{LeanFour}, \Coq{}, and \Agda{}.
+This tradition treats proofs as \emph{terms} in a dependent type
+theory.  Inductive types come for free; equality is propositional;
+tactics elaborate to terms; the kernel checks terms.
+
+\Lean{}~4 specifically gives us:
+\begin{itemize}[leftmargin=1.7em]
+  \item Universe-polymorphic dependent types.
+  \item Tactic-mode and term-mode proofs interoperating.
+  \item Type-class inference.
+  \item A small kernel that any user can read and (in principle)
+    audit.
+  \item A generic-elaborator infrastructure: notation, macros,
+    elaborators.
+\end{itemize}
+
+We borrow this tradition's \emph{expressivity}: \PSDL{} accepts
+$\forall$, $\exists$, induction, $\Sigma$-projections, function
+extensionality, path induction (Martin-L\"of's $J$), congruence,
+substitution, transport, and equivalence.  The compiled \Lean{}
+target uses real \Lean{} tactics: \texttt{intros}, \texttt{exact},
+\texttt{rfl}, \texttt{rw}, \texttt{induction}, \texttt{simp},
+\texttt{omega}.  When a \PSDL{} proof closes, \emph{\Lean's
+elaborator} closes the corresponding tactic.
+
+\subsection*{Tradition II: Cubical / duck-type analysis of Python}
+
+The second tradition is \Deppy{}'s own.  \Deppy{} treats Python through
+the lens of cubical homotopy type theory \citep{HoTT, CCHM} adapted
+to a dynamically-typed, exception-throwing language.  The
+philosophical move is that Python's apparent informality is in fact
+\emph{unusually amenable} to higher-categorical analysis:
+
+\begin{description}
+  \item[Types are spaces.]  A Python class is a topological space
+  whose points are its instances and whose paths are method
+  identifications.
+
+  \item[\texttt{isinstance} is a fibration.]  A subclass relation
+  $C \le D$ is the fibration whose total space is the disjoint union
+  of $C$'s and $D \setminus C$'s instances; the Python check
+  \texttt{isinstance(x, C)} is the projection map's pre-image test.
+  This is encoded by the kernel's \texttt{Fiber} proof term and
+  surfaces in \PSDL{} as the \texttt{if isinstance(x, T): \dots} idiom.
+
+  \item[Duck typing is path equivalence.]  Two classes that supply
+  the same method signatures are \emph{path-equivalent} in the
+  universe of types --- a univalent identification.  The kernel
+  records this via the \texttt{DuckPath} term.
+
+  \item[Monkey-patching is a path.]  Replacing a method
+  $C.m \mapsto C.m'$ at runtime is a 1-cell in the path space of
+  classes.  Whether the monkey-patch \emph{preserves} a previously
+  verified property is encoded by \texttt{Patch} which records the
+  \emph{behavioural-contract} preservation proof.
+
+  \item[Exceptions live in a $\Diamond$-modality.]  Pure functions
+  inhabit $\Box A$; functions that may raise inhabit $\Diamond A$.
+  Exception handlers are eliminations of the exception-fibre face of
+  $\Diamond$.  The kernel's \texttt{EffectWitness} and
+  \texttt{ConditionalEffectWitness} witness this layered modal
+  structure.
+
+  \item[\texttt{\_\_getattr\_\_} is a $\Sigma$-projection.]
+  Dynamic attribute lookup against a proxy is the first projection of
+  a $\Sigma$-type whose second component is the resolved value;
+  conditional duck paths record the predicate under which the
+  projection inhabits the protocol fibre.
+\end{description}
+
+This metatheory is \emph{cubical} in that it treats paths --- not
+quotienting --- as the primitive notion of equality, with explicit
+Kan-fillers, Čech-glue, and cohomology classes for control-flow and
+inter-procedural analysis.
+
+\subsection*{The synthesis}
+
+\PSDL{} bridges the two.  Each \PSDL{} statement compiles in lock-step
+to:
+\begin{enumerate}[leftmargin=1.7em]
+  \item a \emph{\Deppy{} \texttt{ProofTerm}} that the \Deppy{} kernel
+    type-checks;
+  \item a \emph{\Lean{} tactic line} that \Lean's elaborator type-checks.
+\end{enumerate}
+Both checks must succeed for a verify-block to be accepted.  If the
+\Deppy{} kernel sees a \texttt{Refl(Var("\_lem\_body"))} that closes
+a side condition but \Lean's elaborator rejects the corresponding
+\texttt{rfl}, the certificate marks the verify-block REJECTED.
+
+We are explicit that \Deppy{}'s metatheory is \emph{not} literally
+\CIC.  We do not claim that every \PSDL{} proof faithfully encodes a
+\CIC{} derivation, nor that \Deppy{}'s effect modalities are the same
+formal object as \Lean{}'s monads.  What we claim is that \PSDL{} is
+\emph{rich enough}, in practice, to express every property a user
+hand-wrote against \Sympy{} in our test suite, and that the
+generated \Lean{} certificates close.
+
+\section{What this monograph contains}
+\label{sec:what-this-contains}
+
+\Cref{ch:dependent} reviews dependent type theory at the level needed
+to read the rest of the book: $\Pi$/$\Sigma$, identity types, induction
+principles, propositional vs. judgemental equality, \HoTT{}'s
+univalence axiom, and the cubical interpretation
+\citep{HoTT, CCHM, ABCFHL}.
+
+\Cref{ch:python} reviews the Python language constructs that the
+verifier actually has to deal with: dynamic dispatch and method
+resolution order, duck typing and structural subtyping
+\citep{PEP484, PEP544}, the exception protocol, descriptor
+machinery, monkey-patching, metaclasses.  We do not assume the
+reader is a Python expert; the relevant idioms are introduced as we
+need them.
+
+\Cref{ch:cubical} formalises \Deppy{}'s cubical-duck-type metatheory:
+the universe of \texttt{SynType}s, the \texttt{ProofTerm} grammar,
+the seven \texttt{TrustLevel}s, the kernel's verification rules.
+This is the longest single chapter; everything that follows refers
+back to it.
+
+\Cref{ch:deppy} documents the \texttt{.deppy} sidecar file format:
+\texttt{module}, \texttt{foundation}, \texttt{spec},
+\texttt{verify}, \texttt{lemma}, \texttt{code\_types},
+\texttt{lean\_imports}, \texttt{lean\_preamble}.
+
+\Cref{ch:psdl} is a complete reference for \PSDL{}: every statement
+shape, the \texttt{ProofTerm} it compiles to, the \Lean{} tactic it
+emits, soundness arguments, and worked examples.
+
+\Cref{ch:pipeline} walks through the \texttt{run\_sidecar} entry
+point step by step: module-name resolution, sidecar parsing, the
+several rendering passes (\texttt{derive\_all},
+\texttt{audit\_all}, \texttt{mechanize}, \texttt{link\_all},
+\texttt{verify\_all}, \texttt{discharge\_foundations},
+\texttt{run\_counterexample\_search}), \Lean{} round-trip via
+\texttt{check\_lean\_module\_source}.
+
+\Cref{ch:lean} is the \Lean{} target: how the certificate is laid
+out, how the trust chain bottoms at concrete \Lean{} \texttt{Prop}s
+where possible and at admitted axioms where not, how foundations are
+mechanised, how body translation interacts with the preamble.
+
+\Cref{ch:z3} is the \Zthree{} backend: which formulas it discharges,
+how counterexample search works, how the trust level promotes from
+\texttt{AXIOM\_TRUSTED} to \texttt{Z3\_VERIFIED}.
+
+\Cref{ch:cohomology} covers the cohomology layer:
+intra-procedural cubical analysis, inter-procedural simplicial
+cohomology, the bicomplex bridge, and Kan-fill obligations.  We are
+honest that this layer is mostly \emph{advisory} --- it surfaces
+obstructions and provides structural metadata --- and is not, in the
+current implementation, the source of trust for any verify-block.
+
+\Cref{ch:examples} works \texttt{sympy\_geometry.deppy} end-to-end:
+the foundations, the spec for \texttt{Point}, the
+\texttt{verify dist\_nonneg\_psdl} block, the emitted certificate, and
+the \Lean{} round-trip.  We compare this against the
+\texttt{distance\_pythagoras\_proof} (chained derivation) and against
+the deeper \texttt{euler\_line} theorems which we admit honestly.
+
+\Cref{ch:soundness} is the soundness chapter: what is verified, what
+is admitted, where the trust surface lives, where soundness gates
+fire, what \texttt{certify\_or\_die} actually checks.
+
+\Cref{ch:related} surveys related work and concludes.
+
+\section{Reading guide}
+\label{sec:reading-guide}
+
+A reader who already knows dependent type theory and \Lean{} can
+skip \Cref{ch:dependent}.  A reader who knows Python well can skim
+\Cref{ch:python}.  Everyone should read \Cref{ch:cubical}: it is
+where \Deppy{}'s metatheory is fixed.  The shortest path to seeing
+the system in action is
+\Cref{ch:cubical}~$\to$~\Cref{ch:psdl}~$\to$~\Cref{ch:examples}.
+
+The cross-references are extensive and intentional.  Whenever we
+quote a code excerpt we cite the file and an approximate line
+range; whenever we name a kernel proof term we cite its data class
+in \texttt{deppy/core/kernel.py}; whenever we mention a tactic we
+cite the corresponding \PSDL{} compiler line in
+\texttt{deppy/proofs/psdl.py}.
+
+\section{Notational conventions}
+\label{sec:notation}
+
+We adopt:
+\begin{itemize}[leftmargin=1.7em]
+  \item \textbf{Bold sans-serif} for system names (\Deppy{}, \PSDL{},
+    \Lean{}, \Zthree).
+  \item \texttt{teletype} for code, identifiers, and source paths.
+  \item Italic for emphasis and for the (rare) defined terms.
+  \item Mathematical italic ($T$, $\sigma$, $\varphi$) for type-theoretic
+    metavariables.
+  \item $\rebr{e}$ for the \emph{interpretation} (semantic value) of a
+    syntactic expression $e$.
+  \item Throughout, $A \simeq B$ denotes type equivalence (a triple
+    of forward, backward, and witnesses); $A = B$ denotes propositional
+    equality of types (only meaningful in a univalent setting); $a =_A b$
+    denotes propositional equality of terms in type $A$.
+\end{itemize}
+
+When we give code excerpts of more than two lines we use
+\texttt{listings} blocks; when we give a one-liner we inline it in
+\texttt{teletype} font.  Excerpts are reproduced verbatim from the
+source tree at the time of writing; we cite the file path
+explicitly so the reader can verify with \texttt{git log -p}.
+
+\section{A first taste}
+\label{sec:first-taste}
+
+To anchor the discussion we end this introduction with a single
+worked example: the \texttt{verify dist\_nonneg\_psdl} block from
+\texttt{sympy\_geometry.deppy}.  We will return to this throughout
+the book.
+
+\begin{lstlisting}[language=deppyfile,caption={The
+\texttt{dist\_nonneg\_psdl} block, taken verbatim from
+\texttt{sympy\_geometry.deppy} (top of repository).}]
+verify dist_nonneg_psdl:
+  function: sympy.geometry.point.Point.distance
+  property: "Point.distance(p, q) >= 0"
+  via: foundation Real_sqrt_nonneg
+  binders: p: Point, q: Point
+  psdl_proof: |
+    if isinstance(other, Point):
+        # value-fibre: body returns sqrt(sum_zip_sub_sq(self, other)).
+        inline(Point.distance, sqrt(sum_zip_sub_sq(self, other)))
+        apply(Real_sqrt_nonneg)
+        assert sum_zip_sub_sq(self, other) >= 0, "z3"
+    else:
+        # exception-fibre: TypeError raised before return.
+        raise NotImplementedError
+\end{lstlisting}
+
+That is a \PSDL{} proof.  Reading it left-to-right:
+
+\begin{itemize}[leftmargin=1.7em]
+  \item \texttt{if isinstance(other, Point):} compiles to a
+    \texttt{Fiber} proof term (file
+    \texttt{deppy/core/kernel.py}, dataclass
+    \texttt{Fiber}) with two type branches; in \Lean{} this becomes
+    \texttt{by\_cases h : isinstance other Point}.
+
+  \item \texttt{inline(Point.distance, sqrt(sum\_zip\_sub\_sq(...)))}
+    emits an \texttt{Unfold} that asserts the body translation against
+    the explicit RHS.
+
+  \item \texttt{apply(Real\_sqrt\_nonneg)} emits an
+    \texttt{AxiomInvocation} that cites the foundation declared at the
+    top of the same \texttt{.deppy} file.
+
+  \item \texttt{assert ..., "z3"} emits a \texttt{Cut} whose
+    lemma proof is a \texttt{Z3Proof} on the formula
+    \texttt{sum\_zip\_sub\_sq(self, other) >= 0}.
+
+  \item In the \texttt{else}-branch, \texttt{raise NotImplementedError}
+    is \PSDL's \emph{vacuous} marker, gated by the kernel's
+    \texttt{Structural} term.
+\end{itemize}
+
+The pipeline then:
+\begin{enumerate}[leftmargin=1.7em]
+  \item resolves \texttt{sympy.geometry.point.Point.distance} via
+    \Importlib;
+  \item reads the live source via \Inspect{};
+  \item parses the \PSDL{} block via \texttt{compile\_psdl} (file
+    \texttt{deppy/proofs/psdl.py});
+  \item type-checks the resulting \texttt{ProofTerm} tree against the
+    property's \texttt{RefinementType};
+  \item emits a \Lean{} certificate including a concrete
+    \texttt{Verified\_dist\_nonneg\_psdl\_property : Prop} (built from
+    the binders) and a tactic-mode \texttt{theorem};
+  \item runs the certificate through \texttt{lean\_runner.check\_\-lean\_\-module\_source};
+  \item reports \texttt{CERTIFIED} or surfaces the \Lean{}
+    rejection verbatim.
+\end{enumerate}
+
+The last two steps are what distinguish ``we ran a kernel and it
+returned True'' from ``we emitted a real \Lean{} certificate that
+\Lean{} accepted.''  We emphasise the latter at every opportunity in
+this monograph; the former is a necessary but not sufficient
+condition.
+
+\section{Honest limits}
+\label{sec:honest-limits}
+
+Before diving in, we summarise the trust surface a careful reader
+should carry through the rest of the book.  These are revisited in
+detail in \Cref{ch:soundness}; we list them here as fair warning.
+
+\begin{itemize}[leftmargin=1.7em]
+  \item Foundations admit.  The user lists arithmetic facts as
+    \texttt{foundation} declarations; the pipeline tries \Zthree{} on
+    each (\Cref{ch:z3}); whichever Z3 cannot discharge stay
+    admitted.  In \texttt{sympy\_geometry.deppy}, \texttt{Real\_sqrt\_nonneg}
+    stays admitted because Z3 over \texttt{Int} cannot model
+    \texttt{sqrt}.
+
+  \item \texttt{axiom} declarations admit.  Anything stated as
+    \texttt{axiom} in the sidecar is taken on the user's authority;
+    the certificate emits it as a \Lean{} \texttt{axiom} declaration
+    and exposes its statement so a reviewer can reject it.
+
+  \item \texttt{Structural} leaves leak.  When a \texttt{ProofTerm}
+    bottoms out at \texttt{Structural("\dots")}, the kernel accepts at
+    \texttt{STRUCTURAL\_CHAIN} trust.  The soundness gate
+    (\Cref{ch:soundness}) flags chains containing such leaves and
+    \texttt{certify\_or\_die} will refuse to certify if any verify
+    block leaks one.
+
+  \item Body translation is best-effort.  Some Python features
+    (\texttt{eval}, dynamic class creation, C-extension fall-throughs)
+    are \emph{not} translated; the body translator emits
+    \texttt{sorry} and the certificate flags it.
+
+  \item \Lean{} round-trip is conservative.  We invoke \Lean{} with a
+    60-second timeout (configurable); if it does not return in time we
+    flag the certificate as not round-tripped.  Round-tripped is
+    \emph{required} for \texttt{CERTIFIED}.
+
+  \item We trust \Lean's kernel.  At the very bottom of the trust
+    chain is \Lean{} itself.  We do not duplicate \Lean's kernel;
+    when \Lean{} accepts, we accept.
+\end{itemize}

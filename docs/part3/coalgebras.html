@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coalgebras: Generators &amp; Async · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="coalgebras.html" class="active">Coalgebras: Generators &amp; Async</a></li>
+      <li><a href="decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="../part4/index.html">Overview</a></li>
+      <li><a href="../part4/sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="../part4/decorator_form.html">Decorator Form</a></li>
+      <li><a href="../part4/sympy.html">Case Study: SymPy</a></li>
+      <li><a href="../part4/geometry.html">Verifying sympy.geometry</a></li>
+      <li><a href="../part4/trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Coalgebras: Generators &amp; Async</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      <code>yield</code> and <code>await</code> as comonad coalgebras — every suspension is an effect-witness, every resumption is a transport.
+    </p>
+
+    <!-- ─── Intro ─── -->
+    <h2>The Coalgebraic Picture</h2>
+    <p>
+      A function that runs to completion is an <em>algebra</em>: it consumes
+      input and emits an answer. A function that <code>yield</code>s, suspends,
+      and resumes is a <strong>coalgebra</strong>: it consumes nothing in the
+      middle, emits a partial result, and stores its own continuation as
+      state. Generators and coroutines are exactly this — coalgebras of the
+      "value-or-suspension" comonad.
+    </p>
+    <p>
+      Deppy gives both shapes the same kernel treatment: each suspension
+      becomes an <code>EffectWitness</code> tagged with the current world
+      epoch, and the chain of suspensions composes via <code>PathComp</code>
+      (or <code>Cut</code>, its sequential cousin). Resumptions transport
+      proofs across the suspension's path.
+    </p>
+
+    <!-- ─── Generators: yield ─── -->
+    <h2>Generators: <code>yield</code> as <code>EffectWitness</code></h2>
+    <p>
+      Compile a tiny generator and inspect the proof term:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+
+src = <span class="st">"""
+def gen():
+    yield 1
+    yield 2
+    yield 3
+"""</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)</code></pre>
+
+    <p>Output:</p>
+
+<pre><code>Cut(_psdl_step_2,
+    EffectWitness(yield:0@epoch0, Refl),
+    Cut(_psdl_step_3,
+        EffectWitness(yield:1@epoch0, Refl),
+        EffectWitness(yield:2@epoch0, Refl)))</code></pre>
+
+    <p>Three observations:</p>
+    <ul>
+      <li>
+        Each <code>yield x</code> compiles to
+        <code>EffectWitness("yield:N@epoch_M", Refl(value))</code>. The
+        <code>N</code> is the yield index (0, 1, 2, …); <code>epoch_M</code>
+        is the heap epoch at the time of the yield (here always 0 because
+        none of the yields mutate).
+      </li>
+      <li>
+        Three yields are chained by two nested <code>Cut</code>s. The shape
+        is a left-to-right list: yield 0 happens, then (yield 1 then yield
+        2). Composition is associative because <code>Cut</code> is.
+      </li>
+      <li>
+        <code>Refl</code> is the trivial path: the yielded value flows
+        unchanged into the resumption. Generators that <code>send</code> a
+        value back use a <code>TransportProof</code> instead.
+      </li>
+    </ul>
+
+    <h3>Direct API: <code>emit_yield_witness</code></h3>
+    <p>
+      You can build the witness yourself:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl_generators <span class="kw">import</span> (
+    GeneratorRegistry, emit_yield_witness,
+)
+
+reg = <span class="fn">GeneratorRegistry</span>()
+g = reg.<span class="fn">declare</span>(<span class="st">'myg'</span>, line=<span class="nb">0</span>)
+reg.<span class="fn">add_yield_to</span>(<span class="st">'myg'</span>, <span class="st">'1'</span>, line=<span class="nb">2</span>, world_epoch=<span class="nb">0</span>)
+reg.<span class="fn">add_yield_to</span>(<span class="st">'myg'</span>, <span class="st">'2'</span>, line=<span class="nb">3</span>, world_epoch=<span class="nb">0</span>)
+<span class="fn">print</span>(g.yields)
+<span class="cm"># [YieldPoint(index=0, value_repr='1', ...), YieldPoint(index=1, ...)]</span>
+
+w = <span class="fn">emit_yield_witness</span>(<span class="st">'1'</span>, <span class="nb">0</span>, world_epoch=<span class="nb">0</span>)
+<span class="fn">print</span>(w)
+<span class="cm"># EffectWitness(yield:0@epoch0, Refl(Var(name='_yield_0_1')))</span></code></pre>
+
+    <h3>Destructors: <code>next(g)</code> and <code>g.send(v)</code></h3>
+    <p>
+      The dual operation — extracting one yield from a generator — uses
+      <code>emit_advance_witness</code>, which builds a <code>Cut</code>
+      whose lemma is the current yield point and whose body is the
+      resumption (a <code>Refl</code> for plain <code>next</code>; a
+      <code>TransportProof</code> for <code>send</code>, since the resumed
+      value can change).
+    </p>
+
+    <div class="note">
+      <code>g.close()</code> compiles to <code>Sym</code>: it inverts the
+      yield-path, marking the generator as exhausted. Closing twice is the
+      identity (<code>Sym ∘ Sym = id</code>), exactly as Python semantics
+      require.
+    </div>
+
+    <!-- ─── Async ─── -->
+    <h2>Async: <code>await</code> as Event-Path</h2>
+    <p>
+      Coroutines are generators whose suspension events are tied to external
+      "future arrivals" rather than caller-driven advancement. The compile
+      shape is similar:
+    </p>
+
+<pre><code>src = <span class="st">"""
+async def f():
+    x = await producer()
+    return x + 1
+"""</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)</code></pre>
+
+    <p>Output:</p>
+
+<pre><code>Cut(_psdl_step_2,
+    Cut(x, EffectWitness(await:producer()@epoch0, Refl), Refl),
+    Refl)</code></pre>
+
+    <p>
+      <code>await producer()</code> is the suspension event; the kernel
+      records it as <code>EffectWitness("await:producer()@epoch0", Refl)</code>.
+      The outer <code>Cut(x, …, Refl)</code> binds the resumed value to
+      <code>x</code> — the resumption is itself a witness that the awaited
+      future delivered <code>x</code>.
+    </p>
+
+    <h3>Multiple awaits compose</h3>
+<pre><code>src = <span class="st">"""
+async def f():
+    x = await a()
+    y = await b()
+    return x
+"""</span>
+res = <span class="fn">compile_psdl</span>(src, foundations={})
+<span class="fn">print</span>(res.term_repr)</code></pre>
+
+<pre><code>Cut(_psdl_step_2,
+    Cut(x, EffectWitness(await:a()@epoch0, Refl), Refl),
+    Cut(_psdl_step_3,
+        Cut(y, EffectWitness(await:b()@epoch0, Refl), Refl),
+        Refl))</code></pre>
+
+    <p>
+      Each <code>await</code> is its own edge in the world-path. If
+      <code>a()</code> mutates the heap before <code>b()</code> runs, the
+      <code>@epochN</code> tag changes accordingly and any proof reused from
+      before the mutation must transport.
+    </p>
+
+    <!-- ─── Send vs await ─── -->
+    <h2><code>send</code> and Resume Are Both Transport</h2>
+    <p>
+      For a generator, <code>g.send(v)</code> resumes the suspended
+      computation with a new value <code>v</code> that may not equal what
+      was yielded. Deppy models this with a <code>TransportProof</code>
+      along the yield-path: the value flows through, but the path now
+      records that the inhabitant changed at the suspension boundary.
+    </p>
+    <p>
+      For a coroutine, the same pattern applies: when the awaited future
+      arrives, the new value substitutes into the binding via
+      <code>TransportProof</code>. This is why both shapes feel the same in
+      the kernel — they really are instances of the same coalgebraic
+      pattern.
+    </p>
+
+    <!-- ─── Generator state machine ─── -->
+    <h2>Generators as State Machines</h2>
+    <p>
+      The <code>Generator</code> dataclass tracks <code>name</code>,
+      <code>yields</code> (the list of <code>YieldPoint</code>s),
+      <code>current_index</code>, and <code>exhausted</code>. The
+      registry's <code>advance(name)</code> increments the index. Because
+      Python semantics let you <code>send</code> at any point, every
+      yield-edge is reversible — <code>Sym</code> (path inversion) takes
+      you back to the previous suspension.
+    </p>
+
+    <div class="tip">
+      In comonad-coalgebra terminology: <code>extract</code> ≅
+      <code>next(g)</code>, <code>duplicate</code> ≅ a <em>two-step
+      lookahead</em> the kernel uses when reasoning about peek-ahead
+      patterns.
+    </div>
+
+    <!-- ─── Generator + heap interaction ─── -->
+    <h2>Generators That Mutate</h2>
+    <p>
+      A generator that mutates between yields produces an
+      <code>EffectSequence</code> mixing <code>yield</code> and
+      <code>mutate</code> witnesses:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.psdl <span class="kw">import</span> compile_psdl
+res = <span class="fn">compile_psdl</span>(<span class="st">"""
+def stateful_gen(buf):
+    yield 1
+    buf.append(1)
+    yield 2
+"""</span>, foundations={})
+<span class="fn">print</span>(res.effect_sequence)</code></pre>
+
+    <p>
+      The compiler produces an <code>effect_sequence</code> tracking each
+      mutation between yields. Reading the buffer at later yield points
+      requires <code>TransportProof</code> across the intervening
+      <code>buf.append</code> mutation — the cubical heap from
+      <a href="../part6/cubical_heap.html">Part 6.1</a> kicks in
+      automatically.
+    </p>
+
+    <!-- ─── Why this matters ─── -->
+    <h2>Why This Encoding?</h2>
+    <p>
+      Treating <code>yield</code> and <code>await</code> as coalgebras has
+      three concrete benefits for verification:
+    </p>
+    <ol>
+      <li>
+        <strong>Compositionality.</strong> Two generators chained by
+        <code>yield from</code> compose by appending their yield-paths;
+        the proof obligations follow the same composition.
+      </li>
+      <li>
+        <strong>Heap interleaving.</strong> Generator-driven mutation
+        intermixes with the world's epoch counter exactly the way Python
+        executes it; no sequential-vs-parallel mismatch.
+      </li>
+      <li>
+        <strong>Cancellation.</strong> <code>g.close()</code> as
+        <code>Sym</code> means cancellation is the path inverse, not a
+        special case — the kernel doesn't need a separate "cancelled"
+        state.
+      </li>
+    </ol>
+
+    <!-- ─── Where to next ─── -->
+    <h2>What's Next</h2>
+    <p>
+      Part 6's <a href="../part6/async.html">Async / Await</a> chapter
+      builds on this view to verify concurrent code using
+      <code>deppy.async_verify</code> with <code>@async_requires</code> /
+      <code>@async_ensures</code>. Part 5's
+      <a href="../part5/psdl.html">PSDL chapter</a> shows how generators
+      and coroutines map to the cubical-effect tactic language.
+    </p>
+
+    <nav class="page-nav">
+      <a href="operator_dispatch.html">
+        <span class="label">← Previous</span>
+        <span class="title">Operator Dispatch</span>
+      </a>
+      <a href="decorators.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Decorators &amp; Meta</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

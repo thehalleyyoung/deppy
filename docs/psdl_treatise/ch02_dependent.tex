@@ -1,0 +1,358 @@
+\chapter{Background: Dependent Types, Lean, HoTT, Cubical Type Theory}
+\label{ch:dependent}
+
+This chapter reviews the proof-theoretic background needed to read
+the rest of the monograph.  Readers comfortable with \Lean~4
+\citep{LeanFour} and the homotopy-type-theory book \citep{HoTT} can
+treat this as a refresher and skim.
+
+We are deliberately concise: this is not a textbook in dependent
+type theory.  Our aim is to fix vocabulary and notation, point out
+the constructions that recur in \PSDL{} and the kernel, and flag the
+places where \Deppy{}'s metatheory \emph{diverges} from canonical
+treatments.
+
+\section{Dependent types in one breath}
+\label{sec:dt-one-breath}
+
+A type theory is a system of \emph{judgments} about \emph{terms}.
+The two primitive judgments are
+\begin{align*}
+  \Gamma \vdash A : \mathsf{Type} && \text{``$A$ is a (well-formed) type in context $\Gamma$''}\\
+  \Gamma \vdash a : A && \text{``$a$ is a term of type $A$ in context $\Gamma$''}
+\end{align*}
+where $\Gamma$ is a list of typed bindings $x_1 : A_1, \dots, x_n : A_n$.
+
+A theory is \emph{dependent} when types may mention previously
+introduced terms.  The two canonical dependent connectives are:
+
+\paragraph{$\Pi$-types (dependent function space).}
+Given a type $A$ and a family $B : A \to \mathsf{Type}$, the type
+\begin{equation*}
+  \Pi(x : A).\, B(x)
+\end{equation*}
+is the type of functions $f$ such that $f(a) : B(a)$ for every $a :
+A$.  When $B$ does not depend on $x$, this reduces to the ordinary
+non-dependent function type $A \to B$.
+
+In \Lean{}~4 syntax: \verb|(x : A) → B x|.  In \Deppy{}'s
+\texttt{deppy.core.types}: \verb|PiType(param_name, param_type, body_type)|.
+
+\paragraph{$\Sigma$-types (dependent pair).}
+The type
+\begin{equation*}
+  \Sigma(x : A).\, B(x)
+\end{equation*}
+contains pairs $\langle a, b\rangle$ where $a : A$ and $b : B(a)$.
+
+In \Lean{}~4: \verb|(x : A) × B x| or \verb|Sigma A B|.  In
+\Deppy{}: \verb|SigmaType|.
+
+\paragraph{Identity / path types.}
+Given a type $A$ and two terms $a, b : A$, the type
+\begin{equation*}
+  a =_A b
+\end{equation*}
+classifies \emph{proofs that $a$ and $b$ are propositionally equal}.
+The canonical inhabitant is $\Refl_a : a =_A a$ for any $a$.  The
+elimination principle is \emph{path induction} (Martin-L\"of's $J$):
+to prove a property $P(x, y, p)$ for arbitrary $x, y : A$ and
+$p : x =_A y$, it suffices to prove $P(a, a, \Refl_a)$ for arbitrary
+$a$.
+
+In \Lean{}~4: \verb|a = b|; the eliminator is \verb|@Eq.rec|.  In
+\Deppy{}: \verb|PathType| as the type, \verb|Refl| / \verb|Sym| /
+\verb|Trans| / \verb|TransportProof| as proof-term constructors.
+
+\paragraph{Universes.}
+\Lean{}~4 has a polymorphic universe hierarchy
+$\mathsf{Type}\,0 : \mathsf{Type}\,1 : \mathsf{Type}\,2 : \dots$
+along with an impredicative universe $\mathsf{Prop}$ for propositions.
+\Deppy{} encodes universes via \verb|UniverseType(level=...)| but does
+not currently exploit polymorphism beyond a fixed level---the
+generated certificates target \texttt{Type 0} / \texttt{Prop} only.
+This is a deliberate simplification we acknowledge openly: see
+\Cref{ch:soundness} \S{}\ref{sec:limits}.
+
+\section{The Calculus of Inductive Constructions}
+\label{sec:cic}
+
+The Calculus of Constructions (CoC) \citep{Coquand1988CIC} extends
+$\Pi$-types with impredicative quantification at $\mathsf{Prop}$.  The
+\emph{Calculus of Inductive Constructions} (\CIC) adds inductive
+type families (`\texttt{Inductive Nat : \dots}',
+`\texttt{Inductive List \dots}'), automatically generating
+constructors and eliminators that satisfy the appropriate $\eta$-
+and $\beta$-rules.
+
+\Lean{}~4 is built on a \CIC-style core (with definitional
+proof-irrelevance and quotient types).  The kernel checks
+\emph{terms} against types; tactics elaborate to terms; the user
+mostly does not see the kernel because the elaborator is a thick
+intermediate layer.
+
+\subsection{Terms vs.\ tactics}
+
+\Lean{}~4 supports two styles:
+
+\begin{lstlisting}[language=lean4,caption={Term-mode and
+tactic-mode proofs in \Lean{}~4 are interchangeable.}]
+-- Term mode:
+def two_plus_two : 2 + 2 = 4 := rfl
+
+-- Tactic mode:
+theorem two_plus_two' : 2 + 2 = 4 := by
+  rfl
+\end{lstlisting}
+
+\PSDL{} compiles to tactic mode.  Each \PSDL{} statement emits one or
+more lines of tactic-mode \Lean{} which the elaborator then expands
+to a term checked by \Lean's kernel.  See \Cref{ch:psdl} for the
+mapping table.
+
+\subsection{Inductive types and induction principles}
+
+A \Lean{}~4 inductive type:
+
+\begin{lstlisting}[language=lean4]
+inductive List (α : Type) : Type where
+  | nil  : List α
+  | cons : α → List α → List α
+\end{lstlisting}
+
+generates an automatically-elaborated eliminator
+\begin{equation*}
+  \mathsf{List.rec} : \forall (P : \mathsf{List}\,\alpha \to \mathsf{Type}),\,
+    P\,\mathsf{nil} \to (\forall x\,xs,\, P\,xs \to P\,(x :: xs))
+    \to \forall l,\, P\,l.
+\end{equation*}
+and similarly for any user inductive.  The eliminator is the engine
+behind both \texttt{induction} and \texttt{cases} tactics.
+
+\Deppy{} mirrors this for the two builtin shapes \verb|NatInduction|
+and \verb|ListInduction| (kernel terms in
+\verb|deppy/core/kernel.py|).  \PSDL{} surfaces them as the Python
+loops:
+
+\begin{lstlisting}[language=psdl]
+for x in xs:           # → ListInduction
+    <step body>
+
+while n:               # → NatInduction
+    <step body>
+\end{lstlisting}
+
+These compile to \Lean{}'s \verb|induction xs with| /
+\verb|induction n with| respectively.
+
+\subsection{Type-class inference}
+
+\Lean{}~4 supports type-class inference via the \verb|class|/\verb|instance|
+mechanism \citep{LeanRefManual}: \texttt{Add}, \texttt{Mul},
+\texttt{Decidable}, etc.  \Deppy{} does \emph{not} encode arbitrary
+\Lean{} type classes.  Generated certificates use a fixed vocabulary
+of operators (\texttt{Int} arithmetic via \texttt{omega},
+\texttt{Eq}-based reasoning, \texttt{by\_cases} for decidable
+propositions) and admit anything that requires class inference
+beyond that vocabulary.
+
+\section{The HoTT view of identity}
+\label{sec:hott-view}
+
+The HoTT book \citep{HoTT} reframes Martin-L\"of's identity types as
+\emph{path spaces}.  In this view:
+\begin{itemize}[leftmargin=1.7em]
+  \item Types are spaces (more precisely, $\infty$-groupoids).
+  \item Terms are points.
+  \item Identity proofs $p : a =_A b$ are paths.
+  \item Identity proofs of identity proofs ($p =_{a =_A b} q$) are
+    homotopies.
+  \item This continues to all dimensions.
+\end{itemize}
+
+The headline axiom is \emph{univalence} (Voevodsky):
+\begin{equation*}
+  (A \simeq B) \simeq (A =_{\mathsf{Type}} B).
+\end{equation*}
+Equivalent types are propositionally equal.  This makes algebraic
+isomorphisms transport-able: if $G \simeq H$ as groups, every
+property of $G$ is a property of $H$.
+
+In \Deppy{}, univalence shows up in two places:
+\begin{enumerate}[leftmargin=1.7em]
+  \item \texttt{Univalence(equiv\_proof, from\_type, to\_type)} as a
+    kernel \texttt{ProofTerm} (file \texttt{deppy/core/kernel.py}, line
+    around 838).
+  \item Practically, in the form of \texttt{DuckPath}: if classes
+    $A$ and $B$ implement the same protocol, they are
+    structurally-equivalent in the universe, and a property proved
+    of $A$ over the protocol-relevant operations transports to $B$.
+\end{enumerate}
+
+We do \emph{not} export univalence to \Lean: the generated
+certificate cannot use \texttt{ua} as a primitive because \Lean{}'s
+core is not univalent.  Where \Deppy's kernel uses
+\texttt{Univalence}, the \Lean{} side admits the resulting
+identification.
+
+\subsection{Cubical interpretations}
+
+The cubical type theories \citep{CCHM, ABCFHL} give
+\emph{computational} interpretations of univalence.  Instead of
+postulating \texttt{ua}, they introduce an interval type $\mathbb{I}$
+and define identity types as functions out of $\mathbb{I}$
+(roughly), with Kan-fillings ensuring the necessary closure
+properties.
+
+The cubical apparatus in \Deppy{} mirrors this without claiming
+to \emph{be} cubical type theory.  Specifically:
+\begin{itemize}[leftmargin=1.7em]
+  \item \verb|IntervalType| is the \Deppy{} analogue of $\mathbb{I}$.
+  \item \verb|PathAbs(ivar, body)| is path abstraction
+    $\lambda i.\, t$.
+  \item \verb|PathApp(p, r)| is path application $p\,r$.
+  \item \verb|Transport(path, src, tgt)| is the type-level transport.
+  \item \verb|KanFill(dimension, faces, ...)| is the cubical Kan filler.
+  \item \verb|Comp(...)| is Kan composition.
+\end{itemize}
+These data classes live in \verb|deppy/core/types.py|.  Their kernel
+verifiers live in \verb|deppy/core/path_engine.py|.
+
+We re-emphasise: this is a \emph{model} suited to the analysis of
+Python's structural shapes (fibrations on \texttt{isinstance},
+homotopies between control-flow paths, glue patches across method
+implementations).  It is \emph{not} a \texttt{lean-port} of
+cubical-type-theory.  The relationship is one of \emph{inspiration}
+and \emph{shared vocabulary}, not formal equivalence.
+
+\section{Lean 4 specifics that we use}
+\label{sec:lean4-specifics}
+
+We close this chapter with a quick reference for the \Lean~4
+features the generated certificate exercises.
+
+\subsection{\texttt{def} vs.\ \texttt{abbrev} vs.\ \texttt{axiom} vs.\ \texttt{opaque}}
+
+The certificate uses each of these:
+\begin{description}
+  \item[\texttt{def f : T := body}] declares a \emph{definitional
+  unfolding}; tactics can \texttt{unfold f} to expose \texttt{body}.
+  Used for translated bodies and concrete foundation \texttt{Prop}s.
+
+  \item[\texttt{abbrev T : Type := \dots}] is a special
+  ``reducible'' \texttt{def} that the elaborator unfolds eagerly.
+  Used for ``\texttt{abbrev Point : Type := Int}'' bridges where the
+  generated certificate identifies a Python class with the underlying
+  \texttt{Int} carrier.  This is a deliberate simplification (see
+  \Cref{ch:lean}).
+
+  \item[\texttt{axiom A : T}] declares \texttt{A : T} on the user's
+  authority.  No \texttt{unfold} possible; nothing computes.  Used
+  for foundations Z3 cannot discharge.
+
+  \item[\texttt{opaque A : T}] is an \texttt{axiom} variant the
+  elaborator treats as definitionally opaque.  Used historically for
+  ``\texttt{Sidecar\_X\_prop : Prop}''; the
+  \texttt{CONCRETE-PROPS} pass replaces these with concrete
+  \texttt{def}s where annotations permit.
+\end{description}
+
+The trust ramification is straightforward: a \texttt{def} contributes
+no trust surface; an \texttt{axiom} or \texttt{opaque} adds one
+admission to the chain.  The certificate counts these (see
+\Cref{ch:soundness}).
+
+\subsection{Tactics we emit}
+
+The most-frequent \Lean{} tactics emitted by \PSDL{} and the
+certificate are:
+\begin{itemize}[leftmargin=1.7em]
+  \item \verb|rfl| --- reflexivity, used when the body translates
+    directly to the property's RHS.
+  \item \verb|exact e| --- term-mode discharge, used for foundation
+    citations (\verb|exact Foundation_Real_sqrt_nonneg|) and for
+    direct proof terms.
+  \item \verb|intros / intro| --- $\Pi$-introduction.
+  \item \verb|by_cases h : P| --- decidable case split, used for
+    \texttt{isinstance} fibration descents.
+  \item \verb|cases h with| --- case analysis on inductives.
+  \item \verb|induction n with| --- induction on \verb|Nat| /
+    \verb|List|.
+  \item \verb|unfold f| --- expose the body of \verb|def f|.
+  \item \verb|rw [L]| --- rewrite using a propositional equality
+    \verb|L|.
+  \item \verb|simp [L1, L2, ...]| --- normalise modulo a list of
+    lemmas.
+  \item \verb|omega| --- the linear-integer-arithmetic decision
+    procedure; used when \PSDL{}'s \verb|assert P, "z3"| can be
+    discharged in linear arithmetic.
+  \item \verb|sorry| --- placeholder; emitted when body translation
+    or \PSDL{} compilation cannot close a goal.  The certificate
+    counts \verb|sorry|s and refuses certification when too many
+    appear in any verify block (\Cref{ch:soundness}).
+\end{itemize}
+
+\subsection{The kernel of \Lean~4}
+
+\Lean's kernel is a small, separately-implemented core that
+type-checks $\lambda$-terms.  It does not run the elaborator,
+tactics, or macros; it just sees the terms the elaborator produced
+and checks them.  When we say \emph{\Lean's kernel accepted},
+we mean exactly that: the elaborator wrote a term, handed it to the
+kernel, and the kernel returned ``OK''.
+
+The contractual meaning of an \emph{verified} verify block is that
+its compiled \Lean{} tactic, when elaborated against the concrete
+\texttt{Prop}, produces a term the kernel accepts.  This is the
+gold standard \Deppy{} aims for.  Where the certificate falls short
+of it (admitting a foundation, leaking a \verb|Structural|, emitting
+a \verb|sorry|), the gap is recorded and counted.
+
+\section{What we will and will not formalise}
+\label{sec:formalise-scope}
+
+\Cref{ch:cubical} formalises \Deppy{}'s metatheory.  We will:
+\begin{itemize}[leftmargin=1.7em]
+  \item give a syntax for \texttt{SynType} and \texttt{SynTerm};
+  \item give the typing judgments and the kernel's verification
+    rules;
+  \item enumerate the proof terms and document each rule;
+  \item state soundness as a meta-theorem and discuss the gaps
+    between the meta-theorem and the implementation.
+\end{itemize}
+
+We will \emph{not}:
+\begin{itemize}[leftmargin=1.7em]
+  \item give a fully-formal denotational semantics for Python;
+  \item prove that \Deppy{}'s kernel reductions are confluent or
+    strongly-normalising as a \CIC{}-style theory;
+  \item claim that an admitted foundation is anything other than an
+    admission.
+\end{itemize}
+
+The reason is honesty.  \Deppy{} is engineered for utility on
+real Python code, not for rigorous metamathematical foundations.  We
+say what we have, where the gaps are, and where the user should
+apply additional scrutiny.
+
+\section{Summary}
+\label{sec:ch2-summary}
+
+The proof-theoretic vocabulary we will assume from now on:
+\begin{itemize}[leftmargin=1.7em]
+  \item $\Pi$-types, $\Sigma$-types, identity types.
+  \item Propositional vs.\ judgmental equality.
+  \item Term-mode and tactic-mode proofs in \Lean{}~4.
+  \item Inductive types and their eliminators.
+  \item The HoTT picture: types as spaces, paths as identity proofs.
+  \item Univalence as ``equivalent types are equal''.
+  \item Cubical type theory's interval $\mathbb{I}$, Kan fillers, Kan
+    composition.
+  \item \Lean's distinction between \texttt{def}, \texttt{abbrev},
+    \texttt{axiom}, \texttt{opaque}.
+\end{itemize}
+
+The non-trivial point is that \Deppy{} re-uses these notions
+\emph{operationally} but is not \emph{itself} a HoTT or cubical type
+theory.  The next chapter switches sides: it reviews the \emph{Python}
+constructs the verifier has to actually deal with.

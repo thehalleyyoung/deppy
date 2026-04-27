@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decorator Form · Deppy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<button class="menu-toggle">☰</button>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Deppy</h1>
+    <div class="subtitle">Python with Dependent Types — Tutorial Book</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../structure.html">Structure of this Book</a></li>
+      <li><a href="../intro.html">Introduction</a></li>
+
+      <li><span class="section-title">Part 1 — Pure Python</span></li>
+      <li><a href="../part1/index.html">Overview</a></li>
+      <li><a href="../part1/getting_started.html">Getting Started</a></li>
+      <li><a href="../part1/refinement_types.html">Refinement Types</a></li>
+      <li><a href="../part1/equality.html">Equality &amp; Duck Typing</a></li>
+      <li><a href="../part1/z3_integration.html">Z3 Integration</a></li>
+      <li><a href="../part1/data_structures.html">Data Structures</a></li>
+      <li><a href="../part1/termination.html">Termination</a></li>
+      <li><a href="../part1/lemmas.html">Lemmas &amp; Induction</a></li>
+      <li><a href="../part1/quicksort.html">Case Study: Quicksort</a></li>
+
+      <li><span class="section-title">Part 2 — Advanced Proofs</span></li>
+      <li><a href="../part2/index.html">Overview</a></li>
+      <li><a href="../part2/generics.html">Generic Types</a></li>
+      <li><a href="../part2/vectors.html">Length-Indexed Lists</a></li>
+      <li><a href="../part2/merkle.html">Merkle Trees</a></li>
+      <li><a href="../part2/equality_types.html">Equality &amp; Path Types</a></li>
+      <li><a href="../part2/connectives.html">Logical Connectives</a></li>
+      <li><a href="../part2/stlc.html">Simply Typed λ-Calculus</a></li>
+
+      <li><span class="section-title">Part 3 — Python Specifics</span></li>
+      <li><a href="../part3/index.html">Overview</a></li>
+      <li><a href="../part3/duck_typing.html">Duck Typing &amp; Protocols</a></li>
+      <li><a href="../part3/mro_descriptors.html">MRO &amp; Descriptors</a></li>
+      <li><a href="../part3/operator_dispatch.html">Operator Dispatch</a></li>
+      <li><a href="../part3/coalgebras.html">Coalgebras: Generators &amp; Async</a></li>
+      <li><a href="../part3/decorators.html">Decorators &amp; Meta</a></li>
+      <li><a href="../part3/dynamic.html">Dynamic Typing</a></li>
+
+      <li><span class="section-title">Part 4 — Sidecar Proofs</span></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="sidecar_basics.html">Sidecar Basics</a></li>
+      <li><a href="decorator_form.html" class="active">Decorator Form</a></li>
+      <li><a href="sympy.html">Case Study: SymPy</a></li>
+      <li><a href="geometry.html">Verifying sympy.geometry</a></li>
+      <li><a href="trust_levels.html">Trust &amp; Verification Levels</a></li>
+
+      <li><span class="section-title">Part 5 — Homotopy Methods</span></li>
+      <li><a href="../part5/index.html">Overview</a></li>
+      <li><a href="../part5/paths.html">Path Types &amp; Transport</a></li>
+      <li><a href="../part5/cech.html">Čech Decomposition</a></li>
+      <li><a href="../part5/fibrations.html">Fibrations</a></li>
+      <li><a href="../part5/psdl.html">PSDL: Python-syntax Tactics</a></li>
+      <li><a href="../part5/tactics.html">Homotopy Tactics</a></li>
+
+      <li><span class="section-title">Part 6 — Heap &amp; Concurrency</span></li>
+      <li><a href="../part6/index.html">Overview</a></li>
+      <li><a href="../part6/cubical_heap.html">Cubical Heap</a></li>
+      <li><a href="../part6/separation.html">Separation Logic (vs Pulse)</a></li>
+      <li><a href="../part6/references.html">Mutable References</a></li>
+      <li><a href="../part6/arrays.html">Arrays</a></li>
+      <li><a href="../part6/threading.html">Threading &amp; GIL</a></li>
+      <li><a href="../part6/async.html">Async / Await</a></li>
+
+      <li><span class="section-title">Under the Hood</span></li>
+      <li><a href="../under_the_hood/index.html">Overview</a></li>
+      <li><a href="../under_the_hood/z3.html">How Deppy Uses Z3</a></li>
+      <li><a href="../under_the_hood/lean.html">Lean Export</a></li>
+      <li><a href="../under_the_hood/equivalence.html">Equivalence Checking</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="content">
+  <article>
+    <h1>Decorator Form</h1>
+    <p class="subtitle" style="color:var(--text-muted); font-size:1.05rem; margin-bottom:2rem;">
+      <code>@foundation</code> / <code>@axiom</code> / <code>@verify</code> — proof annotations inline with Python.
+    </p>
+
+    <!-- ─── Two equivalent forms ─── -->
+    <h2>Two Equivalent Sidecar Forms</h2>
+    <p>
+      Deppy supports two interchangeable shapes for the proof-relevant
+      metadata attached to a module:
+    </p>
+    <ul>
+      <li>
+        <strong><code>.deppy</code> sidecar files</strong> — a separate-file
+        YAML-shaped form for the case where you are <em>retrofitting proof
+        obligations onto code you didn't write</em> (sympy, numpy, …). The
+        sympy_geometry case study uses this form.
+      </li>
+      <li>
+        <strong>Decorators inside a Python module</strong> — for the case
+        where you are <em>writing the module yourself</em> and want the
+        proof metadata to live next to the implementation it constrains.
+      </li>
+    </ul>
+    <p>
+      Both produce a <code>SidecarModule</code> and feed the
+      <strong>same</strong> verify pipeline. There is no semantic difference.
+    </p>
+
+    <!-- ─── Quick start ─── -->
+    <h2>Quick Start</h2>
+    <p>
+      A complete example. Place this in <code>my_module.py</code>:
+    </p>
+
+<pre><code><span class="kw">from</span> deppy.proofs.sidecar_decorators <span class="kw">import</span> (
+    foundation, axiom, verify, spec, lemma,
+    psdl_proof, by_lean, code_type, predicate, constant,
+    lean_import, lean_preamble,
+)
+
+
+<span class="dc">@foundation</span>
+<span class="kw">def</span> <span class="fn">Real_sqrt_nonneg</span>():
+    <span class="st">"""sqrt(x) >= 0 when x >= 0"""</span>
+
+
+<span class="dc">@axiom</span>(
+    target=<span class="st">"my_module.Point.distance"</span>,
+    statement=<span class="st">"Point.distance(p, q) >= 0"</span>,
+)
+<span class="kw">def</span> <span class="fn">dist_nonneg</span>():
+    <span class="st">"""Distance is non-negative."""</span>
+
+
+<span class="dc">@spec</span>(
+    guarantees=[<span class="st">"distance is non-negative"</span>],
+    axioms=[<span class="st">"dist_nonneg"</span>],
+)
+<span class="kw">class</span> <span class="ty">Point</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, x, y):
+        self.x = x
+        self.y = y
+
+    <span class="dc">@verify</span>(
+        property=<span class="st">"Point.distance(p, q) >= 0"</span>,
+        via=<span class="st">"foundation Real_sqrt_nonneg"</span>,
+        binders={<span class="st">"p"</span>: <span class="st">"Point"</span>, <span class="st">"q"</span>: <span class="st">"Point"</span>},
+    )
+    <span class="dc">@psdl_proof</span>(<span class="st">"""
+if isinstance(other, Point):
+    inline(Point.distance, sqrt(sum_zip_sub_sq(self, other)))
+    apply(Real_sqrt_nonneg)
+    assert sum_zip_sub_sq(self, other) >= 0, "z3"
+else:
+    raise NotImplementedError
+"""</span>)
+    <span class="kw">def</span> <span class="fn">distance</span>(self, other):
+        <span class="kw">from</span> math <span class="kw">import</span> sqrt
+        <span class="kw">return</span> sqrt((self.x - other.x) ** <span class="nb">2</span> + (self.y - other.y) ** <span class="nb">2</span>)</code></pre>
+
+    <p>Run:</p>
+
+<pre><code>$ python -m deppy.pipeline.run_verify --from-module my_module</code></pre>
+
+    <p>Or programmatically:</p>
+
+<pre><code><span class="kw">import</span> my_module
+<span class="kw">from</span> deppy.proofs.sidecar_decorators <span class="kw">import</span> extract_sidecar_module
+sm = <span class="fn">extract_sidecar_module</span>(my_module)
+
+<span class="kw">from</span> deppy.lean.sidecar_runner <span class="kw">import</span> _run_with_module
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+rr = <span class="fn">_run_with_module</span>(
+    sm,
+    out_path=<span class="fn">Path</span>(<span class="st">"my_module.lean"</span>),
+    sidecar_path=<span class="fn">Path</span>(my_module.__file__),
+)
+<span class="fn">print</span>(rr.certified)  <span class="cm"># True / False</span></code></pre>
+
+    <p>
+      The repository ships <code>examples/decorated_geometry.py</code>
+      as a fully verified worked example — running
+      <code>python -m deppy.pipeline.run_verify --from-module
+      examples.decorated_geometry</code> produces
+      <code>✓ CERTIFIED — top-level certify_or_die: PASS</code> end-to-end.
+    </p>
+
+    <!-- ─── Reference ─── -->
+    <h2>Decorator Reference</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Decorator</th>
+          <th>Target</th>
+          <th>What it records</th>
+          <th><code>.deppy</code> equivalent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>@foundation</code></td>
+          <td>function</td>
+          <td>A generic mathematical fact. Statement comes from the
+            docstring or the function's return value.</td>
+          <td><code>foundation NAME: "stmt"</code></td>
+        </tr>
+        <tr>
+          <td><code>@axiom(target=, statement=, …)</code></td>
+          <td>function</td>
+          <td>A claim about the library's behaviour.</td>
+          <td><code>axiom NAME: target: …</code></td>
+        </tr>
+        <tr>
+          <td><code>@verify(property=, via=, binders=, …)</code></td>
+          <td>function</td>
+          <td>A property of <em>this</em> function — the verify pipeline
+            kernel-checks it.</td>
+          <td><code>verify NAME: function: … property: … via: …</code></td>
+        </tr>
+        <tr>
+          <td><code>@psdl_proof("…")</code></td>
+          <td>function (after <code>@verify</code>)</td>
+          <td>A PSDL proof body (Python-syntax tactics).</td>
+          <td><code>psdl_proof: |</code> block</td>
+        </tr>
+        <tr>
+          <td><code>@by_lean("…")</code></td>
+          <td>function</td>
+          <td>Raw Lean tactic for the verify block.</td>
+          <td><code>by_lean: |</code> block</td>
+        </tr>
+        <tr>
+          <td><code>@spec(guarantees=, axioms=, …)</code></td>
+          <td>class</td>
+          <td>A spec block listing guarantees + cited axioms.</td>
+          <td><code>spec target: …</code></td>
+        </tr>
+        <tr>
+          <td><code>@lemma(name=, statement=, by=, lean_proof=, …)</code></td>
+          <td>function</td>
+          <td>A local lemma the certificate can cite.</td>
+          <td><code>lemma NAME: …</code></td>
+        </tr>
+        <tr>
+          <td><code>code_type(name, signature)</code></td>
+          <td>(call form)</td>
+          <td>A Lean type signature for a function name.</td>
+          <td><code>code_types: |</code> line</td>
+        </tr>
+        <tr>
+          <td><code>predicate(name, body)</code></td>
+          <td>(call form)</td>
+          <td>Custom predicate definition.</td>
+          <td><code>predicate NAME: …</code></td>
+        </tr>
+        <tr>
+          <td><code>constant(name, body)</code></td>
+          <td>(call form)</td>
+          <td>Symbolic constant.</td>
+          <td><code>constant NAME: …</code></td>
+        </tr>
+        <tr>
+          <td><code>lean_import(line)</code></td>
+          <td>(call form)</td>
+          <td>A top-level Lean import.</td>
+          <td><code>lean_imports: |</code> line</td>
+        </tr>
+        <tr>
+          <td><code>lean_preamble(text)</code></td>
+          <td>(call form)</td>
+          <td>Append to top-level Lean preamble.</td>
+          <td><code>lean_preamble: |</code> block</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ─── How extraction works ─── -->
+    <h2>How Extraction Works</h2>
+    <p>
+      Each decorator stamps the function (or class) with a
+      <code>__deppy_*__</code> attribute carrying the metadata as a
+      dict. At extraction time, <code>extract_sidecar_module(module)</code>
+      walks the module's members (including methods of classes) and
+      reassembles a <code>SidecarModule</code> with the same fields a
+      parsed <code>.deppy</code> file would produce.
+    </p>
+    <p>
+      The pipeline that runs after extraction is <strong>identical</strong>:
+    </p>
+    <ol>
+      <li>Foundation Z3 discharge.</li>
+      <li>Mechanization to concrete Lean Props.</li>
+      <li>Per-method body translation.</li>
+      <li>Per-verify-block kernel verification + counterexample search.</li>
+      <li>PSDL compilation when <code>@psdl_proof</code> is set.</li>
+      <li>Lean certificate emission + <code>lean_runner</code> round-trip.</li>
+      <li>JSON sidecar emission.</li>
+      <li><code>certify_or_die</code> verdict.</li>
+    </ol>
+
+    <!-- ─── When to use which ─── -->
+    <h2>When to Use Which Form</h2>
+    <table>
+      <thead>
+        <tr><th>Workflow</th><th>Use</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Verifying an <em>imported</em> library
+            (<code>sympy</code>, <code>numpy</code>, …) you don't control</td>
+          <td><code>.deppy</code> sidecar</td>
+        </tr>
+        <tr>
+          <td>Writing a <em>new</em> module and proving its properties
+            as you go</td>
+          <td>Decorators</td>
+        </tr>
+        <tr>
+          <td>Mixed: some claims about <code>sympy</code> + some about
+            your own helpers</td>
+          <td>Both — the decorator form imports your code; the
+            <code>.deppy</code> form adds external claims; merge via
+            <code>import other.deppy</code> and <code>--from-module</code>
+            together</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The decorator form is best when:</p>
+    <ul>
+      <li>The function being verified IS the function carrying the
+        <code>@verify</code> decorator.</li>
+      <li>You want refactors to keep the proof metadata aligned with the
+        implementation (renaming the function automatically renames the
+        verify block's <code>function:</code> target via
+        <code>__qualname__</code>).</li>
+      <li>You want the proof obligations to be discoverable via
+        <code>dir(mod)</code>.</li>
+    </ul>
+
+    <p>The <code>.deppy</code> form is best when:</p>
+    <ul>
+      <li>The module being verified is read-only (third-party library).</li>
+      <li>Multiple <code>.deppy</code> files compose via
+        <code>import</code> (one per sub-module of a large library).</li>
+      <li>You want to publish the proof metadata as a separate artefact
+        (audit log, reproducibility manifest).</li>
+    </ul>
+
+    <!-- ─── Composition ─── -->
+    <h2>Composition with <code>.deppy</code></h2>
+    <p>
+      A module may use <em>both</em>: decorators inline define one piece
+      of the sidecar; a separate <code>.deppy</code> file describes
+      external dependencies. The two are unioned at extraction time.
+    </p>
+
+<pre><code><span class="cm"># my_module.py</span>
+<span class="dc">@foundation</span>
+<span class="kw">def</span> <span class="fn">MyFact</span>():
+    <span class="st">"""x + 0 == x"""</span></code></pre>
+
+<pre><code><span class="cm"># my_module.deppy</span>
+<span class="kw">import</span> generic_arith.deppy   <span class="cm"># external foundations</span>
+
+<span class="kw">axiom</span> external_claim:
+  target: third_party.lib
+  statement: <span class="st">"…"</span></code></pre>
+
+<pre><code><span class="cm"># Run both — decorator form adds the inline foundations; .deppy</span>
+<span class="cm"># adds the external claims.</span>
+$ python -m deppy.pipeline.run_verify --from-module my_module
+$ python -m deppy.pipeline.run_verify my_module.deppy</code></pre>
+
+    <!-- ─── Verified end-to-end ─── -->
+    <h2>End-to-End Verification</h2>
+    <p>
+      Running the shipped example produces this exact output (run on
+      2026-04-27):
+    </p>
+
+<pre><code>$ python -m deppy.pipeline.run_verify \
+    --from-module examples.decorated_geometry \
+    --out decorated_geometry.lean
+
+  ...
+  ────────────────────────────────────────────────────────────
+  deppy.lean.lean_runner round-trip:       OK
+  ────────────────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
+
+    <div class="tip">
+      <strong>See also:</strong>
+      <ul>
+        <li><code>examples/decorated_geometry.py</code> — the full
+          worked example.</li>
+        <li><code>deppy/proofs/sidecar_decorators.py</code> — the
+          implementation.</li>
+        <li><code>deppy/lean/sidecar_runner.py</code> — the
+          <code>--from-module</code> CLI hook.</li>
+        <li><code>docs/psdl_treatise/</code> — the long-form treatise on
+          the verification pipeline as a whole (uses the
+          <code>.deppy</code> form throughout).</li>
+      </ul>
+    </div>
+
+    <!-- ─── Where to next ─── -->
+    <nav class="page-nav">
+      <a href="sidecar_basics.html">
+        <span class="label">← Previous</span>
+        <span class="title">Sidecar Basics</span>
+      </a>
+      <a href="sympy.html" style="text-align:right">
+        <span class="label">Next →</span>
+        <span class="title">Case Study: SymPy</span>
+      </a>
+    </nav>
+  </article>
+</div>
+
+<script src="../js/book.js"></script>
+</body>
+</html>

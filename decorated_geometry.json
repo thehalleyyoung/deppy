@@ -1,0 +1,32 @@
+{
+  "sidecar": "/Users/halleyyoung/Documents/div/mathdivergence/deppy/examples/decorated_geometry.py",
+  "lean_path": "/Users/halleyyoung/Documents/div/mathdivergence/deppy/decorated_geometry.lean",
+  "library_summary": "examples.decorated_geometry",
+  "elapsed_ms": 3416.6077080881223,
+  "certified": true,
+  "failures": [],
+  "lean_runner": {
+    "invoked": true,
+    "ok": true,
+    "stderr": "",
+    "goal_state_on_failure": []
+  },
+  "section_counters": {
+    "foundation_count": 5,
+    "axiom_count": 2,
+    "verify_total": 2,
+    "verify_kernel_verified": 1,
+    "mechanized_axioms": 2,
+    "body_links_exact": 0,
+    "body_links_sorry": 0,
+    "counterexamples_found": 0,
+    "counterexamples_attempted": 0,
+    "rejected_theorem_count": 0,
+    "soundness_gate_pass": 0,
+    "soundness_gate_fail": 0,
+    "foundations_z3_verified": 2,
+    "foundations_z3_attempted": 2
+  },
+  "classification_counts": {},
+  "unmatched_proofs": []
+}
