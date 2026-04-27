@@ -674,18 +674,28 @@
       into a global proof.  Here is its formal signature:
     </p>
 
-    <pre><code class="notation"><span class="fn">CechGlue</span>(
-    cover:   <span class="ty">list</span>[<span class="ty">Patch</span>],            <span class="cm"># the patches {U₁, ..., Uₙ}</span>
-    locals:  <span class="ty">list</span>[<span class="ty">ProofTerm</span>],        <span class="cm"># local proofs {π₁, ..., πₙ}</span>
-    glues:   <span class="ty">dict</span>[(<span class="ty">int</span>,<span class="ty">int</span>), <span class="ty">ProofTerm</span>] <span class="cm"># overlap proofs {πᵢⱼ}</span>
-) -> <span class="ty">ProofTerm</span>                       <span class="cm"># global proof</span>
+    <pre><code class="notation"><span class="cm"># deppy.core.kernel.CechGlue (the real dataclass):</span>
+<span class="kw">class</span> <span class="fn">CechGlue</span>(<span class="ty">ProofTerm</span>):
+    patches:        <span class="ty">list</span>[<span class="ty">tuple</span>[<span class="ty">str</span>, <span class="ty">ProofTerm</span>]]
+    overlap_proofs: <span class="ty">list</span>[<span class="ty">tuple</span>[<span class="ty">int</span>, <span class="ty">int</span>, <span class="ty">ProofTerm</span>]]
 
-<span class="cm"># Preconditions (checked):</span>
-<span class="cm"># 1. ∪ patches = Domain</span>
-<span class="cm"># 2. For each i: locals[i] proves guarantee on patch[i]</span>
-<span class="cm"># 3. For each (i,j) with patch[i] ∩ patch[j] ≠ ∅:</span>
-<span class="cm">#    glues[(i,j)] proves that locals[i] and locals[j]</span>
-<span class="cm">#    agree on patch[i] ∩ patch[j]</span></code></pre>
+<span class="cm"># Each patch is ``(condition_string, local_proof)``.</span>
+<span class="cm"># Each overlap is ``(i, j, agreement_proof)`` — only listed</span>
+<span class="cm"># when patch[i] and patch[j] actually intersect on the input</span>
+<span class="cm"># domain.  The kernel verifies:</span>
+<span class="cm">#   1. ∪ patches = Domain (open cover obligation)</span>
+<span class="cm">#   2. Each local_proof is itself kernel-checkable</span>
+<span class="cm">#   3. For each ``(i, j, ag)``: ag witnesses that the local</span>
+<span class="cm">#      proofs agree on the overlap (cocycle condition).</span>
+
+<span class="cm"># The user-facing wrapper smooths over a few list shapes:</span>
+<span class="kw">from</span> deppy <span class="kw">import</span> cech_glue
+glue = cech_glue(
+    [(<span class="st">"x &lt; 0"</span>, neg_proof),
+     (<span class="st">"x == 0"</span>, zero_proof),
+     (<span class="st">"x &gt; 0"</span>, pos_proof)],
+    overlap_proofs=[],   <span class="cm"># disjoint patches → no overlaps</span>
+)</code></pre>
 
     <p>
       The output is a single proof term that you can think of as:

@@ -355,7 +355,7 @@
   guarantees:
 </p>
 
-<pre><code><span class="kw">from</span> <span class="nb">deppy.hybrid</span> <span class="kw">import</span> <span class="fn">guarantee</span>
+<pre><code><span class="kw">from</span> <span class="nb">deppy</span> <span class="kw">import</span> <span class="fn">guarantee</span>
 
 <span class="dc">@guarantee</span>(<span class="st">"result >= 0"</span>)
 <span class="dc">@guarantee</span>(<span class="st">"result * result <= x"</span>)
@@ -442,7 +442,7 @@
   the simplest case:
 </p>
 
-<pre><code><span class="kw">from</span> <span class="nb">deppy.hybrid</span> <span class="kw">import</span> <span class="fn">guarantee</span>
+<pre><code><span class="kw">from</span> <span class="nb">deppy</span> <span class="kw">import</span> <span class="fn">guarantee</span>
 
 <span class="dc">@guarantee</span>(<span class="st">"result >= 0"</span>)
 <span class="kw">def</span> <span class="fn">square</span>(<span class="nb">x</span>: <span class="ty">int</span>) -> <span class="ty">int</span>:
@@ -628,11 +628,14 @@
   The simplest way to export and check proofs:
 </p>
 
-<pre><code class="notation"><span class="cm">$ deppy export --lean my_module.py -o my_module.lean</span>
+<pre><code class="notation"><span class="cm">$ python -m deppy export my_module.py --output my_module.lean</span>
 <span class="st">Exported 5 theorems (3 fully proved, 2 sorry)</span>
 
-<span class="cm">$ cd lean_project && lake build</span>
-<span class="st">Build completed successfully</span></code></pre>
+<span class="cm"># Or: render the Lean text directly via the sidecar runner.</span>
+<span class="cm"># It also runs ``lean`` against the output and writes the JSON sidecar:</span>
+<span class="cm">$ python -m deppy.pipeline.run_verify my_module.deppy --out my_module.lean</span>
+<span class="st">  Lean export round-trip: OK</span>
+<span class="st">  ✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
 
 <h3 id="lean-project-setup">Setting Up a Lean 4 Project</h3>
 

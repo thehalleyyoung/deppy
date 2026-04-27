@@ -460,9 +460,12 @@ include <span class="op">=</span> [<span class="st">"src/**/*.py"</span>]
 exclude <span class="op">=</span> [<span class="st">"tests/**"</span>]</code></pre>
 
     <p>
-      With a config file in place you can simply run
-      <code>python -m deppy.pipeline.run_verify</code> (no filename) and it will verify every
-      file matched by <code>include</code>.
+      A <code>deppy.toml</code> file is documentation today —
+      <code>python -m deppy.pipeline.run_verify</code> always takes
+      either a <code>.deppy</code> path or a <code>--from-module
+      DOTTED.PATH</code> argument; multi-file project orchestration is
+      typically handled with a wrapper shell script or a Makefile that
+      enumerates the <code>.deppy</code> files explicitly.
     </p>
 
     <!-- ──────────────────────────────────────────────── -->
@@ -523,10 +526,17 @@ exclude <span class="op">=</span> [<span class="st">"tests/**"</span>]</code></p
 <span class="kw">def</span> <span class="fn">is_positive</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">bool</span>:
     <span class="kw">return</span> n <span class="op">></span> <span class="nb">0</span></code></pre>
 
-    <p>Running <code>python -m deppy.pipeline.run_verify utils.py</code>:</p>
+    <p>
+      Running the safety pipeline directly on
+      <code>utils.py</code> (which understands
+      <code>@guarantee</code>/<code>@requires</code>/<code>@ensures</code>
+      decorators):
+    </p>
+
+    <pre><code><span class="cm">$ python -m deppy check utils.py</span></code></pre>
 
     <pre><code class="output"><span class="cm">──────────────────────────────────────────────────</span>
- Deppy v0.4.0 — verifying utils.py
+ Deppy v0.1 — verifying utils.py
 <span class="cm">──────────────────────────────────────────────────</span>
 
 <span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>

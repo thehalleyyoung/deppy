@@ -241,7 +241,7 @@
         <tr>
           <td><a href="refinement_types.html">Refinement Types</a></td>
           <td>Constraining values</td>
-          <td><code class="ty">Nat</code>, <code class="ty">Pos</code>, <code class="dc">@refined</code>, subtyping</td>
+          <td><code class="ty">Nat()</code>, <code class="ty">Pos()</code>, <code class="ty">refined(base, pred)</code>, subtyping</td>
         </tr>
         <tr>
           <td><a href="equality.html">Equality &amp; Duck Typing</a></td>
@@ -319,16 +319,18 @@ pip install z3-solver</code></pre>
       <code class="ty">int</code> refined by <code>value &gt;= 0</code>.
     </p>
 
-    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> refined, guarantee
+    <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> refined, guarantee, Nat, Pos
+<span class="kw">from</span> deppy.types <span class="kw">import</span> PyIntType
 
-<span class="ty">Nat</span> <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">&gt;=</span> <span class="nb">0</span>)
-<span class="ty">Pos</span> <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">&gt;</span> <span class="nb">0</span>)
+<span class="cm"># Two equivalent ways to spell the same refinement</span>
+<span class="ty">Nat_t</span> <span class="op">=</span> Nat()                                     <span class="cm"># shorthand</span>
+<span class="ty">Pos_t</span> <span class="op">=</span> refined(PyIntType(), <span class="st">"x &gt; 0"</span>, <span class="st">"x"</span>)        <span class="cm"># explicit</span>
 
-<span class="dc">@guarantee</span>(<span class="st">"result > 0"</span>)
-<span class="kw">def</span> <span class="fn">successor</span>(n: <span class="ty">Nat</span>) <span class="op">-&gt;</span> <span class="ty">Pos</span>:
+<span class="dc">@guarantee</span>(<span class="st">"result &gt; 0"</span>)
+<span class="kw">def</span> <span class="fn">successor</span>(n: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
     <span class="kw">return</span> n <span class="op">+</span> <span class="nb">1</span>
 
-<span class="dc">@guarantee</span>(<span class="st">"result >= x and result >= y"</span>)
+<span class="dc">@guarantee</span>(<span class="st">"result &gt;= x and result &gt;= y"</span>)
 <span class="kw">def</span> <span class="fn">max_of</span>(x: <span class="ty">int</span>, y: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span>:
     <span class="kw">if</span> x <span class="op">&gt;=</span> y:
         <span class="kw">return</span> x

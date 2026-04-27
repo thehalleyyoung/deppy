@@ -101,6 +101,21 @@
       all without modifying the code you're verifying.
     </p>
 
+    <div class="note">
+      <strong>Today's surface API:</strong> the <code>@induction</code>
+      decorator currently takes a single positional argument — the
+      target identifier (<code>@induction("xs")</code>) — and stores
+      <code>fn._deppy_induction_target</code> for the kernel to read.
+      The chapter examples below show <code>@induction("xs",
+      over="list")</code> and similar; the <code>over=</code> keyword
+      is a documentary convention used here to signal which
+      induction principle the proof is meant to invoke (natural-number
+      induction, list induction, tree induction).  Inside the kernel
+      the actual selection happens by binding the proof body to one
+      of <code>NatInduction</code>, <code>ListInduction</code>, or
+      structural <code>Cases</code> on the relevant ADT.
+    </div>
+
     <!-- ===== Lemmas as Python Functions ===== -->
     <h2>Lemmas as Python Functions</h2>
     <p>

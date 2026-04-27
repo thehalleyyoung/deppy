@@ -96,31 +96,34 @@
     <!-- ───────────────────────────────────────────── -->
     <h2 id="creating-sidecar">Creating a <code>.deppy</code> File</h2>
     <p>
-      A sidecar file mirrors the structure of the module it describes. For a module
-      <code>foo.bar</code>, create <code>foo/bar.deppy</code> in your project's
-      <code>sidecars/</code> directory (or wherever you configure
-      <code>deppy.toml</code> to look).
+      A sidecar file is just a free-standing
+      <code>&lt;something&gt;.deppy</code> text file.  The pipeline is
+      invoked by name:
+      <code>python -m deppy.pipeline.run_verify path/to/file.deppy</code>.
+      Conventionally the file lives next to the Python source it
+      describes (<code>my_app.py</code> ↔ <code>my_app.deppy</code>) or
+      under a project-level <code>sidecars/</code> directory.
     </p>
 
-    <pre><code class="output"><span class="cm"># Project layout</span>
+    <pre><code class="output"><span class="cm"># Suggested project layout</span>
 myproject/
 ├── src/
 │   └── my_app.py          <span class="cm"># your code — imports math, collections</span>
 ├── sidecars/
 │   ├── math.deppy        <span class="cm"># sidecar for Python's math module</span>
 │   └── collections.deppy <span class="cm"># sidecar for Python's collections</span>
-├── deppy.toml            <span class="cm"># configuration</span>
+├── pyproject.toml         <span class="cm"># normal Python packaging</span>
 └── tests/</code></pre>
 
-    <p>The <code>deppy.toml</code> configuration:</p>
-    <pre><code class="toml"><span class="cm"># deppy.toml</span>
-[sidecar]
-search_paths = [<span class="st">"sidecars/"</span>]
-auto_discover = <span class="nb">true</span>
-
-[verification]
-default_trust = <span class="st">"Z3_VERIFIED"</span>
-timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof obligation</span></code></pre>
+    <div class="note">
+      <strong>Configuration:</strong> the deppy package does not parse a
+      project-level config file today.  Pass <code>--out</code> /
+      <code>--from-module</code> to <code>run_verify</code>, or wire a
+      shell loop / Makefile / GitHub Actions step to enumerate the
+      <code>.deppy</code> files in your tree.  Per-run knobs
+      (Z3 timeout, parallelism) live on
+      <code>deppy.config.DeppyConfig</code>.
+    </div>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="about-decorator">The <code>@about</code> Decorator</h2>
@@ -166,64 +169,79 @@ timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof oblig
       laws, and exception behavior.
     </p>
 
-    <pre><code><span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove, law
+    <pre><code><span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, law
 
 <span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
 <span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
     <span class="st">"""math.sqrt(x) → float"""</span>
 
-    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""x must be non-negative."""</span>
-        <span class="kw">return</span> x >= <span class="nb">0</span>
-
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>, result: <span class="ty">float</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""Result is the non-negative square root."""</span>
-        <span class="kw">return</span> result >= <span class="nb">0</span> <span class="kw">and</span> abs(result * result - x) < <span class="nb">1e-10</span>
-
-    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">type</span> | <span class="nb">None</span>:
-        <span class="st">"""ValueError when x < 0."""</span>
-        <span class="kw">if</span> x < <span class="nb">0</span>:
-            <span class="kw">return</span> <span class="ty">ValueError</span>
-        <span class="kw">return</span> <span class="nb">None</span>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">nonneg</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""math.sqrt(x) is non-negative when x >= 0."""</span>
+        <span class="kw">if</span> x < <span class="nb">0</span>: <span class="kw">return</span> <span class="nb">True</span>
+        <span class="kw">return</span> <span class="kw">self</span>.call(x) >= <span class="nb">0</span>
 
     <span class="dc">@law</span>
     <span class="kw">def</span> <span class="fn">sqrt_of_square</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
         <span class="st">"""sqrt(x²) == |x| for all x."""</span>
-        <span class="kw">return</span> abs(self.call(x * x) - abs(x)) < <span class="nb">1e-10</span></code></pre>
+        <span class="kw">return</span> abs(<span class="kw">self</span>.call(x * x) - abs(x)) < <span class="nb">1e-10</span></code></pre>
 
-    <h3>ExternalSpec Methods</h3>
+    <p>
+      An <code>ExternalSpec</code> subclass is a runtime-checkable bundle:
+      each <code>@law</code> method takes the same arguments the target
+      takes, calls <code>self.call(*args)</code> to invoke the live
+      target, and returns a boolean.  In a sidecar pipeline, every
+      <code>@law</code> also becomes a recorded sidecar axiom that the
+      kernel can cite.
+    </p>
+
+    <p>
+      In the <code>.deppy</code> sidecar form, the same content is
+      written declaratively as foundations, axioms, and verify blocks
+      — see <a href="../part4/geometry.html">Verifying
+      sympy.geometry</a> for a worked example.
+    </p>
+
+    <h3>ExternalSpec Surface</h3>
     <table>
       <thead>
         <tr>
-          <th>Method</th>
+          <th>Member</th>
           <th>Purpose</th>
           <th>Required?</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><code>precondition(self, ...)</code></td>
-          <td>Conditions that must hold before calling the function</td>
-          <td>Optional</td>
-        </tr>
-        <tr>
-          <td><code>postcondition(self, ..., result)</code></td>
-          <td>Conditions guaranteed to hold after the call returns</td>
-          <td>Optional</td>
-        </tr>
-        <tr>
-          <td><code>raises(self, ...)</code></td>
-          <td>Which exception (if any) is thrown for given inputs</td>
-          <td>Optional</td>
+          <td><code>@about(target)</code></td>
+          <td>Bind the spec class to the dotted-path target</td>
+          <td>Required</td>
         </tr>
         <tr>
           <td><code>@law</code> methods</td>
-          <td>Algebraic properties (commutativity, etc.)</td>
+          <td>Runtime-checkable claims about the target; each becomes
+              a sidecar axiom in the kernel</td>
+          <td>Recommended</td>
+        </tr>
+        <tr>
+          <td><code>self.call(*args)</code></td>
+          <td>Resolves and invokes the live target inside an
+              <code>@law</code> body</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>guarantees</code> /
+              <code>preconditions</code> /
+              <code>postconditions</code> lists</td>
+          <td>String-form pre/post/guarantees consumed by the
+              <code>SidecarModule</code> registry</td>
           <td>Optional</td>
         </tr>
         <tr>
-          <td><code>trust_level</code> attribute</td>
-          <td>How much to trust this spec (default: <code>Z3_VERIFIED</code>)</td>
+          <td><code>trust_level</code></td>
+          <td><code>TrustLevel</code> attached to the bundle (default
+              <code>UNTRUSTED</code> until promoted by a successful
+              proof)</td>
           <td>Optional</td>
         </tr>
       </tbody>
@@ -232,48 +250,52 @@ timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof oblig
     <!-- ───────────────────────────────────────────── -->
     <h2 id="assume-vs-prove">Assume vs. Prove</h2>
     <p>
-      Sidecar specs distinguish between things you <strong>assume</strong> about the
-      library and things you <strong>prove</strong> about your usage of it.
+      In the <code>.deppy</code> file syntax, sidecar metadata
+      distinguishes between things you <strong>assume</strong> about
+      the library (its observable axioms) and things you
+      <strong>prove</strong> about your code's usage of it (verify
+      blocks).  The shape on disk is:
     </p>
 
     <div class="compare">
       <div>
-        <h4><code>assume</code></h4>
-        <pre><code><span class="cm"># You TRUST the library does this</span>
-<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
-<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
-    trust_level = <span class="st">"ASSUMED"</span>
+        <h4><code>foundation</code> / <code>axiom</code></h4>
+        <pre><code><span class="cm"># You TRUST the library / arithmetic does this</span>
+foundation Real_sqrt_nonneg:
+  <span class="st">"sqrt(x) >= 0 when x >= 0"</span>
 
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(self, x, r):
-        <span class="kw">return</span> r >= <span class="nb">0</span>
-<span class="cm"># ↑ Not verified — taken on faith</span></code></pre>
+spec math.sqrt:
+  guarantee: <span class="st">"non-negative output"</span>
+  axiom sqrt_nonneg:
+    <span class="st">"math.sqrt(x) >= 0 when x >= 0"</span>
+<span class="cm"># ↑ Z3 may *try* to discharge it; if it can't, it</span>
+<span class="cm">#   becomes an admitted axiom in the Lean output.</span></code></pre>
       </div>
       <div>
-        <h4><code>prove</code></h4>
-        <pre><code><span class="cm"># Deppy CHECKS this at call sites</span>
-<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
-<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
-    trust_level = <span class="st">"Z3_VERIFIED"</span>
-
-    <span class="dc">@prove</span>
-    <span class="kw">def</span> <span class="fn">precondition</span>(self, x):
-        <span class="kw">return</span> x >= <span class="nb">0</span>
-<span class="cm"># ↑ Z3 must prove this at every call</span></code></pre>
+        <h4><code>verify</code> block</h4>
+        <pre><code><span class="cm"># Deppy CHECKS this against the foundations + axioms</span>
+verify hypotenuse_nonneg:
+  function: my_module.hypotenuse
+  property: <span class="st">"hypotenuse(a, b) >= 0"</span>
+  via: <span class="st">"foundation Real_sqrt_nonneg"</span>
+<span class="cm"># ↑ The kernel constructs a real ProofTerm.</span></code></pre>
       </div>
     </div>
 
     <p>
-      The rule is simple: <strong>postconditions are assumed</strong> (you trust the
-      library's implementation), <strong>preconditions are proved</strong> (you must
-      show your code satisfies them).
+      The rule is simple: <strong>foundations and axioms are
+      assumed</strong> (taken on faith, optionally Z3-checked),
+      <strong>verify blocks are proved</strong> (the kernel must
+      construct a closed proof term that is also kernel-verified by
+      Lean on round-trip).
     </p>
 
     <div class="warning">
-      If you mark a postcondition with <code>@prove</code>, Deppy will try to verify
-      the library's implementation — which requires source access. This only works for
-      libraries you also have the source code for. For <code>pip</code> packages, stick
-      with <code>@assume</code> on postconditions.
+      If a foundation is admitted, the pipeline runs counterexample
+      search against it.  If Z3 finds a model where the foundation
+      fails, the certificate is rejected (<code>certified == false</code>
+      in the JSON sidecar).  This is how the system guards against
+      false foundations slipping in.
     </div>
 
     <!-- ───────────────────────────────────────────── -->
@@ -284,120 +306,58 @@ timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof oblig
     </p>
 
     <pre><code><span class="cm"># sidecars/math.deppy</span>
-<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove, law
-<span class="kw">from</span> deppy.types <span class="kw">import</span> Nat, PosInt, NonNegFloat
+module: math
+
+<span class="cm"># ── Foundations: arithmetic facts the kernel cites ───────────</span>
+foundation Real_sqrt_nonneg: <span class="st">"sqrt(x) >= 0 when x >= 0"</span>
+foundation Real_sqrt_sq: <span class="st">"sqrt(x)**2 == x when x >= 0"</span>
+foundation Int_factorial_pos: <span class="st">"n! >= 1 when n >= 0"</span>
+foundation Int_gcd_divides: <span class="st">"gcd(a,b) divides both a and b"</span>
 
 <span class="cm"># ── sqrt ──────────────────────────────────────────────</span>
-<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
-<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> x >= <span class="nb">0</span>
-
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>, result: <span class="ty">float</span>) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> result >= <span class="nb">0</span> <span class="kw">and</span> abs(result * result - x) < <span class="nb">1e-10</span>
-
-    <span class="dc">@law</span>
-    <span class="kw">def</span> <span class="fn">monotone</span>(<span class="kw">self</span>, a: <span class="ty">NonNegFloat</span>, b: <span class="ty">NonNegFloat</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""sqrt is monotonically increasing."""</span>
-        <span class="kw">if</span> a <= b:
-            <span class="kw">return</span> self.call(a) <= self.call(b)
-        <span class="kw">return</span> <span class="nb">True</span>
+spec math.sqrt:
+  guarantee: <span class="st">"non-negative output when input is non-negative"</span>
+  pure: true
+  axiom sqrt_nonneg: <span class="st">"math.sqrt(x) >= 0 when x >= 0"</span>
+  axiom sqrt_inverse: <span class="st">"math.sqrt(x)**2 == x when x >= 0"</span>
 
 <span class="cm"># ── factorial ─────────────────────────────────────────</span>
-<span class="dc">@about</span>(<span class="st">"math.factorial"</span>)
-<span class="kw">class</span> <span class="fn">FactorialSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, n: <span class="ty">int</span>) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> n >= <span class="nb">0</span>
-
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, n: <span class="ty">int</span>, result: <span class="ty">int</span>) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> result > <span class="nb">0</span>  <span class="cm"># factorial is always positive</span>
-
-    <span class="dc">@law</span>
-    <span class="kw">def</span> <span class="fn">recursive_def</span>(<span class="kw">self</span>, n: <span class="ty">PosInt</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""n! == n * (n-1)!"""</span>
-        <span class="kw">return</span> self.call(n) == n * self.call(n - <span class="nb">1</span>)
-
-    <span class="dc">@law</span>
-    <span class="kw">def</span> <span class="fn">base_case</span>(<span class="kw">self</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""0! == 1"""</span>
-        <span class="kw">return</span> self.call(<span class="nb">0</span>) == <span class="nb">1</span>
-
-    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, n: <span class="ty">int</span>) -> <span class="ty">type</span> | <span class="nb">None</span>:
-        <span class="kw">if</span> n < <span class="nb">0</span>:
-            <span class="kw">return</span> <span class="ty">ValueError</span>
-        <span class="kw">return</span> <span class="nb">None</span>
+spec math.factorial:
+  guarantee: <span class="st">"factorial is positive on non-negative integers"</span>
+  pure: true
+  axiom factorial_pos: <span class="st">"math.factorial(n) >= 1 when n >= 0"</span>
+  axiom factorial_step: <span class="st">"math.factorial(n) == n * math.factorial(n-1) when n >= 1"</span>
 
 <span class="cm"># ── gcd ───────────────────────────────────────────────</span>
-<span class="dc">@about</span>(<span class="st">"math.gcd"</span>)
-<span class="kw">class</span> <span class="fn">GcdSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, a: <span class="ty">int</span>, b: <span class="ty">int</span>, result: <span class="ty">int</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""result divides both a and b."""</span>
-        <span class="kw">if</span> result == <span class="nb">0</span>:
-            <span class="kw">return</span> a == <span class="nb">0</span> <span class="kw">and</span> b == <span class="nb">0</span>
-        <span class="kw">return</span> (a % result == <span class="nb">0</span>) <span class="kw">and</span> (b % result == <span class="nb">0</span>) <span class="kw">and</span> result >= <span class="nb">0</span>
-
-    <span class="dc">@law</span>
-    <span class="kw">def</span> <span class="fn">commutative</span>(<span class="kw">self</span>, a: <span class="ty">int</span>, b: <span class="ty">int</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""gcd(a, b) == gcd(b, a)"""</span>
-        <span class="kw">return</span> self.call(a, b) == self.call(b, a)
-
-    <span class="dc">@law</span>
-    <span class="kw">def</span> <span class="fn">idempotent</span>(<span class="kw">self</span>, a: <span class="ty">int</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""gcd(a, a) == |a|"""</span>
-        <span class="kw">return</span> self.call(a, a) == abs(a)
-
-    <span class="dc">@law</span>
-    <span class="kw">def</span> <span class="fn">identity</span>(<span class="kw">self</span>, a: <span class="ty">int</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""gcd(a, 0) == |a|"""</span>
-        <span class="kw">return</span> self.call(a, <span class="nb">0</span>) == abs(a)</code></pre>
+spec math.gcd:
+  guarantee: <span class="st">"GCD divides both inputs and is non-negative"</span>
+  pure: true
+  axiom gcd_nonneg: <span class="st">"math.gcd(a, b) >= 0"</span>
+  axiom gcd_commutative: <span class="st">"math.gcd(a, b) == math.gcd(b, a)"</span>
+  axiom gcd_identity: <span class="st">"math.gcd(a, 0) == abs(a)"</span></code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="collections-sidecar">Example: Sidecar for <code>collections.OrderedDict</code></h2>
 
     <pre><code><span class="cm"># sidecars/collections.deppy</span>
-<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, law
+module: collections
 
-<span class="dc">@about</span>(<span class="st">"collections.OrderedDict.__setitem__"</span>)
-<span class="kw">class</span> <span class="fn">SetItemSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, key, value, *, _self_before, _self_after):
-        <span class="st">"""Newly inserted key appears at the end of iteration order."""</span>
-        <span class="kw">if</span> key <span class="kw">not in</span> _self_before:
-            <span class="kw">return</span> list(_self_after.keys())[-<span class="nb">1</span>] == key
-        <span class="kw">return</span> <span class="nb">True</span>  <span class="cm"># existing key retains its position</span>
+foundation OrderedDict_setitem_appends:
+  <span class="st">"setitem on a fresh key appends to insertion order"</span>
+foundation OrderedDict_popitem_returns_last:
+  <span class="st">"popitem(last=True) returns the most-recently-inserted pair"</span>
 
-<span class="dc">@about</span>(<span class="st">"collections.OrderedDict.popitem"</span>)
-<span class="kw">class</span> <span class="fn">PopItemSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, *, last: <span class="ty">bool</span> = <span class="nb">True</span>, _self) -> <span class="ty">bool</span>:
-        <span class="st">"""Dict must not be empty."""</span>
-        <span class="kw">return</span> len(_self) > <span class="nb">0</span>
+spec collections.OrderedDict.popitem:
+  guarantee: <span class="st">"raises KeyError exactly when the dict is empty"</span>
+  axiom popitem_last_when_nonempty:
+    <span class="st">"len(d) > 0 implies popitem(d, last=True)[0] == list(d.keys())[-1]"</span>
+  axiom popitem_raises_on_empty:
+    <span class="st">"len(d) == 0 implies popitem(d) raises KeyError"</span>
 
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, result: <span class="ty">tuple</span>, *, last=<span class="nb">True</span>, _self_before) -> <span class="ty">bool</span>:
-        <span class="st">"""When last=True, returns the last-inserted pair."""</span>
-        keys = list(_self_before.keys())
-        expected_key = keys[-<span class="nb">1</span>] <span class="kw">if</span> last <span class="kw">else</span> keys[<span class="nb">0</span>]
-        <span class="kw">return</span> result[<span class="nb">0</span>] == expected_key
-
-    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, *, last=<span class="nb">True</span>, _self) -> <span class="ty">type</span> | <span class="nb">None</span>:
-        <span class="kw">if</span> len(_self) == <span class="nb">0</span>:
-            <span class="kw">return</span> <span class="ty">KeyError</span>
-        <span class="kw">return</span> <span class="nb">None</span>
-
-<span class="dc">@about</span>(<span class="st">"collections.OrderedDict.move_to_end"</span>)
-<span class="kw">class</span> <span class="fn">MoveToEndSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, key, *, last=<span class="nb">True</span>, _self) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> key <span class="kw">in</span> _self
-
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, key, *, last=<span class="nb">True</span>, _self_after) -> <span class="ty">bool</span>:
-        keys = list(_self_after.keys())
-        <span class="kw">if</span> last:
-            <span class="kw">return</span> keys[-<span class="nb">1</span>] == key
-        <span class="kw">return</span> keys[<span class="nb">0</span>] == key</code></pre>
+spec collections.OrderedDict.move_to_end:
+  guarantee: <span class="st">"key ends up at end (or front when last=False)"</span>
+  axiom move_to_end_last:
+    <span class="st">"move_to_end(d, k, last=True); list(d.keys())[-1] == k"</span></code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="sidecar-module">Loading Sidecars: <code>SidecarModule</code></h2>
@@ -406,56 +366,51 @@ timeout = <span class="nb">30</span>  <span class="cm"># seconds per proof oblig
       sidecar specifications.
     </p>
 
-    <pre><code><span class="kw">from</span> deppy.sidecar <span class="kw">import</span> SidecarModule
+    <pre><code><span class="kw">from</span> deppy.proofs.sidecar <span class="kw">import</span> SidecarModule
 
-<span class="cm"># Load a sidecar</span>
-math_sidecar = SidecarModule.load(<span class="st">"sidecars/math.deppy"</span>)
+<span class="cm"># Parse a .deppy file into a SidecarModule object</span>
+math_sidecar = SidecarModule.from_file(<span class="st">"sidecars/math.deppy"</span>)
 
 <span class="cm"># Query specs</span>
 sqrt_spec = math_sidecar.get_spec(<span class="st">"math.sqrt"</span>)
-print(sqrt_spec.precondition)   <span class="cm"># x >= 0</span>
-print(sqrt_spec.postcondition)  <span class="cm"># result >= 0 ∧ result² ≈ x</span>
-print(sqrt_spec.laws)           <span class="cm"># [monotone, sqrt_of_square]</span>
-print(sqrt_spec.trust_level)    <span class="cm"># TrustLevel.Z3_VERIFIED</span>
+print(sqrt_spec.precondition)   <span class="cm"># first precondition string (or "")</span>
+print(sqrt_spec.postcondition)  <span class="cm"># first postcondition string (or "")</span>
+print(sqrt_spec.laws)           <span class="cm"># list of axiom names declared in this spec</span>
+print(sqrt_spec.trust_level)    <span class="cm"># TrustLevel enum value</span>
 
 <span class="cm"># List all specs in this sidecar</span>
 <span class="kw">for</span> name, spec <span class="kw">in</span> math_sidecar.specs.items():
-    print(f<span class="st">"  {name}: {len(spec.laws)} laws, trust={spec.trust_level}"</span>)</code></pre>
+    print(f<span class="st">"  {name}: {len(spec.laws)} axioms, trust={spec.trust_level.name}"</span>)</code></pre>
 
     <p>Verification output:</p>
-    <pre><code class="output"><span class="cm">$ deppy sidecar verify src/ --sidecar-dir sidecars/</span>
+    <pre><code class="output"><span class="cm">$ python -m deppy.pipeline.run_verify math.deppy --out math.lean</span>
 
-<span class="fn">Deppy Sidecar Verification</span>
-<span class="op">══════════════════════════════════════════════════</span>
-Loaded sidecars:
-  math.deppy       → 3 specs (sqrt, factorial, gcd)
-  collections.deppy → 3 specs (setitem, popitem, move_to_end)
+════════════════════════════════════════════════════════════════════════
+  Deppy sidecar verification report
+  Sidecar:  math.deppy
+  Library:  math (built-in) — Python 3.12
+  Output:   math.lean
+────────────────────────────────────────────────────────────────────────
+  Foundations:                   3
+    discharged by Z3:            3 / 3 attempted
+  Spec blocks:                   3   (math.sqrt, math.factorial, math.gcd)
+  Sidecar axioms:                7
+  Verify blocks:                 4   /  4 kernel-verified
+  Counterexample search:         3 attempted, 0 found
+  ────────────────────────────────────────────────────────────────
+  Lean export round-trip:       OK
+  ────────────────────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
 
-Scanning src/ for external calls...
-
-<span class="fn">src/my_app.py</span>
-  Line 12: <span class="fn">math.sqrt</span>(distance)
-    Precondition: distance >= 0
-    Context: distance = a**2 + b**2 (always non-negative)
-    <span class="pr">Z3: ∀ a,b ∈ ℝ. a² + b² ≥ 0</span>  <span class="st">✓ proved</span>
-
-  Line 28: <span class="fn">math.factorial</span>(n)
-    Precondition: n >= 0
-    Context: n has type Nat (non-negative by construction)
-    <span class="pr">Z3: Nat ⊆ {x ∈ ℤ | x ≥ 0}</span>  <span class="st">✓ proved</span>
-
-  Line 45: <span class="fn">math.gcd</span>(x, y)
-    No preconditions.  <span class="st">✓ trivially satisfied</span>
-
-  Line 67: <span class="fn">od.popitem</span>()
-    Precondition: len(od) > 0
-    Context: inside <span class="kw">if</span> od: branch (implies non-empty)
-    <span class="pr">Z3: bool(od) ⟹ len(od) > 0</span>  <span class="st">✓ proved</span>
-
-<span class="op">──────────────────────────────────────────────────</span>
-<span class="st">4/4 call sites verified</span>  🟡 Z3_VERIFIED
-Algebraic laws: 6 assumed, 0 proved
-Coverage: 100% of external calls have sidecar specs</code></pre>
+    <p>
+      Detailed call-site narration is not part of the
+      <code>run_verify</code> output today; the pipeline reports
+      foundation/axiom/verify counts and the kernel verdict, then writes
+      the Lean text plus a JSON sidecar with the full
+      <code>section_counters</code>.  For per-call reasoning use
+      <code>python -m deppy check &lt;module.py&gt; --sidecar math.deppy</code>
+      instead, which runs the safety pipeline.
+    </p>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="exceptions">Handling Exceptions in Specs</h2>
@@ -510,48 +465,67 @@ cos : (x: <span class="ty">float</span>) -> <span class="ty">float</span> {-<spa
     </p>
 
     <!-- ───────────────────────────────────────────── -->
-    <h2 id="json-specs">JSON Spec Format for CI</h2>
+    <h2 id="json-specs">JSON Sidecar Output for CI</h2>
     <p>
-      For CI integration, Deppy can export and consume specifications in JSON:
+      Every successful run of
+      <code>python -m deppy.pipeline.run_verify foo.deppy --out foo.lean</code>
+      writes a machine-readable JSON sidecar at <code>foo.json</code>
+      next to the Lean file.  This is what CI consumes:
     </p>
 
-    <pre><code class="output"><span class="cm">$ deppy sidecar export sidecars/math.deppy --format json</span>
+    <pre><code class="output"><span class="cm">$ python -m deppy.pipeline.run_verify sympy_geometry.deppy <span class="op">\</span>
+       --out sympy_geometry.lean
+$ cat sympy_geometry.json | head -30</span>
 
 {
-  <span class="st">"module"</span>: <span class="st">"math"</span>,
-  <span class="st">"version"</span>: <span class="st">"3.12"</span>,
-  <span class="st">"specs"</span>: {
-    <span class="st">"math.sqrt"</span>: {
-      <span class="st">"precondition"</span>: <span class="st">"x >= 0"</span>,
-      <span class="st">"postcondition"</span>: <span class="st">"result >= 0 and abs(result**2 - x) < 1e-10"</span>,
-      <span class="st">"raises"</span>: { <span class="st">"ValueError"</span>: <span class="st">"x < 0"</span> },
-      <span class="st">"laws"</span>: [
-        { <span class="st">"name"</span>: <span class="st">"monotone"</span>, <span class="st">"formula"</span>: <span class="st">"a <= b => sqrt(a) <= sqrt(b)"</span> },
-        { <span class="st">"name"</span>: <span class="st">"sqrt_of_square"</span>, <span class="st">"formula"</span>: <span class="st">"sqrt(x**2) == abs(x)"</span> }
-      ],
-      <span class="st">"trust_level"</span>: <span class="st">"Z3_VERIFIED"</span>
-    },
-    <span class="st">"math.factorial"</span>: {
-      <span class="st">"precondition"</span>: <span class="st">"n >= 0"</span>,
-      <span class="st">"postcondition"</span>: <span class="st">"result > 0"</span>,
-      <span class="st">"raises"</span>: { <span class="st">"ValueError"</span>: <span class="st">"n < 0"</span> },
-      <span class="st">"laws"</span>: [
-        { <span class="st">"name"</span>: <span class="st">"recursive_def"</span>, <span class="st">"formula"</span>: <span class="st">"f(n) == n * f(n-1)"</span> },
-        { <span class="st">"name"</span>: <span class="st">"base_case"</span>, <span class="st">"formula"</span>: <span class="st">"f(0) == 1"</span> }
-      ],
-      <span class="st">"trust_level"</span>: <span class="st">"Z3_VERIFIED"</span>
-    }
+  <span class="st">"sidecar"</span>: <span class="st">".../sympy_geometry.deppy"</span>,
+  <span class="st">"lean_path"</span>: <span class="st">".../sympy_geometry.lean"</span>,
+  <span class="st">"library_summary"</span>: <span class="st">"sympy 1.14.0 — sympy"</span>,
+  <span class="st">"elapsed_ms"</span>: <span class="nb">604.21</span>,
+  <span class="st">"certified"</span>: <span class="nb">true</span>,
+  <span class="st">"failures"</span>: [],
+  <span class="st">"lean_runner"</span>: { <span class="st">"invoked"</span>: <span class="nb">true</span>, <span class="st">"ok"</span>: <span class="nb">true</span>, <span class="st">"stderr"</span>: <span class="st">""</span> },
+  <span class="st">"section_counters"</span>: {
+    <span class="st">"foundation_count"</span>: <span class="nb">14</span>,
+    <span class="st">"axiom_count"</span>: <span class="nb">38</span>,
+    <span class="st">"verify_total"</span>: <span class="nb">11</span>,
+    <span class="st">"verify_kernel_verified"</span>: <span class="nb">11</span>,
+    <span class="st">"counterexamples_attempted"</span>: <span class="nb">3</span>,
+    <span class="st">"counterexamples_found"</span>: <span class="nb">0</span>,
+    <span class="st">"soundness_gate_pass"</span>: <span class="nb">3</span>,
+    <span class="st">"soundness_gate_fail"</span>: <span class="nb">0</span>,
+    ...
+  },
+  <span class="st">"classification_counts"</span>: {
+    <span class="st">"CITES_FOUNDATION"</span>: <span class="nb">2</span>,
+    <span class="st">"REWRITE_THEN_CITE"</span>: <span class="nb">6</span>,
+    <span class="st">"CHAIN"</span>: <span class="nb">5</span>,
+    <span class="st">"CITES_AXIOM"</span>: <span class="nb">25</span>,
+    <span class="st">"COMPOSITION"</span>: <span class="nb">7</span>
   }
 }</code></pre>
 
     <p>
-      Use the JSON format in CI pipelines to track specification drift across versions:
+      Use this JSON in CI pipelines to track specification drift across
+      versions — <code>certified</code>, <code>section_counters</code>,
+      and <code>classification_counts</code> are stable, scriptable
+      fields:
     </p>
     <pre><code class="yaml"><span class="cm"># .github/workflows/verify.yml (excerpt)</span>
-- name: Check sidecar specs
+- name: Run deppy sidecar pipeline
   run: |
-    deppy sidecar verify src/ --sidecar-dir sidecars/ --report json > report.json
-    deppy sidecar diff report.json baseline.json --fail-on-regression</code></pre>
+    python -m deppy.pipeline.run_verify sympy_geometry.deppy <span class="op">\</span>
+        --out sympy_geometry.lean
+- name: Fail if regressed
+  run: |
+    python - <<'PY'
+    import json
+    j = json.load(open(<span class="st">"sympy_geometry.json"</span>))
+    assert j[<span class="st">"certified"</span>], <span class="st">"sympy_geometry.deppy did not certify"</span>
+    assert j[<span class="st">"section_counters"</span>][<span class="st">"verify_kernel_verified"</span>] == \\
+           j[<span class="st">"section_counters"</span>][<span class="st">"verify_total"</span>], \\
+           <span class="st">"some verify blocks were not kernel-verified"</span>
+    PY</code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="best-practices">Best Practices</h2>

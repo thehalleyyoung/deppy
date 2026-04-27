@@ -143,25 +143,18 @@
     <!-- ════════════════════════════════════════════ -->
     <h2 id="formal">Formal Definition in Deppy</h2>
 
-    <pre><code><span class="kw">from</span> deppy.core <span class="kw">import</span> Fibration, Fiber, TotalSpace, Section
+    <pre><code><span class="kw">from</span> deppy.hott <span class="kw">import</span> Fibration, TotalSpace, Section
+<span class="kw">from</span> deppy.core.kernel <span class="kw">import</span> Fiber
 
 <span class="cm"># A fibration is a type family P indexed by a base type B</span>
 <span class="cm"># P : B → Type</span>
 
-<span class="cm"># Example: class hierarchy as fibration</span>
-<span class="cm"># Base: the set of shape kinds {"circle", "rect", "triangle"}</span>
-<span class="cm"># P("circle")   = Circle   (all Circle instances)</span>
-<span class="cm"># P("rect")     = Rectangle</span>
-<span class="cm"># P("triangle") = Triangle</span>
-
-shape_fibration = <span class="fn">Fibration</span>(
-    base=<span class="ty">ShapeKind</span>,         <span class="cm"># B = {"circle", "rect", "triangle"}</span>
-    fiber=<span class="kw">lambda</span> k: {        <span class="cm"># P : B → Type</span>
-        <span class="st">"circle"</span>:   <span class="ty">Circle</span>,
-        <span class="st">"rect"</span>:     <span class="ty">Rectangle</span>,
-        <span class="st">"triangle"</span>: <span class="ty">Triangle</span>,
-    }[k]
-)</code></pre>
+<span class="cm"># Example: class hierarchy as fibration.</span>
+<span class="cm"># Build the fibration directly from the abstract base class —</span>
+<span class="cm"># Deppy walks ``__subclasses__()`` to populate the total space.</span>
+shape_fibration = Fibration.from_metaclass(<span class="ty">Shape</span>)
+<span class="cm"># shape_fibration.subclasses == [Circle, Rectangle, Triangle]</span>
+<span class="cm"># shape_fibration.base_space  == Shape</span></code></pre>
 
     <h3>Key Components</h3>
 

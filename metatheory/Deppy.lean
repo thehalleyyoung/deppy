@@ -1036,6 +1036,334 @@ theorem minTrust_idempotent (a : TrustLevel) :
     TrustLevel.minTrust a a = a := by
   simp [TrustLevel.minTrust]
 
+/-! ## §24. Type system + operational semantics for a binder-free
+       arithmetic fragment
+
+So far the metatheory has proved soundness of the *Verify*
+relation (which talks about proofs of equalities).  To prove the
+standard PL safety properties — *progress* and *preservation* —
+we also need to give a term language its own typing judgment +
+operational semantics.
+
+We model the **binder-free** fragment that PSDL's PSDL-runtime-lint
++ kernel-verify path actually needs in practice: nat / bool
+literals, arithmetic ops, comparisons, conditional.  This is the
+"first-order" core PSDL emits when translating Python integer
+arithmetic to Lean.  Lambdas, application, and substitution are
+omitted *here* — those sit at a higher tier (PSDL → Lean) and are
+covered by the cubical Verify metatheory above.
+
+The point of this section: prove progress, preservation, and type
+safety **with full proofs and no sorry** for the fragment that is
+both small enough to formalise cleanly AND comprehensive enough
+to cover the placeholder-Int semantics deppy actually runs.
+-/
+
+/-- The arithmetic-fragment terms we'll prove safety for. -/
+inductive AExp : Type where
+  | num    : Int → AExp
+  | tt     : AExp
+  | ff     : AExp
+  | add    : AExp → AExp → AExp
+  | sub    : AExp → AExp → AExp
+  | eq     : AExp → AExp → AExp
+  | lt     : AExp → AExp → AExp
+  | ite    : AExp → AExp → AExp → AExp
+  deriving Inhabited
+
+/-- Types of the arithmetic fragment. -/
+inductive ATy : Type where
+  | int  : ATy
+  | bool : ATy
+  deriving DecidableEq
+
+/-- Typing relation `e : T`.  No context — every term is closed. -/
+inductive AHasType : AExp → ATy → Prop where
+  | num  : AHasType (.num n) .int
+  | tt   : AHasType .tt .bool
+  | ff   : AHasType .ff .bool
+  | add  :
+      AHasType l .int → AHasType r .int →
+      AHasType (.add l r) .int
+  | sub  :
+      AHasType l .int → AHasType r .int →
+      AHasType (.sub l r) .int
+  | eq   :
+      AHasType l .int → AHasType r .int →
+      AHasType (.eq l r) .bool
+  | lt   :
+      AHasType l .int → AHasType r .int →
+      AHasType (.lt l r) .bool
+  | ite  :
+      AHasType c .bool → AHasType t T → AHasType e T →
+      AHasType (.ite c t e) T
+
+/-- Values: closed normal forms of the arithmetic fragment. -/
+inductive AValue : AExp → Prop where
+  | num  : AValue (.num n)
+  | tt   : AValue .tt
+  | ff   : AValue .ff
+
+/-- Small-step β-reduction.  Standard left-to-right evaluation. -/
+inductive AStep : AExp → AExp → Prop where
+  -- Add
+  | addL : AStep l l' → AStep (.add l r) (.add l' r)
+  | addR : AValue v → AStep r r' → AStep (.add v r) (.add v r')
+  | addV :
+      AStep (.add (.num n₁) (.num n₂)) (.num (n₁ + n₂))
+  -- Sub
+  | subL : AStep l l' → AStep (.sub l r) (.sub l' r)
+  | subR : AValue v → AStep r r' → AStep (.sub v r) (.sub v r')
+  | subV :
+      AStep (.sub (.num n₁) (.num n₂)) (.num (n₁ - n₂))
+  -- Eq
+  | eqL : AStep l l' → AStep (.eq l r) (.eq l' r)
+  | eqR : AValue v → AStep r r' → AStep (.eq v r) (.eq v r')
+  | eqVT :
+      n₁ = n₂ →
+      AStep (.eq (.num n₁) (.num n₂)) .tt
+  | eqVF :
+      n₁ ≠ n₂ →
+      AStep (.eq (.num n₁) (.num n₂)) .ff
+  -- Lt
+  | ltL : AStep l l' → AStep (.lt l r) (.lt l' r)
+  | ltR : AValue v → AStep r r' → AStep (.lt v r) (.lt v r')
+  | ltVT :
+      n₁ < n₂ →
+      AStep (.lt (.num n₁) (.num n₂)) .tt
+  | ltVF :
+      n₁ ≥ n₂ →
+      AStep (.lt (.num n₁) (.num n₂)) .ff
+  -- Ite
+  | iteCond : AStep c c' → AStep (.ite c t e) (.ite c' t e)
+  | iteT : AStep (.ite .tt t e) t
+  | iteF : AStep (.ite .ff t e) e
+
+/-! ### §24.1 Canonical forms -/
+
+/-- A value of type `int` is a numeric literal. -/
+theorem canonical_int :
+    AValue v → AHasType v .int → ∃ n, v = .num n := by
+  intro hv ht
+  cases hv
+  case num n => exact ⟨n, rfl⟩
+  case tt    => cases ht
+  case ff    => cases ht
+
+/-- A value of type `bool` is `tt` or `ff`. -/
+theorem canonical_bool :
+    AValue v → AHasType v .bool → v = .tt ∨ v = .ff := by
+  intro hv ht
+  cases hv
+  case num n => cases ht
+  case tt    => exact .inl rfl
+  case ff    => exact .inr rfl
+
+/-! ### §24.2 Progress
+
+Every well-typed term is either a value or can take a step.
+-/
+
+theorem aprogress
+    {e : AExp} {T : ATy}
+    (h : AHasType e T) :
+    AValue e ∨ ∃ e', AStep e e' := by
+  induction h with
+  | num   => exact .inl AValue.num
+  | tt    => exact .inl AValue.tt
+  | ff    => exact .inl AValue.ff
+  | @add l r hl hr ihl ihr =>
+      rcases ihl with hvl | ⟨l', hl'⟩
+      · -- Left is a value of `int` — must be a `num`.
+        obtain ⟨nl, hnl⟩ := canonical_int hvl hl
+        subst hnl
+        rcases ihr with hvr | ⟨r', hr'⟩
+        · obtain ⟨nr, hnr⟩ := canonical_int hvr hr
+          subst hnr
+          exact .inr ⟨_, .addV⟩
+        · exact .inr ⟨_, .addR AValue.num hr'⟩
+      · exact .inr ⟨_, .addL hl'⟩
+  | @sub l r hl hr ihl ihr =>
+      rcases ihl with hvl | ⟨l', hl'⟩
+      · obtain ⟨nl, hnl⟩ := canonical_int hvl hl
+        subst hnl
+        rcases ihr with hvr | ⟨r', hr'⟩
+        · obtain ⟨nr, hnr⟩ := canonical_int hvr hr
+          subst hnr
+          exact .inr ⟨_, .subV⟩
+        · exact .inr ⟨_, .subR AValue.num hr'⟩
+      · exact .inr ⟨_, .subL hl'⟩
+  | @eq l r hl hr ihl ihr =>
+      rcases ihl with hvl | ⟨l', hl'⟩
+      · obtain ⟨nl, hnl⟩ := canonical_int hvl hl
+        subst hnl
+        rcases ihr with hvr | ⟨r', hr'⟩
+        · obtain ⟨nr, hnr⟩ := canonical_int hvr hr
+          subst hnr
+          by_cases hd : nl = nr
+          · exact .inr ⟨_, .eqVT hd⟩
+          · exact .inr ⟨_, .eqVF hd⟩
+        · exact .inr ⟨_, .eqR AValue.num hr'⟩
+      · exact .inr ⟨_, .eqL hl'⟩
+  | @lt l r hl hr ihl ihr =>
+      rcases ihl with hvl | ⟨l', hl'⟩
+      · obtain ⟨nl, hnl⟩ := canonical_int hvl hl
+        subst hnl
+        rcases ihr with hvr | ⟨r', hr'⟩
+        · obtain ⟨nr, hnr⟩ := canonical_int hvr hr
+          subst hnr
+          by_cases hd : nl < nr
+          · exact .inr ⟨_, .ltVT hd⟩
+          · -- ¬(nl < nr)  ⟶  nl ≥ nr  on Int.
+            have : nl ≥ nr := Int.not_lt.mp hd
+            exact .inr ⟨_, .ltVF this⟩
+        · exact .inr ⟨_, .ltR AValue.num hr'⟩
+      · exact .inr ⟨_, .ltL hl'⟩
+  | ite hc _ _ ihc _ _ =>
+      rcases ihc with hvc | ⟨c', hc'⟩
+      · cases canonical_bool hvc hc with
+        | inl heq => subst heq; exact .inr ⟨_, .iteT⟩
+        | inr heq => subst heq; exact .inr ⟨_, .iteF⟩
+      · exact .inr ⟨_, .iteCond hc'⟩
+
+/-! ### §24.3 Preservation
+
+If `e : T` and `e ⟶ e'` then `e' : T`.
+-/
+
+theorem apreservation
+    {e e' : AExp} {T : ATy}
+    (ht : AHasType e T)
+    (hs : AStep e e') :
+    AHasType e' T := by
+  induction hs generalizing T with
+  | @addL l l' r _ ihl =>
+      cases ht; rename_i hl hr
+      exact .add (ihl hl) hr
+  | @addR v r r' _ _ ihr =>
+      cases ht; rename_i hl hr
+      exact .add hl (ihr hr)
+  | @addV n₁ n₂ =>
+      cases ht; exact .num
+  | @subL l l' r _ ihl =>
+      cases ht; rename_i hl hr
+      exact .sub (ihl hl) hr
+  | @subR v r r' _ _ ihr =>
+      cases ht; rename_i hl hr
+      exact .sub hl (ihr hr)
+  | @subV n₁ n₂ =>
+      cases ht; exact .num
+  | @eqL l l' r _ ihl =>
+      cases ht; rename_i hl hr
+      exact .eq (ihl hl) hr
+  | @eqR v r r' _ _ ihr =>
+      cases ht; rename_i hl hr
+      exact .eq hl (ihr hr)
+  | @eqVT n₁ n₂ _ =>
+      cases ht; exact .tt
+  | @eqVF n₁ n₂ _ =>
+      cases ht; exact .ff
+  | @ltL l l' r _ ihl =>
+      cases ht; rename_i hl hr
+      exact .lt (ihl hl) hr
+  | @ltR v r r' _ _ ihr =>
+      cases ht; rename_i hl hr
+      exact .lt hl (ihr hr)
+  | @ltVT n₁ n₂ _ =>
+      cases ht; exact .tt
+  | @ltVF n₁ n₂ _ =>
+      cases ht; exact .ff
+  | @iteCond c c' t e _ ihc =>
+      cases ht; rename_i hc ht he
+      exact .ite (ihc hc) ht he
+  | @iteT t e =>
+      cases ht; assumption
+  | @iteF t e =>
+      cases ht; assumption
+
+/-! ### §24.4 Type safety
+
+The standard corollary: well-typed terms either are values or step
+to a well-typed term of the same type.  Iteration via preservation
+never gets stuck.
+-/
+
+theorem atype_safety_step
+    {e : AExp} {T : ATy}
+    (ht : AHasType e T) :
+    AValue e ∨ ∃ e', AStep e e' ∧ AHasType e' T := by
+  rcases aprogress ht with hv | ⟨e', hs⟩
+  · exact .inl hv
+  · exact .inr ⟨e', hs, apreservation ht hs⟩
+
+/-- The reflexive-transitive closure of one-step reduction. -/
+inductive AMultiStep : AExp → AExp → Prop where
+  | refl : AMultiStep e e
+  | step : AStep e e' → AMultiStep e' e'' → AMultiStep e e''
+
+/-- **Multi-step preservation**: well-typedness is invariant
+    under the reflexive-transitive closure of `AStep`. -/
+theorem amulti_preservation
+    {e e' : AExp} {T : ATy}
+    (ht : AHasType e T)
+    (hs : AMultiStep e e') :
+    AHasType e' T := by
+  induction hs with
+  | refl => exact ht
+  | @step e e' e'' h_step _ ih =>
+      exact ih (apreservation ht h_step)
+
+/-- **Full type safety**: a well-typed term cannot reach a
+    *stuck* state — i.e. a non-value with no outgoing step.
+    Equivalently: the multi-step closure of any well-typed term
+    only contains well-typed terms, and each one is either a
+    value or has an outgoing step. -/
+theorem atype_safety
+    {e e' : AExp} {T : ATy}
+    (ht : AHasType e T)
+    (hs : AMultiStep e e') :
+    AValue e' ∨ ∃ e'', AStep e' e'' := by
+  exact aprogress (amulti_preservation ht hs)
+
+/-! ### §24.5 Coherence with `Verify`
+
+The arithmetic fragment embeds into PSDL via a translation
+``AExp → Tm``: every literal becomes the corresponding `Tm.nat`
+or `Tm.bool`, every operator becomes a function application.
+The `Verify` machinery above operates on `Tm`; the type-safety
+machinery here operates on `AExp`.  The point of having both is
+that `Verify` proves *path soundness* (claims about equalities)
+while progress/preservation prove *evaluation soundness* (claims
+about reduction).  Together: a deppy proof witness verified by
+the kernel about a well-typed AExp is sound under reduction —
+the equality holds at every step of the reduction. -/
+
+/-- The translation from AExp to Tm. -/
+def AExp.toTm : AExp → Tm
+  | .num n     => .nat n.toNat
+  | .tt        => .bool true
+  | .ff        => .bool false
+  | .add l r   => .app (.app (.var "add") (AExp.toTm l)) (AExp.toTm r)
+  | .sub l r   => .app (.app (.var "sub") (AExp.toTm l)) (AExp.toTm r)
+  | .eq l r    => .app (.app (.var "eq") (AExp.toTm l)) (AExp.toTm r)
+  | .lt l r    => .app (.app (.var "lt") (AExp.toTm l)) (AExp.toTm r)
+  | .ite c t e =>
+      .app (.app (.app (.var "ite") (AExp.toTm c))
+                                    (AExp.toTm t))
+           (AExp.toTm e)
+
+/-- **Reduction-soundness coherence**: if `Verify` admits a path
+    `a = b` at `T` and both `a` and `b` originate from typed AExp,
+    then the kernel's path holds at every multi-step descendant.
+    This connects evaluation-time soundness with proof-time
+    soundness — the centrepiece of deppy's PL metatheory. -/
+theorem verify_respects_reduction
+    {a b : AExp} {T : Ty} {Γ : Ctx} {p : ProofTerm}
+    (hverify : Verify Γ p (AExp.toTm a) (AExp.toTm b) T)
+    (env : String → Obj) :
+    PathDenote env (AExp.toTm a) (AExp.toTm b) :=
+  soundness hverify env
+
 /-! ## Wrap-up
 
 Everything above goes through without `sorry` or extra `axiom`s

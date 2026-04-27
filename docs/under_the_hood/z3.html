@@ -575,27 +575,25 @@ sorted_prop = <span class="fn">ForAll</span>(
 
 <h3 id="timeout">Timeout Settings</h3>
 
-<pre><code class="toml"><span class="cm"># In deppy.toml configuration</span>
-[z3]
-timeout_ms = <span class="nb">5000</span>       <span class="cm"># Per-query timeout (default: 5 seconds)</span>
-global_timeout_ms = <span class="nb">60000</span>  <span class="cm"># Total Z3 time budget per module</span>
-
-<span class="cm"># Or via Python API</span>
+<pre><code><span class="cm"># Programmatic control via deppy.config:</span>
 <span class="kw">from</span> deppy.config <span class="kw">import</span> DeppyConfig
 
-config = <span class="ty">DeppyConfig</span>(
-    z3_timeout_ms=<span class="nb">10000</span>,
-    z3_global_timeout_ms=<span class="nb">120000</span>
+config = DeppyConfig(
+    z3_timeout=<span class="nb">10000</span>,         <span class="cm"># per-query timeout (ms)</span>
+    z3_rlimit=<span class="nb">10_000_000</span>,       <span class="cm"># Z3 resource budget (deterministic)</span>
+    trust_level=<span class="st">"Z3_PROVEN"</span>,
+    parallel=<span class="nb">True</span>,
+    lean_export=<span class="nb">True</span>,
 )</code></pre>
 
 <h3 id="resource-limits">Resource Limits</h3>
 
-<pre><code class="toml"><span class="cm"># Z3 supports resource limits (rlimit) as an alternative to timeouts.</span>
+<pre><code><span class="cm"># Z3 supports resource limits (rlimit) as an alternative to timeouts.</span>
 <span class="cm"># Resource limits are deterministic — the same query always uses the</span>
 <span class="cm"># same number of resources regardless of machine speed.</span>
-
-[z3]
-rlimit = <span class="nb">2000000</span>        <span class="cm"># Resource units (default: 2M)</span></code></pre>
+<span class="cm">#</span>
+<span class="cm"># Set them via deppy.config.DeppyConfig.z3_rlimit (default 10M),</span>
+<span class="cm"># or directly on a z3 Solver below.</span></code></pre>
 
 <pre><code><span class="cm"># Programmatic control</span>
 <span class="kw">from</span> z3 <span class="kw">import</span> Solver, set_param

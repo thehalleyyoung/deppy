@@ -126,25 +126,35 @@
     </ol>
 
     <div class="tip">
-      Two runnable verification scripts ship with this repository:
+      Two runnable sidecar specifications ship with this repository:
       <ul>
-        <li><code>verify_sympy_core/verify_core.py</code> — 52 axioms across algebra,
-            matrices, calculus, and edge cases (766+ runtime validations).</li>
-        <li><code>verify_sympy_geometry/verify_triangle.py</code> — 24 geometry theorems
-            (182 runtime validations).</li>
+        <li><code>verify_sympy_core/verify_core.py</code> + the
+            <code>sympy_core.deppy</code> sidecar — 52 axioms across
+            algebra, matrices, calculus, and edge cases (766+ runtime
+            validations) using SymPy's live <code>.equals()</code>.</li>
+        <li><code>sympy_geometry.deppy</code> at the repo root — 14
+            foundations, 5 specs (Point/Segment/Triangle/Circle/Polygon),
+            38 axioms, 11 verify blocks, 45 proofs, today
+            <strong>✓ CERTIFIED</strong> by the kernel + Lean
+            round-trip.</li>
       </ul>
-      Both run in under a minute with <code>PYTHONPATH=. python3 &lt;script&gt;</code>.
+      Run the geometry sidecar with
+      <code>PYTHONPATH=. python3 -m deppy.pipeline.run_verify
+        sympy_geometry.deppy --out sympy_geometry.lean</code>;
+      run the core script directly with
+      <code>PYTHONPATH=. python3 verify_sympy_core/verify_core.py</code>.
     </div>
 
     <h3>Project Structure</h3>
-    <pre><code><span class="cm"># Sidecar verification files</span>
+    <pre><code><span class="cm"># Sidecar verification artefacts</span>
 verify_sympy_core/
 ├── sympy_core.deppy     <span class="cm"># 52 axioms — Add, Mul, Pow, Matrix, diff, ∫</span>
 ├── verify_core.py       <span class="cm"># kernel proofs + runtime validation</span>
 └── README.md
-verify_sympy_geometry/
-├── triangle.deppy       <span class="cm"># 28 geometry axioms</span>
-└── verify_triangle.py   <span class="cm"># 24 theorems, 182 runtime checks</span></code></pre>
+sympy_geometry.deppy     <span class="cm"># 14 foundations, 5 specs, 38 axioms,</span>
+                         <span class="cm"># 11 verify blocks, 45 proofs (CERTIFIED)</span>
+sympy_ntheory.deppy      <span class="cm"># 20 foundations, 3 specs, 9 axioms,</span>
+                         <span class="cm"># 9 verify blocks (CERTIFIED)</span></code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="core-algebra">Sidecar Specs for <code>sympy.core</code></h2>
@@ -428,55 +438,62 @@ verify_sympy_geometry/
     </p>
 
     <pre><code><span class="kw">from</span> deppy.homotopy <span class="kw">import</span> path, transport
-<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, law
+<span class="kw">from</span> deppy.proofs.sugar <span class="kw">import</span> Proof, by_axiom
 
-<span class="cm"># Define the path: symbolic ≃ numerical (via evaluation)</span>
-<span class="dc">@path</span>(<span class="st">"sympy.Matrix"</span>, <span class="st">"numpy.ndarray"</span>)
-<span class="kw">def</span> <span class="fn">evaluate</span>(sym_matrix: <span class="ty">SymMatrix</span>, values: <span class="ty">dict</span>) -> <span class="ty">np.ndarray</span>:
-    <span class="st">"""Evaluate a symbolic matrix at concrete values."""</span>
-    <span class="kw">import</span> numpy <span class="kw">as</span> np
-    <span class="kw">return</span> np.array(sym_matrix.subs(values).tolist(), dtype=<span class="ty">float</span>)
+<span class="cm"># 1.  ``path(a, b)`` returns a ProofTerm — *not* a decorator.</span>
+<span class="cm">#     It declares ``a`` and ``b`` denote the same object up to the</span>
+<span class="cm">#     supplied justification ("evaluate(sym_matrix, values)" here).</span>
+sym_to_num = path(
+    <span class="st">"sympy.Matrix(M, sigma)"</span>,
+    <span class="st">"numpy.array(M.subs(sigma).tolist(), dtype=float)"</span>,
+    via=<span class="st">"evaluate"</span>,
+)
 
-<span class="cm"># Now: a property proved symbolically can be transported!</span>
-<span class="dc">@transport</span>(evaluate)
-<span class="kw">def</span> <span class="fn">det_product_numerical</span>(A_vals: <span class="ty">np.ndarray</span>, B_vals: <span class="ty">np.ndarray</span>) -> <span class="ty">bool</span>:
-    <span class="st">"""det(A·B) == det(A)·det(B) holds numerically too."""</span>
-    <span class="cm"># This follows from MatrixSpec.det_product via transport!</span>
-    <span class="kw">import</span> numpy <span class="kw">as</span> np
-    lhs = np.linalg.det(A_vals @ B_vals)
-    rhs = np.linalg.det(A_vals) * np.linalg.det(B_vals)
-    <span class="kw">return</span> abs(lhs - rhs) < <span class="nb">1e-10</span></code></pre>
+<span class="cm"># 2.  ``transport`` is the kernel-level transport rule.  Given a path</span>
+<span class="cm">#     and a base proof, it produces a proof of the same property</span>
+<span class="cm">#     with the type substituted along the path.</span>
+det_product_proof = (
+    Proof(<span class="st">"det(A * B) == det(A) * det(B)"</span>)
+    .by_axiom(<span class="st">"MatrixSpec.det_product"</span>, <span class="st">"sympy.matrices"</span>)
+    .qed()
+)
+det_product_numerical_proof = transport(sym_to_num, det_product_proof)</code></pre>
 
     <div class="proof-steps">
-      <h4>How Transport Works</h4>
+      <h4>How Transport Works in the Kernel</h4>
       <div class="proof-step">
         <div class="step-num">1</div>
         <div class="step-content">
-          <strong>Symbolic proof:</strong> <code>det_product</code> is assumed as a law
-          of <code>MatrixSpec</code> — it holds for all symbolic matrices.
+          <strong>Symbolic proof:</strong> <code>det_product</code> is an
+          <code>@law</code> on <code>MatrixSpec</code> — it holds for all
+          symbolic matrices and is admitted as a sidecar axiom.
         </div>
       </div>
       <div class="proof-step">
         <div class="step-num">2</div>
         <div class="step-content">
-          <strong>Path construction:</strong> <code>evaluate</code> defines a map from
-          <code>sympy.Matrix</code> to <code>numpy.ndarray</code>. Deppy verifies this
-          is a valid path (structure-preserving: it respects matrix operations).
+          <strong>Path construction:</strong>
+          <code>path("sympy.Matrix(...)", "numpy.array(...)", via="evaluate")</code>
+          builds a <code>PathComp</code> proof term whose right side carries
+          the structural justification name.
         </div>
       </div>
       <div class="proof-step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <strong>Transport:</strong> The <code>@transport</code> decorator automatically
-          derives that <code>det_product_numerical</code> holds, with a small numerical
-          tolerance (the path introduces floating-point error).
+          <strong>Transport:</strong> <code>transport(p, base_proof)</code>
+          (re-exported as <code>transport_proof</code> from
+          <code>deppy.proofs.sugar</code>) constructs a
+          <code>TransportProof</code> kernel term that carries
+          <code>base_proof</code> along <code>p</code>.
         </div>
       </div>
       <div class="proof-step">
         <div class="step-num">4</div>
         <div class="step-content">
-          <strong>Trust level:</strong> The transported property inherits the minimum
-          trust level of the symbolic proof and the path's verification level.
+          <strong>Trust level:</strong> the transported result's
+          <code>TrustLevel</code> is the kernel's
+          <code>min_trust(p.trust_level, base_proof.trust_level)</code>.
         </div>
       </div>
     </div>
@@ -484,15 +501,20 @@ verify_sympy_geometry/
     <!-- ───────────────────────────────────────────── -->
     <h2 id="running-verification">Running the Full Verification</h2>
     <p>
-      Two runnable verification scripts ship with the repository.
+      Two flavours of runnable verification ship with the repository.
       Run them from the repo root:
     </p>
 
     <pre><code><span class="cm"># Core algebra, matrices, calculus — 52 axioms, 766+ runtime checks</span>
 $ PYTHONPATH=. python3 verify_sympy_core/verify_core.py
 
-<span class="cm"># Geometry — 24 theorems, 182 runtime checks</span>
-$ PYTHONPATH=. python3 verify_sympy_geometry/verify_triangle.py</code></pre>
+<span class="cm"># Geometry sidecar — 14 foundations, 38 axioms, 11 verify blocks, 45 proofs</span>
+$ PYTHONPATH=. python3 -m deppy.pipeline.run_verify <span class="op">\</span>
+       sympy_geometry.deppy --out sympy_geometry.lean
+
+<span class="cm"># Number-theory sidecar — 20 foundations, 9 verify blocks</span>
+$ PYTHONPATH=. python3 -m deppy.pipeline.run_verify <span class="op">\</span>
+       sympy_ntheory.deppy --out sympy_ntheory.lean</code></pre>
 
     <p>
       The core verifier produces output like this (abridged):
@@ -531,88 +553,41 @@ $ PYTHONPATH=. python3 verify_sympy_geometry/verify_triangle.py</code></pre>
   <span class="st">✓ All 51 axioms verified, 1 correctly rejected</span></code></pre>
 
     <p>
-      The illustrative session below shows what a <em>call-site</em> level
-      verification looks like when sidecar specs are applied to user code.
-      This is a design-level view — the runnable scripts above are the
-      authoritative demonstration.
+      The structured report from
+      <code>python -m deppy.pipeline.run_verify sympy_geometry.deppy</code>
+      looks like this.  Counts are read directly from
+      <code>sympy_geometry.json</code>, the machine-readable sidecar emitted
+      next to <code>sympy_geometry.lean</code>:
     </p>
 
-    <pre><code><span class="cm">$ python -m deppy.pipeline.run_verify sympy_geometry.deppy --out sympy_geometry.lean --verbose</span>
+    <pre><code><span class="cm">$ python -m deppy.pipeline.run_verify sympy_geometry.deppy <span class="op">\</span>
+       --out sympy_geometry.lean</span>
 
-<span class="fn">Deppy Sidecar Verification — SymPy</span>
-<span class="op">══════════════════════════════════════════════════════════</span>
-Loading sidecars:
-  sympy/core.deppy       → 2 specs, 9 laws
-  sympy/matrices.deppy   → 1 spec, 7 laws
-  sympy/integrals.deppy  → 2 specs, 7 laws
-  Total: 5 specs, 23 laws
+════════════════════════════════════════════════════════════════════════
+  Deppy sidecar verification report
+  Sidecar:  sympy_geometry.deppy
+  Library:  sympy 1.14.0 — sympy
+  Output:   sympy_geometry.lean
+────────────────────────────────────────────────────────────────────────
+  Foundations:                  14
+    discharged by Z3:            7 / 10 attempted
+  Spec blocks:                   5  (Point, Segment, Triangle, Circle, Polygon)
+  Sidecar axioms:               38  (mechanized as Lean axioms)
+  Verify blocks:                11  /  11 kernel-verified
+  Counterexample search:         3 attempted, 0 found
+  Soundness gates:               3 pass, 0 fail
+  Cubical methods analysed:      4   (310 cells)
+  ────────────────────────────────────────────────────────────────
+  Lean export round-trip:       OK
+  ────────────────────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
 
-Scanning src/ for SymPy calls...
-Found 47 call sites across 12 files.
-
-<span class="fn">═══ sympy.core ═══</span>
-
-<span class="fn">src/algebra.py</span>:18  →  <span class="fn">sympy.expand</span>(expr)
-  No sidecar spec.  <span class="st">⚠ uncovered</span>
-
-<span class="fn">src/algebra.py</span>:24  →  <span class="fn">a + b</span> (sympy.core.add.Add)
-  Laws: commutative ✓, associative ✓, identity ✓, inverse ✓
-  <span class="st">✓ all laws assumed</span>
-
-<span class="fn">src/algebra.py</span>:31  →  <span class="fn">a * (b + c)</span> (sympy.core.mul.Mul, Add)
-  Law: distributive_over_add ✓
-  <span class="st">✓ law assumed</span>
-
-<span class="fn">═══ sympy.matrices ═══</span>
-
-<span class="fn">src/linalg.py</span>:12  →  <span class="fn">A * B</span> (Matrix.__mul__)
-  Dimension check: A is 3×3, B is 3×3  <span class="st">✓ compatible</span>
-  Law: mul_associative — applicable  <span class="st">✓ assumed</span>
-
-<span class="fn">src/linalg.py</span>:15  →  <span class="fn">(A * B).det()</span>
-  Law: det_product  <span class="st">✓ assumed</span>
-  Postcondition: det(A*B) == det(A)*det(B) available for downstream proofs
-
-<span class="fn">src/linalg.py</span>:22  →  <span class="fn">A.T.T</span>
-  Law: transpose_involution  <span class="st">✓ assumed</span>
-  Simplified to: A  <span class="st">✓</span>
-
-<span class="fn">═══ sympy.integrals ═══</span>
-
-<span class="fn">src/calculus.py</span>:8   →  <span class="fn">integrate</span>(f, x)
-  Law: ftc_part1 — d/dx ∫f dx == f  <span class="st">✓ assumed</span>
-
-<span class="fn">src/calculus.py</span>:19  →  <span class="fn">integrate</span>(f, (x, 0, 1))
-  Law: ftc_part2 applicable  <span class="st">✓ assumed</span>
-  Law: linear_add applicable  <span class="st">✓ assumed</span>
-
-<span class="fn">═══ Transport ═══</span>
-
-<span class="fn">src/numerical.py</span>:34  →  <span class="fn">np.linalg.det</span>(A @ B)
-  Transport: det_product via evaluate path
-  Path verified: structure-preserving  <span class="st">✓</span>
-  Transported property: det(A@B) ≈ det(A)*det(B)  <span class="st">✓</span>
-  Tolerance: 1e-10
-
-<span class="op">══════════════════════════════════════════════════════════</span>
-<span class="fn">Verification Report</span>
-<span class="op">──────────────────────────────────────────────────────────</span>
-Call sites verified:   42/47 (<span class="st">89%</span>)
-Call sites uncovered:   5/47 (no sidecar spec)
-Algebraic laws:        23 assumed
-Paths verified:         1
-Transport proofs:       1
-
-Trust level breakdown:
-  🟡 Z3_VERIFIED:     12 call sites
-  🟠 LLM_CHECKED:     0 call sites
-  🔴 UNTRUSTED:       5 call sites (uncovered)
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Overall:           🟡 Z3_VERIFIED (limited by uncovered calls)
-
-Recommendation: Add sidecar specs for:
-  - sympy.expand (5 call sites)
-  to reach 100% coverage.</code></pre>
+    <p>
+      The same numbers appear under <code>section_counters</code> in the
+      JSON sidecar that the runner writes alongside the Lean output.  See
+      <a href="../under_the_hood/lean.html">Lean Export</a> for the full
+      JSON schema.
+    </p>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="edge-cases">Handling SymPy Edge Cases</h2>

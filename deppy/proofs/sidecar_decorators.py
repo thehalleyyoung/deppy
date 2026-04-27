@@ -303,6 +303,45 @@ def psdl_proof(text: str):
 #  Spec decorator (on classes)
 # ───────────────────────────────────────────────────────────────────
 
+def _validate_formal(s: str, *, kind: str = "guarantee") -> str:
+    """Validate that ``s`` is a *formal* claim, not a natural-language
+    string.  Accepted forms:
+
+      * ``"lean: <Lean expression>"`` — verbatim Lean syntax.
+      * ``"smt: <SMTLib expression>"`` — verbatim SMTLib (or
+        ``"smtlib: ..."``).
+      * Anything else — must parse as a Python ``ast.parse(..., mode='eval')``
+        expression.
+
+    Returns the input unchanged on success.  Raises ``ValueError``
+    on natural-language strings — guarantees / invariants / axioms
+    must be in one of the three formal forms so the verify pipeline
+    can mechanise them.  Comment-only documentation belongs in the
+    class's docstring, not in the spec.
+    """
+    import ast as _ast
+    text = (s or "").strip()
+    if not text:
+        raise ValueError(
+            f"deppy: empty {kind!r} string — must be a Python "
+            f"expression, ``lean: ...``, or ``smt: ...``"
+        )
+    if text.startswith(("lean:", "smt:", "smtlib:")):
+        return text  # trust the user — the certificate emitter
+                      # will splice the body verbatim.
+    try:
+        _ast.parse(text, mode="eval")
+        return text
+    except SyntaxError as e:
+        raise ValueError(
+            f"deppy: {kind} {s!r} is not a Python expression and "
+            f"doesn't start with ``lean:`` / ``smt:``.  Natural-"
+            f"language strings cannot be verified — put commentary "
+            f"in the class docstring; put formal claims here.  "
+            f"(parser said: {e.msg})"
+        ) from None
+
+
 def spec(
     *,
     target: Optional[str] = None,
@@ -311,14 +350,40 @@ def spec(
     invariants: Optional[list[str]] = None,
 ):
     """Mark a class with a deppy spec block listing guarantees and
-    cited axioms / invariants."""
+    cited axioms / invariants.
+
+    Every entry in ``guarantees`` and ``invariants`` must be one of:
+
+      * a Python expression (parseable via ``ast.parse(_, mode='eval')``),
+      * ``"lean: <code>"`` to splice raw Lean,
+      * ``"smt: <expr>"`` (or ``"smtlib: ..."``) for raw SMTLib.
+
+    Natural-language strings are rejected at decoration time —
+    deppy can't verify what it can't parse.  Use the class
+    docstring for human-readable commentary; reserve the spec
+    fields for formal claims.
+
+    ``axioms`` is a *list of axiom names* (strings naming
+    previously-declared ``@axiom`` functions), not Python
+    expressions, so it isn't validated by ``_validate_formal``.
+    """
+    # Validate each guarantee / invariant up-front so the
+    # NL-vs-formal mistake fails at decoration time.
+    g_validated = [
+        _validate_formal(g, kind="guarantee")
+        for g in (guarantees or [])
+    ]
+    i_validated = [
+        _validate_formal(i, kind="invariant")
+        for i in (invariants or [])
+    ]
     def make(cls: type) -> type:
         nm = target or cls.__module__ + "." + cls.__qualname__
         meta = {
             "target": nm,
-            "guarantees": list(guarantees or []),
+            "guarantees": g_validated,
             "axioms": list(axioms or []),
-            "invariants": list(invariants or []),
+            "invariants": i_validated,
         }
         cls.__deppy_spec__ = meta  # type: ignore[attr-defined]
         _registry.specs[nm] = cls

@@ -173,7 +173,9 @@
           (<code>==</code>), Deppy can additionally use path types to prove behavioural
           equivalence of Python objects that may have different internal representations.</li>
       <li><strong>Z3 + sidecar proofs</strong> — arithmetic obligations are discharged to
-          Z3 automatically; complex domain proofs live in sidecar <code>.proof</code> files.</li>
+          Z3 automatically; complex domain proofs live in sidecar <code>.deppy</code>
+          files (or in <code>@verify</code> / <code>@psdl_proof</code> decorators
+          when you own the module).</li>
     </ul>
 
     <div class="compare">

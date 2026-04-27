@@ -154,15 +154,31 @@
     </ol>
 
     <pre><code><span class="cm"># math.deppy — sidecar specs for Python's math module</span>
-<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove
+module: math
+
+foundation Real_sqrt_nonneg: <span class="st">"sqrt(x) >= 0 when x >= 0"</span>
+foundation Real_sqrt_sq: <span class="st">"sqrt(x)**2 == x when x >= 0"</span>
+
+spec math.sqrt:
+  guarantee: <span class="st">"math.sqrt(x) is defined and non-negative when x >= 0"</span>
+  pure: true
+  axiom sqrt_nonneg: <span class="st">"math.sqrt(x) >= 0 when x >= 0"</span>
+  axiom sqrt_inverse: <span class="st">"math.sqrt(x)**2 == x when x >= 0"</span></code></pre>
+
+    <p>
+      Equivalently, when you own the calling code, you can use the
+      decorator form (see <a href="decorator_form.html">next chapter</a>):
+    </p>
+
+    <pre><code><span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, law
 
 <span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
 <span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> x >= <span class="nb">0</span>
-
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, x: <span class="ty">float</span>, result: <span class="ty">float</span>) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> result >= <span class="nb">0</span> <span class="kw">and</span> abs(result * result - x) < <span class="nb">1e-10</span></code></pre>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">nonneg</span>(<span class="kw">self</span>, x: <span class="ty">float</span>) -> <span class="ty">bool</span>:
+        <span class="st">"""math.sqrt(x) >= 0 when x >= 0."""</span>
+        <span class="kw">if</span> x < <span class="nb">0</span>: <span class="kw">return</span> <span class="nb">True</span>
+        <span class="kw">return</span> <span class="kw">self</span>.call(x) >= <span class="nb">0</span></code></pre>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="about-decorator">The <code>@about</code> Decorator</h2>
@@ -176,9 +192,13 @@
 <span class="kw">class</span> <span class="fn">PopItemSpec</span>(<span class="ty">ExternalSpec</span>):
     <span class="st">"""popitem(last=True) returns the last-inserted key-value pair."""</span>
 
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, result: <span class="ty">tuple</span>, *, last: <span class="ty">bool</span> = <span class="nb">True</span>) -> <span class="ty">bool</span>:
-        <span class="cm"># When last=True, result is the most-recently inserted pair</span>
-        <span class="kw">return</span> <span class="nb">True</span>  <span class="cm"># structural spec — order verified via algebraic laws</span></code></pre>
+    <span class="dc">@law</span>
+    <span class="kw">def</span> <span class="fn">returns_pair</span>(<span class="kw">self</span>, d: <span class="ty">OrderedDict</span>) -> <span class="ty">bool</span>:
+        <span class="cm"># Each ``@law`` is a runtime-checkable claim about the live</span>
+        <span class="cm"># target.  It also becomes a sidecar axiom in the kernel.</span>
+        <span class="kw">if</span> <span class="nb">len</span>(d) == <span class="nb">0</span>: <span class="kw">return</span> <span class="nb">True</span>
+        result = <span class="kw">self</span>.call(d)
+        <span class="kw">return</span> <span class="nb">isinstance</span>(result, <span class="ty">tuple</span>) <span class="kw">and</span> <span class="nb">len</span>(result) == <span class="nb">2</span></code></pre>
 
     <p>
       Deppy resolves the dotted name at verification time, matches it to the
@@ -273,8 +293,11 @@
       <div class="proof-step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <strong>Run verification</strong> — <code>deppy sidecar verify myproject/</code>
-          checks all call sites against the specs.
+          <strong>Run verification</strong> —
+          <code>python -m deppy.pipeline.run_verify myproject.deppy</code>
+          (or <code>--from-module myproject</code> for the decorator form)
+          checks every <code>foundation</code>, <code>axiom</code>, and
+          <code>verify</code> block against the live module.
         </div>
       </div>
       <div class="proof-step">
@@ -302,12 +325,14 @@
       <div>
         <h4>Deppy Sidecar</h4>
         <pre><code><span class="cm"># math.deppy — lives BESIDE the library</span>
-<span class="dc">@about</span>(<span class="st">"math.sqrt"</span>)
-<span class="kw">class</span> <span class="fn">SqrtSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="kw">def</span> <span class="fn">precondition</span>(self, x):
-        <span class="kw">return</span> x >= <span class="nb">0</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(self, x, result):
-        <span class="kw">return</span> result >= <span class="nb">0</span>
+module: math
+
+foundation Real_sqrt_nonneg: <span class="st">"sqrt(x) >= 0 when x >= 0"</span>
+
+spec math.sqrt:
+  guarantee: <span class="st">"non-negative output when input >= 0"</span>
+  pure: true
+  axiom sqrt_nonneg: <span class="st">"math.sqrt(x) >= 0 when x >= 0"</span>
   <span class="cm"># ← Library stays untouched!</span></code></pre>
       </div>
     </div>
@@ -325,57 +350,50 @@
     </p>
 
     <pre><code><span class="cm"># ─── Header: identify the target module ───</span>
-<span class="cm"># filename: numpy/linalg.deppy</span>
-<span class="kw">from</span> deppy.sidecar <span class="kw">import</span> about, ExternalSpec, assume, prove, law
-<span class="kw">from</span> deppy.types <span class="kw">import</span> NDArray, PosDefMatrix
+<span class="cm"># filename: numpy_linalg.deppy</span>
+module: numpy
+version: <span class="st">">=1.24,&lt;3"</span>
 
-<span class="cm"># ─── Spec class: one per function/method ───</span>
-<span class="dc">@about</span>(<span class="st">"numpy.linalg.solve"</span>)
-<span class="kw">class</span> <span class="fn">SolveSpec</span>(<span class="ty">ExternalSpec</span>):
-    <span class="st">"""Solve the linear system A·x = b."""</span>
-    compatible_versions = <span class="st">">=1.24,<2.0"</span>
+<span class="cm"># ─── Foundations: generic mathematical facts ───</span>
+foundation Linear_solve_unique: <span class="st">"A·x == b has at most one solution when det(A) != 0"</span>
 
-    <span class="cm"># Precondition: A must be square and invertible</span>
-    <span class="kw">def</span> <span class="fn">precondition</span>(<span class="kw">self</span>, A: <span class="ty">NDArray</span>, b: <span class="ty">NDArray</span>) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> A.shape[<span class="nb">0</span>] == A.shape[<span class="nb">1</span>] <span class="kw">and</span> np.linalg.det(A) != <span class="nb">0</span>
+<span class="cm"># ─── Spec block: one per target function/method ───</span>
+spec numpy.linalg.solve:
+  guarantee: <span class="st">"A @ solve(A, b) ≈ b when A is square and non-singular"</span>
+  pure: true
+  axiom solve_inverts: <span class="st">"numpy.allclose(A @ numpy.linalg.solve(A, b), b)"</span>
+  axiom solve_unique: <span class="st">"numpy.linalg.solve(A, b) is independent of run"</span>
 
-    <span class="cm"># Postcondition: A @ result ≈ b</span>
-    <span class="dc">@assume</span>
-    <span class="kw">def</span> <span class="fn">postcondition</span>(<span class="kw">self</span>, A, b, result) -> <span class="ty">bool</span>:
-        <span class="kw">return</span> np.allclose(A @ result, b)
-
-    <span class="cm"># Exception behavior</span>
-    <span class="kw">def</span> <span class="fn">raises</span>(<span class="kw">self</span>, A, b) -> <span class="ty">type</span> | <span class="nb">None</span>:
-        <span class="kw">if</span> A.shape[<span class="nb">0</span>] != A.shape[<span class="nb">1</span>]:
-            <span class="kw">return</span> <span class="ty">LinAlgError</span>
-        <span class="kw">return</span> <span class="nb">None</span>
-
-    <span class="cm"># Algebraic laws</span>
-    <span class="dc">@law</span>
-    <span class="kw">def</span> <span class="fn">solution_unique</span>(<span class="kw">self</span>, A: <span class="ty">PosDefMatrix</span>, b: <span class="ty">NDArray</span>) -> <span class="ty">bool</span>:
-        <span class="st">"""For positive definite A, the solution is unique."""</span>
-        x1 = self.call(A, b)
-        x2 = self.call(A, b)
-        <span class="kw">return</span> np.allclose(x1, x2)</code></pre>
+verify hypotenuse_solve_safe:
+  function: my_module.hypotenuse_solve
+  property: <span class="st">"my_module.hypotenuse_solve(A, b) is non-empty"</span>
+  via: <span class="st">"foundation Linear_solve_unique"</span></code></pre>
 
     <p>
       The key design principles:
     </p>
     <ul>
-      <li><strong>Postconditions are <code>@assume</code>d</strong> — you trust the library
-          does what it says. These are axioms about external behavior.</li>
-      <li><strong>Preconditions are <code>@prove</code>d</strong> — Deppy verifies that
-          your code always satisfies them before calling the function.</li>
-      <li><strong>Laws are structural</strong> — they express algebraic properties that
-          compose into larger proofs.</li>
-      <li><strong>Version pinning</strong> — sidecars are tied to library versions so
-          API changes don't silently break your specs.</li>
+      <li><strong>Foundations</strong> are generic mathematical facts that
+          you trust as axioms (the system can also discharge many of them
+          via Z3).</li>
+      <li><strong>Axioms inside a spec</strong> are formal claims about
+          the live target — Deppy parses each statement as a Python
+          expression and resolves its referenced attributes against the
+          actual class or module.</li>
+      <li><strong>Verify blocks</strong> are theorems that have to be
+          discharged from foundations + axioms via the proof kernel
+          (PSDL bodies, citation, chain, rewrite-then-cite).</li>
+      <li><strong>Version pinning</strong> — sidecars declare
+          <code>version: …</code> so API changes don't silently break
+          your specs.</li>
     </ul>
 
     <!-- ───────────────────────────────────────────── -->
     <h2 id="how-verification-works">How Sidecar Verification Works</h2>
     <p>
-      When you run <code>deppy sidecar verify</code>, the system performs these steps:
+      When you run <code>python -m deppy.pipeline.run_verify</code>, the
+      pipeline (in <code>deppy.lean.sidecar_runner</code>) performs these
+      steps:
     </p>
 
     <div class="proof-steps">
@@ -524,28 +542,30 @@
 
     <p>Running verification:</p>
 
-    <pre><code><span class="cm">$ deppy sidecar verify my_geometry.py --sidecar math.deppy</span>
+    <pre><code><span class="cm">$ python -m deppy.pipeline.run_verify math.deppy --out math.lean</span>
 
-<span class="fn">Deppy Sidecar Verification</span>
-<span class="op">══════════════════════════════</span>
-Module: my_geometry
-Sidecar: math.deppy (3 specs loaded)
+════════════════════════════════════════════════════════════════════════
+  Deppy sidecar verification report
+  Sidecar:  math.deppy
+  Library:  math (built-in) — Python ≥3.10
+  Output:   math.lean
+────────────────────────────────────────────────────────────────────────
+  foundations:                       (axioms about real arithmetic)
+  spec(s) bound:        math.sqrt
+  axiom(s):             sqrt_nonneg, sqrt_inverse_when_nonneg
+  verify block(s):      hypotenuse_nonneg
+    PSDL → kernel ProofTerm:         OK
+    Lean export round-trip:          OK
+────────────────────────────────────────────────────────────────────────
+  <span class="fn">✓ CERTIFIED — top-level certify_or_die: PASS</span></code></pre>
 
-Checking <span class="fn">circle_area</span>:
-  No external calls with specs. <span class="st">✓ trivially verified</span>
-
-Checking <span class="fn">hypotenuse</span>:
-  Call: <span class="fn">math.sqrt</span>(a * a + b * b)
-  Precondition: x >= 0
-  Proof obligation: a * a + b * b >= 0
-  <span class="pr">Z3 says: ∀ a,b ∈ ℝ. a² + b² ≥ 0</span>  <span class="st">✓ proved</span>
-
-  Postcondition: result >= 0
-  Propagated: hypotenuse returns non-negative  <span class="st">✓</span>
-
-<span class="op">──────────────────────────────</span>
-Result: <span class="st">2/2 functions verified</span> 🟡 Z3_VERIFIED
-Coverage: 100% of external calls have sidecar specs</code></pre>
+    <p>
+      Counts and trust badges in the report come from the
+      <code>section_counters</code> dict written to
+      <code>math.json</code> alongside the Lean output — see
+      <a href="../under_the_hood/lean.html">Lean Export</a> for the
+      full schema.
+    </p>
 
     <div class="exercise">
       <strong>Before You Begin:</strong> Install Deppy and create a simple Python file

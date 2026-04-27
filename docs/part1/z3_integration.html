@@ -303,15 +303,19 @@
     <h2>Controlling Z3 Timeout and Strategies</h2>
 
     <p>
-      By default, Deppy gives Z3 five seconds per query. You can change this globally
-      in <code>deppy.toml</code> or per-function with <code>@z3_config</code>:
+      By default, Deppy gives Z3 five seconds per query.  You can
+      change this globally via
+      <code>deppy.config.DeppyConfig</code>, or per-function with the
+      <code>@z3_config</code> sidecar decorator:
     </p>
 
-<pre><code><span class="cm"># deppy.toml — project-wide Z3 settings</span>
-[z3]
-timeout <span class="op">=</span> <span class="nb">10000</span>       <span class="cm"># milliseconds (10 seconds)</span>
-memory_limit <span class="op">=</span> <span class="nb">4096</span>  <span class="cm"># megabytes</span>
-seed <span class="op">=</span> <span class="nb">42</span>             <span class="cm"># for reproducibility</span></code></pre>
+<pre><code><span class="kw">from</span> deppy.config <span class="kw">import</span> DeppyConfig
+
+<span class="cm"># Global Z3 settings (passed to the safety pipeline)</span>
+config = DeppyConfig(
+    z3_timeout=<span class="nb">10000</span>,        <span class="cm"># ms (10 seconds)</span>
+    z3_rlimit=<span class="nb">10_000_000</span>,    <span class="cm"># deterministic resource budget</span>
+)</code></pre>
 
     <p>Per-function configuration lives in the sidecar proof file:</p>
 
@@ -490,13 +494,16 @@ seed <span class="op">=</span> <span class="nb">42</span>             <span clas
 
     <h3>Viewing the Generated SMT-LIB</h3>
 
-<pre><code><span class="cm"># Show the exact Z3 query Deppy generates</span>
-$ python -m deppy.pipeline.run_verify <span class="op">--</span>show<span class="op">-</span>z3 my_module.py
+<pre><code><span class="cm"># Inspect the SMT-LIB that ``deppy.z3_bridge`` would build</span>
+<span class="cm"># for a single foundation/identity:</span>
+$ python <span class="op">-</span>c <span class="st">"
+from deppy.z3_bridge import z3_prove_real_identity
+import z3
+z3.set_param('verbose', 1)
+z3_prove_real_identity(lambda R: [R('lo') &lt;= R('hi')])
+"</span>
 
-<span class="cm"># Output:</span>
-<span class="cm">;; Function: clamp</span>
-<span class="cm">;; Guarantee: lo &lt;= result &lt;= hi</span>
-<span class="cm">;; Precondition: lo &lt;= hi</span>
+<span class="cm"># A typical query Deppy would emit for a clamp postcondition:</span>
 (<span class="kw">declare-const</span> x <span class="ty">Int</span>)
 (<span class="kw">declare-const</span> lo <span class="ty">Int</span>)
 (<span class="kw">declare-const</span> hi <span class="ty">Int</span>)
@@ -508,15 +515,23 @@ $ python -m deppy.pipeline.run_verify <span class="op">--</span>show<span class=
 
     <h3>Getting Counterexamples</h3>
 
-<pre><code class="shell"><span class="cm"># Ask Z3 for a concrete counterexample</span>
-$ python -m deppy.pipeline.run_verify <span class="op">--</span>counterexample buggy_module.py
+<pre><code class="shell"><span class="cm"># When the sidecar pipeline runs counterexample search against an</span>
+<span class="cm"># admitted foundation, hits are recorded in the JSON sidecar:</span>
+$ python -m deppy.pipeline.run_verify buggy_module.deppy --out buggy.lean
+$ jq <span class="st">'.section_counters | {counterexamples_attempted, counterexamples_found}'</span> \
+     buggy.json
+{
+  <span class="st">"counterexamples_attempted"</span>: <span class="nb">3</span>,
+  <span class="st">"counterexamples_found"</span>: <span class="nb">1</span>
+}
 
-<span class="cm"># Output:</span>
-<span class="cm"># ✗ Function buggy_abs: guarantee "result >= 0" FAILED</span>
-<span class="cm">#   Counterexample:</span>
-<span class="cm">#     x = -2147483648  (INT_MIN on 32-bit)</span>
-<span class="cm">#     result = -2147483648</span>
-<span class="cm">#   Hint: negating INT_MIN overflows in fixed-width arithmetic</span></code></pre>
+<span class="cm"># When at least one counterexample is found, ``certified``</span>
+<span class="cm"># flips to false and ``failures`` lists the offending foundation:</span>
+$ jq <span class="st">'{certified, failures}'</span> buggy.json
+{
+  <span class="st">"certified"</span>: <span class="nb">false</span>,
+  <span class="st">"failures"</span>: [<span class="st">"1 counterexample(s) found for admitted foundations"</span>]
+}</code></pre>
 
     <h3>Adding Intermediate Assertions</h3>
 
@@ -544,18 +559,23 @@ $ python -m deppy.pipeline.run_verify <span class="op">--</span>counterexample b
     </div>
 
     <div class="tip">
-      <strong>Tip:</strong> Use <code>python -m deppy.pipeline.run_verify --show-z3 myfile.py</code> as
-      your first debugging step. Reading the generated SMT-LIB often reveals whether
-      the encoding is what you expected. If the encoding looks wrong, the issue is in
-      Deppy's AST translation, not in your code.
+      <strong>Tip:</strong> Inspect the JSON sidecar emitted by
+      <code>python -m deppy.pipeline.run_verify foo.deppy --out foo.lean</code>
+      (written next to the Lean file).  The
+      <code>section_counters.foundations_z3_verified /
+      foundations_z3_attempted</code> ratio tells you which foundations
+      went through Z3 vs which were admitted — and the
+      <code>classification_counts</code> field shows whether each proof
+      was a direct citation, a chain, or a rewrite-then-cite.
     </div>
 
     <div class="note">
       <strong>Determinism:</strong> Z3 is a deterministic solver. Given the same input
       query and configuration, it will always produce the same result. If a proof
       works on your machine, it will work in CI — as long as the Z3 version and
-      timeout settings match. Pin your Z3 version in <code>deppy.toml</code> via
-      <code>z3_version = "4.13.0"</code>.
+      timeout settings match.  Pin your Z3 version in your
+      <code>requirements.txt</code> /
+      <code>pip install z3-solver==&lt;version&gt;</code>.
     </div>
 
     <!-- ===== Exercise ===== -->

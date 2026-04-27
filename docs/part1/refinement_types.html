@@ -114,7 +114,7 @@
       annotation, it treats it as:
     </p>
 
-    <pre><code><span class="cm"># Internally: int ≡ refined(int, lambda x: True)</span>
+    <pre><code><span class="cm"># Internally: int ≡ refined(PyIntType(), "True", "x")</span>
 <span class="kw">def</span> <span class="fn">successor</span>(n: <span class="ty">int</span>) <span class="op">-></span> <span class="ty">int</span>:
     <span class="kw">return</span> n <span class="op">+</span> <span class="nb">1</span></code></pre>
 
@@ -127,29 +127,32 @@
     </p>
 
     <!-- ──────────────────────────────────────────── -->
-    <h2>The <code>refined</code> Decorator</h2>
+    <h2>The <code>refined</code> Constructor</h2>
 
     <p>
       To add a predicate, use <code><span class="fn">refined</span></code>.
-      It takes a base type and a lambda that returns a boolean:
+      It takes a base type, a <strong>string predicate</strong> (so the
+      kernel can both Z3-check it <em>and</em> emit it into the Lean
+      certificate), and the bound-variable name:
     </p>
 
     <pre><code><span class="kw">from</span> deppy <span class="kw">import</span> refined
+<span class="kw">from</span> deppy.types <span class="kw">import</span> PyIntType, PyListType
 
 <span class="cm"># Natural numbers: integers ≥ 0</span>
-Nat <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span>)
+Nat <span class="op">=</span> refined(PyIntType(), <span class="st">"x &gt;= 0"</span>, <span class="st">"x"</span>)
 
 <span class="cm"># Positive integers: strictly greater than 0</span>
-Pos <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">></span> <span class="nb">0</span>)
+Pos <span class="op">=</span> refined(PyIntType(), <span class="st">"x &gt; 0"</span>, <span class="st">"x"</span>)
 
 <span class="cm"># Even integers</span>
-Even <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">%</span> <span class="nb">2</span> <span class="op">==</span> <span class="nb">0</span>)
+Even <span class="op">=</span> refined(PyIntType(), <span class="st">"x % 2 == 0"</span>, <span class="st">"x"</span>)
 
 <span class="cm"># Odd integers</span>
-Odd <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">%</span> <span class="nb">2</span> <span class="op">==</span> <span class="nb">1</span>)
+Odd <span class="op">=</span> refined(PyIntType(), <span class="st">"x % 2 == 1"</span>, <span class="st">"x"</span>)
 
 <span class="cm"># Non-empty lists</span>
-NonEmpty <span class="op">=</span> refined(<span class="ty">list</span>, <span class="kw">lambda</span> xs: len(xs) <span class="op">></span> <span class="nb">0</span>)</code></pre>
+NonEmpty <span class="op">=</span> refined(PyListType(), <span class="st">"len(xs) &gt; 0"</span>, <span class="st">"xs"</span>)</code></pre>
 
     <p>
       Once defined, use them exactly like regular type annotations:
@@ -303,21 +306,25 @@ q: Pos <span class="op">=</span> increment(p)   <span class="cm"># ✓ accepted<
 
     <h3>Intersection (conjunction)</h3>
 
-    <pre><code><span class="cm"># A percentage: integer between 0 and 100 inclusive</span>
-Percentage <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">100</span>)
+    <pre><code><span class="kw">from</span> deppy.types <span class="kw">import</span> PyIntType, PyFloatType, PyStrType, PyListType
+
+<span class="cm"># A percentage: integer between 0 and 100 inclusive</span>
+Percentage <span class="op">=</span> refined(PyIntType(), <span class="st">"x &gt;= 0 and x &lt;= 100"</span>, <span class="st">"x"</span>)
 
 <span class="cm"># A probability: float in [0.0, 1.0]</span>
-Probability <span class="op">=</span> refined(<span class="ty">float</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0.0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">1.0</span>)
+Probability <span class="op">=</span> refined(PyFloatType(), <span class="st">"x &gt;= 0.0 and x &lt;= 1.0"</span>, <span class="st">"x"</span>)
 
 <span class="cm"># A non-empty string of at most 255 characters</span>
-ShortStr <span class="op">=</span> refined(<span class="ty">str</span>, <span class="kw">lambda</span> s: len(s) <span class="op">></span> <span class="nb">0</span> <span class="kw">and</span> len(s) <span class="op"><=</span> <span class="nb">255</span>)</code></pre>
+ShortStr <span class="op">=</span> refined(PyStrType(), <span class="st">"len(s) &gt; 0 and len(s) &lt;= 255"</span>, <span class="st">"s"</span>)</code></pre>
 
     <h3>Complex list predicates</h3>
 
     <pre><code><span class="cm"># Sorted list: every adjacent pair is in non-decreasing order</span>
+<span class="cm"># (also available as ``Sorted()`` from deppy)</span>
 SortedList <span class="op">=</span> refined(
-    <span class="ty">list</span>[<span class="ty">int</span>],
-    <span class="kw">lambda</span> xs: all(xs[i] <span class="op"><=</span> xs[i<span class="op">+</span><span class="nb">1</span>] <span class="kw">for</span> i <span class="kw">in</span> range(len(xs)<span class="op">-</span><span class="nb">1</span>))
+    PyListType(element_type=PyIntType()),
+    <span class="st">"all(xs[i] &lt;= xs[i+1] for i in range(len(xs)-1))"</span>,
+    <span class="st">"xs"</span>,
 )
 
 <span class="cm"># Unique list: no duplicates</span>
@@ -474,10 +481,10 @@ UniqueList <span class="op">=</span> refined(
     </div>
 
     <pre><code><span class="cm"># Hard to read</span>
-<span class="kw">def</span> <span class="fn">f</span>(x: refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">100</span>)) <span class="op">-></span> <span class="ty">int</span>: ...
+<span class="kw">def</span> <span class="fn">f</span>(x: refined(PyIntType(), <span class="st">"x &gt;= 0 and x &lt;= 100"</span>, <span class="st">"x"</span>)) <span class="op">-></span> <span class="ty">int</span>: ...
 
 <span class="cm"># Much better</span>
-Percentage <span class="op">=</span> refined(<span class="ty">int</span>, <span class="kw">lambda</span> x: x <span class="op">>=</span> <span class="nb">0</span> <span class="kw">and</span> x <span class="op"><=</span> <span class="nb">100</span>)
+Percentage <span class="op">=</span> refined(PyIntType(), <span class="st">"x &gt;= 0 and x &lt;= 100"</span>, <span class="st">"x"</span>)
 
 <span class="kw">def</span> <span class="fn">f</span>(x: Percentage) <span class="op">-></span> <span class="ty">int</span>: ...</code></pre>
 

@@ -470,15 +470,19 @@ else:
       specification.
     </p>
 
-<pre><code class="output"><span class="cm"># Upgrade from Z3_VERIFIED to LEAN_KERNEL_VERIFIED:</span>
-$ deppy export --lean math_utils.deppy
-<span class="cm">Exported to math_utils.lean</span>
+<pre><code class="output"><span class="cm"># For a .deppy sidecar, the run_verify pipeline always exports</span>
+<span class="cm"># Lean and runs ``lean`` against it on every invocation.</span>
+<span class="cm"># When the round-trip succeeds, every verify block reaches</span>
+<span class="cm"># LEAN_KERNEL_VERIFIED automatically:</span>
+$ python -m deppy.pipeline.run_verify math_utils.deppy --out math_utils.lean
+<span class="fn">  Lean export round-trip:                  OK</span>
+<span class="fn">  ✓ CERTIFIED — top-level certify_or_die: PASS</span>
 
-$ lake build math_utils
-<span class="fn">✓</span> Lean kernel accepted all proofs.
-
-$ deppy upgrade math_utils.deppy --level LEAN_KERNEL_VERIFIED
-<span class="fn">✓</span> 5 obligations upgraded to LEAN_KERNEL_VERIFIED</code></pre>
+<span class="cm"># For a Python module that uses inline @guarantee/@ensures decorators,</span>
+<span class="cm"># the ``deppy upgrade`` subcommand re-runs the safety pipeline aiming</span>
+<span class="cm"># at a stricter level:</span>
+$ python -m deppy upgrade math_utils.py --to Z3_VERIFIED --json
+<span class="fn">  {"target_level": "Z3_VERIFIED", "upgraded": 5, "failed": 0, ...}</span></code></pre>
 
     <div class="warning">
       <code>LLM_CHECKED</code> proofs are <em>not</em> formal proofs. They are
