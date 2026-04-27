@@ -1132,6 +1132,65 @@ class VerificationResult:
         )
 
 
+def _infer_collection_hints(
+    formula_text: str, var_names: set[str],
+) -> dict[str, str]:
+    """Heuristically classify free names as ``list``/``dict``/``str``/``int``
+    based on how they're used in the formula text.
+
+    Used by :meth:`ProofKernel._z3_check_implication` when no explicit
+    binders are supplied but the formula references collection ops.
+    Returns a binder-hint dict suitable for
+    :func:`deppy.core.z3_encoder.check_implication`.
+
+    Heuristics (in order of preference):
+
+    * ``len(name)``, ``name[i]`` (read as int subscript), ``name.append(...)``
+      → ``list``
+    * ``name[k]`` where k is a string literal, ``k in name``, ``name.get(...)``
+      → ``dict``
+    * ``name.startswith(``, ``name.endswith(``, ``name.find(``,
+      ``str(name)`` → ``str``
+    * Anything else → fall through (the typed encoder defaults to int).
+    """
+    import re
+    hints: dict[str, str] = {}
+    for n in var_names:
+        n_re = re.escape(n)
+        # list signals
+        is_list = bool(
+            re.search(rf"\blen\(\s*{n_re}\s*\)", formula_text) or
+            re.search(rf"\b{n_re}\.append\b", formula_text) or
+            re.search(rf"\b{n_re}\.pop\b", formula_text) or
+            re.search(rf"\b{n_re}\[\s*\d", formula_text) or
+            re.search(rf"\b{n_re}\[\s*[a-zA-Z_]\w*\s*\]"
+                      r"(?!\s*=\s*['\"])", formula_text)
+        )
+        # dict signals (string-keyed subscript or .get / membership of str)
+        is_dict = bool(
+            re.search(rf"\b{n_re}\[\s*['\"]", formula_text) or
+            re.search(rf"\b{n_re}\.get\b", formula_text) or
+            re.search(rf"['\"][^'\"]*['\"]\s+in\s+{n_re}\b", formula_text) or
+            re.search(rf"\b{n_re}\.keys\b|\b{n_re}\.values\b", formula_text)
+        )
+        # str signals
+        is_str = bool(
+            re.search(rf"\b{n_re}\.startswith\b", formula_text) or
+            re.search(rf"\b{n_re}\.endswith\b", formula_text) or
+            re.search(rf"\b{n_re}\.find\b", formula_text) or
+            re.search(rf"\bstr\(\s*{n_re}\s*\)", formula_text)
+        )
+        if is_dict and not is_list:
+            hints[n] = "dict"
+        elif is_list:
+            hints[n] = "list"
+        elif is_str:
+            hints[n] = "str"
+        else:
+            hints[n] = "int"
+    return hints
+
+
 # ═══════════════════════════════════════════════════════════════════
 # The Proof Kernel
 # ═══════════════════════════════════════════════════════════════════
@@ -1575,6 +1634,28 @@ class ProofKernel:
                     z3_vars[name] = Int(name)
 
             if any(op in combined for op in ['[', ']', '.', 'len(', 'str(', 'None']):
+                # Hand off to the typed Z3 encoder.  When no annotations
+                # are supplied we infer a small set of binder hints from
+                # the formula text: any name that appears as the receiver
+                # of ``len(x)``, ``x[i]``, ``x.append(...)`` or ``x in y``
+                # is registered as a list-typed binder; the rest default
+                # to int.  This is a best-effort encoding — the typed
+                # path is genuinely sound (asserts ``len(xs) >= 0`` etc.)
+                # and was the silent-failure point for refinement-style
+                # obligations involving collections.
+                hints = _infer_collection_hints(combined, var_names)
+                if hints:
+                    try:
+                        from deppy.core.z3_encoder import check_implication
+                        return check_implication(
+                            premise, conclusion, binders=hints,
+                        )
+                    except Exception as e:
+                        return (
+                            False,
+                            f"typed-fallback-crash: "
+                            f"{type(e).__name__}: {e}"[:120],
+                        )
                 return False, "unsupported-constructs"
 
             env: dict[str, Any] = dict(z3_vars)

@@ -77,6 +77,13 @@ class Z3Encoding:
     ``hasattr`` predicates so the same ``(sort_name, attr_name)``
     pair always resolves to the same Z3 atom.
 
+    ``axioms`` collects Z3 BoolRef constraints that should be
+    asserted into the solver alongside the predicate (e.g. that
+    ``len_<xs>(xs) >= 0`` for every list-typed binder).  The
+    encoder builds these as it walks annotations; the
+    ``check_implication`` entry point feeds them to ``s.add`` so
+    that downstream proofs can rely on them.
+
     Callers usually only need ``env`` to evaluate further formulas
     in the same scope.
     """
@@ -85,6 +92,7 @@ class Z3Encoding:
     helpers: dict[str, Any] = field(default_factory=dict)
     binder_types: dict[str, str] = field(default_factory=dict)
     hasattr_cache: dict[tuple[str, str], Any] = field(default_factory=dict)
+    axioms: list[Any] = field(default_factory=list)
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -123,6 +131,11 @@ def check_implication(
             return False, "conclusion-not-encodable"
         s = z3.Solver()
         s.set("timeout", 5000)
+        # Axioms collected during encoding (e.g. ``len(xs) >= 0`` for
+        # every list-typed binder).  Asserting these as facts means
+        # Z3 doesn't have to spuriously satisfy ``len(xs) = -3``.
+        for ax in encoding.axioms:
+            s.add(ax)
         s.add(z3.And(p, z3.Not(q)))
         verdict = s.check() == z3.unsat
         return verdict, None if verdict else "disagrees"
@@ -288,16 +301,45 @@ def _scalar_or_class(
         # Polymorphic — declare an uninterpreted sort.
         sort = z3.DeclareSort(_unique_sort_name(f"Any_{var_name}"))
         return sort, z3.Const(var_name, sort), helpers
+    if name in {"set", "Set", "frozenset", "FrozenSet",
+                 "MutableSet", "AbstractSet"}:
+        # Z3 SetSort gives proper distinct-element semantics: IsMember,
+        # SetAdd, SetDel, SetUnion, SetIntersect, SetDifference.
+        elt_sort = z3.IntSort()  # bare set: element sort defaults to Int
+        st_sort = z3.SetSort(elt_sort)
+        st = z3.Const(var_name, st_sort)
+        length = z3.Function(f"len_{var_name}", st_sort, z3.IntSort())
+        helpers[f"len_{var_name}"] = length
+        helpers[f"is_set_{var_name}"] = True
+        # Cardinality is non-negative.
+        enc.axioms.append(length(st) >= 0)
+        return st_sort, st, helpers
     if name in {"list", "List", "Iterable", "Iterator", "Sequence",
                  "MutableSequence", "Collection", "Container",
-                 "Reversible", "tuple", "Tuple", "set", "Set",
-                 "frozenset", "FrozenSet", "Deque",
-                 "MutableSet", "AbstractSet"}:
+                 "Reversible", "tuple", "Tuple", "Deque"}:
         # Bare unparameterised list-like — element sort defaults to Int.
         arr_sort = z3.ArraySort(z3.IntSort(), z3.IntSort())
         arr = z3.Const(var_name, arr_sort)
         length = z3.Function(f"len_{var_name}", arr_sort, z3.IntSort())
         helpers[f"len_{var_name}"] = length
+        # ``x in xs`` for the bare list — ∃i. 0 ≤ i < len ∧ xs[i] = x.
+        # Wrap in a Python lambda so callers see ``contains_xs(elem)``.
+        def _make_list_contains(arr_, length_, elt_sort_):
+            def _contains(elem):
+                i = z3.Int(f"_in_{var_name}_{id(elem)}")
+                return z3.Exists(
+                    [i],
+                    z3.And(
+                        i >= 0, i < length_(arr_),
+                        z3.Select(arr_, i) == elem,
+                    ),
+                )
+            return _contains
+        helpers[f"contains_{var_name}"] = _make_list_contains(
+            arr, length, z3.IntSort(),
+        )
+        # Length non-negativity.
+        enc.axioms.append(length(arr) >= 0)
         return arr_sort, arr, helpers
     if name in {"dict", "Dict", "Mapping", "MutableMapping",
                  "OrderedDict", "defaultdict", "Counter", "ChainMap"}:
@@ -392,11 +434,28 @@ def _generic_to_z3(
     # ``Optional[T]`` handled at the top of _ast_to_z3.
     # ``Union[A, B]`` likewise.
 
+    if short in {"set", "Set", "frozenset", "FrozenSet",
+                  "AbstractSet", "MutableSet"}:
+        # Parameterised set[T] — Z3 SetSort gives real distinct-element
+        # semantics so ``a in s`` and ``s.add(a)`` work correctly.
+        elt_node = slc
+        if isinstance(slc, ast.Tuple) and slc.elts:
+            elt_node = slc.elts[0]
+        elt_sort, _ee, eh = _ast_to_z3(
+            elt_node, f"{var_name}_elt", enc, context, z3,
+        )
+        helpers.update(eh)
+        st_sort = z3.SetSort(elt_sort)
+        st = z3.Const(var_name, st_sort)
+        length = z3.Function(f"len_{var_name}", st_sort, z3.IntSort())
+        helpers[f"len_{var_name}"] = length
+        helpers[f"is_set_{var_name}"] = True
+        helpers[f"elt_sort_{var_name}"] = elt_sort
+        enc.axioms.append(length(st) >= 0)
+        return st_sort, st, helpers
     if short in {"list", "List", "Iterable", "Iterator", "Sequence",
                   "MutableSequence", "Generator", "Container",
-                  "Collection", "Reversible", "AbstractSet",
-                  "MutableSet", "set", "Set", "frozenset",
-                  "FrozenSet", "Deque"}:
+                  "Collection", "Reversible", "Deque"}:
         # element sort
         elt_node = slc
         if isinstance(slc, ast.Tuple) and slc.elts:
@@ -410,6 +469,22 @@ def _generic_to_z3(
         # Length helper.
         length = z3.Function(f"len_{var_name}", arr_sort, z3.IntSort())
         helpers[f"len_{var_name}"] = length
+        helpers[f"elt_sort_{var_name}"] = elt_sort
+        # ``x in xs`` for typed list — ∃i. 0 ≤ i < len ∧ xs[i] = x.
+        def _make_list_contains(arr_, length_, name=var_name):
+            def _contains(elem):
+                i = z3.Int(f"_in_{name}_{id(elem)}")
+                return z3.Exists(
+                    [i],
+                    z3.And(
+                        i >= 0, i < length_(arr_),
+                        z3.Select(arr_, i) == elem,
+                    ),
+                )
+            return _contains
+        helpers[f"contains_{var_name}"] = _make_list_contains(arr, length)
+        # Length non-negativity.
+        enc.axioms.append(length(arr) >= 0)
         return arr_sort, arr, helpers
 
     if short in {"tuple", "Tuple"}:
@@ -454,6 +529,9 @@ def _generic_to_z3(
             )
             helpers[f"contains_{var_name}"] = contains
             helpers[f"len_{var_name}"] = length
+            helpers[f"key_sort_{var_name}"] = k_sort
+            helpers[f"val_sort_{var_name}"] = v_sort
+            enc.axioms.append(length(arr) >= 0)
             return arr_sort, arr, helpers
         # Bare ``dict`` — string→int default.
         arr_sort = z3.ArraySort(z3.StringSort(), z3.IntSort())
@@ -466,6 +544,9 @@ def _generic_to_z3(
         )
         helpers[f"contains_{var_name}"] = contains
         helpers[f"len_{var_name}"] = length
+        helpers[f"key_sort_{var_name}"] = z3.StringSort()
+        helpers[f"val_sort_{var_name}"] = z3.IntSort()
+        enc.axioms.append(length(arr) >= 0)
         return arr_sort, arr, helpers
 
     if short in {"Callable", "callable"}:
@@ -551,6 +632,48 @@ def _eval_node(node: ast.expr, enc: Z3Encoding, z3) -> Optional[Any]:
             return z3.StringVal(v)
         return None
 
+    if isinstance(node, ast.IfExp):
+        c = _eval_node(node.test, enc, z3)
+        t = _eval_node(node.body, enc, z3)
+        e = _eval_node(node.orelse, enc, z3)
+        if c is None or t is None or e is None:
+            return None
+        return z3.If(c, t, e)
+
+    if isinstance(node, ast.List) or isinstance(node, ast.Tuple):
+        # Literal list/tuple — encode as a chain of ``Store`` over a
+        # fresh array.  Useful for ``a in [1, 2, 3]`` (handled in
+        # _eval_compare directly) and for short literal returns.
+        raw = [_eval_node(e, enc, z3) for e in node.elts]
+        if any(v is None for v in raw):
+            return None
+        elt_vals: list[Any] = [v for v in raw if v is not None]
+        if not elt_vals:
+            return z3.K(z3.IntSort(), z3.IntVal(0))
+        first = elt_vals[0]
+        elt_sort = first.sort()
+        arr_sort = z3.ArraySort(z3.IntSort(), elt_sort)
+        try:
+            arr = z3.K(z3.IntSort(), first)
+        except Exception:
+            return None
+        for i, v in enumerate(elt_vals):
+            arr = z3.Store(arr, z3.IntVal(i), v)
+        return arr
+
+    if isinstance(node, ast.Set):
+        raw = [_eval_node(e, enc, z3) for e in node.elts]
+        if any(v is None for v in raw):
+            return None
+        elt_vals: list[Any] = [v for v in raw if v is not None]
+        if not elt_vals:
+            return None
+        first = elt_vals[0]
+        st = z3.EmptySet(first.sort())
+        for v in elt_vals:
+            st = z3.SetAdd(st, v)
+        return st
+
     if isinstance(node, ast.Name):
         if node.id in enc.env:
             return enc.env[node.id]
@@ -607,6 +730,82 @@ def _eval_node(node: ast.expr, enc: Z3Encoding, z3) -> Optional[Any]:
     return None
 
 
+def _encode_membership(
+    elem: Optional[Any],
+    rhs_val: Optional[Any],
+    rhs_node: ast.expr,
+    enc: Z3Encoding,
+    z3,
+) -> Optional[Any]:
+    """Encode ``elem in rhs`` to a Z3 BoolRef.
+
+    Dispatches on the receiver in this order:
+
+    1. **Named binder** that is set-typed (``is_set_<name>`` helper):
+       direct ``IsMember`` against the set-sorted constant.
+    2. **Named binder** with a ``contains_<name>`` helper (typed
+       list or dict).  List ``contains_`` returns a BoolRef
+       (∃-encoding) so it's used directly; dict ``contains_`` is
+       a Bool-valued FuncDecl, used via ``contains(elem) = True``.
+    3. **Literal** ``ast.List`` / ``ast.Tuple`` / ``ast.Set``:
+       disjunction of equalities.
+    4. **Computed expression** (``rhs_val``) whose Z3 sort is a
+       ``SetSort``: ``IsMember`` against the set value.
+    5. **Computed expression** with an ``ArraySort`` (key-typed
+       like a dict): ``Select(arr, elem) != 0`` is unsound because
+       Z3 ArraySort has no membership notion — return None and let
+       the caller pick a syntactic discharge.
+    """
+    if elem is None:
+        return None
+
+    # 1. Named-binder set.
+    recv_name = _name_text(rhs_node)
+    if recv_name and enc.helpers.get(f"is_set_{recv_name}"):
+        return z3.IsMember(elem, enc.env[recv_name])
+
+    # 2. Named-binder list/dict via contains_<name>.
+    if recv_name:
+        membership = enc.helpers.get(f"contains_{recv_name}")
+        if membership is not None:
+            got = membership(elem)
+            if z3.is_bool(got):
+                return got
+            return got == z3.BoolVal(True)
+
+    # 3. Literal list/tuple/set membership.
+    if isinstance(rhs_node, (ast.List, ast.Tuple, ast.Set)):
+        disjuncts = []
+        for el in rhs_node.elts:
+            ev = _eval_node(el, enc, z3)
+            if ev is None:
+                return None
+            disjuncts.append(elem == ev)
+        if not disjuncts:
+            return z3.BoolVal(False)
+        return z3.Or(*disjuncts)
+
+    # 4-5. Computed expression — dispatch on Z3 sort.
+    if rhs_val is None:
+        return None
+    try:
+        sort = rhs_val.sort()
+    except Exception:
+        return None
+    # Z3 represents ``Set[T]`` as ``Array(T, Bool)``.  Any array
+    # whose range is ``Bool`` admits ``IsMember`` membership.
+    try:
+        is_array_of_bool = (
+            sort.kind() == z3.Z3_ARRAY_SORT
+            and sort.range() == z3.BoolSort()
+        )
+    except Exception:
+        is_array_of_bool = False
+    if is_array_of_bool and hasattr(z3, "IsMember"):
+        return z3.IsMember(elem, rhs_val)
+    return None
+
+
 def _eval_compare(node: ast.Compare, enc: Z3Encoding, z3) -> Optional[Any]:
     """Translate ``a OP b`` (and chained comparisons) to a Z3 BoolRef.
 
@@ -635,24 +834,13 @@ def _eval_compare(node: ast.Compare, enc: Z3Encoding, z3) -> Optional[Any]:
             }
             parts.append(mapping[op_t](l, r))
             continue
-        if op_t is ast.In:
-            recv_name = _name_text(r_node)
-            membership = enc.helpers.get(f"contains_{recv_name}")
-            if membership is not None and l is not None:
-                parts.append(membership(l) == z3.BoolVal(True))
-                continue
-            if l is not None and r is not None:
-                # Array fallback — Select returns the value; we don't
-                # have a "membership" semantics, so skip.
+        if op_t is ast.In or op_t is ast.NotIn:
+            negate = (op_t is ast.NotIn)
+            membership_z3 = _encode_membership(l, r, r_node, enc, z3)
+            if membership_z3 is None:
                 return None
-            return None
-        if op_t is ast.NotIn:
-            recv_name = _name_text(r_node)
-            membership = enc.helpers.get(f"contains_{recv_name}")
-            if membership is not None and l is not None:
-                parts.append(membership(l) == z3.BoolVal(False))
-                continue
-            return None
+            parts.append(z3.Not(membership_z3) if negate else membership_z3)
+            continue
         if op_t is ast.Is:
             # ``x is None`` → isNone_<x>
             x_name = _name_text(l_node)
@@ -695,6 +883,9 @@ def _eval_call(node: ast.Call, enc: Z3Encoding, z3) -> Optional[Any]:
       directly).
     * ``Callable``-typed call ``g(arg)`` — uses the
       ``call_<g>`` helper.
+    * ``abs(x)``, ``min(a,b,...)``, ``max(a,b,...)`` — direct Z3 If.
+    * ``all(P(i) for i in range(...))`` / ``any(...)`` — universal /
+      existential quantifier with the range bounds as the guard.
     """
     fn = node.func
     if isinstance(fn, ast.Name):
@@ -707,9 +898,45 @@ def _eval_call(node: ast.Call, enc: Z3Encoding, z3) -> Optional[Any]:
             inner = _eval_node(arg, enc, z3)
             if inner is None:
                 return None
-            return z3.Length(inner) if hasattr(z3, "Length") else None
+            if hasattr(z3, "Length") and hasattr(inner, "sort") \
+                    and inner.sort() == z3.StringSort():
+                return z3.Length(inner)
+            # For literal lists encoded as Stores we cannot recover
+            # the length without tracking it; surface 0 as default
+            # only when the inner is the empty K-array (unsound for
+            # general arrays — better to return None).
+            return None
         if fn.id == "isinstance" and len(node.args) == 2:
             return z3.BoolVal(True)
+        if fn.id == "abs" and len(node.args) == 1:
+            inner = _eval_node(node.args[0], enc, z3)
+            if inner is None:
+                return None
+            return z3.If(inner >= 0, inner, -inner)
+        if fn.id == "min" and node.args:
+            raw = [_eval_node(a, enc, z3) for a in node.args]
+            if any(v is None for v in raw):
+                return None
+            vals: list[Any] = [v for v in raw if v is not None]
+            r = vals[0]
+            for v in vals[1:]:
+                r = z3.If(v < r, v, r)
+            return r
+        if fn.id == "max" and node.args:
+            raw = [_eval_node(a, enc, z3) for a in node.args]
+            if any(v is None for v in raw):
+                return None
+            vals: list[Any] = [v for v in raw if v is not None]
+            r = vals[0]
+            for v in vals[1:]:
+                r = z3.If(v > r, v, r)
+            return r
+        if fn.id in {"all", "any"} and len(node.args) == 1:
+            arg0 = node.args[0]
+            if isinstance(arg0, ast.GeneratorExp):
+                return _translate_quantifier(
+                    arg0, enc, z3, universal=(fn.id == "all"),
+                )
         if fn.id == "hasattr" and len(node.args) == 2:
             # Audit fix #10 — per-type ``hasattr`` encoding.  Look
             # up the receiver's recorded type and consult the
@@ -777,7 +1004,162 @@ def _eval_call(node: ast.Call, enc: Z3Encoding, z3) -> Optional[Any]:
             length = enc.helpers.get(f"len_{recv}")
             if length is not None:
                 return length(enc.env[recv])
+        # ── String method calls ────────────────────────────────────
+        recv_val = _eval_node(fn.value, enc, z3) if fn.value else None
+        if (recv_val is not None and hasattr(recv_val, "sort")
+                and recv_val.sort() == z3.StringSort()):
+            if attr == "startswith" and len(node.args) == 1:
+                pref = _eval_node(node.args[0], enc, z3)
+                if pref is not None:
+                    return z3.PrefixOf(pref, recv_val)
+            if attr == "endswith" and len(node.args) == 1:
+                suf = _eval_node(node.args[0], enc, z3)
+                if suf is not None:
+                    return z3.SuffixOf(suf, recv_val)
+            if attr == "find" and len(node.args) == 1:
+                sub = _eval_node(node.args[0], enc, z3)
+                if sub is not None:
+                    return z3.IndexOf(recv_val, sub, z3.IntVal(0))
+        # ── Set methods (a.add(x), a.discard(x), a.remove(x)) ──────
+        if enc.helpers.get(f"is_set_{recv}"):
+            st_var = enc.env.get(recv)
+            if st_var is not None:
+                if attr == "add" and len(node.args) == 1:
+                    elt = _eval_node(node.args[0], enc, z3)
+                    if elt is not None:
+                        return z3.SetAdd(st_var, elt)
+                if attr in {"discard", "remove"} and len(node.args) == 1:
+                    elt = _eval_node(node.args[0], enc, z3)
+                    if elt is not None:
+                        return z3.SetDel(st_var, elt)
+        # ── List methods (xs.append(y) → Store(xs, len(xs), y)) ────
+        if recv in enc.env and enc.helpers.get(f"len_{recv}") is not None \
+                and not enc.helpers.get(f"is_set_{recv}"):
+            xs_var = enc.env[recv]
+            length = enc.helpers[f"len_{recv}"]
+            if attr == "append" and len(node.args) == 1:
+                v = _eval_node(node.args[0], enc, z3)
+                if v is not None:
+                    return z3.Store(xs_var, length(xs_var), v)
+        # ── Dict methods ──────────────────────────────────────────
+        if recv in enc.env and enc.helpers.get(f"contains_{recv}") is not None:
+            d_var = enc.env[recv]
+            contains = enc.helpers[f"contains_{recv}"]
+            if attr == "get" and 1 <= len(node.args) <= 2:
+                k = _eval_node(node.args[0], enc, z3)
+                if k is None:
+                    return None
+                # ``d.get(k, default)`` — If(contains(k), d[k], default).
+                got = z3.Select(d_var, k)
+                if len(node.args) == 2:
+                    default = _eval_node(node.args[1], enc, z3)
+                    if default is None:
+                        return got
+                    cond = contains(k) if not callable(contains) or not _is_uninterpreted_func(contains, z3) \
+                        else (contains(k) == z3.BoolVal(True))
+                    return z3.If(cond, got, default)
+                return got
+            if attr in {"keys", "values", "items"}:
+                # Surface as uninterpreted; callers seldom prove on these.
+                return None
     return None
+
+
+def _is_uninterpreted_func(fn, z3) -> bool:
+    """Return True if ``fn`` is a Z3 ``FuncDeclRef`` (uninterpreted)
+    rather than a Python wrapper that already builds a BoolRef."""
+    return hasattr(fn, "domain") and hasattr(fn, "range")
+
+
+def _translate_quantifier(
+    gen: ast.GeneratorExp, enc: Z3Encoding, z3, *, universal: bool,
+) -> Optional[Any]:
+    """Translate ``all(P(i) for i in range(lo, hi) if G(i))`` / ``any(...)``.
+
+    Returns a ``ForAll`` (universal=True) or ``Exists`` (universal=False)
+    with the range bounds as the implication guard, plus any ``if``
+    clauses appended.  Returns ``None`` when the iter clause isn't a
+    recognisable ``range(...)`` or list-typed binder.
+    """
+    if len(gen.generators) != 1:
+        return None
+    comp = gen.generators[0]
+    if not isinstance(comp.target, ast.Name):
+        return None
+    var_name = comp.target.id
+
+    # Resolve the iterator: ``range(n)`` / ``range(lo, hi)`` / a typed list binder.
+    iter_node = comp.iter
+    lo: Optional[Any] = None
+    hi: Optional[Any] = None
+    if isinstance(iter_node, ast.Call) and isinstance(iter_node.func, ast.Name) \
+            and iter_node.func.id == "range":
+        if len(iter_node.args) == 1:
+            lo = z3.IntVal(0)
+            hi = _eval_node(iter_node.args[0], enc, z3)
+        elif len(iter_node.args) >= 2:
+            lo = _eval_node(iter_node.args[0], enc, z3)
+            hi = _eval_node(iter_node.args[1], enc, z3)
+        if lo is None or hi is None:
+            return None
+    elif isinstance(iter_node, ast.Name) \
+            and enc.helpers.get(f"len_{iter_node.id}") is not None:
+        # Iterating over a list: bind ``var_name`` to xs[i] and quantify ``i``.
+        # Implementation strategy: introduce ``i`` as the quantifier
+        # variable; rewrite later expressions referencing var_name to
+        # xs[i].  Simpler form: bind ``var_name`` to ``Select(xs, i)``.
+        xs = enc.env[iter_node.id]
+        length = enc.helpers[f"len_{iter_node.id}"]
+        i_var = z3.Int(f"_q_{var_name}_{id(gen)}")
+        old = enc.env.get(var_name)
+        enc.env[var_name] = z3.Select(xs, i_var)
+        body = _eval_node(gen.elt, enc, z3)
+        for if_clause in comp.ifs:
+            guard = _eval_node(if_clause, enc, z3)
+            if guard is None:
+                if old is None:
+                    enc.env.pop(var_name, None)
+                else:
+                    enc.env[var_name] = old
+                return None
+            body = z3.Implies(guard, body) if universal else z3.And(guard, body)
+        if old is None:
+            enc.env.pop(var_name, None)
+        else:
+            enc.env[var_name] = old
+        if body is None:
+            return None
+        in_range = z3.And(i_var >= 0, i_var < length(xs))
+        if universal:
+            return z3.ForAll([i_var], z3.Implies(in_range, body))
+        return z3.Exists([i_var], z3.And(in_range, body))
+    else:
+        return None
+
+    # Range-iterator path.
+    q_var = z3.Int(f"_q_{var_name}_{id(gen)}")
+    old = enc.env.get(var_name)
+    enc.env[var_name] = q_var
+    body = _eval_node(gen.elt, enc, z3)
+    for if_clause in comp.ifs:
+        guard = _eval_node(if_clause, enc, z3)
+        if guard is None:
+            if old is None:
+                enc.env.pop(var_name, None)
+            else:
+                enc.env[var_name] = old
+            return None
+        body = z3.Implies(guard, body) if universal else z3.And(guard, body)
+    if old is None:
+        enc.env.pop(var_name, None)
+    else:
+        enc.env[var_name] = old
+    if body is None:
+        return None
+    in_range = z3.And(q_var >= lo, q_var < hi)
+    if universal:
+        return z3.ForAll([q_var], z3.Implies(in_range, body))
+    return z3.Exists([q_var], z3.And(in_range, body))
 
 
 # ─────────────────────────────────────────────────────────────────────
