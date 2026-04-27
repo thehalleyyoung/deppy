@@ -440,9 +440,55 @@ class ExceptionSourceFinder(ast.NodeVisitor):
             if getattr(args, 'kwarg', None):
                 param_names.add(args.kwarg.arg)
         
-        # Store parameter names for NAME_ERROR visitor
+        # Hole 4 fix: include locally-bound names (assignments, for
+        # loops, with statements, comprehensions, exception handlers)
+        # alongside parameters.  Otherwise every ``let dx := ...``
+        # body produces a spurious NAME_ERROR for ``dx`` later in the
+        # body.
+        local_names: set[str] = set()
+        for sub in ast.walk(node):
+            if isinstance(sub, ast.Assign):
+                for tgt in sub.targets:
+                    _collect_target_names(tgt, local_names)
+            elif isinstance(sub, (ast.AnnAssign, ast.AugAssign)):
+                _collect_target_names(sub.target, local_names)
+            elif isinstance(sub, (ast.For, ast.AsyncFor)):
+                _collect_target_names(sub.target, local_names)
+            elif isinstance(sub, (ast.With, ast.AsyncWith)):
+                for item in sub.items:
+                    if item.optional_vars is not None:
+                        _collect_target_names(
+                            item.optional_vars, local_names,
+                        )
+            elif isinstance(sub, ast.ExceptHandler):
+                if sub.name is not None:
+                    local_names.add(sub.name)
+            elif isinstance(sub, (
+                ast.ListComp, ast.SetComp, ast.DictComp,
+                ast.GeneratorExp,
+            )):
+                for gen in sub.generators:
+                    _collect_target_names(gen.target, local_names)
+            elif isinstance(sub, ast.Lambda):
+                for arg in sub.args.args:
+                    local_names.add(arg.arg)
+            elif isinstance(sub, (
+                ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef,
+            )):
+                # Inner def/class binds the name in the enclosing
+                # scope.
+                local_names.add(sub.name)
+            elif isinstance(sub, ast.Import):
+                for alias in sub.names:
+                    name = alias.asname or alias.name.split(".")[0]
+                    local_names.add(name)
+            elif isinstance(sub, ast.ImportFrom):
+                for alias in sub.names:
+                    local_names.add(alias.asname or alias.name)
+
+        # Store parameter + local names for NAME_ERROR visitor.
         old_params = getattr(self, '_current_function_params', set())
-        self._current_function_params = param_names
+        self._current_function_params = param_names | local_names
 
         # ROUND 5 FIX: Split definition-time vs runtime hazards
         # Definition-time: decorators, defaults, annotations execute at import
@@ -522,15 +568,28 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._current_class = saved_class
 
     def visit_BinOp(self, node: ast.BinOp) -> None:
-        """Division, modulo, floor division → ZeroDivisionError."""
+        """Division, modulo, floor division → ZeroDivisionError.
+
+        Hole 5 fix: when the divisor is a non-zero numeric literal
+        the operation is provably safe — skip the ZERO_DIVISION
+        source instead of generating an obligation that the
+        downstream Z3 step will trivially discharge.
+        """
         if isinstance(node.op, (ast.Div, ast.FloorDiv, ast.Mod)):
-            self._add_source(
-                ExceptionKind.ZERO_DIVISION,
-                node,
-                trigger_condition=f"divisor == 0",
-                severity=Severity.HIGH,
-                description=f"{_op_name(node.op)} by zero",
+            # Constant non-zero divisor → no obligation needed.
+            divisor_safe = (
+                isinstance(node.right, ast.Constant)
+                and isinstance(node.right.value, (int, float))
+                and node.right.value != 0
             )
+            if not divisor_safe:
+                self._add_source(
+                    ExceptionKind.ZERO_DIVISION,
+                    node,
+                    trigger_condition=f"divisor == 0",
+                    severity=Severity.HIGH,
+                    description=f"{_op_name(node.op)} by zero",
+                )
         if isinstance(node.op, ast.Pow):
             self._add_source(
                 ExceptionKind.ZERO_DIVISION,
@@ -1116,3 +1175,16 @@ def find_exception_sources_in_function(fn: Any) -> FunctionSourceSummary:
             return finder.analyze_function(node)
 
     return FunctionSourceSummary(name=getattr(fn, '__name__', '<unknown>'))
+
+
+def _collect_target_names(node: ast.expr, out: set[str]) -> None:
+    """Hole 4 helper — collect names bound by an assignment target."""
+    if isinstance(node, ast.Name):
+        out.add(node.id)
+    elif isinstance(node, (ast.Tuple, ast.List)):
+        for elt in node.elts:
+            _collect_target_names(elt, out)
+    elif isinstance(node, ast.Starred):
+        _collect_target_names(node.value, out)
+    # Subscript / Attribute targets don't bind a new name.
+

@@ -118,6 +118,7 @@ def write_certificate(
     out_path: Path | str,
     *,
     sidecar_specs: Optional[dict] = None,
+    sidecar_module: Optional[object] = None,
     use_drafts: bool = True,
     module_name: str = "DeppyCertificate",
     run_lean: bool = False,
@@ -218,6 +219,12 @@ def write_certificate(
         )
 
     # ── 2) Safety theorems ────────────────────────────────────────
+    # Hole 1 fix: theorem names are derived from ``<fn>_L<lineno>_<kind>``
+    # which collides when multiple sources share the same line/kind
+    # (e.g., several NAME_ERROR sources on the same body line — one
+    # per let-bound local).  Dedupe by source_id within each function;
+    # when collisions remain (different col_offsets, same lineno),
+    # append an index suffix to make the Lean identifier unique.
     for fn_name, fv in verdict.functions.items():
         fn_node = fn_nodes.get(fn_name)
         spec = (sidecar_specs or {}).get(fn_name)
@@ -229,9 +236,17 @@ def write_certificate(
         params = (
             [a.arg for a in fn_node.args.args] if fn_node is not None else []
         )
+        seen_ids: dict[str, int] = {}
         for src_str in list(fv.addressed) + list(fv.unaddressed):
             kind, lineno = _parse_source_str(src_str)
-            source_id = f"{fn_name}_L{lineno}_{kind}"
+            base_source_id = f"{fn_name}_L{lineno}_{kind}"
+            count = seen_ids.get(base_source_id, 0)
+            seen_ids[base_source_id] = count + 1
+            # Disambiguate same-(fn, line, kind) sources by index.
+            source_id = (
+                base_source_id if count == 0
+                else f"{base_source_id}_{count}"
+            )
             full_id = f"{fn_name}:L{lineno}:{kind}"
             tag = fv.discharge_paths.get(full_id, "")
             sp = _safety_predicate_for(fv, lineno, kind) or (
@@ -325,6 +340,48 @@ def write_certificate(
         for d in aux_decls:
             lines.append(d)
         lines.append("")
+
+    # Hole 7 fix: render sidecar-declared axioms as Lean axioms.
+    # When a ``.deppy`` sidecar carries ``axiom <name>: "<statement>"``
+    # declarations they were previously parsed but never reached the
+    # certificate.  We now emit them as ``axiom <ident> : Prop``
+    # with the original Python statement preserved as a comment so
+    # callers can later supply concrete Lean proofs / definitions.
+    sidecar_axioms_emitted = 0
+    if sidecar_module is not None:
+        try:
+            sidecar_axioms_dict = getattr(sidecar_module, "axioms", {}) or {}
+        except Exception:
+            sidecar_axioms_dict = {}
+        if sidecar_axioms_dict:
+            lines.append("/-! ## Sidecar-declared library axioms")
+            lines.append("")
+            lines.append(
+                "These axioms come from the ``.deppy`` sidecar.  Each "
+                "is asserted as an opaque ``Prop`` so callers can"
+            )
+            lines.append(
+                "introduce a concrete Lean proof / definition later "
+                "without modifying the certificate. -/"
+            )
+            lines.append("")
+            for ax_name, ax in sorted(sidecar_axioms_dict.items()):
+                ident = _safe_ident(f"sidecar_{ax_name}")
+                stmt = getattr(ax, "statement", "") or ""
+                target = getattr(ax, "target", "") or ""
+                module = getattr(ax, "module", "") or ""
+                pre = getattr(ax, "precondition", "") or ""
+                lines.append(
+                    f"-- Sidecar axiom: {ax_name}  "
+                    f"(target: {target}; module: {module})"
+                )
+                lines.append(f"-- Statement (Python): {stmt}")
+                if pre:
+                    lines.append(f"-- Precondition (Python): {pre}")
+                lines.append(f"axiom {ident} : Prop")
+                sidecar_axioms_emitted += 1
+            lines.append("")
+
     lines.append("namespace " + _safe_ident(module_name))
     lines.append("")
     if function_defs:
@@ -644,6 +701,20 @@ def _render_implies_theorem(
             aux_decls.append(d)
 
     theorem_name = _safe_ident(f"deppy_implies_{fn_name}_{idx}")
+
+    # Hole 9 fix: identifiers in pre/post that aren't function
+    # arguments need to be added as universally-quantified binders.
+    # Otherwise Lean rejects the theorem with "unknown identifier".
+    # We discover them by AST-walking the original Python predicates
+    # and subtracting the known parameter names + the canonical
+    # ``result`` (which is substituted away by substitute_result_lean).
+    extra_binders = _collect_extra_binders(
+        pre_py, post_py,
+        known=set(arg.arg for arg in fn_node.args.args) | {"result"},
+    )
+    if extra_binders:
+        for name in extra_binders:
+            binders.append(f"({name} : Int)")
     binders_str = " ".join(binders)
     # Form: ∀ args, X → Y[result := fn args]
     statement = (
@@ -668,6 +739,20 @@ def _render_implies_theorem(
     )
     body = plan.tactic_text
     sorries = 1 if plan.is_sorry else 0
+
+    # Hole 2+3 fix (final): even when the classifier picked a
+    # specific tactic (REFL_TAUTOLOGY, LINEAR_ARITH, etc.), the
+    # *translated* post may have become an opaque axiom (because
+    # of a user-function call we couldn't translate).  In that
+    # case the picked tactic will fail in Lean — we honestly
+    # downgrade to ``sorry`` rather than emitting an unsound
+    # tactic claim.
+    post_text = post_translated.lean_text.strip()
+    if (("deppy_pred_" in post_text)
+            and not user_proof
+            and not plan.is_sorry):
+        body = "sorry  -- opaque post (user-function call); honest sorry"
+        sorries = 1
 
     if audit_entries is not None:
         audit_entries.append(
@@ -916,6 +1001,42 @@ def _render_cocycle_theorems(
             f"theorem {thm} : True := {body}\n"
         )
     return lines
+
+
+def _collect_extra_binders(
+    pre_py: str, post_py: str, *, known: set[str],
+) -> list[str]:
+    """Hole 9 fix — return identifiers used in ``pre_py`` / ``post_py``
+    that are not in ``known`` (the function's argument names plus the
+    ``result`` keyword, which is substituted away).  Such names need
+    to be added as Lean binders for the @implies theorem to typecheck.
+
+    Filters out Python builtins / predicate-translator keywords.  The
+    returned names are sorted to give a deterministic order.
+    """
+    import ast as _ast
+    builtins_to_skip = {
+        "True", "False", "None", "len", "abs", "min", "max",
+        "isinstance", "hasattr", "callable", "any", "all",
+        "sum", "int", "float", "str", "bool", "list", "tuple",
+        "dict", "set", "and", "or", "not", "in",
+    }
+    extra: set[str] = set()
+    for src in (pre_py, post_py):
+        if not src:
+            continue
+        try:
+            tree = _ast.parse(src, mode="eval")
+        except SyntaxError:
+            continue
+        for sub in _ast.walk(tree):
+            if isinstance(sub, _ast.Name):
+                if sub.id in known:
+                    continue
+                if sub.id in builtins_to_skip:
+                    continue
+                extra.add(sub.id)
+    return sorted(extra)
 
 
 __all__ = [

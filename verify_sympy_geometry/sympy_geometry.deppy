@@ -1,0 +1,171 @@
+# Sidecar specification for sympy.geometry — Euclidean geometry on R²
+#
+# Declares axioms and proof obligations for SymPy's geometry module
+# without modifying its source.  The companion verify_geometry.py
+# combines these axioms with @implies decorators on the verified
+# Python functions to produce a Lean certificate.
+#
+# This sidecar is deliberately ambitious — it asserts non-trivial
+# theorems (Euler line, midsegment, power of a point, Thales,
+# concurrent medians/altitudes/perpendicular-bisectors) so the
+# generated certificate exercises the full deppy stack:
+#   * @implies tactic selection (audit fix #7)
+#   * AST-based result substitution (audit fix #11)
+#   * Cubical Kan-discharge (round-2 cubical work)
+#   * Honest @implies tactic selection consulting cubical witnesses
+#     (round-2 integration #2)
+#   * Cohomological cocycle theorems (audit fix #1)
+
+module: sympy
+version: ">=1.12"
+
+# ─────────────────────────────────────────────────────────────────
+#  A.  Distance — Euclidean metric on R²
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.point.Point:
+  guarantee: "Euclidean distance defines a metric on R²"
+  pure: true
+  axiom dist_nonneg: "Point.distance(p, q) >= 0"
+  axiom dist_zero_iff_equal: "Point.distance(p, q) == 0 iff p == q"
+  axiom dist_symmetric: "Point.distance(p, q) == Point.distance(q, p)"
+  axiom dist_triangle: "Point.distance(p, r) <= Point.distance(p, q) + Point.distance(q, r)"
+  axiom dist_pythagoras: "Point.distance(p, q)**2 == (p.x - q.x)**2 + (p.y - q.y)**2"
+
+# ─────────────────────────────────────────────────────────────────
+#  B.  Midpoint and segment geometry
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.line.Segment:
+  guarantee: "Midpoint is the centroid of the segment's endpoints"
+  pure: true
+  axiom midpoint_average: "Segment(p, q).midpoint == ((p.x + q.x)/2, (p.y + q.y)/2)"
+  axiom midpoint_symmetric: "Segment(p, q).midpoint == Segment(q, p).midpoint"
+  axiom midpoint_equidistant: "Point.distance(p, M) == Point.distance(M, q) where M = Segment(p, q).midpoint"
+  axiom midpoint_on_segment: "Segment(p, q).contains(Segment(p, q).midpoint)"
+  axiom segment_length: "Segment(p, q).length == Point.distance(p, q)"
+
+# ─────────────────────────────────────────────────────────────────
+#  C.  Triangle theorems — centroid, medians, area
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.polygon.Triangle:
+  guarantee: "Triangle satisfies classical Euclidean theorems"
+  pure: true
+  axiom triangle_centroid_avg: "Triangle(A, B, C).centroid == ((A.x+B.x+C.x)/3, (A.y+B.y+C.y)/3)"
+  axiom triangle_medians_concurrent: "the three medians of a triangle intersect at the centroid"
+  axiom centroid_2_to_1: "centroid divides each median in ratio 2:1 (vertex to midpoint)"
+  axiom triangle_altitudes_concurrent: "the three altitudes intersect at the orthocenter"
+  axiom triangle_perpendicular_bisectors_concurrent: "perpendicular bisectors intersect at the circumcenter"
+  axiom triangle_area_cross: "Triangle(A, B, C).area == abs((B.x-A.x)*(C.y-A.y) - (C.x-A.x)*(B.y-A.y)) / 2"
+  axiom triangle_area_nonneg: "Triangle.area >= 0"
+  axiom degenerate_zero_area: "Triangle area == 0 iff the three vertices are collinear"
+  axiom triangle_inequality: "for any triangle ABC: AB + BC > AC"
+
+# ─────────────────────────────────────────────────────────────────
+#  D.  Euler line — H, G, O collinear with HG = 2·GO
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.polygon.Triangle.euler_line:
+  guarantee: "Orthocenter, centroid, circumcenter lie on a line in ratio 2:1"
+  pure: true
+  axiom euler_line_collinear: "is_collinear(H, G, O) for any non-equilateral triangle"
+  axiom euler_line_ratio: "Point.distance(G, H) == 2 * Point.distance(G, O)"
+  axiom euler_line_centroid_between: "G lies between H and O on the Euler line"
+
+# ─────────────────────────────────────────────────────────────────
+#  E.  Circle — Thales, tangent perpendicular, power of point
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.ellipse.Circle:
+  guarantee: "Circle satisfies tangent-perpendicular, Thales, and power theorems"
+  pure: true
+  axiom circle_radius_equidistant: "Point.distance(center, P) == radius for every P on circle"
+  axiom tangent_perpendicular_radius: "tangent at P is perpendicular to the radius OP"
+  axiom thales_inscribed_right_angle: "any angle inscribed in a semicircle is 90°"
+  axiom power_of_point: "for any chord through P: PA * PB == abs(OP² - r²)"
+  axiom diameter_longest_chord: "diameter is the longest chord"
+
+# ─────────────────────────────────────────────────────────────────
+#  F.  Polygon — area via shoelace, perimeter, simple polygons
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.polygon.Polygon:
+  guarantee: "Area computed by shoelace formula; perimeter is sum of side lengths"
+  pure: true
+  axiom shoelace_formula: "Polygon.area == abs(Σ (x_i * y_{i+1} - x_{i+1} * y_i)) / 2"
+  axiom area_translation_invariant: "area(P + v) == area(P)"
+  axiom area_rotation_invariant: "area(R(θ) · P) == area(P)"
+  axiom area_scale_quadratic: "area(c · P) == c² * area(P) for c > 0"
+  axiom perimeter_sum_of_sides: "Polygon.perimeter == Σ Segment(v_i, v_{i+1}).length"
+
+# ─────────────────────────────────────────────────────────────────
+#  G.  Collinearity, cross product, oriented area
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.point.Point.is_collinear:
+  guarantee: "Collinearity equivalent to vanishing cross product"
+  pure: true
+  axiom collinear_iff_zero_cross: "is_collinear(A, B, C) iff (B.x-A.x)*(C.y-A.y) == (C.x-A.x)*(B.y-A.y)"
+  axiom collinear_symmetric: "is_collinear(A, B, C) iff is_collinear(C, B, A)"
+  axiom collinear_self: "is_collinear(A, A, B)"
+  axiom collinear_three_eq: "is_collinear(A, B, C) iff Triangle(A, B, C).area == 0"
+
+# ─────────────────────────────────────────────────────────────────
+#  H.  Midsegment theorem — line joining midpoints of two sides is
+#       parallel to and half the length of the third side
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.polygon.Triangle.midsegment:
+  guarantee: "Midsegment is parallel to the opposite side and half its length"
+  pure: true
+  axiom midsegment_parallel: "midsegment is parallel to the opposite side"
+  axiom midsegment_half_length: "midsegment.length == opposite_side.length / 2"
+
+# ─────────────────────────────────────────────────────────────────
+#  X.  Deliberate FALSE axiom — must be rejected
+# ─────────────────────────────────────────────────────────────────
+
+spec sympy.geometry.polygon.Triangle.false:
+  guarantee: "FALSE axiom: every triangle is equilateral (must fail)"
+  axiom every_triangle_equilateral: "Point.distance(A, B) == Point.distance(B, C)"
+
+# ─────────────────────────────────────────────────────────────────
+#  Proofs — pin specific axioms as the chosen evidence for each spec
+# ─────────────────────────────────────────────────────────────────
+
+proof distance_metric_proof:
+  target: sympy.geometry.point.Point
+  by: axiom dist_pythagoras
+
+proof segment_proof:
+  target: sympy.geometry.line.Segment
+  by: axiom segment_length
+
+proof centroid_proof:
+  target: sympy.geometry.polygon.Triangle
+  by: axiom triangle_centroid_avg
+
+proof euler_proof:
+  target: sympy.geometry.polygon.Triangle.euler_line
+  by: axiom euler_line_collinear
+
+proof circle_proof:
+  target: sympy.geometry.ellipse.Circle
+  by: axiom circle_radius_equidistant
+
+proof shoelace_proof:
+  target: sympy.geometry.polygon.Polygon
+  by: axiom shoelace_formula
+
+proof collinear_proof:
+  target: sympy.geometry.point.Point.is_collinear
+  by: axiom collinear_iff_zero_cross
+
+proof midsegment_proof:
+  target: sympy.geometry.polygon.Triangle.midsegment
+  by: axiom midsegment_half_length
+
+proof false_proof:
+  target: sympy.geometry.polygon.Triangle.false
+  by: axiom every_triangle_equilateral

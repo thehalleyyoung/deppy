@@ -98,6 +98,7 @@ class ImpliesClassification(str, Enum):
     CONJUNCT = "conjunct"           # post ∈ conjuncts(pre)
     TRUE_GOAL = "true"              # post ≡ True
     FALSE_PRE = "false_pre"         # pre ≡ False  → ex falso
+    REFL_TAUTOLOGY = "refl_tautology"  # post is x == x for some x → rfl
     LINEAR_ARITH = "linear_arith"   # both sides linear over Int/Nat
     DECIDABLE_PROP = "decidable_prop"  # propositional & decidable
     DEFINITIONAL = "definitional"   # closes by simp_all / rfl
@@ -266,6 +267,19 @@ def _classify(
                 f"post is conjunct {_unparse(conj)} of pre"
             ]
 
+    # 4.5 — Refl-tautology — post is ``x == x`` (or ``x is x``) for
+    # any expression x.  After substitution this becomes
+    # ``(call args) = (call args)`` which is closed by ``rfl``.
+    # Hole 3 fix: previously this fell through to DECIDABLE_PROP
+    # which emitted ``tauto`` over an opaque axiom — unsound.
+    if (isinstance(post, ast.Compare)
+            and len(post.ops) == 1
+            and isinstance(post.ops[0], (ast.Eq, ast.Is))
+            and _ast_equal(post.left, post.comparators[0])):
+        return ImpliesClassification.REFL_TAUTOLOGY, 1.0, [
+            "post is ``x == x`` — closed by rfl"
+        ]
+
     # 5.  Opaque predicates / unprovable shapes — bail with sorry.
     pre_has_opaque = _has_opaque_predicate(pre, fn_name=fn_name)
     post_has_opaque = _has_opaque_predicate(post, fn_name=fn_name)
@@ -284,6 +298,14 @@ def _classify(
 
     # 6.  Both sides are linear arithmetic (over Int / Nat).  ``omega``
     #     dispatches that.
+    #
+    # Hole 2 fix (continued): ``omega`` can only handle goals where
+    # every term is interpreted in linear integer arithmetic.  After
+    # result-substitution, ``result`` becomes a user-function Call
+    # which omega treats as an opaque (uninterpreted) atom.  When
+    # the call is the only non-linear term and the rest of the
+    # equation is linear, we still try omega (it may succeed via
+    # case splits); otherwise we downgrade to DEFINITIONAL.
     if _is_linear_arith(pre, py_types) and _is_linear_arith(post, py_types):
         return ImpliesClassification.LINEAR_ARITH, 0.9, [
             "both pre and post are linear over Int/Nat → omega"
@@ -294,7 +316,20 @@ def _classify(
     #     goal mentions free variables ``decide`` fails, so we only
     #     pick this when the goal has no free names that aren't bound
     #     by typeable Lean classes.
+    #
+    # Hole 2 fix: when the post mentions ``result``, after substitution
+    # the post will contain a user-function Call which the predicate
+    # translator encodes as an opaque Prop axiom.  ``decide`` /
+    # ``tauto`` cannot prove ``True → opaque_axiom``.  Downgrade to
+    # OPAQUE (honest sorry) in that case.
+    post_mentions_result = "result" in _free_names(post)
     if _is_decidable_prop(pre, py_types) and _is_decidable_prop(post, py_types):
+        if post_mentions_result:
+            return ImpliesClassification.OPAQUE, 0.0, [
+                "post mentions ``result`` — substituted form contains "
+                "an opaque user-function call; ``decide`` / ``tauto`` "
+                "cannot prove the opaque axiom"
+            ]
         return ImpliesClassification.DECIDABLE_PROP, 0.7, [
             "both pre and post are decidable Bool propositions"
         ]
@@ -373,12 +408,28 @@ def _make_plan(
             classification=classification, confidence=confidence,
             notes=notes,
         )
+    if classification is ImpliesClassification.REFL_TAUTOLOGY:
+        # ``x == x`` after substitution is ``(call ...) = (call ...)``
+        # — closed by ``rfl``.
+        return ImpliesTacticPlan(
+            tactic_body="intro _; rfl",
+            is_sorry=False, is_user_supplied=False,
+            classification=classification, confidence=confidence,
+            notes=notes,
+        )
     if classification is ImpliesClassification.DECIDABLE_PROP:
-        # ``decide`` is closed; ``tauto`` works for free variables.
-        # We pick ``tauto`` when the predicate has free names.
+        # ``decide`` closes closed-form decidable propositions.  When
+        # the goal has free names (and we already excluded the
+        # ``result`` case in the classifier), ``decide`` will still
+        # work after ``intro``.  ``tauto`` is a Mathlib tactic and
+        # not available in DeppyBase — we use Lean core tactics
+        # instead.
         free_post = _free_names(post)
         if free_post:
-            tactic = "intro h; tauto"
+            # Try the Lean-core combination: intro, then a sequence
+            # of decision procedures.  ``decide`` handles propositional
+            # logic over decidable atoms (Int comparisons are decidable).
+            tactic = "intro h; first | exact h | decide | omega"
         else:
             tactic = "intro _; decide"
         return ImpliesTacticPlan(

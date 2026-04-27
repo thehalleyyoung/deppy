@@ -188,6 +188,25 @@ def _select_proof_tactic(
     """
     goal = goal_lean.strip()
     pre = pre_lean.strip()
+
+    # Hole 1+5 fix: when the goal is the literal ``True``, no
+    # tactic needs to do anything — we close it with ``trivial``
+    # before any of the discharge-path-specific tactics fire.
+    # Without this, a Z3-arithmetic discharge of a no-op safety
+    # predicate would emit ``by omega`` over a True-shaped goal,
+    # which omega rejects with "no usable constraints."
+    if goal == "True":
+        return ("by trivial", False)
+
+    # Hole 5 fix (continued): opaque-Prop goals must be ``sorry``
+    # regardless of how the deppy pipeline discharged them.  No
+    # Lean tactic can inhabit an axiom Prop without a witness;
+    # ``trivial`` / ``omega`` / ``simp_all`` all fail.
+    if (goal.startswith("deppy_pred_")
+            or " deppy_pred_" in goal
+            or "(deppy_pred_" in goal):
+        return ("sorry  -- opaque Prop; user must inhabit it", True)
+
     # Tactic mirroring the deppy discharge.
     if discharge_path == "z3-arithmetic":
         return ("by omega", False)
@@ -206,9 +225,7 @@ def _select_proof_tactic(
     if discharge_path == "co-located-peer":
         return ("by trivial  -- co-located peer discharged the obligation", False)
 
-    # Opaque Prop — has no Lean-side structure.
-    if goal.startswith("Deppy_pred_") or "Deppy_pred_" in goal:
-        return ("by sorry  -- opaque Prop; user must inhabit it", True)
+    # (Opaque-Prop check moved earlier — see above.)
 
     if goal == "True":
         return ("by trivial", False)
