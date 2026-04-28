@@ -1044,13 +1044,16 @@ def _compile_function(fn: Callable) -> tuple[list[str], list[str], int, int, lis
     for i, g in enumerate(spec.guarantees):
         thm_name = f"{fname}_guarantee_{i}" if len(spec.guarantees) > 1 else f"{fname}_guarantee"
 
-        # Use the real spec translator
+        # Use the real spec translator.  Pass ``fn`` so the translator's
+        # refinement-compiler hook can attach a kernel-level ProofTerm
+        # to ``fn._deppy_proof`` when one is structurally available.
         thm = _translate_guarantee_spec(
             spec_str=g,
             func_name=fname,
             param_names=param_names,
             param_types=param_types,
             return_type=ret_ann,
+            fn=fn,
         )
 
         # Override the theorem name for consistent numbering
@@ -1095,6 +1098,7 @@ def _compile_function(fn: Callable) -> tuple[list[str], list[str], int, int, lis
             param_names=param_names,
             param_types=param_types,
             return_type=ret_ann,
+            fn=fn,
         )
         thm.name = thm_name
         thm.params = list(lean_params)

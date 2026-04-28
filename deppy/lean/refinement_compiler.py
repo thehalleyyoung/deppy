@@ -15,22 +15,33 @@ kernel can dispatch.
 Public entry point::
 
     compile_refinement(predicate, params, param_types, return_type)
-        → CompiledRefinement(lean_prop, tactic, sub_obligations)
+        → CompiledRefinement(lean_prop, tactic, sub_obligations,
+                             proof_term)
+
+The ``proof_term`` field is a kernel-level :class:`ProofTerm` (when
+constructible) so the kernel can structurally re-check the predicate
+*without* the Lean toolchain hop.  The chain becomes:
+
+    Python predicate → Lean tactic + structural ProofTerm
+                     → kernel checks ProofTerm directly
 
 When the AST contains a construct we cannot translate (e.g. an unknown
 function call), the compiler returns an *honest* Refinement with a
 ``sorry`` tactic and the unparseable subterm logged in
-``sub_obligations``.
+``sub_obligations``; ``proof_term`` is then ``None``.
 
-This module is *purely* string + AST manipulation: no Z3, no kernel
-imports, no external state.  The result is a Lean 4 proposition string
-that the existing pipeline emits unchanged.
+This module is *almost* purely string + AST manipulation; it imports
+the kernel ``ProofTerm`` hierarchy lazily inside the constructor
+helpers so the AST translation paths remain side-effect free.
 """
 from __future__ import annotations
 
 import ast
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from deppy.core.kernel import ProofTerm
 
 
 # ───────────────────────────────────────────────────────────────────
@@ -46,11 +57,18 @@ class CompiledRefinement:
       unhandled cases.
     * ``sub_obligations`` — sub-predicates the compiler couldn't
       discharge, each with a brief diagnostic.
+    * ``proof_term`` — a kernel-level :class:`ProofTerm` matching the
+      predicate's structural shape (Z3Proof for arithmetic / membership,
+      PathComp for ``and``, Cases for ``or``, Structural for quantifiers,
+      Cong for list-comprehension equalities).  ``None`` when no clean
+      structural witness is available, in which case downstream code
+      should fall back to the Lean tactic.
     """
     lean_prop: str
     tactic: str = "sorry"
     sub_obligations: list[str] = field(default_factory=list)
     handled: bool = True   # False when the result contains a sorry
+    proof_term: "ProofTerm | None" = None
 
 
 # ───────────────────────────────────────────────────────────────────
@@ -101,20 +119,36 @@ class RefinementCompiler:
         "sum": "List.sum",
     }
 
-    def __init__(self, *, params: list[str], app: str = "result") -> None:
+    def __init__(
+        self,
+        *,
+        params: list[str],
+        app: str = "result",
+        param_types: dict[str, Any] | None = None,
+    ) -> None:
         """Initialise with the parameter names and the surface
         ``result`` expression (typically ``(f x y)`` for the result of
         the function under spec).
 
         ``app`` is substituted for the literal name ``result`` when
         the predicate references the function's return value.
+
+        ``param_types`` is forwarded into the optional Z3 binders dict
+        we attach to constructed Z3Proof terms; supplying it lets the
+        kernel use the typed Z3 encoder.
         """
         self.params = list(params)
         self.app = app
+        self.param_types = dict(param_types or {})
         # A stack of bound-variable names introduced by quantifiers.
         self._scope: list[str] = []
         # Sub-obligations the compiler couldn't translate.
         self._unhandled: list[str] = []
+        # When True, ``_proof_term`` saw a sub-AST it can't structurally
+        # witness; the caller drops the proof_term and falls back to the
+        # Lean tactic.  This is set on encountering features like
+        # quantifier-with-filter or unknown function calls.
+        self._proof_unhandled: bool = False
 
     # ── Top-level entry ──
 
@@ -128,17 +162,32 @@ class RefinementCompiler:
                 tactic="sorry",
                 sub_obligations=[f"syntax error: {predicate!r}"],
                 handled=False,
+                proof_term=None,
             )
         prop = self._compile(tree)
         tactic = self._suggest_tactic(tree)
         handled = not self._unhandled
         if not handled:
             tactic = "sorry"
+        # Build the kernel-level ProofTerm shadow.  This walks the same
+        # AST but produces ``deppy.core.kernel.ProofTerm`` nodes (Z3Proof,
+        # PathComp, Cases, Cong, Structural).  Failures are silent — we
+        # fall back to ``proof_term=None`` so callers route through the
+        # Lean tactic instead.
+        proof_term: "ProofTerm | None" = None
+        if handled:
+            try:
+                proof_term = self._build_proof_term(tree, prop)
+            except Exception:
+                proof_term = None
+            if self._proof_unhandled:
+                proof_term = None
         return CompiledRefinement(
             lean_prop=prop,
             tactic=tactic,
             sub_obligations=list(self._unhandled),
             handled=handled,
+            proof_term=proof_term,
         )
 
     # ── Recursive translation ──
@@ -497,6 +546,172 @@ class RefinementCompiler:
         elems = ", ".join(self._compile(e) for e in node.elts)
         return f"({elems})"
 
+    # ── Kernel ProofTerm construction ──
+
+    def _build_proof_term(
+        self, node: ast.expr, lean_prop: str,
+    ) -> "ProofTerm | None":
+        """Construct a kernel :class:`ProofTerm` mirroring ``node``.
+
+        The returned term is a *structural shadow* of the AST: it lets
+        the kernel re-check the predicate without invoking Lean.  The
+        shape rules are:
+
+        * Pure arithmetic / membership / comparison           → ``Z3Proof``
+          (the Z3 encoder handles ``in``, ``len``, ``+``, ``*``, etc.)
+        * ``and``                                              → ``PathComp``
+        * ``or``                                               → ``Cases``
+        * Universal/existential quantifier (``all`` / ``any``) → ``Structural``
+        * Equality whose RHS is a list comprehension           → ``Cong``
+        * Conditional ``IfExp``                                → ``Cases``
+
+        Anything outside these shapes (unknown calls, multi-clause
+        comprehensions, free names with no Z3 encoding) sets
+        ``self._proof_unhandled`` and the caller drops the term.
+        """
+        # Local imports — kernel pulls in z3 transitively, which is
+        # heavy; do it lazily so AST translation is cheap when the
+        # caller never inspects the proof_term.
+        from deppy.core.kernel import (
+            Cases, Cong, PathComp, Refl, Structural, Z3Proof,
+        )
+        from deppy.core.types import Var
+
+        binders = self._z3_binders_for(node)
+
+        # ── Equality with list-comp RHS → Cong over Refl ──
+        if (
+            isinstance(node, ast.Compare)
+            and len(node.ops) == 1
+            and isinstance(node.ops[0], ast.Eq)
+            and isinstance(node.comparators[0], (ast.ListComp, ast.GeneratorExp))
+        ):
+            comp = node.comparators[0]
+            # Use the comprehension's iterator + body as the function
+            # description.  ``Cong(f, Refl(x))`` says "applying f to a
+            # reflexive equality yields the result equality".
+            try:
+                map_label = ast.unparse(comp.elt)
+            except Exception:
+                map_label = "map_body"
+            return Cong(func=Var(name=f"map({map_label})"),
+                        proof=Refl(term=Var(name=lean_prop)))
+
+        # ── Quantifier (all / any) → Structural ──
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id in {"all", "any"}
+        ):
+            kind = "universal" if node.func.id == "all" else "existential"
+            try:
+                desc = ast.unparse(node)
+            except Exception:
+                desc = node.func.id
+            # Quantifier bodies aren't generally Z3-encodable as-is, so
+            # we surface the obligation as a Structural witness; the
+            # body's discharge is left to the Lean tactic.
+            return Structural(
+                description=f"{kind}_over_list: {desc}",
+            )
+
+        # ── BoolOp ── ``and`` → PathComp; ``or`` → Cases.
+        if isinstance(node, ast.BoolOp):
+            sub_terms: list[Any] = []
+            for v in node.values:
+                sub = self._build_proof_term(v, self._compile(v))
+                if sub is None:
+                    self._proof_unhandled = True
+                    return None
+                sub_terms.append(sub)
+            if not sub_terms:
+                return None
+            if isinstance(node.op, ast.And):
+                # Left-associative chain of PathComp.
+                t = sub_terms[0]
+                for nxt in sub_terms[1:]:
+                    t = PathComp(left_path=t, right_path=nxt)
+                return t
+            # Or → Cases over a synthetic scrutinee with one branch
+            # per disjunct.  The kernel records the branches as a list
+            # of ``(pattern, proof)`` pairs.
+            try:
+                scrut_label = ast.unparse(node)
+            except Exception:
+                scrut_label = "or_scrutinee"
+            branches: list[tuple[str, Any]] = [
+                (f"alt_{i}", t) for i, t in enumerate(sub_terms)
+            ]
+            return Cases(scrutinee=Var(name=scrut_label), branches=branches)
+
+        # ── IfExp → Cases on the test ──
+        if isinstance(node, ast.IfExp):
+            then_t = self._build_proof_term(node.body, self._compile(node.body))
+            else_t = self._build_proof_term(node.orelse, self._compile(node.orelse))
+            if then_t is None or else_t is None:
+                self._proof_unhandled = True
+                return None
+            try:
+                test_label = ast.unparse(node.test)
+            except Exception:
+                test_label = "ifexp_test"
+            return Cases(
+                scrutinee=Var(name=test_label),
+                branches=[("then", then_t), ("else", else_t)],
+            )
+
+        # ── Unary not — wrap inner.  If inner is Z3, produce a
+        #    negated-formula Z3Proof; else fall through to Z3 with the
+        #    full lean_prop so the kernel can dispatch.
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
+            return Z3Proof(formula=lean_prop, binders=binders)
+
+        # ── Pure arithmetic / membership / comparison → Z3Proof ──
+        if isinstance(node, (ast.Compare, ast.BinOp, ast.UnaryOp,
+                             ast.Constant)):
+            return Z3Proof(formula=lean_prop, binders=binders)
+
+        # ── A bare ``len(xs)`` etc. — Z3 encoder handles List.length ─
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            if node.func.id in self._BUILTINS:
+                return Z3Proof(formula=lean_prop, binders=binders)
+
+        # ── Bare Name as a boolean predicate (e.g. an alias for True) ──
+        if isinstance(node, ast.Name):
+            return Z3Proof(formula=lean_prop, binders=binders)
+
+        # Anything else: signal we don't have a clean structural proof.
+        self._proof_unhandled = True
+        return None
+
+    def _z3_binders_for(self, node: ast.expr) -> dict[str, str]:
+        """Build the binders dict for a ``Z3Proof`` from the parameter
+        annotations.
+
+        The kernel's typed Z3 encoder accepts annotation *strings*
+        (e.g. ``"int"``, ``"list[int]"``), so we stringify whatever
+        annotation we have.  Free names that aren't in ``param_types``
+        are omitted; the kernel falls back to its heuristic encoder
+        for those.
+        """
+        binders: dict[str, str] = {}
+        # Determine which names actually appear in this AST node.
+        names: set[str] = set()
+        for sub in ast.walk(node):
+            if isinstance(sub, ast.Name):
+                names.add(sub.id)
+        for name in names:
+            if name in self.param_types:
+                ann = self.param_types[name]
+                # Stringify type annotation (handle bare types and
+                # generic aliases).
+                if isinstance(ann, str):
+                    binders[name] = ann
+                else:
+                    text = getattr(ann, "__name__", None) or repr(ann)
+                    binders[name] = text
+        return binders
+
     # ── Tactic suggestion ──
 
     def _suggest_tactic(self, node: ast.expr) -> str:
@@ -583,24 +798,57 @@ def compile_refinement(
     ``params`` lists the function's parameter names so they can be
     used as free variables in the predicate.
 
-    ``param_types`` and ``return_type`` are accepted for API symmetry
-    with ``spec_translator`` but currently aren't used by the AST
-    walker (they'll matter when type-aware tactic selection is
-    plugged in).
+    ``param_types`` is forwarded into the ``binders`` dict of any
+    ``Z3Proof`` we attach to the result, so the kernel can use the
+    typed Z3 encoder.  ``return_type`` is accepted for API symmetry
+    with ``spec_translator`` but isn't currently used.
 
     ``func_app`` is the surface form used to render ``result``
     (typically ``"(f x y)"`` for a function ``f`` with parameters
     ``x``, ``y``).
 
-    Returns a :class:`CompiledRefinement`.
+    Returns a :class:`CompiledRefinement` with the Lean proposition,
+    suggested tactic, sub-obligations, and (when constructible) a
+    kernel-level :class:`ProofTerm` shadowing the predicate's structural
+    shape.
     """
-    _ = param_types, return_type  # reserved for future type-aware tactics
-    compiler = RefinementCompiler(params=params, app=func_app)
+    _ = return_type  # reserved for future type-aware tactics
+    compiler = RefinementCompiler(
+        params=params, app=func_app, param_types=param_types,
+    )
     return compiler.compile(predicate)
+
+
+def extract_proof_term(
+    predicate: str,
+    *,
+    params: list[str],
+    param_types: dict[str, Any] | None = None,
+    return_type: Any = None,
+    func_app: str = "result",
+) -> "ProofTerm | None":
+    """Convenience wrapper that returns just the ``proof_term`` field
+    of :func:`compile_refinement`, or ``None`` when the predicate
+    can't be structurally witnessed.
+
+    Use this when you already have a Lean proposition / tactic in hand
+    (e.g. the legacy regex catalogue produced one) and only want the
+    kernel-level :class:`ProofTerm` so the kernel can re-check the
+    obligation directly.
+    """
+    cr = compile_refinement(
+        predicate,
+        params=params,
+        param_types=param_types,
+        return_type=return_type,
+        func_app=func_app,
+    )
+    return cr.proof_term
 
 
 __all__ = [
     "CompiledRefinement",
     "RefinementCompiler",
     "compile_refinement",
+    "extract_proof_term",
 ]

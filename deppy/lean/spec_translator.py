@@ -263,6 +263,43 @@ def _build_app(func_name: str, param_names: list[str]) -> str:
     return f"({func_name})"
 
 
+def _maybe_attach_proof_term(
+    fn: Callable | None,
+    spec_str: str,
+    param_names: list[str],
+    param_types: dict[str, Any],
+    return_type: Any,
+    app: str,
+) -> None:
+    """Ask the refinement compiler for a kernel ProofTerm and attach
+    it to ``fn._deppy_proof`` (when both are non-None and the function
+    doesn't already carry a proof term).
+
+    Failures are silent so this hook can never block translation.
+    """
+    if fn is None:
+        return
+    if getattr(fn, "_deppy_proof", None) is not None:
+        return
+    try:
+        from deppy.lean.refinement_compiler import compile_refinement
+        cr = compile_refinement(
+            spec_str,
+            params=param_names,
+            param_types=param_types,
+            return_type=return_type,
+            func_app=app,
+        )
+    except Exception:
+        return
+    if cr.proof_term is None:
+        return
+    try:
+        fn._deppy_proof = cr.proof_term  # type: ignore[attr-defined]
+    except (AttributeError, TypeError):
+        pass
+
+
 # Each pattern: (regex, builder) where builder(match, app, params, ptypes, rtype) → (conclusion, proof)
 _GUARANTEE_PATTERNS: list[
     tuple[re.Pattern[str], Callable[..., tuple[str, str]]]
@@ -436,11 +473,19 @@ def translate_guarantee(
     param_names: list[str],
     param_types: dict[str, Any],
     return_type: Any = None,
+    *,
+    fn: Callable | None = None,
 ) -> LeanTheorem:
     """Translate a ``@guarantee`` string into a ``LeanTheorem``.
 
     Tries each registered pattern in order; falls back to ``sorry``
     with the original spec as a comment.
+
+    When ``fn`` is supplied and the AST-based refinement compiler
+    produces a kernel-level :class:`ProofTerm`, the term is attached
+    to ``fn._deppy_proof`` (unless one is already present) so the
+    Lean compiler's ``_infer_proof`` hook can re-emit it without the
+    Lean toolchain hop.
     """
     spec_str_stripped = spec_str.strip()
     app = _build_app(func_name, param_names)
@@ -452,6 +497,15 @@ def translate_guarantee(
         m = pattern.match(spec_str_stripped)
         if m:
             conclusion, proof = builder(m, app, param_names, param_types, return_type)
+            # ── Refinement-compiler proof_term attachment ──
+            # Even when the regex catalogue handles the spec, ask the
+            # refinement compiler for a structural ProofTerm so the
+            # kernel can re-check the obligation directly.  This is
+            # purely additive — we don't change the rendered theorem.
+            _maybe_attach_proof_term(
+                fn, spec_str_stripped, param_names, param_types,
+                return_type, app,
+            )
             return LeanTheorem(
                 name=f"{func_name}_spec",
                 params=lean_params,
@@ -477,6 +531,13 @@ def translate_guarantee(
             func_app=app,
         )
         if cr.handled:
+            # Attach kernel ProofTerm when available.
+            if fn is not None and cr.proof_term is not None:
+                if getattr(fn, "_deppy_proof", None) is None:
+                    try:
+                        fn._deppy_proof = cr.proof_term  # type: ignore[attr-defined]
+                    except (AttributeError, TypeError):
+                        pass
             return LeanTheorem(
                 name=f"{func_name}_spec",
                 params=lean_params,
