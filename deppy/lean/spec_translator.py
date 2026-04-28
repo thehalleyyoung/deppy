@@ -461,6 +461,34 @@ def translate_guarantee(
                 comment=spec_str,
             )
 
+    # ── Item 5: AST-based fallback for nested predicates ───────────
+    # Before emitting ``sorry``, try the AST-based refinement
+    # compiler.  It handles nested predicates (``all``/``any`` over
+    # generator expressions, list comprehensions, conditional
+    # quantifiers, chained comparisons) that the regex catalogue
+    # above doesn't cover.
+    try:
+        from deppy.lean.refinement_compiler import compile_refinement
+        cr = compile_refinement(
+            spec_str_stripped,
+            params=param_names,
+            param_types=param_types,
+            return_type=return_type,
+            func_app=app,
+        )
+        if cr.handled:
+            return LeanTheorem(
+                name=f"{func_name}_spec",
+                params=lean_params,
+                preconditions=[],
+                conclusion=cr.lean_prop,
+                proof=cr.tactic,
+                comment=spec_str,
+            )
+    except Exception:
+        # Any compiler crash falls through to the legacy sorry path.
+        pass
+
     # Fallback: unparseable guarantee → sorry with comment
     return LeanTheorem(
         name=f"{func_name}_spec",
