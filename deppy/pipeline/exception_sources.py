@@ -31,7 +31,7 @@ import inspect
 import textwrap
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Any, Sequence
+from typing import Any, Optional, Sequence
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -370,23 +370,30 @@ _TYPING_SUBSCRIPT_NAMES: frozenset[str] = frozenset({
 def _extract_requires_bounds(
     decorator: ast.expr,
 ) -> tuple[set[str], set[str]]:
-    """Extract ``(bounded_names, positive_names)`` from a single
-    decorator expression that looks like ``@requires(lambda ARGS:
-    BODY)`` or ``@requires("X COMP Y")``.
+    """Extract ``(bounded_names, positive_names)`` from a @requires /
+    @ensures / @invariant decorator.
 
-    Returns empty sets for any decorator we can't parse.
-
-    The bounds we recognise mirror those in
+    Returns empty sets for any decorator we can't parse.  The bounds
+    we recognise mirror those in
     ``ExceptionSourceFinder._extract_int_guards``: ``X < EXPR``,
-    ``EXPR > X``, ``X > 0``, etc.  The caller adds these to its
-    own narrowing scope, capturing the user's commitment about
-    parameter validity.
+    ``EXPR > X``, ``X > 0``, etc.  The caller adds these to its own
+    narrowing scope, capturing the user's commitment about parameter
+    validity.
     """
     bounded: set[str] = set()
     positive: set[str] = set()
-    # @requires(...)  →  Call where func is "requires"
-    if not isinstance(decorator, ast.Call):
+    body = _decorator_lambda_body(decorator)
+    if body is None:
         return bounded, positive
+    return ExceptionSourceFinder._extract_bounds_static(body)
+
+
+def _decorator_lambda_body(decorator: ast.expr) -> Optional[ast.expr]:
+    """Extract the body of a ``@requires(lambda ...: BODY)`` /
+    ``@requires("BODY")`` decorator, or None if it's not a recognised
+    spec decorator."""
+    if not isinstance(decorator, ast.Call):
+        return None
     func = decorator.func
     name = ""
     if isinstance(func, ast.Name):
@@ -394,27 +401,83 @@ def _extract_requires_bounds(
     elif isinstance(func, ast.Attribute):
         name = func.attr
     if name not in {"requires", "ensures", "invariant"}:
-        return bounded, positive
+        return None
     if not decorator.args:
-        return bounded, positive
+        return None
     arg = decorator.args[0]
     if isinstance(arg, ast.Lambda):
-        body = arg.body
-        # Use the static helper from ExceptionSourceFinder for the
-        # actual bound extraction (it walks Compare / BoolOp nodes).
-        b, p = ExceptionSourceFinder._extract_bounds_static(body)
-        bounded |= b
-        positive |= p
-    elif isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-        # @requires("0 <= i < len(xs)")  →  parse the string.
+        return arg.body
+    if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
         try:
-            tree = ast.parse(arg.value, mode="eval").body
-            b, p = ExceptionSourceFinder._extract_bounds_static(tree)
-            bounded |= b
-            positive |= p
+            return ast.parse(arg.value, mode="eval").body
         except SyntaxError:
-            pass
-    return bounded, positive
+            return None
+    return None
+
+
+def _extract_requires_nonempty_attrs(
+    decorator: ast.expr,
+) -> set[str]:
+    """Extract the set of ``self.<field>``-like attribute paths that
+    a @requires asserts to be non-empty.  Recognises:
+
+      * ``len(self.X) > 0``
+      * ``len(self.X) >= 1``
+      * ``self.X``  (used in a boolean context)
+      * ``not (len(self.X) == 0)``
+
+    Returns dotted paths like ``"self._data"``.  These mark
+    ``self._data.pop()`` etc. as safe (the caller will not see an
+    IndexError because the list is provably non-empty).
+    """
+    paths: set[str] = set()
+    body = _decorator_lambda_body(decorator)
+    if body is None:
+        return paths
+
+    def collect_from(node: ast.expr) -> None:
+        # ``len(EXPR) > 0``  /  ``len(EXPR) >= 1``
+        if isinstance(node, ast.Compare) and len(node.ops) == 1 \
+                and len(node.comparators) == 1 \
+                and isinstance(node.left, ast.Call) \
+                and isinstance(node.left.func, ast.Name) \
+                and node.left.func.id == "len" \
+                and node.left.args:
+            cmp_const = node.comparators[0]
+            const_val: object = None
+            if isinstance(cmp_const, ast.Constant):
+                const_val = cmp_const.value
+            op = node.ops[0]
+            if isinstance(op, ast.Gt) and const_val == 0:
+                path = _attr_path(node.left.args[0])
+                if path:
+                    paths.add(path)
+            elif isinstance(op, ast.GtE) and const_val == 1:
+                path = _attr_path(node.left.args[0])
+                if path:
+                    paths.add(path)
+        # ``A and B`` — collect from both.
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.And):
+            for child in node.values:
+                collect_from(child)
+
+    collect_from(body)
+    return paths
+
+
+def _attr_path(node: ast.expr) -> Optional[str]:
+    """Render a chain of attribute access into a dotted string:
+    ``self._data`` → ``"self._data"``, ``a.b.c`` → ``"a.b.c"``."""
+    parts: list[str] = []
+    cur: ast.expr = node
+    while isinstance(cur, ast.Attribute):
+        parts.append(cur.attr)
+        cur = cur.value
+    if isinstance(cur, ast.Name):
+        parts.append(cur.id)
+        parts.reverse()
+        return ".".join(parts)
+    return None
 
 
 def _is_main_guard(node: ast.If) -> bool:
@@ -438,10 +501,15 @@ def _is_main_guard(node: ast.If) -> bool:
     return True
 
 
-def _is_known_iterable(node: ast.expr) -> bool:
+def _is_known_iterable(node: ast.expr, *, env: object = None) -> bool:
     """``node`` is a syntactic form known to be iterable without raising
     TypeError on ``__iter__``: literal collections, range/enumerate/zip,
-    string literals, etc."""
+    string literals, ``range(int_expr)``, etc.
+
+    When ``env`` is supplied (an ``ExceptionSourceFinder``), checks
+    whether a ``Name`` node references a tracked-int local, in which
+    case ``range(name)`` is also safe.
+    """
     if isinstance(node, (ast.List, ast.Tuple, ast.Set, ast.Dict)):
         return True
     if isinstance(node, ast.ListComp) or isinstance(node, ast.SetComp) \
@@ -450,13 +518,45 @@ def _is_known_iterable(node: ast.expr) -> bool:
         return True
     if isinstance(node, ast.Constant) and isinstance(node.value, (str, bytes)):
         return True
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
-            and node.func.id in {
-                "range", "enumerate", "zip", "map", "filter",
-                "reversed", "sorted", "iter", "list", "tuple", "set",
-                "frozenset", "dict",
-            }:
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+        fn = node.func.id
+        if fn in {
+            "enumerate", "zip", "map", "filter",
+            "reversed", "sorted", "iter", "list", "tuple", "set",
+            "frozenset", "dict",
+        }:
+            return True
+        if fn == "range":
+            # range(int_expr) is always iterable.  Check the args:
+            # constants, names of known int locals, len(...) calls,
+            # and BinOp on int things are all safe.
+            return all(_is_int_expr(a, env=env) for a in node.args)
+    return False
+
+
+def _is_int_expr(node: ast.expr, *, env: object = None) -> bool:
+    """Best-effort: ``node`` evaluates to a Python int / bool."""
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, bool)):
         return True
+    if isinstance(node, ast.BinOp):
+        return _is_int_expr(node.left, env=env) and _is_int_expr(node.right, env=env)
+    if isinstance(node, ast.UnaryOp):
+        return _is_int_expr(node.operand, env=env)
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+        if node.func.id == "len":
+            return True
+        if node.func.id in {"int", "ord", "abs", "min", "max", "sum"}:
+            return True
+    if isinstance(node, ast.Name):
+        if env is None:
+            return False
+        # Check the analyzer's int-tracking sets.
+        ints = getattr(env, "_known_int_names", set())
+        if node.id in ints:
+            return True
+        param_anns = getattr(env, "_current_function_param_anns", {})
+        if param_anns.get(node.id, "") in {"int", "Int"}:
+            return True
     return False
 
 
@@ -684,6 +784,11 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._var_classes: dict[str, str] = {}
         # Class members: built up by visit_ClassDef.
         self._class_members: dict[str, set[str]] = {}
+        # Names tracked as having an int type, populated by
+        # visit_Assign on patterns like ``n = len(xs)``,
+        # ``i = parent``, ``x = 5`` etc.  Used to prove
+        # ``range(n)`` doesn't raise TypeError.
+        self._known_int_names: set[str] = set()
 
     # ── Public API ────────────────────────────────────────────────
 
@@ -863,11 +968,14 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         old_guarded = set(self._index_guarded)
         old_positive = set(self._index_positive)
         old_derived = set(getattr(self, '_index_derived_guarded', set()))
+        old_nonempty = set(getattr(self, '_nonempty_attr_paths', set()))
         self._index_derived_guarded = old_derived
+        self._nonempty_attr_paths = old_nonempty
         for decorator in getattr(node, 'decorator_list', []):
             req_bounds, req_positive = _extract_requires_bounds(decorator)
             self._index_guarded |= req_bounds
             self._index_positive |= req_positive
+            self._nonempty_attr_paths |= _extract_requires_nonempty_attrs(decorator)
 
         # ROUND 5 FIX: Split definition-time vs runtime hazards
         # Definition-time: decorators, defaults, annotations execute at import
@@ -928,6 +1036,7 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._index_guarded = old_guarded
         self._index_positive = old_positive
         self._index_derived_guarded = old_derived
+        self._nonempty_attr_paths = old_nonempty
 
         return summary
 
@@ -1301,7 +1410,7 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         ``_range_loop_vars`` for the duration of the loop body, so
         ``data[i]`` inside doesn't trip IndexError.
         """
-        if not _is_known_iterable(node.iter):
+        if not _is_known_iterable(node.iter, env=self):
             self._add_source(
                 ExceptionKind.TYPE_ERROR,
                 node,
@@ -1355,6 +1464,41 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         if isinstance(op, (ast.IsNot, ast.NotEq)):
             return (test.left.id, False)
         return None
+
+    def _extract_nonempty_paths(self, test: ast.expr) -> set[str]:
+        """Extract attribute paths the test asserts to be non-empty.
+
+        Recognises (within the then-branch):
+
+          * ``len(self.X) > 0`` / ``len(self.X) >= 1``
+          * ``len(self.X) == K`` (K ≥ 1) — exactly-K-nonempty
+          * ``len(self.X) >= K`` (K ≥ 1)
+          * ``self.X != []``
+          * ``A and B`` (boolop) — union
+        """
+        paths: set[str] = set()
+        if isinstance(test, ast.Compare) and len(test.ops) == 1 \
+                and len(test.comparators) == 1:
+            lhs = test.left
+            rhs = test.comparators[0]
+            op = test.ops[0]
+            # ``len(EXPR) <op> CONST``
+            if isinstance(lhs, ast.Call) and isinstance(lhs.func, ast.Name) \
+                    and lhs.func.id == "len" and lhs.args:
+                path = _attr_path(lhs.args[0])
+                if path is not None and isinstance(rhs, ast.Constant) \
+                        and isinstance(rhs.value, int):
+                    k = rhs.value
+                    if isinstance(op, ast.Gt) and k >= 0:
+                        paths.add(path)
+                    elif isinstance(op, ast.GtE) and k >= 1:
+                        paths.add(path)
+                    elif isinstance(op, ast.Eq) and k >= 1:
+                        paths.add(path)
+        elif isinstance(test, ast.BoolOp) and isinstance(test.op, ast.And):
+            for child in test.values:
+                paths |= self._extract_nonempty_paths(child)
+        return paths
 
     def _extract_int_guards(
         self, test: ast.expr,
@@ -1510,29 +1654,32 @@ class ExceptionSourceFinder(ast.NodeVisitor):
                     narrowed_after = {name}
 
         # Integer-bound narrowing: from a guard like ``i < n`` /
-        # ``i < len(data)`` / chained ``0 <= i < n`` / boolop
-        # ``i < n and ...``, extract the index-name set bounded
-        # above (then-branch) and the index-name set known positive
-        # (then-branch from ``i > 0`` etc.).
+        # ``i < len(data)`` / chained ``0 <= i < n`` / boolop.
         bounded_then, positive_then = self._extract_int_guards(node.test)
+        # Length-non-empty narrowing: from ``if len(X) > 0`` /
+        # ``if len(X) == 1`` etc., add X's attr-path to the
+        # non-empty set inside the then-branch.  This makes
+        # ``X.pop()`` and ``X[0]`` safe within the body.
+        nonempty_then = self._extract_nonempty_paths(node.test)
 
         # Visit the then-branch with full narrowing applied.
         saved_not_none = set(self._definitely_not_none)
         saved_guarded = set(self._index_guarded)
         saved_positive = set(self._index_positive)
+        saved_nonempty = set(getattr(self, '_nonempty_attr_paths', set()))
 
         self._definitely_not_none |= narrowed_then
         self._index_guarded |= bounded_then
         self._index_positive |= positive_then
+        self._nonempty_attr_paths = saved_nonempty | nonempty_then
         for stmt in node.body:
             self.visit(stmt)
 
-        # Visit the else-branch with type-narrowing only (no
-        # int-bound narrowing — the negation of `i < n` is `i >= n`,
-        # which doesn't help for index safety).
+        # Visit the else-branch with type-narrowing only.
         self._definitely_not_none = saved_not_none | narrowed_else
         self._index_guarded = saved_guarded
         self._index_positive = saved_positive
+        self._nonempty_attr_paths = saved_nonempty
         for stmt in node.orelse:
             self.visit(stmt)
 
@@ -1540,6 +1687,7 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._definitely_not_none = saved_not_none | narrowed_after
         self._index_guarded = saved_guarded
         self._index_positive = saved_positive
+        self._nonempty_attr_paths = saved_nonempty
         # Post-if int-bound narrowing: when the then-branch terminates
         # (return/raise) under a guard like ``if not (i < n): return``,
         # the post-if context knows ``i < n``.  We don't yet handle
@@ -1573,13 +1721,20 @@ class ExceptionSourceFinder(ast.NodeVisitor):
             # arg is provably iterable.  Same for any iterable
             # consumer when applied to a known-iterable expression.
             if func_name == "len" and node.args and \
-                    _is_known_iterable(node.args[0]):
+                    _is_known_iterable(node.args[0], env=self):
                 pass
             elif func_name in {"sum", "min", "max", "all", "any",
                                 "list", "tuple", "set", "frozenset",
                                 "dict", "sorted", "reversed",
                                 "enumerate", "zip", "map", "filter"} \
-                    and node.args and _is_known_iterable(node.args[0]):
+                    and node.args and _is_known_iterable(node.args[0], env=self):
+                pass
+            elif func_name == "range" \
+                    and node.args \
+                    and all(_is_int_expr(a, env=self) for a in node.args):
+                # range(int_expr) doesn't raise TypeError or ValueError
+                # (step != 0 since we don't have step here, or step is
+                # a non-zero int constant if 3-arg).
                 pass
             elif func_name == "len" and node.args and \
                     isinstance(node.args[0], ast.Attribute) \
@@ -1598,23 +1753,56 @@ class ExceptionSourceFinder(ast.NodeVisitor):
                                      description=f"call to {func_name}(): {desc}")
         elif func_name and "." in func_name:
             # Method call — check method map.  Filter by receiver
-            # shape: list-typed receivers don't raise KeyError;
-            # dict-typed receivers don't raise IndexError.
+            # shape and proven-non-empty paths from @requires.
             method = func_name.rsplit(".", 1)[-1]
             recv_is_list = False
             recv_is_dict = False
+            recv_path = ""
+            recv_user_class = None
             if isinstance(node.func, ast.Attribute):
                 recv_is_list = self._receiver_is_list(node.func.value)
                 recv_is_dict = self._receiver_is_dict(node.func.value)
-            if method in _METHOD_EXCEPTION_MAP:
+                recv_path = _attr_path(node.func.value) or ""
+                # If receiver is a known user-class instance, prefer
+                # CALL_PROPAGATION over the generic list-pop / dict-get
+                # exception map — the user's method has its own
+                # @requires/@ensures contract.
+                if isinstance(node.func.value, ast.Name):
+                    recv_user_class = self._var_classes.get(
+                        node.func.value.id,
+                    )
+            recv_is_nonempty = recv_path in getattr(
+                self, '_nonempty_attr_paths', set()
+            )
+            user_class_has_method = (
+                recv_user_class is not None
+                and method in self._class_members.get(recv_user_class, set())
+            )
+            if method in _METHOD_EXCEPTION_MAP and not user_class_has_method:
                 for kind, desc, severity in _METHOD_EXCEPTION_MAP[method]:
                     if recv_is_list and kind == ExceptionKind.KEY_ERROR:
-                        continue  # lists don't raise KeyError
+                        continue
                     if recv_is_dict and kind == ExceptionKind.INDEX_ERROR:
-                        continue  # dicts don't raise IndexError
+                        continue
+                    if method == "pop" and recv_is_nonempty \
+                            and kind == ExceptionKind.INDEX_ERROR:
+                        continue
                     self._add_source(kind, node, trigger_condition=desc,
                                      severity=severity,
                                      description=f"call to .{method}(): {desc}")
+            elif user_class_has_method:
+                # Defer to the called method's own @requires/@ensures
+                # — emit a single CALL_PROPAGATION source so the
+                # discharge can route through callee-summary if the
+                # user's method has been verified.
+                self._add_source(
+                    ExceptionKind.CALL_PROPAGATION,
+                    node,
+                    trigger_condition="callee may raise",
+                    severity=Severity.LOW,
+                    description=f"user-method call .{method}()",
+                    callee_name=f"{recv_user_class}.{method}",
+                )
             else:
                 # Unknown method — flag as propagation
                 self._add_source(
@@ -1838,6 +2026,10 @@ class ExceptionSourceFinder(ast.NodeVisitor):
                     and isinstance(node.value.func, ast.Name) \
                     and node.value.func.id in self._class_members:
                 self._var_classes[target_name] = node.value.func.id
+            # Int-local tracking: ``n = len(xs)`` / ``n = 5`` /
+            # ``n = a + b`` (when a, b known int) → n is int.
+            if _is_int_expr(node.value, env=self):
+                self._known_int_names.add(target_name)
 
         self.generic_visit(node)
 
