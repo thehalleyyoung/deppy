@@ -2923,7 +2923,7 @@ theorem fix_steps (f : CTm) :
     blocked on a substitution lemma we don't prove in this pass;
     this weaker form establishes that the trivial cases are settled
     and exhibits which terms can step. -/
-theorem cv_progress_easy :
+theorem cv_progress_partial :
     ∀ {fvar_ty} {t : CTm} {T : CTy},
       CHasType fvar_ty [] t T →
       (t.isValue = true) ∨
@@ -3382,7 +3382,7 @@ theorem str_isClosed (s : String) : (CTm.str s).isClosed := by
 
   **Progress fragment (§44)** — every closed well-typed term is
   classified into value / takes-a-step / is-app
-  (``cv_progress_easy``).  The non-value cases (.app, .fix) each
+  (``cv_progress_partial``).  The non-value cases (.app, .fix) each
   exhibit an explicit successor (.fix always unfolds via
   ``fix_steps``).
 
@@ -4536,7 +4536,7 @@ theorem import_circular_returns_partial
     next lookup return ``s``. -/
 theorem lookup_after_put_same
     (t : ModuleTable) (name : ModName) (s : ModState) :
-    (t.put name s).lookup name = s := by
+    (t.put name s).lookupState name = s := by
   simp [ModuleTable.lookupState, ModuleTable.put]
 
 /-- **Lookup-after-update of different name** is unchanged. -/
@@ -4565,18 +4565,65 @@ theorem loaded_module_persists
           lookup_after_put_other _ name other .initing h_neq]
       exact h_loaded
 
-/-- **Import linearisability**: independent imports commute — both
-    are individually derivable from the same starting state. -/
-theorem imports_commute_when_independent
-    (t : ModuleTable) (a b : ModName) (g : ImportGraph)
-    (_h_independent : ¬ g.has_edge a b ∧ ¬ g.has_edge b a)
-    (_h_neq : a ≠ b)
+/-- **Both imports are individually executable from the absent state.**
+    A weak-but-honest formulation of the import-independence property:
+    when ``a`` and ``b`` are both unloaded, each can be imported.  This
+    does NOT prove the two interleavings produce equivalent final
+    tables — see ``imports_commute_lookup`` below for the real
+    commutation property. -/
+theorem imports_independently_executable
+    (t : ModuleTable) (a b : ModName)
     (h_a_absent : t.lookupState a = .absent)
     (h_b_absent : t.lookupState b = .absent) :
     (∃ t_ab, ImportSem t a t_ab .loaded) ∧
     (∃ t_ba, ImportSem t b t_ba .loaded) :=
   ⟨⟨(t.put a .initing).put a .loaded, .fresh_load h_a_absent⟩,
    ⟨(t.put b .initing).put b .loaded, .fresh_load h_b_absent⟩⟩
+
+/-- **Real commutation property at the lookup level**: two consecutive
+    puts at *different* keys produce a table whose lookups are
+    insensitive to the put-order.  This is what "imports commute"
+    actually means at the table-state level — the store's observable
+    behaviour after putting a then b is the same as after putting b
+    then a (for any third lookup-key). -/
+theorem put_put_commute_at_other_key
+    (t : ModuleTable) (a b k : ModName) (sa sb : ModState)
+    (hka : k ≠ a) (hkb : k ≠ b) :
+    ((t.put a sa).put b sb).lookupState k =
+    ((t.put b sb).put a sa).lookupState k := by
+  -- LHS: lookup k in put-b layer first (k ≠ b), then put-a layer
+  -- (k ≠ a) → t.lookupState k.
+  have h1 := lookup_after_put_other (t.put a sa) k b sb hkb
+  have h2 := lookup_after_put_other t k a sa hka
+  -- RHS: similarly k ≠ a then k ≠ b → t.lookupState k.
+  have h3 := lookup_after_put_other (t.put b sb) k a sa hka
+  have h4 := lookup_after_put_other t k b sb hkb
+  exact (h1.trans h2).trans (h4.symm.trans h3.symm)
+
+/-- **Both inserted keys agree across put-orders**: after putting a
+    and b in either order, looking up a yields sa and looking up b
+    yields sb. -/
+theorem put_put_both_keys_consistent
+    (t : ModuleTable) (a b : ModName) (sa sb : ModState)
+    (hab : a ≠ b) :
+    ((t.put a sa).put b sb).lookupState a = sa ∧
+    ((t.put a sa).put b sb).lookupState b = sb ∧
+    ((t.put b sb).put a sa).lookupState a = sa ∧
+    ((t.put b sb).put a sa).lookupState b = sb := by
+  have hba : b ≠ a := Ne.symm hab
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · -- ((t.put a sa).put b sb).lookupState a
+    have h1 := lookup_after_put_other (t.put a sa) a b sb hab
+    have h2 := lookup_after_put_same t a sa
+    exact h1.trans h2
+  · -- ((t.put a sa).put b sb).lookupState b = sb : direct put_same
+    exact lookup_after_put_same (t.put a sa) b sb
+  · -- ((t.put b sb).put a sa).lookupState a = sa : direct put_same
+    exact lookup_after_put_same (t.put b sb) a sa
+  · -- ((t.put b sb).put a sa).lookupState b
+    have h1 := lookup_after_put_other (t.put b sb) b a sa hba
+    have h2 := lookup_after_put_same t b sb
+    exact h1.trans h2
 
 /-- **A successfully-imported module's state is loaded** (or, in
     the circular case, initing — which is a partial). -/
@@ -4589,18 +4636,18 @@ theorem successful_import_state
   | partial_circular _ => exact .inr rfl
   | fresh_load _ => exact .inl rfl
 
-/-- **Acyclic graphs admit a linearisation**: a module dependency
-    graph without cycles can be processed in topological order so
-    every import sees only loaded dependencies.  We state the
-    existential rather than constructing a topo-sort explicitly. -/
-theorem acyclic_admits_linearisation
-    (g : ImportGraph) :
-    -- Any acyclic g produces a sequence of ImportSem steps that
-    -- terminate with all modules .loaded.  Existential form:
-    True :=  -- placeholder — the statement is vacuously true at
-             -- this level; a full proof would require a topo-sort
-             -- algorithm and inductive argument over graph size.
-  trivial
+-- The previous version of this section shipped
+-- ``theorem acyclic_admits_linearisation : True := trivial`` as a
+-- placeholder for "topological sort exists for acyclic graphs."
+-- That was a degenerate theorem (statement = `True`).  Removed.
+--
+-- A real proof would require: a notion of acyclicity over
+-- ``ImportGraph`` (transitive-closure encoding); a constructive
+-- topo-sort algorithm (e.g. Kahn's); an inductive termination
+-- argument over the graph's reverse-edge count; and a connecting
+-- lemma showing that the topo-sort yields a sequence where every
+-- ``ImportSem`` step at position k sees its prerequisites already
+-- ``.loaded``.  ~80 LoC.
 
 /-! ## §60. Honest accounting for the module system
 
@@ -4615,14 +4662,25 @@ What we proved:
     ``import_circular_returns_partial``,
     ``lookup_after_put_same``, ``lookup_after_put_other``,
     ``loaded_module_persists``,
-    ``imports_commute_when_independent``,
+    ``imports_independently_executable`` (each import individually
+    derivable),
+    ``put_put_commute_at_other_key`` (real commutation at the
+    table-state level — lookups insensitive to put-order for
+    different keys),
+    ``put_put_both_keys_consistent`` (after both puts in either
+    order, both keys yield their values),
     ``successful_import_state``.
 
 What we did NOT prove:
 
-  * **Acyclic admits linearisation** — stated as ``True`` because
-    the constructive proof needs a topological sort algorithm
-    (~50 LoC).  The statement is right; the proof is deferred.
+  * **Acyclic admits linearisation (topological-sort theorem)** —
+    a previous version of this section shipped
+    ``theorem acyclic_admits_linearisation : True := trivial`` as
+    a degenerate placeholder.  That has been removed.  A real proof
+    would require: a notion of acyclicity over ``ImportGraph``; a
+    constructive topo-sort algorithm; a connecting lemma showing
+    the topo-sort yields a sequence where every ``ImportSem`` step
+    sees its prerequisites already ``.loaded``.  ~80 LoC; not done.
   * **Module-side-effect ordering** — Python's import system runs
     top-level code that can have arbitrary side effects (file I/O,
     network, monkey-patching).  We model state transitions on the
@@ -4791,17 +4849,29 @@ theorem release_only_by_holder
   mutual_exclusion t lk tid_releaser tid_holder
     (release_requires_held t t' tid_releaser lk h) h_holder
 
-/-! ### Deadlock freedom under consistent ordering
+/-! ### Limited progress / no-op-trace executability
 
-The standard discipline: define a total order ``<`` on locks; every
-thread acquires locks in increasing order.  Theorem: under this
-discipline, no execution deadlocks.
+The original goal of this subsection was a full *deadlock-freedom*
+theorem under a consistent-ordering discipline.  An attempt at that
+proof hit the standard wall (the post-acquire state isn't all-free,
+breaking the inductive hypothesis), and the placeholder `exact .refl`
+was incorrect.  The full proof needs a strengthened invariant
+("every lock acquired so far is held by exactly one thread, every
+thread holds exactly its currently-acquired prefix") plus an
+inductive argument over a wait-graph.  ~200 LoC; deferred.
 
-We define *consistent ordering* as a property of an event sequence:
-each thread's acquire events are a strictly increasing subsequence
-in the global lock order.  The theorem then states: if all threads
-respect the ordering, the system makes progress (some thread can
-always step). -/
+What we *do* prove here is much weaker but real:
+
+  * ``thread_acquires`` / ``strictly_increasing`` /
+    ``consistent_ordering`` definitions.
+  * ``empty_trace_executes``: a trace of length 0 trivially
+    executes.
+  * ``noop_events_execute``: any trace consisting solely of
+    ``compute`` and ``yield`` events executes from any starting
+    state (these are lock-table no-ops).
+
+These are foundations the full theorem would build on; they aren't
+deadlock-freedom themselves. -/
 
 /-- A thread's acquire events in a sequence, in order. -/
 def thread_acquires : List ConcEvent → TID → List LockId
@@ -4822,16 +4892,15 @@ def strictly_increasing : List LockId → Prop
 def consistent_ordering (es : List ConcEvent) : Prop :=
   ∀ tid, strictly_increasing (thread_acquires es tid)
 
-/-- **Empty trace is always executable.**  This is the base case of
-    the deadlock-freedom argument; the full theorem (every consistent
-    trace executes) requires a strengthened invariant we don't close
-    here.  See §62 honest accounting. -/
+/-- **Empty trace is trivially executable.** -/
 theorem empty_trace_executes (t_init : LockTable) :
     ConcStepStar t_init [] t_init := .refl
 
-/-- **Compute / yield events always execute.**  These are no-ops on
-    the lock table, so any prefix of compute/yield events is
-    executable from any starting state. -/
+/-- **Compute / yield events always execute.**  Real but narrow:
+    these are no-ops on the lock table, so any prefix of
+    compute/yield events is executable from any starting state.
+    This is NOT deadlock-freedom — it just says no-op events
+    can't get stuck. -/
 theorem noop_events_execute :
     ∀ (es : List ConcEvent) (t : LockTable),
       (∀ e ∈ es, (∃ tid, e = .compute tid) ∨ (∃ tid, e = .yield_ tid)) →
@@ -4882,18 +4951,22 @@ What we proved:
   * Theorems: ``acquire_requires_free``, ``release_requires_held``,
     ``compute_is_noop``, ``yield_is_noop``, ``mutual_exclusion``,
     ``release_only_by_holder``, ``release_yields_free``,
-    ``acquire_yields_held``, ``deadlock_freedom_under_consistent_ordering``
-    (existence form).
+    ``acquire_yields_held``, ``empty_trace_executes``,
+    ``noop_events_execute``.
   * ``thread_acquires`` per-thread acquire-event extractor;
     ``strictly_increasing`` predicate; ``consistent_ordering`` policy.
 
 What we did NOT prove:
 
-  * **Full deadlock-freedom** — the theorem we state is the existential
-    witness ("a final state is reachable"); the full proof needs a
-    strengthened invariant ("no thread is stuck waiting on a circular
-    chain") and a topo-sort over the wait-graph.  We have the structure
-    in place; the full proof is ~200 LoC of inductive bookkeeping.
+  * **Deadlock-freedom under consistent ordering** — explicitly NOT
+    proved.  An earlier version of this section shipped a
+    ``deadlock_freedom_under_consistent_ordering`` theorem with an
+    incorrect ``exact .refl`` placeholder in the acquire branch
+    (the post-acquire state isn't all-free, breaking the IH).  That
+    theorem has been removed.  The full proof needs a strengthened
+    invariant ("every lock acquired so far is held by exactly one
+    thread, the wait-graph is acyclic") plus an inductive argument
+    over wait-graph height.  ~200 LoC; not done.
   * **GIL semantics** — Python's GIL is a single global lock that the
     interpreter releases at certain points (I/O, ``time.sleep``, etc.).
     We don't distinguish GIL-events from generic acquire/release; a
@@ -5039,7 +5112,7 @@ theorem c_subst_typing_values
     consisting of a single bvar 0 that we substitute).  This is
     the headline preservation theorem for closures whose body
     immediately returns the argument — i.e. the identity function. -/
-theorem cv_preservation_identity_app
+theorem cv_preservation_identity_lambda_specific
     (fvar_ty : String → CTy) (T U : CTy) (arg : CTm)
     (h_arg : CHasType fvar_ty [] arg T)
     (h_eq : T = U) :
@@ -5050,42 +5123,35 @@ theorem cv_preservation_identity_app
   subst h_eq
   exact h_arg
 
-/-! ## §65. Bytecode-AST coherence — closing item 10
+/-! ## §65. Bytecode-AST coherence — open frontier (NOT addressed)
 
 Python source compiles to CPython bytecode via ``compile()``.  The
 metatheory above operates at the AST level; whether the compiled
 bytecode preserves the AST's semantics is an *implementation*
-question we don't address inside the formal system.
+question we have NOT addressed.
 
-What we *can* state: a **bytecode-AST coherence axiom** that
-makes the dependence explicit.  Any kernel proof that uses this
-axiom carries a recorded dependency on it, surfacing the
-implementation-level trust assumption to consumers.
+A previous version of this section defined ``BytecodeCoherence : Prop
+:= True`` and shipped a trivially-true ``BytecodeCoherence → True``
+"theorem".  That was a degenerate placeholder, not metatheory.  It
+has been removed.
 
-We do not assume the axiom; we state it as a *parametric
-hypothesis* a downstream proof can choose to invoke. -/
+Closing this gap honestly requires:
 
-/-- ``BytecodeCoherence`` is a parametric proposition — a Lean
-    theorem that uses it as a hypothesis records a coherence
-    dependency, but the metatheory itself does not assume it. -/
-def BytecodeCoherence : Prop :=
-  -- Stated abstractly: every Python AST has the same observable
-  -- behaviour as its compiled bytecode.  We don't unfold this
-  -- because we don't have a bytecode model in the metatheory;
-  -- the proposition is opaque on purpose, marking the gap.
-  True
+  * an inductive ``Bytecode`` instruction set,
+  * an abstract machine ``BCStep`` over a stack/locals state,
+  * a translation ``Tm → Bytecode`` (or AST → Bytecode at a higher
+    level),
+  * a simulation relation between ``StmtSem`` outcomes and bytecode
+    execution outcomes,
+  * a bisimulation theorem (``∀ s, s' . StmtSem s s' ↔ ∃ b. translate
+    s →_BC* translate s' ∧ relates(b, s')``).
 
-/-- **All metatheory results are bytecode-coherent under
-    BytecodeCoherence**.  The metatheory's AST-level conclusions
-    transfer to the bytecode level *if* and *only if*
-    ``BytecodeCoherence`` holds.  We don't prove the if-direction;
-    consumers requiring bytecode-level guarantees must prove or
-    assume ``BytecodeCoherence``. -/
-theorem ast_results_lift_to_bytecode_under_coherence :
-    BytecodeCoherence → True :=
-  fun _ => trivial
+That's a significant new section (estimated ~600 LoC).  Until it's
+written, deppy/PSDL guarantees are *AST-level only*.  Tools that
+care about the bytecode level (e.g. enforcement against ``-O`` strip
+of asserts) need to derive their own reasoning. -/
 
-/-! ## §66. Honest accounting for items 8 + 10
+/-! ## §66. Honest accounting for item 8
 
 Item 8 (subject reduction + StmtSem determinism):
 
@@ -5095,28 +5161,16 @@ Item 8 (subject reduction + StmtSem determinism):
   * ``rais_outcome_classified``, ``skip_outcome_classified``,
     ``rais_from_outcome_classified`` — outcome iff form for these.
   * ``c_subst_typing_bvar_zero``, ``c_subst_typing_values``,
-    ``cv_preservation_identity_app`` — substitution preservation
-    for the bvar / value / identity-app fragments.
+    ``cv_preservation_identity_lambda_specific`` — substitution
+    preservation for the bvar / value / identity-lambda fragments
+    (NOT the general subject-reduction theorem).
 
-  Not closed: full StmtSem determinism over the multi-rule
-  constructors (try_excpt, try_fin, with_blk).  Each multi-rule
-  constructor would need its own uniqueness theorem reasoning over
-  the rule-shape; tractable but expansive.
-
-Item 10 (bytecode-AST coherence):
-
-  * ``BytecodeCoherence`` opaque proposition surfaced as a
-    parametric hypothesis.
-  * ``ast_results_lift_to_bytecode_under_coherence`` — the lifting
-    theorem statement; consumers needing bytecode guarantees must
-    discharge ``BytecodeCoherence`` separately.
-
-  Not closed: an actual model of CPython bytecode with a coherence
-  proof.  This would require a substantial new section
-  (bytecode-as-instruction-list, abstract machine, simulation
-  relation against AST evaluation).  Out of scope for the present
-  work; the surfacing of ``BytecodeCoherence`` makes the gap
-  *visible* rather than *hidden*. -/
+  Not closed:
+  * Full StmtSem determinism over the multi-rule constructors
+    (try_excpt, try_fin, with_blk).
+  * Full ``c_subst_typing`` over arbitrary CTm shapes (currently
+    only the bvar fragment, ``c_lift_bvar_typing``).
+  * Subject reduction for non-identity lambdas. -/
 
 /-! ## Wrap-up
 

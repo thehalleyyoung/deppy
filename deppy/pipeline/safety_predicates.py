@@ -453,7 +453,22 @@ def is_synthetic_predicate(pred: str) -> bool:
         "handles None input", "handles None for",
         "validates ", "checks for ", "guards against ",
     )
-    return any(m in pred for m in synthetic_markers) or "#" in pred
+    if any(m in pred for m in synthetic_markers):
+        return True
+    # ``#`` traditionally indicated "comment marker on a synthetic
+    # formula", but ``True  # description`` is a real Python
+    # expression that evaluates to True.  Strip the comment and
+    # check whether the remainder is a trivial constant; only flag
+    # as synthetic when the *non-comment* part is non-trivial
+    # natural language.
+    if "#" in pred:
+        head = pred.split("#", 1)[0].strip()
+        if head in ("", "True", "False"):
+            return False  # ``True # ...`` is a real formula
+        # Otherwise, the head is *something*; treat as synthetic
+        # because we don't know if it's Z3-encodable.
+        return True
+    return False
 
 
 __all__ = [

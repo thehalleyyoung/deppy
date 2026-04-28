@@ -1550,16 +1550,18 @@ class ProofKernel:
             import z3  # noqa: F401
         except ImportError:
             return False, "not-installed"
-        # Synthetic-predicate auto-discharge: when the formula contains
-        # a natural-language marker emitted by ``auto_spec`` /
-        # ``safety_predicates`` (e.g. "handles None input for x",
-        # "callee_safe(...)"), Z3 has no way to encode it, so we treat
-        # it as an externally-justified structural fact.  This avoids
-        # poisoning module_safe with predicate-shape failures.
+        # Synthetic predicates (natural-language markers like "handles
+        # None input for x" / "callee_safe(...)") are *not* Z3-encodable.
+        # We return ``(False, "synthetic-not-encodable")`` honestly — the
+        # caller's downstream logic must then route the obligation
+        # through Structural / AxiomInvocation discharge, which limits
+        # trust to STRUCTURAL_CHAIN.  An earlier version returned
+        # ``(True, None)`` here to make module_safe pass; that was a
+        # soundness shortcut and has been reverted.
         try:
             from deppy.pipeline.safety_predicates import is_synthetic_predicate
             if is_synthetic_predicate(formula_str):
-                return True, None
+                return False, "synthetic-not-encodable"
         except Exception:
             pass
         if binders:

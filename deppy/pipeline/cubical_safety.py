@@ -225,13 +225,20 @@ def _cocycle_proof(edge: CallEdge,
     z3_path = Z3Proof(formula=formula)
     # Wrap as transport along the caller→callee env-path so the kernel
     # sees this as a path obligation, not a bare implication.  The
-    # base proof's formula mentions Pre[callee] so the kernel's
-    # formula-coherence heuristic (Round 2 Issue 5) keeps full trust.
-    base_formula = f"True  # well-formedness of Pre[{edge.callee}]"
+    # base proof asserts the well-formedness of ``Pre[callee]`` —
+    # this is a *structural* fact (the predicate is well-typed),
+    # NOT a Z3-verifiable property.  Earlier code emitted it as a
+    # ``Z3Proof`` with a natural-language formula and relied on a
+    # synthetic-predicate auto-pass in ``kernel._z3_check`` to make
+    # it succeed.  That auto-pass has been removed (it was a soundness
+    # shortcut); we now use a ``Structural`` proof which the kernel
+    # accepts at trust ≤ STRUCTURAL_CHAIN.
     return TransportProof(
         type_family=Var(f"Pre[{edge.callee}]"),
         path_proof=z3_path,
-        base_proof=Z3Proof(formula=base_formula),
+        base_proof=Structural(
+            description=f"well-formedness of Pre[{edge.callee}]",
+        ),
     )
 
 
