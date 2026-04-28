@@ -42,11 +42,25 @@ class SimpleParallelVerifier:
         verify_func: Callable[[str], Any],
         progress_callback: Optional[Callable[[str], None]] = None
     ) -> Dict[str, Any]:
-        """Sequential verification fallback."""
+        """Sequential verification fallback.
+
+        Returns the same shape as ``_verify_parallel``: a dict
+        mapping function name → unwrapped data.  Earlier this method
+        stored ``verify_func``'s raw return value (which is a
+        ``(name, data)`` tuple in the production caller), causing
+        downstream code in ``safety_pipeline.py`` to crash with
+        ``TypeError: tuple indices must be integers or slices, not str``.
+        """
         results = {}
         for i, fname in enumerate(function_names):
             try:
-                results[fname] = verify_func(fname)
+                result = verify_func(fname)
+                # Match _verify_parallel's tuple-unwrapping convention.
+                if isinstance(result, tuple) and len(result) == 2:
+                    _, actual_result = result
+                else:
+                    actual_result = result
+                results[fname] = actual_result
                 if progress_callback:
                     progress_callback(f"Verified {fname} ({i+1}/{len(function_names)})")
             except Exception as e:

@@ -142,26 +142,31 @@ def check_implication(
         import z3
     except ImportError:
         return False, "not-installed"
+    # Z3's C reference counting isn't thread-safe; serialise every
+    # entry point through the module-level lock.  See
+    # ``deppy.core.z3_lock`` for the rationale (BST-proof discovery).
+    from deppy.core.z3_lock import Z3_LOCK
     try:
-        encoding = _build_encoding(
-            premise + " " + conclusion, binders, context, z3,
-        )
-        p = _eval_predicate(premise, encoding, z3)
-        if p is None:
-            return False, "premise-not-encodable"
-        q = _eval_predicate(conclusion, encoding, z3)
-        if q is None:
-            return False, "conclusion-not-encodable"
-        s = z3.Solver()
-        s.set("timeout", 5000)
-        # Axioms collected during encoding (e.g. ``len(xs) >= 0`` for
-        # every list-typed binder).  Asserting these as facts means
-        # Z3 doesn't have to spuriously satisfy ``len(xs) = -3``.
-        for ax in encoding.axioms:
-            s.add(ax)
-        s.add(z3.And(p, z3.Not(q)))
-        verdict = s.check() == z3.unsat
-        return verdict, None if verdict else "disagrees"
+        with Z3_LOCK:
+            encoding = _build_encoding(
+                premise + " " + conclusion, binders, context, z3,
+            )
+            p = _eval_predicate(premise, encoding, z3)
+            if p is None:
+                return False, "premise-not-encodable"
+            q = _eval_predicate(conclusion, encoding, z3)
+            if q is None:
+                return False, "conclusion-not-encodable"
+            s = z3.Solver()
+            s.set("timeout", 5000)
+            # Axioms collected during encoding (e.g. ``len(xs) >= 0``
+            # for every list-typed binder).  Asserting these as facts
+            # means Z3 doesn't spuriously satisfy ``len(xs) = -3``.
+            for ax in encoding.axioms:
+                s.add(ax)
+            s.add(z3.And(p, z3.Not(q)))
+            verdict = s.check() == z3.unsat
+            return verdict, None if verdict else "disagrees"
     except Exception as e:
         return False, f"typed-z3-crash: {type(e).__name__}: {e}"[:120]
 
@@ -1409,6 +1414,30 @@ def register_recursive_class(cls: Any, *, name: Optional[str] = None) -> None:
 def unregister_recursive_class(name: str) -> None:
     """Remove a recursive class registration."""
     _RECURSIVE_CLASS_REGISTRY.pop(name, None)
+
+
+def recursive_z3(cls: Any) -> Any:
+    """Class decorator that registers ``cls`` as a recursive Z3 datatype.
+
+    Equivalent to calling ``register_recursive_class(cls)`` at module
+    load time, but discoverable at the class definition site.
+
+    Example::
+
+        @recursive_z3
+        @dataclass(frozen=True)
+        class BST:
+            value: int
+            left: Optional["BST"] = None
+            right: Optional["BST"] = None
+
+    The decorator returns the class unchanged; the side effect is the
+    Z3 registration.  Z3 will then encode ``BST`` as a constructor-form
+    datatype rather than an uninterpreted sort, allowing predicates
+    over ``BST`` fields to be solver-discharged.
+    """
+    register_recursive_class(cls)
+    return cls
 
 
 def _is_recursive_dataclass(cls: Any) -> bool:

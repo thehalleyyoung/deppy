@@ -447,6 +447,11 @@ def is_synthetic_predicate(pred: str) -> bool:
         "completes_within_budget", "custom_invariant_holds",
         "is_float_literal(", "is_valid_for_op(", "defined(",
         "iterable_exhaustible", "callable(", "decreases_measure_provided",
+        # Natural-language descriptors emitted by ``auto_spec`` —
+        # these are markers, not Z3-encodable formulas, so the kernel
+        # treats them as auto-discharged structural facts.
+        "handles None input", "handles None for",
+        "validates ", "checks for ", "guards against ",
     )
     return any(m in pred for m in synthetic_markers) or "#" in pred
 

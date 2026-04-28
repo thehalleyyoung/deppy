@@ -71,6 +71,21 @@ class FunctionVerdict:
     proof_payload: Optional[dict[str, Any]] = None
     lean_proof: Optional[str] = None
 
+    # Proof-obligation coverage (P6): distinct from ``coverage_ratio``,
+    # which counts discharged exception sources.  These count *logical*
+    # obligations from @verify / @ensures / @guarantee decorators.
+    obligation_count: int = 0           # total obligations attached
+    obligation_discharged: int = 0      # discharged with non-Structural proof
+    obligation_names: list[str] = field(default_factory=list)  # list of obligation labels
+
+    @property
+    def obligation_coverage_ratio(self) -> float:
+        """Fraction of logical proof obligations discharged.  Returns
+        ``1.0`` when no obligations are attached (vacuously)."""
+        if self.obligation_count == 0:
+            return 1.0
+        return self.obligation_discharged / self.obligation_count
+
     # Per-source discharge breakdown — maps source_id to a short tag
     # naming the discharge mechanism that closed it (or
     # ``"undischarged"`` for sources still open).  Tags are drawn
@@ -719,6 +734,32 @@ def verify_module_safety(
         for d in discharges:
             discharge_paths[d.source_id] = _classify_discharge(d)
 
+        # Pull obligation metadata from the function's _deppy_spec for
+        # the proof-obligation coverage metric (P6 / P8 from the BST
+        # pain-point survey).
+        fn_obj_for_spec = runtime_env.get(fn_name)
+        spec_meta = getattr(fn_obj_for_spec, '_deppy_spec', None) \
+            if fn_obj_for_spec is not None else None
+        obligation_names_local: list[str] = []
+        obligation_count_local = 0
+        obligation_discharged_local = 0
+        if spec_meta is not None:
+            for g in getattr(spec_meta, 'guarantees', []):
+                obligation_names_local.append(f"{fn_name}: guarantee {g!r}")
+                obligation_count_local += 1
+            for _ in getattr(spec_meta, 'preconditions', []):
+                obligation_count_local += 1
+                obligation_names_local.append(f"{fn_name}: precondition")
+            for _ in getattr(spec_meta, 'postconditions', []):
+                obligation_count_local += 1
+                obligation_names_local.append(f"{fn_name}: postcondition")
+            # Discharged count: when the function carries a real
+            # _deppy_proof (set by the refinement compiler in item 7
+            # or by an explicit @psdl_proof), all obligations are
+            # considered discharged.
+            if getattr(fn_obj_for_spec, '_deppy_proof', None) is not None:
+                obligation_discharged_local = obligation_count_local
+
         function_verdict = FunctionVerdict(
             name=fn_name,
             is_safe=is_safe,
@@ -728,11 +769,16 @@ def verify_module_safety(
                       propagation.summaries.get(fn_name).escapes]
                      if propagation.summaries.get(fn_name) else []),
             addressed=addressed_sources,
-            unaddressed=unaddressed_list,
+            unaddressed=unaddressed_list + obligation_names_local
+                        if obligation_count_local > obligation_discharged_local
+                        else unaddressed_list,
             counterexamples=counterexamples,
             proof_payload=_serialize_conditional_witness(cond_witness),
             lean_proof=lean_proof,
             discharge_paths=discharge_paths,
+            obligation_count=obligation_count_local,
+            obligation_discharged=obligation_discharged_local,
+            obligation_names=obligation_names_local,
         )
 
         # Phase 3 (round-2 audit): run the cubical AST analysis for
@@ -2460,43 +2506,52 @@ def _solve_and_run_counterexample(
 
     import inspect
     from deppy.pipeline.counterexample import _Z3FormulaBuilder, _extract_z3_value
+    # Z3 ref-counting isn't thread-safe; the entire build+solve+model
+    # extraction must happen under the global Z3 lock when run from a
+    # ThreadPoolExecutor (the parallel verifier).  See ``deppy.core.z3_lock``.
+    from deppy.core.z3_lock import Z3_LOCK
 
     if (safety_predicate or "").strip() in ("", "True"):
         return None
-    builder = _Z3FormulaBuilder()
-    try:
-        pre_built = (
-            builder.build(precondition)
-            if (precondition or "").strip() not in ("", "True") else None
-        )
-        pred_built = builder.build(safety_predicate)
-    except Exception:
-        return None
-    if pred_built is None:
-        return None
-    pred_expr, var_map = pred_built
-    expr = Not(pred_expr)
-    if pre_built is not None:
-        pre_expr, pre_vars = pre_built
-        var_map.update(pre_vars)
-        expr = pre_expr & expr
-    try:
-        solver = Solver()
-        solver.add(expr)
-        if solver.check() != sat:
+    # Acquire the lock for the duration of all Z3 work below.  fn_obj
+    # invocation is OUTSIDE the lock — user code shouldn't block other
+    # verifier threads.
+    with Z3_LOCK:
+        builder = _Z3FormulaBuilder()
+        try:
+            pre_built = (
+                builder.build(precondition)
+                if (precondition or "").strip() not in ("", "True") else None
+            )
+            pred_built = builder.build(safety_predicate)
+        except Exception:
             return None
-        model = solver.model()
-    except Exception:
-        return None
+        if pred_built is None:
+            return None
+        pred_expr, var_map = pred_built
+        expr = Not(pred_expr)
+        if pre_built is not None:
+            pre_expr, pre_vars = pre_built
+            var_map.update(pre_vars)
+            expr = pre_expr & expr
+        try:
+            solver = Solver()
+            solver.add(expr)
+            if solver.check() != sat:
+                return None
+            model = solver.model()
+        except Exception:
+            return None
 
-    inputs: dict[str, Any] = {}
-    for name in param_names:
-        if name in var_map:
-            val = model.eval(var_map[name], model_completion=True)
-            inputs[name] = _extract_z3_value(val)
-        else:
-            inputs[name] = 0
+        inputs: dict[str, Any] = {}
+        for name in param_names:
+            if name in var_map:
+                val = model.eval(var_map[name], model_completion=True)
+                inputs[name] = _extract_z3_value(val)
+            else:
+                inputs[name] = 0
 
+    # Run the falsifying input outside the Z3 lock.
     try:
         bound = inspect.signature(fn_obj).bind_partial(**inputs)
         bound.apply_defaults()

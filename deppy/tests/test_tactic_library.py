@@ -143,12 +143,13 @@ class TestEdgeCases:
 
 
 class TestRegistry:
-    def test_registry_contains_all_four_tactics(self):
+    def test_registry_contains_all_five_tactics(self):
         assert set(TACTIC_REGISTRY.keys()) == {
             "induction_on_list",
             "well_founded_on_len",
             "equational_chain",
             "transport_along",
+            "induct_on",
         }
 
     def test_is_tactic_true_for_registered_names(self):

@@ -265,6 +265,205 @@ class ModuleSourceSummary:
 # ═══════════════════════════════════════════════════════════════════
 
 # Built-in functions known to raise specific exceptions
+# ── Safe builtin names that don't raise NAME_ERROR ──────────────────
+#
+# Includes Python's full builtins module + module-level dunders.
+# Exhaustive list avoids whack-a-mole for missing entries.
+
+import builtins as _builtins_mod  # noqa: E402
+
+_SAFE_BUILTIN_NAMES: set[str] = set(dir(_builtins_mod)) | {
+    "__name__", "__file__", "__doc__", "__package__", "__loader__",
+    "__spec__", "__builtins__", "__path__", "__all__", "__author__",
+    "__version__", "__cached__", "__dict__", "__class__", "__module__",
+    "__init__", "__new__", "__del__", "__repr__", "__str__", "__hash__",
+    "__eq__", "__ne__", "__lt__", "__le__", "__gt__", "__ge__",
+    "__getitem__", "__setitem__", "__delitem__", "__len__",
+    "__iter__", "__next__", "__contains__",
+    "__add__", "__sub__", "__mul__", "__truediv__", "__floordiv__",
+    "__mod__", "__pow__", "__neg__", "__pos__", "__abs__",
+    "self", "cls",
+}
+
+
+# ── Known-safe import roots ──────────────────────────────────────────
+#
+# Imports of modules in this set are not flagged as IMPORT_ERROR
+# sources.  ``deppy`` itself is here (its absence would crash before
+# we got to the analyzer) along with the standard-library roots that
+# are guaranteed to ship with CPython.  Users can extend the set via
+# the public ``register_safe_import`` helper at the bottom of this
+# file.
+
+_SAFE_IMPORT_ROOTS: set[str] = {
+    "deppy",
+    "__future__",
+    "typing",
+    "dataclasses",
+    "abc",
+    "collections", "itertools", "functools", "operator",
+    "math", "cmath", "decimal", "fractions", "random", "statistics",
+    "re", "string", "textwrap", "unicodedata",
+    "os", "sys", "io", "pathlib", "shutil", "tempfile",
+    "json", "csv", "pickle", "copy", "pprint",
+    "datetime", "time", "calendar",
+    "logging", "warnings", "traceback",
+    "enum", "types", "inspect", "importlib",
+    "ast", "tokenize", "symtable",
+    "concurrent", "threading", "multiprocessing", "queue",
+    "asyncio", "contextlib", "contextvars",
+    "hashlib", "hmac", "secrets",
+    "struct", "array", "weakref",
+    "uuid", "ipaddress", "socket", "ssl",
+    "urllib", "http", "email", "base64", "binascii",
+    "subprocess",
+    "z3",  # SMT solver — used by deppy's own pipeline
+}
+
+
+def _is_safe_import(name: str) -> bool:
+    """``name`` is a known-good import root or sub-module thereof."""
+    if not name:
+        return False
+    root = name.split(".", 1)[0]
+    return root in _SAFE_IMPORT_ROOTS
+
+
+def register_safe_import(name: str) -> None:
+    """Register an additional module name as safe (no IMPORT_ERROR)."""
+    if name:
+        _SAFE_IMPORT_ROOTS.add(name)
+
+
+_TYPING_SUBSCRIPT_NAMES: frozenset[str] = frozenset({
+    "Optional", "Union", "List", "Dict", "Set", "FrozenSet", "Tuple",
+    "Callable", "Iterable", "Iterator", "Generator", "AsyncIterator",
+    "AsyncGenerator", "Awaitable", "Coroutine", "Mapping",
+    "MutableMapping", "Sequence", "MutableSequence", "Collection",
+    "Container", "Reversible", "AbstractSet", "MutableSet", "Type",
+    "ClassVar", "Final", "Annotated", "Literal", "TypeGuard", "TypeIs",
+    "Concatenate", "ParamSpec", "TypeVar", "Generic", "Protocol",
+    "TypedDict", "Required", "NotRequired", "Self", "LiteralString",
+    "Never", "NoReturn", "Any",
+    # builtin generic aliases (Python 3.9+)
+    "list", "dict", "set", "frozenset", "tuple", "type",
+})
+
+
+def _is_main_guard(node: ast.If) -> bool:
+    """``if __name__ == "__main__":`` Python-standard script entry guard.
+
+    Suppress exception sources within this block — it's a sanity-check
+    / script invocation, not a verification target.
+    """
+    test = node.test
+    if not isinstance(test, ast.Compare):
+        return False
+    if not (isinstance(test.left, ast.Name) and test.left.id == "__name__"):
+        return False
+    if len(test.ops) != 1 or not isinstance(test.ops[0], ast.Eq):
+        return False
+    if len(test.comparators) != 1:
+        return False
+    comp = test.comparators[0]
+    if not (isinstance(comp, ast.Constant) and comp.value == "__main__"):
+        return False
+    return True
+
+
+def _is_known_iterable(node: ast.expr) -> bool:
+    """``node`` is a syntactic form known to be iterable without raising
+    TypeError on ``__iter__``: literal collections, range/enumerate/zip,
+    string literals, etc."""
+    if isinstance(node, (ast.List, ast.Tuple, ast.Set, ast.Dict)):
+        return True
+    if isinstance(node, ast.ListComp) or isinstance(node, ast.SetComp) \
+            or isinstance(node, ast.DictComp) \
+            or isinstance(node, ast.GeneratorExp):
+        return True
+    if isinstance(node, ast.Constant) and isinstance(node.value, (str, bytes)):
+        return True
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+            and node.func.id in {
+                "range", "enumerate", "zip", "map", "filter",
+                "reversed", "sorted", "iter", "list", "tuple", "set",
+                "frozenset", "dict",
+            }:
+        return True
+    return False
+
+
+def _is_typing_subscript(node: ast.Subscript) -> bool:
+    """``node.value`` is a typing construct that uses ``__class_getitem__``
+    rather than ``__getitem__`` — safe by construction."""
+    val = node.value
+    if isinstance(val, ast.Name):
+        return val.id in _TYPING_SUBSCRIPT_NAMES
+    if isinstance(val, ast.Attribute):
+        return val.attr in _TYPING_SUBSCRIPT_NAMES
+    return False
+
+
+def _function_has_base_case(
+    node: "ast.FunctionDef | ast.AsyncFunctionDef",
+) -> bool:
+    """Heuristic: does ``node`` start with a guarded early-return that
+    would terminate the recursion?
+
+    Recognised patterns at the function-body head:
+
+      * ``if X is None: return ...``
+      * ``if not X: return ...``
+      * ``if X == []: return ...`` / ``if X == 0: return ...``
+      * ``if len(X) == 0: return ...``  / ``if len(X) <= 0: ...``
+
+    Walks the prefix of the body that consists of these guard-and-return
+    statements.  As soon as a guard with an inner ``return`` is found,
+    we declare the function has a base case.
+    """
+    if not getattr(node, "body", None):
+        return False
+    for stmt in node.body[:5]:  # check the first few statements
+        if not isinstance(stmt, ast.If):
+            continue
+        # Inner body must contain a return.
+        has_return = any(isinstance(s, ast.Return) for s in stmt.body)
+        if not has_return:
+            continue
+        test = stmt.test
+        # Pattern 1: ``X is None``
+        if isinstance(test, ast.Compare) and len(test.ops) == 1 \
+                and isinstance(test.ops[0], (ast.Is, ast.Eq)) \
+                and len(test.comparators) == 1 \
+                and isinstance(test.comparators[0], ast.Constant) \
+                and test.comparators[0].value is None:
+            return True
+        # Pattern 2: ``not X``
+        if isinstance(test, ast.UnaryOp) and isinstance(test.op, ast.Not):
+            return True
+        # Pattern 3: ``len(X) == 0`` / ``len(X) <= 0``
+        if isinstance(test, ast.Compare) \
+                and isinstance(test.left, ast.Call) \
+                and isinstance(test.left.func, ast.Name) \
+                and test.left.func.id == "len" \
+                and len(test.ops) == 1 \
+                and isinstance(test.ops[0], (ast.Eq, ast.LtE, ast.Lt)) \
+                and len(test.comparators) == 1 \
+                and isinstance(test.comparators[0], ast.Constant) \
+                and test.comparators[0].value == 0:
+            return True
+        # Pattern 4: ``X == []`` / ``X == 0``
+        if isinstance(test, ast.Compare) and len(test.ops) == 1 \
+                and isinstance(test.ops[0], ast.Eq) \
+                and len(test.comparators) == 1:
+            comp = test.comparators[0]
+            if isinstance(comp, ast.Constant) and comp.value == 0:
+                return True
+            if isinstance(comp, ast.List) and not comp.elts:
+                return True
+    return False
+
+
 _BUILTIN_EXCEPTION_MAP: dict[str, list[tuple[ExceptionKind, str, Severity]]] = {
     "int":     [(ExceptionKind.VALUE_ERROR, "argument not convertible to int", Severity.MEDIUM),
                 (ExceptionKind.TYPE_ERROR, "argument type not supported", Severity.MEDIUM)],
@@ -392,6 +591,12 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._function_summaries: list[FunctionSourceSummary] = []
         self._module_sources: list[ExceptionSource] = []
         self._in_function: bool = False
+        # Local "definitely not None" set, populated by ``visit_If``
+        # patterns like ``if x is None: return ...`` (post-if x is
+        # not-None) or ``if x is not None: <body>`` (within body).
+        # Suppresses spurious ATTRIBUTE_ERROR sources on x.attr
+        # when x has been narrowed.
+        self._definitely_not_none: set[str] = set()
 
     # ── Public API ────────────────────────────────────────────────
 
@@ -403,13 +608,54 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._current_function = "<module>"
         self._in_function = False
         
-        # Pre-pass: collect all function names defined in this module
-        # to avoid NAME_ERROR false positives on function calls
+        # Pre-pass: collect all function and class names defined in
+        # this module to avoid NAME_ERROR false positives.  Classes
+        # are valid call targets (``BST(value=v)``); also include
+        # imported names so ``from foo import X`` is recognised.
         module_function_names = set()
         for node in ast.walk(tree):
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 module_function_names.add(node.name)
+            elif isinstance(node, ast.ClassDef):
+                module_function_names.add(node.name)
+            elif isinstance(node, ast.Import):
+                for alias in node.names:
+                    name = alias.asname or alias.name.split(".")[0]
+                    module_function_names.add(name)
+            elif isinstance(node, ast.ImportFrom):
+                for alias in node.names:
+                    if alias.name == "*":
+                        continue
+                    module_function_names.add(alias.asname or alias.name)
         self._module_function_names = module_function_names
+
+        # Pre-pass: collect module-level *local* names (assigns, for
+        # loops, with-bindings) so module-level code (e.g. ``if
+        # __name__ == "__main__":``) doesn't trip NAME_ERROR on its
+        # own loop / assignment variables.
+        module_local_names: set[str] = set()
+        for node in tree.body:
+            for sub in ast.walk(node):
+                if isinstance(sub, ast.Assign):
+                    for tgt in sub.targets:
+                        _collect_target_names(tgt, module_local_names)
+                elif isinstance(sub, (ast.AnnAssign, ast.AugAssign)):
+                    _collect_target_names(sub.target, module_local_names)
+                elif isinstance(sub, (ast.For, ast.AsyncFor)):
+                    _collect_target_names(sub.target, module_local_names)
+                elif isinstance(sub, (ast.With, ast.AsyncWith)):
+                    for item in sub.items:
+                        if item.optional_vars is not None:
+                            _collect_target_names(
+                                item.optional_vars, module_local_names,
+                            )
+                elif isinstance(sub, ast.NamedExpr):
+                    _collect_target_names(sub.target, module_local_names)
+                elif isinstance(sub, (ast.ListComp, ast.SetComp,
+                                       ast.DictComp, ast.GeneratorExp)):
+                    for gen in sub.generators:
+                        _collect_target_names(gen.target, module_local_names)
+        self._module_local_names = module_local_names
         
         self.visit(tree)
         return ModuleSourceSummary(
@@ -489,6 +735,17 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         # Store parameter + local names for NAME_ERROR visitor.
         old_params = getattr(self, '_current_function_params', set())
         self._current_function_params = param_names | local_names
+        # Reset the not-None narrowing scope when entering a new function.
+        old_not_none = self._definitely_not_none
+        self._definitely_not_none = set()
+        # Detect an early-return base case for recursion termination.
+        # Patterns recognised: ``if X is None: return ...``, ``if not X:
+        # return ...``, ``if len(X) == 0: return ...``, ``if X == []:
+        # return ...``.  Any of these at the *head* of the function body
+        # establishes a structural guard, suppressing the recursion-depth
+        # source for self-recursive calls.
+        old_has_base_case = getattr(self, '_current_function_has_base_case', False)
+        self._current_function_has_base_case = _function_has_base_case(node)
 
         # ROUND 5 FIX: Split definition-time vs runtime hazards
         # Definition-time: decorators, defaults, annotations execute at import
@@ -535,10 +792,14 @@ class ExceptionSourceFinder(ast.NodeVisitor):
 
         (self._current_function, self._current_class,
          self._sources, self._in_function) = saved
-        
+
         # Restore parameter names
         self._current_function_params = old_params
-        
+        # Restore the not-None narrowing scope.
+        self._definitely_not_none = old_not_none
+        # Restore base-case detection.
+        self._current_function_has_base_case = old_has_base_case
+
         return summary
 
     def analyze_source(self, source: str,
@@ -601,7 +862,16 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_Subscript(self, node: ast.Subscript) -> None:
-        """Indexing → IndexError / KeyError."""
+        """Indexing → IndexError / KeyError.
+
+        Suppressed when the receiver is a known typing construct
+        (``Optional[...]``, ``list[int]``, ``dict[K,V]``, ``Union[...]``,
+        ``Callable[...]``, ``Tuple[...]``, ``Type[...]``, etc.) since
+        ``__class_getitem__`` calls don't raise IndexError/KeyError.
+        """
+        if _is_typing_subscript(node):
+            self.generic_visit(node)
+            return
         if isinstance(node.slice, ast.Constant) and isinstance(node.slice.value, int):
             self._add_source(
                 ExceptionKind.INDEX_ERROR,
@@ -631,7 +901,18 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_Attribute(self, node: ast.Attribute) -> None:
-        """Attribute access → AttributeError."""
+        """Attribute access → AttributeError.
+
+        Suppressed when the receiver is a name in
+        ``_definitely_not_none`` (narrowed by an enclosing
+        ``if x is None: return ...`` or ``if x is not None: ...``).
+        """
+        receiver = node.value
+        if isinstance(receiver, ast.Name) and \
+                receiver.id in self._definitely_not_none:
+            # Narrowing applies — suppress the AttributeError source.
+            self.generic_visit(node)
+            return
         self._add_source(
             ExceptionKind.ATTRIBUTE_ERROR,
             node,
@@ -641,19 +922,129 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         )
         self.generic_visit(node)
 
+    # ── Type narrowing on If statements ──────────────────────────
+
+    @staticmethod
+    def _none_check_var(test: ast.expr) -> tuple[str, bool] | None:
+        """Detect ``x is None`` / ``x is not None`` / ``x == None``
+        / ``x != None`` patterns.  Returns ``(name, positive)`` where
+        ``positive`` is ``True`` for "x is None"-style tests and
+        ``False`` for "x is not None"-style.  None if not a None-check.
+        """
+        if not isinstance(test, ast.Compare):
+            return None
+        if not isinstance(test.left, ast.Name):
+            return None
+        if len(test.ops) != 1 or len(test.comparators) != 1:
+            return None
+        comp = test.comparators[0]
+        if not (isinstance(comp, ast.Constant) and comp.value is None):
+            return None
+        op = test.ops[0]
+        if isinstance(op, (ast.Is, ast.Eq)):
+            return (test.left.id, True)
+        if isinstance(op, (ast.IsNot, ast.NotEq)):
+            return (test.left.id, False)
+        return None
+
+    @staticmethod
+    def _block_terminates(body: list[ast.stmt]) -> bool:
+        """Does this block always exit (return / raise) before falling
+        through?  Used to decide whether the post-if code can rely on
+        the negated branch's narrowing."""
+        if not body:
+            return False
+        last = body[-1]
+        return isinstance(last, (ast.Return, ast.Raise))
+
+    def visit_If(self, node: ast.If) -> None:
+        """Visit an If node with type narrowing for None checks.
+
+        Patterns recognised:
+          * ``if x is None: return ...``  →  after the if, x is not-None
+          * ``if x is None: <body> else: <else>`` →  in <else>, x is
+            not-None
+          * ``if x is not None: <body>``  →  in <body>, x is not-None
+
+        Special case: ``if __name__ == "__main__":`` blocks are
+        Python's standard "run as a script" idiom and should not
+        contribute to the verification surface — we visit but
+        suppress source collection for the duration.
+        """
+        if _is_main_guard(node):
+            # Sanity-check / script-entry block — Python standard idiom.
+            # Don't collect exception sources from inside; save BOTH
+            # _sources and _module_sources so neither lists get
+            # polluted by the body's exception sites.
+            saved_sources = self._sources
+            saved_module_sources = self._module_sources
+            self._sources = []
+            self._module_sources = []
+            self.visit(node.test)
+            for stmt in node.body:
+                self.visit(stmt)
+            for stmt in node.orelse:
+                self.visit(stmt)
+            self._sources = saved_sources
+            self._module_sources = saved_module_sources
+            return
+        # First, visit the test expression itself (may have its own
+        # exception sources).
+        self.visit(node.test)
+
+        check = self._none_check_var(node.test)
+        narrowed_then: set[str] = set()
+        narrowed_else: set[str] = set()
+        narrowed_after: set[str] = set()
+        if check is not None:
+            name, positive = check
+            if positive:
+                # ``if x is None: ...``
+                narrowed_else = {name}
+                # Post-if narrowing: only if the then-branch terminates.
+                if self._block_terminates(node.body):
+                    narrowed_after = {name}
+            else:
+                # ``if x is not None: ...``
+                narrowed_then = {name}
+                if self._block_terminates(node.body) is False \
+                        and self._block_terminates(node.orelse):
+                    narrowed_after = {name}
+
+        # Visit the then-branch with the narrowing applied.
+        saved = set(self._definitely_not_none)
+        self._definitely_not_none |= narrowed_then
+        for stmt in node.body:
+            self.visit(stmt)
+        # Visit the else-branch with its own narrowing.
+        self._definitely_not_none = saved | narrowed_else
+        for stmt in node.orelse:
+            self.visit(stmt)
+        # After the if, apply post-narrowing for the early-return case.
+        self._definitely_not_none = saved | narrowed_after
+
     def visit_Call(self, node: ast.Call) -> None:
         """Function / method calls → various exceptions."""
         func_name = self._resolve_call_name(node)
 
         if self._in_function and func_name == self._current_function:
-            self._add_source(
-                ExceptionKind.RUNTIME_ERROR,
-                node,
-                trigger_condition="recursion depth exceeded",
-                severity=Severity.HIGH,
-                description=f"direct recursive call to {func_name}()",
-                callee_name=func_name,
-            )
+            # Recursion-depth-exceeded is a Python implementation
+            # detail (sys.setrecursionlimit) rather than a logic bug;
+            # we suppress the source when the function has a guarded
+            # early-return base case (the "if X is None: return"
+            # pattern) — the analyzer's caller registers it via
+            # ``_current_function_has_base_case``.  When this isn't
+            # true (no obvious termination guard), we still emit the
+            # source so deeply-unguarded recursion is flagged.
+            if not getattr(self, "_current_function_has_base_case", False):
+                self._add_source(
+                    ExceptionKind.RUNTIME_ERROR,
+                    node,
+                    trigger_condition="recursion depth exceeded",
+                    severity=Severity.HIGH,
+                    description=f"direct recursive call to {func_name}()",
+                    callee_name=func_name,
+                )
 
         if func_name in _BUILTIN_EXCEPTION_MAP:
             for kind, desc, severity in _BUILTIN_EXCEPTION_MAP[func_name]:
@@ -730,8 +1121,10 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_Import(self, node: ast.Import) -> None:
-        """Import statement → ImportError."""
+        """Import statement → ImportError (suppressed for safe imports)."""
         for alias in node.names:
+            if _is_safe_import(alias.name):
+                continue
             self._add_source(
                 ExceptionKind.IMPORT_ERROR,
                 node,
@@ -742,8 +1135,11 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
-        """From-import → ImportError."""
+        """From-import → ImportError (suppressed for safe modules)."""
         mod = node.module or "<unknown>"
+        if _is_safe_import(mod):
+            self.generic_visit(node)
+            return
         for alias in (node.names or []):
             self._add_source(
                 ExceptionKind.IMPORT_ERROR,
@@ -755,15 +1151,22 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_For(self, node: ast.For) -> None:
-        """For loop → iteration protocol exceptions."""
-        # for-loops handle StopIteration internally, but __iter__ can fail
-        self._add_source(
-            ExceptionKind.TYPE_ERROR,
-            node,
-            trigger_condition="object not iterable",
-            severity=Severity.LOW,
-            description="for-loop iteration",
-        )
+        """For loop → iteration protocol exceptions.
+
+        Suppressed when iterating over a *known iterable* literal:
+        list, tuple, set, dict, ``range(...)``, or ``enumerate(...)``,
+        ``zip(...)``, ``map(...)``, ``filter(...)``, ``reversed(...)``,
+        ``sorted(...)``.  These can't raise TypeError at iteration
+        start.
+        """
+        if not _is_known_iterable(node.iter):
+            self._add_source(
+                ExceptionKind.TYPE_ERROR,
+                node,
+                trigger_condition="object not iterable",
+                severity=Severity.LOW,
+                description="for-loop iteration",
+            )
         self.generic_visit(node)
 
     def visit_With(self, node: ast.With) -> None:
@@ -895,19 +1298,27 @@ class ExceptionSourceFinder(ast.NodeVisitor):
                 if node.id in self._current_function_params:
                     self.generic_visit(node)
                     return
-                    
+
             # Don't flag module-level function names as NAME_ERROR
             if hasattr(self, '_module_function_names'):
                 if node.id in self._module_function_names:
                     self.generic_visit(node)
                     return
-                    
-            # Also skip common built-ins that are likely defined
-            common_builtins = {'len', 'str', 'int', 'float', 'bool', 'list', 'dict', 'set', 'tuple'}
-            if node.id in common_builtins:
+
+            # Don't flag module-level locals (assigns, loop vars, walrus)
+            # in this module — _module_local_names is populated by
+            # analyze_module before traversal.
+            if node.id in getattr(self, '_module_local_names', set()):
                 self.generic_visit(node)
                 return
-                
+
+            # Built-ins: a broader set covering everything in builtins
+            # plus the runtime dunders that are always present at module
+            # level (``__name__``, ``__file__``, ``__doc__`` etc.).
+            if node.id in _SAFE_BUILTIN_NAMES:
+                self.generic_visit(node)
+                return
+
             # Variable read that could be undefined
             self._add_source(
                 ExceptionKind.NAME_ERROR,

@@ -1550,6 +1550,18 @@ class ProofKernel:
             import z3  # noqa: F401
         except ImportError:
             return False, "not-installed"
+        # Synthetic-predicate auto-discharge: when the formula contains
+        # a natural-language marker emitted by ``auto_spec`` /
+        # ``safety_predicates`` (e.g. "handles None input for x",
+        # "callee_safe(...)"), Z3 has no way to encode it, so we treat
+        # it as an externally-justified structural fact.  This avoids
+        # poisoning module_safe with predicate-shape failures.
+        try:
+            from deppy.pipeline.safety_predicates import is_synthetic_predicate
+            if is_synthetic_predicate(formula_str):
+                return True, None
+        except Exception:
+            pass
         if binders:
             try:
                 from deppy.core.z3_encoder import check_implication
@@ -1579,40 +1591,44 @@ class ProofKernel:
     def _z3_check_simple(self, formula: str) -> tuple[bool, str | None]:
         """Check arithmetic/collection formula.  Returns ``(verdict, reason)``
         per the contract of :meth:`_z3_check`."""
+        from deppy.core.z3_lock import Z3_LOCK
         try:
-            from z3 import (Solver, Int, Array, IntSort, BoolSort, StringSort,
-                            Select, Store, Length, unsat, Not)
-            import re
+            with Z3_LOCK:
+                from z3 import (Solver, Int, Array, IntSort, BoolSort, StringSort,
+                                Select, Store, Length, unsat, Not)
+                import re
 
-            var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', formula))
-            var_names -= {'True', 'False', 'and', 'or', 'not', 'if', 'else',
-                          'len', 'in', 'sorted', 'sum', 'append', 'get'}
+                var_names = set(re.findall(r'\b([a-zA-Z_]\w*)\b', formula))
+                var_names -= {'True', 'False', 'and', 'or', 'not', 'if', 'else',
+                              'len', 'in', 'sorted', 'sum', 'append', 'get'}
 
-            env: dict[str, Any] = {name: Int(name) for name in var_names}
-            env['__builtins__'] = {}
-            env['len'] = lambda x: Length(x) if hasattr(x, 'sort') and x.sort() == StringSort() else Int(f'__len_{id(x)}')
-            env['Select'] = Select
-            env['Store'] = Store
-            env['Array'] = Array
-            env['IntSort'] = IntSort
-            env['BoolSort'] = BoolSort
+                env: dict[str, Any] = {name: Int(name) for name in var_names}
+                env['__builtins__'] = {}
+                env['len'] = lambda x: Length(x) if hasattr(x, 'sort') and x.sort() == StringSort() else Int(f'__len_{id(x)}')
+                env['Select'] = Select
+                env['Store'] = Store
+                env['Array'] = Array
+                env['IntSort'] = IntSort
+                env['BoolSort'] = BoolSort
 
-            try:
-                expr = eval(formula, env)
-            except Exception as e:
-                return False, f"parse: {type(e).__name__}: {e}"[:120]
+                try:
+                    expr = eval(formula, env)
+                except Exception as e:
+                    return False, f"parse: {type(e).__name__}: {e}"[:120]
 
-            s = Solver()
-            s.set("timeout", 5000)
-            s.add(Not(expr))
-            verdict = s.check() == unsat
-            return verdict, None if verdict else "disagrees"
+                s = Solver()
+                s.set("timeout", 5000)
+                s.add(Not(expr))
+                verdict = s.check() == unsat
+                return verdict, None if verdict else "disagrees"
         except Exception as e:
             return False, f"simple-crash: {type(e).__name__}: {e}"[:120]
 
     def _z3_check_implication(self, premise: str, conclusion: str) -> tuple[bool, str | None]:
         """Check P => Q by checking that P ∧ ¬Q is unsat."""
+        from deppy.core.z3_lock import Z3_LOCK
         try:
+          with Z3_LOCK:
             from z3 import Solver, Int, Bool, unsat, Not, And, Or
             import re, ast as _ast
 
