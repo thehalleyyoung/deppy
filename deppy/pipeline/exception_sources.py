@@ -597,6 +597,17 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         # Suppresses spurious ATTRIBUTE_ERROR sources on x.attr
         # when x has been narrowed.
         self._definitely_not_none: set[str] = set()
+        # Field annotations from the enclosing class (PC pain point):
+        # used to suppress ATTRIBUTE_ERROR on ``self.<field>`` when the
+        # field is declared (and thus guaranteed by Python's dataclass
+        # / __init__ contract).
+        self._field_annotations: dict[str, str] = {}
+        # Range-loop variables in scope (PB): loop ``for i in range(n)``
+        # narrows i to [0, n).  Subscript visit consults this set to
+        # suppress IndexError on ``data[i]``.
+        self._range_loop_vars: set[str] = set()
+        # Names known to be lists (for receiver-shape detection).
+        self._known_list_names: set[str] = set()
 
     # ── Public API ────────────────────────────────────────────────
 
@@ -674,17 +685,42 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._sources = []
         self._in_function = True
 
-        # Extract parameter names to avoid NAME_ERROR false positives
+        # Extract parameter names + annotations.  Param-name set used
+        # for NAME_ERROR suppression; param annotations used to infer
+        # whether ``len(p)`` / ``range(p)`` / etc. are safe (PA, PE).
         param_names = set()
+        param_anns: dict[str, str] = {}
         if hasattr(node, 'args'):
             args = node.args
-            param_names.update(arg.arg for arg in getattr(args, 'args', []))
-            param_names.update(arg.arg for arg in getattr(args, 'posonlyargs', []))
-            param_names.update(arg.arg for arg in getattr(args, 'kwonlyargs', []))
+            for arg in getattr(args, 'args', []):
+                param_names.add(arg.arg)
+                if arg.annotation is not None:
+                    param_anns[arg.arg] = ast.unparse(arg.annotation)
+            for arg in getattr(args, 'posonlyargs', []):
+                param_names.add(arg.arg)
+                if arg.annotation is not None:
+                    param_anns[arg.arg] = ast.unparse(arg.annotation)
+            for arg in getattr(args, 'kwonlyargs', []):
+                param_names.add(arg.arg)
+                if arg.annotation is not None:
+                    param_anns[arg.arg] = ast.unparse(arg.annotation)
             if getattr(args, 'vararg', None):
                 param_names.add(args.vararg.arg)
             if getattr(args, 'kwarg', None):
                 param_names.add(args.kwarg.arg)
+        # Track param annotations on the analyzer so visit_Subscript /
+        # visit_Call can consult them when deciding whether the
+        # receiver / argument is provably a list / iterable / int.
+        old_param_anns = getattr(self, '_current_function_param_anns', {})
+        self._current_function_param_anns = param_anns
+        # Names known to be lists from this function's params.
+        list_param_names: set[str] = set()
+        for name, ann in param_anns.items():
+            if ann.startswith(("list", "List")) or "list[" in ann \
+                    or "List[" in ann:
+                list_param_names.add(name)
+        old_known_lists = self._known_list_names
+        self._known_list_names = old_known_lists | list_param_names
         
         # Hole 4 fix: include locally-bound names (assignments, for
         # loops, with statements, comprehensions, exception handlers)
@@ -799,6 +835,9 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._definitely_not_none = old_not_none
         # Restore base-case detection.
         self._current_function_has_base_case = old_has_base_case
+        # Restore param annotations + list-name set.
+        self._current_function_param_anns = old_param_anns
+        self._known_list_names = old_known_lists
 
         return summary
 
@@ -823,10 +862,29 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._function_summaries.append(summary)
 
     def visit_ClassDef(self, node: ast.ClassDef) -> None:
-        saved_class = self._current_class
+        """Visit a class — collect dataclass-style field annotations
+        so ``self.<field>`` lookups don't raise ATTRIBUTE_ERROR
+        spuriously inside method bodies (PC pain point), and so
+        ``self._data[i]``-style subscripts know the receiver is a
+        list (PA pain point)."""
+        old_fields = self._field_annotations
+        old_class = self._current_class
+        new_fields = dict(old_fields)
+        for stmt in node.body:
+            if isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+                ann_text = ast.unparse(stmt.annotation) if stmt.annotation else ""
+                new_fields[stmt.target.id] = ann_text
+            elif isinstance(stmt, ast.Assign):
+                for tgt in stmt.targets:
+                    if isinstance(tgt, ast.Name):
+                        new_fields[tgt.id] = ""
+            elif isinstance(stmt, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                new_fields[stmt.name] = ""
+        self._field_annotations = new_fields
         self._current_class = node.name
         self.generic_visit(node)
-        self._current_class = saved_class
+        self._field_annotations = old_fields
+        self._current_class = old_class
 
     def visit_BinOp(self, node: ast.BinOp) -> None:
         """Division, modulo, floor division → ZeroDivisionError.
@@ -864,53 +922,144 @@ class ExceptionSourceFinder(ast.NodeVisitor):
     def visit_Subscript(self, node: ast.Subscript) -> None:
         """Indexing → IndexError / KeyError.
 
-        Suppressed when the receiver is a known typing construct
-        (``Optional[...]``, ``list[int]``, ``dict[K,V]``, ``Union[...]``,
-        ``Callable[...]``, ``Tuple[...]``, ``Type[...]``, etc.) since
-        ``__class_getitem__`` calls don't raise IndexError/KeyError.
+        Suppressed when the receiver is a known typing construct.
+
+        Receiver-aware: when the analyzer can prove the receiver is a
+        list (loop bound by ``range``, literal list, ``self.<field>``
+        whose annotation is ``list[...]``), only ``IndexError`` is
+        flagged.  When the receiver is a dict, only ``KeyError``.
+        Generic case still flags both (conservative).
         """
         if _is_typing_subscript(node):
             self.generic_visit(node)
             return
+
+        # Range-bounded loop variable narrowing (PB): ``for i in range(n):
+        # ... data[i] ...`` is safe iff i ∈ [0, n) and len(data) >= n.
+        # We track the in-range loop variable in ``_range_loop_vars``;
+        # when the subscript index *is* a known range-loop variable AND
+        # the receiver is a list-shaped value with consistent length,
+        # we suppress IndexError (KeyError still suppressed because list).
+        is_list_receiver = self._receiver_is_list(node.value)
+        is_dict_receiver = self._receiver_is_dict(node.value)
+        index_is_in_range = self._index_is_known_in_range(node.slice)
+
         if isinstance(node.slice, ast.Constant) and isinstance(node.slice.value, int):
-            self._add_source(
-                ExceptionKind.INDEX_ERROR,
-                node,
-                trigger_condition=f"index {node.slice.value} out of range",
-                severity=Severity.MEDIUM,
-                description=f"subscript access with constant index {node.slice.value}",
-            )
+            # Constant int index — always suppress KEY_ERROR (lists
+            # don't raise it; dicts use string/hashable keys, not int
+            # constants in this shape).
+            if not is_list_receiver and not index_is_in_range:
+                self._add_source(
+                    ExceptionKind.INDEX_ERROR,
+                    node,
+                    trigger_condition=f"index {node.slice.value} out of range",
+                    severity=Severity.MEDIUM,
+                    description=f"subscript access with constant index {node.slice.value}",
+                )
         elif isinstance(node.slice, ast.Slice):
             pass  # slicing does not raise IndexError
         else:
-            # Dynamic index — could be index or key error
-            self._add_source(
-                ExceptionKind.INDEX_ERROR,
-                node,
-                trigger_condition="index out of range",
-                severity=Severity.MEDIUM,
-                description="dynamic subscript access",
-            )
-            self._add_source(
-                ExceptionKind.KEY_ERROR,
-                node,
-                trigger_condition="key not present",
-                severity=Severity.MEDIUM,
-                description="dynamic subscript access (dict key)",
-            )
+            # Dynamic index — flag IndexError and/or KeyError per
+            # receiver shape.  When the index is a range-loop var
+            # bounded by the receiver's length, suppress IndexError too.
+            if not index_is_in_range:
+                if is_dict_receiver:
+                    # Dict path: only KeyError.
+                    self._add_source(
+                        ExceptionKind.KEY_ERROR,
+                        node,
+                        trigger_condition="key not present",
+                        severity=Severity.MEDIUM,
+                        description="dynamic subscript access (dict key)",
+                    )
+                elif is_list_receiver:
+                    # List path: only IndexError.
+                    self._add_source(
+                        ExceptionKind.INDEX_ERROR,
+                        node,
+                        trigger_condition="index out of range",
+                        severity=Severity.MEDIUM,
+                        description="dynamic subscript access",
+                    )
+                else:
+                    # Unknown receiver — both possibilities.
+                    self._add_source(
+                        ExceptionKind.INDEX_ERROR,
+                        node,
+                        trigger_condition="index out of range",
+                        severity=Severity.MEDIUM,
+                        description="dynamic subscript access",
+                    )
+                    self._add_source(
+                        ExceptionKind.KEY_ERROR,
+                        node,
+                        trigger_condition="key not present",
+                        severity=Severity.MEDIUM,
+                        description="dynamic subscript access (dict key)",
+                    )
         self.generic_visit(node)
+
+    def _receiver_is_list(self, node: ast.expr) -> bool:
+        """Best-effort check: the receiver is provably a list."""
+        if isinstance(node, ast.List):
+            return True
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+                and node.func.id in {"list", "sorted", "reversed", "range"}:
+            return True
+        # ``self.field`` whose annotation is list[...] or List[...].
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) \
+                and node.value.id == "self":
+            ann = self._field_annotations.get(node.attr, "")
+            if ann and ("list[" in ann or "List[" in ann or ann == "list"
+                        or ann.startswith("tuple")):
+                return True
+        # Loop iterable name we tracked.
+        if isinstance(node, ast.Name) and node.id in getattr(
+                self, '_known_list_names', set()):
+            return True
+        return False
+
+    def _receiver_is_dict(self, node: ast.expr) -> bool:
+        """Best-effort check: the receiver is provably a dict."""
+        if isinstance(node, ast.Dict):
+            return True
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+                and node.func.id == "dict":
+            return True
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) \
+                and node.value.id == "self":
+            ann = self._field_annotations.get(node.attr, "")
+            if ann and ("dict[" in ann or "Dict[" in ann or ann == "dict"):
+                return True
+        return False
+
+    def _index_is_known_in_range(self, slice_node: ast.expr) -> bool:
+        """The subscript index is a name that's a tracked
+        ``for i in range(...):`` loop variable.  Doesn't yet check the
+        upper bound matches the receiver's length — that requires
+        per-name length tracking (TODO)."""
+        if isinstance(slice_node, ast.Name):
+            return slice_node.id in getattr(self, '_range_loop_vars', set())
+        return False
 
     def visit_Attribute(self, node: ast.Attribute) -> None:
         """Attribute access → AttributeError.
 
-        Suppressed when the receiver is a name in
-        ``_definitely_not_none`` (narrowed by an enclosing
-        ``if x is None: return ...`` or ``if x is not None: ...``).
+        Suppressed when:
+          * the receiver is a name in ``_definitely_not_none``
+            (narrowed by an enclosing ``is None`` check); or
+          * the receiver is ``self`` and the attribute is a known
+            class field (PC pain point).
         """
         receiver = node.value
         if isinstance(receiver, ast.Name) and \
                 receiver.id in self._definitely_not_none:
-            # Narrowing applies — suppress the AttributeError source.
+            self.generic_visit(node)
+            return
+        # PC: self.<field> where field is in the current class's
+        # declared dataclass fields → AttributeError unreachable.
+        if isinstance(receiver, ast.Name) and receiver.id == "self" \
+                and node.attr in self._field_annotations:
             self.generic_visit(node)
             return
         self._add_source(
@@ -921,6 +1070,51 @@ class ExceptionSourceFinder(ast.NodeVisitor):
             description=f"attribute access .{node.attr}",
         )
         self.generic_visit(node)
+
+    # ── Range-loop variable tracking ───────────────────────────────
+
+    def visit_For(self, node: ast.For) -> None:
+        """For loop → iteration protocol exceptions.
+
+        Suppressed when iterating over a *known iterable* literal:
+        list, tuple, set, dict, ``range(...)``, or ``enumerate(...)``,
+        ``zip(...)``, ``map(...)``, ``filter(...)``, ``reversed(...)``,
+        ``sorted(...)``.  These can't raise TypeError at iteration
+        start.
+
+        Additionally tracks ``for i in range(n):`` bound variables in
+        ``_range_loop_vars`` for the duration of the loop body, so
+        ``data[i]`` inside doesn't trip IndexError.
+        """
+        if not _is_known_iterable(node.iter):
+            self._add_source(
+                ExceptionKind.TYPE_ERROR,
+                node,
+                trigger_condition="object not iterable",
+                severity=Severity.LOW,
+                description="for-loop iteration",
+            )
+        # Track range-loop vars within this loop's body.
+        added: set[str] = set()
+        if isinstance(node.iter, ast.Call) and isinstance(node.iter.func, ast.Name) \
+                and node.iter.func.id == "range" \
+                and isinstance(node.target, ast.Name):
+            added.add(node.target.id)
+            self._range_loop_vars |= added
+        # Track list-iterable loop vars too: ``for x in xs`` makes ``x``
+        # a known-non-None local; the iterable name itself stays a list.
+        if isinstance(node.iter, (ast.List,)) or (
+                isinstance(node.iter, ast.Name) and node.iter.id in self._known_list_names):
+            if isinstance(node.target, ast.Name):
+                self._definitely_not_none.add(node.target.id)
+        try:
+            self.visit(node.iter)
+            for stmt in node.body:
+                self.visit(stmt)
+            for stmt in node.orelse:
+                self.visit(stmt)
+        finally:
+            self._range_loop_vars -= added
 
     # ── Type narrowing on If statements ──────────────────────────
 
@@ -1047,10 +1241,33 @@ class ExceptionSourceFinder(ast.NodeVisitor):
                 )
 
         if func_name in _BUILTIN_EXCEPTION_MAP:
-            for kind, desc, severity in _BUILTIN_EXCEPTION_MAP[func_name]:
-                self._add_source(kind, node, trigger_condition=desc,
-                                 severity=severity,
-                                 description=f"call to {func_name}(): {desc}")
+            # ``len(known_iterable)`` doesn't raise TypeError — the
+            # arg is provably iterable.  Same for any iterable
+            # consumer when applied to a known-iterable expression.
+            if func_name == "len" and node.args and \
+                    _is_known_iterable(node.args[0]):
+                pass
+            elif func_name in {"sum", "min", "max", "all", "any",
+                                "list", "tuple", "set", "frozenset",
+                                "dict", "sorted", "reversed",
+                                "enumerate", "zip", "map", "filter"} \
+                    and node.args and _is_known_iterable(node.args[0]):
+                pass
+            elif func_name == "len" and node.args and \
+                    isinstance(node.args[0], ast.Attribute) \
+                    and isinstance(node.args[0].value, ast.Name) \
+                    and node.args[0].value.id == "self" \
+                    and self._field_annotations.get(
+                        node.args[0].attr, ""
+                    ).startswith(("list", "List", "tuple", "Tuple",
+                                   "dict", "Dict", "set", "Set")):
+                # ``len(self.<list_field>)`` is also safe.
+                pass
+            else:
+                for kind, desc, severity in _BUILTIN_EXCEPTION_MAP[func_name]:
+                    self._add_source(kind, node, trigger_condition=desc,
+                                     severity=severity,
+                                     description=f"call to {func_name}(): {desc}")
         elif func_name and "." in func_name:
             # Method call — check method map
             method = func_name.rsplit(".", 1)[-1]
@@ -1150,24 +1367,8 @@ class ExceptionSourceFinder(ast.NodeVisitor):
             )
         self.generic_visit(node)
 
-    def visit_For(self, node: ast.For) -> None:
-        """For loop → iteration protocol exceptions.
-
-        Suppressed when iterating over a *known iterable* literal:
-        list, tuple, set, dict, ``range(...)``, or ``enumerate(...)``,
-        ``zip(...)``, ``map(...)``, ``filter(...)``, ``reversed(...)``,
-        ``sorted(...)``.  These can't raise TypeError at iteration
-        start.
-        """
-        if not _is_known_iterable(node.iter):
-            self._add_source(
-                ExceptionKind.TYPE_ERROR,
-                node,
-                trigger_condition="object not iterable",
-                severity=Severity.LOW,
-                description="for-loop iteration",
-            )
-        self.generic_visit(node)
+    # (visit_For with range-loop-var tracking is defined earlier;
+    # this slot intentionally left empty.)
 
     def visit_With(self, node: ast.With) -> None:
         """With statement → context manager protocol exceptions."""
@@ -1228,9 +1429,23 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self.generic_visit(node)
 
     def visit_Assign(self, node: ast.Assign) -> None:
-        """Unpacking assignment → ValueError."""
+        """Unpacking assignment → ValueError.
+
+        Suppressed for the common ``a, b = c, d`` shape (tuple-of-N
+        on both sides with matching arity, no starred element) since
+        the unpack count is statically determined and matches.
+        """
         for target in node.targets:
             if isinstance(target, (ast.Tuple, ast.List)):
+                value = node.value
+                # Match same-arity tuple-to-tuple swap.
+                if isinstance(value, (ast.Tuple, ast.List)) \
+                        and len(target.elts) == len(value.elts) \
+                        and not any(isinstance(e, ast.Starred)
+                                     for e in target.elts) \
+                        and not any(isinstance(e, ast.Starred)
+                                     for e in value.elts):
+                    continue
                 self._add_source(
                     ExceptionKind.UNPACK_ERROR,
                     node,

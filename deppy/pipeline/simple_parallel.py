@@ -14,27 +14,46 @@ from typing import Any, Callable, Dict, List, Optional
 
 
 class SimpleParallelVerifier:
-    """Simple parallel function verifier for the safety pipeline."""
-    
+    """Simple parallel function verifier for the safety pipeline.
+
+    **Z3 thread-safety note**: Z3's C reference counting is not
+    thread-safe — even with all Z3 *call sites* locked, Python's
+    garbage collector can call ``__del__`` (which invokes
+    ``Z3_dec_ref``) on a Z3 object from any thread, racing the
+    locked thread's ``Z3_inc_ref`` / ``Z3_mk_*`` calls.  This races
+    with no available user-space remedy short of forcing
+    serialisation.
+
+    Therefore: ``verify_functions_parallel`` runs sequentially by
+    default.  Set ``DEPPY_PARALLEL=1`` in the environment to opt
+    into the (segfault-prone) parallel path for short jobs.
+    """
+
     def __init__(self, max_workers: Optional[int] = None):
-        self.max_workers = max_workers or 4  # Conservative default
+        self.max_workers = max_workers or 4  # informational
         self._progress_lock = threading.Lock()
         self._completed = 0
-        
+
     def verify_functions_parallel(
         self,
         function_names: List[str],
         verify_func: Callable[[str], Any],
         progress_callback: Optional[Callable[[str], None]] = None
     ) -> Dict[str, Any]:
-        """Verify functions in parallel when beneficial."""
-        
-        # Use sequential for small numbers of functions
-        if len(function_names) < 3:
-            return self._verify_sequential(function_names, verify_func, progress_callback)
-        
-        # Use parallel for larger sets
-        return self._verify_parallel(function_names, verify_func, progress_callback)
+        """Verify functions sequentially (default) or in parallel.
+
+        See class docstring for why we default to sequential.  The
+        ``DEPPY_PARALLEL`` env var opts back into the (potentially
+        unsafe) parallel path; we still don't recommend it.
+        """
+        import os
+        if os.environ.get("DEPPY_PARALLEL", "0") != "1":
+            return self._verify_sequential(
+                function_names, verify_func, progress_callback,
+            )
+        return self._verify_parallel(
+            function_names, verify_func, progress_callback,
+        )
     
     def _verify_sequential(
         self,
