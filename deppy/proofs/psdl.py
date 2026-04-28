@@ -1544,8 +1544,22 @@ class _Compiler:
                         mode = "lemma"
                         cite = rest[len("lemma "):].strip()
                     else:
-                        mode = "foundation"
-                        cite = rest
+                        # Check the tactic library before falling
+                        # back to a foundation citation.  When the
+                        # name (or its first whitespace-separated
+                        # token) matches a registered tactic, route
+                        # through the tactic-library dispatcher;
+                        # otherwise treat ``rest`` as a foundation.
+                        from deppy.proofs.tactic_library import (
+                            is_tactic as _is_tactic,
+                        )
+                        head = rest.split()[0] if rest else ""
+                        if _is_tactic(head):
+                            mode = "tactic"
+                            cite = head
+                        else:
+                            mode = "foundation"
+                            cite = rest
                 else:
                     mode = "z3"
                     cite = tag
@@ -1618,6 +1632,27 @@ class _Compiler:
                     base_type=PyBoolType(), predicate=claim,
                 ),
                 lemma_proof=Refl(Var(f"_closer_{cite}")),
+                body_proof=Refl(Var("_assert_body")),
+            )
+        if mode == "tactic":
+            # ``assert P, "by <tactic_name>"`` — route through the
+            # reusable tactic library.  The tactic builds a
+            # ProofTerm with the right *shape* for the named
+            # strategy; the user's actual base/step proofs are
+            # supplied via Cut around the call-site if needed.
+            from deppy.proofs.tactic_library import invoke_by_name
+            self._emit_lean(
+                indent,
+                f"have h_{stmt.lineno} : {claim} := by "
+                f"-- tactic_library.{cite}",
+            )
+            tactic_proof = invoke_by_name(cite, claim=claim)
+            return Cut(
+                hyp_name=f"h_{stmt.lineno}",
+                hyp_type=RefinementType(
+                    base_type=PyBoolType(), predicate=claim,
+                ),
+                lemma_proof=tactic_proof,
                 body_proof=Refl(Var("_assert_body")),
             )
         return Structural("unknown assert mode")

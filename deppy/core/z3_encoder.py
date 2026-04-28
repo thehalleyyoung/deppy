@@ -1,5 +1,28 @@
 """Type-aware Z3 encoding of Python predicates.
 
+This module also exposes three orthogonal extensions:
+
+* **Recursive datatypes** — :func:`_encode_recursive_datatype` detects
+  dataclasses that reference themselves (directly, via ``Optional``,
+  or via ``Union``) and emits a Z3 ``Datatype`` whose constructors
+  mirror the Python field shape.  The default encoding builds two
+  constructors (``leaf`` / ``node``) when an Optional self-reference
+  is present, otherwise one constructor per non-self combination.
+* **Polymorphic memoisation** — repeated encodings of the same shape
+  (e.g. ``list[int]`` mentioned in three different proofs) reuse the
+  same Z3 sort.  The cache is keyed by a hashable type signature
+  derived from the annotation AST, so two textually identical
+  annotations always resolve to the same Z3 sort.  Tests can clear
+  the cache via :func:`clear_encoding_cache`.
+* **Custom predicate registration** — :func:`register_custom_predicate`
+  lets a user attach a Z3-side recursive definition to a Python
+  predicate (e.g. ``is_balanced(tree)``).  The encoder consults the
+  registry when evaluating function calls and, on a hit, dispatches
+  to the registered Z3 closure rather than treating the call as
+  uninterpreted.
+
+
+
 The kernel's plain ``_z3_check_implication`` declares every free
 identifier as ``Int`` and falls back to heuristic ``Bool`` detection
 based on operator usage.  That works for arithmetic-only goals but
@@ -219,6 +242,59 @@ def _ast_to_z3(
     """
     helpers: dict[str, Any] = {}
 
+    # Polymorphic memoisation — when a structurally identical
+    # annotation has been encoded before, reuse the same Z3 sort.
+    # The expression (a ``Const``) is freshly bound to ``var_name``
+    # so two binders remain distinct, but the sort is shared so
+    # downstream proofs over both binders compose without mismatch.
+    #
+    # We thread the cache key into the Z3Encoding: on a cache hit,
+    # the inner encoder helpers (``_scalar_or_class`` /
+    # ``_generic_to_z3``) substitute the cached sort instead of
+    # declaring a fresh ``DeclareSort`` / ``Datatype.create()``.
+    sig = _type_signature(node)
+    if sig is not None and sig in _ENCODING_CACHE:
+        cached_sort, _ = _ENCODING_CACHE[sig]
+        prior = getattr(enc, "_cache_hit_sort", _SENTINEL)
+        enc._cache_hit_sort = cached_sort  # type: ignore[attr-defined]
+        try:
+            result = _ast_to_z3_body(
+                node, var_name, enc, context, z3, helpers,
+            )
+        finally:
+            if prior is _SENTINEL:
+                try:
+                    delattr(enc, "_cache_hit_sort")
+                except AttributeError:
+                    pass
+            else:
+                enc._cache_hit_sort = prior  # type: ignore[attr-defined]
+        return result
+    # Cache miss path — encode normally, store the resulting sort.
+    result = _ast_to_z3_body(node, var_name, enc, context, z3, helpers)
+    if sig is not None:
+        _ENCODING_CACHE[sig] = (result[0], result[2])
+    return result
+
+
+# Sentinel for "attribute was unset" detection above.
+_SENTINEL = object()
+
+
+def _ast_to_z3_body(
+    node: ast.expr,
+    var_name: str,
+    enc: Z3Encoding,
+    context,
+    z3,
+    helpers: dict[str, Any],
+) -> tuple[Any, Any, dict[str, Any]]:
+    """The original body of :func:`_ast_to_z3`, factored out so the
+    cache wrapper can call it.  Behaviour is unchanged from the
+    pre-extension implementation, except that user-class lookups
+    now also consult the recursive-datatype registry."""
+    cached_sort = getattr(enc, "_cache_hit_sort", None)
+
     # Resolve ``Optional[T]`` / ``T | None``.
     optional_inner = _peel_optional(node)
     if optional_inner is not None:
@@ -227,10 +303,13 @@ def _ast_to_z3(
             enc, context, z3,
         )
         helpers.update(inner_helpers)
-        Maybe = z3.Datatype(f"Maybe_{var_name}")
-        Maybe.declare("none")
-        Maybe.declare("some", ("value", inner_sort))
-        Maybe = Maybe.create()
+        if cached_sort is not None:
+            Maybe = cached_sort
+        else:
+            DT = z3.Datatype(f"Maybe_{var_name}")
+            DT.declare("none")
+            DT.declare("some", ("value", inner_sort))
+            Maybe = DT.create()
         helpers[f"isNone_{var_name}"] = Maybe.is_none
         helpers[f"isSome_{var_name}"] = Maybe.is_some
         helpers[f"value_{var_name}"] = Maybe.value
@@ -240,6 +319,12 @@ def _ast_to_z3(
     # Resolve ``Union[A, B, ...]`` / ``A | B | ...``.
     union_alts = _peel_union(node)
     if union_alts is not None and len(union_alts) >= 2:
+        if cached_sort is not None:
+            Union = cached_sort
+            for i in range(len(union_alts)):
+                helpers[f"is{i}_{var_name}"] = getattr(Union, f"is_case{i}")
+                helpers[f"value{i}_{var_name}"] = getattr(Union, f"value{i}")
+            return Union, z3.Const(var_name, Union), helpers
         # Build a Z3 datatype with one constructor per alternative.
         Datatype = z3.Datatype(f"Union_{var_name}")
         alt_sorts: list[Any] = []
@@ -268,12 +353,16 @@ def _ast_to_z3(
         return _generic_to_z3(node, var_name, enc, context, z3, helpers)
     if isinstance(node, ast.Constant) and node.value is None:
         # Bare ``None`` annotation — encode as a unit datatype.
+        if cached_sort is not None:
+            return cached_sort, z3.Const(var_name, cached_sort), helpers
         Unit = z3.Datatype(f"Unit_{var_name}")
         Unit.declare("unit")
         Unit = Unit.create()
         return Unit, z3.Const(var_name, Unit), helpers
 
     # Fall through — uninterpreted sort.
+    if cached_sort is not None:
+        return cached_sort, z3.Const(var_name, cached_sort), helpers
     sort = z3.DeclareSort(_unique_sort_name(var_name))
     return sort, z3.Const(var_name, sort), helpers
 
@@ -407,7 +496,16 @@ def _scalar_or_class(
                         Union, f"value{i}"
                     )
                 return Union, z3.Const(var_name, Union), helpers
-    # Unknown — uninterpreted sort.
+    # Recursive dataclass — registered via register_recursive_class.
+    if name in _RECURSIVE_CLASS_REGISTRY:
+        cls = _RECURSIVE_CLASS_REGISTRY[name]
+        if _is_recursive_dataclass(cls):
+            return _encode_recursive_datatype(cls, var_name, enc, z3)
+    # Unknown — uninterpreted sort.  Reuse the cached sort if the
+    # outer ``_ast_to_z3`` wrapper has stashed one for this signature.
+    cached_sort = getattr(enc, "_cache_hit_sort", None)
+    if cached_sort is not None:
+        return cached_sort, z3.Const(var_name, cached_sort), helpers
     sort = z3.DeclareSort(_unique_sort_name(name))
     return sort, z3.Const(var_name, sort), helpers
 
@@ -583,6 +681,9 @@ def _generic_to_z3(
         return sort, z3.Const(var_name, sort), helpers
 
     # Fall through — uninterpreted sort named after the head.
+    cached_sort = getattr(enc, "_cache_hit_sort", None)
+    if cached_sort is not None:
+        return cached_sort, z3.Const(var_name, cached_sort), helpers
     sort = z3.DeclareSort(_unique_sort_name(short))
     return sort, z3.Const(var_name, sort), helpers
 
@@ -889,6 +990,14 @@ def _eval_call(node: ast.Call, enc: Z3Encoding, z3) -> Optional[Any]:
     """
     fn = node.func
     if isinstance(fn, ast.Name):
+        # Custom predicate dispatch — consult the registry first so
+        # users can override even built-in names if they really want.
+        if fn.id in _CUSTOM_PREDICATES:
+            args = [_eval_node(a, enc, z3) for a in node.args]
+            if not any(a is None for a in args):
+                custom = _dispatch_custom_predicate(fn.id, args, enc, z3)
+                if custom is not None:
+                    return custom
         if fn.id == "len" and node.args:
             arg = node.args[0]
             if isinstance(arg, ast.Name):
@@ -1255,7 +1364,381 @@ def _unique_sort_name(base: str) -> str:
     return f"Deppy_{safe}_{n}"
 
 
+# ─────────────────────────────────────────────────────────────────────
+#  Extension 1 — Recursive datatypes
+# ─────────────────────────────────────────────────────────────────────
+#
+# Detect Python classes that are recursive ADTs (dataclasses whose
+# field types reference the class itself, possibly via Optional /
+# Union / list).  Build a Z3 ``Datatype`` with one constructor per
+# observed shape.  When all self-references are nullable (``Optional``
+# or ``T | None``), we synthesise a canonical ``leaf`` constructor
+# (no fields) plus a ``node`` constructor whose self-typed fields are
+# materialised directly (Z3 handles the recursive sort reference via
+# ``Datatype.declare`` referring to the in-construction type by name).
+# When self-references are non-nullable (e.g. a ``Cons`` cell with a
+# mandatory ``next``) we synthesise just the ``node`` constructor and
+# leave ``leaf`` out — but for safety we always add a ``leaf`` so the
+# datatype is well-founded.
+#
+# The resulting sort is cached in ``_RECURSIVE_DATATYPE_CACHE`` keyed
+# on the class object so repeated mentions of ``Tree`` use the same
+# Z3 sort.
+
+_RECURSIVE_DATATYPE_CACHE: dict[Any, tuple[Any, dict[str, Any]]] = {}
+
+# Name → class registry so the encoder can resolve a textual
+# annotation like ``"Tree"`` back to the user's dataclass.  Users
+# call ``register_recursive_class(Tree)`` once after defining the
+# class; subsequent encodings of any annotation referring to ``Tree``
+# (in any binder) will dispatch to ``_encode_recursive_datatype``.
+_RECURSIVE_CLASS_REGISTRY: dict[str, Any] = {}
+
+
+def register_recursive_class(cls: Any, *, name: Optional[str] = None) -> None:
+    """Register a recursive dataclass for Z3 encoding.
+
+    After registration, any binder annotated with the class's name
+    (or ``name``, when supplied) will be encoded via
+    :func:`_encode_recursive_datatype` rather than as an
+    uninterpreted sort.
+    """
+    _RECURSIVE_CLASS_REGISTRY[name or cls.__name__] = cls
+
+
+def unregister_recursive_class(name: str) -> None:
+    """Remove a recursive class registration."""
+    _RECURSIVE_CLASS_REGISTRY.pop(name, None)
+
+
+def _is_recursive_dataclass(cls: Any) -> bool:
+    """Return True iff ``cls`` is a dataclass that references itself
+    (directly, via ``Optional[Cls]``, ``Cls | None``, ``Union[Cls,...]``,
+    or ``list[Cls]``) in any field's type annotation.
+    """
+    try:
+        import dataclasses
+    except ImportError:
+        return False
+    if not dataclasses.is_dataclass(cls):
+        return False
+    cls_name = cls.__name__
+    for fld in dataclasses.fields(cls):
+        ann = fld.type
+        if isinstance(ann, str):
+            if cls_name in ann:
+                return True
+            continue
+        # Real type object — walk via repr.
+        if cls_name in repr(ann):
+            return True
+    return False
+
+
+def _self_ref_field_kind(field_type: Any, cls_name: str) -> Optional[str]:
+    """Classify how a field's annotation references ``cls_name``.
+
+    Returns one of:
+      * ``"none"`` — the field doesn't mention ``cls_name`` at all.
+      * ``"direct"`` — the field's type is exactly ``cls_name``.
+      * ``"optional"`` — the field is ``Optional[cls_name]`` /
+        ``cls_name | None``.
+      * ``"list"`` — the field is ``list[cls_name]``.
+      * ``"other"`` — references the class but in a way we don't
+        explicitly handle (treated like ``direct``).
+    """
+    if isinstance(field_type, str):
+        text = field_type.strip()
+    else:
+        text = repr(field_type)
+    if cls_name not in text:
+        return "none"
+    # Quick string heuristics — sufficient for the dataclass forms we
+    # expect (``Optional[Tree]``, ``Tree | None``, ``list[Tree]``).
+    if (text == cls_name or text == f"'{cls_name}'"
+            or text == f'"{cls_name}"'):
+        return "direct"
+    if (f"Optional[{cls_name}]" in text
+            or f"{cls_name} | None" in text
+            or f"None | {cls_name}" in text):
+        return "optional"
+    if f"list[{cls_name}]" in text or f"List[{cls_name}]" in text:
+        return "list"
+    return "other"
+
+
+def _scalar_field_sort(field_type: Any, z3) -> Optional[Any]:
+    """Map a non-self field annotation to a Z3 sort, where possible.
+
+    Returns ``None`` when the field type isn't a primitive we know
+    how to materialise without recursing into the full encoder
+    machinery (which would require a ``Z3Encoding`` we don't have at
+    the recursive-datatype-construction level).
+    """
+    if field_type is int or field_type == "int":
+        return z3.IntSort()
+    if field_type is bool or field_type == "bool":
+        return z3.BoolSort()
+    if field_type is float or field_type == "float":
+        return z3.RealSort()
+    if field_type is str or field_type == "str":
+        return z3.StringSort()
+    return None
+
+
+def _encode_recursive_datatype(
+    cls: Any,
+    var_name: str,
+    enc: Z3Encoding,
+    z3,
+) -> tuple[Any, Any, dict[str, Any]]:
+    """Build a Z3 ``Datatype`` for a recursive Python class.
+
+    Caches the resulting sort + accessor map on the class object so
+    repeated mentions reuse the same Z3 sort.  Returns
+    ``(sort, expr, helpers)`` like the other encoder helpers.
+    """
+    helpers: dict[str, Any] = {}
+    cached = _RECURSIVE_DATATYPE_CACHE.get(cls)
+    if cached is not None:
+        sort, cls_helpers = cached
+        # Register the per-class helpers under the var_name namespace
+        # so callers using ``contains_<var>`` style lookups still work.
+        helpers.update({
+            f"{k}__{var_name}": v for k, v in cls_helpers.items()
+        })
+        # Also expose the canonical (class-level) helper names so users
+        # can write ``leaf`` / ``node`` / ``is_leaf`` directly.
+        helpers.update(cls_helpers)
+        return sort, z3.Const(var_name, sort), helpers
+
+    import dataclasses
+    cls_name = cls.__name__
+    fields = list(dataclasses.fields(cls))
+
+    # Classify each field.
+    classifications: list[tuple[str, str, Any]] = []  # (name, kind, sort_or_None)
+    has_optional_self = False
+    for fld in fields:
+        kind = _self_ref_field_kind(fld.type, cls_name)
+        if kind == "optional":
+            has_optional_self = True
+            classifications.append((fld.name, "optional_self", None))
+        elif kind == "direct":
+            classifications.append((fld.name, "direct_self", None))
+        elif kind == "list":
+            classifications.append((fld.name, "list_self", None))
+        elif kind == "other":
+            classifications.append((fld.name, "direct_self", None))
+        else:
+            sort = _scalar_field_sort(fld.type, z3)
+            classifications.append((fld.name, "scalar", sort))
+
+    Datatype = z3.Datatype(cls_name)
+    # Always declare a leaf constructor so the datatype is well-founded.
+    Datatype.declare("leaf")
+
+    node_args: list[tuple[str, Any]] = []
+    for fname, kind, sort in classifications:
+        if kind in ("direct_self", "optional_self", "other"):
+            node_args.append((fname, Datatype))
+        elif kind == "list_self":
+            # Z3 has no first-class list-of-self; encode list-of-self
+            # as a recursive cons cell pattern wouldn't fit a single
+            # Datatype.declare here.  Fall back to a scalar Int to
+            # mark "the list of children" — coarse but safe.  Users
+            # who need list-of-children should split into nested
+            # datatypes outside this helper.
+            node_args.append((fname, z3.IntSort()))
+        else:
+            # scalar
+            node_args.append((fname, sort if sort is not None else z3.IntSort()))
+    Datatype.declare("node", *node_args)
+
+    Sort = Datatype.create()
+
+    cls_helpers: dict[str, Any] = {
+        "leaf": Sort.leaf,
+        "node": Sort.node,
+        "is_leaf": Sort.is_leaf,
+        "is_node": Sort.is_node,
+    }
+    # Per-field accessors.
+    for fname, _kind, _sort in classifications:
+        accessor = getattr(Sort, fname, None)
+        if accessor is not None:
+            cls_helpers[fname] = accessor
+
+    # Persist on cache.
+    _RECURSIVE_DATATYPE_CACHE[cls] = (Sort, cls_helpers)
+    helpers.update({
+        f"{k}__{var_name}": v for k, v in cls_helpers.items()
+    })
+    helpers.update(cls_helpers)
+    return Sort, z3.Const(var_name, Sort), helpers
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  Extension 2 — Polymorphic memoisation
+# ─────────────────────────────────────────────────────────────────────
+#
+# Two textually identical annotations should encode to the same Z3
+# sort so that downstream proofs can compose without sort mismatches.
+# We cache (sort, helper_template) keyed on a *type signature* derived
+# from the annotation AST.  The helper template stores helper-builder
+# closures, not bound expressions — those are bound at lookup time
+# against the requested ``var_name`` and ``enc`` so each call site
+# still gets a fresh ``z3.Const``/helper instance with the right name.
+
+_ENCODING_CACHE: dict[tuple, tuple[Any, dict]] = {}
+
+
+def _type_signature(node: ast.expr) -> Optional[tuple]:
+    """Compute a hashable structural fingerprint of an annotation AST.
+
+    Returns ``None`` when the annotation contains constructs we can't
+    hash safely (e.g. arbitrary calls, lambdas) — in which case the
+    caller skips caching.
+    """
+    if isinstance(node, ast.Name):
+        return ("name", node.id)
+    if isinstance(node, ast.Constant):
+        if node.value is None:
+            return ("const", "None")
+        return ("const", repr(node.value))
+    if isinstance(node, ast.Attribute):
+        return ("attr", _dotted_name(node))
+    if isinstance(node, ast.Subscript):
+        base = _type_signature(node.value)
+        if base is None:
+            return None
+        slc = node.slice
+        if isinstance(slc, ast.Tuple):
+            inners = tuple(_type_signature(e) for e in slc.elts)
+        else:
+            inners = (_type_signature(slc),)
+        if any(i is None for i in inners):
+            return None
+        return ("sub", base, inners)
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitOr):
+        l = _type_signature(node.left)
+        r = _type_signature(node.right)
+        if l is None or r is None:
+            return None
+        return ("bitor", l, r)
+    return None
+
+
+def clear_encoding_cache() -> None:
+    """Empty the polymorphic encoding cache and the recursive-datatype
+    cache.  Call this between tests that depend on fresh sorts.
+    """
+    _ENCODING_CACHE.clear()
+    _RECURSIVE_DATATYPE_CACHE.clear()
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  Extension 3 — Custom predicate registration
+# ─────────────────────────────────────────────────────────────────────
+#
+# Users register a Python predicate alongside a Z3 closure that
+# computes the predicate's value over the corresponding Z3 sort.  The
+# encoder, when evaluating a function call whose name matches a
+# registered predicate, calls the closure with the Z3-encoded
+# arguments instead of treating the call as uninterpreted.
+#
+# Registration carries an optional signature dict for documentation
+# and validation; the actual dispatch is purely by name.
+
+@dataclass
+class _CustomPredicate:
+    name: str
+    fn: Any                       # Python implementation (kept for reference)
+    signature: dict               # {"args": [...], "returns": "..."}
+    z3_builder: Any               # callable: (*z3_args, helpers) -> Z3 BoolRef
+
+
+_CUSTOM_PREDICATES: dict[str, _CustomPredicate] = {}
+
+
+def register_custom_predicate(
+    name: str,
+    fn: Any,
+    *,
+    signature: dict,
+    z3_builder: Optional[Any] = None,
+) -> None:
+    """Register a custom predicate ``name`` with the encoder.
+
+    ``fn`` is the Python implementation (kept as an opaque reference).
+    ``signature`` is a dict like ``{"args": ["Tree"], "returns": "bool"}``
+    used for documentation.  ``z3_builder`` is the closure the encoder
+    invokes when dispatching ``name(...)``: it receives the encoded
+    Z3 arguments (positional) plus a keyword ``helpers=`` mapping
+    drawn from the active :class:`Z3Encoding`, and returns a Z3
+    BoolRef (or any Z3 expression) for the call.
+
+    When ``z3_builder`` is ``None``, the call falls back to an
+    uninterpreted function declaration on the fly.
+    """
+    _CUSTOM_PREDICATES[name] = _CustomPredicate(
+        name=name, fn=fn, signature=signature, z3_builder=z3_builder,
+    )
+
+
+def unregister_custom_predicate(name: str) -> None:
+    """Remove a previously registered predicate.  Silent no-op when
+    ``name`` isn't registered."""
+    _CUSTOM_PREDICATES.pop(name, None)
+
+
+def list_custom_predicates() -> list[str]:
+    """Return the names of all currently registered predicates."""
+    return sorted(_CUSTOM_PREDICATES.keys())
+
+
+def _dispatch_custom_predicate(
+    name: str,
+    z3_args: list[Any],
+    enc: Z3Encoding,
+    z3,
+) -> Optional[Any]:
+    """Look up ``name`` in the custom-predicate registry and dispatch.
+
+    Returns the Z3 expression produced by the registered
+    ``z3_builder``, or ``None`` when ``name`` isn't registered or the
+    builder is missing.
+    """
+    spec = _CUSTOM_PREDICATES.get(name)
+    if spec is None:
+        return None
+    if spec.z3_builder is None:
+        # Fall back to a fresh uninterpreted Bool function.
+        try:
+            sorts = [a.sort() for a in z3_args]
+        except Exception:
+            return None
+        fn = z3.Function(name, *sorts, z3.BoolSort())
+        return fn(*z3_args)
+    try:
+        return spec.z3_builder(*z3_args, helpers=enc.helpers)
+    except TypeError:
+        # Older builders that don't accept helpers=.
+        try:
+            return spec.z3_builder(*z3_args)
+        except Exception:
+            return None
+    except Exception:
+        return None
+
+
 __all__ = [
     "Z3Encoding",
     "check_implication",
+    "clear_encoding_cache",
+    "register_custom_predicate",
+    "unregister_custom_predicate",
+    "list_custom_predicates",
+    "register_recursive_class",
+    "unregister_recursive_class",
 ]
