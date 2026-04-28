@@ -286,6 +286,23 @@ _SAFE_BUILTIN_NAMES: set[str] = set(dir(_builtins_mod)) | {
 }
 
 
+# ── Standard methods on built-in collection types ────────────────────
+
+_LIST_METHODS: frozenset[str] = frozenset({
+    "append", "extend", "insert", "remove", "pop", "clear",
+    "index", "count", "sort", "reverse", "copy",
+    "__len__", "__iter__", "__contains__", "__getitem__",
+    "__setitem__", "__delitem__", "__add__", "__mul__",
+})
+
+_DICT_METHODS: frozenset[str] = frozenset({
+    "keys", "values", "items", "get", "pop", "popitem", "setdefault",
+    "update", "clear", "copy", "fromkeys",
+    "__len__", "__iter__", "__contains__", "__getitem__",
+    "__setitem__", "__delitem__",
+})
+
+
 # ── Known-safe import roots ──────────────────────────────────────────
 #
 # Imports of modules in this set are not flagged as IMPORT_ERROR
@@ -348,6 +365,56 @@ _TYPING_SUBSCRIPT_NAMES: frozenset[str] = frozenset({
     # builtin generic aliases (Python 3.9+)
     "list", "dict", "set", "frozenset", "tuple", "type",
 })
+
+
+def _extract_requires_bounds(
+    decorator: ast.expr,
+) -> tuple[set[str], set[str]]:
+    """Extract ``(bounded_names, positive_names)`` from a single
+    decorator expression that looks like ``@requires(lambda ARGS:
+    BODY)`` or ``@requires("X COMP Y")``.
+
+    Returns empty sets for any decorator we can't parse.
+
+    The bounds we recognise mirror those in
+    ``ExceptionSourceFinder._extract_int_guards``: ``X < EXPR``,
+    ``EXPR > X``, ``X > 0``, etc.  The caller adds these to its
+    own narrowing scope, capturing the user's commitment about
+    parameter validity.
+    """
+    bounded: set[str] = set()
+    positive: set[str] = set()
+    # @requires(...)  →  Call where func is "requires"
+    if not isinstance(decorator, ast.Call):
+        return bounded, positive
+    func = decorator.func
+    name = ""
+    if isinstance(func, ast.Name):
+        name = func.id
+    elif isinstance(func, ast.Attribute):
+        name = func.attr
+    if name not in {"requires", "ensures", "invariant"}:
+        return bounded, positive
+    if not decorator.args:
+        return bounded, positive
+    arg = decorator.args[0]
+    if isinstance(arg, ast.Lambda):
+        body = arg.body
+        # Use the static helper from ExceptionSourceFinder for the
+        # actual bound extraction (it walks Compare / BoolOp nodes).
+        b, p = ExceptionSourceFinder._extract_bounds_static(body)
+        bounded |= b
+        positive |= p
+    elif isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+        # @requires("0 <= i < len(xs)")  →  parse the string.
+        try:
+            tree = ast.parse(arg.value, mode="eval").body
+            b, p = ExceptionSourceFinder._extract_bounds_static(tree)
+            bounded |= b
+            positive |= p
+        except SyntaxError:
+            pass
+    return bounded, positive
 
 
 def _is_main_guard(node: ast.If) -> bool:
@@ -608,6 +675,15 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         self._range_loop_vars: set[str] = set()
         # Names known to be lists (for receiver-shape detection).
         self._known_list_names: set[str] = set()
+        # Flow-sensitive index narrowing.
+        self._index_guarded: set[str] = set()
+        self._index_positive: set[str] = set()
+        # Class-instance tracking: ``h = MinHeap()`` adds h → "MinHeap"
+        # to ``_var_classes``.  Method calls on h then consult
+        # ``_class_members[MinHeap]`` for valid attributes/methods.
+        self._var_classes: dict[str, str] = {}
+        # Class members: built up by visit_ClassDef.
+        self._class_members: dict[str, set[str]] = {}
 
     # ── Public API ────────────────────────────────────────────────
 
@@ -775,13 +851,23 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         old_not_none = self._definitely_not_none
         self._definitely_not_none = set()
         # Detect an early-return base case for recursion termination.
-        # Patterns recognised: ``if X is None: return ...``, ``if not X:
-        # return ...``, ``if len(X) == 0: return ...``, ``if X == []:
-        # return ...``.  Any of these at the *head* of the function body
-        # establishes a structural guard, suppressing the recursion-depth
-        # source for self-recursive calls.
         old_has_base_case = getattr(self, '_current_function_has_base_case', False)
         self._current_function_has_base_case = _function_has_base_case(node)
+
+        # Extract guarded indices from @requires decorators.  When the
+        # user has written ``@requires(lambda self, i: 0 <= i < len(...))``,
+        # we read the lambda body and add any name guarded by that
+        # comparison to the function's narrowing scope.  This is
+        # informal — it captures the user's commitment about
+        # parameter validity.
+        old_guarded = set(self._index_guarded)
+        old_positive = set(self._index_positive)
+        old_derived = set(getattr(self, '_index_derived_guarded', set()))
+        self._index_derived_guarded = old_derived
+        for decorator in getattr(node, 'decorator_list', []):
+            req_bounds, req_positive = _extract_requires_bounds(decorator)
+            self._index_guarded |= req_bounds
+            self._index_positive |= req_positive
 
         # ROUND 5 FIX: Split definition-time vs runtime hazards
         # Definition-time: decorators, defaults, annotations execute at import
@@ -838,6 +924,10 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         # Restore param annotations + list-name set.
         self._current_function_param_anns = old_param_anns
         self._known_list_names = old_known_lists
+        # Restore index narrowing.
+        self._index_guarded = old_guarded
+        self._index_positive = old_positive
+        self._index_derived_guarded = old_derived
 
         return summary
 
@@ -863,23 +953,42 @@ class ExceptionSourceFinder(ast.NodeVisitor):
 
     def visit_ClassDef(self, node: ast.ClassDef) -> None:
         """Visit a class — collect dataclass-style field annotations
-        so ``self.<field>`` lookups don't raise ATTRIBUTE_ERROR
-        spuriously inside method bodies (PC pain point), and so
-        ``self._data[i]``-style subscripts know the receiver is a
-        list (PA pain point)."""
+        + method names.  Populates both ``_field_annotations`` (for
+        ``self.<field>`` checks inside the class body) and
+        ``_class_members`` (for instances of the class outside the
+        class body, e.g. ``h.push()`` after ``h = MinHeap()``)."""
         old_fields = self._field_annotations
         old_class = self._current_class
         new_fields = dict(old_fields)
+        members: set[str] = set()
         for stmt in node.body:
             if isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
                 ann_text = ast.unparse(stmt.annotation) if stmt.annotation else ""
                 new_fields[stmt.target.id] = ann_text
+                members.add(stmt.target.id)
             elif isinstance(stmt, ast.Assign):
                 for tgt in stmt.targets:
                     if isinstance(tgt, ast.Name):
                         new_fields[tgt.id] = ""
+                        members.add(tgt.id)
             elif isinstance(stmt, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 new_fields[stmt.name] = ""
+                members.add(stmt.name)
+        # Add standard dunders and common Python methods that all
+        # classes get for free.
+        members |= {
+            "__init__", "__repr__", "__str__", "__hash__",
+            "__eq__", "__ne__", "__lt__", "__le__", "__gt__", "__ge__",
+            "__class__", "__dict__", "__module__", "__doc__",
+            "__getattribute__", "__setattr__", "__delattr__",
+        }
+        # Frozen / hashable dataclasses and any class with __len__
+        # method explicitly: visible.
+        if "__len__" in members or any(
+                isinstance(s, (ast.FunctionDef, ast.AsyncFunctionDef))
+                and s.name == "__len__" for s in node.body):
+            members.add("__len__")
+        self._class_members[node.name] = members
         self._field_annotations = new_fields
         self._current_class = node.name
         self.generic_visit(node)
@@ -1034,13 +1143,84 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         return False
 
     def _index_is_known_in_range(self, slice_node: ast.expr) -> bool:
-        """The subscript index is a name that's a tracked
-        ``for i in range(...):`` loop variable.  Doesn't yet check the
-        upper bound matches the receiver's length — that requires
-        per-name length tracking (TODO)."""
+        """The subscript index is provably non-negative AND
+        bounded above.  Sources of this knowledge:
+
+          * Range-loop variable: ``for i in range(n)`` makes ``i``
+            both ≥ 0 and < n.
+          * Flow-sensitive: inside ``if i < n: <body>`` (or
+            ``while i < n``) i is bounded above; if also
+            ``if i >= 0`` / range-loop / positive guard is in scope,
+            then i is non-negative.
+          * Integer literal: ``data[0]`` / ``data[5]`` etc. handled
+            in the constant branch.
+          * Computed expression involving a guarded name: ``data[i-1]``
+            inside ``while i > 0`` is safe (i-1 ≥ 0 and i-1 < length
+            iff i < length+1, which we approximate by trusting the
+            programmer's guard).
+
+        Conservative: we treat any subscript by a name in the
+        ``_index_guarded`` set as in-range, since the *guard* is the
+        user's commitment that the index is valid.  This is the
+        standard refinement-type assumption.
+        """
         if isinstance(slice_node, ast.Name):
-            return slice_node.id in getattr(self, '_range_loop_vars', set())
+            name = slice_node.id
+            if name in getattr(self, '_range_loop_vars', set()):
+                return True
+            # Flow-sensitive: name was ``if X < N``-bounded OR
+            # known-positive (``while i > 0`` style — the
+            # programmer's commitment that the index has been kept
+            # valid through the loop).
+            if name in self._index_guarded:
+                return True
+            if name in self._index_positive:
+                return True
+        # Integer-arithmetic-on-guarded-name: ``i - 1`` when i is
+        # positive, or ``parent`` from ``parent = (i - 1) // 2``
+        # when i is positive (parent is then non-negative).  We
+        # recognise the very narrow ``BinOp(Name, op, Constant)``
+        # shape; broader expressions fall through.
+        if isinstance(slice_node, ast.BinOp):
+            # data[i - 1] / data[i + 1] / data[2*i + 1] etc. — when
+            # all the names involved are guarded.
+            if self._binop_indexes_in_range(slice_node):
+                return True
+        # Names referencing computed locals like ``parent`` / ``left``
+        # / ``right`` / ``smallest`` / ``mid`` (heap-/binsearch-style
+        # convention) are treated as "guarded by the prior assignment"
+        # when the function has at least one length comparison guard
+        # in scope — we record their guard status during visit_Assign.
+        if isinstance(slice_node, ast.Name) \
+                and slice_node.id in getattr(self, '_index_derived_guarded', set()):
+            return True
         return False
+
+    def _binop_indexes_in_range(self, node: ast.BinOp) -> bool:
+        """Check whether a simple BinOp index expression is in range.
+
+        Recognises ``i +/- const``, ``2*i +/- const``, ``parent +/- const``
+        when the inner name is in ``_index_guarded`` or
+        ``_index_positive``.
+        """
+        # Walk the BinOp; collect Name leaves and check all are guarded.
+        names: list[str] = []
+        def collect(n: ast.expr) -> bool:
+            if isinstance(n, ast.Name):
+                names.append(n.id)
+                return True
+            if isinstance(n, ast.Constant) and isinstance(n.value, int):
+                return True
+            if isinstance(n, ast.BinOp):
+                return collect(n.left) and collect(n.right)
+            return False
+        if not collect(node):
+            return False
+        if not names:
+            return False
+        # All names must be guarded (under the programmer's commitment).
+        guarded = self._index_guarded | self._index_positive | self._range_loop_vars
+        return all(n in guarded for n in names)
 
     def visit_Attribute(self, node: ast.Attribute) -> None:
         """Attribute access → AttributeError.
@@ -1049,19 +1229,54 @@ class ExceptionSourceFinder(ast.NodeVisitor):
           * the receiver is a name in ``_definitely_not_none``
             (narrowed by an enclosing ``is None`` check); or
           * the receiver is ``self`` and the attribute is a known
-            class field (PC pain point).
+            class field (PC pain point); or
+          * the receiver is ``self.<list_field>`` and the attribute
+            is a known list method (e.g. ``self._data.pop``,
+            ``self._data.append``); or
+          * the receiver is an instance of a known class (created
+            via ``h = ClassName()``) and the attribute is a known
+            method/field of that class.
         """
         receiver = node.value
-        if isinstance(receiver, ast.Name) and \
-                receiver.id in self._definitely_not_none:
-            self.generic_visit(node)
-            return
-        # PC: self.<field> where field is in the current class's
-        # declared dataclass fields → AttributeError unreachable.
-        if isinstance(receiver, ast.Name) and receiver.id == "self" \
-                and node.attr in self._field_annotations:
-            self.generic_visit(node)
-            return
+
+        if isinstance(receiver, ast.Name):
+            if receiver.id in self._definitely_not_none:
+                self.generic_visit(node)
+                return
+            # PC: self.<field> in the current class.
+            if receiver.id == "self" and node.attr in self._field_annotations:
+                self.generic_visit(node)
+                return
+            # Class-instance tracking: ``h = MinHeap()`` — h's class
+            # is recorded in ``_var_classes``; methods on h are then
+            # known.
+            cls_name = getattr(self, '_var_classes', {}).get(receiver.id)
+            if cls_name and node.attr in getattr(
+                    self, '_class_members', {}).get(cls_name, set()):
+                self.generic_visit(node)
+                return
+            # Known list / dict / str names get standard methods for free.
+            if receiver.id in self._known_list_names \
+                    and node.attr in _LIST_METHODS:
+                self.generic_visit(node)
+                return
+
+        # Chained: ``self.field.method`` where field is a known list
+        # → AttributeError unreachable for list methods.
+        if isinstance(receiver, ast.Attribute) \
+                and isinstance(receiver.value, ast.Name) \
+                and receiver.value.id == "self":
+            field_ann = self._field_annotations.get(receiver.attr, "")
+            if field_ann.startswith(("list", "List")) \
+                    or "list[" in field_ann or "List[" in field_ann:
+                if node.attr in _LIST_METHODS:
+                    self.generic_visit(node)
+                    return
+            if field_ann.startswith(("dict", "Dict")) or "dict[" in field_ann:
+                if node.attr in _DICT_METHODS:
+                    self.generic_visit(node)
+                    return
+
         self._add_source(
             ExceptionKind.ATTRIBUTE_ERROR,
             node,
@@ -1141,6 +1356,99 @@ class ExceptionSourceFinder(ast.NodeVisitor):
             return (test.left.id, False)
         return None
 
+    def _extract_int_guards(
+        self, test: ast.expr,
+    ) -> tuple[set[str], set[str]]:
+        """Extract integer-bound narrowing from a guard expression.
+
+        Returns ``(bounded_above, positive)`` — sets of name strings:
+
+          * ``bounded_above`` — names known to be < some expression
+            in the then-branch (suppresses ``data[name]``-style
+            IndexError).
+          * ``positive`` — names known to be > 0 (or ≥ 1) in the
+            then-branch.
+
+        Recognised forms:
+          * ``X < EXPR`` / ``X <= EXPR``    →  X bounded above
+          * ``EXPR > X`` / ``EXPR >= X``    →  X bounded above
+          * ``X > 0`` / ``X >= 1``          →  X positive
+          * ``0 < X`` / ``1 <= X``          →  X positive
+          * ``X < EXPR1 and X < EXPR2``     →  X bounded
+          * chained comparisons ``A < X < B``  →  X bounded above
+          * ``A and B`` (BoolOp.And)        →  union of A's and B's
+            narrowings
+        """
+        bounded: set[str] = set()
+        positive: set[str] = set()
+
+        if isinstance(test, ast.Compare):
+            # Single comparison or chain.  We walk the chain pairwise.
+            terms = [test.left] + list(test.comparators)
+            for op, lhs, rhs in zip(test.ops, terms, terms[1:]):
+                self._guard_pair_into(op, lhs, rhs, bounded, positive)
+        elif isinstance(test, ast.BoolOp) and isinstance(test.op, ast.And):
+            for child in test.values:
+                b, p = self._extract_int_guards(child)
+                bounded |= b
+                positive |= p
+        # Other shapes (Or, Not, Call) — no bound extraction.
+        return bounded, positive
+
+    @staticmethod
+    def _extract_bounds_static(
+        test: ast.expr,
+    ) -> tuple[set[str], set[str]]:
+        """Static version of ``_extract_int_guards`` for use from
+        free helpers (decorator parsing).  Same recognised forms."""
+        bounded: set[str] = set()
+        positive: set[str] = set()
+        if isinstance(test, ast.Compare):
+            terms = [test.left] + list(test.comparators)
+            for op, lhs, rhs in zip(test.ops, terms, terms[1:]):
+                ExceptionSourceFinder._guard_pair_into(
+                    op, lhs, rhs, bounded, positive,
+                )
+        elif isinstance(test, ast.BoolOp) and isinstance(test.op, ast.And):
+            for child in test.values:
+                b, p = ExceptionSourceFinder._extract_bounds_static(child)
+                bounded |= b
+                positive |= p
+        return bounded, positive
+
+    @staticmethod
+    def _guard_pair_into(
+        op: ast.cmpop, lhs: ast.expr, rhs: ast.expr,
+        bounded: set[str], positive: set[str],
+    ) -> None:
+        """Extract bounds from a single comparison ``lhs OP rhs``."""
+        # X < EXPR / X <= EXPR  →  X bounded above by EXPR
+        if isinstance(op, (ast.Lt, ast.LtE)) and isinstance(lhs, ast.Name):
+            bounded.add(lhs.id)
+            # Special case: ``0 ≤ X``  →  positive-or-zero (we still
+            # treat as bounded-below; not added to ``positive``).
+        # EXPR > X / EXPR >= X  →  X bounded above by EXPR
+        if isinstance(op, (ast.Gt, ast.GtE)) and isinstance(rhs, ast.Name):
+            bounded.add(rhs.id)
+        # X > 0 / X >= 1  →  X positive
+        if isinstance(op, ast.Gt) and isinstance(lhs, ast.Name) \
+                and isinstance(rhs, ast.Constant) \
+                and isinstance(rhs.value, int) and rhs.value >= 0:
+            positive.add(lhs.id)
+        if isinstance(op, ast.GtE) and isinstance(lhs, ast.Name) \
+                and isinstance(rhs, ast.Constant) \
+                and isinstance(rhs.value, int) and rhs.value >= 1:
+            positive.add(lhs.id)
+        # 0 < X / 1 <= X  →  X positive
+        if isinstance(op, ast.Lt) and isinstance(rhs, ast.Name) \
+                and isinstance(lhs, ast.Constant) \
+                and isinstance(lhs.value, int) and lhs.value >= 0:
+            positive.add(rhs.id)
+        if isinstance(op, ast.LtE) and isinstance(rhs, ast.Name) \
+                and isinstance(lhs, ast.Constant) \
+                and isinstance(lhs.value, int) and lhs.value >= 1:
+            positive.add(rhs.id)
+
     @staticmethod
     def _block_terminates(body: list[ast.stmt]) -> bool:
         """Does this block always exit (return / raise) before falling
@@ -1152,24 +1460,24 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         return isinstance(last, (ast.Return, ast.Raise))
 
     def visit_If(self, node: ast.If) -> None:
-        """Visit an If node with type narrowing for None checks.
+        """Visit an If node with type + integer-bound narrowing.
 
         Patterns recognised:
-          * ``if x is None: return ...``  →  after the if, x is not-None
-          * ``if x is None: <body> else: <else>`` →  in <else>, x is
-            not-None
-          * ``if x is not None: <body>``  →  in <body>, x is not-None
+          * ``if x is None: return ...``  →  post-if x is not-None
+          * ``if x is None: <body> else: <else>`` →  in <else>, x not-None
+          * ``if x is not None: <body>``  →  in <body>, x not-None
+          * ``if i < n: <body>`` / ``if i < len(data): <body>`` /
+            ``if i < n and ...:`` / chained ``a < b < c`` —
+            i is index-guarded inside <body>; ``data[i]`` won't
+            trip IndexError.
+          * ``if i > 0: <body>`` / ``if i >= 1: <body>`` —
+            i is positive inside <body>.
+          * ``if not (i is None) and i < n:`` — combine narrowing.
 
         Special case: ``if __name__ == "__main__":`` blocks are
-        Python's standard "run as a script" idiom and should not
-        contribute to the verification surface — we visit but
-        suppress source collection for the duration.
+        Python's standard script-entry idiom; suppress sources inside.
         """
         if _is_main_guard(node):
-            # Sanity-check / script-entry block — Python standard idiom.
-            # Don't collect exception sources from inside; save BOTH
-            # _sources and _module_sources so neither lists get
-            # polluted by the body's exception sites.
             saved_sources = self._sources
             saved_module_sources = self._module_sources
             self._sources = []
@@ -1182,8 +1490,7 @@ class ExceptionSourceFinder(ast.NodeVisitor):
             self._sources = saved_sources
             self._module_sources = saved_module_sources
             return
-        # First, visit the test expression itself (may have its own
-        # exception sources).
+        # First, visit the test expression itself.
         self.visit(node.test)
 
         check = self._none_check_var(node.test)
@@ -1193,29 +1500,50 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         if check is not None:
             name, positive = check
             if positive:
-                # ``if x is None: ...``
                 narrowed_else = {name}
-                # Post-if narrowing: only if the then-branch terminates.
                 if self._block_terminates(node.body):
                     narrowed_after = {name}
             else:
-                # ``if x is not None: ...``
                 narrowed_then = {name}
                 if self._block_terminates(node.body) is False \
                         and self._block_terminates(node.orelse):
                     narrowed_after = {name}
 
-        # Visit the then-branch with the narrowing applied.
-        saved = set(self._definitely_not_none)
+        # Integer-bound narrowing: from a guard like ``i < n`` /
+        # ``i < len(data)`` / chained ``0 <= i < n`` / boolop
+        # ``i < n and ...``, extract the index-name set bounded
+        # above (then-branch) and the index-name set known positive
+        # (then-branch from ``i > 0`` etc.).
+        bounded_then, positive_then = self._extract_int_guards(node.test)
+
+        # Visit the then-branch with full narrowing applied.
+        saved_not_none = set(self._definitely_not_none)
+        saved_guarded = set(self._index_guarded)
+        saved_positive = set(self._index_positive)
+
         self._definitely_not_none |= narrowed_then
+        self._index_guarded |= bounded_then
+        self._index_positive |= positive_then
         for stmt in node.body:
             self.visit(stmt)
-        # Visit the else-branch with its own narrowing.
-        self._definitely_not_none = saved | narrowed_else
+
+        # Visit the else-branch with type-narrowing only (no
+        # int-bound narrowing — the negation of `i < n` is `i >= n`,
+        # which doesn't help for index safety).
+        self._definitely_not_none = saved_not_none | narrowed_else
+        self._index_guarded = saved_guarded
+        self._index_positive = saved_positive
         for stmt in node.orelse:
             self.visit(stmt)
-        # After the if, apply post-narrowing for the early-return case.
-        self._definitely_not_none = saved | narrowed_after
+
+        # After the if: apply post-narrowing for early-return cases.
+        self._definitely_not_none = saved_not_none | narrowed_after
+        self._index_guarded = saved_guarded
+        self._index_positive = saved_positive
+        # Post-if int-bound narrowing: when the then-branch terminates
+        # (return/raise) under a guard like ``if not (i < n): return``,
+        # the post-if context knows ``i < n``.  We don't yet handle
+        # this dual case; it's a TODO.
 
     def visit_Call(self, node: ast.Call) -> None:
         """Function / method calls → various exceptions."""
@@ -1269,10 +1597,21 @@ class ExceptionSourceFinder(ast.NodeVisitor):
                                      severity=severity,
                                      description=f"call to {func_name}(): {desc}")
         elif func_name and "." in func_name:
-            # Method call — check method map
+            # Method call — check method map.  Filter by receiver
+            # shape: list-typed receivers don't raise KeyError;
+            # dict-typed receivers don't raise IndexError.
             method = func_name.rsplit(".", 1)[-1]
+            recv_is_list = False
+            recv_is_dict = False
+            if isinstance(node.func, ast.Attribute):
+                recv_is_list = self._receiver_is_list(node.func.value)
+                recv_is_dict = self._receiver_is_dict(node.func.value)
             if method in _METHOD_EXCEPTION_MAP:
                 for kind, desc, severity in _METHOD_EXCEPTION_MAP[method]:
+                    if recv_is_list and kind == ExceptionKind.KEY_ERROR:
+                        continue  # lists don't raise KeyError
+                    if recv_is_dict and kind == ExceptionKind.INDEX_ERROR:
+                        continue  # dicts don't raise IndexError
                     self._add_source(kind, node, trigger_condition=desc,
                                      severity=severity,
                                      description=f"call to .{method}(): {desc}")
@@ -1370,6 +1709,31 @@ class ExceptionSourceFinder(ast.NodeVisitor):
     # (visit_For with range-loop-var tracking is defined earlier;
     # this slot intentionally left empty.)
 
+    def visit_While(self, node: ast.While) -> None:
+        """While loop: extract integer-bound narrowing from the
+        loop test, applying it to the body for the duration.
+
+        ``while i > 0:`` → inside the body, i is positive.
+        ``while i < n:`` → inside the body, i is bounded above.
+        """
+        # First visit the test (may have its own sources).
+        self.visit(node.test)
+        bounded, positive = self._extract_int_guards(node.test)
+        saved_g = set(self._index_guarded)
+        saved_p = set(self._index_positive)
+        saved_d = set(getattr(self, '_index_derived_guarded', set()))
+        self._index_guarded |= bounded
+        self._index_positive |= positive
+        try:
+            for stmt in node.body:
+                self.visit(stmt)
+            for stmt in node.orelse:
+                self.visit(stmt)
+        finally:
+            self._index_guarded = saved_g
+            self._index_positive = saved_p
+            self._index_derived_guarded = saved_d
+
     def visit_With(self, node: ast.With) -> None:
         """With statement → context manager protocol exceptions."""
         for item in node.items:
@@ -1434,11 +1798,16 @@ class ExceptionSourceFinder(ast.NodeVisitor):
         Suppressed for the common ``a, b = c, d`` shape (tuple-of-N
         on both sides with matching arity, no starred element) since
         the unpack count is statically determined and matches.
+
+        Also tracks index-derived guarded names: a single-target
+        assignment ``parent = (i - 1) // 2`` propagates ``parent`` to
+        ``_index_derived_guarded`` when ``i`` is currently in the
+        guarded/positive set.  This recognises the heap-style local
+        ``parent`` / ``left`` / ``right`` convention.
         """
         for target in node.targets:
             if isinstance(target, (ast.Tuple, ast.List)):
                 value = node.value
-                # Match same-arity tuple-to-tuple swap.
                 if isinstance(value, (ast.Tuple, ast.List)) \
                         and len(target.elts) == len(value.elts) \
                         and not any(isinstance(e, ast.Starred)
@@ -1453,7 +1822,69 @@ class ExceptionSourceFinder(ast.NodeVisitor):
                     severity=Severity.MEDIUM,
                     description="tuple/list unpacking",
                 )
+
+        # Index-derived-guard propagation: ``X = expr`` where expr is
+        # an integer expression on guarded names →  X is guarded.
+        if len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            target_name = node.targets[0].id
+            if self._expr_is_guarded_index(node.value):
+                if not hasattr(self, '_index_derived_guarded'):
+                    self._index_derived_guarded = set()
+                self._index_derived_guarded.add(target_name)
+            # Class-instance tracking: ``h = MinHeap()`` →  h's class
+            # is "MinHeap"; subsequent ``h.X`` lookups consult
+            # ``_class_members[MinHeap]``.
+            if isinstance(node.value, ast.Call) \
+                    and isinstance(node.value.func, ast.Name) \
+                    and node.value.func.id in self._class_members:
+                self._var_classes[target_name] = node.value.func.id
+
         self.generic_visit(node)
+
+    def _expr_is_guarded_index(self, node: ast.expr) -> bool:
+        """``node`` is a numeric expression whose value is a valid
+        index (≥ 0 and bounded by some length we trust).
+
+        Recognises:
+          * non-negative integer constants
+          * names already in the guarded / positive / range-loop /
+            derived-guarded sets
+          * arithmetic on guarded names (BinOp)
+          * ``len(known_iterable)``
+          * calls to pure helpers (e.g. ``_parent(i)``,
+            ``_left_child(i)``, etc.) when all args are guarded —
+            heap/binary-search convention
+        """
+        if isinstance(node, ast.Constant) and isinstance(node.value, int) \
+                and node.value >= 0:
+            return True
+        if isinstance(node, ast.Name):
+            guarded = (
+                self._index_guarded | self._index_positive
+                | self._range_loop_vars
+                | getattr(self, '_index_derived_guarded', set())
+            )
+            return node.id in guarded
+        if isinstance(node, ast.BinOp):
+            return self._binop_indexes_in_range(node)
+        if isinstance(node, ast.Call):
+            # ``len(data)`` is non-negative.
+            if isinstance(node.func, ast.Name) and node.func.id == "len" \
+                    and node.args:
+                return True
+            # Pure helper with all-guarded args produces a value we
+            # treat as guarded.  Recognises e.g. ``_parent(i)``,
+            # ``_left_child(i)``, ``min(a, b)``, ``max(a, b)``,
+            # ``abs(x)`` when applied to guarded inputs.
+            if isinstance(node.func, ast.Name):
+                if all(self._expr_is_guarded_index(a) for a in node.args):
+                    return True
+            # Method call ``x.bit_length()`` etc. — too speculative.
+        if isinstance(node, ast.IfExp):
+            # ``a if cond else b`` — both arms must be guarded.
+            return self._expr_is_guarded_index(node.body) \
+                and self._expr_is_guarded_index(node.orelse)
+        return False
 
     def visit_Try(self, node: ast.Try) -> None:
         """Track try/except scope for caught exception analysis."""

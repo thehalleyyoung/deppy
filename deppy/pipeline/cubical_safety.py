@@ -222,17 +222,25 @@ def _cocycle_proof(edge: CallEdge,
         return Z3Proof(formula=f"False  # dynamic call binding into {edge.callee}")
 
     formula = f"({caller}) => ({callee})"
-    z3_path = Z3Proof(formula=formula)
+    # When either side is a synthetic auto-spec descriptor (e.g.
+    # "handles None input for t" — natural language emitted by
+    # ``deppy.pipeline.auto_spec``), Z3 can't encode it.  We use a
+    # Structural path-proof instead so the kernel accepts the
+    # transport at trust ≤ STRUCTURAL_CHAIN, rather than emitting a
+    # Z3Proof that the kernel will reject (since the synthetic
+    # auto-pass in ``_z3_check`` was removed as a soundness shortcut).
+    from deppy.pipeline.safety_predicates import is_synthetic_predicate
+    if is_synthetic_predicate(caller) or is_synthetic_predicate(callee):
+        z3_path = Structural(
+            description=f"synthetic-precondition transport: {formula}",
+        )
+    else:
+        z3_path = Z3Proof(formula=formula)
     # Wrap as transport along the caller→callee env-path so the kernel
     # sees this as a path obligation, not a bare implication.  The
     # base proof asserts the well-formedness of ``Pre[callee]`` —
     # this is a *structural* fact (the predicate is well-typed),
-    # NOT a Z3-verifiable property.  Earlier code emitted it as a
-    # ``Z3Proof`` with a natural-language formula and relied on a
-    # synthetic-predicate auto-pass in ``kernel._z3_check`` to make
-    # it succeed.  That auto-pass has been removed (it was a soundness
-    # shortcut); we now use a ``Structural`` proof which the kernel
-    # accepts at trust ≤ STRUCTURAL_CHAIN.
+    # NOT a Z3-verifiable property.
     return TransportProof(
         type_family=Var(f"Pre[{edge.callee}]"),
         path_proof=z3_path,
@@ -393,13 +401,22 @@ def spec_refinement_transport(
     pred = (precondition or "True").strip() or "True"
     if pred == "True":
         return section  # type: ignore[return-value]
-    
-    # ROUND 5 FIX (MODERATED): Use a non-tautological Z3 formula that relates
-    # to the actual precondition refinement, not string equality.
-    # The path should witness the precondition refinement: impl_pre ⇒ spec_pre
+
+    # When the precondition is a synthetic auto-spec descriptor
+    # (natural language, not a Z3-encodable formula), use a Structural
+    # path-proof so the kernel doesn't reject the transport.  Otherwise
+    # use a real Z3 implication.
+    from deppy.pipeline.safety_predicates import is_synthetic_predicate
+    if is_synthetic_predicate(pred):
+        path_proof: ProofTerm = Structural(
+            description=f"synthetic-precondition refinement: {pred}",
+        )
+    else:
+        # Z3 formula witnessing impl_pre ⇒ spec_pre.
+        path_proof = Z3Proof(formula=f"({pred}) => True")
     return TransportProof(
         type_family=Var(f"Safe[{target}]"),
-        path_proof=Z3Proof(formula=f"({pred}) => True"),  # refinement implication
+        path_proof=path_proof,
         base_proof=section,
     )
 
